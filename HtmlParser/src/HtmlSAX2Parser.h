@@ -21,18 +21,29 @@
 #include "HtmlSAX2Element.h"
 #include "HtmlSAX2Document.h"
 
+namespace network {
+	class HtmlData;
+}
+
 namespace htmlparser {
 
+class DatabaseUrl;
 class HtmlSAX2Parser;
 class HtmlSAX2ParserContext
 {
 public:
-	HtmlSAX2ParserContext() : nCurrentElement(-1) {}
+	HtmlSAX2ParserContext()
+	: parserInstance(0)
+	, htmlDocument(0)
+	, url(0)
+	, nCurrentElement(-1)
+	{}
 
 	void Reset() { htmlDocument->Reset(); }
 
 	HtmlSAX2Parser* parserInstance;
 	HtmlSAX2Document* htmlDocument;
+	const DatabaseUrl* url;
 
 	int nCurrentElement;
 };
@@ -47,17 +58,7 @@ public:
 	static bool EncodeHtmlEntities(const unsigned char* pszIn, const int inLen, std::string& out);
 
 public:
-	bool Parse(const std::string& url,std::string html);
-
-public:
-	inline void HyperLinks(std::vector<std::string>& hyperlinks) const { hyperlinks = this->hyperlinks; }
-	inline void Images(std::vector<std::string>& images) const { images = this->images; }
-	inline void Content(std::vector< std::pair<std::string,std::string> >& content) const { content = this->content; }
-	inline void Meta(std::vector< std::pair<std::string,std::string> >& meta) const { meta = this->meta; }
-
-	inline void Warnings(std::vector<std::string>& warnings) const { warnings = this->warnings; }
-	inline void Errors(std::vector<std::string>& errors) const { errors = this->errors; }
-	inline void FatalErrors(std::vector<std::string>& fatals) const { fatals = this->fatals; }
+	bool Parse(const htmlparser::DatabaseUrl& url, const network::HtmlData& html, htmlparser::HtmlSAX2Document& htmlDocumentOut);
 
 private:
 	static void startElement(void *ctx, const xmlChar *name, const xmlChar **atts);
@@ -74,18 +75,8 @@ private:
 
 private:
 	htmlSAXHandler saxHandler;
-	HtmlSAX2Document htmlDocument;
 	HtmlSAX2ParserContext parserContext;
 	htmlParserCtxtPtr     parserCtxt;
-
-	std::vector<std::string> hyperlinks;
-	std::vector<std::string> images;
-	std::vector< std::pair<std::string,std::string> > content;
-	std::vector< std::pair<std::string,std::string> > meta;
-
-	std::vector<std::string> warnings;
-	std::vector<std::string> errors;
-	std::vector<std::string> fatals;
 };
 
 }

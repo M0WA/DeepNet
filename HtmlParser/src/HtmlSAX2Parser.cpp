@@ -15,6 +15,11 @@
 #include <libxml/parser.h>
 
 #include <StringTools.h>
+#include <HtmlData.h>
+#include <HttpUrlParser.h>
+#include <HttpUrlParserException.h>
+
+#include "DatabaseUrl.h"
 
 namespace htmlparser {
 
@@ -119,7 +124,18 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 		HtmlSAX2Attribute attributeHref;
 		if(elementRef.GetAttributeByName("href", attributeHref))
 		{
-			context->parserInstance->hyperlinks.push_back(attributeHref.value);
+			network::HttpUrl theUrl;
+			try
+			{
+				network::HttpUrlParser::ParseURL(*context->url,attributeHref.value,theUrl);
+				context->htmlDocument->hyperlinks.push_back(theUrl);
+			}
+			catch(const network::HttpUrlParserException& ex)
+			{
+				if(log::Logging::IsLogLevelTrace()){
+					log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"error while parsing url %s from document %s",attributeHref.value.c_str(),theUrl.GetFullUrl().c_str());
+				}
+			}
 		}
 
 		//title-attribute
@@ -131,7 +147,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			tagContentPair.first = "a";
 			tagContentPair.second = elementRef.attribute.value;
 			EncodeHtmlEntities((const unsigned char*)elementRef.attribute.value.c_str(), elementRef.attribute.value.size(), tagContentPair.second);
-			context->parserInstance->content.push_back(tagContentPair);
+			context->htmlDocument->content.push_back(tagContentPair);
 		}
 
 		//link content
@@ -142,7 +158,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			tagContentPair.first = "a";
 			tagContentPair.second = elementRef.attribute.value;
 			EncodeHtmlEntities((const unsigned char*)elementRef.attribute.value.c_str(), elementRef.attribute.value.size(), tagContentPair.second);
-			context->parserInstance->content.push_back(tagContentPair);
+			context->htmlDocument->content.push_back(tagContentPair);
 		}
 	}
 	else if (curName.compare("img")==0)
@@ -151,7 +167,18 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 		HtmlSAX2Attribute attributeSrc;
 		if(elementRef.GetAttributeByName("src", attributeSrc))
 		{
-			context->parserInstance->images.push_back(attributeSrc.value);
+			network::HttpUrl theUrl;
+			try
+			{
+				network::HttpUrlParser::ParseURL(*context->url,attributeSrc.value,theUrl);
+				context->htmlDocument->images.push_back(theUrl);
+			}
+			catch(const network::HttpUrlParserException& ex)
+			{
+				if(log::Logging::IsLogLevelTrace()){
+					log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"error while parsing image url %s from document %s",attributeSrc.value.c_str(),theUrl.GetFullUrl().c_str());
+				}
+			}
 		}
 
 		//alt-attribute
@@ -163,7 +190,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			tagContentPair.first = "img";
 			tagContentPair.second = attributeAlt.value;
 			EncodeHtmlEntities((const unsigned char*)attributeAlt.value.c_str(), attributeAlt.value.size(), tagContentPair.second);
-			context->parserInstance->content.push_back(tagContentPair);
+			context->htmlDocument->content.push_back(tagContentPair);
 		}
 	}
 	//special case: title tag => counts as meta information
@@ -177,7 +204,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			tagContentPair.first  = curName;
 			tagContentPair.second = content;
 			EncodeHtmlEntities((const unsigned char*)content.c_str(), content.size(), tagContentPair.second);
-			context->parserInstance->meta.push_back(tagContentPair);
+			context->htmlDocument->meta.push_back(tagContentPair);
 		}
 	}
 	else if(curName.compare("meta")==0)
@@ -202,7 +229,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			tagContentPair.first  = nameAttributeRef.value;
 			tagContentPair.second = contentAttributeRef.value;
 			EncodeHtmlEntities((const unsigned char*)contentAttributeRef.value.c_str(), contentAttributeRef.value.size(), tagContentPair.second);
-			context->parserInstance->meta.push_back(tagContentPair);
+			context->htmlDocument->meta.push_back(tagContentPair);
 		}
 	}
 	else if (
@@ -256,7 +283,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			tagContentPair.first = elementRef.attribute.localname;
 			tagContentPair.second = content;
 			EncodeHtmlEntities((const unsigned char*)content.c_str(), content.size(), tagContentPair.second);
-			context->parserInstance->content.push_back(tagContentPair);
+			context->htmlDocument->content.push_back(tagContentPair);
 		}
 	}
 	else if (!elementRef.attribute.value.empty())
@@ -338,7 +365,7 @@ void HtmlSAX2Parser::error( void * ctx,	const char * msg, ... )
 	errorMsg = ssInfo.str() + errorMsg;
 	std::string encodedErrorMsg;
 	EncodeHtmlEntities((const unsigned char*)errorMsg.c_str(),errorMsg.size(),encodedErrorMsg);
-	context->parserInstance->errors.push_back(encodedErrorMsg);
+	context->htmlDocument->errors.push_back(encodedErrorMsg);
 }
 
 void HtmlSAX2Parser::warning( void * ctx, const char * msg, ... )
@@ -353,7 +380,7 @@ void HtmlSAX2Parser::warning( void * ctx, const char * msg, ... )
 
 	std::string encodedErrorMsg;
 	EncodeHtmlEntities((const unsigned char*)errorMsg.c_str(),errorMsg.size(),encodedErrorMsg);
-	context->parserInstance->warnings.push_back(encodedErrorMsg);
+	context->htmlDocument->warnings.push_back(encodedErrorMsg);
 }
 
 void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
@@ -374,7 +401,7 @@ void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
 
 	std::string encodedErrorMsg;
 	EncodeHtmlEntities((const unsigned char*)errorMsg.c_str(),errorMsg.size(),encodedErrorMsg);
-	context->parserInstance->fatals.push_back(encodedErrorMsg);
+	context->htmlDocument->fatals.push_back(encodedErrorMsg);
 }
 
 void HtmlSAX2Parser::genericErrorFunc(void * ctx,
@@ -392,17 +419,18 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"libXML generic error: " + errorMsg);
 }
 
-bool HtmlSAX2Parser::Parse(const std::string& url, std::string html)
+bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url, const network::HtmlData& html, HtmlSAX2Document& htmlDocumentOut)
 {
-	if(html.empty())
+	if(html.GetCount())
 		return false;
 
 	std::string htmlEncoded;
-	if(!EncodeHtmlEntities((const unsigned char*)html.c_str(), html.size(), htmlEncoded) )
+	if(!EncodeHtmlEntities((const unsigned char*)html.GetBuffer(), html.GetBufferSize(), htmlEncoded) )
 		return false;
 
 	parserContext.parserInstance = this;
-	parserContext.htmlDocument = &htmlDocument;
+	parserContext.htmlDocument = &htmlDocumentOut;
+	parserContext.url = &url;
 
 	if(parserCtxt)
 		htmlFreeParserCtxt(parserCtxt);
@@ -412,7 +440,7 @@ bool HtmlSAX2Parser::Parse(const std::string& url, std::string html)
 		&parserContext,
 		htmlEncoded.c_str(),
 		htmlEncoded.size(),
-		url.c_str(),
+		url.GetFullUrl().c_str(),
 		XML_CHAR_ENCODING_NONE);
 	if(!parserCtxt)
 		return false;
@@ -424,7 +452,7 @@ bool HtmlSAX2Parser::Parse(const std::string& url, std::string html)
 		parserCtxt,
 		htmlEncoded.c_str(),
 		htmlEncoded.size(),
-		url.c_str(),
+		url.GetFullUrl().c_str(),
 		NULL,
 		HTML_PARSE_RECOVER  |   //Relaxed parsing
 		HTML_PARSE_NOBLANKS |   //remove blank nodes
