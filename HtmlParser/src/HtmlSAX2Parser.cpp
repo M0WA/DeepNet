@@ -262,7 +262,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			(curName.compare("code")==0)  ||
 			(curName.compare("blockquote")==0) ||
 			(curName.compare("textarea")==0)   ||
-			(curName.compare("body")==0)  ||
+		//	(curName.compare("body")==0)  ||
 			(curName.compare("center")==0)||
 			(curName.compare("select")==0)||
 			(curName.compare("strike")==0)||
