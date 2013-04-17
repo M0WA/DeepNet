@@ -4,7 +4,6 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Cookie.cpp \
 ../src/FastCGIRequest.cpp \
 ../src/FastCGIResponse.cpp \
 ../src/FastCGIServer.cpp \
@@ -16,7 +15,6 @@ CPP_SRCS += \
 ../src/HttpHeader.cpp 
 
 OBJS += \
-./src/Cookie.o \
 ./src/FastCGIRequest.o \
 ./src/FastCGIResponse.o \
 ./src/FastCGIServer.o \
@@ -28,7 +26,6 @@ OBJS += \
 ./src/HttpHeader.o 
 
 CPP_DEPS += \
-./src/Cookie.d \
 ./src/FastCGIRequest.d \
 ./src/FastCGIResponse.d \
 ./src/FastCGIServer.d \
@@ -44,7 +41,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I../../Logging/src -I/usr/include/libxml2 -I../../HtmlParser/src -I../../Bot/src -I../../Database/src -I../../Database/generated -I../../Threading/src -O3 -g -Wall -c -fmessage-length=0  -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -D_REENTRANT -I../../Logging/src -I../../Networking/src -I/usr/include/libxml2 -I../../HtmlParser/src -I../../Bot/src -I../../Database/src -I../../Database/generated -I../../Threading/src -O3 -g -Wall -c -fmessage-length=0  -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
