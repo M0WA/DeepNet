@@ -425,7 +425,7 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"libXML generic error: " + errorMsg);
 }
 
-bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url, const network::HtmlData& html, HtmlSAX2Document& htmlDocumentOut)
+bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& htmlDocumentOut)
 {
 	if(html.GetCount())
 		return false;
@@ -436,7 +436,7 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url, const network::Ht
 
 	parserContext.parserInstance = this;
 	parserContext.htmlDocument = &htmlDocumentOut;
-	parserContext.url = &url;
+	parserContext.url = &htmlDocumentOut.url;
 
 	if(parserCtxt)
 		htmlFreeParserCtxt(parserCtxt);
@@ -446,7 +446,7 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url, const network::Ht
 		&parserContext,
 		htmlEncoded.c_str(),
 		htmlEncoded.size(),
-		url.GetFullUrl().c_str(),
+		htmlDocumentOut.url.GetFullUrl().c_str(),
 		XML_CHAR_ENCODING_NONE);
 	if(!parserCtxt)
 		return false;
@@ -458,7 +458,7 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url, const network::Ht
 		parserCtxt,
 		htmlEncoded.c_str(),
 		htmlEncoded.size(),
-		url.GetFullUrl().c_str(),
+		htmlDocumentOut.url.GetFullUrl().c_str(),
 		NULL,
 		HTML_PARSE_RECOVER  |   //Relaxed parsing
 		HTML_PARSE_NOBLANKS |   //remove blank nodes

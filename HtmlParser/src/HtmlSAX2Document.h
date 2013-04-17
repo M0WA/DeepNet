@@ -12,13 +12,19 @@
 #include <map>
 
 #include <HttpUrl.h>
+
 #include "HtmlSAX2Element.h"
+#include "DatabaseUrl.h"
+
+namespace network {
+	class HttpUrl;
+}
 
 namespace htmlparser {
 
 class HtmlSAX2Document {
 public:
-	HtmlSAX2Document();
+	HtmlSAX2Document(const htmlparser::DatabaseUrl& url);
 	virtual ~HtmlSAX2Document();
 
 public:
@@ -46,6 +52,8 @@ public:
 	const std::vector<std::string>& FatalErrors() const { return this->fatals; }
 	void FatalErrors(std::vector<std::string>& fatals) const { fatals = this->fatals; }
 
+	const htmlparser::DatabaseUrl& Url() const { return url; }
+
 	std::vector<HtmlSAX2Element> elements;
 
 	std::vector<network::HttpUrl> hyperlinks;
@@ -56,6 +64,8 @@ public:
 	std::vector<std::string> warnings;
 	std::vector<std::string> errors;
 	std::vector<std::string> fatals;
+
+	htmlparser::DatabaseUrl url;
 };
 
 }

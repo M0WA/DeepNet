@@ -9,7 +9,8 @@
 
 namespace htmlparser {
 
-HtmlSAX2Document::HtmlSAX2Document()
+HtmlSAX2Document::HtmlSAX2Document(const htmlparser::DatabaseUrl& url)
+: url(url)
 {
 }
 

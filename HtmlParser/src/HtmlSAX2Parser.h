@@ -52,7 +52,7 @@ public:
 	static bool EncodeHtmlEntities(const unsigned char* pszIn, const int inLen, std::string& out);
 
 public:
-	bool Parse(const htmlparser::DatabaseUrl& url, const network::HtmlData& html, htmlparser::HtmlSAX2Document& htmlDocumentOut);
+	bool Parse(const network::HtmlData& html, htmlparser::HtmlSAX2Document& htmlDocumentOut);
 
 private:
 	static void startElement(void *ctx, const xmlChar *name, const xmlChar **atts);
