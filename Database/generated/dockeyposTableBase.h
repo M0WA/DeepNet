@@ -278,22 +278,22 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column DOCKEY_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_DOCKEY_ID();
-    /**
+	/**
      * create a column definition for column paragraph.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_paragraph();
-    /**
+	/**
      * create a column definition for column position.
      * @return column definition.
      */

@@ -220,17 +220,17 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column login.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_login();
-    /**
+	/**
      * create a column definition for column password.
      * @return column definition.
      */

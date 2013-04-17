@@ -228,17 +228,17 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column DICT_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_DICT_ID();
-    /**
+	/**
      * create a column definition for column URL_ID.
      * @return column definition.
      */

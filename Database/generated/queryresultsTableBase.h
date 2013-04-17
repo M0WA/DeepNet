@@ -332,27 +332,27 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column SEARCHQUERY_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_SEARCHQUERY_ID();
-    /**
+	/**
      * create a column definition for column URL_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_URL_ID();
-    /**
+	/**
      * create a column definition for column URLSTAGE_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_URLSTAGE_ID();
-    /**
+	/**
      * create a column definition for column order_position.
      * @return column definition.
      */

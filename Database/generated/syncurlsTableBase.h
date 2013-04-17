@@ -336,27 +336,27 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column URL_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_URL_ID();
-    /**
+	/**
      * create a column definition for column SECONDLEVELDOMAIN_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_SECONDLEVELDOMAIN_ID();
-    /**
+	/**
      * create a column definition for column CRAWLERSESSION_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_CRAWLERSESSION_ID();
-    /**
+	/**
      * create a column definition for column schedule.
      * @return column definition.
      */

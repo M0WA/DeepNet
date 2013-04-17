@@ -282,22 +282,22 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column TARGET_URL_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_TARGET_URL_ID();
-    /**
+	/**
      * create a column definition for column URLSTAGE_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_URLSTAGE_ID();
-    /**
+	/**
      * create a column definition for column count.
      * @return column definition.
      */

@@ -332,27 +332,27 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column CUSTOMER_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_CUSTOMER_ID();
-    /**
+	/**
      * create a column definition for column domain.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_domain();
-    /**
+	/**
      * create a column definition for column revisitInterval.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_revisitInterval();
-    /**
+	/**
      * create a column definition for column isDomainRegex.
      * @return column definition.
      */

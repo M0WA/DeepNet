@@ -12,20 +12,20 @@ class TableColumnDefinition;
 class DatabaseConnection;
 
 /**
- * @brief wrapper class for database table urls
+ * @brief wrapper class for database table images
  */
-class urlsTableBase : public TableBase {
+class imagesTableBase : public TableBase {
 
 private:
-    urlsTableBase(const TableBase& base);
+    imagesTableBase(const TableBase& base);
 
 public:
-    urlsTableBase();
-    virtual ~urlsTableBase();
+    imagesTableBase();
+    virtual ~imagesTableBase();
 
 public:
     /**
-     * factory function for urls's table definition.
+     * factory function for images's table definition.
      * @return table definition.
      */
     static TableDefinition* CreateTableDefinition();
@@ -160,7 +160,7 @@ public:
     static void GetBy_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of ID.
@@ -171,7 +171,7 @@ public:
     static void GetBy_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of SCHEME_ID.
@@ -182,7 +182,7 @@ public:
     static void GetBy_SCHEME_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of SCHEME_ID.
@@ -193,7 +193,7 @@ public:
     static void GetBy_SCHEME_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of TOPLEVELDOMAIN_ID.
@@ -204,7 +204,7 @@ public:
     static void GetBy_TOPLEVELDOMAIN_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of TOPLEVELDOMAIN_ID.
@@ -215,7 +215,7 @@ public:
     static void GetBy_TOPLEVELDOMAIN_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of SUBDOMAIN_ID.
@@ -226,7 +226,7 @@ public:
     static void GetBy_SUBDOMAIN_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of SUBDOMAIN_ID.
@@ -237,7 +237,7 @@ public:
     static void GetBy_SUBDOMAIN_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of SECONDLEVELDOMAIN_ID.
@@ -248,7 +248,7 @@ public:
     static void GetBy_SECONDLEVELDOMAIN_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of SECONDLEVELDOMAIN_ID.
@@ -259,7 +259,7 @@ public:
     static void GetBy_SECONDLEVELDOMAIN_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of port.
@@ -270,7 +270,7 @@ public:
     static void GetBy_port(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of port.
@@ -281,7 +281,7 @@ public:
     static void GetBy_port(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of path_part.
@@ -292,7 +292,7 @@ public:
     static void GetBy_path_part(
         DatabaseConnection* db,
         const std::string& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of path_part.
@@ -303,7 +303,7 @@ public:
     static void GetBy_path_part(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of search_part.
@@ -314,7 +314,7 @@ public:
     static void GetBy_search_part(
         DatabaseConnection* db,
         const std::string& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of search_part.
@@ -325,7 +325,7 @@ public:
     static void GetBy_search_part(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of url_md5.
@@ -336,7 +336,7 @@ public:
     static void GetBy_url_md5(
         DatabaseConnection* db,
         const std::string& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of url_md5.
@@ -347,7 +347,7 @@ public:
     static void GetBy_url_md5(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of found_date.
@@ -358,7 +358,7 @@ public:
     static void GetBy_found_date(
         DatabaseConnection* db,
         const struct tm& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of found_date.
@@ -369,7 +369,7 @@ public:
     static void GetBy_found_date(
         DatabaseConnection* db, 
         const std::vector<struct tm>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results);
+        SelectResultContainer<imagesTableBase>& results);
 
 
 public:

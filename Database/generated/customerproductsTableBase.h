@@ -332,27 +332,27 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column CUSTOMERDOMAIN_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_CUSTOMERDOMAIN_ID();
-    /**
+	/**
      * create a column definition for column productNo.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_productNo();
-    /**
+	/**
      * create a column definition for column productName.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_productName();
-    /**
+	/**
      * create a column definition for column productBrand.
      * @return column definition.
      */

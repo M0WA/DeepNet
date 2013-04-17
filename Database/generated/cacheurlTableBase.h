@@ -328,27 +328,27 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column size.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_size();
-    /**
+	/**
      * create a column definition for column matches.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_matches();
-    /**
+	/**
      * create a column definition for column misses.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_misses();
-    /**
+	/**
      * create a column definition for column action_time.
      * @return column definition.
      */

@@ -332,27 +332,27 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column CUSTOMERMATCHCRITERIA_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_CUSTOMERMATCHCRITERIA_ID();
-    /**
+	/**
      * create a column definition for column type.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_type();
-    /**
+	/**
      * create a column definition for column groupPosition.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_groupPosition();
-    /**
+	/**
      * create a column definition for column isPrimaryKey.
      * @return column definition.
      */

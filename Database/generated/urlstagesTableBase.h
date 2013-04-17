@@ -980,87 +980,87 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column URL_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_URL_ID();
-    /**
+	/**
      * create a column definition for column response_code.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_response_code();
-    /**
+	/**
      * create a column definition for column content_md5.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_content_md5();
-    /**
+	/**
      * create a column definition for column last_change.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_last_change();
-    /**
+	/**
      * create a column definition for column redirect_count.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_redirect_count();
-    /**
+	/**
      * create a column definition for column download_speed.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_download_speed();
-    /**
+	/**
      * create a column definition for column upload_speed.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_upload_speed();
-    /**
+	/**
      * create a column definition for column content_length.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_content_length();
-    /**
+	/**
      * create a column definition for column content_type.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_content_type();
-    /**
+	/**
      * create a column definition for column primary_ip.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_primary_ip();
-    /**
+	/**
      * create a column definition for column primary_port.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_primary_port();
-    /**
+	/**
      * create a column definition for column int_links.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_int_links();
-    /**
+	/**
      * create a column definition for column ext_links.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ext_links();
-    /**
+	/**
      * create a column definition for column download_time.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_download_time();
-    /**
+	/**
      * create a column definition for column html_errors.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_html_errors();
-    /**
+	/**
      * create a column definition for column found_date.
      * @return column definition.
      */

@@ -12,20 +12,20 @@ class TableColumnDefinition;
 class DatabaseConnection;
 
 /**
- * @brief wrapper class for database table customerkeywords
+ * @brief wrapper class for database table imagelinks
  */
-class customerkeywordsTableBase : public TableBase {
+class imagelinksTableBase : public TableBase {
 
 private:
-    customerkeywordsTableBase(const TableBase& base);
+    imagelinksTableBase(const TableBase& base);
 
 public:
-    customerkeywordsTableBase();
-    virtual ~customerkeywordsTableBase();
+    imagelinksTableBase();
+    virtual ~imagelinksTableBase();
 
 public:
     /**
-     * factory function for customerkeywords's table definition.
+     * factory function for imagelinks's table definition.
      * @return table definition.
      */
     static TableDefinition* CreateTableDefinition();
@@ -46,49 +46,49 @@ public:
 	 */
     void Set_ID(const long long& in);
     /**
-     * gets value of CUSTOMERDOMAIN_ID.
+     * gets value of TARGET_URL_ID.
      * @param out value.
      */
-	void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+	void Get_TARGET_URL_ID(long long& out) const;
 
 	/**
-	 * sets value of CUSTOMERDOMAIN_ID.
+	 * sets value of TARGET_URL_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERDOMAIN_ID(const long long& in);
+    void Set_TARGET_URL_ID(const long long& in);
     /**
-     * gets value of keyword.
+     * gets value of IMAGE_URL_ID.
      * @param out value.
      */
-	void Get_keyword(std::string& out) const;
+	void Get_IMAGE_URL_ID(long long& out) const;
 
 	/**
-	 * sets value of keyword.
+	 * sets value of IMAGE_URL_ID.
 	 * @param in value.
 	 */
-    void Set_keyword(const std::string& in);
+    void Set_IMAGE_URL_ID(const long long& in);
     /**
-     * gets value of target.
+     * gets value of URLSTAGE_ID.
      * @param out value.
      */
-	void Get_target(std::string& out) const;
+	void Get_URLSTAGE_ID(long long& out) const;
 
 	/**
-	 * sets value of target.
+	 * sets value of URLSTAGE_ID.
 	 * @param in value.
 	 */
-    void Set_target(const std::string& in);
+    void Set_URLSTAGE_ID(const long long& in);
     /**
-     * gets value of isKeywordRegex.
+     * gets value of count.
      * @param out value.
      */
-	void Get_isKeywordRegex(long long& out) const;
+	void Get_count(long long& out) const;
 
 	/**
-	 * sets value of isKeywordRegex.
+	 * sets value of count.
 	 * @param in value.
 	 */
-    void Set_isKeywordRegex(const long long& in);
+    void Set_count(const long long& in);
 
 
 public:
@@ -105,7 +105,7 @@ public:
     static void GetBy_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
+        SelectResultContainer<imagelinksTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of ID.
@@ -116,105 +116,113 @@ public:
     static void GetBy_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
+        SelectResultContainer<imagelinksTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of CUSTOMERDOMAIN_ID.
+	 * gets rows by a value of TARGET_URL_ID.
 	 * @param db database connection.
-	 * @param fieldValue value of CUSTOMERDOMAIN_ID.
+	 * @param fieldValue value of TARGET_URL_ID.
 	 * @param results contains results.
 	 */
-    static void GetBy_CUSTOMERDOMAIN_ID(
+    static void GetBy_TARGET_URL_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
+        SelectResultContainer<imagelinksTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of CUSTOMERDOMAIN_ID.
+	 * gets rows by multiple values of TARGET_URL_ID.
 	 * @param db database connection.
-	 * @param fieldValue values of CUSTOMERDOMAIN_ID.
+	 * @param fieldValue values of TARGET_URL_ID.
 	 * @param results contains results.
 	 */
-    static void GetBy_CUSTOMERDOMAIN_ID(
+    static void GetBy_TARGET_URL_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
+        SelectResultContainer<imagelinksTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of keyword.
+	 * gets rows by a value of IMAGE_URL_ID.
 	 * @param db database connection.
-	 * @param fieldValue value of keyword.
+	 * @param fieldValue value of IMAGE_URL_ID.
 	 * @param results contains results.
 	 */
-    static void GetBy_keyword(
-        DatabaseConnection* db,
-        const std::string& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of keyword.
-	 * @param db database connection.
-	 * @param fieldValue values of keyword.
-	 * @param results contains results.
-	 */
-    static void GetBy_keyword(
-        DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of target.
-	 * @param db database connection.
-	 * @param fieldValue value of target.
-	 * @param results contains results.
-	 */
-    static void GetBy_target(
-        DatabaseConnection* db,
-        const std::string& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of target.
-	 * @param db database connection.
-	 * @param fieldValue values of target.
-	 * @param results contains results.
-	 */
-    static void GetBy_target(
-        DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of isKeywordRegex.
-	 * @param db database connection.
-	 * @param fieldValue value of isKeywordRegex.
-	 * @param results contains results.
-	 */
-    static void GetBy_isKeywordRegex(
+    static void GetBy_IMAGE_URL_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
+        SelectResultContainer<imagelinksTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of isKeywordRegex.
+	 * gets rows by multiple values of IMAGE_URL_ID.
 	 * @param db database connection.
-	 * @param fieldValue values of isKeywordRegex.
+	 * @param fieldValue values of IMAGE_URL_ID.
 	 * @param results contains results.
 	 */
-    static void GetBy_isKeywordRegex(
+    static void GetBy_IMAGE_URL_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<customerkeywordsTableBase>& results);
+        SelectResultContainer<imagelinksTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of URLSTAGE_ID.
+	 * @param db database connection.
+	 * @param fieldValue value of URLSTAGE_ID.
+	 * @param results contains results.
+	 */
+    static void GetBy_URLSTAGE_ID(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<imagelinksTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of URLSTAGE_ID.
+	 * @param db database connection.
+	 * @param fieldValue values of URLSTAGE_ID.
+	 * @param results contains results.
+	 */
+    static void GetBy_URLSTAGE_ID(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<imagelinksTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of count.
+	 * @param db database connection.
+	 * @param fieldValue value of count.
+	 * @param results contains results.
+	 */
+    static void GetBy_count(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<imagelinksTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of count.
+	 * @param db database connection.
+	 * @param fieldValue values of count.
+	 * @param results contains results.
+	 */
+    static void GetBy_count(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<imagelinksTableBase>& results);
 
 
 public:
 //
 // template: TableBase_InnerJoin.inc.h
 //
-    static void AddInnerJoinLeftSideOn_CUSTOMERDOMAIN_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinLeftSideOn_CUSTOMERDOMAIN_ID(Statement& stmt);
-    static void AddInnerJoinRightSideOn_CUSTOMERDOMAIN_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinRightSideOn_CUSTOMERDOMAIN_ID(Statement& stmt);
+    static void AddInnerJoinLeftSideOn_TARGET_URL_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinLeftSideOn_TARGET_URL_ID(Statement& stmt);
+    static void AddInnerJoinRightSideOn_TARGET_URL_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinRightSideOn_TARGET_URL_ID(Statement& stmt);
+    static void AddInnerJoinLeftSideOn_IMAGE_URL_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinLeftSideOn_IMAGE_URL_ID(Statement& stmt);
+    static void AddInnerJoinRightSideOn_IMAGE_URL_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinRightSideOn_IMAGE_URL_ID(Statement& stmt);
+    static void AddInnerJoinLeftSideOn_URLSTAGE_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinLeftSideOn_URLSTAGE_ID(Statement& stmt);
+    static void AddInnerJoinRightSideOn_URLSTAGE_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinRightSideOn_URLSTAGE_ID(Statement& stmt);
 
 
 public:
@@ -243,86 +251,86 @@ public:
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of CUSTOMERDOMAIN_ID.
+     * creates where condition for a value of TARGET_URL_ID.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_CUSTOMERDOMAIN_ID(
+	static void GetWhereColumnsFor_TARGET_URL_ID(
         const WhereConditionTableColumnCreateParam& createParam,
         const long long& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of CUSTOMERDOMAIN_ID.
+     * creates where condition for multiple values of TARGET_URL_ID.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_CUSTOMERDOMAIN_ID(
+    static void GetWhereColumnsFor_TARGET_URL_ID(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of keyword.
+     * creates where condition for a value of IMAGE_URL_ID.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_keyword(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::string& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of keyword.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_keyword(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<std::string>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of target.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_target(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::string& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of target.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_target(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<std::string>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of isKeywordRegex.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_isKeywordRegex(
+	static void GetWhereColumnsFor_IMAGE_URL_ID(
         const WhereConditionTableColumnCreateParam& createParam,
         const long long& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of isKeywordRegex.
+     * creates where condition for multiple values of IMAGE_URL_ID.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_isKeywordRegex(
+    static void GetWhereColumnsFor_IMAGE_URL_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of URLSTAGE_ID.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_URLSTAGE_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of URLSTAGE_ID.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_URLSTAGE_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of count.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_count(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of count.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_count(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
@@ -338,25 +346,25 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_ID();
 	/**
-     * create a column definition for column CUSTOMERDOMAIN_ID.
+     * create a column definition for column TARGET_URL_ID.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_CUSTOMERDOMAIN_ID();
+	static TableColumnDefinition* GetDefinition_TARGET_URL_ID();
 	/**
-     * create a column definition for column keyword.
+     * create a column definition for column IMAGE_URL_ID.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_keyword();
+	static TableColumnDefinition* GetDefinition_IMAGE_URL_ID();
 	/**
-     * create a column definition for column target.
+     * create a column definition for column URLSTAGE_ID.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_target();
+	static TableColumnDefinition* GetDefinition_URLSTAGE_ID();
 	/**
-     * create a column definition for column isKeywordRegex.
+     * create a column definition for column count.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_isKeywordRegex();
+	static TableColumnDefinition* GetDefinition_count();
 
 };
 

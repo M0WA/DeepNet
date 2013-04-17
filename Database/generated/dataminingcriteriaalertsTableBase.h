@@ -286,22 +286,22 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column CUSTOMER_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_CUSTOMER_ID();
-    /**
+	/**
      * create a column definition for column DATAMININGALERT_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_DATAMININGALERT_ID();
-    /**
+	/**
      * create a column definition for column DATAMININGCRITERIA_ID.
      * @return column definition.
      */

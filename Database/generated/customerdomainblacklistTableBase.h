@@ -278,22 +278,22 @@ public:
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.h
 //
-    /**
+	/**
      * create a column definition for column ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
-    /**
+	/**
      * create a column definition for column CUSTOMERDOMAIN_ID.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_CUSTOMERDOMAIN_ID();
-    /**
+	/**
      * create a column definition for column path.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_path();
-    /**
+	/**
      * create a column definition for column isPathRegex.
      * @return column definition.
      */
