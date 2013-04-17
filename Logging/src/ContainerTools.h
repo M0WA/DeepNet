@@ -25,14 +25,25 @@ private:
 
 public:
 	/**
-	 * removes duplicate entries from vector.
+	 * removes duplicate entries from toUnique.
 	 * @param toUnique vector to make unique.
 	 * @param sort true if output should be sorted, false if not.
 	 */
 	template <class T>
 	static inline void MakeUniqueVector(std::vector<T>& toUnique, bool sort = false) {
+		MakeUniqueVector<T>(toUnique, toUnique, sort);
+	}
+
+	/**
+	 * removes duplicate entries from in and copies them to unique.
+	 * @param in vector to make unique.
+	 * @param unique vector containing unique items.
+	 * @param sort true if output should be sorted, false if not.
+	 */
+	template <class T>
+	static inline void MakeUniqueVector(const std::vector<T>& in, std::vector<T>& unique, bool sort = false) {
 		//TODO: this could be done much more performant...
-		std::vector<T> tmpUnique = toUnique;
+		std::vector<T> tmpUnique = in;
 		std::sort(tmpUnique.begin(),tmpUnique.end());
 
 		std::vector<T> tmpUniqueSorted;
@@ -44,15 +55,15 @@ public:
 			mapInserted[*iterUnique] = false; }
 
 		std::vector<T> uniqueUnsorted;
-		iterUnique = toUnique.begin();
-		for(;iterUnique != toUnique.end(); ++iterUnique) {
+		iterUnique = in.begin();
+		for(;iterUnique != in.end(); ++iterUnique) {
 
 			if(!mapInserted[*iterUnique]) {
 				uniqueUnsorted.push_back(*iterUnique);
 				mapInserted[*iterUnique] = true; }
 		}
 
-		toUnique = uniqueUnsorted;
+		unique = uniqueUnsorted;
 	}
 
 	/**
