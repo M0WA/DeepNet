@@ -72,6 +72,10 @@ CPP_SRCS += \
 ../generated/docurlTableDefinitionCreateParam.cpp \
 ../generated/hyperlinksTableBase.cpp \
 ../generated/hyperlinksTableDefinitionCreateParam.cpp \
+../generated/imagelinksTableBase.cpp \
+../generated/imagelinksTableDefinitionCreateParam.cpp \
+../generated/imagesTableBase.cpp \
+../generated/imagesTableDefinitionCreateParam.cpp \
 ../generated/keywordqueryTableBase.cpp \
 ../generated/keywordqueryTableDefinitionCreateParam.cpp \
 ../generated/latesturlstagesTableBase.cpp \
@@ -174,6 +178,10 @@ OBJS += \
 ./generated/docurlTableDefinitionCreateParam.o \
 ./generated/hyperlinksTableBase.o \
 ./generated/hyperlinksTableDefinitionCreateParam.o \
+./generated/imagelinksTableBase.o \
+./generated/imagelinksTableDefinitionCreateParam.o \
+./generated/imagesTableBase.o \
+./generated/imagesTableDefinitionCreateParam.o \
 ./generated/keywordqueryTableBase.o \
 ./generated/keywordqueryTableDefinitionCreateParam.o \
 ./generated/latesturlstagesTableBase.o \
@@ -276,6 +284,10 @@ CPP_DEPS += \
 ./generated/docurlTableDefinitionCreateParam.d \
 ./generated/hyperlinksTableBase.d \
 ./generated/hyperlinksTableDefinitionCreateParam.d \
+./generated/imagelinksTableBase.d \
+./generated/imagelinksTableDefinitionCreateParam.d \
+./generated/imagesTableBase.d \
+./generated/imagesTableDefinitionCreateParam.d \
 ./generated/keywordqueryTableBase.d \
 ./generated/keywordqueryTableDefinitionCreateParam.d \
 ./generated/latesturlstagesTableBase.d \
