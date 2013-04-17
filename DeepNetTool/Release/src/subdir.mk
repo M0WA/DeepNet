@@ -9,7 +9,6 @@ CPP_SRCS += \
 ../src/DatabaseRepair.cpp \
 ../src/DeepNetToolBot.cpp \
 ../src/UnitTestCacheUrl.cpp \
-../src/UnitTestHtmlParser.cpp \
 ../src/UnitTestHttpClient.cpp \
 ../src/UnitTestIPv4TCPClient.cpp \
 ../src/UnitTestIPv4TCPServer.cpp \
@@ -25,7 +24,6 @@ OBJS += \
 ./src/DatabaseRepair.o \
 ./src/DeepNetToolBot.o \
 ./src/UnitTestCacheUrl.o \
-./src/UnitTestHtmlParser.o \
 ./src/UnitTestHttpClient.o \
 ./src/UnitTestIPv4TCPClient.o \
 ./src/UnitTestIPv4TCPServer.o \
@@ -41,7 +39,6 @@ CPP_DEPS += \
 ./src/DatabaseRepair.d \
 ./src/DeepNetToolBot.d \
 ./src/UnitTestCacheUrl.d \
-./src/UnitTestHtmlParser.d \
 ./src/UnitTestHttpClient.d \
 ./src/UnitTestIPv4TCPClient.d \
 ./src/UnitTestIPv4TCPServer.d \
