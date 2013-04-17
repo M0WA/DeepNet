@@ -35,10 +35,6 @@ bool UnitTestUrlParser::TestUrlParser(
 ) {
 	bool success = true;
 
-	std::vector<std::string> tldStrings;
-	htmlparser::TLD::GetTLDStrings(tldStrings);
-	network::HttpUrlParser::InitTLDCache(tldStrings);
-
 	if(!invalidUrlFileName.empty())
 		success &= TestInvalidUrls(connection, invalidUrlFileName);
 

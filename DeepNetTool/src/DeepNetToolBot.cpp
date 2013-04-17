@@ -51,6 +51,9 @@ bool DeepNetToolBot::OnRun() {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "cannot initialize top level domain cache, exiting...");
 		return false;
 	}
+	std::vector<std::string> tldStrings;
+	htmlparser::TLD::GetTLDStrings(tldStrings);
+	network::HttpUrlParser::InitTLDCache(tldStrings);
 
 	//repair database after unclean shutdown
 	bool isRepair = false;
