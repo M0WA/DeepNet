@@ -15,6 +15,7 @@ CPP_SRCS += \
 ../src/FileTools.cpp \
 ../src/HashTools.cpp \
 ../src/Logging.cpp \
+../src/MemoryContainer.cpp \
 ../src/MimeType.cpp \
 ../src/NotImplementedException.cpp \
 ../src/OpenSSLThreadLock.cpp \
@@ -22,12 +23,15 @@ CPP_SRCS += \
 ../src/PCRERegexGroup.cpp \
 ../src/PCRERegexResult.cpp \
 ../src/PerformanceCounter.cpp \
+../src/Pointer.cpp \
+../src/PointerContainer.cpp \
 ../src/Regex.cpp \
 ../src/SpellChecking.cpp \
 ../src/Stack.cpp \
 ../src/StdException.cpp \
 ../src/StringTools.cpp \
-../src/TimeTools.cpp 
+../src/TimeTools.cpp \
+../src/TokenBucket.cpp 
 
 OBJS += \
 ./src/CharsetEncoder.o \
@@ -41,6 +45,7 @@ OBJS += \
 ./src/FileTools.o \
 ./src/HashTools.o \
 ./src/Logging.o \
+./src/MemoryContainer.o \
 ./src/MimeType.o \
 ./src/NotImplementedException.o \
 ./src/OpenSSLThreadLock.o \
@@ -48,12 +53,15 @@ OBJS += \
 ./src/PCRERegexGroup.o \
 ./src/PCRERegexResult.o \
 ./src/PerformanceCounter.o \
+./src/Pointer.o \
+./src/PointerContainer.o \
 ./src/Regex.o \
 ./src/SpellChecking.o \
 ./src/Stack.o \
 ./src/StdException.o \
 ./src/StringTools.o \
-./src/TimeTools.o 
+./src/TimeTools.o \
+./src/TokenBucket.o 
 
 CPP_DEPS += \
 ./src/CharsetEncoder.d \
@@ -67,6 +75,7 @@ CPP_DEPS += \
 ./src/FileTools.d \
 ./src/HashTools.d \
 ./src/Logging.d \
+./src/MemoryContainer.d \
 ./src/MimeType.d \
 ./src/NotImplementedException.d \
 ./src/OpenSSLThreadLock.d \
@@ -74,12 +83,15 @@ CPP_DEPS += \
 ./src/PCRERegexGroup.d \
 ./src/PCRERegexResult.d \
 ./src/PerformanceCounter.d \
+./src/Pointer.d \
+./src/PointerContainer.d \
 ./src/Regex.d \
 ./src/SpellChecking.d \
 ./src/Stack.d \
 ./src/StdException.d \
 ./src/StringTools.d \
-./src/TimeTools.d 
+./src/TimeTools.d \
+./src/TokenBucket.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
