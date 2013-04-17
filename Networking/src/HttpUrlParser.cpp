@@ -26,6 +26,7 @@
 #include "HttpUrlParserDecodeException.h"
 #include "HttpUrlParserEncodeException.h"
 #include "HttpUrlParserInvalidSchemeException.h"
+#include "HttpUrlParserTLDCacheException.h"
 
 namespace network {
 
@@ -563,7 +564,7 @@ bool HttpUrlParser::ValidateDomain(const std::string& domainTLD, std::string& do
 
 		// detect domain or document
 		if(tlds.size() == 0) {
-			//TODO: THROW_EXCEPTION(ToplevelDomainsNotInitializedException);
+			THROW_EXCEPTION(network::HttpUrlParserTLDCacheException);
 		}
 		bool extensionIsTLD = std::find(tlds.begin(),tlds.end(),tld) != tlds.end();
 		if(extensionIsTLD && domain.length() > 0)

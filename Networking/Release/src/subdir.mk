@@ -21,6 +21,7 @@ CPP_SRCS += \
 ../src/HttpUrlParserException.cpp \
 ../src/HttpUrlParserInvalidSchemeException.cpp \
 ../src/HttpUrlParserInvalidUrlException.cpp \
+../src/HttpUrlParserTLDCacheException.cpp \
 ../src/IPv4Tools.cpp \
 ../src/Socket.cpp \
 ../src/SocketIPv4.cpp \
@@ -48,6 +49,7 @@ OBJS += \
 ./src/HttpUrlParserException.o \
 ./src/HttpUrlParserInvalidSchemeException.o \
 ./src/HttpUrlParserInvalidUrlException.o \
+./src/HttpUrlParserTLDCacheException.o \
 ./src/IPv4Tools.o \
 ./src/Socket.o \
 ./src/SocketIPv4.o \
@@ -75,6 +77,7 @@ CPP_DEPS += \
 ./src/HttpUrlParserException.d \
 ./src/HttpUrlParserInvalidSchemeException.d \
 ./src/HttpUrlParserInvalidUrlException.d \
+./src/HttpUrlParserTLDCacheException.d \
 ./src/IPv4Tools.d \
 ./src/Socket.d \
 ./src/SocketIPv4.d \
