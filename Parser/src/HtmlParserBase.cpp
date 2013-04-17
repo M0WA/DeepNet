@@ -7,6 +7,9 @@
 
 #include "HtmlParserBase.h"
 
+#include "HtmlParserThread.h"
+#include "HtmlParserParam.h"
+
 using namespace threading;
 
 namespace parser {

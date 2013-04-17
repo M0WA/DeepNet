@@ -11,7 +11,7 @@
 
 namespace parser {
 
-class GenericWebHtmlParserParam : public HtmlParserParam {
+class GenericWebHtmlParserParam : public parser::HtmlParserParam {
 public:
 	GenericWebHtmlParserParam();
 	virtual ~GenericWebHtmlParserParam();

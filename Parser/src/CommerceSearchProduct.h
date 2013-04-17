@@ -8,7 +8,6 @@
 #pragma once
 
 #include <string>
-#include <DatabaseUrl.h>
 
 namespace database {
 	class DatabaseConnection;

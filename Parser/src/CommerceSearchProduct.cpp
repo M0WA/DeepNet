@@ -8,6 +8,7 @@
 #include "CommerceSearchProduct.h"
 
 #include <DatabaseLayer.h>
+#include <DatabaseUrl.h>
 
 namespace parser {
 

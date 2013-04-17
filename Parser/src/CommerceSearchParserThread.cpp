@@ -8,11 +8,15 @@
 #include "CommerceSearchParserThread.h"
 
 #include <NotImplementedException.h>
+#include <HtmlSAX2Document.h>
+#include <HttpUrl.h>
+
+#include "DatabaseUrl.h"
 
 namespace parser {
 
 CommerceSearchParserThread::CommerceSearchParserThread()
-: HtmlParserThread() {
+: GenericWebHtmlParserThread() {
 }
 
 CommerceSearchParserThread::~CommerceSearchParserThread() {
@@ -44,35 +48,49 @@ void CommerceSearchParserThread::InitParserThread() {
 	}
 }
 
-bool CommerceSearchParserThread::ParsePage(const HtmlParserEntry& entry,htmlparser::Document* parsedDoc) {
+void CommerceSearchParserThread::OnAfterParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images)
+{
+	const std::vector<CommerceSearchMatchCriteria*>& criteriaVector = criterias.GetVector();
 
-	std::vector<htmlparser::DatabaseUrl> hyperLinks, imagesLinks, videosLinks;
-	std::vector<std::string> content;
+	//take care about url specific criteria
+	MatchUrlCriteria(entry,hyperlinks,criteriaVector);
+
+	//take care about meta info specific criteria
+	MatchMetaCriteria(entry,document,criteriaVector);
+
+	//take care about image specific criteria
+	MatchImageCriteria(entry,images,criteriaVector);
+}
+/*
+bool CommerceSearchParserThread::ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document) {
+
+	const std::vector<network::HttpUrl>  &hyperLinks = document.HyperLinks(),
+			&imagesLinks = document.Images(),
+			videosLinks; //TODO: video links
+	const std::vector< std::pair<std::string,std::string> >& meta = document.Meta();
+	const std::vector<std::string> &content = document.Content();
+
 	std::vector<std::string> title, description;
-
-	//
-	//TODO:
-	//
-	/*
-	parsedDoc->GetLinks(hyperLinks);
-	parsedDoc->GetImages(imagesLinks);
-	parsedDoc->GetVideos(videosLinks);
-	parsedDoc->GetText(content);
-	*/
-
+	std::vector< std::pair<std::string,std::string> >::const_iterator iterTmp = meta.begin();
+	for(;iterTmp != meta.end();++iterTmp) {
+		if(iterTmp->first.compare("title") == 0) {
+			title.push_back(iterTmp->second); }
+		else if(iterTmp->first.compare("description") == 0) {
+			description.push_back(iterTmp->second); }
+	}
 	const std::vector<CommerceSearchMatchCriteria*>& criteriaVector = criterias.GetVector();
 
 	//take care about url specific criteria
 	MatchUrlCriteria(entry,hyperLinks,criteriaVector);
 
 	//take care about meta info specific criteria
-	MatchMetaCriteria(entry,parsedDoc,criteriaVector);
+	MatchMetaCriteria(entry,document,criteriaVector);
 
 	//take care about image specific criteria
 	MatchImageCriteria(entry,imagesLinks,criteriaVector);
-
 	return true;
 }
+*/
 
 void CommerceSearchParserThread::MatchUrlCriteria(const HtmlParserEntry& entry,const std::vector<htmlparser::DatabaseUrl>& hyperLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
 
@@ -90,7 +108,7 @@ void CommerceSearchParserThread::MatchUrlCriteria(const HtmlParserEntry& entry,c
 	}
 }
 
-void CommerceSearchParserThread::MatchMetaCriteria(const HtmlParserEntry& entry,htmlparser::Document* pDoc,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
+void CommerceSearchParserThread::MatchMetaCriteria(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
 
 	std::vector<std::string> titles,descriptions;
 
@@ -118,7 +136,7 @@ void CommerceSearchParserThread::MatchMetaCriteria(const HtmlParserEntry& entry,
 	}
 }
 
-void CommerceSearchParserThread::MatchImageCriteria(const HtmlParserEntry& entry,const std::vector<htmlparser::DatabaseUrl>& imagesLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
+void CommerceSearchParserThread::MatchImageCriteria(const HtmlParserEntry& entry,const std::vector<network::HttpUrl>& imagesLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
 
 	//TODO: match imagelinks for product...
 }

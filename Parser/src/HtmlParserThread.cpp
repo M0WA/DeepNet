@@ -11,15 +11,8 @@
 #include <Logging.h>
 #include <PerformanceCounter.h>
 
-/*
-#include <DocumentFactory.h>
-#include <Document.h>
-
-#include <HtmlParser.h>
-#include <HtmlParserException.h>
-*/
-
 #include <HtmlSAX2Parser.h>
+#include <HtmlSAX2Document.h>
 
 #include <CacheParsed.h>
 #include <CacheHtml.h>
@@ -114,46 +107,14 @@ bool HtmlParserThread::ParsePages(const std::vector<HtmlParserEntry>& entries) {
 		PERFORMANCE_LOG_RESTART;
 
 		htmlparser::HtmlSAX2Parser parser;
-		htmlparser::HtmlSAX2Document document;
-		if(!parser.Parse(iterEntries->url,iterEntries->html,document))
+		htmlparser::HtmlSAX2Document document(iterEntries->url);
+		if(!parser.Parse(iterEntries->html,document))
 		{
 			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while parsing from url: %s", iterEntries->url.GetFullUrl().c_str());
 		}
-		/*
-		htmlparser::Document* pDoc = htmlparser::DocumentFactory::FromHtmlData(iterEntries->url,iterEntries->html);
 
-		htmlparser::HtmlParser* pParser = 0;
-		htmlparser::HtmlDocument* pDoc = 0;
-		htmlparser::HtmlSAX2Parser* pParser = 0;
-		try {
-			pParser = new htmlparser::HtmlSAX2Parser(iterEntries->url,iterEntries->html);
-			pDoc = pParser->Parse(DB().Connection());
-		}
-		catch(htmlparser::HtmlParserException& ex) {
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "invalid format from url: %s", iterEntries->url.GetFullUrl().c_str());
-		}
-		catch(...) {
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while parsing from url: %s", iterEntries->url.GetFullUrl().c_str());
-
-			delete pParser;
-			delete pDoc;
-			continue;
-		}
-
-		if(!pDoc) {
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "invalid html from url: %s", iterEntries->url.GetFullUrl().c_str());
-			delete pParser;
-			continue;
-		}
-
-		UpdateUrlstageInfos(pDoc, iterEntries->url);
-
-		if(!ParsePage(*iterEntries,pDoc)) {
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN, "could not parse html from url: %s", iterEntries->url.GetFullUrl().c_str());	}
+		UpdateUrlstageInfos(document, iterEntries->url);
 		PERFORMANCE_LOG_STOP("parsing single page");
-
-		delete pDoc;
-		*/
 
 		//TODO: page ranking => bot to calculate ???
 	}

@@ -10,7 +10,10 @@
 #include <vector>
 
 #include "HtmlParserThread.h"
-#include "HtmlParserEntry.h"
+
+namespace database {
+	class DatabaseConnection;
+}
 
 namespace network {
 	class HttpUrl;
@@ -18,9 +21,12 @@ namespace network {
 
 namespace htmlparser {
 	class Document;
+	class DatabaseUrl;
 }
 
 namespace parser {
+
+class HtmlParserEntry;
 
 class GenericWebHtmlParserThread: public parser::HtmlParserThread {
 public:
@@ -28,12 +34,36 @@ public:
 	virtual ~GenericWebHtmlParserThread();
 
 private:
-	virtual bool ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document);
+	static void InsertImages(
+			database::DatabaseConnection* db,
+			const HtmlParserEntry& entry,
+			const std::vector<network::HttpUrl>& images,
+			const htmlparser::HtmlSAX2Document& document);
+
+	static void InsertLinks(
+			database::DatabaseConnection* db,
+			const HtmlParserEntry& entry,
+			const std::vector<network::HttpUrl>& hyperlinks,
+			std::vector<htmlparser::DatabaseUrl>& dbLinks);
+
+	static void InsertMeta(
+			database::DatabaseConnection* db,
+			const HtmlParserEntry& entry,
+			const std::vector<std::pair<std::string,std::string> >& meta);
 
 private:
-	void InsertImages(const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& images,const htmlparser::HtmlSAX2Document& document);
-	void InsertLinks(const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& hyperlinks);
-	void InsertMeta(const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta);
+	virtual bool ParsePage(
+			const HtmlParserEntry& entry,
+			const htmlparser::HtmlSAX2Document& document);
+
+	virtual void OnAfterParsePage(
+			const HtmlParserEntry& entry,
+			const htmlparser::HtmlSAX2Document& document,
+			const std::vector<std::string> &content,
+			const std::vector<htmlparser::DatabaseUrl>& hyperlinks,
+			const std::vector<network::HttpUrl>& images)
+	{}
+
 };
 
 }

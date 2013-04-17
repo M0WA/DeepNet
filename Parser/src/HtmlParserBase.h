@@ -7,11 +7,13 @@
 
 #pragma once
 
-#include "HtmlParserThread.h"
-#include "HtmlParserParam.h"
+#include <map>
+#include <Thread.h>
 
 namespace parser {
 
+class HtmlParserParam;
+class HtmlParserThread;
 class HtmlParserBase : public threading::Thread {
 public:
 	HtmlParserBase();

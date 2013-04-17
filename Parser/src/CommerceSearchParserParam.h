@@ -11,7 +11,7 @@
 
 namespace parser {
 
-class CommerceSearchParserParam : public HtmlParserParam {
+class CommerceSearchParserParam : public parser::HtmlParserParam {
 public:
 	CommerceSearchParserParam();
 	virtual ~CommerceSearchParserParam();

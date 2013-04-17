@@ -11,7 +11,7 @@
 
 namespace parser {
 
-class CommerceSearchParser : public HtmlParserBase {
+class CommerceSearchParser : public parser::HtmlParserBase {
 public:
 	CommerceSearchParser();
 	virtual ~CommerceSearchParser();

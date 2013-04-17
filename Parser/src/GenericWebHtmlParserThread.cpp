@@ -26,6 +26,8 @@
 #include <HttpUrl.h>
 #include <TLD.h>
 
+#include "HtmlParserEntry.h"
+
 namespace parser {
 
 GenericWebHtmlParserThread::GenericWebHtmlParserThread() {
@@ -36,8 +38,6 @@ GenericWebHtmlParserThread::~GenericWebHtmlParserThread() {
 
 bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document) {
 
-	PERFORMANCE_LOG_START;
-
 	const std::vector<network::HttpUrl> &hyperLinks = document.HyperLinks(),
 			&imagesLinks = document.Images(),
 			videosLinks; //TODO: video links
@@ -47,7 +47,15 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const ht
 	std::vector< std::string > content;
 	tools::ContainerTools::VectorPair2ToVector(document.Content(),content);
 
-	PERFORMANCE_LOG_RESTART;
+	//make link strings unique
+	std::vector<network::HttpUrl> uniqueImages;
+	tools::ContainerTools::MakeUniqueVector(imagesLinks,uniqueImages);
+
+	//make link strings unique
+	std::vector<network::HttpUrl> uniqueLinks;
+	tools::ContainerTools::MakeUniqueVector(hyperLinks,uniqueLinks);
+
+	PERFORMANCE_LOG_START;
 	caching::CacheParsed::CacheParsedEntry entryCache(
 		entry.urlID,
 		entry.url,
@@ -58,28 +66,26 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const ht
 	PERFORMANCE_LOG_STOP("committing parsed page to indexer cache");
 
 	PERFORMANCE_LOG_RESTART;
-	InsertLinks(entry, hyperLinks);
+	std::vector<htmlparser::DatabaseUrl> dbLinks;
+	InsertLinks(DB().Connection(),entry, uniqueLinks, dbLinks);
 	PERFORMANCE_LOG_STOP("inserting found links from parsed page");
 
 	PERFORMANCE_LOG_RESTART;
-	InsertImages(entry,imagesLinks,document);
+	InsertImages(DB().Connection(),entry,uniqueImages,document);
 	PERFORMANCE_LOG_STOP("inserting found images from parsed page");
 
 	PERFORMANCE_LOG_RESTART;
-	InsertMeta(entry, meta);
+	InsertMeta(DB().Connection(),entry, meta);
 	PERFORMANCE_LOG_STOP("inserting metainformation from parsed page");
 
+	OnAfterParsePage(entry,document,content,dbLinks,uniqueImages);
 	return true;
 }
 
-void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& imagesIn,const htmlparser::HtmlSAX2Document& document)
+void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& images,const htmlparser::HtmlSAX2Document& document)
 {
-	if(imagesIn.size() == 0)
+	if(images.size() == 0)
 		return;
-
-	//make link strings unique
-	std::vector<network::HttpUrl> images;
-	tools::ContainerTools::MakeUniqueVector(imagesIn,images);
 
 	std::vector<network::HttpUrl>::const_iterator iterImages = images.begin();
 	for(;iterImages != images.end(); ++iterImages) {
@@ -90,7 +96,7 @@ void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, cons
 			const std::string& subdomain = iterImages->GetSubdomain();
 			long long id = -1;
 			if(!subdomain.empty()){
-				caching::CacheSubdomain::GetSubdomainIDByDomain(DB().Connection(),subdomain,id);
+				caching::CacheSubdomain::GetSubdomainIDByDomain(db,subdomain,id);
 				imgs.Set_SUBDOMAIN_ID(id);
 			}
 			else {
@@ -98,7 +104,7 @@ void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, cons
 			}
 
 			id = -1;
-			caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(DB().Connection(),iterImages->GetSecondLevelDomain(),id);
+			caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(db,iterImages->GetSecondLevelDomain(),id);
 			imgs.Set_SECONDLEVELDOMAIN_ID(id);
 		}
 		catch(...)
@@ -117,7 +123,7 @@ void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, cons
 
 		try
 		{
-			imgs.InsertOrUpdate(DB().Connection());
+			imgs.InsertOrUpdate(db);
 		}
 		catch(...)
 		{
@@ -126,7 +132,7 @@ void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, cons
 		}
 
 		long long imageUrlID = -1;
-		if(!DB().Connection()->LastInsertID(imageUrlID) || imageUrlID) {
+		if(!db->LastInsertID(imageUrlID) || imageUrlID) {
 			log::Logging::LogInfo("could not get image url id: " + iterImages->GetFullUrl() );
 			continue;
 		}
@@ -138,7 +144,7 @@ void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, cons
 
 		try
 		{
-			mapTbl.InsertOrUpdate(DB().Connection());
+			mapTbl.InsertOrUpdate(db);
 		}
 		catch(...)
 		{
@@ -148,25 +154,22 @@ void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, cons
 	}
 }
 
-void GenericWebHtmlParserThread::InsertLinks(const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& hyperlinks)
+void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& hyperlinks,std::vector<htmlparser::DatabaseUrl>& dbLinks)
 {
 	if(hyperlinks.size() == 0)
 		return;
 
-	//make link strings unique
-	std::vector<network::HttpUrl> uniqueLinks;
-	tools::ContainerTools::MakeUniqueVector(hyperlinks,uniqueLinks);
-
 	//convert to URLs
 	std::map<htmlparser::DatabaseUrl,long long> mapUrls;
-	std::vector<network::HttpUrl>::const_iterator iterUrls = uniqueLinks.begin();
-	for(;iterUrls != uniqueLinks.end();++iterUrls) {
+	std::vector<network::HttpUrl>::const_iterator iterUrls = hyperlinks.begin();
+	for(;iterUrls != hyperlinks.end();++iterUrls) {
 
 		//insert into cache and database
 		//insert into syncurls/syncdomains table done by trigger
 
 		try {
-			htmlparser::DatabaseUrl urlLink = caching::CacheDatabaseUrl::GetByUrl(DB().Connection(),*iterUrls);
+			htmlparser::DatabaseUrl urlLink = caching::CacheDatabaseUrl::GetByUrl(db,*iterUrls);
+			dbLinks.push_back(urlLink);
 			mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(urlLink,urlLink.GetUrlID()));
 		}
 		catch(const network::HttpUrlParserException& ex) {
@@ -197,12 +200,12 @@ void GenericWebHtmlParserThread::InsertLinks(const HtmlParserEntry& entry, const
 			tblLinks.Set_URLSTAGE_ID(entry.urlStageID);
 			tblLinks.Set_TARGET_URL_ID(iterInsertLinks->second);
 			tblLinks.Set_count(1);
-			tblLinks.InsertOrUpdate(DB().Connection(),colDefsSum);
+			tblLinks.InsertOrUpdate(db,colDefsSum);
 		}
 	}
 }
 
-void GenericWebHtmlParserThread::InsertMeta(const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
+void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
 {
 	std::vector<std::pair<std::string,std::string> >::const_iterator iterMeta = meta.begin();
 	std::vector<database::metainfoTableBase> vecMeta;
@@ -214,13 +217,13 @@ void GenericWebHtmlParserThread::InsertMeta(const HtmlParserEntry& entry, const 
 
 		if(iterMeta->first.compare("keywords") == 0) {
 			tblMeta.Set_type(1);
-			tblMeta.Insert(DB().Connection());}
+			tblMeta.Insert(db);}
 		else if (iterMeta->first.compare("description") == 0){
 			tblMeta.Set_type(2);
-			tblMeta.Insert(DB().Connection());}
+			tblMeta.Insert(db);}
 		else if (iterMeta->first.compare("title") == 0){
 			tblMeta.Set_type(3);
-			tblMeta.Insert(DB().Connection());}
+			tblMeta.Insert(db);}
 	}
 }
 
