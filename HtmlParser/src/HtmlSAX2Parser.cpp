@@ -19,11 +19,17 @@
 #include <HttpUrlParser.h>
 #include <HttpUrlParserException.h>
 
+#include "HtmlSAX2Document.h"
 #include "DatabaseUrl.h"
 
 namespace htmlparser {
 
 volatile bool HtmlSAX2Parser::errorFuncInitialized = false;
+
+void HtmlSAX2ParserContext::Reset()
+{
+	htmlDocument->Reset();
+}
 
 HtmlSAX2Parser::HtmlSAX2Parser()
 : parserCtxt(0)

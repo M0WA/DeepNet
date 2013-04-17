@@ -7,19 +7,11 @@
 
 #pragma once
 
-#include <algorithm>
 #include <string>
-#include <sstream>
 #include <vector>
 #include <map>
 
 #include <libxml/HTMLparser.h>
-
-#include <StringTools.h>
-#include "HtmlSAX2Namespace.h"
-#include "HtmlSAX2Attribute.h"
-#include "HtmlSAX2Element.h"
-#include "HtmlSAX2Document.h"
 
 namespace network {
 	class HtmlData;
@@ -28,7 +20,9 @@ namespace network {
 namespace htmlparser {
 
 class DatabaseUrl;
+class HtmlSAX2Document;
 class HtmlSAX2Parser;
+
 class HtmlSAX2ParserContext
 {
 public:
@@ -39,7 +33,7 @@ public:
 	, nCurrentElement(-1)
 	{}
 
-	void Reset() { htmlDocument->Reset(); }
+	void Reset();
 
 	HtmlSAX2Parser* parserInstance;
 	HtmlSAX2Document* htmlDocument;

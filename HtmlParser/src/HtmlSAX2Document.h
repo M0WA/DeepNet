@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 #include <HttpUrl.h>
 #include "HtmlSAX2Element.h"
