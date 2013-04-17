@@ -40,25 +40,12 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const ht
 
 	const std::vector<network::HttpUrl> &hyperLinks = document.HyperLinks(),
 			&imagesLinks = document.Images(),
-			videosLinks;
+			videosLinks; //TODO: video links
+
+	const std::vector< std::pair<std::string,std::string> >& meta = document.Meta();
 
 	std::vector< std::string > content;
 	tools::ContainerTools::VectorPair2ToVector(document.Content(),content);
-
-	std::vector<std::string> title, description;
-	const std::vector< std::pair<std::string,std::string> >& meta = document.Meta();
-	std::vector< std::pair<std::string,std::string> >::const_iterator iterTmp = meta.begin();
-	for(;iterTmp != meta.end();++iterTmp) {
-		if(iterTmp->first.compare("title") == 0) {
-			title.push_back(iterTmp->second);
-		}
-		else if(iterTmp->first.compare("description") == 0) {
-			description.push_back(iterTmp->second);
-		}
-	}
-
-	//TODO:
-	//parsedDoc->GetVideos(videosLinks);
 
 	PERFORMANCE_LOG_RESTART;
 	caching::CacheParsed::CacheParsedEntry entryCache(
