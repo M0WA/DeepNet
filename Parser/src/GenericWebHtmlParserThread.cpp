@@ -8,13 +8,22 @@
 #include "GenericWebHtmlParserThread.h"
 
 #include <Logging.h>
+#include <ContainerTools.h>
+#include <TimeTools.h>
 #include <PerformanceCounter.h>
 #include <Exception.h>
+#include <DatabaseLayer.h>
+#include <TableColumn.h>
 
 #include <CacheDatabaseUrl.h>
 #include <CacheParsed.h>
+#include <CacheSubdomain.h>
+#include <CacheSecondLevelDomain.h>
 
+#include <HtmlSAX2Document.h>
+#include <HttpUrlParserException.h>
 #include <DatabaseUrl.h>
+#include <HttpUrl.h>
 #include <TLD.h>
 
 namespace parser {
@@ -25,36 +34,31 @@ GenericWebHtmlParserThread::GenericWebHtmlParserThread() {
 GenericWebHtmlParserThread::~GenericWebHtmlParserThread() {
 }
 
-bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,htmlparser::Document* parsedDoc) {
+bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document) {
 
 	PERFORMANCE_LOG_START;
 
-	std::vector<htmlparser::DatabaseUrl> hyperLinks, imagesLinks, videosLinks;
-	std::vector<std::string> content;
-	std::vector< std::pair<std::string,std::string> > meta;
-	std::vector<std::string> titles,descriptions;
+	const std::vector<network::HttpUrl> &hyperLinks = document.HyperLinks(),
+			&imagesLinks = document.Images(),
+			videosLinks;
 
-	//
+	std::vector< std::string > content;
+	tools::ContainerTools::VectorPair2ToVector(document.Content(),content);
+
+	std::vector<std::string> title, description;
+	const std::vector< std::pair<std::string,std::string> >& meta = document.Meta();
+	std::vector< std::pair<std::string,std::string> >::const_iterator iterTmp = meta.begin();
+	for(;iterTmp != meta.end();++iterTmp) {
+		if(iterTmp->first.compare("title") == 0) {
+			title.push_back(iterTmp->second);
+		}
+		else if(iterTmp->first.compare("description") == 0) {
+			description.push_back(iterTmp->second);
+		}
+	}
+
 	//TODO:
-	//
-
-	/*
-	parsedDoc->GetLinks(hyperLinks);
-	parsedDoc->GetText(content);
-	parsedDoc->GetImages(imagesLinks);
 	//parsedDoc->GetVideos(videosLinks);
-	parsedDoc->GetMeta(htmlparser::TITLE_META,titles);
-	parsedDoc->GetMeta(htmlparser::DESCRIPTION_META,descriptions);
-	*/
-
-	std::vector<std::string>::const_iterator iterTmp = titles.begin();
-	for(;iterTmp != titles.end();++iterTmp) {
-		meta.push_back(	std::pair<std::string,std::string>("title",*iterTmp) );
-	}
-	iterTmp = descriptions.begin();
-	for(;iterTmp != descriptions.end();++iterTmp) {
-		meta.push_back(	std::pair<std::string,std::string>("description",*iterTmp) );
-	}
 
 	PERFORMANCE_LOG_RESTART;
 	caching::CacheParsed::CacheParsedEntry entryCache(
@@ -71,7 +75,7 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,htmlpars
 	PERFORMANCE_LOG_STOP("inserting found links from parsed page");
 
 	PERFORMANCE_LOG_RESTART;
-	InsertImages(entry,imagesLinks);
+	InsertImages(entry,imagesLinks,document);
 	PERFORMANCE_LOG_STOP("inserting found images from parsed page");
 
 	PERFORMANCE_LOG_RESTART;
@@ -81,60 +85,108 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,htmlpars
 	return true;
 }
 
-void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, const std::vector<htmlparser::DatabaseUrl>& images)
+void GenericWebHtmlParserThread::InsertImages(const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& imagesIn,const htmlparser::HtmlSAX2Document& document)
 {
-	/*
-	std::vector<std::string>::iterator iterImages = images.begin();
-	std::vector<database::content::tbl_images> vecImages;
+	if(imagesIn.size() == 0)
+		return;
+
+	//make link strings unique
+	std::vector<network::HttpUrl> images;
+	tools::ContainerTools::MakeUniqueVector(imagesIn,images);
+
+	std::vector<network::HttpUrl>::const_iterator iterImages = images.begin();
 	for(;iterImages != images.end(); ++iterImages) {
-		URL imageUrl;
-		if(!UrlParser::ParseURL(iterEntries->url.domain + "." + iterEntries->url.tld, *iterImages, imageUrl)){
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"could not convert image link to url: " + *iterImages);
-			continue;}
 
-		database::content::tbl_images imageUrlTable(DB().GetContentDB());
-		if(!UrlParser::ConvertURL(imageUrl,imageUrlTable)) {
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"could not convert image link to url table entry: " + *iterImages);
-			continue;}
-		imageUrlTable.Set_WEBPAGE_EXTRA_ID(iterEntries->webpageExtraID);
-		vecImages.push_back(imageUrlTable);
+		database::imagesTableBase imgs;
+		try
+		{
+			const std::string& subdomain = iterImages->GetSubdomain();
+			long long id = -1;
+			if(!subdomain.empty()){
+				caching::CacheSubdomain::GetSubdomainIDByDomain(DB().Connection(),subdomain,id);
+				imgs.Set_SUBDOMAIN_ID(id);
+			}
+			else {
+				imgs.GetColumnByName("SUBDOMAIN_ID")->SetNull();
+			}
+
+			id = -1;
+			caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(DB().Connection(),iterImages->GetSecondLevelDomain(),id);
+			imgs.Set_SECONDLEVELDOMAIN_ID(id);
+		}
+		catch(...)
+		{
+			log::Logging::LogInfo("could not insert domains from image url to cache: " + iterImages->GetFullUrl() );
+			continue;
+		}
+
+		imgs.Set_TOPLEVELDOMAIN_ID(htmlparser::TLD::GetTLDIDByTLD(iterImages->GetTLD()));
+		imgs.Set_SCHEME_ID(1);
+		imgs.Set_port(80);
+		imgs.Set_path_part(iterImages->GetPathPart());
+		imgs.Set_search_part(iterImages->GetSearchPart());
+		imgs.Set_found_date(tools::TimeTools::NowUTC());
+		imgs.Set_url_md5(iterImages->GetMD5());
+
+		try
+		{
+			imgs.InsertOrUpdate(DB().Connection());
+		}
+		catch(...)
+		{
+			log::Logging::LogInfo("could not insert image url to database: " + iterImages->GetFullUrl() );
+			continue;
+		}
+
+		long long imageUrlID = -1;
+		if(!DB().Connection()->LastInsertID(imageUrlID) || imageUrlID) {
+			log::Logging::LogInfo("could not get image url id: " + iterImages->GetFullUrl() );
+			continue;
+		}
+
+		database::imagelinksTableBase mapTbl;
+		mapTbl.Set_IMAGE_URL_ID(imageUrlID);
+		mapTbl.Set_TARGET_URL_ID(document.Url().GetUrlID());
+		mapTbl.Set_URLSTAGE_ID(entry.urlStageID);
+
+		try
+		{
+			mapTbl.InsertOrUpdate(DB().Connection());
+		}
+		catch(...)
+		{
+			log::Logging::LogInfo("could not insert image url to database: " + iterImages->GetFullUrl() );
+			continue;
+		}
 	}
-
-	if(! database::content::tbl_images::InsertMultiple(vecImages,true) ){
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"could not insert image links to database");}
-	*/
 }
 
-void GenericWebHtmlParserThread::InsertLinks(const HtmlParserEntry& entry, const std::vector<htmlparser::DatabaseUrl>& hyperlinks)
+void GenericWebHtmlParserThread::InsertLinks(const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& hyperlinks)
 {
 	if(hyperlinks.size() == 0)
 		return;
 
 	//make link strings unique
-	std::vector<long long> urlIDUnique;
-	std::vector<htmlparser::DatabaseUrl> uniqueLinks;
-	std::vector<htmlparser::DatabaseUrl>::const_iterator iterUnique = hyperlinks.begin();
-	for(; iterUnique != hyperlinks.end(); ++iterUnique) {
-		if(std::find(urlIDUnique.begin(),urlIDUnique.end(),iterUnique->GetUrlID()) == urlIDUnique.end()){
-			uniqueLinks.push_back(*iterUnique);
-		}
-	}
-
-	htmlparser::DatabaseUrl baseUrl = caching::CacheDatabaseUrl::GetByUrlString(DB().Connection(),entry.url.GetDomain() + "." + entry.url.GetTLD());
+	std::vector<network::HttpUrl> uniqueLinks;
+	tools::ContainerTools::MakeUniqueVector(hyperlinks,uniqueLinks);
 
 	//convert to URLs
 	std::map<htmlparser::DatabaseUrl,long long> mapUrls;
-	std::vector<htmlparser::DatabaseUrl>::const_iterator iterUrls = uniqueLinks.begin();
+	std::vector<network::HttpUrl>::const_iterator iterUrls = uniqueLinks.begin();
 	for(;iterUrls != uniqueLinks.end();++iterUrls) {
 
 		//insert into cache and database
 		//insert into syncurls/syncdomains table done by trigger
 
 		try {
-			htmlparser::DatabaseUrl urlLink = caching::CacheDatabaseUrl::GetByUrlString(DB().Connection(),iterUrls->GetFullUrl(),baseUrl);
+			htmlparser::DatabaseUrl urlLink = caching::CacheDatabaseUrl::GetByUrl(DB().Connection(),*iterUrls);
 			mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(urlLink,urlLink.GetUrlID()));
 		}
-		catch(...) {
+		catch(const network::HttpUrlParserException& ex) {
+			if(log::Logging::IsLogLevelTrace()) {
+				log::Logging::Log(log::Logging::LOGLEVEL_TRACE,
+						"exception while trying to add url %s to database",iterUrls->GetFullUrl().c_str());
+			}
 		}
 	}
 

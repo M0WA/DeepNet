@@ -19,7 +19,7 @@
 
 
 namespace htmlparser {
-	class Document;
+	class HtmlSAX2Document;
 	class DatabaseUrl;
 }
 
@@ -37,11 +37,11 @@ private:
 	static void* HtmlParserThreadFunction(THREAD_PARAM* threadParam);
 
 private:
-	virtual bool ParsePage(const HtmlParserEntry& entry,htmlparser::Document* parsedDoc)=0;
+	virtual bool ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document)=0;
 	virtual void InitParserThread() {}
 
 private:
-	void UpdateUrlstageInfos(htmlparser::Document* pDoc, const htmlparser::DatabaseUrl& baseURL);
+	void UpdateUrlstageInfos(const htmlparser::HtmlSAX2Document& document, const htmlparser::DatabaseUrl& baseURL);
 	bool ParsePages(const std::vector<HtmlParserEntry>& entries);
 	bool GetNextPages(std::vector<HtmlParserEntry>& entries);
 	void OnIdle();
