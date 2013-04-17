@@ -7,6 +7,9 @@
 
 #include "TLD.h"
 
+#include <DatabaseLayer.h>
+#include <ContainerTools.h>
+
 namespace htmlparser {
 
 TLD TLD::tld;
@@ -70,6 +73,10 @@ bool TLD::Init(database::DatabaseConnection* db)
 		mapTldId[tld] = tldID;
 	}
 	return true;
+}
+
+void TLD::GetTLDStrings(std::vector<std::string>& tlds) {
+	tools::ContainerTools::Map1ToVector(mapTldId,tlds);
 }
 
 }

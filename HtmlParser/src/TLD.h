@@ -10,8 +10,11 @@
 #include <string>
 #include <map>
 #include <vector>
-#include <DatabaseLayer.h>
 #include <Mutex.h>
+
+namespace database {
+	class DatabaseConnection;
+}
 
 namespace htmlparser {
 
@@ -22,6 +25,7 @@ public:
 
 	static const std::string GetTLDByID(const long long tldID);
 	static const long long   GetTLDIDByTLD(const std::string& tld);
+	static void GetTLDStrings(std::vector<std::string>& tlds);
 
 private:
 	bool Init(database::DatabaseConnection* db);
