@@ -21,7 +21,6 @@
 #include "DataMiningTools.h"
 
 #include "UnitTestUrl.h"
-#include "UnitTestHtmlDocumentFactory.h"
 #include "UnitTestUrlParser.h"
 #include "UnitTestCacheUrl.h"
 #include "UnitTestPCRERegex.h"
@@ -132,7 +131,6 @@ bool DeepNetToolBot::OnRun() {
 		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"%s\nparsing html done",testOut.c_str());
 		log::Logging::SetMaxLogLength(tmpLen);
 	}
-	*/
 
 	//initiate html parser based unit tests
 	std::string htmlUnitTestPath;
@@ -149,6 +147,7 @@ bool DeepNetToolBot::OnRun() {
 				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all html parser based unit tests finished SUCCESSFULLY"); }
 		}
 	}
+	*/
 
 	//unit tests for client sockets
 	std::string clientSocketTestFile;
