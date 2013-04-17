@@ -25,6 +25,7 @@
 #include <DataminingCrawler.h>
 #include <DataminingIndexer.h>
 #include <HtmlParserBase.h>
+#include <HttpUrlParser.h>
 
 #include <NotImplementedException.h>
 
@@ -101,6 +102,9 @@ bool WorkerBot::OnRun() {
 	database::DatabaseConnection* conn = DB().CreateConnection(dbConfig);
 	if(conn) {
 		htmlparser::TLD::InitTLDCache(DB().Connection());
+		std::vector<std::string> tldString;
+		htmlparser::TLD::GetTLDStrings(tldString);
+		network::HttpUrlParser::InitTLDCache(tldString);
 		DB().DestroyConnection();
 	}
 	else {
