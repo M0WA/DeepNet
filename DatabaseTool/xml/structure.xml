@@ -294,7 +294,6 @@
 	<column name="TARGET_URL_ID"        type="INTEGER"      notnull="1" />
 	<column name="IMAGE_URL_ID"         type="INTEGER"      notnull="1" />
 	<column name="URLSTAGE_ID"          type="INTEGER"      notnull="1" />
-	<column name="count"                type="INTEGER"      notnull="1" />
 
 	<primary_key column="ID" />
 	<unique_key  column="TARGET_URL_ID,URLSTAGE_ID,IMAGE_URL_ID " />
