@@ -1,0 +1,6 @@
+Revision history for Perl extension StructureParser.
+
+0.01  Sat Apr 28 18:44:46 2012
+	- original version; created by h2xs 1.23 with options
+		-b 5.6.1 -AX StructureParser
+
