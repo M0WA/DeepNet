@@ -45,7 +45,6 @@ public:
 	const std::vector<std::string>& FatalErrors() const { return this->fatals; }
 	void FatalErrors(std::vector<std::string>& fatals) const { fatals = this->fatals; }
 
-
 	std::vector<HtmlSAX2Element> elements;
 
 	std::vector<network::HttpUrl> hyperlinks;
