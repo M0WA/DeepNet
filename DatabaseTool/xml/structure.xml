@@ -134,6 +134,40 @@
 </table>
 
 
+<!-- ======================================================================================== 
+ *
+ *	TABLE: images
+ *
+ -->
+<table
+	name="images"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Database="documents"
+>
+
+	<column name="ID"                   type="INTEGER"       notnull="1" autoincrement="1" />
+	<column name="SCHEME_ID"            type="INTEGER"       notnull="1" />
+	<column name="TOPLEVELDOMAIN_ID"    type="INTEGER"       notnull="1" />
+	<column name="SUBDOMAIN_ID"         type="INTEGER"       notnull="0" default="NULL"/>
+	<column name="SECONDLEVELDOMAIN_ID" type="INTEGER"       notnull="1" />
+	
+	<column name="port"                 type="INTEGER"       notnull="1" default="80" />
+	<column name="path_part"            type="VARCHAR(2048)" notnull="1" />
+	<column name="search_part"          type="VARCHAR(2048)" notnull="1" />
+	<column name="url_md5"              type="CHAR(32)"      notnull="1" />
+	<column name="found_date"           type="TIMESTAMP"     notnull="1" />
+
+	<primary_key column="ID" />
+	<unique_key  column="url_md5" />
+
+	<foreign_key column="SCHEME_ID"            references_table="schemes"            references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="TOPLEVELDOMAIN_ID"    references_table="topleveldomains"    references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="SUBDOMAIN_ID"         references_table="subdomains"         references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="SECONDLEVELDOMAIN_ID" references_table="secondleveldomains" references_column="ID" MySQL_Database="documents" />
+
+</table>
+
+
 <!-- ========================================================================================
 
             database contents
@@ -240,6 +274,33 @@
 	<unique_key  column="TARGET_URL_ID,URLSTAGE_ID" />
 
 	<foreign_key column="TARGET_URL_ID" references_table="urls"      references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="URLSTAGE_ID"   references_table="urlstages" references_column="ID" MySQL_Database="contents" />
+
+</table>
+
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: imagelinks
+ *
+ -->
+<table
+	name="imagelinks"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Database="contents"
+>
+
+	<column name="ID"                   type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="TARGET_URL_ID"        type="INTEGER"      notnull="1" />
+	<column name="IMAGE_URL_ID"         type="INTEGER"      notnull="1" />
+	<column name="URLSTAGE_ID"          type="INTEGER"      notnull="1" />
+	<column name="count"                type="INTEGER"      notnull="1" />
+
+	<primary_key column="ID" />
+	<unique_key  column="TARGET_URL_ID,URLSTAGE_ID,IMAGE_URL_ID " />
+
+	<foreign_key column="TARGET_URL_ID" references_table="urls"      references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="IMAGE_URL_ID"  references_table="images"    references_column="ID" MySQL_Database="documents" />
 	<foreign_key column="URLSTAGE_ID"   references_table="urlstages" references_column="ID" MySQL_Database="contents" />
 
 </table>

@@ -225,8 +225,8 @@ sub GenerateUniqueKeyDDL
   my ($self,$tableName, $uniqueColumn) = @_;
 
   my $tmpUniqName = uc($uniqueColumn);
-  $tmpUniqName =~ s/ //;
-  $tmpUniqName =~ s/\,/_/;
+  $tmpUniqName =~ s/ //g;
+  $tmpUniqName =~ s/\,/_/g;
 
   my $ddl = "CONSTRAINT UNIQ__".uc($tableName)."_".$tmpUniqName." ";
   $ddl   .= "UNIQUE (".$uniqueColumn.")";
