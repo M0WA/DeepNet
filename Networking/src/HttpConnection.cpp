@@ -13,6 +13,8 @@
 #include <MimeType.h>
 #include <Logging.h>
 
+#include "HttpUrl.h"
+
 namespace network
 {
 
@@ -177,6 +179,10 @@ bool HttpConnection::CheckContentType(const char* pszBuffer, const int bufLen, H
 
 		return false;
 	}
+}
+
+bool HttpConnection::Get(const network::HttpUrl& url, std::string& html) {
+	return HttpConnection::Get(url.GetFullUrl(),html);
 }
 
 bool HttpConnection::Get(const std::string& url, std::string& html) {

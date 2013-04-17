@@ -12,13 +12,10 @@
 
 #include "HtmlData.h"
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
-
 namespace network
 {
 
+class HttpUrl;
 class HttpConnection
 {
 public:
@@ -96,7 +93,7 @@ public:
 
 public:
 	static bool Get(const std::string& url, std::string& html);
-	static bool Get(const htmlparser::DatabaseUrl& url, std::string& html);
+	static bool Get(const network::HttpUrl& url, std::string& html);
 
 private:
 	static int WriterCallback(char *data, size_t size, size_t nmemb, HtmlData* writerData);
