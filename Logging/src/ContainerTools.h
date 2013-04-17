@@ -103,6 +103,30 @@ public:
 	}
 
 	/**
+	 * converts first entry(value) of std::vector< std::pair<> > to std::vector
+	 * @param vecIn vector to be converted.
+	 * @param vecOut converted vector.
+	 */
+	template <class T, class V>
+	static void VectorPair1ToVector(const std::vector< std::pair<T,V> >& vecIn, std::vector< T >& vecOut) {
+		typename std::vector< std::pair<T,V> >::const_iterator iterVec = vecIn.begin();
+		for(; iterVec != vecIn.end(); ++iterVec) {
+			vecOut.push_back(iterVec->first); }
+	}
+
+	/**
+	 * converts second entry(value) of std::vector< std::pair<> > to std::vector
+	 * @param vecIn vector to be converted.
+	 * @param vecOut converted vector.
+	 */
+	template <class T, class V>
+	static void VectorPair2ToVector(const std::vector< std::pair<T,V> >& vecIn, std::vector< T >& vecOut) {
+		typename std::vector< std::pair<T,V> >::const_iterator iterVec = vecIn.begin();
+		for(; iterVec != vecIn.end(); ++iterVec) {
+			vecOut.push_back(iterVec->first); }
+	}
+
+	/**
 	 * creates a vector of const entries from another vector.
 	 * @param vecIn vector to be converted.
 	 * @param vecOut converted vector.
