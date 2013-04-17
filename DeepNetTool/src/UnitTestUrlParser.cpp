@@ -17,6 +17,7 @@
 #include <Logging.h>
 #include <PerformanceCounter.h>
 #include <Regex.h>
+#include <TLD.h>
 
 namespace toolbot {
 
@@ -32,8 +33,11 @@ bool UnitTestUrlParser::TestUrlParser(
 	const std::string& invalidUrlFileName,
 	std::vector<UnitTestUrl>& testUrls
 ) {
-
 	bool success = true;
+
+	std::vector<std::string> tldStrings;
+	htmlparser::TLD::GetTLDStrings(tldStrings);
+	network::HttpUrlParser::InitTLDCache(tldStrings);
 
 	if(!invalidUrlFileName.empty())
 		success &= TestInvalidUrls(connection, invalidUrlFileName);
