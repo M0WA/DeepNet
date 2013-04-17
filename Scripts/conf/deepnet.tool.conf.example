@@ -1,0 +1,49 @@
+#
+#
+# configuration for DeepNetTool
+#
+#
+
+
+##################################################
+#
+# generic settings
+#
+##################################################
+
+# daemonize: 0,1
+# D=0
+
+# user/group id to drop privileges to
+# user=0
+# group=0
+
+
+##################################################
+#
+# logging settings
+#
+##################################################
+
+# type of log, one of: none, console, file, database
+# log=none
+
+# log level, one of: error,warn,info,trace
+# loglevel=error
+
+# log file, needed only for log type: file
+# logfile=/var/log/deepnettool.log
+
+
+##################################################
+#
+# database settings
+#
+##################################################
+
+# settings for database (*)
+dbhost=127.0.0.1
+dbport=3306
+dbname=contents
+dbuser=username
+dbpass=password

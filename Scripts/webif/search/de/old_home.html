@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<title>SIRIDIA - Ihr Dienstleister für Informationsaggregation und - im Internet</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/grid.css" type="text/css" media="screen">
+<!--
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:400,700,900">
+-->
+<link href='http://fonts.googleapis.com/css?family=Overlock:400,700,900&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="js/html5.js"></script>
+<script type="text/javascript" src="js/jquery-1.6.2.min.js" ></script>
+<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="js/cufon-yui.js" ></script>
+<script type="text/javascript" src="js/cufon-replace.js"></script>
+<script type="text/javascript" src="js/M_1p_500.font.js"></script>
+<script type="text/javascript" src="js/Overlock_400-Overlock_700-Overlock_900.font.js"></script>
+<script type="text/javascript" src="js/Lato_400-Lato_900.font.js"></script>
+<script type="text/javascript" src="js/superfish.js"></script>
+<script type="text/javascript" src="js/jquery.roundabout.js"></script>
+<script type="text/javascript" src="js/roundabout_shapes.js"></script>
+<script>
+    $(document).ready(function() {
+		$('#myRoundabout').roundabout({
+			shape: 'figure8',
+			minOpacity: 1,
+			minScale: 0.67,
+			maxScale:1.037,
+			tilt: -2.8,
+			easing:'easeOut',
+			duration:600,
+			autoplay:6000,
+			btnNext: '#next',
+         	btnPrev: '#previous'
+		});
+	$("#banner_link").hover(function(){
+		$("#banner").toggleClass("hover");
+		 return false;
+	});
+});	</script>
+<!--[if lt IE 7]>
+   <div style=' clear: both; text-align:center; position: relative;'>
+     <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+       <img src="http://storage.ie6countdown.com/assets/100/images/banners/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today." />
+    </a>
+  </div>
+<![endif]-->
+<!--[if lt IE 9]>
+   		<script src="js/html5.js"></script>
+  		<link rel="stylesheet" href="css/ie.css"> 
+<![endif]-->
+</head>
+<body id="page1">
+<div id="main_outer">
+  <div id="main"> 
+    <!-- header -->
+    <header>
+      <div class="inside">
+        <div class="extra-wrap">
+          <h1><a href="home.html">SIRIDIA</a></h1>
+          <div class="fright">
+            <form id="form-top" enctype="multipart/form-data" method="post">
+              <fieldset>
+                <div class="form-top"> <span>
+                  <input name="name" type="text" value="Searching ..." onFocus="if(this.value=='Searching ...'){this.value=''}" onBlur="if(this.value==''){this.value='Searching ...'}">
+                  </span> <a onClick="document.getElementById('form-top').submit()" href="#"></a> </div>
+              </fieldset>
+            </form>
+            <div id="header-links"><a href="#" class="active">SUPPORT</a>|<a href="#">FAQs</a>|<a href="#">SITE MAP</a>|<a href="#">HILFE</a></div>
+          </div>
+          <nav>
+            <ul class="sf-menu">
+              <li class="first active"> <a href="index.html" class="active">Startseite</a></li>
+              <li><a href="index-1.html">Produkte</a>
+                <ul>
+                  <li><a href="#">Suchl&ouml;sungen</a>
+                    <ul>
+                      <li><a href="#">Commerce Search</a></li>
+                      <li><a href="#">Webseiten/Intranet</a></li>
+                      <li><a href="#">Dokumentensuche</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">SEO Analytics</a>
+                    <ul>
+                      <li><a href="#">Embedded SEO-QA</a></li>
+                      <li><a href="#">Vergleichsanalysen</a></li>
+                    </ul>
+                  </li>
+                  <li><a href="#">Datenakquise</a>
+                    <ul>
+                      <li><a href="#">Social Media Monitoring</a></li>
+                      <li><a href="#">Internet Monitoring</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li><a href="http://se.staging.siridia.de" target="_blank">WebSuche</a></li>
+              <li><a href="">Tools</a>
+              </li>
+              <li class="last"><a href="contact.html">Kontakt</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+      <div id="banner-txt" class="container_24">
+        <div class="wrapper">
+          <div class="grid_24">
+            <div class="txt-1"></div>
+            <div class="txt-2"></div>
+            <div class="txt-3"></div>
+            <div id="banner"><a href="#"  id="banner_link">Jetzt f&uuml;r den kostenlosen Test anzumelden</a></div>
+          </div>
+        </div>
+      </div>
+<!--
+      <div id="slider">
+        <div id="myRoundabout_outer">
+          <ul id="myRoundabout">
+            <li><a href="#"><img src="images/slider-img1.png" alt=""></a></li>
+            <li><a href="#"><img src="images/slider-img2.png" alt=""></a></li>
+            <li><a href="#"><img src="images/slider-img5.png" alt=""></a></li>
+            <li><a href="#"><img src="images/slider-img3.png" alt=""></a></li>
+            <li><a href="#"><img src="images/slider-img4.png" alt=""></a></li>
+          </ul>
+        </div>
+        <div id="pagination">
+          <div class="pad"><a href="#" id="previous">Previous</a><a href="#" id="next">Next</a></div>
+        </div>
+      </div>
+-->
+      <div id="nav1">
+        <div class="button width1 first"><a href="#"> <strong>Security software</strong></a></div>
+        <div class="button width2"><a href="#"> <strong>Multimedia software</strong></a></div>
+        <div class="button width3"><a href="#"> <strong>Performance software</strong></a></div>
+        <div class="button width4"><a href="#"> <strong>Learning software</strong></a></div>
+        <div class="button width5"><a href="#"> <strong>Newest releases software</strong></a></div>
+        <div class="button width6 last"><a href="#"> <strong>Top download software</strong></a></div>
+      </div>
+    </header>
+    <!-- content -->
+    <section id="content">
+      <div class="inside">
+        <div class="container_24">
+          <div class="wrapper">
+            <div class="grid_7 suffix_1 alpha">
+              <h2>Informationen</h2>
+              <ul class="list-1">
+                <li><strong>Commerce Search</strong> <a href="#">All-In-One Suchlösungen für Webshops</a></li>
+                <li><strong>SEO Analytics</strong> <a href="#">SEO-Analysen von Webseiten</a></li>
+                <li class="last"><strong>Informationsaggregation</strong> <a href="#">Kundenspezifische Lösungen für Datenanalysen im Internet</a></li>
+<!--            <li class="last"><strong>Lorem ipsum dolor sit amet </strong> <a href="#">Mauris vel tortor vitae nibh condienum.</a></li> -->
+              </ul>
+<!--
+              <div class="alignright"><a href="#" class="link-1">read more</a></div>
+-->
+            </div>
+            <div class="grid_7">
+              <ul class="list-2">
+<!--
+                <li><strong> A.</strong><span>Home Software PACKAGES <br>
+                  <a href="#">from <em>$450</em></a></span></li>
+                <li><strong>B.</strong><span>Business &amp; Finance <br>
+                  SOFTWARE <br>
+                  <a href="#">from <em>$750</em></a></span></li>
+                <li class="last"><strong>C.</strong><span>Creative Software PACKAGES <br>
+                  <a href="#">from <em>$950</em></a></span></li>
+-->
+              </ul>
+            </div>
+            <div class="grid_9">
+  <!--            <h2>Wer wir sind</h2> -->
+              <span><span class="color-1">Das Unternehmen <strong>SIRIDIA</strong></span> besteht seit 2012 und ist <strong> unabhängiger Dienstleister für Informationsaggregation und Suche im Internet</strong> mit Sitz in Berlin. <br>
+              </span>
+              <div class="wrapper padding-1">
+                <figure class="img-margin-1"><img src="images/page1-img1.jpg" alt=""></figure>
+                <span class="color-2">Das SIRIDIA Team hat es sich zur Aufgabe gemacht die immer größer werdenden Datenmengen, welche in Unternehmen und dem Internet anfallen  zu kanalisieren, zu sortieren und für unsere Kunden nach Ihren Anforderungen nutzbar zu machen.</span>
+         <!--       <div class="alignright"><a href="#" class="link-1 margin-1">read more</a></div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+<!-- footer -->
+<footer>
+  <div class="container_24">
+    <div class="wrapper">
+      <div class="policy grid_6 alpha">Copyright &copy; 2012 SIRIDIA<br>
+        <a href="index-5.html">Privacy Policy </a><br>
+        <!-- {%FOOTER_LINK} --> 
+      </div>
+      <div class="grid_4">
+        <h3>Why Us</h3>
+        <ul class="list-3">
+          <li><a href="#">Our Clients</a></li>
+          <li><a href="#">Technology</a></li>
+          <li><a href="#">Soft Labs</a></li>
+        </ul>
+      </div>
+      <div class="grid_5">
+        <h3>Quick Links</h3>
+        <ul class="list-3">
+          <li><a href="#">Website Analyzer</a></li>
+          <li><a href="#">Commerce-Search</a></li>
+          <li><a href="#">Web-Search</a></li>
+        </ul>
+      </div>
+      <div class="grid_4">
+        <h3>Support</h3>
+        <ul class="list-3">
+          <li><a href="#">Nibh condimentum</a></li>
+          <li><a href="#"> Integer ac lacus</a></li>
+          <li><a href="#"> Sociis natoque</a></li>
+        </ul>
+      </div>      <div class="grid_5 omega col5">
+        <h3>Newsletter:</h3>
+<form id="form-bottom" enctype="multipart/form-data" method="post">
+          <fieldset>
+            <div class="form-bottom">
+              <input name="name" type="text" value="email" onFocus="if(this.value=='email'){this.value=''}" onBlur="if(this.value==''){this.value='email'}">
+            </div>
+            <a onClick="document.getElementById('form-bottom').submit()" href="#">Newsletter anfordern</a>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="text/javascript"> Cufon.now(); </script>
+</body>
+</html>

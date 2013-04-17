@@ -1,0 +1,15 @@
+#!/bin/bash
+
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
+#
+#########################################################
+
+TMP=`pwd`
+cd ../DeepNetTool/Debug
+#  --track-origins=yes
+nohup valgrind --log-file=valgrind_httpclient.log --num-callers=30 --read-var-info=yes --leak-check=full --error-limit=no --undef-value-errors=no --show-reachable=yes -v ./DeepNetTool --configfile ../../Scripts/conf/deepnet.tool.conf --httpClientGetTestFile ../../Scripts/tests/httpclient/http_get_urls.conf --httpClientPostTestFile ../../Scripts/tests/httpclient/http_post_urls.conf &
+cd ${TMP}

@@ -1,0 +1,22 @@
+.content {
+  padding: 10px;
+  font-family: Arial;
+}
+
+#content_wrapper {
+}
+
+/*****************************
+ * 
+ * documentation.html
+ */
+
+.documentation_toc a {
+  text-decoration: none;
+}
+.documentation_toc a:hover {
+  font-weight: bold;
+}
+.documentation_toc a:visited {
+  color: blue;
+}

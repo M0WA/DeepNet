@@ -1,0 +1,71 @@
+##################################################
+#
+# generic settings
+#
+##################################################
+
+# user/group id to drop privileges to
+# user=0
+# group=0
+
+
+##################################################
+#
+# logging settings
+#
+##################################################
+
+# type of log, one of: none, console, file, database
+# log=none
+
+# log level, one of: error,warn,info,trace
+# loglevel=error
+
+# log file, needed only for log type: file
+# logfile=/var/log/inspectorserver.de.log
+
+##################################################
+#
+# database settings
+#
+##################################################
+
+# settings for database (*)
+dbhost=127.0.0.1
+dbport=3306
+dbname=contents
+dbuser=username
+dbpass=password
+
+##################################################
+#
+# fastcgi settings
+#
+##################################################
+
+# type of fastcgi socket: one of port, filename(not implement by now)
+socket_type=port
+
+# base port for fastcgi application (if changes, also needs to be changed in
+# start_query_server.sh as well as in the lighttpd config file
+base_port=20230
+
+threads=2
+
+##################################################
+#
+# hunspell settings
+#
+##################################################
+
+dictionary_file=/usr/share/hunspell/de_DE.dic
+affix_file=/usr/share/hunspell/de_DE.aff
+
+##################################################
+#
+# xml settings
+#
+##################################################
+
+request_xsd=
+response_xsd=

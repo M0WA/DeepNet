@@ -1,0 +1,105 @@
+###########################################################################
+#
+#  define urls for unit test here
+#
+###########################################################################
+#
+# format is one url per line:
+#     "baseUrl"   "actualUrl"     "resultUrl"
+#
+#  actualUrl: url to be validated
+#  baseUrl  : parent url if actualUrl is a relative url
+#  resultUrl: expected parsed url
+#
+###########################################################################
+
+###############################
+#
+# scheme
+#
+###############################
+""                        "http://www.mo-sys.de"  "http://www.mo-sys.de:80"
+""                        "mo-sys.de"             "http://mo-sys.de:80"
+""                        "www.mo-sys.de/"        "http://www.mo-sys.de:80"
+"https://mo-sys.de"       "www.mo-sys.de/"        "https://www.mo-sys.de:443"
+"https://mo-sys.de"       "index.html"            "https://mo-sys.de:443/index.html"
+"http://www.mo-sys.de"    "index.html/"           "http://www.mo-sys.de:80/index.html"
+
+
+###############################
+#
+# authentication
+#
+###############################
+""                                  "http://user:pass@www.mo-sys.de"                                        "http://www.mo-sys.de:80"
+""                                  "mo-sys.com:mo-sys.org@mo-sys.de"                                       "http://mo-sys.de:80"
+"mo-sys.com:mo-sys.org@mo-sys.de"   "/index.html"                                                           "http://mo-sys.de:80/index.html"
+"https://mo-sys.de"                 "www.mo-sys.de/index.html@mo-sys.com/index2.html"                       "https://mo-sys.com:443/index2.html"
+"https://mo-sys.de"                 "www.mo-sys.de/index.html@mo-sys.com/index2.html?bla=blub"              "https://mo-sys.com:443/index2.html?bla=blub"
+"https://mo-sys.de"                 "www.mo-sys.de/index.html@mo-sys.com/index2.html?bla=blub#fragment"     "https://mo-sys.com:443/index2.html?bla=blub#fragment"
+"https://mo-sys.de"                 "www.mo-sys.de/index.html@mo-sys.com/#fragment/index2.html?bla=blub"    "https://mo-sys.com:443/#fragment/index2.html?bla=blub"
+
+
+###############################
+#
+# domain
+#
+###############################
+"mo-sys.de"           "http://many.level.mo-sys.de/"          "http://many.level.mo-sys.de:80"
+""                    "many.level.mo-sys.de"                  "http://many.level.mo-sys.de:80"
+""                    "level.mo-sys.de"                       "http://level.mo-sys.de:80"
+"mo-sys.de"           "/level.mo-sys.de"                      "http://mo-sys.de:80/level.mo-sys.de"
+"mo-sys.com"          "/index.html"                           "http://mo-sys.com:80/index.html"
+"mo-sys.com:443"      "/index.html"                           "http://mo-sys.com:443/index.html"
+"mo-sys.de"           "http://many.level.mo-sys.de:81/"       "http://many.level.mo-sys.de:81"
+"mo-sys.de"           "http://many.level.com?mo-sys.de:81/"   "http://many.level.com:80/?mo-sys.de:81/"
+"mo-sys.de"           "http://many.level.com&mo-sys.de:81/"   "http://many.level.com:80/?mo-sys.de:81/"
+"mo-sys.de"           "http://many.level.com#mo-sys.de:81/"   "http://many.level.com:80/#mo-sys.de:81/"
+"mo-sys.de"           "http://many.level.com/?mo-sys.de:81"   "http://many.level.com:80/?mo-sys.de:81"
+
+
+###############################
+#
+# path part
+#
+###############################
+"http://mo-sys.com"	          "www.mo-sys.de/sub"                       "http://www.mo-sys.de:80/sub"
+"mo-sys.com:82"	              "/subdir/"                                "http://mo-sys.com:82/subdir"
+"mo-sys.com/index.html"	      "http://www.mo-sys.de/subdir.html"        "http://www.mo-sys.de:80/subdir.html"
+"mo-sys.de"	                  "./.././../alpha/./../beta/"              "http://mo-sys.de:80/beta"
+"mo-sys.de"	                  "alpha/./.././../beta/index.html"         "http://mo-sys.de:80/beta/index.html"
+"mo-sys.de/beta"	            "alpha/../index.html"                     "http://mo-sys.de:80/beta/index.html"
+"mo-sys.de/beta/index.html"	  "alpha/../index.html"                     "http://mo-sys.de:80/beta/index.html"
+"siridia.de"                  "http://dummy.mo-sys.de/c1.html"          "http://dummy.mo-sys.de:80/c1.html"
+"siridia.de"                  "http://dummy.mo-sys.de/ccc/../c1.html"   "http://dummy.mo-sys.de:80/c1.html"
+
+
+###############################
+#
+# search part
+#
+###############################
+"www.mo-sys.de"                 "alpha/beta/index.html?check=1#anchor_part&bla=blub"              "http://www.mo-sys.de:80/alpha/beta/index.html?check=1#anchor_part&bla=blub"
+"www.mo-sys.de"                 "alpha/beta/index.html?check=1&bla=blub#anchor_part"              "http://www.mo-sys.de:80/alpha/beta/index.html?bla=blub&check=1#anchor_part"
+"www.mo-sys.de"                 "alpha/beta/index.html#anchor_part"                               "http://www.mo-sys.de:80/alpha/beta/index.html#anchor_part"
+"www.mo-sys.de"                 "alpha/beta/index.html?check=1&bla=blub"                          "http://www.mo-sys.de:80/alpha/beta/index.html?bla=blub&check=1"
+"www.mo-sys.de"                 "www.mo-sys.de/alpha/beta/?check=1&bla=blub#anchor_part"          "http://www.mo-sys.de:80/alpha/beta?bla=blub&check=1#anchor_part"
+"www.mo-sys.de"                 "www.mo-sys.de/alpha/beta/.././.?check=1&bla=blub#anchor_part"    "http://www.mo-sys.de:80/alpha?bla=blub&check=1#anchor_part"
+"www.mo-sys.de/sub"             "alpha/beta/index.html?check=1&bla=blub"                          "http://www.mo-sys.de:80/sub/alpha/beta/index.html?bla=blub&check=1"
+"www.mo-sys.de/sub/"            "alpha/beta/index.html?check=1&bla=blub"                          "http://www.mo-sys.de:80/sub/alpha/beta/index.html?bla=blub&check=1"
+"www.mo-sys.de/sub/index.html"  "alpha/beta/index.html?check=1&bla=blub"                          "http://www.mo-sys.de:80/sub/alpha/beta/index.html?bla=blub&check=1"
+"www.mo-sys.de/sub/"            "/alpha/beta/index.html?check=1&bla=blub"                         "http://www.mo-sys.de:80/alpha/beta/index.html?bla=blub&check=1"
+"www.mo-sys.de"                 "alpha/beta/index.html#fragment_?check=1&bla=blub"                "http://www.mo-sys.de:80/alpha/beta/index.html#fragment_?check=1&bla=blub"
+"bing.com"                      "/account/worldwide?FORM=WHFD"                                    "http://bing.com:80/account/worldwide?FORM=WHFD"
+"bing.com"                      "/account/worldwide/?FORM=WHFD"                                   "http://bing.com:80/account/worldwide?FORM=WHFD"
+
+
+###############################
+#
+# best of best: the internet
+#
+###############################
+"http://twitter.com"            "home?status=Watch: http%3A%2F%2Fwww.veoh.com%2Flist%2Fc%2FVeoh-Editor-Picks"               "http://twitter.com:80/home?status=Watch: http%3A%2F%2Fwww.veoh.com%2Flist%2Fc%2FVeoh-Editor-Picks"
+"http://wikipedia.org/"         "//ka.wikipedia.com/index.html"                                                             "http://ka.wikipedia.com:80/index.html"
+"http://wikipedia.org/"         "//ka.wikipedia.nondomain/index.html"                                                       "http://wikipedia.org:80/ka.wikipedia.nondomain/index.html"
+
