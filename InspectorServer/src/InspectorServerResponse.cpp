@@ -10,7 +10,6 @@
 #include <sstream>
 
 #include <Logging.h>
-#include <HtmlTester.h>
 #include <HttpUrlParser.h>
 #include <GenericWebContentIndexer.h>
 #include <HttpConnection.h>
@@ -20,7 +19,7 @@
 #include <StringTools.h>
 #include <ContainerTools.h>
 #include <CacheDatabaseUrl.h>
-#include <HtmlElementType.h>
+#include <HttpUrl.h>
 
 #include <Exception.h>
 
@@ -95,7 +94,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 					htmlCode = outParam.htmlCode.GetBuffer();
 				}
 			}
-
+/*
 			htmlparser::HtmlTesterResult result;
 			if(!htmlparser::HtmlTester::ParseHtml(DB().Connection(),fullURL,htmlCode,result))	{
 				//TODO: error while parsing(may be a non fatal error)
@@ -105,6 +104,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 			if(bIsUrl) {
 				responseXML << result.ToXML(DB().Connection());
 
+*/
 				//TODO: search for backlinks
 				/*
 				if(urlIn.GetUrlID() > 0) {
@@ -130,6 +130,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 					responseXML << "</backlinks>";
 				}
 				*/
+			/*
 			}
 			else
 				responseXML << result.ToXML(DB().Connection());
@@ -154,6 +155,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 
 			delete indexerContent;
 			delete indexerMeta;
+			*/
 		}
 
 		content = "<response id=\"1\"><result id=\"1\">" + responseXML.str() + "</result></response>";

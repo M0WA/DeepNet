@@ -10,6 +10,8 @@
 		<project>FastCGIServer</project>
 		<project>HtmlParser</project>
 		<project>Indexer</project>
+		<project>Logging</project>
+		<project>Networking</project>
 		<project>Threading</project>
 	</projects>
 	<buildSpec>
