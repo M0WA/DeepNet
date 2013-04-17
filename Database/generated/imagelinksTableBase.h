@@ -78,17 +78,6 @@ public:
 	 * @param in value.
 	 */
     void Set_URLSTAGE_ID(const long long& in);
-    /**
-     * gets value of count.
-     * @param out value.
-     */
-	void Get_count(long long& out) const;
-
-	/**
-	 * sets value of count.
-	 * @param in value.
-	 */
-    void Set_count(const long long& in);
 
 
 public:
@@ -180,28 +169,6 @@ public:
 	 * @param results contains results.
 	 */
     static void GetBy_URLSTAGE_ID(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
-        SelectResultContainer<imagelinksTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of count.
-	 * @param db database connection.
-	 * @param fieldValue value of count.
-	 * @param results contains results.
-	 */
-    static void GetBy_count(
-        DatabaseConnection* db,
-        const long long& fieldValue, 
-        SelectResultContainer<imagelinksTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of count.
-	 * @param db database connection.
-	 * @param fieldValue values of count.
-	 * @param results contains results.
-	 */
-    static void GetBy_count(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
         SelectResultContainer<imagelinksTableBase>& results);
@@ -313,27 +280,6 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of count.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_count(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const long long& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of count.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_count(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<long long>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -360,11 +306,6 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_URLSTAGE_ID();
-	/**
-     * create a column definition for column count.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_count();
 
 };
 

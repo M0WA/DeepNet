@@ -32,9 +32,6 @@ void imagelinksTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URLSTAGE_ID
     columnDefinitions.push_back(imagelinksTableBase::GetDefinition_URLSTAGE_ID());
 
-    //creating column definition for count
-    columnDefinitions.push_back(imagelinksTableBase::GetDefinition_count());
-
 }
 
 }
