@@ -139,32 +139,32 @@ public:
 	/**
 	 * removes all items from cache.
 	 */
-	static void Clear(void)	{ cacheInstance.cacheIDUrl.ClearItems(); }
+	static void Clear(void);
 
 	/**
 	 * set current limit of cache.
 	 * @param capacity maximum number of entries in cache.
 	 */
-	static void SetCapacity(const int capacity) { cacheInstance.cacheIDUrl.SetLimit(capacity); }
+	static void SetCapacity(const int capacity);
 
 public:
 	/**
 	 * gets current number of entries in cache.
 	 * @return current number of entries in cache.
 	 */
-	static size_t GetSize() { return cacheInstance.cacheIDUrl.GetSize(); }
+	static size_t GetSize();
 
 	/**
 	 * get current match count of cache, clearing internal match counter.
 	 * @return number of matches.
 	 */
-	static size_t GetMatches() { return cacheInstance.cacheIDUrl.GetMatches(); }
+	static size_t GetMatches();
 
 	/**
 	 * get current miss count of cache, clearing internal miss counter.
 	 * @return number of misses.
 	 */
-	static size_t GetMisses() { return cacheInstance.cacheIDUrl.GetMisses(); }
+	static size_t GetMisses();
 
 private:
 	void Insert(database::DatabaseConnection* db, network::HttpUrl& url);

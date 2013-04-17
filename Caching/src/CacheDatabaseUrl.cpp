@@ -132,4 +132,24 @@ void CacheDatabaseUrl::GetBySecondLevelIDSubdomainID(
 	}
 }
 
+void CacheDatabaseUrl::Clear(void) {
+	cacheInstance.cacheIDUrl.ClearItems();
+}
+
+void CacheDatabaseUrl::SetCapacity(const int capacity) {
+	cacheInstance.cacheIDUrl.SetLimit(capacity);
+}
+
+size_t CacheDatabaseUrl::GetSize() {
+	return cacheInstance.cacheIDUrl.GetSize();
+}
+
+size_t CacheDatabaseUrl::GetMatches() {
+	return cacheInstance.cacheIDUrl.GetMatches();
+}
+
+size_t CacheDatabaseUrl::GetMisses() {
+	return cacheInstance.cacheIDUrl.GetMisses();
+}
+
 }
