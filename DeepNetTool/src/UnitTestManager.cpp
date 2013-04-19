@@ -31,15 +31,22 @@ bool UnitTestManager::Run() {
 		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"unit test: %s, starting",(*iter)->GetName().c_str());
 		bool singleTestSuccess = (*iter)->Run();
 		if(singleTestSuccess) {
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"unit test: %s, success",(*iter)->GetName().c_str()); }
+			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"unit test: %s, success",(*iter)->GetName().c_str());
+			successTests.push_back(*iter);
+		}
 		else {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"unit test: %s, ERROR",(*iter)->GetName().c_str()); }
+			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"unit test: %s, ERROR",(*iter)->GetName().c_str());
+			errorTests.push_back(*iter);
+		}
 		success &= singleTestSuccess;
 	}
 	return success;
 }
 
 void UnitTestManager::Cleanup() {
+	successTests.clear();
+	errorTests.clear();
+
 	std::vector<toolbot::UnitTest*>::iterator iter = tests.begin();
 	for(;iter != tests.end(); ++iter) {
 		delete (*iter);}

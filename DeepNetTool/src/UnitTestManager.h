@@ -26,6 +26,8 @@ private:
 
 private:
 	std::vector<toolbot::UnitTest*> tests;
+	std::vector<toolbot::UnitTest*> successTests;
+	std::vector<toolbot::UnitTest*> errorTests;
 };
 
 }
