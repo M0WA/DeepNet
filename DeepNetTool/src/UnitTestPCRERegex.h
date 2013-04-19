@@ -10,6 +10,8 @@
 #include <string>
 #include <vector>
 
+#include "UnitTest.h"
+
 namespace toolbot {
 
 struct PCRERegexUnitTestEntry {
@@ -28,18 +30,16 @@ struct PCRERegexUnitTestEntry {
 	bool utf8Mode;
 
 	std::vector<std::string> expectedGroups;
-
 	size_t line;
-
 };
 
-class UnitTestPCRERegex {
+class UnitTestPCRERegex : public UnitTest {
 public:
 	UnitTestPCRERegex(const std::string& unitTestFile);
 	virtual ~UnitTestPCRERegex();
 
 public:
-	bool Test();
+	virtual bool Run();
 
 private:
 	void ParseTestFile(const std::string& unitTestFile);

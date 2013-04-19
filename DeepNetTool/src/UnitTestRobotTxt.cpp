@@ -11,13 +11,14 @@
 
 namespace toolbot {
 
-UnitTestRobotTxt::UnitTestRobotTxt() {
+UnitTestRobotTxt::UnitTestRobotTxt(const std::string& robotsTxt)
+: robotsTxt(robotsTxt){
 }
 
 UnitTestRobotTxt::~UnitTestRobotTxt() {
 }
 
-bool UnitTestRobotTxt::Test(const std::string& robotsTxt) {
+bool UnitTestRobotTxt::Run() {
 
 	caching::RobotTxt txt(-1,-1,-1);
 	txt.Load(robotsTxt);

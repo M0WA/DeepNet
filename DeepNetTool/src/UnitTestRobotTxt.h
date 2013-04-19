@@ -8,17 +8,20 @@
 #pragma once
 
 #include <string>
+#include "UnitTest.h"
 
 namespace toolbot {
 
-class UnitTestRobotTxt {
-private:
-	UnitTestRobotTxt();
+class UnitTestRobotTxt : public UnitTest {
 public:
+	UnitTestRobotTxt(const std::string& robotsTxt);
 	virtual ~UnitTestRobotTxt();
 
 public:
-	static bool Test(const std::string& robotsTxt);
+	virtual bool Run();
+
+private:
+	std::string robotsTxt;
 };
 
 }

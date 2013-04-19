@@ -20,6 +20,7 @@
 #include "CommerceSearchTools.h"
 #include "DataMiningTools.h"
 
+#include "UnitTestManager.h"
 #include "UnitTestUrl.h"
 #include "UnitTestUrlParser.h"
 #include "UnitTestCacheUrl.h"
@@ -55,6 +56,9 @@ bool DeepNetToolBot::OnRun() {
 	htmlparser::TLD::GetTLDStrings(tldStrings);
 	network::HttpUrlParser::InitTLDCache(tldStrings);
 
+	//check for requested unit tests
+	bSuccess = ProcessUnitTests();
+
 	//repair database after unclean shutdown
 	bool isRepair = false;
 	if(Config().GetValue("databaseRepair", isRepair) && isRepair) {
@@ -82,97 +86,6 @@ bool DeepNetToolBot::OnRun() {
 		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"inserting url");
 		htmlparser::UrlInserter::InsertURL(DB().Connection(),urlFile,"");
 		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"inserting url done");
-	}
-
-	//initiate url based unit tests
-	if( Config().GetValue("urlValidateFile", urlFile) ) {
-
-		std::string invalidUrlFileName;
-		Config().GetValue("urlInvalidateFile", invalidUrlFileName);
-
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"testing url parser");
-		std::vector<UnitTestUrl> testUrls;
-		bSuccess = UnitTestUrlParser::TestUrlParser(DB().Connection(),urlFile,invalidUrlFileName,testUrls);
-
-		if(bSuccess) {
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"testing url cache");
-			bSuccess &= UnitTestCacheUrl::TestUrlCache(DB().Connection(),testUrls); }
-		else {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"skipping unit test of url cache due to errors in previous unit tests");	}
-
-		if(bSuccess) {
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all url based unit tests finished SUCCESSFULLY"); }
-	}
-
-	//initiate pcre regex unit test
-	std::string pcreRegexFile;
-	if( Config().GetValue("pcreRegexFile",pcreRegexFile) ){
-
-		UnitTestPCRERegex pcreTest(pcreRegexFile);
-		if((bSuccess = pcreTest.Test())){
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all pcre regex unit tests finished SUCCESSFULLY");}
-	}
-
-	//initiate robots.txt unit test
-	std::string robotsTxtFile;
-	if( Config().GetValue("robotsTxtFile",robotsTxtFile) ){
-
-		bSuccess = UnitTestRobotTxt::Test(robotsTxtFile);
-	}
-
-	/*
-	//test html parser with file
-	std::string htmlTesterFile;
-	if ( Config().GetValue("htmlFile", htmlTesterFile) ){
-
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"parsing html file");
-		htmlparser::HtmlTesterResult result;
-		htmlparser::HtmlTester::ParseHtmlFromFile(DB().Connection(),"siridia.de", htmlTesterFile, result);
-		std::string testOut = result.ToString(DB().Connection()).c_str();
-		int tmpLen = log::Logging::GetMaxLogLength();
-		log::Logging::SetMaxLogLength(testOut.length());
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"%s\nparsing html done",testOut.c_str());
-		log::Logging::SetMaxLogLength(tmpLen);
-	}
-
-	//initiate html parser based unit tests
-	std::string htmlUnitTestPath;
-	if(Config().GetValue("htmlUnitTestPath",htmlUnitTestPath)) {
-		std::vector<std::string> files;
-		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
-		std::vector<std::string>::const_iterator iterFiles = files.begin();
-		for(;iterFiles != files.end(); ++iterFiles) {
-			if( !UnitTestHtmlDocumentFactory::Test(DB().Connection(),"siridia.de",htmlUnitTestPath +"/" + *iterFiles) ){
-				bSuccess = false;
-			}
-
-			if(bSuccess) {
-				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all html parser based unit tests finished SUCCESSFULLY"); }
-		}
-	}
-	*/
-
-	//unit tests for client sockets
-	std::string clientSocketTestFile;
-	if( Config().GetValue("clientSocketTestFile", clientSocketTestFile) ) {
-
-		UnitTestIPv4TCPClient clientTest;
-		bSuccess = clientTest.Test("127.0.0.1",80);
-	}
-
-	//unit tests for server sockets
-	std::string serverSocketTestFile;
-	if( Config().GetValue("serverSocketTestFile", serverSocketTestFile) ) {
-
-		UnitTestIPv4TCPServer serverTest;
-		bSuccess = serverTest.Test("127.0.0.1",8180);
-	}
-
-	//unit tests for http client
-	std::string httpClientGetTestFile,httpClientPostTestFile;
-	if( Config().GetValue("httpClientGetTestFile", httpClientGetTestFile) || Config().GetValue("httpClientPostTestFile", httpClientPostTestFile) ) {
-
-		bSuccess = UnitTestHttpClient::Test(httpClientGetTestFile,httpClientPostTestFile);
 	}
 
 	//add commerce search user
@@ -318,6 +231,90 @@ void DeepNetToolBot::RegisterHttpClientParams() {
 
 	Config().RegisterParam("httpClientGetTestFile", "validates GET httpclient from file", false, false, 0 );
 	Config().RegisterParam("httpClientPostTestFile", "validates POST httpclient from file", false, false, 0 );
+}
+
+bool DeepNetToolBot::ProcessUnitTests() {
+
+	bool bSuccess = true;
+	UnitTestManager unitTests;
+
+	//initiate url based unit tests
+	std::string urlFile;
+	if( Config().GetValue("urlValidateFile", urlFile) ) {
+		std::string invalidUrlFileName;
+		Config().GetValue("urlInvalidateFile", invalidUrlFileName);
+
+		unitTests.AddUnitTest(new UnitTestUrlParser(DB().Connection(),urlFile,invalidUrlFileName));
+		unitTests.AddUnitTest(new UnitTestCacheUrl(DB().Connection(),urlFile));
+	}
+
+	//initiate pcre regex unit test
+	std::string pcreRegexFile;
+	if( Config().GetValue("pcreRegexFile",pcreRegexFile) ){
+		unitTests.AddUnitTest(new UnitTestPCRERegex(pcreRegexFile)); }
+
+	//initiate robots.txt unit test
+	std::string robotsTxtFile;
+	if( Config().GetValue("robotsTxtFile",robotsTxtFile) ){
+		unitTests.AddUnitTest(new UnitTestRobotTxt(robotsTxtFile)); }
+
+	/*
+	//test html parser with file
+	std::string htmlTesterFile;
+	if ( Config().GetValue("htmlFile", htmlTesterFile) ){
+
+		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"parsing html file");
+		htmlparser::HtmlTesterResult result;
+		htmlparser::HtmlTester::ParseHtmlFromFile(DB().Connection(),"siridia.de", htmlTesterFile, result);
+		std::string testOut = result.ToString(DB().Connection()).c_str();
+		int tmpLen = log::Logging::GetMaxLogLength();
+		log::Logging::SetMaxLogLength(testOut.length());
+		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"%s\nparsing html done",testOut.c_str());
+		log::Logging::SetMaxLogLength(tmpLen);
+	}
+
+	//initiate html parser based unit tests
+	std::string htmlUnitTestPath;
+	if(Config().GetValue("htmlUnitTestPath",htmlUnitTestPath)) {
+		std::vector<std::string> files;
+		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
+		std::vector<std::string>::const_iterator iterFiles = files.begin();
+		for(;iterFiles != files.end(); ++iterFiles) {
+			if( !UnitTestHtmlDocumentFactory::Test(DB().Connection(),"siridia.de",htmlUnitTestPath +"/" + *iterFiles) ){
+				bSuccess = false;
+			}
+
+			if(bSuccess) {
+				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all html parser based unit tests finished SUCCESSFULLY"); }
+		}
+	}
+	*/
+
+	//unit tests for client sockets
+	std::string clientSocketTestFile;
+	if( Config().GetValue("clientSocketTestFile", clientSocketTestFile) ) {
+
+		UnitTestIPv4TCPClient clientTest;
+		bSuccess = clientTest.Test("127.0.0.1",80);
+	}
+
+	//unit tests for server sockets
+	std::string serverSocketTestFile;
+	if( Config().GetValue("serverSocketTestFile", serverSocketTestFile) ) {
+
+		UnitTestIPv4TCPServer serverTest;
+		bSuccess = serverTest.Test("127.0.0.1",8180);
+	}
+
+	//unit tests for http client
+	std::string httpClientGetTestFile,httpClientPostTestFile;
+	if( Config().GetValue("httpClientGetTestFile", httpClientGetTestFile) || Config().GetValue("httpClientPostTestFile", httpClientPostTestFile) ) {
+
+		bSuccess = UnitTestHttpClient::Test(httpClientGetTestFile,httpClientPostTestFile);
+	}
+
+	bSuccess &= unitTests.Run();
+	return bSuccess;
 }
 
 }

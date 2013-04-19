@@ -10,7 +10,6 @@
 #include <iostream>
 
 
-#include <FileTools.h>
 #include <DatabaseUrl.h>
 #include <HttpUrlParser.h>
 #include <Exception.h>
@@ -19,34 +18,39 @@
 #include <Regex.h>
 #include <TLD.h>
 
+#include "UnitTestCacheUrl.h"
+
 namespace toolbot {
 
-UnitTestUrlParser::UnitTestUrlParser() {
+UnitTestUrlParser::UnitTestUrlParser(database::DatabaseConnection* connection,
+		const std::string& validUrlFileName,
+		const std::string& invalidUrlFileName)
+: connection(connection)
+, validUrlFileName(validUrlFileName)
+, invalidUrlFileName(invalidUrlFileName)
+, testUrls(testUrls)
+{
 }
 
 UnitTestUrlParser::~UnitTestUrlParser() {
 }
 
-bool UnitTestUrlParser::TestUrlParser(
-	database::DatabaseConnection* connection,
-	const std::string& validUrlFileName,
-	const std::string& invalidUrlFileName,
-	std::vector<UnitTestUrl>& testUrls
-) {
+bool UnitTestUrlParser::Run() {
+
 	bool success = true;
 
 	if(!invalidUrlFileName.empty())
 		success &= TestInvalidUrls(connection, invalidUrlFileName);
 
 	if(!validUrlFileName.empty())
-		success &= TestValidUrls(connection, validUrlFileName, testUrls);
+		success &= TestValidUrls(validUrlFileName);
 
 	return success;
 }
 
-bool UnitTestUrlParser::TestValidUrls(database::DatabaseConnection* connection, const std::string& urlFileName,std::vector<UnitTestUrl>& testUrls) {
+bool UnitTestUrlParser::TestValidUrls(const std::string& urlFileName) {
 
-	if(!UnitTestUrlParser::ReadValidURLFile(urlFileName, testUrls)){
+	if(!UnitTestUrl::ReadValidURLFile(urlFileName, testUrls)){
 		return false; }
 
 	PERFORMANCE_LOG_START;
@@ -142,38 +146,10 @@ bool UnitTestUrlParser::TestValidUrls(database::DatabaseConnection* connection, 
 	return success;
 }
 
-bool UnitTestUrlParser::ReadInvalidURLFile(const std::string& urlFileName, std::vector<UnitTestUrl>& testUrls) {
-
-	std::vector<std::string> lines;
-	bool bSuccessReadFile = tools::FileTools::ReadFile(urlFileName,lines);
-	if(!bSuccessReadFile)
-		return false;
-
-	std::vector<std::string>::iterator iterLines = lines.begin();
-	for(int line=1;iterLines != lines.end();++iterLines,line++) {
-
-		std::string findGroupRegex;
-		findGroupRegex = "^[[:blank:]]*\"(.*?)\"[[:blank:]]*\"(.*?)\"";
-
-		std::vector<std::string> groups;
-		if(!tools::Regex::Match(findGroupRegex,*iterLines,groups,true)
-		 || groups.size() < 2 ) {
-			continue; }
-
-		UnitTestUrl url;
-		url.baseUrl = groups.at(0);
-		url.theUrl  = groups.at(1);
-		url.line    = line;
-		testUrls.push_back(url);
-	}
-
-	return testUrls.size() > 0;
-}
-
 bool UnitTestUrlParser::TestInvalidUrls(database::DatabaseConnection* connection, const std::string& urlFileName) {
 
 	std::vector<UnitTestUrl> testUrls;
-	if(!UnitTestUrlParser::ReadInvalidURLFile(urlFileName, testUrls)){
+	if(!UnitTestUrl::ReadInvalidURLFile(urlFileName, testUrls)){
 		return false; }
 
 	PERFORMANCE_LOG_START;
@@ -242,35 +218,5 @@ void UnitTestUrlParser::OnError(const std::string& message, const UnitTestUrl& e
 		"line     : " << errorUrl.line << std::endl;
 	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,msg.str());
 }
-
-bool UnitTestUrlParser::ReadValidURLFile(const std::string& urlFileName, std::vector<UnitTestUrl>& testUrls) {
-
-	std::vector<std::string> lines;
-	bool bSuccessReadFile = tools::FileTools::ReadFile(urlFileName,lines);
-	if(!bSuccessReadFile)
-		return false;
-
-	std::vector<std::string>::iterator iterLines = lines.begin();
-	for(int line=1;iterLines != lines.end();++iterLines,line++) {
-
-		std::string findGroupRegex;
-		findGroupRegex = "^[[:blank:]]*\"(.*?)\"[[:blank:]]*\"(.*?)\"[[:blank:]]*\"(.*?)\"";
-
-		std::vector<std::string> groups;
-		if(!tools::Regex::Match(findGroupRegex,*iterLines,groups,true)
-		 || groups.size() < 3 ) {
-			continue; }
-
-		UnitTestUrl url;
-		url.baseUrl   = groups.at(0);
-		url.theUrl    = groups.at(1);
-		url.resultUrl = groups.at(2);
-		url.line      = line;
-		testUrls.push_back(url);
-	}
-
-	return testUrls.size() > 0;
-}
-
 
 }

@@ -17,7 +17,8 @@
 
 namespace toolbot {
 
-UnitTestPCRERegex::UnitTestPCRERegex(const std::string& unitTestFile) {
+UnitTestPCRERegex::UnitTestPCRERegex(const std::string& unitTestFile)
+{
 	ParseTestFile(unitTestFile);
 }
 
@@ -83,7 +84,7 @@ void UnitTestPCRERegex::ParseExpectedGroups(const std::string& groupsTerm, PCRER
 	}
 }
 
-bool UnitTestPCRERegex::Test(){
+bool UnitTestPCRERegex::Run(){
 
 	std::vector<PCRERegexUnitTestEntry>::const_iterator iterEntries = testEntries.begin();
 

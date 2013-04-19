@@ -8,11 +8,16 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <HttpUrl.h>
 
 namespace toolbot {
 
 class UnitTestUrl {
+
+public:
+	static bool ReadInvalidURLFile(const std::string& urlFileName, std::vector<UnitTestUrl>& testUrls);
+	static bool ReadValidURLFile(const std::string& urlFileName, std::vector<UnitTestUrl>& testUrls);
 
 public:
 	std::string baseUrl;

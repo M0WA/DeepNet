@@ -37,6 +37,9 @@ private:
 	void RegisterDataminingParams();
 	void RegisterPCRERegexTestParams();
 	void RegisterHttpClientParams();
+
+private:
+	bool ProcessUnitTests();
 };
 
 }

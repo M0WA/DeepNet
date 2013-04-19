@@ -8,9 +8,10 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-#include "UnitTestUrlParser.h"
 #include "UnitTestUrl.h"
+#include "UnitTest.h"
 
 namespace database {
 	class DatabaseConnection;
@@ -18,17 +19,20 @@ namespace database {
 
 namespace toolbot {
 
-class UnitTestCacheUrl {
-private:
-	UnitTestCacheUrl();
+class UnitTestCacheUrl : public UnitTest {
 public:
+	UnitTestCacheUrl(database::DatabaseConnection* connection,const std::string& urlFileName);
 	virtual ~UnitTestCacheUrl();
 
 public:
-	static bool TestUrlCache(database::DatabaseConnection* connection, std::vector<UnitTestUrl>& testUrls);
+	virtual bool Run();
 
 private:
 	static bool TestSingleEntry(database::DatabaseConnection* connection, UnitTestUrl& testUrl);
+
+private:
+	database::DatabaseConnection* connection;
+	std::vector<UnitTestUrl> testUrls;
 };
 
 }

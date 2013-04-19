@@ -16,13 +16,15 @@
 
 namespace toolbot {
 
-UnitTestCacheUrl::UnitTestCacheUrl() {
+UnitTestCacheUrl::UnitTestCacheUrl(database::DatabaseConnection* connection,const std::string& urlFileName)
+: connection(connection){
+	UnitTestUrl::ReadValidURLFile(urlFileName, testUrls);
 }
 
 UnitTestCacheUrl::~UnitTestCacheUrl() {
 }
 
-bool UnitTestCacheUrl::TestUrlCache(database::DatabaseConnection* connection, std::vector<UnitTestUrl>& testUrls) {
+bool UnitTestCacheUrl::Run() {
 
 	std::vector<UnitTestUrl>::iterator iterUrls = testUrls.begin();
 	bool success = true;
