@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace toolbot {
 
 class UnitTest {
@@ -18,6 +20,7 @@ public:
 	virtual ~UnitTest();
 
 	virtual bool Run()=0;
+	virtual std::string GetName() const =0;
 };
 
 }

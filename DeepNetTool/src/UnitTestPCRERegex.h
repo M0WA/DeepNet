@@ -40,6 +40,7 @@ public:
 
 public:
 	virtual bool Run();
+	virtual std::string GetName() const { return "UnitTestPCRERegex"; }
 
 private:
 	void ParseTestFile(const std::string& unitTestFile);

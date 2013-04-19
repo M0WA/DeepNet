@@ -7,8 +7,9 @@
  */
 
 #include "UnitTestManager.h"
-
 #include "UnitTest.h"
+
+#include <Logging.h>
 
 namespace toolbot {
 
@@ -27,7 +28,14 @@ bool UnitTestManager::Run() {
 	bool success = true;
 	std::vector<toolbot::UnitTest*>::iterator iter = tests.begin();
 	for(;iter != tests.end(); ++iter) {
-		success &= (*iter)->Run(); }
+		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"unit test: %s, starting",(*iter)->GetName().c_str());
+		bool singleTestSuccess = (*iter)->Run();
+		if(singleTestSuccess) {
+			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"unit test: %s, success",(*iter)->GetName().c_str()); }
+		else {
+			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"unit test: %s, ERROR",(*iter)->GetName().c_str()); }
+		success &= singleTestSuccess;
+	}
 	return success;
 }
 

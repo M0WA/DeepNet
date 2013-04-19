@@ -19,6 +19,7 @@ public:
 
 public:
 	virtual bool Run();
+	virtual std::string GetName() const { return "UnitTestRobotTxt"; }
 
 private:
 	std::string robotsTxt;

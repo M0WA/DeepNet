@@ -28,6 +28,7 @@ public:
 
 public:
 	virtual bool Run();
+	virtual std::string GetName() const { return "UnitTestUrlParser"; }
 
 private:
 	static bool TestInvalidUrls(database::DatabaseConnection* connection, const std::string& urlFileName);

@@ -26,6 +26,7 @@ public:
 
 public:
 	virtual bool Run();
+	virtual std::string GetName() const { return "UnitTestCacheUrl"; }
 
 private:
 	static bool TestSingleEntry(database::DatabaseConnection* connection, UnitTestUrl& testUrl);
