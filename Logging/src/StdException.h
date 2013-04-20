@@ -1,8 +1,9 @@
-/*
- * StdException.h
+/**
  *
- *  Created on: 17.08.2012
- *      Author: Moritz Wagner
+ * @file StdException.h
+ * @author Moritz Wagner
+ * @date 17.08.2012
+ *
  */
 
 #pragma once

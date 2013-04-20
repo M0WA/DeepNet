@@ -1,8 +1,9 @@
-/*
- * StdException.cpp
+/**
  *
- *  Created on: 17.08.2012
- *      Author: Moritz Wagner
+ * @file StdException.cpp
+ * @author Moritz Wagner
+ * @date 17.08.2012
+ *
  */
 
 #include "StdException.h"
