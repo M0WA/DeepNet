@@ -59,7 +59,7 @@ bool UnitTestSAX2HtmlParser::Test(htmlparser::DatabaseUrl& baseUrl)
 		htmlData.Release();
 		document.Reset();
 
-		if(!tools::FileTools::ReadFile(*iter,html)||html.length() == 0) {
+		if(!tools::FileTools::ReadFile(unitBaseDir +"/" + *iter,html)||html.length() == 0) {
 			success = false;
 			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"cannot read html file: %s, skipping",iter->c_str());
 			continue;
