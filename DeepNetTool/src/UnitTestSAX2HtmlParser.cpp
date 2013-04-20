@@ -91,14 +91,14 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		if(tools::FileTools::FileExists(unitTestTemplateFile)){
 			bool tmpSuccess = tools::FileTools::CompareFiles(unitTestOutFile,unitTestTemplateFile);
 			if(!tmpSuccess) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"template and unittest output did not match, please check it for correctness and rerun this unittest: %s",outFileContent.c_str());
+				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"template and unittest output did not match, please check it for correctness and rerun this unittest: %s",unitTestOutFile.c_str());
 				success = false;
 			}
 		}
 		else {
 			tools::FileTools::WriteFile(unitTestTemplateFile, outFileContent, false);
 			success = false;
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find template html: %s, setting current result as template, please check it for correctness and rerun this unittest,",unitTestTemplateFile.c_str());
+			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find template html: %s, setting current result as template, please check it for correctness and rerun this unittest",unitTestTemplateFile.c_str());
 		}
 	}
 	return success;
