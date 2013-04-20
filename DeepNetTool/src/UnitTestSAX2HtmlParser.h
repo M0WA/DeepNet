@@ -32,7 +32,7 @@ public:
 	virtual std::string GetName() const { return "UnitTestSAX2HtmlParser"; }
 
 private:
-	bool Test(htmlparser::DatabaseUrl& baseUrl);
+	bool Test(const htmlparser::DatabaseUrl& baseUrl);
 
 private:
 	database::DatabaseConnection* db;

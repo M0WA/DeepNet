@@ -44,7 +44,7 @@ bool UnitTestSAX2HtmlParser::Run() {
 	return success;
 }
 
-bool UnitTestSAX2HtmlParser::Test(htmlparser::DatabaseUrl& baseUrl)
+bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 {
 	bool success = true;
 	htmlparser::HtmlSAX2Parser parser;
@@ -55,16 +55,18 @@ bool UnitTestSAX2HtmlParser::Test(htmlparser::DatabaseUrl& baseUrl)
 	std::vector<std::string>::const_iterator iter = htmlFilenames.begin();
 	for(;iter != htmlFilenames.end();++iter) {
 
+		std::string htmlFileName = unitBaseDir +"/" + *iter;
+
 		html.clear();
 		htmlData.Release();
 		document.Reset();
 
-		if(!tools::FileTools::ReadFile(unitBaseDir +"/" + *iter,html)||html.length() == 0) {
+		if(!tools::FileTools::ReadFile(htmlFileName,html)||html.length() == 0) {
 			success = false;
 			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"cannot read html file: %s, skipping",iter->c_str());
-			continue;
-		}
-		htmlData.Append(iter->c_str(),iter->length());
+			continue;}
+
+		htmlData.Append(html.c_str(),html.length());
 		htmlData.SetContentType("text/html");
 
 		try
@@ -77,15 +79,29 @@ bool UnitTestSAX2HtmlParser::Test(htmlparser::DatabaseUrl& baseUrl)
 			continue;
 		}
 
-		std::string outFile;
-		document.DumpXML(outFile);
-		tools::FileTools::DeleteFile(unitBaseDir +"/" + *iter + ".unittest.xml");
-		tools::FileTools::WriteFile(unitBaseDir +"/" + *iter + ".unittest.xml", outFile, false);
+		std::string outFileContent;
+		document.DumpXML(outFileContent);
 
-		if(tools::FileTools::FileExists(unitBaseDir +"/" + *iter + ".unittest.template.xml")){
-			success &= tools::FileTools::CompareFiles(unitBaseDir +"/" + *iter + ".unittest.xml",unitBaseDir +"/" + *iter + ".unittest.template.xml");
+		std::string unitTestOutFile = htmlFileName + ".unittest.xml";
+		std::string unitTestTemplateFile = unitBaseDir +"/" + *iter + ".unittest.template.xml";
+
+		tools::FileTools::DeleteFile(unitTestOutFile);
+		tools::FileTools::WriteFile(unitTestOutFile, outFileContent, false);
+
+		if(tools::FileTools::FileExists(unitTestTemplateFile)){
+			bool tmpSuccess = tools::FileTools::CompareFiles(unitTestOutFile,unitTestTemplateFile);
+			if(!tmpSuccess) {
+				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"template and unittest output did not match, please check it for correctness and rerun this unittest: %s",outFileContent.c_str());
+				success = false;
+			}
+		}
+		else {
+			tools::FileTools::WriteFile(unitTestTemplateFile, outFileContent, false);
+			success = false;
+			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find template html: %s, setting current result as template, please check it for correctness and rerun this unittest,",unitTestTemplateFile.c_str());
 		}
 	}
+	return success;
 }
 
 }
