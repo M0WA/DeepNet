@@ -10,11 +10,13 @@
 #include <sstream>
 
 #include <ContainerTools.h>
+#include <CharsetEncoder.h>
 
 namespace htmlparser {
 
 HtmlSAX2Document::HtmlSAX2Document(const htmlparser::DatabaseUrl& url)
-: url(url) {
+: url(url)
+, wellformed(0){
 }
 
 HtmlSAX2Document::~HtmlSAX2Document() {
@@ -29,40 +31,57 @@ void HtmlSAX2Document::Reset() {
 	warnings.clear();
 	errors.clear();
 	fatals.clear();
+	wellformed = 0;
 }
 
 void HtmlSAX2Document::DumpXML(std::string& xmlContent) {
-
 	std::ostringstream xmlOut;
-	xmlOut
-	<< "<document>\n"
-	<< "<links>\n";
+	xmlOut <<
+	"<document wellformed=\""<< wellformed <<"\" url=\""<< url.GetFullUrl() <<"\">\n"
+	"<links count=\""<< hyperlinks.size() <<"\">\n";
 	for(std::vector<network::HttpUrl>::const_iterator iter = hyperlinks.begin(); iter != hyperlinks.end(); ++iter) {
-		xmlOut << "\t<link>" << iter->GetFullUrl() << "</link>\n"; }
-	xmlOut
-	<< "</links>\n"
-	<< "<images>\n";
+		std::string out;
+		tools::CharsetEncoder::EncodeHtmlEntities(iter->GetFullUrl(), out);
+		xmlOut << "\t<link>" << out << "</link>\n"; }
+	xmlOut <<
+	"</links>\n"
+	"<images count=\""<< images.size() <<"\">\n";
 	for(std::vector<network::HttpUrl>::const_iterator iter = images.begin(); iter != images.end(); ++iter) {
-		xmlOut << "\t<image>" << iter->GetFullUrl() << "</image>\n"; }
-	xmlOut
-	<< "</images>\n"
-	<< "<elements>\n";
+		std::string out;
+		tools::CharsetEncoder::EncodeHtmlEntities(iter->GetFullUrl(), out);
+		xmlOut << "\t<image>" << out << "</image>\n"; }
+	xmlOut <<
+	"</images>\n"
+	"<elements content=\""<< content.size() <<"\" meta=\""<< meta.size() <<"\">\n";
 	for(std::vector< std::pair<std::string,std::string> >::const_iterator iter = content.begin(); iter != content.end(); ++iter) {
-		xmlOut << "\t<content type=\"" << iter->first << "\">" << iter->second << "</content>\n"; }
+		std::string out1, out2;
+		tools::CharsetEncoder::EncodeHtmlEntities(iter->first, out1);
+		tools::CharsetEncoder::EncodeHtmlEntities(iter->second, out2);
+		xmlOut << "\t<content type=\"" << out1 << "\">" << out2 << "</content>\n"; }
 	for(std::vector< std::pair<std::string,std::string> >::const_iterator iter = meta.begin(); iter != meta.end(); ++iter) {
-		xmlOut << "\t<meta type=\"" << iter->first << "\">" << iter->second << "</meta>\n"; }
-	xmlOut
-	<< "</elements>\n"
-	<< "<errors>\n";
+		std::string out1, out2;
+		tools::CharsetEncoder::EncodeHtmlEntities(iter->first, out1);
+		tools::CharsetEncoder::EncodeHtmlEntities(iter->second, out2);
+		xmlOut << "\t<meta type=\"" << out1 << "\">" << out2 << "</meta>\n"; }
+	xmlOut <<
+	"</elements>\n"
+	"<errors warnings=\""<< warnings.size() <<"\" errors=\""<< errors.size() <<"\" fatals=\""<< fatals.size() <<"\">\n";
 	for(std::vector< std::string >::const_iterator iter = warnings.begin(); iter != warnings.end(); ++iter) {
-		xmlOut << "\t<warnings>" << *iter << "</warnings>\n"; }
+		std::string out;
+		tools::CharsetEncoder::EncodeHtmlEntities(*iter, out);
+		xmlOut << "\t<warnings>" << out << "</warnings>\n"; }
 	for(std::vector< std::string >::const_iterator iter = errors.begin(); iter != errors.end(); ++iter) {
-		xmlOut << "\t<errors>" << *iter << "</errors>\n"; }
+		std::string out;
+		tools::CharsetEncoder::EncodeHtmlEntities(*iter, out);
+		xmlOut << "\t<errors>" << out << "</errors>\n"; }
 	for(std::vector< std::string >::const_iterator iter = fatals.begin(); iter != fatals.end(); ++iter) {
-		xmlOut << "\t<fatals>" << *iter << "</fatals>\n"; }
-	xmlOut
-	<< "</errors>\n"
-	<< "</document>";
+		std::string out;
+		tools::CharsetEncoder::EncodeHtmlEntities(*iter, out);
+		xmlOut << "\t<fatals>" << out << "</fatals>\n"; }
+	xmlOut <<
+	"</errors>\n"
+	"</document>";
+
 	xmlContent = xmlOut.str();
 }
 

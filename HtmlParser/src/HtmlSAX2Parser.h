@@ -49,9 +49,6 @@ public:
 	virtual ~HtmlSAX2Parser();
 
 public:
-	static bool EncodeHtmlEntities(const unsigned char* pszIn, const int inLen, std::string& out);
-
-public:
 	bool Parse(const network::HtmlData& html, htmlparser::HtmlSAX2Document& htmlDocumentOut);
 
 private:

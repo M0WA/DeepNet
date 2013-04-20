@@ -67,6 +67,7 @@ public:
 	std::vector<std::string> fatals;
 
 	htmlparser::DatabaseUrl url;
+	int wellformed;
 };
 
 }

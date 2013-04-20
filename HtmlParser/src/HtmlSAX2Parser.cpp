@@ -85,7 +85,6 @@ void HtmlSAX2Parser::startElement(void *ctx, const xmlChar *name, const xmlChar 
 
 void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 {
-	//HtmlSAX2ParserContext* context = (HtmlSAX2ParserContext*)((xmlParserCtxtPtr)ctx)->_private;
 	HtmlSAX2ParserContext* context = (HtmlSAX2ParserContext*)ctx;
 
 	if((int)context->htmlDocument->elements.size() != (context->nCurrentElement+1))
@@ -152,7 +151,6 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = "a";
 			tagContentPair.second = elementRef.attribute.value;
-			EncodeHtmlEntities((const unsigned char*)elementRef.attribute.value.c_str(), elementRef.attribute.value.size(), tagContentPair.second);
 			context->htmlDocument->content.push_back(tagContentPair);
 		}
 
@@ -163,7 +161,6 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = "a";
 			tagContentPair.second = elementRef.attribute.value;
-			EncodeHtmlEntities((const unsigned char*)elementRef.attribute.value.c_str(), elementRef.attribute.value.size(), tagContentPair.second);
 			context->htmlDocument->content.push_back(tagContentPair);
 		}
 	}
@@ -195,7 +192,6 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = "img";
 			tagContentPair.second = attributeAlt.value;
-			EncodeHtmlEntities((const unsigned char*)attributeAlt.value.c_str(), attributeAlt.value.size(), tagContentPair.second);
 			context->htmlDocument->content.push_back(tagContentPair);
 		}
 	}
@@ -209,7 +205,6 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first  = curName;
 			tagContentPair.second = content;
-			EncodeHtmlEntities((const unsigned char*)content.c_str(), content.size(), tagContentPair.second);
 			context->htmlDocument->meta.push_back(tagContentPair);
 		}
 	}
@@ -234,7 +229,6 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first  = nameAttributeRef.value;
 			tagContentPair.second = contentAttributeRef.value;
-			EncodeHtmlEntities((const unsigned char*)contentAttributeRef.value.c_str(), contentAttributeRef.value.size(), tagContentPair.second);
 			context->htmlDocument->meta.push_back(tagContentPair);
 		}
 	}
@@ -288,7 +282,6 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = elementRef.attribute.localname;
 			tagContentPair.second = content;
-			EncodeHtmlEntities((const unsigned char*)content.c_str(), content.size(), tagContentPair.second);
 			context->htmlDocument->content.push_back(tagContentPair);
 		}
 	}
@@ -338,7 +331,7 @@ void HtmlSAX2Parser::error( void * ctx,	const char * msg, ... )
 	std::string errorMsg;
 	va_list args;
 	va_start(args, msg);
-	tools::StringTools::FormatString(errorMsg,msg,args);
+	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
 
 	std::stringstream ssInfo;
@@ -369,9 +362,7 @@ void HtmlSAX2Parser::error( void * ctx,	const char * msg, ... )
 		delete [] pszInputExcerpt;
 	}
 	errorMsg = ssInfo.str() + errorMsg;
-	std::string encodedErrorMsg;
-	EncodeHtmlEntities((const unsigned char*)errorMsg.c_str(),errorMsg.size(),encodedErrorMsg);
-	context->htmlDocument->errors.push_back(encodedErrorMsg);
+	context->htmlDocument->errors.push_back(errorMsg);
 }
 
 void HtmlSAX2Parser::warning( void * ctx, const char * msg, ... )
@@ -381,12 +372,9 @@ void HtmlSAX2Parser::warning( void * ctx, const char * msg, ... )
 	std::string errorMsg;
 	va_list args;
 	va_start(args, msg);
-	tools::StringTools::FormatString(errorMsg,msg,args);
+	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
-
-	std::string encodedErrorMsg;
-	EncodeHtmlEntities((const unsigned char*)errorMsg.c_str(),errorMsg.size(),encodedErrorMsg);
-	context->htmlDocument->warnings.push_back(encodedErrorMsg);
+	context->htmlDocument->warnings.push_back(errorMsg);
 }
 
 void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
@@ -402,12 +390,9 @@ void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
 	std::string errorMsg;
 	va_list args;
 	va_start(args, msg);
-	tools::StringTools::FormatString(errorMsg,msg,args);
+	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
-
-	std::string encodedErrorMsg;
-	EncodeHtmlEntities((const unsigned char*)errorMsg.c_str(),errorMsg.size(),encodedErrorMsg);
-	context->htmlDocument->fatals.push_back(encodedErrorMsg);
+	context->htmlDocument->fatals.push_back(errorMsg);
 }
 
 void HtmlSAX2Parser::genericErrorFunc(void * ctx,
@@ -419,7 +404,7 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 	std::string errorMsg;
 	va_list args;
 	va_start(args, msg);
-	tools::StringTools::FormatString(errorMsg,msg,args);
+	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
 
 	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"libXML generic error: " + errorMsg);
@@ -427,11 +412,7 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 
 bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& htmlDocumentOut)
 {
-	if(html.GetCount())
-		return false;
-
-	std::string htmlEncoded;
-	if(!EncodeHtmlEntities((const unsigned char*)html.GetBuffer(), html.GetBufferSize(), htmlEncoded) )
+	if(html.GetCount() == 0)
 		return false;
 
 	parserContext.parserInstance = this;
@@ -444,8 +425,8 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 	parserCtxt = htmlCreatePushParserCtxt(
 		&saxHandler,
 		&parserContext,
-		htmlEncoded.c_str(),
-		htmlEncoded.size(),
+		html.GetBuffer(),
+		html.GetBufferSize(),
 		htmlDocumentOut.url.GetFullUrl().c_str(),
 		XML_CHAR_ENCODING_NONE);
 	if(!parserCtxt)
@@ -456,8 +437,8 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 
 	htmlDocPtr htmlDoc = htmlCtxtReadMemory(
 		parserCtxt,
-		htmlEncoded.c_str(),
-		htmlEncoded.size(),
+		html.GetBuffer(),
+		html.GetBufferSize(),
 		htmlDocumentOut.url.GetFullUrl().c_str(),
 		NULL,
 		HTML_PARSE_RECOVER  |   //Relaxed parsing
@@ -465,47 +446,20 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 		HTML_PARSE_COMPACT  );  //compact small text nodes
 
 	//terminate parser
-	htmlParseChunk(parserCtxt, htmlEncoded.c_str(), 0, 1);
+	htmlParseChunk(parserCtxt, html.GetBuffer(), 0, 1);
 	htmlDoc = (htmlDocPtr)parserCtxt->myDoc;
 
 	//check if well formed
-	int wellformed = parserCtxt->wellFormed;
+	htmlDocumentOut.wellformed = parserCtxt->wellFormed;
 
 	//free all previously allocated stuff
 	htmlFreeParserCtxt(parserCtxt);
+	parserCtxt = 0;
 	if(htmlDoc){
-		xmlFreeDoc(htmlDoc); }
-
-	return (wellformed > 0);
-}
-
-bool HtmlSAX2Parser::EncodeHtmlEntities(const unsigned char* pszIn, const int inSize, std::string& out)
-{
-	std::stringstream ssOut;
-	int bufSize  = (inSize*4)+1;
-	unsigned char* buf = new unsigned char[bufSize];
-
-	int outlen = bufSize;
-	int inlen = inSize;
-	int ret = UTF8ToHtml(buf,&outlen,pszIn,&inlen);
-	if(ret != 0) {
-		int pos = outlen - 20;
-		if(outlen <= 20)
-			pos = 0;
-		int end = outlen + 20;
-		if( (inSize-1) < end)
-			end = inSize-1;
-		unsigned char tmp = buf[end];
-		buf[end] = 0;
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"an error occured while transforming to html entities: %s",buf[pos]);
-		buf[end] = tmp;
-		delete [] buf;
-		return false;
+		xmlFreeDoc(htmlDoc);
+		htmlDoc = 0;
 	}
-	buf[outlen] = 0;
-	ssOut << buf;
-	delete [] buf;
-	out = ssOut.str();
+
 	return true;
 }
 
