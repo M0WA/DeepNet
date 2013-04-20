@@ -12,6 +12,9 @@
 
 namespace errors {
 
+/**
+ * @brief exception for not implemented functionality.
+ */
 class NotImplementedException: public errors::Exception {
 public:
 	NotImplementedException(

@@ -12,6 +12,9 @@
 
 namespace errors {
 
+/**
+ * @brief exception wrapper for std::exception.
+ */
 class StdException: public errors::Exception {
 public:
 	StdException(
