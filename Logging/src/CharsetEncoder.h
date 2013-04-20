@@ -117,6 +117,14 @@ public:
 	 * @return false on error, true on success.
 	 */
 	static bool EncodeHtmlEntities(const unsigned char* pszIn, const int inSize, std::string& out);
+
+	/**
+	 * converts characters to their html-entity equivalents.
+	 * @param in input buffer.
+	 * @param out gets filled with html encoded string.
+	 * @return false on error, true on success.
+	 */
+	static bool EncodeHtmlEntities(const std::string& in, std::string& out);
 };
 
 }

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <stdarg.h>
 
 namespace tools
 {
@@ -81,6 +82,14 @@ public:
 	 * @param words list of splitted patterns.
 	 */
 	static void SplitBy(const std::string & text, const std::string & separators, std::vector<std::string> & words);
+
+	/**
+	 * creates a formated string.
+	 * @param outString gets filled with formated string.
+	 * @param fmt format string.
+	 * @param ap va_list.
+	 */
+	static void FormatVAString(std::string& outString, const char* fmt, va_list& ap);
 
 	/**
 	 * creates a formated string.

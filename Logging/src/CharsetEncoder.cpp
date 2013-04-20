@@ -250,6 +250,10 @@ bool CharsetEncoder::Convert(const char* pInput, const int len, const std::strin
 	return true;
 }
 
+bool CharsetEncoder::EncodeHtmlEntities(const std::string& in, std::string& out) {
+	return CharsetEncoder::EncodeHtmlEntities(reinterpret_cast<const unsigned char*>(in.c_str()), in.length(), out);
+}
+
 bool CharsetEncoder::EncodeHtmlEntities(const unsigned char* pszIn, const int inSize, std::string& out) {
 
 	int bufSize  = (inSize*4)+1;

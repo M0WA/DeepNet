@@ -109,21 +109,24 @@ void StringTools::SplitBy(const std::string & text, const std::string & separato
 }
 
 void StringTools::FormatString(std::string& outString, const char* fmt, ...) {
+	va_list args;
+	va_start(args, fmt);
+	tools::StringTools::FormatVAString(outString,fmt,args);
+	va_end(args);
+}
+
+void StringTools::FormatVAString(std::string& outString, const char* fmt, va_list& ap) {
 
 	outString.clear();
 
 	int n, size = 100;
 	char *p = 0, *np = 0;
-	va_list ap;
 
 	if ((p = (char*)malloc (size)) == NULL)
 		return;
 
 	while (1) {
-
-		va_start(ap, fmt);
 		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
 		if (n > -1 && n < size) {
 		    break; }
 
