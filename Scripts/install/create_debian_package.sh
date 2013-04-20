@@ -1,10 +1,18 @@
 #!/bin/bash
 
-#./update_and_compile_release.sh
-#if [ $? -ne 0 ]; then
-#    echo "ERROR: unsuccessful build, aborting..."
-#    exit 1
-#fi
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
+#
+#########################################################
+
+./update_and_compile_release.sh
+if [ $? -ne 0 ]; then
+    echo "ERROR: unsuccessful build, aborting..."
+    exit 1
+fi
 
 rm -rf debian-pkg/binary/debian
 mkdir -p debian-pkg/binary/debian
@@ -33,37 +41,3 @@ dpkg-deb --build deepnet
 mv deepnet.deb ..
 cd ..
 rm -rf debian
-
-
-
-#PACKAGE_NAME="deepnet"
-#PACKAGE_VERSION="1.0-1"
-
-#mkdir -p debian-pkg/source/debian/source/
-#cd debian-pkg/source
-
-# control file
-#equivs-control ${PACKAGE_NAME}-src
-
-#changelog
-#dch --create -v ${PACKAGE_VERSION} --package ${PACKAGE_NAME}-src
-
-#compat
-#echo -n "8" > debian/compat
-
-#copyright
-#touch debian/copyright
-
-#rules
-#echo -n " \
-#!/usr/bin/make -f \
-#%: \
-#	dh $@ \
-#EOF" > debian/rules
-
-#echo -n "3.0 (quilt)" debian/source/format
-
-#cd debian-pkg
-#equivs-build deepnet
-#lintian deepnet_1.0_all.deb
-#dch --create -v 1.0-1 --package deepnet
