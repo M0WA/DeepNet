@@ -69,15 +69,15 @@ void HtmlSAX2Document::DumpXML(std::string& xmlContent) {
 	for(std::vector< std::string >::const_iterator iter = warnings.begin(); iter != warnings.end(); ++iter) {
 		std::string out;
 		tools::CharsetEncoder::EncodeHtmlEntities(*iter, out);
-		xmlOut << "\t<warnings>" << out << "</warnings>\n"; }
+		xmlOut << "\t<warning>" << out << "</warning>\n"; }
 	for(std::vector< std::string >::const_iterator iter = errors.begin(); iter != errors.end(); ++iter) {
 		std::string out;
 		tools::CharsetEncoder::EncodeHtmlEntities(*iter, out);
-		xmlOut << "\t<errors>" << out << "</errors>\n"; }
+		xmlOut << "\t<error>" << out << "</error>\n"; }
 	for(std::vector< std::string >::const_iterator iter = fatals.begin(); iter != fatals.end(); ++iter) {
 		std::string out;
 		tools::CharsetEncoder::EncodeHtmlEntities(*iter, out);
-		xmlOut << "\t<fatals>" << out << "</fatals>\n"; }
+		xmlOut << "\t<fatal>" << out << "</fatal>\n"; }
 	xmlOut <<
 	"</errors>\n"
 	"</document>";
