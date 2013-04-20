@@ -24,6 +24,13 @@ public:
 
 public:
 	/**
+	 * checks if a file exists.
+	 * @param fileName file name to check.
+	 * @return true if existing, false if not existing.
+	 */
+	static bool FileExists(const std::string& fileName);
+
+	/**
 	 * deletes file by filename.
 	 * @param fileName filename.
 	 * @return false on error, true on success.
@@ -39,7 +46,7 @@ public:
 	static bool ReadFile(const std::string& fileName, std::string& fileContents);
 
 	/**
-	 * read file contents into list of lines
+	 * read file contents into list of lines.
 	 * @param fileName filename.
 	 * @param lines gets filled with lines.
 	 * @return false on error, true on success.
@@ -47,13 +54,21 @@ public:
 	static bool ReadFile(const std::string& fileName,std::vector<std::string>& lines);
 
 	/**
-	 * writes string to a file
+	 * writes string to a file.
 	 * @param fileName filename.
 	 * @param fileContents content to be written.
 	 * @param append true if appending to file, false if file should be truncated before writing.
 	 * @return false on error, true on success.
 	 */
 	static bool WriteFile(const std::string& fileName, const std::string& fileContents, const bool append);
+
+	/**
+	 * compares contents of 2 files.
+	 * @param file1 first file.
+	 * @param file2 second file.
+	 * @return false if not equal, true if equal.
+	 */
+	static bool CompareFiles(const std::string& file1,const std::string& file2);
 
 	/**
 	 * gets list of contents of a directory.

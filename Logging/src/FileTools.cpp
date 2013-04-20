@@ -21,6 +21,15 @@ FileTools::FileTools() {
 FileTools::~FileTools() {
 }
 
+bool FileTools::FileExists(const std::string& fileName) {
+	bool success = false;
+	FILE *fp = fopen(fileName.c_str(), "r");
+	if (fp != NULL) {
+		success = true;
+		fclose(fp);}
+	return success;
+}
+
 bool FileTools::ReadFile(const std::string& fileName, std::string& fileContents) {
 
 	std::vector<std::string> lines;
@@ -119,6 +128,16 @@ void FileTools::ListDirectory(std::vector<std::string>& files, const std::string
 bool FileTools::DeleteFile(const std::string& fileName) {
 
 	return (remove(fileName.c_str()) == 0);
+}
+
+bool FileTools::CompareFiles(const std::string& file1,const std::string& file2) {
+
+	std::string content1, content2;
+	if(!FileTools::ReadFile(file1,content1))
+		return false;
+	if(!FileTools::ReadFile(file2,content2))
+		return false;
+	return (content1.compare(content2) == 0);
 }
 
 }
