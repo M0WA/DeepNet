@@ -1,8 +1,9 @@
-/*
- * NotImplementedException.cpp
+/**
  *
- *  Created on: 15.08.2012
- *      Author: Moritz Wagner
+ * @file NotImplementedException.cpp
+ * @author Moritz Wagner
+ * @date 15.08.2012
+ *
  */
 
 #include "NotImplementedException.h"

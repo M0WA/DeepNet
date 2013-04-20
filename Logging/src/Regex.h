@@ -1,8 +1,9 @@
-/*
- * Regex.h
+/**
  *
- *  Created on: 09.09.2012
- *      Author: Moritz Wagner
+ * @file Regex.h
+ * @author Moritz Wagner
+ * @date 09.09.2012
+ *
  */
 
 #pragma once

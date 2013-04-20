@@ -1,8 +1,9 @@
-/*
- * NotImplementedException.h
+/**
  *
- *  Created on: 15.08.2012
- *      Author: Moritz Wagner
+ * @file NotImplementedException.h
+ * @author Moritz Wagner
+ * @date 15.08.2012
+ *
  */
 
 #pragma once

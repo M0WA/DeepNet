@@ -1,8 +1,9 @@
-/*
- * EmptyException.cpp
+/**
  *
- *  Created on: 20.11.2012
- *      Author: Moritz Wagner
+ * @file EmptyException.cpp
+ * @author Moritz Wagner
+ * @date 20.11.2012
+ *
  */
 
 #include "EmptyException.h"

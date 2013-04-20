@@ -1,8 +1,9 @@
-/*
- * Regex.cpp
+/**
  *
- *  Created on: 09.09.2012
- *      Author: Moritz Wagner
+ * @file Regex.cpp
+ * @author Moritz Wagner
+ * @date 09.09.2012
+ *
  */
 
 #include "Regex.h"
