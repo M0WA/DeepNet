@@ -62,61 +62,61 @@
 	<meta type="page-topic">dummy page</meta>
 </elements>
 <errors warnings="0" errors="10" fatals="0">
-	<errors>
+	<error>
 element: body, line: 53, col: 8
 "<!-- some comment in"
 error parsing attribute name
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 53, col: 33
 "--> >
   <a href="/" "
 error parsing attribute name
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 54, col: 15
 "<!-- some comment in"
 error parsing attribute name
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 54, col: 47
 "--> title="root link"
 error parsing attribute name
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 70, col: 58
 "=blub">search parame"
 htmlParseEntityRef: expecting ';'
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 74, col: 58
 "=blub#toTop">search,"
 htmlParseEntityRef: expecting ';'
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 76, col: 58
 "=blub#toTop&realMean"
 htmlParseEntityRef: expecting ';'
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 76, col: 78
 "='a'">real mean link"
 htmlParseEntityRef: expecting ';'
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 82, col: 71
 "
   <br>
   <img alt=i"
 Unexpected end tag : img
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 84, col: 69
 "
   <br>
   </body>
 </"
 Unexpected end tag : img
-</errors>
+</error>
 </errors>
 </document>

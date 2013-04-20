@@ -336,16 +336,16 @@
 	<meta type="title">Willkommen bei Facebook - anmelden, registrieren oder mehr erfahren</meta>
 </elements>
 <errors warnings="0" errors="2" fatals="0">
-	<errors>
+	<error>
 element: body, line: 26, col: 8
 "
 <body class="fbInde"
 Unexpected end tag : head
-</errors>
-	<errors>
+</error>
+	<error>
 element: body, line: 27, col: 6
 " class="fbIndex UIPa"
 htmlParseStartTag: misplaced <body> tag
-</errors>
+</error>
 </errors>
 </document>

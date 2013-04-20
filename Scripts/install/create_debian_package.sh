@@ -1,31 +1,38 @@
 #!/bin/bash
 
-./update_and_compile_release.sh
+#./update_and_compile_release.sh
+#if [ $? -ne 0 ]; then
+#    echo "ERROR: unsuccessful build, aborting..."
+#    exit 1
+#fi
 
 rm -rf debian-pkg/binary/debian
 mkdir -p debian-pkg/binary/debian
 cd debian-pkg/binary/debian
 
-cp ../deepnet_control.tmpl deepnet
+mkdir -p deepnet/DEBIAN
+cp ../deepnet_control.tmpl deepnet/DEBIAN/control
 
 mkdir -p usr/bin
 cd usr/bin
-cp ../../../DeepNetTool/Release/DeepNetTool      .
-cp ../../../WorkerBot/Release/WorkerBot          .
-cp ../../../QueryServer/Release/QueryServer      .
-cp ../../../SuggestServer/Release/SuggestServer  .
+cp ../../../../../../DeepNetTool/Release/DeepNetTool      .
+cp ../../../../../../WorkerBot/Release/WorkerBot          .
+cp ../../../../../../QueryServer/Release/QueryServer      .
+cp ../../../../../../SuggestServer/Release/SuggestServer  .
 cd ../..
 
 mkdir -p etc/deepnet
 cd etc/deepnet
-cp ../../Scripts/common.pages.conf.example      .
-cp ../../Scripts/db.generator.conf.example      .
-cp ../../Scripts/worker.se.conf.example         worker.conf.example
-cp ../../Scripts/queryserver.com.conf.example   queryserver.conf.example
-cp ../../Scripts/deepnet.tool.conf.example      deepnet.tool.conf.example
+cp ../../../../../conf/common.pages.conf.example      .
+cp ../../../../../conf/worker.se.conf.example         worker.conf.example
+cp ../../../../../conf/queryserver.com.conf.example   queryserver.conf.example
+cp ../../../../../conf/deepnet.tool.conf.example      deepnet.tool.conf.example
 cd ../..
 
 dpkg-deb --build deepnet
+mv deepnet.deb ..
+cd ..
+rm -rf debian
 
 
 
