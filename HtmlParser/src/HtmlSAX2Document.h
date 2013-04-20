@@ -28,7 +28,8 @@ public:
 	virtual ~HtmlSAX2Document();
 
 public:
-	inline void Reset() { elements.clear(); }
+	void Reset();
+	void DumpXML(std::string& xmlContent);
 
 public:
 	const std::vector<network::HttpUrl>& HyperLinks() const { return this->hyperlinks; }
