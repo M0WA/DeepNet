@@ -11,7 +11,7 @@ mkdir -p debian-pkg/binary/debian
 cd debian-pkg/binary/debian
 
 mkdir -p deepnet/DEBIAN
-cp ../deepnet_control.tmpl deepnet/DEBIAN/control
+cp ../tmpl/deepnet_control.tmpl deepnet/DEBIAN/control
 
 mkdir -p usr/bin
 cd usr/bin
