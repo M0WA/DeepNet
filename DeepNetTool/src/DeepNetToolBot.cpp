@@ -29,6 +29,7 @@
 #include "UnitTestIPv4TCPClient.h"
 #include "UnitTestIPv4TCPServer.h"
 #include "UnitTestHttpClient.h"
+#include "UnitTestSAX2HtmlParser.h"
 
 namespace toolbot {
 
@@ -243,10 +244,8 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if( Config().GetValue("urlValidateFile", urlFile) ) {
 		std::string invalidUrlFileName;
 		Config().GetValue("urlInvalidateFile", invalidUrlFileName);
-
 		unitTests.AddUnitTest(new UnitTestUrlParser(DB().Connection(),urlFile,invalidUrlFileName));
-		unitTests.AddUnitTest(new UnitTestCacheUrl(DB().Connection(),urlFile));
-	}
+		unitTests.AddUnitTest(new UnitTestCacheUrl(DB().Connection(),urlFile)); }
 
 	//initiate pcre regex unit test
 	std::string pcreRegexFile;
@@ -258,37 +257,12 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if( Config().GetValue("robotsTxtFile",robotsTxtFile) ){
 		unitTests.AddUnitTest(new UnitTestRobotTxt(robotsTxtFile)); }
 
-	/*
-	//test html parser with file
-	std::string htmlTesterFile;
-	if ( Config().GetValue("htmlFile", htmlTesterFile) ){
-
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"parsing html file");
-		htmlparser::HtmlTesterResult result;
-		htmlparser::HtmlTester::ParseHtmlFromFile(DB().Connection(),"siridia.de", htmlTesterFile, result);
-		std::string testOut = result.ToString(DB().Connection()).c_str();
-		int tmpLen = log::Logging::GetMaxLogLength();
-		log::Logging::SetMaxLogLength(testOut.length());
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"%s\nparsing html done",testOut.c_str());
-		log::Logging::SetMaxLogLength(tmpLen);
-	}
-
 	//initiate html parser based unit tests
 	std::string htmlUnitTestPath;
 	if(Config().GetValue("htmlUnitTestPath",htmlUnitTestPath)) {
 		std::vector<std::string> files;
 		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
-		std::vector<std::string>::const_iterator iterFiles = files.begin();
-		for(;iterFiles != files.end(); ++iterFiles) {
-			if( !UnitTestHtmlDocumentFactory::Test(DB().Connection(),"siridia.de",htmlUnitTestPath +"/" + *iterFiles) ){
-				bSuccess = false;
-			}
-
-			if(bSuccess) {
-				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all html parser based unit tests finished SUCCESSFULLY"); }
-		}
-	}
-	*/
+		unitTests.AddUnitTest(new toolbot::UnitTestSAX2HtmlParser(DB().Connection(),htmlUnitTestPath,files)); }
 
 	//unit tests for client sockets
 	std::string clientSocketTestFile;
