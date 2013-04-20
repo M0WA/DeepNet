@@ -65,6 +65,7 @@ void HtmlSAX2Document::DumpXML(std::string& xmlContent) {
 	xmlOut
 	<< "</errors>\n"
 	<< "</document>";
+	xmlContent = xmlOut.str();
 }
 
 }
