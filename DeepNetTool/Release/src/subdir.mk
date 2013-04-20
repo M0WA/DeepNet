@@ -16,6 +16,7 @@ CPP_SRCS += \
 ../src/UnitTestManager.cpp \
 ../src/UnitTestPCRERegex.cpp \
 ../src/UnitTestRobotTxt.cpp \
+../src/UnitTestSAX2HtmlParser.cpp \
 ../src/UnitTestUrl.cpp \
 ../src/UnitTestUrlParser.cpp \
 ../src/main.cpp 
@@ -33,6 +34,7 @@ OBJS += \
 ./src/UnitTestManager.o \
 ./src/UnitTestPCRERegex.o \
 ./src/UnitTestRobotTxt.o \
+./src/UnitTestSAX2HtmlParser.o \
 ./src/UnitTestUrl.o \
 ./src/UnitTestUrlParser.o \
 ./src/main.o 
@@ -50,6 +52,7 @@ CPP_DEPS += \
 ./src/UnitTestManager.d \
 ./src/UnitTestPCRERegex.d \
 ./src/UnitTestRobotTxt.d \
+./src/UnitTestSAX2HtmlParser.d \
 ./src/UnitTestUrl.d \
 ./src/UnitTestUrlParser.d \
 ./src/main.d 
