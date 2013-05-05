@@ -42,28 +42,30 @@ public:
 	 */
 	template <class T>
 	static inline void MakeUniqueVector(const std::vector<T>& in, std::vector<T>& unique, bool sort = false) {
-		//TODO: this could be done much more performant...
+
 		std::vector<T> tmpUnique = in;
 		std::sort(tmpUnique.begin(),tmpUnique.end());
 
-		std::vector<T> tmpUniqueSorted;
-		tmpUniqueSorted.insert(tmpUniqueSorted.begin(),tmpUnique.begin(),std::unique(tmpUnique.begin(),tmpUnique.end()));
-
-		std::map<T,bool> mapInserted;
-		typename std::vector<T>::const_iterator iterUnique = tmpUniqueSorted.begin();
-		for(;iterUnique != tmpUniqueSorted.end(); ++iterUnique) {
-			mapInserted[*iterUnique] = false; }
-
-		std::vector<T> uniqueUnsorted;
-		iterUnique = in.begin();
-		for(;iterUnique != in.end(); ++iterUnique) {
-
-			if(!mapInserted[*iterUnique]) {
-				uniqueUnsorted.push_back(*iterUnique);
-				mapInserted[*iterUnique] = true; }
+		if(sort)
+		{
+			std::unique_copy(tmpUnique.begin(),tmpUnique.end(),unique.begin());
 		}
+		else
+		{
+			//TODO: this could be done much more performant...
+			std::unique(tmpUnique.begin(),tmpUnique.end());
+			std::map<T,bool> mapInserted;
+			typename std::vector<T>::const_iterator iterUnique = tmpUnique.begin();
+			for(;iterUnique != tmpUnique.end(); ++iterUnique) {
+				mapInserted[*iterUnique] = false; }
 
-		unique = uniqueUnsorted;
+			iterUnique = in.begin();
+			for(;iterUnique != in.end(); ++iterUnique) {
+				if(!mapInserted[*iterUnique]) {
+					unique.push_back(*iterUnique);
+					mapInserted[*iterUnique] = true; }
+			}
+		}
 	}
 
 	/**
