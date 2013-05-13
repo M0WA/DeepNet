@@ -4,8 +4,10 @@
  * @author Moritz Wagner
  * @date Mar 5, 2013
  *
- * TODO: description for this file
- *
+ * this file contains all concrete implementation
+ * of all html element types currently available.
+ * For more information please consult the specification
+ * for DOM5 at the W3C.
  */
 
 #pragma once
@@ -19,8 +21,19 @@
 namespace htmlparser {
 	class Document;
 
+/**
+ * do not instanciate this class,
+ * it only serves as base class
+ * for all HTML elements. If you want to
+ * use a not specialised version of an
+ * element please use HTMLElementUnknown
+ */
 class HTMLElement : public htmlparser::Element {
 public:
+	/**
+	 * @class HTMLTag
+	 * @brief enumeration for all known HTML types
+	 */
 	enum HTMLTag {
 		unknownTag,
 		htmlTag,

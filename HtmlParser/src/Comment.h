@@ -14,8 +14,14 @@
 
 namespace htmlparser {
 
+/**
+ * @brief wraps html comments
+ */
 class Comment: public CharacterData {
 public:
+	/**
+	 * construct a comment from an owning document
+	 */
 	Comment(Document* ownerDocument);
 	virtual ~Comment();
 };
