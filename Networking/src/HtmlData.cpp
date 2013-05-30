@@ -12,6 +12,7 @@
 
 #include <Logging.h>
 #include <CharsetEncoder.h>
+#include <MimeType.h>
 
 namespace network {
 
@@ -26,14 +27,36 @@ size_t HtmlData::GetBufferSize() const {
 	return ((GetCount()>0) ? GetCount() : 1);
 }
 
-bool HtmlData::ConvertToHostCharset(const std::string& inEnc) {
+bool HtmlData::ConvertToHostCharset() {
 
 	if(GetCount() == 0) {
 		return false;}
 
+	//parse content-type as mime string
+	std::string mimeType,mimeEncoding;
+	if(!contentType.empty() && tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding))	{
+		if(mimeType.compare("text/html") != 0) {
+			if (log::Logging::IsLogLevelTrace())
+				log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "not an html document");
+			Release();
+			return false;
+		}
+
+		int confidence;
+		std::string encodingHint = mimeEncoding;
+		bool hintCorrect;
+		if(!DetectCharset(encodingHint, confidence, mimeEncoding, hintCorrect) ||
+		   !tools::CharsetEncoder::IsValidEncodingName(mimeEncoding) ) {
+			if (log::Logging::IsLogLevelTrace())
+				log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while detecting charset for html");
+			Release();
+			return false;
+		}
+	}
+
 	char zero = 0;
 	std::string out;
-	if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), inEnc, out) ) {
+	if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), mimeEncoding, out) ) {
 
 		if (log::Logging::IsLogLevelTrace())
 			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while converting to host charset");

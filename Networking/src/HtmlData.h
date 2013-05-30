@@ -19,8 +19,7 @@ public:
 	HtmlData() : tools::MemoryContainer<char>() { }
 	virtual ~HtmlData() { }
 
-	bool DetectCharset(const std::string& charsetHint, int& confidence, std::string& detectedEncoding, bool& hintCorrect);
-	bool ConvertToHostCharset(const std::string& inEnc);
+	bool ConvertToHostCharset();
 	bool EncodeHtml();
 
 	const char* GetBuffer() const;
@@ -28,6 +27,9 @@ public:
 
 	void SetContentType(const std::string& contentType);
 	const std::string& GetContentType() const;
+
+private:
+	bool DetectCharset(const std::string& charsetHint, int& confidence, std::string& detectedEncoding, bool& hintCorrect);
 
 private:
 	std::string contentType;
