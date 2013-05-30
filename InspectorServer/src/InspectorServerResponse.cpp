@@ -12,7 +12,7 @@
 #include <Logging.h>
 #include <HttpUrlParser.h>
 #include <GenericWebContentIndexer.h>
-#include <HttpConnection.h>
+#include <HttpClientCURL.h>
 #include <DatabaseLayer.h>
 #include <FastCGIRequest.h>
 #include <FastCGIServerThread.h>
@@ -20,6 +20,8 @@
 #include <ContainerTools.h>
 #include <CacheDatabaseUrl.h>
 #include <HttpUrl.h>
+#include <HttpResponse.h>
+#include <HttpClientSettings.h>
 
 #include <Exception.h>
 
@@ -75,23 +77,23 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				fullURL = urlIn.GetFullUrl();
 				bIsUrl = true;
 
-				network::HttpConnection::HttpConnectionParam inParam;
-				inParam.url       = fullURL;
-				inParam.userAgent = "siridia.de crawler v1.0";
-				inParam.secondsTimeoutConnect    = 3;
-				inParam.secondsTimeoutConnection = 3;
-				inParam.allowIPv6       = false;
-				inParam.uploadLimitKB   = 300;
-				inParam.downloadLimitKB = 300;
 
-				network::HttpConnection::HttpConnectionResult outParam;
-				network::HttpConnection server;
-				if( !server.FetchUrl(inParam,outParam) ) {
+				network::HttpClientCURL client;
+				network::HttpClientSettings& settings = client.Settings();
+
+				settings.userAgent = "siridia.de crawler v1.0";
+				settings.secondsTimeoutConnect    = 3;
+				settings.secondsTimeoutConnection = 3;
+				settings.allowIPv6       = false;
+				settings.uploadLimitKB   = 300;
+				settings.downloadLimitKB = 300;
+
+				network::HttpResponse responseServer;
+				if(!client.Get(urlIn,responseServer) || responseServer.httpResponseCode == -1) {
 					htmlCode = "";
 				}
-
-				if(outParam.httpResponseCode != -1) {
-					htmlCode = outParam.htmlCode.GetBuffer();
+				else {
+					htmlCode = responseServer.html.GetBuffer();
 				}
 			}
 /*
