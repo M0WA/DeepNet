@@ -31,12 +31,9 @@ private:
 	void RegisterDatabaseRepairParams();
 	void RegisterUrlInserterParams();
 	void RegisterHtmlTestParams();
-	void RegisterServerSocketTestParams();
-	void RegisterClientSocketTestParams();
 	void RegisterCommerceSearchParams();
 	void RegisterDataminingParams();
 	void RegisterPCRERegexTestParams();
-	void RegisterHttpClientParams();
 
 private:
 	bool ProcessUnitTests();

@@ -26,9 +26,6 @@
 #include "UnitTestCacheUrl.h"
 #include "UnitTestPCRERegex.h"
 #include "UnitTestRobotTxt.h"
-#include "UnitTestIPv4TCPClient.h"
-#include "UnitTestIPv4TCPServer.h"
-#include "UnitTestHttpClient.h"
 #include "UnitTestSAX2HtmlParser.h"
 
 namespace toolbot {
@@ -156,13 +153,10 @@ void DeepNetToolBot::RegisterDefaultParams(void) {
 	RegisterDatabaseRepairParams();
 	RegisterUrlInserterParams();
 	RegisterHtmlTestParams();
-	RegisterClientSocketTestParams();
-	RegisterServerSocketTestParams();
 	RegisterCommerceSearchParams();
 	RegisterDataminingParams();
 	RegisterPCRERegexTestParams();
 	RegisterRobotTxtParams();
-	RegisterHttpClientParams();
 
 	Bot::RegisterDefaultParams();
 }
@@ -177,16 +171,6 @@ void DeepNetToolBot::RegisterHtmlTestParams() {
 
 	Config().RegisterParam("htmlFile", "filename of html file to parse/check", false, false, 0);
 	Config().RegisterParam("htmlUnitTestPath", "path to unit test html files", false, false, 0);
-}
-
-void DeepNetToolBot::RegisterServerSocketTestParams() {
-
-	Config().RegisterParam("serverSocketTestFile", "filename for server socket test", false, false, 0);
-}
-
-void DeepNetToolBot::RegisterClientSocketTestParams() {
-
-	Config().RegisterParam("clientSocketTestFile", "filename for client socket test", false, false, 0);
 }
 
 void DeepNetToolBot::RegisterUrlInserterParams() {
@@ -228,12 +212,6 @@ void DeepNetToolBot::RegisterRobotTxtParams() {
 	Config().RegisterParam("robotsTxtFile", "validates robots.txt from file", false, false, 0 );
 }
 
-void DeepNetToolBot::RegisterHttpClientParams() {
-
-	Config().RegisterParam("httpClientGetTestFile", "validates GET httpclient from file", false, false, 0 );
-	Config().RegisterParam("httpClientPostTestFile", "validates POST httpclient from file", false, false, 0 );
-}
-
 bool DeepNetToolBot::ProcessUnitTests() {
 
 	bool bSuccess = true;
@@ -263,29 +241,6 @@ bool DeepNetToolBot::ProcessUnitTests() {
 		std::vector<std::string> files;
 		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
 		unitTests.AddUnitTest(new toolbot::UnitTestSAX2HtmlParser(DB().Connection(),htmlUnitTestPath,files)); }
-
-	//unit tests for client sockets
-	std::string clientSocketTestFile;
-	if( Config().GetValue("clientSocketTestFile", clientSocketTestFile) ) {
-
-		UnitTestIPv4TCPClient clientTest;
-		bSuccess = clientTest.Test("127.0.0.1",80);
-	}
-
-	//unit tests for server sockets
-	std::string serverSocketTestFile;
-	if( Config().GetValue("serverSocketTestFile", serverSocketTestFile) ) {
-
-		UnitTestIPv4TCPServer serverTest;
-		bSuccess = serverTest.Test("127.0.0.1",8180);
-	}
-
-	//unit tests for http client
-	std::string httpClientGetTestFile,httpClientPostTestFile;
-	if( Config().GetValue("httpClientGetTestFile", httpClientGetTestFile) || Config().GetValue("httpClientPostTestFile", httpClientPostTestFile) ) {
-
-		bSuccess = UnitTestHttpClient::Test(httpClientGetTestFile,httpClientPostTestFile);
-	}
 
 	bSuccess &= unitTests.Run();
 	return bSuccess;
