@@ -30,19 +30,19 @@ public:
 
 public:
 	virtual ~Pointer() {
-		Deconstruct();
+		Destruct();
 	}
 
-    operator const T*() const {
+	virtual operator const T*() const {
         return ptr;
     }
 
-    operator T*() {
+	virtual operator T*() {
         return ptr;
     }
 
 	void Set(T* ptr, bool autoDelete) {
-		Deconstruct();
+		Destruct();
 
 		this->ptr = ptr;
 		this->autoDelete = autoDelete;
@@ -69,7 +69,7 @@ public:
 	}
 
 private:
-	void Deconstruct() {
+	void Destruct() {
 		if(autoDelete)
 			Release();
 	}
@@ -98,7 +98,7 @@ public:
 	virtual ~AutoPointer()
 	{}
 
-    operator T&() {
+	virtual operator T&() {
     	if(!Pointer<T>::ptr)
     		Set(new T(), true);
         return *(Pointer<T>::ptr);
