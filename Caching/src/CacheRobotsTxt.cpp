@@ -8,8 +8,8 @@
 
 #include <sstream>
 #include <HttpUrlParser.h>
-#include <HttpClientEx.h>
-#include <HttpRequestResult.h>
+#include <HttpClientCURL.h>
+#include <HttpResponse.h>
 
 namespace caching {
 
@@ -65,13 +65,12 @@ bool CacheRobotsTxt::DownloadRobotsTxt(database::DatabaseConnection* db,const ht
 		return false; }
 
 	std::string robotsContent;
-	network::HttpClientEx client;
-	network::HttpRequestResult responseHttp;
-	client.Get(robotUrl,responseHttp);
-	if(!responseHttp.success) {
+	network::HttpClientCURL client;
+	network::HttpResponse responseHttp;
+	if(!client.Get(robotUrl,responseHttp)) {
 		return false;}
 
-	bool success = robot.Load(responseHttp.htmlData.GetBuffer());
+	bool success = robot.Load(responseHttp.html.GetBuffer());
 	if(success && cacheInstance.saveRobotsTxt) {
 		//TODO: save robots to database
 	}
