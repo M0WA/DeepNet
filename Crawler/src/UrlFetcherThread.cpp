@@ -24,16 +24,13 @@
 
 #include <HashTools.h>
 #include <TimeTools.h>
+#include <Pointer.h>
 #include <Logging.h>
 #include <PerformanceCounter.h>
 #include <HtmlData.h>
 
-#define _USE_HTTPCLIENT_EX
-#ifdef _USE_HTTPCLIENT_EX
-	#include <HttpClientEx.h>
-#else
-	#include <HttpConnection.h>
-#endif
+#include <HttpResponse.h>
+#include <HttpClientCURL.h>
 
 using namespace threading;
 using namespace database;
@@ -237,8 +234,60 @@ void UrlFetcherThread::OnIdle()
 bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparser::DatabaseUrl& url, network::HtmlData& htmlCode, long& httpCode, long long& urlStageID)
 {
 	PERFORMANCE_LOG_START;
-	if(log::Logging::IsLogLevelTrace()) log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "downloading url: " + url.GetFullUrl());
+	if(log::Logging::IsLogLevelTrace())
+		log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "downloading url: " + url.GetFullUrl());
 
+	tools::Pointer<network::IHttpClient> clientPtr(new network::HttpClientCURL());
+	network::IHttpClient& client(*clientPtr);
+
+	network::HttpClientSettings& settings(client.Settings());
+	settings.userAgent = fetcherThreadParam->userAgent;
+	settings.secondsTimeoutConnect = fetcherThreadParam->connectTimeout*1000;
+	settings.secondsTimeoutConnection = fetcherThreadParam->connectionTimeout*1000;
+	settings.allowIPv6 = fetcherThreadParam->useIPv6;
+	settings.downloadLimitKB = settings.uploadLimitKB = fetcherThreadParam->speedLimitKB;
+
+	network::HttpResponse result;
+	PERFORMANCE_LOG_RESTART;
+	bool success = client.Get(url,result);
+	PERFORMANCE_LOG_STOP("downloaded " + url.GetFullUrl());
+
+	httpCode = result.httpResponseCode;
+	if(!success) {
+		htmlCode.Release();
+		if (log::Logging::IsLogLevelTrace())
+			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"could not connect to/fetch %s ", url.GetFullUrl().c_str());
+	}
+	else {
+		htmlCode.Swap(result.html);
+	}
+
+	struct tm lastchange;
+	tools::TimeTools::InitTm(lastchange);
+	//localtime_r( &result.lastchange, &lastchange);
+
+	database::urlstagesTableBase urlStageTbl;
+	urlStageTbl.Set_URL_ID(urlID);
+	urlStageTbl.Set_response_code(httpCode);
+
+	if(htmlCode.GetBuffer()) { urlStageTbl.Set_content_md5(tools::HashTools::GetMD5(htmlCode.GetBuffer())); }
+	else                     { urlStageTbl.Set_content_md5(""); }
+
+
+	urlStageTbl.Set_redirect_count(result.redirectUrls.size());
+	urlStageTbl.Set_download_time( (result.totalTime > 0.0 ? static_cast<long long>(result.totalTime * 1000.0) : -1) );
+	urlStageTbl.Set_download_speed( (result.downloadSpeed > 0.0 ? static_cast<long long>(result.downloadSpeed * 1024) : -1) );
+	urlStageTbl.Set_upload_speed( (result.uploadSpeed > 0.0 ? static_cast<long long>(result.uploadSpeed * 1024) : -1) );
+	urlStageTbl.Set_content_length((result.contentLength > 0.0 ? static_cast<long long>(result.contentLength) : -1));
+	urlStageTbl.Set_content_type(result.html.GetContentType());
+	urlStageTbl.Set_last_change(lastchange);
+
+	urlStageTbl.Set_primary_ip(inet_addr(result.primaryIP.c_str()));
+	urlStageTbl.Set_primary_port(result.primaryPort);
+
+	urlStageTbl.Set_found_date(tools::TimeTools::NowUTC());
+
+	/*
 #ifdef _USE_HTTPCLIENT_EX
 
 	network::HttpClientEx client;
@@ -354,6 +403,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	bool success = true;
 
 #endif
+	*/
 
 	const char* pszBuffer = htmlCode.GetBuffer();
 
