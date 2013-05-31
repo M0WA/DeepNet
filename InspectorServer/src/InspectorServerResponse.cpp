@@ -12,7 +12,6 @@
 #include <Logging.h>
 #include <HttpUrlParser.h>
 #include <GenericWebContentIndexer.h>
-#include <HttpClientCURL.h>
 #include <DatabaseLayer.h>
 #include <FastCGIRequest.h>
 #include <FastCGIServerThread.h>
@@ -22,6 +21,8 @@
 #include <HttpUrl.h>
 #include <HttpResponse.h>
 #include <HttpClientSettings.h>
+#include <IHttpClient.h>
+#include <HttpClientFactory.h>
 
 #include <Exception.h>
 
@@ -78,8 +79,9 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				bIsUrl = true;
 
 
-				network::HttpClientCURL client;
-				network::HttpClientSettings& settings = client.Settings();
+				tools::Pointer<network::IHttpClient> client;
+				network::HttpClientFactory::CreateInstance(network::HttpClientFactory::CURL,client);
+				network::HttpClientSettings& settings = client.Get()->Settings();
 
 				settings.userAgent = "siridia.de crawler v1.0";
 				settings.secondsTimeoutConnect    = 3;
@@ -89,7 +91,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				settings.downloadLimitKB = 300;
 
 				network::HttpResponse responseServer;
-				if(!client.Get(urlIn,responseServer) || responseServer.httpResponseCode == -1) {
+				if(!client.Get()->Get(urlIn,responseServer) || responseServer.httpResponseCode == -1) {
 					htmlCode = "";
 				}
 				else {
