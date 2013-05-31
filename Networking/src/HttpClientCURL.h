@@ -13,7 +13,11 @@
 
 namespace network {
 
+class HttpClientFactory;
 class HttpClientCURL: public network::IHttpClient {
+
+	friend class network::HttpClientFactory;
+
 private:
 	typedef struct _CURLWriterParam{
 	public:
@@ -26,8 +30,9 @@ private:
 		HttpResponse& response;
 	} CURLWriterParam;
 
-public:
+private:
 	HttpClientCURL();
+public:
 	virtual ~HttpClientCURL();
 
 public:
