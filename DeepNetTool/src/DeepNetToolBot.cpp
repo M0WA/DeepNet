@@ -27,6 +27,7 @@
 #include "UnitTestPCRERegex.h"
 #include "UnitTestRobotTxt.h"
 #include "UnitTestSAX2HtmlParser.h"
+#include "UnitTestHttpClientCURL.h"
 
 namespace toolbot {
 
@@ -157,6 +158,7 @@ void DeepNetToolBot::RegisterDefaultParams(void) {
 	RegisterDataminingParams();
 	RegisterPCRERegexTestParams();
 	RegisterRobotTxtParams();
+	RegisterHtmlClientCURLParams();
 
 	Bot::RegisterDefaultParams();
 }
@@ -212,6 +214,12 @@ void DeepNetToolBot::RegisterRobotTxtParams() {
 	Config().RegisterParam("robotsTxtFile", "validates robots.txt from file", false, false, 0 );
 }
 
+void DeepNetToolBot::RegisterHtmlClientCURLParams() {
+
+	Config().RegisterParam("curlGetFile", "filename of urls to \"GET\" via cURL-based client", false, false, 0 );
+	Config().RegisterParam("curlPostFile", "filename of urls to \"POST\" via cURL-based client", false, false, 0 );
+}
+
 bool DeepNetToolBot::ProcessUnitTests() {
 
 	bool bSuccess = true;
@@ -242,6 +250,14 @@ bool DeepNetToolBot::ProcessUnitTests() {
 		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
 		unitTests.AddUnitTest(new toolbot::UnitTestSAX2HtmlParser(DB().Connection(),htmlUnitTestPath,files)); }
 
+	//initiate http client CURL based unit tests
+	std::string curlGetFile,curlPostFile;
+	bool isHttpCurlTest = Config().GetValue("curlGetFile",curlGetFile);
+	isHttpCurlTest |= Config().GetValue("curlPostFile",curlPostFile);
+	if(isHttpCurlTest){
+		unitTests.AddUnitTest(new toolbot::UnitTestHttpClientCURL(curlGetFile,curlPostFile)); }
+
+	//finally run all previously registered unit tests
 	bSuccess &= unitTests.Run();
 	return bSuccess;
 }

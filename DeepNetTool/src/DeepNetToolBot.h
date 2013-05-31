@@ -34,6 +34,7 @@ private:
 	void RegisterCommerceSearchParams();
 	void RegisterDataminingParams();
 	void RegisterPCRERegexTestParams();
+	void RegisterHtmlClientCURLParams();
 
 private:
 	bool ProcessUnitTests();
