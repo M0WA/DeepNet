@@ -49,8 +49,12 @@ bool UnitTestHttpClientCURL::Run() {
 
 		std::vector<network::HttpUrl>::const_iterator i = getUrls.begin();
 		for(;i != getUrls.end(); ++i) {
+
 			network::HttpResponse response;
-			if(!clientPtr->Get(*i,response)) {
+			bool successGet = clientPtr->Get(*i,response);
+			//TODO: do something with response...
+
+			if(!successGet) {
 				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not get url: " + i->GetFullUrl());
 				return false; }
 		}
