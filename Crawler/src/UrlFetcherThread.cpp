@@ -30,7 +30,9 @@
 #include <HtmlData.h>
 
 #include <HttpResponse.h>
-#include <HttpClientCURL.h>
+#include <HttpClientSettings.h>
+#include <IHttpClient.h>
+#include <HttpClientFactory.h>
 
 using namespace threading;
 using namespace database;
@@ -237,10 +239,10 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	if(log::Logging::IsLogLevelTrace())
 		log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "downloading url: " + url.GetFullUrl());
 
-	tools::Pointer<network::IHttpClient> clientPtr(new network::HttpClientCURL());
-	network::IHttpClient& client(*clientPtr);
+	tools::Pointer<network::IHttpClient> client;
+	network::HttpClientFactory::CreateInstance(network::HttpClientFactory::CURL,client);
 
-	network::HttpClientSettings& settings(client.Settings());
+	network::HttpClientSettings& settings(client.Get()->Settings());
 	settings.userAgent = fetcherThreadParam->userAgent;
 	settings.secondsTimeoutConnect = fetcherThreadParam->connectTimeout*1000;
 	settings.secondsTimeoutConnection = fetcherThreadParam->connectionTimeout*1000;
@@ -249,7 +251,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 
 	network::HttpResponse result;
 	PERFORMANCE_LOG_RESTART;
-	bool success = client.Get(url,result);
+	bool success = client.Get()->Get(url,result);
 	PERFORMANCE_LOG_STOP("downloaded " + url.GetFullUrl());
 
 	httpCode = result.httpResponseCode;
