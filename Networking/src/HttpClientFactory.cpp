@@ -21,16 +21,14 @@ bool HttpClientFactory::CreateInstance( const HTTP_CLIENT_TYPE& type, tools::Poi
 	{
 	case CURL:
 		client.Set(new network::HttpClientCURL(),true);
-		break;
+		return true;
 
-	case OWN_IMPLEMENTATION:
+	case OWN:
 		return false;
 
 	default:
 		return false;
 	}
-
-	return true;
 }
 
 }

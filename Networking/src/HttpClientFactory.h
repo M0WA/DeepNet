@@ -24,7 +24,7 @@ private:
 public:
 	typedef enum {
 		CURL,
-		OWN_IMPLEMENTATION,
+		OWN,
 	} HTTP_CLIENT_TYPE;
 
 	static bool CreateInstance( const HTTP_CLIENT_TYPE& type, tools::Pointer<IHttpClient>& client );
