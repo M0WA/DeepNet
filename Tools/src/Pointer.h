@@ -84,11 +84,11 @@ class AutoPointer : public Pointer<T> {
 
 public:
 	AutoPointer<T>()
-	: Pointer<T>()
+	: Pointer<T>(0)
 	{ }
 
 	AutoPointer<T>(const T& copyObj)
-	: Pointer<T>(new T(copyObj))
+	: Pointer<T>(copyObj)
 	{ }
 
 	AutoPointer<T>(T* ptr)
