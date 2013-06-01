@@ -13,7 +13,7 @@
 #include <HtmlData.h>
 #include <Logging.h>
 #include <StringTools.h>
-#include <DatabaseUrl.h>
+#include <HttpUrl.h>
 
 #include "Token.h"
 #include "Tokeniser.h"
@@ -49,7 +49,7 @@ static const char* optgroup_option[] = { "optgroup", "option", 0 };
 static const char* rp_rt[] = { "rp", "rt", 0 };
 static const char* caption_col_colgroup_frame_head_tbody_td_tfoot_th_thead_tr[] = { "caption", "col", "colgroup", "frame", "head", "tbody", "td", "tfoot", "th", "thead", "tr", 0 };
 
-DocumentFactory::DocumentFactory(const htmlparser::DatabaseUrl& url)
+DocumentFactory::DocumentFactory(const network::HttpUrl& url)
 : url(url)
 , curDoc(0)
 , tokeniser(0)
@@ -62,7 +62,7 @@ DocumentFactory::DocumentFactory(const htmlparser::DatabaseUrl& url)
 DocumentFactory::~DocumentFactory() {
 }
 
-Document* DocumentFactory::FromHtmlData(const htmlparser::DatabaseUrl& url, const network::HtmlData& data) {
+Document* DocumentFactory::FromHtmlData(const network::HttpUrl& url, const network::HtmlData& data) {
 
 	DocumentFactory instance(url);
 	Tokeniser tokeniserImpl(instance);

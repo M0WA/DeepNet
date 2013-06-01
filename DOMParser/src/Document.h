@@ -19,14 +19,14 @@
 #include "NodeFilter.h"
 #include "DOMImplementation.h"
 
-#include <DatabaseUrl.h>
+#include <HttpUrl.h>
 
 namespace toolbot {
 	class UnitTestHtmlDocumentFactory;
 }
 
-namespace htmlparser {
-	class DatabaseUrl;
+namespace network {
+	class HttpUrl;
 }
 
 namespace domparser {
@@ -49,7 +49,7 @@ class Document : public Node {
 	friend class toolbot::UnitTestHtmlDocumentFactory;
 
 private:
-	Document(const htmlparser::DatabaseUrl& url, const char* characterSet = "utf-8", const char* contentType = "application/xml");
+	Document(const network::HttpUrl& url, const char* characterSet = "utf-8", const char* contentType = "application/xml");
 
 public:
 	virtual ~Document();
@@ -81,7 +81,7 @@ private:
 	Node* doAdoptNode(Node* node);
 
 private:
-	htmlparser::DatabaseUrl dbUrl;
+	network::HttpUrl dbUrl;
 
 	DOMImplementation implementation;
 	DOMString documentURI;

@@ -23,7 +23,7 @@
 
 namespace domparser {
 
-Document::Document(const htmlparser::DatabaseUrl& url, const char* characterSet, const char* contentType)
+Document::Document(const network::HttpUrl& url, const char* characterSet, const char* contentType)
 : Node(this,DOCUMENT_NODE)
 , dbUrl(url)
 , URL(url.GetFullUrl())

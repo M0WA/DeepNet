@@ -14,6 +14,10 @@
 
 #include "Node.h"
 
+namespace network {
+	class HttpUrl;
+}
+
 namespace htmlparser {
 	class DatabaseUrl;
 }
@@ -63,7 +67,7 @@ protected:
 	};
 
 protected:
-	DocumentFactory(const htmlparser::DatabaseUrl& url);
+	DocumentFactory(const network::HttpUrl& url);
 public:
 	virtual ~DocumentFactory();
 
@@ -74,7 +78,7 @@ public:
 	 * @param data html data.
 	 * @return NULL on error, document on success.
 	 */
-	static Document* FromHtmlData(const htmlparser::DatabaseUrl& url, const network::HtmlData& data);
+	static Document* FromHtmlData(const network::HttpUrl& url, const network::HtmlData& data);
 
 protected:
 	bool ParseFromString(const char* content, const size_t& size);
@@ -135,7 +139,8 @@ private:
 	bool IgnoreHtmlWhiteSpace(const CharacterToken& token);
 
 protected:
-	const htmlparser::DatabaseUrl& url;
+	//const htmlparser::DatabaseUrl& url;
+	const network::HttpUrl& url;
 	Document* curDoc;
 	Tokeniser* tokeniser;
 
