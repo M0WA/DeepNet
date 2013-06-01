@@ -4,8 +4,6 @@
  * @author Moritz Wagner
  * @date Mar 9, 2013
  *
- * TODO: description for this file
- *
  */
 
 #include "UnitTestHtmlDocumentFactory.h"
@@ -19,7 +17,6 @@
 #include <CacheDatabaseUrl.h>
 #include <HttpUrlParser.h>
 #include <Exception.h>
-
 
 namespace toolbot {
 
@@ -37,15 +34,6 @@ bool UnitTestHtmlDocumentFactory::Run(){
 
 	std::string htmlContent;
 	tools::FileTools::ReadFile(htmlFile,htmlContent);
-
-	/*
-	try {
-		network::HttpUrlParser::ParseURL(url);
-	}
-	catch(tools::Exception& e) {
-		return false;
-	}
-	*/
 
 	UnitTestHtmlTokeniser tokeniserImpl(*this);
 	curDoc = new domparser::Document(url, "utf-8", "text/html");

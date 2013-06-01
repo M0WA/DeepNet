@@ -15,6 +15,7 @@
 #include <FileTools.h>
 #include <HttpUrl.h>
 #include <HttpUrlParser.h>
+#include <Exception.h>
 
 #include "DatabaseRepair.h"
 #include "CommerceSearchTools.h"
@@ -225,24 +226,6 @@ void DeepNetToolBot::RegisterHtmlClientCURLParams() {
 }
 
 void DeepNetToolBot::RegisterHtmlDocumentFactoryParams() {
-
-	//initiate html parser based unit tests
-	/*
-	std::string htmlUnitTestPath;
-	if(Config().GetValue("htmlUnitTestPath",htmlUnitTestPath)) {
-		std::vector<std::string> files;
-		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
-		std::vector<std::string>::const_iterator iterFiles = files.begin();
-		for(;iterFiles != files.end(); ++iterFiles) {
-			if( !UnitTestHtmlDocumentFactory::Test(DB().Connection(),"siridia.de",htmlUnitTestPath +"/" + *iterFiles) ){
-				bSuccess = false;
-			}
-
-			if(bSuccess) {
-				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all html parser based unit tests finished SUCCESSFULLY"); }
-		}
-	}
-	*/
 }
 
 bool DeepNetToolBot::ProcessUnitTests() {
@@ -281,6 +264,25 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	isHttpCurlTest |= Config().GetValue("curlPostFile",curlPostFile);
 	if(isHttpCurlTest){
 		unitTests.AddUnitTest(new toolbot::UnitTestHttpClientCURL(curlGetFile,curlPostFile)); }
+
+	//initiate html parser based unit tests
+	std::string domParserUnitTestPath;
+	if(Config().GetValue("domParserUnitTestPath",domParserUnitTestPath)) {
+		network::HttpUrl httpUrl;
+		bool success = true;
+		try {
+			network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
+		catch(errors::Exception& e) {
+			success = false; }
+
+		if(success)	{
+			std::vector<std::string> files;
+			tools::FileTools::ListDirectory(files, domParserUnitTestPath, ".*?\\.html$", true);
+			std::vector<std::string>::const_iterator iterFiles = files.begin();
+			for(;iterFiles != files.end(); ++iterFiles) {
+				unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestPath +"/" + *iterFiles)); }
+		}
+	}
 
 	//finally run all previously registered unit tests
 	bSuccess &= unitTests.Run();
