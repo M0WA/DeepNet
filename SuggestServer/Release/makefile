@@ -44,7 +44,7 @@ all: SuggestServer
 SuggestServer: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L../../Bot/Release -L../../Networking/Release -L../../FastCGIServer/Release -L../../Caching/Release -L../../Crawler/Release -L../../Indexer/Release -L../../HtmlParser/Release -L../../Threading/Release -L../../Logging/Release -L../../Database/Release -rdynamic -o "SuggestServer" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L../../Bot/Release -L../../Tools/Release -L../../Networking/Release -L../../FastCGIServer/Release -L../../Caching/Release -L../../Crawler/Release -L../../Indexer/Release -L../../HtmlParser/Release -L../../Threading/Release -L../../Logging/Release -L../../Database/Release -rdynamic -o "SuggestServer" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

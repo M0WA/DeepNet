@@ -29,7 +29,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../FastCGIServer/src -I../../Bot/src -I../../Logging/src -I../../Threading/src -I../../Database/src -I../../Database/generated -O0 -g -Wall -c -fmessage-length=0 -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Tools/src -I../../Networking/src -I../../FastCGIServer/src -I../../Bot/src -I../../Logging/src -I../../Threading/src -I../../Database/src -I../../Database/generated -O0 -g -Wall -c -fmessage-length=0 -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

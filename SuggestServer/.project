@@ -11,6 +11,7 @@
 		<project>Indexer</project>
 		<project>Logging</project>
 		<project>Threading</project>
+		<project>Tools</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
