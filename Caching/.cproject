@@ -31,6 +31,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.843346296" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Logging/src"/>
 									<listOptionValue builtIn="false" value="../../Database/src"/>
 									<listOptionValue builtIn="false" value="../../Database/generated"/>
@@ -99,6 +100,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.2048254042" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Logging/src"/>
 									<listOptionValue builtIn="false" value="../../Database/src"/>
 									<listOptionValue builtIn="false" value="../../Database/generated"/>
