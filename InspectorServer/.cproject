@@ -26,6 +26,7 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.549980300" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1590439094" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="../../Bot/src"/>
 									<listOptionValue builtIn="false" value="../../Caching/src"/>
@@ -68,6 +69,7 @@
 									<listOptionValue builtIn="false" value="Database"/>
 									<listOptionValue builtIn="false" value="Networking"/>
 									<listOptionValue builtIn="false" value="Logging"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="fcgi++"/>
 									<listOptionValue builtIn="false" value="fcgi"/>
 									<listOptionValue builtIn="false" value="pcre"/>
@@ -82,6 +84,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.paths.1248375186" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Debug"/>
+									<listOptionValue builtIn="false" value="../../Tools/Debug"/>
 									<listOptionValue builtIn="false" value="../../Networking/Debug"/>
 									<listOptionValue builtIn="false" value="../../FastCGIServer/Debug"/>
 									<listOptionValue builtIn="false" value="../../Caching/Debug"/>
@@ -139,6 +142,7 @@
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1773331456" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.2087122441" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="../../Bot/src"/>
 									<listOptionValue builtIn="false" value="../../Caching/src"/>
@@ -178,6 +182,7 @@
 									<listOptionValue builtIn="false" value="Database"/>
 									<listOptionValue builtIn="false" value="Networking"/>
 									<listOptionValue builtIn="false" value="Logging"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="fcgi++"/>
 									<listOptionValue builtIn="false" value="fcgi"/>
 									<listOptionValue builtIn="false" value="pcre"/>
@@ -192,6 +197,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.paths.1877082811" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Release"/>
+									<listOptionValue builtIn="false" value="../../Tools/Release"/>
 									<listOptionValue builtIn="false" value="../../Networking/Release"/>
 									<listOptionValue builtIn="false" value="../../FastCGIServer/Release"/>
 									<listOptionValue builtIn="false" value="../../Caching/Release"/>
