@@ -180,12 +180,20 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		}
 	}
 
+	long long internLinks = 0, externLinks = 0, secondLevelID = entry.url.GetSecondLevelID();
 	if(mapUrls.size()>0)
 	{
 		std::vector<database::TableBase> vecLinks;
 		std::map<htmlparser::DatabaseUrl,long long>::iterator iterInsertLinks = mapUrls.begin();
 
 		for(int i=0; iterInsertLinks != mapUrls.end(); i++,++iterInsertLinks) {
+
+
+			if(iterInsertLinks->first.GetSecondLevelID() == secondLevelID) {
+				internLinks++;}
+			else {
+				externLinks++;}
+
 
 			if(entry.urlID <= 0 || entry.urlStageID <=0 || iterInsertLinks->second<=0){
 				log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "error while inserting links, invalid ids: \nurlID: %ll urlStageID: %ll %s",entry.urlID, entry.urlStageID, iterInsertLinks->first.GetFullUrl().c_str());
@@ -203,6 +211,8 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 			tblLinks.InsertOrUpdate(db,colDefsSum);
 		}
 	}
+
+	UpdateUrlstageInfos(db,internLinks,externLinks,secondLevelID);
 }
 
 void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
@@ -225,6 +235,29 @@ void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,con
 			tblMeta.Set_type(3);
 			tblMeta.Insert(db);}
 	}
+}
+
+void GenericWebHtmlParserThread::UpdateUrlstageInfos(database::DatabaseConnection* db,const long long internLinks, const long long externLinks, const long long baseURLID) {
+
+
+	//TODO: update parameter `html_errors` here also
+
+	database::WhereConditionTableColumnCreateParam createParam(database::EQUALS,database::AND);
+	std::vector<database::WhereConditionTableColumn*> container;
+	database::urlstagesTableBase::GetWhereColumnsFor_URL_ID(
+		    createParam,
+		    baseURLID,
+		    container);
+
+	database::TableBaseUpdateParam update;
+	update.limit = 1;
+	update.whereCols = container;
+	update.onlyDirtyColumns = true;
+
+	database::urlstagesTableBase tblUrl;
+	tblUrl.Set_int_links(internLinks);
+	tblUrl.Set_ext_links(externLinks);
+	tblUrl.Update(db,database::TableBaseUpdateParam());
 }
 
 }

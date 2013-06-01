@@ -113,40 +113,15 @@ bool HtmlParserThread::ParsePages(const std::vector<HtmlParserEntry>& entries) {
 			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while parsing from url: %s", iterEntries->url.GetFullUrl().c_str());
 		}
 
-		UpdateUrlstageInfos(document, iterEntries->url);
-		PERFORMANCE_LOG_STOP("parsing single page");
+		ParsePage(*iterEntries,document);
 
 		//TODO: page ranking => bot to calculate ???
+
+		PERFORMANCE_LOG_STOP("parsing single page");
+
 	}
+
 	return true;
-}
-
-void HtmlParserThread::UpdateUrlstageInfos(const htmlparser::HtmlSAX2Document& document, const htmlparser::DatabaseUrl& baseURL) {
-
-	std::vector<htmlparser::DatabaseUrl> hyperLinks;
-
-	//
-	// TODO:
-	//
-	//pDoc->GetLinks(hyperLinks);
-
-	long long internLinks = 0, externLinks = 0, secondLevelID = baseURL.GetSecondLevelID();
-
-	std::vector<htmlparser::DatabaseUrl>::const_iterator iterLinks = hyperLinks.begin();
-	for(;iterLinks != hyperLinks.end();++iterLinks) {
-
-		if(iterLinks->GetSecondLevelID() == secondLevelID) {
-			internLinks++;}
-		else {
-			externLinks++;}
-	}
-
-	//TODO: update parameter `html_errors` here also
-
-	database::urlstagesTableBase tblUrl;
-	tblUrl.Set_int_links(internLinks);
-	tblUrl.Set_ext_links(externLinks);
-	tblUrl.Update(DB().Connection(),database::TableBaseUpdateParam());
 }
 
 void HtmlParserThread::OnIdle() {

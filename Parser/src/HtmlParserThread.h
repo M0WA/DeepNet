@@ -41,7 +41,6 @@ private:
 	virtual void InitParserThread() {}
 
 private:
-	void UpdateUrlstageInfos(const htmlparser::HtmlSAX2Document& document, const htmlparser::DatabaseUrl& baseURL);
 	bool ParsePages(const std::vector<HtmlParserEntry>& entries);
 	bool GetNextPages(std::vector<HtmlParserEntry>& entries);
 	void OnIdle();

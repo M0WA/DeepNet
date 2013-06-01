@@ -51,6 +51,12 @@ private:
 			const HtmlParserEntry& entry,
 			const std::vector<std::pair<std::string,std::string> >& meta);
 
+	static void UpdateUrlstageInfos(
+			database::DatabaseConnection* db,
+			const long long internLinks,
+			const long long externLinks,
+			const long long baseURLID);
+
 private:
 	virtual bool ParsePage(
 			const HtmlParserEntry& entry,
@@ -63,7 +69,6 @@ private:
 			const std::vector<htmlparser::DatabaseUrl>& hyperlinks,
 			const std::vector<network::HttpUrl>& images)
 	{}
-
 };
 
 }
