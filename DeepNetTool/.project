@@ -13,6 +13,7 @@
 		<project>Networking</project>
 		<project>Parser</project>
 		<project>Threading</project>
+		<project>Tools</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -41,7 +42,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
-					<value>${workspace_loc:/DeepNetTool/Release}</value>
+					<value>${workspace_loc:/DeepNetTool/Debug}</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.cleanBuildTarget</key>
