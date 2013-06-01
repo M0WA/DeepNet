@@ -12,38 +12,49 @@
 
 #include "UnitTestHtmlTokeniser.h"
 
-#include <DatabaseUrl.h>
 #include <Document.h>
 #include <Node.h>
 
 #include <FileTools.h>
 #include <CacheDatabaseUrl.h>
+#include <HttpUrlParser.h>
+#include <Exception.h>
 
 
 namespace toolbot {
 
-UnitTestHtmlDocumentFactory::UnitTestHtmlDocumentFactory(const htmlparser::DatabaseUrl& url)
-: domparser::DocumentFactory(url) {
+UnitTestHtmlDocumentFactory::UnitTestHtmlDocumentFactory( const network::HttpUrl& url, const std::string& htmlFile )
+: domparser::DocumentFactory(url)
+, toolbot::UnitTest()
+, htmlFile(htmlFile){
+
 }
 
 UnitTestHtmlDocumentFactory::~UnitTestHtmlDocumentFactory() {
 }
 
-bool UnitTestHtmlDocumentFactory::Test(database::DatabaseConnection* db, const std::string& url,const std::string& htmlFile){
+bool UnitTestHtmlDocumentFactory::Run(){
 
 	std::string htmlContent;
 	tools::FileTools::ReadFile(htmlFile,htmlContent);
 
-	htmlparser::DatabaseUrl dbUrl = caching::CacheDatabaseUrl::GetByUrlString(db, url);
-	UnitTestHtmlDocumentFactory instance(dbUrl);
-	UnitTestHtmlTokeniser tokeniserImpl(instance);
-	instance.curDoc = new domparser::Document(dbUrl, "utf-8", "text/html");
-	instance.tokeniser = &tokeniserImpl;
+	/*
+	try {
+		network::HttpUrlParser::ParseURL(url);
+	}
+	catch(tools::Exception& e) {
+		return false;
+	}
+	*/
+
+	UnitTestHtmlTokeniser tokeniserImpl(*this);
+	curDoc = new domparser::Document(url, "utf-8", "text/html");
+	tokeniser = &tokeniserImpl;
 	tokeniserImpl.Parse(htmlContent.c_str(),htmlContent.length());
-	delete instance.curDoc;
+	delete curDoc;
 
 	tools::FileTools::DeleteFile(htmlFile + ".tokeniser.xml");
-	tools::FileTools::WriteFile(htmlFile + ".tokeniser.xml", instance.ssXML.str(), false);
+	tools::FileTools::WriteFile(htmlFile + ".tokeniser.xml", ssXML.str(), false);
 	return false;
 }
 

@@ -35,6 +35,7 @@ private:
 	void RegisterDataminingParams();
 	void RegisterPCRERegexTestParams();
 	void RegisterHtmlClientCURLParams();
+	void RegisterHtmlDocumentFactoryParams();
 
 private:
 	bool ProcessUnitTests();

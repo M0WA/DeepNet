@@ -4,8 +4,6 @@
  * @author Moritz Wagner
  * @date Mar 9, 2013
  *
- * TODO: description for this file
- *
  */
 
 #pragma once
@@ -14,10 +12,9 @@
 #include <sstream>
 
 #include <DocumentFactory.h>
+#include "UnitTest.h"
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
+#include <HttpUrl.h>
 
 namespace domparser {
 	class Token;
@@ -29,20 +26,24 @@ namespace database {
 
 namespace toolbot {
 
-class UnitTestHtmlDocumentFactory : public domparser::DocumentFactory {
-public:
-	UnitTestHtmlDocumentFactory(const htmlparser::DatabaseUrl& url);
-	virtual ~UnitTestHtmlDocumentFactory();
+class UnitTestHtmlDocumentFactory : public domparser::DocumentFactory, public toolbot::UnitTest {
 
 public:
-	static bool Test(database::DatabaseConnection* db, const std::string& url,const std::string& htmlFile);
+	UnitTestHtmlDocumentFactory( const network::HttpUrl& url, const std::string& htmlFile );
+	virtual ~UnitTestHtmlDocumentFactory();
 
 private:
 	virtual bool OnToken(const domparser::Token& token);
 	virtual void SwitchMode(const domparser::DocumentFactory::InsertionMode& newInsertionMode);
 
+public:
+	virtual bool Run();
+	virtual std::string GetName() const { return "UnitTestHtmlDocumentFactory"; }
+
 private:
 	std::stringstream ssXML;
+	network::HttpUrl url;
+	std::string htmlFile;
 };
 
 }

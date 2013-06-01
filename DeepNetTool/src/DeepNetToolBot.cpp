@@ -28,6 +28,7 @@
 #include "UnitTestRobotTxt.h"
 #include "UnitTestSAX2HtmlParser.h"
 #include "UnitTestHttpClientCURL.h"
+#include "UnitTestHtmlDocumentFactory.h"
 
 namespace toolbot {
 
@@ -152,13 +153,16 @@ bool DeepNetToolBot::OnShutdown() {
 void DeepNetToolBot::RegisterDefaultParams(void) {
 
 	RegisterDatabaseRepairParams();
-	RegisterUrlInserterParams();
-	RegisterHtmlTestParams();
 	RegisterCommerceSearchParams();
 	RegisterDataminingParams();
+	RegisterUrlInserterParams();
+
+	//unit tests
+	RegisterHtmlTestParams();
 	RegisterPCRERegexTestParams();
 	RegisterRobotTxtParams();
 	RegisterHtmlClientCURLParams();
+	RegisterHtmlDocumentFactoryParams();
 
 	Bot::RegisterDefaultParams();
 }
@@ -218,6 +222,27 @@ void DeepNetToolBot::RegisterHtmlClientCURLParams() {
 
 	Config().RegisterParam("curlGetFile", "filename of urls to \"GET\" via cURL-based client", false, false, 0 );
 	Config().RegisterParam("curlPostFile", "filename of urls to \"POST\" via cURL-based client", false, false, 0 );
+}
+
+void DeepNetToolBot::RegisterHtmlDocumentFactoryParams() {
+
+	//initiate html parser based unit tests
+	/*
+	std::string htmlUnitTestPath;
+	if(Config().GetValue("htmlUnitTestPath",htmlUnitTestPath)) {
+		std::vector<std::string> files;
+		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
+		std::vector<std::string>::const_iterator iterFiles = files.begin();
+		for(;iterFiles != files.end(); ++iterFiles) {
+			if( !UnitTestHtmlDocumentFactory::Test(DB().Connection(),"siridia.de",htmlUnitTestPath +"/" + *iterFiles) ){
+				bSuccess = false;
+			}
+
+			if(bSuccess) {
+				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all html parser based unit tests finished SUCCESSFULLY"); }
+		}
+	}
+	*/
 }
 
 bool DeepNetToolBot::ProcessUnitTests() {
