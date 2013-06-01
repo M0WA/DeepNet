@@ -30,6 +30,7 @@
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="../../Caching/src"/>
 									<listOptionValue builtIn="false" value="../../Indexer/src"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Parser/src"/>
 									<listOptionValue builtIn="false" value="../../Crawler/src"/>
 									<listOptionValue builtIn="false" value="../../Database/src"/>
@@ -70,6 +71,7 @@
 									<listOptionValue builtIn="false" value="Database"/>
 									<listOptionValue builtIn="false" value="Networking"/>
 									<listOptionValue builtIn="false" value="Logging"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Caching"/>
 									<listOptionValue builtIn="false" value="pcre"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
@@ -84,6 +86,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.paths.1897620805" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Debug"/>
+									<listOptionValue builtIn="false" value="../../Tools/Debug"/>
 									<listOptionValue builtIn="false" value="../../Networking/Debug"/>
 									<listOptionValue builtIn="false" value="../../Caching/Debug"/>
 									<listOptionValue builtIn="false" value="../../Indexer/Debug"/>
@@ -143,6 +146,7 @@
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="../../Caching/src"/>
 									<listOptionValue builtIn="false" value="../../Indexer/src"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Parser/src"/>
 									<listOptionValue builtIn="false" value="../../Crawler/src"/>
 									<listOptionValue builtIn="false" value="../../Database/src"/>
@@ -180,6 +184,7 @@
 									<listOptionValue builtIn="false" value="Database"/>
 									<listOptionValue builtIn="false" value="Networking"/>
 									<listOptionValue builtIn="false" value="Logging"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Caching"/>
 									<listOptionValue builtIn="false" value="pcre"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
@@ -194,6 +199,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.paths.1259956065" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Release"/>
+									<listOptionValue builtIn="false" value="../../Tools/Release"/>
 									<listOptionValue builtIn="false" value="../../Networking/Release"/>
 									<listOptionValue builtIn="false" value="../../Caching/Release"/>
 									<listOptionValue builtIn="false" value="../../Indexer/Release"/>
