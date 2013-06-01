@@ -7,6 +7,7 @@
 		<project>Caching</project>
 		<project>Crawler</project>
 		<project>Database</project>
+		<project>DOMParser</project>
 		<project>HtmlParser</project>
 		<project>Indexer</project>
 		<project>Logging</project>

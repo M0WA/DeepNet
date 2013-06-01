@@ -10,6 +10,8 @@ CPP_SRCS += \
 ../src/DeepNetToolBot.cpp \
 ../src/UnitTest.cpp \
 ../src/UnitTestCacheUrl.cpp \
+../src/UnitTestHtmlDocumentFactory.cpp \
+../src/UnitTestHtmlTokeniser.cpp \
 ../src/UnitTestHttpClientCURL.cpp \
 ../src/UnitTestManager.cpp \
 ../src/UnitTestPCRERegex.cpp \
@@ -26,6 +28,8 @@ OBJS += \
 ./src/DeepNetToolBot.o \
 ./src/UnitTest.o \
 ./src/UnitTestCacheUrl.o \
+./src/UnitTestHtmlDocumentFactory.o \
+./src/UnitTestHtmlTokeniser.o \
 ./src/UnitTestHttpClientCURL.o \
 ./src/UnitTestManager.o \
 ./src/UnitTestPCRERegex.o \
@@ -42,6 +46,8 @@ CPP_DEPS += \
 ./src/DeepNetToolBot.d \
 ./src/UnitTest.d \
 ./src/UnitTestCacheUrl.d \
+./src/UnitTestHtmlDocumentFactory.d \
+./src/UnitTestHtmlTokeniser.d \
 ./src/UnitTestHttpClientCURL.d \
 ./src/UnitTestManager.d \
 ./src/UnitTestPCRERegex.d \
@@ -56,7 +62,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -DENABLE_PERFORMANCE_LOG -I/usr/include/libxml2 -I../../Tools/src -I../../Networking/src -I../../Database/src -I../../Caching/src -I../../Database/generated -I../../Indexer/src -I../../Logging/src -I../../Threading/src -I../../Bot/src -I../../HtmlParser/src -O0 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -DENABLE_PERFORMANCE_LOG -I/usr/include/libxml2 -I../../DOMParser/src -I../../Tools/src -I../../Networking/src -I../../Database/src -I../../Caching/src -I../../Database/generated -I../../Indexer/src -I../../Logging/src -I../../Threading/src -I../../Bot/src -I../../HtmlParser/src -O0 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
