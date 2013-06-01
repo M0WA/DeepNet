@@ -10,9 +10,7 @@ CPP_SRCS += \
 ../src/DeepNetToolBot.cpp \
 ../src/UnitTest.cpp \
 ../src/UnitTestCacheUrl.cpp \
-../src/UnitTestHttpClient.cpp \
-../src/UnitTestIPv4TCPClient.cpp \
-../src/UnitTestIPv4TCPServer.cpp \
+../src/UnitTestHttpClientCURL.cpp \
 ../src/UnitTestManager.cpp \
 ../src/UnitTestPCRERegex.cpp \
 ../src/UnitTestRobotTxt.cpp \
@@ -28,9 +26,7 @@ OBJS += \
 ./src/DeepNetToolBot.o \
 ./src/UnitTest.o \
 ./src/UnitTestCacheUrl.o \
-./src/UnitTestHttpClient.o \
-./src/UnitTestIPv4TCPClient.o \
-./src/UnitTestIPv4TCPServer.o \
+./src/UnitTestHttpClientCURL.o \
 ./src/UnitTestManager.o \
 ./src/UnitTestPCRERegex.o \
 ./src/UnitTestRobotTxt.o \
@@ -46,9 +42,7 @@ CPP_DEPS += \
 ./src/DeepNetToolBot.d \
 ./src/UnitTest.d \
 ./src/UnitTestCacheUrl.d \
-./src/UnitTestHttpClient.d \
-./src/UnitTestIPv4TCPClient.d \
-./src/UnitTestIPv4TCPServer.d \
+./src/UnitTestHttpClientCURL.d \
 ./src/UnitTestManager.d \
 ./src/UnitTestPCRERegex.d \
 ./src/UnitTestRobotTxt.d \
@@ -62,7 +56,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -DENABLE_PERFORMANCE_LOG -I/usr/include/libxml2 -I../../Networking/src -I../../Database/src -I../../Caching/src -I../../Database/generated -I../../Indexer/src -I../../Logging/src -I../../Threading/src -I../../Bot/src -I../../HtmlParser/src -O0 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -DENABLE_PERFORMANCE_LOG -I/usr/include/libxml2 -I../../Tools/src -I../../Networking/src -I../../Database/src -I../../Caching/src -I../../Database/generated -I../../Indexer/src -I../../Logging/src -I../../Threading/src -I../../Bot/src -I../../HtmlParser/src -O0 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

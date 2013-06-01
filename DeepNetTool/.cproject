@@ -26,6 +26,7 @@
 								<option id="gnu.cpp.compiler.exe.debug.option.debugging.level.1415593756" name="Debug Level" superClass="gnu.cpp.compiler.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1040428105" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="../../Database/src"/>
 									<listOptionValue builtIn="false" value="../../Caching/src"/>
@@ -67,6 +68,7 @@
 									<listOptionValue builtIn="false" value="Database"/>
 									<listOptionValue builtIn="false" value="Networking"/>
 									<listOptionValue builtIn="false" value="Logging"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="curl"/>
@@ -80,6 +82,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.paths.1031145873" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Debug"/>
+									<listOptionValue builtIn="false" value="../../Tools/Debug"/>
 									<listOptionValue builtIn="false" value="../../Networking/Debug"/>
 									<listOptionValue builtIn="false" value="../../Crawler/Debug"/>
 									<listOptionValue builtIn="false" value="../../Indexer/Debug"/>
@@ -135,6 +138,7 @@
 								<option id="gnu.cpp.compiler.exe.release.option.debugging.level.1134282147" name="Debug Level" superClass="gnu.cpp.compiler.exe.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.900846659" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="../../Database/src"/>
 									<listOptionValue builtIn="false" value="../../Caching/src"/>
@@ -176,6 +180,7 @@
 									<listOptionValue builtIn="false" value="Database"/>
 									<listOptionValue builtIn="false" value="Networking"/>
 									<listOptionValue builtIn="false" value="Logging"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="xml2"/>
 									<listOptionValue builtIn="false" value="curl"/>
@@ -189,6 +194,7 @@
 								</option>
 								<option id="gnu.cpp.link.option.paths.1761904983" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Release"/>
+									<listOptionValue builtIn="false" value="../../Tools/Release"/>
 									<listOptionValue builtIn="false" value="../../Networking/Release"/>
 									<listOptionValue builtIn="false" value="../../Crawler/Release"/>
 									<listOptionValue builtIn="false" value="../../Indexer/Release"/>
