@@ -10,7 +10,13 @@
 
 namespace network {
 
-HttpClientSettings::HttpClientSettings() {
+HttpClientSettings::HttpClientSettings()
+: userAgent("siridia v1.0")
+, secondsTimeoutConnect(5)
+, secondsTimeoutConnection(15)
+, allowIPv6(false)
+, uploadLimitKB(300)
+, downloadLimitKB(300) {
 }
 
 HttpClientSettings::~HttpClientSettings() {
