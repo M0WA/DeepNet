@@ -244,8 +244,8 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 
 	network::HttpClientSettings& settings(client.Get()->Settings());
 	settings.userAgent = fetcherThreadParam->userAgent;
-	settings.secondsTimeoutConnect = fetcherThreadParam->connectTimeout*1000;
-	settings.secondsTimeoutConnection = fetcherThreadParam->connectionTimeout*1000;
+	settings.secondsTimeoutConnect = fetcherThreadParam->connectTimeout;
+	settings.secondsTimeoutConnection = fetcherThreadParam->connectionTimeout;
 	settings.allowIPv6 = fetcherThreadParam->useIPv6;
 	settings.downloadLimitKB = settings.uploadLimitKB = fetcherThreadParam->speedLimitKB;
 
