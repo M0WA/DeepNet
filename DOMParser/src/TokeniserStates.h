@@ -1,6 +1,6 @@
 /**
  *
- * @file TokeniserState.h
+ * @file TokeniserStates.h
  * @author Moritz Wagner
  * @date 02.03.2013
  *

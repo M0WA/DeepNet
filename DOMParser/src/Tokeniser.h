@@ -48,18 +48,32 @@ public:
 public:
 	/**
 	 * parses html document from a string.
-	 * @param url url of source code.
-	 * @param db database connection.
-	 * @param input input buffer.
+	 * @param pData raw html buffer.
+	 * @param size size of html buffer.
 	 * @param logVerbose true to produce heavily verbose output.
 	 * @return false on error, true on success.
 	 */
 	bool Parse(const char* pData,const size_t& size, const bool logVerbose = false);
 
 public:
+	/**
+	 * gets position in document (before comments etc. where removed)
+	 * @param pos position in "cleaned" document
+	 * @return original position
+	 */
 	uintptr_t MapToOriginalPosition(const uintptr_t& pos) const;
+
 	void GetCurLineCol(size_t& line,size_t& col) const;
+
+	/**
+	 * initializes internal column/line tracking
+	 */
 	void InitLineVector();
+
+	/**
+	 * gets preformated column and line string for current position
+	 * @return preformated column and line string
+	 */
 	std::string GetLineColumnString() const;
 
 private:
