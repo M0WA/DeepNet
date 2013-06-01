@@ -69,7 +69,7 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 	char* redirUrl = 0;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_RESPONSE_CODE, &response.httpResponseCode) != CURLE_OK ) response.httpResponseCode=-1;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_FILETIME, &response.fileTimestamp)         != CURLE_OK ) response.fileTimestamp=0;
-	if( curl_easy_getinfo(curlPtr, CURLINFO_REDIRECT_URL, &redirUrl)                   == CURLE_OK ) response.redirectUrls.push_back(redirUrl);
+	if( curl_easy_getinfo(curlPtr, CURLINFO_REDIRECT_URL, &redirUrl) == CURLE_OK  && redirUrl != 0 ) response.redirectUrls.push_back(redirUrl);
 	if( curl_easy_getinfo(curlPtr, CURLINFO_SPEED_DOWNLOAD, &response.downloadSpeed )  != CURLE_OK ) response.downloadSpeed=0.0;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_SPEED_UPLOAD, &response.uploadSpeed )      != CURLE_OK ) response.uploadSpeed=0.0;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_TOTAL_TIME, &response.totalTime )          != CURLE_OK ) response.totalTime=0.0;
