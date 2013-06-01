@@ -83,6 +83,18 @@ template <class T>
 class AutoPointer : public Pointer<T> {
 
 public:
+	AutoPointer<T>()
+	: Pointer<T>()
+	{ }
+
+	AutoPointer<T>(const T& copyObj)
+	: Pointer<T>(new T(copyObj))
+	{ }
+
+	AutoPointer<T>(T* ptr)
+	: Pointer<T>(ptr)
+	{ }
+
 	virtual ~AutoPointer()
 	{}
 
