@@ -34,6 +34,15 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.1400277741" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.optimization.level.429306665" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.1692062503" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1409363463" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="_REENTRANT"/>
+									<listOptionValue builtIn="false" value="ENABLE_PERFORMANCE_LOG"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.include.paths.2125226825" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="../../Logging/src"/>
+									<listOptionValue builtIn="false" value="../../Threading/src"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.763125902" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.2036502499" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
@@ -83,6 +92,14 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.compiler.627079745" name="Cross G++ Compiler" superClass="cdt.managedbuild.tool.gnu.cross.cpp.compiler">
 								<option id="gnu.cpp.compiler.option.optimization.level.2102333435" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.debugging.level.160092551" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.649605894" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="_REENTRANT"/>
+								</option>
+								<option id="gnu.cpp.compiler.option.include.paths.2048003604" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
+									<listOptionValue builtIn="false" value="../../Logging/src"/>
+									<listOptionValue builtIn="false" value="../../Threading/src"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1666361861" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.1487424484" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
@@ -119,5 +136,8 @@
 		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.cross.lib.debug.1371505454;cdt.managedbuild.config.gnu.cross.lib.debug.1371505454.;cdt.managedbuild.tool.gnu.cross.c.compiler.614921590;cdt.managedbuild.tool.gnu.c.compiler.input.207526410">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.managedbuilder.core.GCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/Tools"/>
 	</storageModule>
 </cproject>
