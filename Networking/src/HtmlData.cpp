@@ -1,8 +1,7 @@
-/*
- * HtmlData.cpp
- *
- *  Created on: 23.11.2012
- *      Author: Moritz Wagner
+/**
+ * @file HtmlData.cpp
+ * @author Moritz Wagner
+ * @date 23.11.2012
  */
 
 #include "HtmlData.h"
