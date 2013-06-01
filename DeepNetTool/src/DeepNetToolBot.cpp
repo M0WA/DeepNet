@@ -226,6 +226,9 @@ void DeepNetToolBot::RegisterHtmlClientCURLParams() {
 }
 
 void DeepNetToolBot::RegisterHtmlDocumentFactoryParams() {
+
+	Config().RegisterParam("domParserUnitTestFile", "filename of html file to parse/check for DOM parser", false, false, 0);
+	Config().RegisterParam("domParserUnitTestPath", "path to unit test html files for DOM parser", false, false, 0);
 }
 
 bool DeepNetToolBot::ProcessUnitTests() {
@@ -265,22 +268,29 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if(isHttpCurlTest){
 		unitTests.AddUnitTest(new toolbot::UnitTestHttpClientCURL(curlGetFile,curlPostFile)); }
 
-	//initiate html parser based unit tests
-	std::string domParserUnitTestPath;
-	if(Config().GetValue("domParserUnitTestPath",domParserUnitTestPath)) {
-		network::HttpUrl httpUrl;
-		bool success = true;
-		try {
-			network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
-		catch(errors::Exception& e) {
-			success = false; }
+	//used for html parsed as base url
+	network::HttpUrl httpUrl;
+	bool successParse = true;
+	try {
+		network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
+	catch(errors::Exception& e) {
+		successParse = false; }
 
-		if(success)	{
+	//initiate html parser based unit tests
+	if(successParse) {
+		std::string domParserUnitTestPath,domParserUnitTestFile;
+		if(Config().GetValue("domParserUnitTestPath",domParserUnitTestPath)) {
 			std::vector<std::string> files;
 			tools::FileTools::ListDirectory(files, domParserUnitTestPath, ".*?\\.html$", true);
+
 			std::vector<std::string>::const_iterator iterFiles = files.begin();
 			for(;iterFiles != files.end(); ++iterFiles) {
-				unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestPath +"/" + *iterFiles)); }
+				unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestPath +"/" + *iterFiles));
+			}
+		}
+
+		if(Config().GetValue("domParserUnitTestFile",domParserUnitTestFile)) {
+			unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestFile));
 		}
 	}
 
