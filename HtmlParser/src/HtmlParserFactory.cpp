@@ -18,15 +18,15 @@ HtmlParserFactory::HtmlParserFactory() {
 HtmlParserFactory::~HtmlParserFactory() {
 }
 
-void HtmlParserFactory::CreateInstance( const IHtmlParser::HtmlParserType& type, tools::Pointer<IHtmlParser>& client ){
+void HtmlParserFactory::CreateInstance( const HtmlParserType& type, tools::Pointer<IHtmlParser>& client ){
 
 	switch(type)
 	{
-	case IHtmlParser::LIBXML:
+	case LIBXML:
 		client.Set(new libxmlparser::HtmlSAX2Parser(),true);
 		break;
 
-	case IHtmlParser::DOM:
+	case DOM:
 		client.Set((IHtmlParser*)0,true);
 		break;
 
