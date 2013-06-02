@@ -2,7 +2,7 @@
  *
  * @file HtmlParserFactory.h
  * @author Moritz Wagner
- * @date Jun 2, 2013
+ * @date 02.06.2013
  *
  */
 

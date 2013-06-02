@@ -1,3 +1,9 @@
+/**
+ * @file IHtmlParser.h
+ * @author Moritz Wagner
+ * @date 02.06.2013
+ */
+
 #pragma once
 
 #include <vector>

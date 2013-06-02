@@ -1,8 +1,7 @@
-/*
- * TLD.cpp
- *
- *  Created on: 25.03.2012
- *      Author: Moritz Wagner
+/**
+ * @file TLD.cpp
+ * @author Moritz Wagner
+ * @date 25.03.2012
  */
 
 #include "TLD.h"
