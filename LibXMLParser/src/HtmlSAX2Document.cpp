@@ -15,7 +15,8 @@
 namespace libxmlparser {
 
 HtmlSAX2Document::HtmlSAX2Document(const htmlparser::DatabaseUrl& url)
-: url(url)
+: result(url)
+, url(url)
 , wellformed(0){
 }
 

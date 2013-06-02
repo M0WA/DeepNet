@@ -14,7 +14,7 @@ namespace libxmlparser {
 
 class LibXMLParserResult: public htmlparser::IHtmlParserResult {
 public:
-	LibXMLParserResult();
+	LibXMLParserResult(const htmlparser::DatabaseUrl& url);
 	virtual ~LibXMLParserResult();
 };
 
