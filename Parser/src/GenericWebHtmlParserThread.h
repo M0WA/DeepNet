@@ -38,7 +38,7 @@ private:
 			database::DatabaseConnection* db,
 			const HtmlParserEntry& entry,
 			const std::vector<network::HttpUrl>& images,
-			const htmlparser::HtmlSAX2Document& document);
+			tools::Pointer<htmlparser::IHtmlParserResult>& result);
 
 	static void InsertLinks(
 			database::DatabaseConnection* db,
@@ -60,11 +60,11 @@ private:
 private:
 	virtual bool ParsePage(
 			const HtmlParserEntry& entry,
-			const htmlparser::HtmlSAX2Document& document);
+			tools::Pointer<htmlparser::IHtmlParserResult>& result);
 
 	virtual void OnAfterParsePage(
 			const HtmlParserEntry& entry,
-			const htmlparser::HtmlSAX2Document& document,
+			tools::Pointer<htmlparser::IHtmlParserResult>& result,
 			const std::vector<std::string> &content,
 			const std::vector<htmlparser::DatabaseUrl>& hyperlinks,
 			const std::vector<network::HttpUrl>& images)

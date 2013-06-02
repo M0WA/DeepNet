@@ -20,7 +20,8 @@
 #include <CacheSubdomain.h>
 #include <CacheSecondLevelDomain.h>
 
-#include <HtmlSAX2Document.h>
+#include <HtmlParserFactory.h>
+#include <IHtmlParser.h>
 #include <HttpUrlParserException.h>
 #include <DatabaseUrl.h>
 #include <HttpUrl.h>
@@ -36,16 +37,16 @@ GenericWebHtmlParserThread::GenericWebHtmlParserThread() {
 GenericWebHtmlParserThread::~GenericWebHtmlParserThread() {
 }
 
-bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document) {
+bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result) {
 
-	const std::vector<network::HttpUrl> &hyperLinks = document.HyperLinks(),
-			&imagesLinks = document.Images(),
+	const std::vector<network::HttpUrl> &hyperLinks = result.Get()->hyperlinks,
+			&imagesLinks = result.Get()->images,
 			videosLinks; //TODO: video links
 
-	const std::vector< std::pair<std::string,std::string> >& meta = document.Meta();
+	const std::vector< std::pair<std::string,std::string> >& meta = result.Get()->meta;
 
 	std::vector< std::string > content;
-	tools::ContainerTools::VectorPair2ToVector(document.Content(),content);
+	tools::ContainerTools::VectorPair2ToVector(result.Get()->content,content);
 
 	//make link strings unique
 	std::vector<network::HttpUrl> uniqueImages;
@@ -71,18 +72,18 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,const ht
 	PERFORMANCE_LOG_STOP("inserting found links from parsed page");
 
 	PERFORMANCE_LOG_RESTART;
-	InsertImages(DB().Connection(),entry,uniqueImages,document);
+	InsertImages(DB().Connection(),entry,uniqueImages,result);
 	PERFORMANCE_LOG_STOP("inserting found images from parsed page");
 
 	PERFORMANCE_LOG_RESTART;
 	InsertMeta(DB().Connection(),entry, meta);
 	PERFORMANCE_LOG_STOP("inserting metainformation from parsed page");
 
-	OnAfterParsePage(entry,document,content,dbLinks,uniqueImages);
+	OnAfterParsePage(entry,result,content,dbLinks,uniqueImages);
 	return true;
 }
 
-void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& images,const htmlparser::HtmlSAX2Document& document)
+void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& images,tools::Pointer<htmlparser::IHtmlParserResult>& result)
 {
 	if(images.size() == 0)
 		return;
@@ -139,7 +140,7 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 
 		database::imagelinksTableBase mapTbl;
 		mapTbl.Set_IMAGE_URL_ID(imageUrlID);
-		mapTbl.Set_TARGET_URL_ID(document.Url().GetUrlID());
+		mapTbl.Set_TARGET_URL_ID(result.Get()->url.GetUrlID());
 		mapTbl.Set_URLSTAGE_ID(entry.urlStageID);
 
 		try

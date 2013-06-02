@@ -8,10 +8,11 @@
 #include "CommerceSearchParserThread.h"
 
 #include <NotImplementedException.h>
-#include <HtmlSAX2Document.h>
 #include <HttpUrl.h>
+#include <DatabaseUrl.h>
 
-#include "DatabaseUrl.h"
+#include <HtmlParserFactory.h>
+#include <IHtmlParser.h>
 
 namespace parser {
 
@@ -48,7 +49,7 @@ void CommerceSearchParserThread::InitParserThread() {
 	}
 }
 
-void CommerceSearchParserThread::OnAfterParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images)
+void CommerceSearchParserThread::OnAfterParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images)
 {
 	const std::vector<CommerceSearchMatchCriteria*>& criteriaVector = criterias.GetVector();
 
@@ -56,7 +57,7 @@ void CommerceSearchParserThread::OnAfterParsePage(const HtmlParserEntry& entry,c
 	MatchUrlCriteria(entry,hyperlinks,criteriaVector);
 
 	//take care about meta info specific criteria
-	MatchMetaCriteria(entry,document,criteriaVector);
+	MatchMetaCriteria(entry,result,criteriaVector);
 
 	//take care about image specific criteria
 	MatchImageCriteria(entry,images,criteriaVector);
@@ -108,7 +109,7 @@ void CommerceSearchParserThread::MatchUrlCriteria(const HtmlParserEntry& entry,c
 	}
 }
 
-void CommerceSearchParserThread::MatchMetaCriteria(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
+void CommerceSearchParserThread::MatchMetaCriteria(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
 
 	std::vector<std::string> titles,descriptions;
 

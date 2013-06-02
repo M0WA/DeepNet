@@ -34,11 +34,11 @@ public:
 private:
 	//virtual bool ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document);
 	virtual void InitParserThread();
-	virtual void OnAfterParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images);
+	virtual void OnAfterParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images);
 
 private:
 	void MatchUrlCriteria(const HtmlParserEntry& entry,const std::vector<htmlparser::DatabaseUrl>& hyperLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector);
-	void MatchMetaCriteria(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector);
+	void MatchMetaCriteria(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector);
 	void MatchImageCriteria(const HtmlParserEntry& entry,const std::vector<network::HttpUrl>& imagesLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector);
 
 private:

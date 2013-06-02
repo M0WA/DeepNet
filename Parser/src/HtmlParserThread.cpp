@@ -11,8 +11,8 @@
 #include <Logging.h>
 #include <PerformanceCounter.h>
 
-#include <HtmlSAX2Parser.h>
-#include <HtmlSAX2Document.h>
+#include <HtmlParserFactory.h>
+#include <IHtmlParser.h>
 
 #include <CacheParsed.h>
 #include <CacheHtml.h>
@@ -106,14 +106,15 @@ bool HtmlParserThread::ParsePages(const std::vector<HtmlParserEntry>& entries) {
 		//parsing
 		PERFORMANCE_LOG_RESTART;
 
-		htmlparser::HtmlSAX2Parser parser;
-		htmlparser::HtmlSAX2Document document(iterEntries->url);
-		if(!parser.Parse(iterEntries->html,document))
-		{
+		tools::Pointer<htmlparser::IHtmlParser> parser;
+		htmlparser::HtmlParserFactory::CreateInstance(htmlparser::IHtmlParser::LIBXML,parser);
+
+		tools::Pointer<htmlparser::IHtmlParserResult> result;
+		if(!parser.Get()->Parse(iterEntries->html,result)) {
 			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while parsing from url: %s", iterEntries->url.GetFullUrl().c_str());
 		}
 
-		ParsePage(*iterEntries,document);
+		ParsePage(*iterEntries,result);
 
 		//TODO: page ranking => bot to calculate ???
 

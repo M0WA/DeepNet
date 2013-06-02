@@ -13,13 +13,14 @@
 
 #include <Thread.h>
 #include <DatabaseLayer.h>
+#include <Pointer.h>
+#include <IHtmlParser.h>
 
 #include "HtmlParserParam.h"
 #include "HtmlParserEntry.h"
 
 
 namespace htmlparser {
-	class HtmlSAX2Document;
 	class DatabaseUrl;
 }
 
@@ -37,7 +38,7 @@ private:
 	static void* HtmlParserThreadFunction(THREAD_PARAM* threadParam);
 
 private:
-	virtual bool ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document)=0;
+	virtual bool ParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result)=0;
 	virtual void InitParserThread() {}
 
 private:
