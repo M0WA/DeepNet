@@ -9,7 +9,6 @@
 #include "HtmlParserFactory.h"
 
 #include <HtmlSAX2Parser.h>
-//#include <DocumentFactory.h>
 
 namespace htmlparser {
 
@@ -19,7 +18,7 @@ HtmlParserFactory::HtmlParserFactory() {
 HtmlParserFactory::~HtmlParserFactory() {
 }
 
-void HtmlParserFactory::CreateInstance( const IHtmlParser::HTML_PARSER_TYPE& type, tools::Pointer<IHtmlParser>& client ){
+void HtmlParserFactory::CreateInstance( const IHtmlParser::HtmlParserType& type, tools::Pointer<IHtmlParser>& client ){
 
 	switch(type)
 	{

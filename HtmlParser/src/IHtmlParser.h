@@ -59,11 +59,26 @@ class IHtmlParser {
 	friend class HtmlParserFactory;
 
 public:
+	/**
+	 * @enum HtmlParserType
+	 * @brief type of html parser
+	 */
 	typedef enum {
+		/**
+		* using libXML based html parser
+		*/
 		LIBXML = 0,
+
+		/**
+		* using own html5 parser implementation
+		*/
 		DOM,
+
+		/**
+		* do not use this
+		*/
 		MAX_HTML_PARSER_TYPE,
-	} HTML_PARSER_TYPE;
+	} HtmlParserType;
 
 protected:
 	IHtmlParser() {}

@@ -19,7 +19,7 @@ private:
 public:
 	virtual ~HtmlParserFactory();
 
-	static void CreateInstance( const IHtmlParser::HTML_PARSER_TYPE& type, tools::Pointer<IHtmlParser>& client );
+	static void CreateInstance( const IHtmlParser::HtmlParserType& type, tools::Pointer<IHtmlParser>& client );
 };
 
 }
