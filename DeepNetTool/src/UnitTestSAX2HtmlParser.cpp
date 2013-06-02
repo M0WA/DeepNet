@@ -50,7 +50,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 	bool success = true;
 
 	tools::Pointer<htmlparser::IHtmlParser> parser;
-	htmlparser::HtmlParserFactory::CreateInstance(htmlparser::IHtmlParser::LIBXML,parser);
+	htmlparser::HtmlParserFactory::CreateInstance(htmlparser::HtmlParserFactory::LIBXML,parser);
 
 	std::string html;
 	network::HtmlData htmlData;
