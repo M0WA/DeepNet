@@ -107,7 +107,7 @@ bool HtmlParserThread::ParsePages(const std::vector<HtmlParserEntry>& entries) {
 		PERFORMANCE_LOG_RESTART;
 
 		tools::Pointer<htmlparser::IHtmlParser> parser;
-		htmlparser::HtmlParserFactory::CreateInstance(htmlparser::IHtmlParser::LIBXML,parser);
+		htmlparser::HtmlParserFactory::CreateInstance(htmlparser::HtmlParserFactory::LIBXML,parser);
 
 		tools::Pointer<htmlparser::IHtmlParserResult> result;
 		if(!parser.Get()->Parse(iterEntries->html,result)) {
