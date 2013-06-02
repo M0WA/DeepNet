@@ -1,8 +1,7 @@
-/*
- * HttpUrlParser.h
- *
- *  Created on: Dec 22, 2012
- *      Author: Moritz Wagner
+/**
+ * @file HttpUrlParser.h
+ * @author Moritz Wagner
+ * @date 22.12.2012
  */
 
 #pragma once
@@ -13,6 +12,10 @@
 namespace network {
 
 class HttpUrl;
+
+/**
+ * @brief parser class for URLs
+ */
 class HttpUrlParser {
 
 private:
@@ -29,28 +32,53 @@ public:
 	virtual ~HttpUrlParser();
 
 public:
-	static void InitTLDCache(const std::vector<std::string>& tldsCache) { tlds = tldsCache; }
+	/**
+	 * sets local top level domain cache
+	 * @param tldsCache available top level domains
+	 */
+	static void SetTopLevelDomains(const std::vector<std::string>& tldVec) { tlds = tldVec; }
 
 public:
-	//
-	// initialize toplevel domains
-	//
-	static void SetAllowedTopLevelDomains(const std::vector<std::string>& tldVec) { tlds = tldVec; }
-
-public:
-	//
-	// parsing functions
-	//
+	/**
+	 * parses url from string and base url
+	 * @param sBaseUrl base url of document (for relative links)
+	 * @param sUrl url to parse
+	 * @param url parsed url
+	 */
 	static void ParseURL(const std::string& sBaseUrl, const std::string& sUrl, HttpUrl& url);
+
+	/**
+	 * parses url from string
+	 * @param sUrl url to parse
+	 * @param url parsed url
+	 */
 	static void ParseURL(const std::string& sUrl, HttpUrl& url);
+
+	/**
+	 * parses url from string and base url
+	 * @param baseUrl base url of document (for relative links)
+	 * @param sUrl url to parse
+	 * @param url parsed url
+	 */
 	static void ParseURL(const HttpUrl& baseUrl, const std::string& sUrl, HttpUrl& url);
 
-	//
-	// encoding functions
-	//
+	/**
+	 * url decode string
+	 * @param url url decoded string
+	 */
 	static void DecodeUrl(std::string& url);
+
+	/**
+	 * url encode string
+	 * @param url url encoded string
+	 */
 	static void EncodeUrl(std::string& url);
 
+	/**
+	 * normalized path
+	 * @param pathIn path to normalize
+	 * @param pathNormalized normalized path
+	 */
 	static void NormalizePath(const std::string& pathIn, std::string& pathNormalized);
 
 private:

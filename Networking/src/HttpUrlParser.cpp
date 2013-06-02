@@ -1,8 +1,7 @@
-/*
- * HttpUrlParser.cpp
- *
- *  Created on: Dec 22, 2012
- *      Author: Moritz Wagner
+/**
+ * @file HttpUrlParser.cpp
+ * @author Moritz Wagner
+ * @date 22.12.2012
  */
 
 #include "HttpUrlParser.h"
