@@ -11,6 +11,10 @@ namespace network {
 
 namespace htmlparser {
 
+/**
+ * @brief interface class for html parser results
+ * @see htmlparser::IHtmlParser
+ */
 class IHtmlParserResult {
 
 protected:
@@ -45,7 +49,14 @@ public:
 	virtual void DumpXML(std::string& xmlContent);
 };
 
+/**
+ * @brief interface class for all supported html parsers.
+ * use this class for parsing html, use factory class only to instanciate.
+ * @see htmlparser::HtmlParserFactory
+ */
 class IHtmlParser {
+
+	friend class HtmlParserFactory;
 
 public:
 	typedef enum {
@@ -54,9 +65,18 @@ public:
 		MAX_HTML_PARSER_TYPE,
 	} HTML_PARSER_TYPE;
 
+private:
+	IHtmlParser() {}
+
 public:
 	virtual ~IHtmlParser() {}
 
+	/**
+	 * parses html and generates content result
+	 * @param html html to parse
+	 * @param result result containing content and info for html documents
+	 * @return true if successful, false if unsuccessful
+	 */
 	virtual bool Parse(const network::HtmlData& html, tools::Pointer<IHtmlParserResult>& result)=0;
 };
 
