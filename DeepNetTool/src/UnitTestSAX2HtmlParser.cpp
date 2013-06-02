@@ -14,8 +14,9 @@
 #include <Logging.h>
 
 #include <HtmlData.h>
-#include <HtmlSAX2Parser.h>
-#include <HtmlSAX2Document.h>
+#include <IHtmlParser.h>
+#include <HtmlParserFactory.h>
+
 #include <DatabaseUrl.h>
 #include <CacheDatabaseUrl.h>
 
@@ -47,10 +48,12 @@ bool UnitTestSAX2HtmlParser::Run() {
 bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 {
 	bool success = true;
-	htmlparser::HtmlSAX2Parser parser;
+
+	tools::Pointer<htmlparser::IHtmlParser> parser;
+	htmlparser::HtmlParserFactory::CreateInstance(htmlparser::IHtmlParser::LIBXML,parser);
+
 	std::string html;
 	network::HtmlData htmlData;
-	htmlparser::HtmlSAX2Document document(baseUrl);
 	std::ostringstream ssOut;
 	std::vector<std::string>::const_iterator iter = htmlFilenames.begin();
 	for(;iter != htmlFilenames.end();++iter) {
@@ -59,7 +62,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 
 		html.clear();
 		htmlData.Release();
-		document.Reset();
+
 
 		if(!tools::FileTools::ReadFile(htmlFileName,html)||html.length() == 0) {
 			success = false;
@@ -69,9 +72,10 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		htmlData.Append(html.c_str(),html.length());
 		htmlData.SetContentType("text/html");
 
+		tools::Pointer<htmlparser::IHtmlParserResult> result;
 		try
 		{
-			success &= parser.Parse(htmlData,document);
+			success &= parser.Parse(htmlData,result);
 		}
 		catch(...)
 		{
@@ -80,7 +84,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		}
 
 		std::string outFileContent;
-		document.DumpXML(outFileContent);
+		result.DumpXML(outFileContent);
 
 		std::string unitTestOutFile = htmlFileName + ".unittest.xml";
 		std::string unitTestTemplateFile = unitBaseDir +"/" + *iter + ".unittest.template.xml";
