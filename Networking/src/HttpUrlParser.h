@@ -34,7 +34,7 @@ public:
 public:
 	/**
 	 * sets local top level domain cache
-	 * @param tldsCache available top level domains
+	 * @param tldVec available top level domains
 	 */
 	static void SetTopLevelDomains(const std::vector<std::string>& tldVec) { tlds = tldVec; }
 
