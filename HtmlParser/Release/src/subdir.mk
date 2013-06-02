@@ -6,11 +6,6 @@
 CPP_SRCS += \
 ../src/DatabaseUrl.cpp \
 ../src/HtmlParserException.cpp \
-../src/HtmlSAX2Attribute.cpp \
-../src/HtmlSAX2Document.cpp \
-../src/HtmlSAX2Element.cpp \
-../src/HtmlSAX2Namespace.cpp \
-../src/HtmlSAX2Parser.cpp \
 ../src/TLD.cpp \
 ../src/UrlInserter.cpp \
 ../src/UrlParserDecodeException.cpp \
@@ -20,11 +15,6 @@ CPP_SRCS += \
 OBJS += \
 ./src/DatabaseUrl.o \
 ./src/HtmlParserException.o \
-./src/HtmlSAX2Attribute.o \
-./src/HtmlSAX2Document.o \
-./src/HtmlSAX2Element.o \
-./src/HtmlSAX2Namespace.o \
-./src/HtmlSAX2Parser.o \
 ./src/TLD.o \
 ./src/UrlInserter.o \
 ./src/UrlParserDecodeException.o \
@@ -34,11 +24,6 @@ OBJS += \
 CPP_DEPS += \
 ./src/DatabaseUrl.d \
 ./src/HtmlParserException.d \
-./src/HtmlSAX2Attribute.d \
-./src/HtmlSAX2Document.d \
-./src/HtmlSAX2Element.d \
-./src/HtmlSAX2Namespace.d \
-./src/HtmlSAX2Parser.d \
 ./src/TLD.d \
 ./src/UrlInserter.d \
 ./src/UrlParserDecodeException.d \
