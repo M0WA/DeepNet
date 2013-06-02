@@ -55,7 +55,7 @@ bool DeepNetToolBot::OnRun() {
 	}
 	std::vector<std::string> tldStrings;
 	htmlparser::TLD::GetTLDStrings(tldStrings);
-	network::HttpUrlParser::InitTLDCache(tldStrings);
+	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
 
 	//check for requested unit tests
 	bSuccess = ProcessUnitTests();
