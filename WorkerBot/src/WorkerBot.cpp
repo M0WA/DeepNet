@@ -104,7 +104,7 @@ bool WorkerBot::OnRun() {
 		htmlparser::TLD::InitTLDCache(DB().Connection());
 		std::vector<std::string> tldString;
 		htmlparser::TLD::GetTLDStrings(tldString);
-		network::HttpUrlParser::InitTLDCache(tldString);
+		network::HttpUrlParser::SetTopLevelDomains(tldString);
 		DB().DestroyConnection();
 	}
 	else {
