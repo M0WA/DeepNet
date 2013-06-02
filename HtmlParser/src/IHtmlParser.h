@@ -39,6 +39,10 @@ public:
 	std::vector<std::string> fatals;
 
 	const DatabaseUrl& url;
+	int wellformed;
+
+public:
+	virtual void DumpXML(std::string& xmlContent);
 };
 
 class IHtmlParser {
