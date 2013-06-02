@@ -415,11 +415,11 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, tools::Pointer<htmlpar
 	if(html.GetCount() == 0)
 		return false;
 
-	HtmlSAX2Document htmlDocument(htmlDocument.url);
+	HtmlSAX2Document htmlDocument(htmlDocument.result.url);
 
 	parserContext.parserInstance = this;
 	parserContext.htmlDocument = &htmlDocument;
-	parserContext.url = &htmlDocument.url;
+	parserContext.url = &htmlDocument.result.url;
 
 	if(parserCtxt)
 		htmlFreeParserCtxt(parserCtxt);
@@ -429,7 +429,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, tools::Pointer<htmlpar
 		&parserContext,
 		html.GetBuffer(),
 		html.GetBufferSize(),
-		htmlDocument.url.GetFullUrl().c_str(),
+		htmlDocument.result.url.GetFullUrl().c_str(),
 		XML_CHAR_ENCODING_NONE);
 	if(!parserCtxt)
 		return false;
@@ -441,7 +441,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, tools::Pointer<htmlpar
 		parserCtxt,
 		html.GetBuffer(),
 		html.GetBufferSize(),
-		htmlDocument.url.GetFullUrl().c_str(),
+		htmlDocument.result.url.GetFullUrl().c_str(),
 		NULL,
 		HTML_PARSE_RECOVER  |   //Relaxed parsing
 		HTML_PARSE_NOBLANKS |   //remove blank nodes
@@ -452,7 +452,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, tools::Pointer<htmlpar
 	htmlDoc = (htmlDocPtr)parserCtxt->myDoc;
 
 	//check if well formed
-	htmlDocument.wellformed = parserCtxt->wellFormed;
+	htmlDocument.result.wellformed = parserCtxt->wellFormed;
 
 	//free all previously allocated stuff
 	htmlFreeParserCtxt(parserCtxt);

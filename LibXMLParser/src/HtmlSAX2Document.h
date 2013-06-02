@@ -25,15 +25,10 @@ public:
 
 public:
 	void Reset();
-	void DumpXML(std::string& xmlContent);
-
-	const htmlparser::DatabaseUrl& Url() const { return url; }
+	const htmlparser::DatabaseUrl& Url() const { return result.url; }
 
 	std::vector<HtmlSAX2Element> elements;
 	LibXMLParserResult result;
-
-	htmlparser::DatabaseUrl url;
-	int wellformed;
 };
 
 }
