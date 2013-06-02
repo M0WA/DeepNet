@@ -63,7 +63,6 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		html.clear();
 		htmlData.Release();
 
-
 		if(!tools::FileTools::ReadFile(htmlFileName,html)||html.length() == 0) {
 			success = false;
 			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"cannot read html file: %s, skipping",iter->c_str());
@@ -75,7 +74,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		tools::Pointer<htmlparser::IHtmlParserResult> result;
 		try
 		{
-			success &= parser.Parse(htmlData,result);
+			success &= parser.Get()->Parse(htmlData,result);
 		}
 		catch(...)
 		{
@@ -84,7 +83,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		}
 
 		std::string outFileContent;
-		result.DumpXML(outFileContent);
+		result.Get()->DumpXML(outFileContent);
 
 		std::string unitTestOutFile = htmlFileName + ".unittest.xml";
 		std::string unitTestTemplateFile = unitBaseDir +"/" + *iter + ".unittest.template.xml";
