@@ -63,6 +63,7 @@
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="LibXMLParser"/>
+									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="DOMParser"/>
 									<listOptionValue builtIn="false" value="Crawler"/>
 									<listOptionValue builtIn="false" value="Indexer"/>
@@ -180,6 +181,7 @@
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="LibXMLParser"/>
+									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="DOMParser"/>
 									<listOptionValue builtIn="false" value="Crawler"/>
 									<listOptionValue builtIn="false" value="Indexer"/>
