@@ -51,7 +51,7 @@ public:
 
 /**
  * @brief interface class for all supported html parsers.
- * use this class for parsing html, use factory class only to instanciate.
+ * use this class for parsing html, use factory class only to instantiate.
  * @see htmlparser::HtmlParserFactory
  */
 class IHtmlParser {
