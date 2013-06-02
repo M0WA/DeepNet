@@ -12,7 +12,7 @@
 #include <ContainerTools.h>
 #include <CharsetEncoder.h>
 
-namespace htmlparser {
+namespace libxmlparser {
 
 HtmlSAX2Document::HtmlSAX2Document(const htmlparser::DatabaseUrl& url)
 : url(url)

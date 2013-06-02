@@ -7,7 +7,7 @@
 
 #include "HtmlSAX2Namespace.h"
 
-namespace htmlparser {
+namespace libxmlparser {
 
 HtmlSAX2Namespace::HtmlSAX2Namespace()
 {

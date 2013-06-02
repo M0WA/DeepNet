@@ -11,7 +11,7 @@
 
 #include "HtmlSAX2Namespace.h"
 
-namespace htmlparser {
+namespace libxmlparser {
 
 class HtmlSAX2Attribute {
 public:

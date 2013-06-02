@@ -7,7 +7,7 @@
 
 #pragma once
 
-namespace htmlparser {
+namespace libxmlparser {
 
 //supported http tags
 enum html_attribute_type {

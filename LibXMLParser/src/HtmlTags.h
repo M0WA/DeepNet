@@ -1,5 +1,5 @@
 /*
- * html_tags.h
+ * HtmlTags.h
  *
  *  Created on: 12.01.2012
  *      Author: Moritz Wagner
@@ -7,7 +7,7 @@
 
 #pragma once
 
-namespace htmlparser {
+namespace libxmlparser {
 
 //supported http tags
 enum html_tag_type {

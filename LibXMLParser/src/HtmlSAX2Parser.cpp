@@ -22,7 +22,7 @@
 #include "HtmlSAX2Document.h"
 #include "DatabaseUrl.h"
 
-namespace htmlparser {
+namespace libxmlparser {
 
 volatile bool HtmlSAX2Parser::errorFuncInitialized = false;
 

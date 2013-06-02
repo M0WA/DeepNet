@@ -7,7 +7,7 @@
 
 #include "HtmlSAX2Attribute.h"
 
-namespace htmlparser {
+namespace libxmlparser {
 
 HtmlSAX2Attribute::HtmlSAX2Attribute()
 {

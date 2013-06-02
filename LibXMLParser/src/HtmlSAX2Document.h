@@ -20,7 +20,7 @@ namespace network {
 	class HttpUrl;
 }
 
-namespace htmlparser {
+namespace libxmlparser {
 
 class HtmlSAX2Document {
 public:

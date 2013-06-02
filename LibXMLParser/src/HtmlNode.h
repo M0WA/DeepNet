@@ -10,7 +10,7 @@
 #include "HtmlTags.h"
 #include "HtmlAttributes.h"
 
-namespace htmlparser {
+namespace libxmlparser {
 
 struct html_node
 {

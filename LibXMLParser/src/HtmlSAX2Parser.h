@@ -18,8 +18,11 @@ namespace network {
 }
 
 namespace htmlparser {
+	class DatabaseUrl;
+}
 
-class DatabaseUrl;
+namespace libxmlparser {
+
 class HtmlSAX2Document;
 class HtmlSAX2Parser;
 
@@ -37,7 +40,7 @@ public:
 
 	HtmlSAX2Parser* parserInstance;
 	HtmlSAX2Document* htmlDocument;
-	const DatabaseUrl* url;
+	const htmlparser::DatabaseUrl* url;
 
 	int nCurrentElement;
 };
@@ -49,7 +52,7 @@ public:
 	virtual ~HtmlSAX2Parser();
 
 public:
-	bool Parse(const network::HtmlData& html, htmlparser::HtmlSAX2Document& htmlDocumentOut);
+	bool Parse(const network::HtmlData& html, libxmlparser::HtmlSAX2Document& htmlDocumentOut);
 
 private:
 	static void startElement(void *ctx, const xmlChar *name, const xmlChar **atts);

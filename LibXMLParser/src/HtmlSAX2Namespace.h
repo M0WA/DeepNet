@@ -9,7 +9,7 @@
 
 #include <string>
 
-namespace htmlparser {
+namespace libxmlparser {
 
 class HtmlSAX2Namespace
 {
