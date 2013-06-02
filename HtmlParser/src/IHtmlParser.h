@@ -65,7 +65,7 @@ public:
 		MAX_HTML_PARSER_TYPE,
 	} HTML_PARSER_TYPE;
 
-private:
+protected:
 	IHtmlParser() {}
 
 public:
