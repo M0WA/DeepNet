@@ -20,6 +20,7 @@ namespace network {
 
 namespace htmlparser {
 	class DatabaseUrl;
+	class HtmlParserFactory;
 }
 
 namespace libxmlparser {
@@ -48,12 +49,16 @@ public:
 
 class HtmlSAX2Parser : public htmlparser::IHtmlParser
 {
-public:
+	friend class htmlparser::HtmlParserFactory;
+
+private:
 	HtmlSAX2Parser();
+
+public:
 	virtual ~HtmlSAX2Parser();
 
 public:
-	bool Parse(const network::HtmlData& html, libxmlparser::HtmlSAX2Document& htmlDocumentOut);
+	virtual bool Parse(const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
 
 private:
 	static void startElement(void *ctx, const xmlChar *name, const xmlChar **atts);

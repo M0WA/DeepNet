@@ -133,7 +133,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			try
 			{
 				network::HttpUrlParser::ParseURL(*context->url,attributeHref.value,theUrl);
-				context->htmlDocument->hyperlinks.push_back(theUrl);
+				context->htmlDocument->result.hyperlinks.push_back(theUrl);
 			}
 			catch(const network::HttpUrlParserException& ex)
 			{
@@ -151,7 +151,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = "a";
 			tagContentPair.second = elementRef.attribute.value;
-			context->htmlDocument->content.push_back(tagContentPair);
+			context->htmlDocument->result.content.push_back(tagContentPair);
 		}
 
 		//link content
@@ -161,7 +161,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = "a";
 			tagContentPair.second = elementRef.attribute.value;
-			context->htmlDocument->content.push_back(tagContentPair);
+			context->htmlDocument->result.content.push_back(tagContentPair);
 		}
 	}
 	else if (curName.compare("img")==0)
@@ -174,7 +174,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			try
 			{
 				network::HttpUrlParser::ParseURL(*context->url,attributeSrc.value,theUrl);
-				context->htmlDocument->images.push_back(theUrl);
+				context->htmlDocument->result.images.push_back(theUrl);
 			}
 			catch(const network::HttpUrlParserException& ex)
 			{
@@ -192,7 +192,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = "img";
 			tagContentPair.second = attributeAlt.value;
-			context->htmlDocument->content.push_back(tagContentPair);
+			context->htmlDocument->result.content.push_back(tagContentPair);
 		}
 	}
 	//special case: title tag => counts as meta information
@@ -205,7 +205,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first  = curName;
 			tagContentPair.second = content;
-			context->htmlDocument->meta.push_back(tagContentPair);
+			context->htmlDocument->result.meta.push_back(tagContentPair);
 		}
 	}
 	else if(curName.compare("meta")==0)
@@ -229,7 +229,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first  = nameAttributeRef.value;
 			tagContentPair.second = contentAttributeRef.value;
-			context->htmlDocument->meta.push_back(tagContentPair);
+			context->htmlDocument->result.meta.push_back(tagContentPair);
 		}
 	}
 	else if (
@@ -282,7 +282,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::pair<std::string,std::string> tagContentPair;
 			tagContentPair.first = elementRef.attribute.localname;
 			tagContentPair.second = content;
-			context->htmlDocument->content.push_back(tagContentPair);
+			context->htmlDocument->result.content.push_back(tagContentPair);
 		}
 	}
 	else if (!elementRef.attribute.value.empty())
@@ -362,7 +362,7 @@ void HtmlSAX2Parser::error( void * ctx,	const char * msg, ... )
 		delete [] pszInputExcerpt;
 	}
 	errorMsg = ssInfo.str() + errorMsg;
-	context->htmlDocument->errors.push_back(errorMsg);
+	context->htmlDocument->result.errors.push_back(errorMsg);
 }
 
 void HtmlSAX2Parser::warning( void * ctx, const char * msg, ... )
@@ -374,7 +374,7 @@ void HtmlSAX2Parser::warning( void * ctx, const char * msg, ... )
 	va_start(args, msg);
 	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
-	context->htmlDocument->warnings.push_back(errorMsg);
+	context->htmlDocument->result.warnings.push_back(errorMsg);
 }
 
 void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
@@ -392,7 +392,7 @@ void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
 	va_start(args, msg);
 	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
-	context->htmlDocument->fatals.push_back(errorMsg);
+	context->htmlDocument->result.fatals.push_back(errorMsg);
 }
 
 void HtmlSAX2Parser::genericErrorFunc(void * ctx,
@@ -410,14 +410,16 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"libXML generic error: " + errorMsg);
 }
 
-bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& htmlDocumentOut)
+bool HtmlSAX2Parser::Parse(const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result)
 {
 	if(html.GetCount() == 0)
 		return false;
 
+	HtmlSAX2Document htmlDocument(htmlDocument.url);
+
 	parserContext.parserInstance = this;
-	parserContext.htmlDocument = &htmlDocumentOut;
-	parserContext.url = &htmlDocumentOut.url;
+	parserContext.htmlDocument = &htmlDocument;
+	parserContext.url = &htmlDocument.url;
 
 	if(parserCtxt)
 		htmlFreeParserCtxt(parserCtxt);
@@ -427,7 +429,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 		&parserContext,
 		html.GetBuffer(),
 		html.GetBufferSize(),
-		htmlDocumentOut.url.GetFullUrl().c_str(),
+		htmlDocument.url.GetFullUrl().c_str(),
 		XML_CHAR_ENCODING_NONE);
 	if(!parserCtxt)
 		return false;
@@ -439,7 +441,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 		parserCtxt,
 		html.GetBuffer(),
 		html.GetBufferSize(),
-		htmlDocumentOut.url.GetFullUrl().c_str(),
+		htmlDocument.url.GetFullUrl().c_str(),
 		NULL,
 		HTML_PARSE_RECOVER  |   //Relaxed parsing
 		HTML_PARSE_NOBLANKS |   //remove blank nodes
@@ -450,7 +452,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 	htmlDoc = (htmlDocPtr)parserCtxt->myDoc;
 
 	//check if well formed
-	htmlDocumentOut.wellformed = parserCtxt->wellFormed;
+	htmlDocument.wellformed = parserCtxt->wellFormed;
 
 	//free all previously allocated stuff
 	htmlFreeParserCtxt(parserCtxt);
@@ -460,6 +462,7 @@ bool HtmlSAX2Parser::Parse(const network::HtmlData& html, HtmlSAX2Document& html
 		htmlDoc = 0;
 	}
 
+	result.Set(dynamic_cast<htmlparser::IHtmlParserResult*>(new LibXMLParserResult(htmlDocument.result)),true);
 	return true;
 }
 
