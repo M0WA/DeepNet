@@ -3,6 +3,7 @@
 #include <vector>
 #include <Pointer.h>
 #include <HttpUrl.h>
+#include <DatabaseUrl.h>
 
 namespace network {
 	class HtmlData;
@@ -13,7 +14,7 @@ namespace htmlparser {
 class IHtmlParserResult {
 
 protected:
-	IHtmlParserResult() {}
+	IHtmlParserResult(const DatabaseUrl& url) : url(url) {}
 
 public:
 	virtual ~IHtmlParserResult() {}
@@ -36,6 +37,8 @@ public:
 	std::vector<std::string> warnings;
 	std::vector<std::string> errors;
 	std::vector<std::string> fatals;
+
+	const DatabaseUrl& url;
 };
 
 class IHtmlParser {
