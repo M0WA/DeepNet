@@ -12,6 +12,7 @@
 #include <map>
 
 #include <libxml/HTMLparser.h>
+#include <IHtmlParser.h>
 
 namespace network {
 	class HtmlData;
@@ -45,7 +46,7 @@ public:
 	int nCurrentElement;
 };
 
-class HtmlSAX2Parser
+class HtmlSAX2Parser : public htmlparser::IHtmlParser
 {
 public:
 	HtmlSAX2Parser();
