@@ -14,6 +14,9 @@
 
 namespace domparser {
 
+/**
+ * @brief implementation of html attribute
+ */
 class Attr {
 public:
 	Attr(const DOMString& name, const DOMString& value, const DOMString* namespaceURI = 0, const DOMString* prefix = 0);
