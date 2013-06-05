@@ -14,6 +14,7 @@ namespace tools {
 /**
  * @brief memory managing container for pointers.
  * use iterator to enumerate over all entries.
+ * @see tools::Pointer for more information
  */
 template <class T>
 class PointerContainer {
