@@ -2,9 +2,7 @@
  *
  * @file Event.h
  * @author Moritz Wagner
- * @date Mar 4, 2013
- *
- * TODO: description for this file
+ * @date 04.03.2013
  *
  */
 
@@ -15,13 +13,25 @@
 namespace domparser {
 	class EventTarget;
 
+/**
+ * @brief initializes a DOM event specification it's release condition
+ * for more information please consult W3C specification
+ */
 class EventInit {
 public:
+	/**
+	 * constructs "normal" event attributes
+	 */
 	EventInit()
 	: bubbles(false)
 	, cancelable(false)
 	{ }
 
+	/**
+	 * constructs an event init condition specifing all items
+	 * @param bubbles use bubble algo when releasing chained event
+	 * @param cancelable true if event is cancelable after it's released
+	 */
 	EventInit(const bool& bubbles, const bool& cancelable)
 	: bubbles(bubbles)
 	, cancelable(cancelable)
@@ -33,6 +43,11 @@ public:
 
 class Event {
 public:
+	/**
+	 * @enum EventPhaseType
+	 * @brief release phase of this event
+	 */
+	//TODO: DOCUMENATION NEEDED, describe event types
 	enum EventPhaseType {
 		NONE = 0,
 		CAPTURING_PHASE = 1,
@@ -41,15 +56,48 @@ public:
 	};
 
 public:
+	/**
+	 * constructs an event by it's type string and init parameters
+	 * @param type type-string of this element
+	 * @param init initialization parameters for this event
+	 */
 	Event(const DOMString& type, const EventInit& init);
+
+	/**
+	 * constructs an event by it's type string using default init parameters (cancelable = false, bubbles = false)
+	 * @param type type-string of this element
+	 */
 	Event(const DOMString& type);
 	virtual ~Event();
 
+	/**
+	 * gets this event's dispatch flag
+	 * @return true if set, false if unset
+	 */
 	bool GetDispatchFlag() const { return dispatch_flag; }
+
+	/**
+	 * gets this event's initialized flag
+	 * @return true if set, false if unset
+	 */
 	bool GetInitializedFlag() const { return initialized_flag; }
 
+	/**
+	 * sets this event's dispatch flag
+	 * @param dispatch_flag new dispatch state
+	 */
 	void SetDispatchFlag(const bool dispatch_flag) { this->dispatch_flag = dispatch_flag; }
+
+	/**
+	 * sets this event's trusted flag
+	 * @param isTrusted true if event is trusted (within parents' documents domain)
+	 */
 	void SetIsTrusted(const bool isTrusted) { this->isTrusted = isTrusted; }
+
+	/**
+	 * set's this events target
+	 * @param target new target of this event
+	 */
 	void SetTarget(EventTarget* target) { this->target = target; }
 
 private:

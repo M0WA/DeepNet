@@ -4,8 +4,6 @@
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *
- * TODO: description for this file
- *
  */
 
 #pragma once
@@ -14,6 +12,9 @@
 
 namespace domparser {
 
+/**
+ * @brief implements a DocumentFragment
+ */
 class DocumentFragment: public domparser::Node {
 public:
 	DocumentFragment(Document* ownerDocument);

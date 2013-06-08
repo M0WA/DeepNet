@@ -2,9 +2,7 @@
  *
  * @file DocumentFactory.h
  * @author Moritz Wagner
- * @date Mar 3, 2013
- *
- * TODO: description for this file
+ * @date 03.03.2013
  *
  */
 
@@ -36,6 +34,11 @@ namespace domparser {
 	class Tokeniser;
 	class HTMLElement;
 
+/**
+ * @brief factory class for html documents
+ * @see domparser::Document
+ * @see toolbot::UnitTestDocumentFactory
+ */
 class DocumentFactory {
 
 	friend class Tokeniser;
@@ -67,6 +70,11 @@ protected:
 	};
 
 protected:
+	/**
+	 * constructs a DocumentFactory object
+	 * @param url url of the document
+	 * @see domparser::DocumentFactory::FromHtmlData
+	 */
 	DocumentFactory(const network::HttpUrl& url);
 public:
 	virtual ~DocumentFactory();
@@ -139,7 +147,6 @@ private:
 	bool IgnoreHtmlWhiteSpace(const CharacterToken& token);
 
 protected:
-	//const htmlparser::DatabaseUrl& url;
 	const network::HttpUrl& url;
 	Document* curDoc;
 	Tokeniser* tokeniser;
