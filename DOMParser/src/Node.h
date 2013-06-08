@@ -144,29 +144,100 @@ public:
 	 */
 	bool contains(Node* other);
 
+	//TODO: DOCUMENTATION NEEDED, TAREK????
 	DOMStringPtr lookupPrefix(const DOMString& nameSpace);
 	DOMStringPtr lookupNamespaceURI(const DOMString& prefix);
 	bool isDefaultNamespace(const DOMString& nameSpace);
 
 public:
+	/**
+	 * gets node type
+	 * @return node type
+	 */
 	Node::NodeType  GetNodeType() const { return nodeType; }
+
+	/**
+	 * gets node name
+	 * @return node name
+	 */
 	DOMString       GetNodeName() const;
+
+	/**
+	 * gets a list of child nodes
+	 * @return list of child nodes
+	 */
 	NodeList& 	    GetChildNodes() { return childNodes; }
+
+	/**
+	 * gets the parent node
+	 * @return parent node
+	 */
 	Node*           GetParentNode() { return 0; }
+
+	/**
+	 * gets first child of this node
+	 * @return first child or null
+	 */
 	Node*			GetFirstChild() { return 0; }
+
+	/**
+	 * gets last child of this node
+	 * @return last child or null
+	 */
 	Node*			GetLastChild()  { return 0; }
+
+	/**
+	 * gets previous sibling
+	 * @return previous sibling or null
+	 */
 	Node*			GetPreviousSibling() { return 0; }
+
+	/**
+	 * gets next sibling
+	 * @return next sibling or null
+	 */
 	Node*			GetNextSibling() { return 0; }
+
+	/**
+	 * gets owning/parent document for this node
+	 * @return parent document
+	 */
 	Document*       GetOwnerDocument();
+
+	/**
+	 * gets node (text)-value
+	 * @return character data or null
+	 */
 	const DOMString* GetNodeValue() const;
+
+	/**
+	 * gets text content of this node
+	 * @return text content or null
+	 */
 	DOMStringPtr 	 GetTextContent() const;
 
+	/**
+	 * set node value
+	 * @param value new value of this node
+	 */
 	void SetNodeValue(const DOMString& value);
+
+	/**
+	 * sets text content of this node
+	 * @param value value of this node
+	 */
 	void SetTextContent(const DOMString& value);
 
+	/**
+	 * registers observer with this node
+	 * @param observer observer to register with this node
+	 */
 	void RegisterObserver(const MutationObserver& observer);
 
 public:
+	/**
+	 * queues a mutation record for all nodes
+	 */
 	static void QueueMutationRecord(const MutationRecord& record);
 
 private:
