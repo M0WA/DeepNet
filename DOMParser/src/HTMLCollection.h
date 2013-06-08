@@ -2,9 +2,7 @@
  *
  * @file HTMLCollection.h
  * @author Moritz Wagner
- * @date Mar 4, 2013
- *
- * TODO: description for this file
+ * @date 04.03.2013
  *
  */
 
@@ -16,11 +14,17 @@
 namespace domparser {
 	class Element;
 
+/**
+ * @brief represents a random access list for html elements
+ */
 class HTMLCollection : public ListImpl<Element> {
 public:
 	HTMLCollection();
 	virtual ~HTMLCollection();
 
+	/**
+	 * get an item by it's tag name
+	 */
 	void* GetNamedItem(const DOMString& name);
 };
 

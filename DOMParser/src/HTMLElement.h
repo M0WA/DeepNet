@@ -2,9 +2,7 @@
  *
  * @file HTMLElement.h
  * @author Moritz Wagner
- * @date Mar 5, 2013
- *
- * TODO: description for this file
+ * @date 05.03.2013
  *
  */
 
@@ -19,8 +17,16 @@
 namespace domparser {
 	class Document;
 
+/**
+ * @brief implementation of a generic html element
+ * @see domparser::Element
+ */
 class HTMLElement : public domparser::Element {
 public:
+	/**
+	 * @enum HTMLTag
+	 * @brief all compatible html types
+	 */
 	enum HTMLTag {
 		unknownTag,
 		htmlTag,
