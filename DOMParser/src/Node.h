@@ -22,6 +22,7 @@ namespace domparser {
 
 /**
  * @brief basic implementation of a DOM compatible node
+ * @see domparser::NodeFactory
  */
 class Node : public EventTarget {
 
@@ -237,6 +238,7 @@ public:
 public:
 	/**
 	 * queues a mutation record for all nodes
+	 * @param record mutation record to queue
 	 */
 	static void QueueMutationRecord(const MutationRecord& record);
 
