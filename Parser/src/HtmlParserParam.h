@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <HtmlParserFactory.h>
+
 namespace database {
 	class DatabaseConfig;
 }
@@ -23,6 +25,7 @@ public:
 	int waitOnIdle;
 	int maxPerSelect;
 	database::DatabaseConfig* databaseConfig;
+	htmlparser::HtmlParserFactory::HtmlParserType parserType;
 };
 
 }
