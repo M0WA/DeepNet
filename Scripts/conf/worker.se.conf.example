@@ -102,6 +102,9 @@ crawler_waitIdle=30
 # should the crawler respect robots.txt ( 0 | 1 ) (*)
 crawler_respectRobotsTxt=1
 
+# http client used for crawling ( curl | own )
+crawler_client=curl
+
 ##################################################
 #
 # parser settings
@@ -117,6 +120,8 @@ parser_maxUrl=100
 # how long to wait for recheck if idle in seconds (*)
 parser_waitIdle=30
 
+# type of parser: (libxml | domparser)
+parser_type=libxml
 
 ##################################################
 #
