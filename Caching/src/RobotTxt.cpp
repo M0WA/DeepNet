@@ -1,8 +1,7 @@
-/*
- * RobotTxt.cpp
- *
- *  Created on: 03.12.2012
- *      Author: Moritz Wagner
+/**
+ * @file RobotTxt.h
+ * @author Moritz Wagner
+ * @date 03.12.2012
  */
 
 #include "RobotTxt.h"
