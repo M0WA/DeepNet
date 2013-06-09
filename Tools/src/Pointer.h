@@ -89,9 +89,9 @@ public:
 	 * takes over ownership of a pointer from another instance
 	 * @param swap instance to be owned
 	 */
-	void Swap(T* swap) {
-		swap->autoDelete = false;
-		Set(swap,true);
+	void Swap(Pointer<T>& swap) {
+		swap.autoDelete = false;
+		Set(swap.Get(),true);
 	}
 
 	/**
