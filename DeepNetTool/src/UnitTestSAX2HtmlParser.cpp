@@ -74,7 +74,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		tools::Pointer<htmlparser::IHtmlParserResult> result;
 		try
 		{
-			success &= parser.Get()->Parse(htmlData,result);
+			success &= parser.Get()->Parse(baseUrl,htmlData,result);
 		}
 		catch(...)
 		{
