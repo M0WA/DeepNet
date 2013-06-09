@@ -135,6 +135,6 @@ indexer_threads=8
 # how long to wait for recheck if idle in seconds (*)
 indexer_waitIdle=30
 
-#maximum size of selected urls per turn (*)
+# maximum size of selected urls per turn (*)
 indexer_maxUrl=100
 
