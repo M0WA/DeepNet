@@ -95,7 +95,8 @@ void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
 }
 
 void Logging::RegisterThreadID(const std::string& threadName) {
-	instance->threadNames[syscall(SYS_gettid)] = threadName;
+	if(instance)
+		instance->threadNames[syscall(SYS_gettid)] = threadName;
 }
 
 void Logging::Log(const LogLevel levelMsg,const std::string& msg) {
