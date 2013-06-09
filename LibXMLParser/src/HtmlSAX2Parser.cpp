@@ -18,9 +18,10 @@
 #include <HtmlData.h>
 #include <HttpUrlParser.h>
 #include <HttpUrlParserException.h>
+#include <DatabaseUrl.h>
 
 #include "HtmlSAX2Document.h"
-#include "DatabaseUrl.h"
+#include "LibXMLParserResult.h"
 
 namespace libxmlparser {
 
@@ -415,11 +416,11 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url,const network::Htm
 	if(html.GetCount() == 0)
 		return false;
 
-	HtmlSAX2Document htmlDocument(htmlDocument.result.url);
+	HtmlSAX2Document htmlDocument(url);
 
 	parserContext.parserInstance = this;
 	parserContext.htmlDocument = &htmlDocument;
-	parserContext.url = &htmlDocument.result.url;
+	parserContext.url = &url;
 
 	if(parserCtxt)
 		htmlFreeParserCtxt(parserCtxt);
@@ -429,7 +430,7 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url,const network::Htm
 		&parserContext,
 		html.GetBuffer(),
 		html.GetBufferSize(),
-		htmlDocument.result.url.GetFullUrl().c_str(),
+		url.GetFullUrl().c_str(),
 		XML_CHAR_ENCODING_NONE);
 	if(!parserCtxt)
 		return false;
@@ -441,7 +442,7 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url,const network::Htm
 		parserCtxt,
 		html.GetBuffer(),
 		html.GetBufferSize(),
-		htmlDocument.result.url.GetFullUrl().c_str(),
+		url.GetFullUrl().c_str(),
 		NULL,
 		HTML_PARSE_RECOVER  |   //Relaxed parsing
 		HTML_PARSE_NOBLANKS |   //remove blank nodes
