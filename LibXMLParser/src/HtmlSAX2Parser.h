@@ -58,7 +58,7 @@ public:
 	virtual ~HtmlSAX2Parser();
 
 public:
-	virtual bool Parse(const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
+	virtual bool Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
 
 private:
 	static void startElement(void *ctx, const xmlChar *name, const xmlChar **atts);

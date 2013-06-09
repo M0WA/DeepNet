@@ -410,7 +410,7 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"libXML generic error: " + errorMsg);
 }
 
-bool HtmlSAX2Parser::Parse(const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result)
+bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result)
 {
 	if(html.GetCount() == 0)
 		return false;
