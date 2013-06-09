@@ -12,9 +12,6 @@
 #include <map>
 #include <iostream>
 
-#include <Logging.h>
-#include <TLD.h>
-#include <DatabaseLayer.h>
 #include <GenericWebCrawler.h>
 #include <CommerceSearchCrawler.h>
 #include <CommerceSearchParser.h>
@@ -24,10 +21,16 @@
 #include <GenericWebIndexer.h>
 #include <DataminingCrawler.h>
 #include <DataminingIndexer.h>
+
 #include <HtmlParserBase.h>
 #include <HttpUrlParser.h>
 
+#include <Logging.h>
+#include <StringTools.h>
 #include <NotImplementedException.h>
+
+#include <TLD.h>
+#include <DatabaseLayer.h>
 
 WorkerBot::WorkerBot()
 : Bot()
@@ -182,7 +185,10 @@ void WorkerBot::RegisterCrawlerConfigParams()
 	Config().RegisterParam("crawler_waitIdle", "how long to wait for recheck if idle in seconds", true, false, &waitOnIdle);
 
 	std::string respectRobotsTxt = "1";
-	Config().RegisterParam("crawler_respectRobotsTxt", "", true, false, &respectRobotsTxt);
+	Config().RegisterParam("crawler_respectRobotsTxt", "respect robots.txt when crawling sites", true, false, &respectRobotsTxt);
+
+	std::string httpClientType = "curl";
+	Config().RegisterParam("crawler_client", "http client used for crawling ( curl | own )", true, false, &httpClientType);
 }
 
 bool WorkerBot::InitCrawlerConfig()
@@ -237,6 +243,18 @@ bool WorkerBot::InitCrawlerConfig()
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_respectRobotsTxt !!!");
 		return false;}
 
+	std::string httpClientType = "curl";
+	if(!Config().GetValue("crawler_client",httpClientType)){
+		httpClientType = "curl";}
+
+	if(httpClientType.compare("curl") == 0) {
+		crawlerParam.clientType = network::HttpClientFactory::CURL; }
+	else if(httpClientType.compare("own") == 0) {
+		crawlerParam.clientType = network::HttpClientFactory::OWN; }
+	else {
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_client specified. exiting...");
+		return false; }
+
 	return true;
 }
 
@@ -250,6 +268,9 @@ void WorkerBot::RegisterParserConfigParams()
 
 	std::string waitOnIdle = "10";
 	Config().RegisterParam("parser_waitIdle", "how long to wait for recheck if parser is idle in seconds", true, false ,&waitOnIdle);
+
+	std::string parserType = "libxml";
+	Config().RegisterParam("parser_type", "type of parser: libxml | domparser", true, false ,&parserType);
 }
 
 bool WorkerBot::InitParserConfig()
@@ -271,8 +292,18 @@ bool WorkerBot::InitParserConfig()
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_maxUrl specified (<= 0). exiting...");
 		return false;}
 
-	if(!Config().GetValue("parser_waitIdle",htmlParserParam->waitOnIdle))
-		return false;
+	std::string parserType = "libxml";
+	if(!Config().GetValue("parser_type",parserType)) {
+		parserType = "libxml"; }
+
+	tools::StringTools::ToLowerIP(parserType);
+	if(parserType.compare("libxml") == 0) {
+		htmlParserParam->parserType = htmlparser::HtmlParserFactory::LIBXML; }
+	else if(parserType.compare("dom") == 0) {
+		htmlParserParam->parserType = htmlparser::HtmlParserFactory::DOM; }
+	else {
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_type specified. exiting...");
+		return false; }
 
 	return true;
 }
