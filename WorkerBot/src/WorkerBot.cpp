@@ -71,8 +71,8 @@ bool WorkerBot::OnInit()
 		crawler = dynamic_cast<crawler::Crawler*>(new crawler::CommerceSearchCrawler());
 		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::CommerceSearchParser());
 		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::CommerceSearchParserParam());
+		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
 	}
-
 	//initializing searchengine
 	else if(workerBotMode.compare("searchengine") == 0) {
 		crawler = dynamic_cast<crawler::Crawler*>(new crawler::GenericWebCrawler());
@@ -290,6 +290,12 @@ bool WorkerBot::InitParserConfig()
 		return false;
 	if(htmlParserParam->maxPerSelect<=0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_maxUrl specified (<= 0). exiting...");
+		return false;}
+
+	if(!Config().GetValue("parser_waitIdle",htmlParserParam->waitOnIdle))
+		return false;
+	if(htmlParserParam->waitOnIdle<=0){
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_waitIdle specified (<= 0). exiting...");
 		return false;}
 
 	std::string parserType = "libxml";
