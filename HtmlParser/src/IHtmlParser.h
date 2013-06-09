@@ -72,11 +72,12 @@ public:
 
 	/**
 	 * parses html and generates content result
+	 * @param url url of html
 	 * @param html html to parse
 	 * @param result result containing content and info for html documents
 	 * @return true if successful, false if unsuccessful
 	 */
-	virtual bool Parse(const network::HtmlData& html, tools::Pointer<IHtmlParserResult>& result)=0;
+	virtual bool Parse(const DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<IHtmlParserResult>& result)=0;
 };
 
 }
