@@ -133,7 +133,7 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 		}
 
 		long long imageUrlID = -1;
-		if(!db->LastInsertID(imageUrlID) || imageUrlID) {
+		if(!db->LastInsertID(imageUrlID) || imageUrlID < 0) {
 			log::Logging::LogInfo("could not get image url id: " + iterImages->GetFullUrl() );
 			continue;
 		}
