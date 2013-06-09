@@ -71,7 +71,7 @@ bool CommerceSearchFetcherThread::GetNextSecondLevelDomain()
 	}
 
 	//check if some customer domains in cache are too old
-	if(activeCustomerDomainIds.size() >= 0) {
+	if(activeCustomerDomainIds.size() > 0) {
 		std::map<long long,time_t>::iterator iterActive;
 		bool finished = false;
 		while(!finished){
