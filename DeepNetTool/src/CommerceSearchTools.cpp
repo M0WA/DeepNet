@@ -9,6 +9,7 @@
 
 #include <DatabaseLayer.h>
 #include <HashTools.h>
+#include <TimeTools.h>
 
 namespace toolbot {
 
@@ -61,6 +62,7 @@ bool CommerceSearchTools::AddCustomer(database::DatabaseConnection* db,const std
 	database::customersynccrawlerTableBase customerSyncCrawler;
 	customerSyncCrawler.Set_CRAWLERSESSION_ID(0);
 	customerSyncCrawler.Set_CUSTOMERDOMAIN_ID(customerDomainID);
+	customerSyncCrawler.Set_scheduled(tools::TimeTools::NowUTC());
 	try {
 		customerSyncCrawler.Insert(db);
 	} catch(...) {
