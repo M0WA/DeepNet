@@ -25,6 +25,7 @@ bool GenericWebHtmlParser::StartParser()
 		param->maxPerSelect = parserParam->maxPerSelect;
 		param->waitOnIdle = parserParam->waitOnIdle;
 		param->databaseConfig = parserParam->databaseConfig;
+		param->parserType = parserParam->parserType;
 
 		HtmlParserThread* parser = dynamic_cast<HtmlParserThread*>(new GenericWebHtmlParserThread());
 		parser->StartThread(param);
