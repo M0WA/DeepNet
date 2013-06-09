@@ -240,7 +240,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 		log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "downloading url: " + url.GetFullUrl());
 
 	tools::Pointer<network::IHttpClient> client;
-	network::HttpClientFactory::CreateInstance(network::HttpClientFactory::CURL,client);
+	network::HttpClientFactory::CreateInstance(fetcherThreadParam->clientType,client);
 
 	network::HttpClientSettings& settings(client.Get()->Settings());
 	settings.userAgent = fetcherThreadParam->userAgent;

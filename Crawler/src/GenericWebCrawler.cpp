@@ -34,6 +34,7 @@ bool GenericWebCrawler::StartCrawler()
 		threadParam->speedLimitKB      = crawlerParam->speedLimitKB;
 		threadParam->respectRobotsTxt  = crawlerParam->respectRobotsTxt;
 		threadParam->databaseConfig    = crawlerParam->databaseConfig;
+		threadParam->clientType        = crawlerParam->clientType;
 
 		GenericWebUrlFetcherThread* urlFetcherThread = new GenericWebUrlFetcherThread();
 		urlFetcherThread->StartThread(threadParam);
@@ -41,7 +42,6 @@ bool GenericWebCrawler::StartCrawler()
 		urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =
 				dynamic_cast<GenericWebUrlFetcherThread::GenericWebUrlFetcherThreadParam*>(threadParam);
 	}
-
 	tools::thread_cleanup();
 	return true;
 }

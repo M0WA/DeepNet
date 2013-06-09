@@ -12,6 +12,7 @@
 
 #include <Thread.h>
 #include <DatabaseLayer.h>
+#include <HttpClientFactory.h>
 
 #include "UrlFetchParam.h"
 
@@ -100,6 +101,11 @@ public:
 		 * database configuration.
 		 */
 		database::DatabaseConfig* databaseConfig;
+
+		/**
+		 * type of the http client
+		 */
+		network::HttpClientFactory::HttpClientType clientType;
 	};
 
 public:
