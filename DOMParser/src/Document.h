@@ -141,7 +141,7 @@ public:
 
 	/**
 	 * creates a named event
-	 * @param name of newly created event
+	 * @param interface name of newly created event
 	 * @return created event
 	 */
 	Event* createEvent(const DOMString& interface);
@@ -157,7 +157,7 @@ public:
 	 * creates node iterator
 	 * @param root where to start iterating
 	 * @param whatToShow type of nodes to consider
-	 * @param nodeFilter predefined node filter
+	 * @param filter predefined node filter
 	 * @return created iterator
 	 */
 	NodeIterator createNodeIterator(Node* root, NodeFilter::Type whatToShow = NodeFilter::SHOW_ALL, NodeFilter* filter = 0);

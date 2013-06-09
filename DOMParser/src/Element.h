@@ -30,7 +30,7 @@ protected:
 	 * constructs an element given it's owning document and it's
 	 * tag name
 	 * @param ownerDocument parent document
-	 * @param localName tag name of this element
+	 * @param localname tag name of this element
 	 * @see domparser::ElementFactory
 	 */
 	Element(Document* ownerDocument, const DOMString& localname);
@@ -56,6 +56,7 @@ public:
 	/**
 	 * set's an attribute by name and value
 	 * @param name name of the new attribute and it's value
+	 * @param value value of the attribute
 	 */
 	void setAttribute(const DOMString& name, const DOMString& value);
 
@@ -89,7 +90,7 @@ public:
 
 	/**
 	 * checks if this element has a certain attribute
-	 * @param namespace namespace of the attribute
+	 * @param nameSpace namespace of the attribute
 	 * @param localName name of the attribute
 	 * @return true if it exists, false if not
 	 */

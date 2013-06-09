@@ -193,7 +193,7 @@ public:
 	/**
 	 * appends text to character token
 	 * @param p string to append
-	 * @param number of characters to append
+	 * @param s number of characters to append
 	 */
 	void Append(const char* p, size_t s) {
 		text.append(p,s);
