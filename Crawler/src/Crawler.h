@@ -9,7 +9,10 @@
 #include <string>
 #include <map>
 
+#include <HttpClientFactory.h>
+
 #include <Thread.h>
+
 #include "UrlFetcherThread.h"
 
 namespace database {
@@ -100,6 +103,11 @@ public:
 		 * database configuration.
 		 */
 		database::DatabaseConfig* databaseConfig;
+
+		/**
+		 * type of the http client
+		 */
+		network::HttpClientFactory::HttpClientType clientType;
 	};
 
 public:
