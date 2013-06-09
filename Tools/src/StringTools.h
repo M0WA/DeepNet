@@ -248,7 +248,7 @@ public:
 	 * use this function only with care.
 	 * @param comp string to compare
 	 * @param choice string to compare to (NEEDS TO BE ZERO TERMINATED)
-	 * @return
+	 * @return true if in choice, false if not
 	 */
 	static bool IsOneOf(const std::string& comp, const char** choice) {
 
@@ -263,15 +263,17 @@ public:
 	//similiarity functions
 
 	/*
-	//
-	//http://creativyst.com/Doc/Articles/SoundEx1/SoundEx1.htm
-	//
+	@see http://creativyst.com/Doc/Articles/SoundEx1/SoundEx1.htm
 	static int SoundEx(char *SoundEx, char *WordString, int LengthOption, int CensusOption);
 	*/
 
-	//
-	// see http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C.2B.2B
-	//
+	/**
+	 * calculates levenshtein distance of to words
+	 * @see http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C.2B.2B
+	 * @param s1 string 1
+	 * @param s2 string 2
+	 * @return levenshtein distance
+	 */
 	template<class T>
 	static unsigned int LevenshteinDistance(const T &s1, const T & s2) {
 		const size_t len1 = s1.size(), len2 = s2.size();
@@ -285,27 +287,6 @@ public:
 			col.swap(prevCol);
 		}
 		return prevCol[len2];
-	}
-
-	//
-	// see http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C.2B.2B
-	//
-	template <class T>
-	static unsigned int EditDistance(const T& s1, const T& s2) {
-		const size_t len1 = s1.size(), len2 = s2.size();
-		std::vector<std::vector<unsigned int> > d(len1 + 1, std::vector<unsigned int>(len2 + 1));
-		d[0][0] = 0;
-		for(unsigned int i = 1; i <= len1; ++i)
-			d[i][0] = i;
-
-		for(unsigned int i = 1; i <= len2; ++i)
-			d[0][i] = i;
-
-		for(unsigned int i = 1; i <= len1; ++i) {
-			for(unsigned int j = 1; j <= len2; ++j) {
-				  d[i][j] = std::min( std::min(d[i - 1][j] + 1,d[i][j - 1] + 1), d[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1) );}
-		}
-		return d[len1][len2];
 	}
 };
 
