@@ -2,9 +2,7 @@
  *
  * @file Document.h
  * @author Moritz Wagner
- * @date Mar 2, 2013
- *
- * TODO: description for this file
+ * @date 02.03.2013
  *
  */
 
