@@ -110,7 +110,7 @@ bool HtmlParserThread::ParsePages(const std::vector<HtmlParserEntry>& entries) {
 		htmlparser::HtmlParserFactory::CreateInstance(htmlparser::HtmlParserFactory::LIBXML,parser);
 
 		tools::Pointer<htmlparser::IHtmlParserResult> result;
-		if(!parser.Get()->Parse(iterEntries->html,result)) {
+		if(!parser.Get()->Parse(iterEntries->url,iterEntries->html,result)) {
 			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while parsing from url: %s", iterEntries->url.GetFullUrl().c_str());
 		}
 
