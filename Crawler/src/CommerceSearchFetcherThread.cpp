@@ -101,7 +101,7 @@ bool CommerceSearchFetcherThread::GetNextSecondLevelDomain()
 
 		database::customersynccrawlerTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
 			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::And()),
-			crawlerSessionID,
+			0,
 			paramSchedule.whereCols);
 
 		database::customersynccrawlerTableBase custSync;
