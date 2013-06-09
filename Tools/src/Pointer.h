@@ -2,7 +2,7 @@
  *
  * @file Pointer.h
  * @author Moritz Wagner
- * @date Mar 4, 2013
+ * @date 04.03.2013
  *
  */
 
