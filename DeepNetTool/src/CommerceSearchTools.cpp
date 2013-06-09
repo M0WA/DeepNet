@@ -58,6 +58,16 @@ bool CommerceSearchTools::AddCustomer(database::DatabaseConnection* db,const std
 		db->TransactionRollback();
 		return false; }
 
+	database::customersynccrawlerTableBase customerSyncCrawler;
+	customerSyncCrawler.Set_CRAWLERSESSION_ID(0);
+	customerSyncCrawler.Set_CUSTOMERDOMAIN_ID(customerDomainID);
+	try {
+		customerSyncCrawler.Insert(db);
+	} catch(...) {
+		db->TransactionRollback();
+		throw;
+	}
+
 	db->TransactionCommit();
 	return true;
 }
