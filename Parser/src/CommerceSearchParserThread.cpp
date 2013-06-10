@@ -7,12 +7,12 @@
 
 #include "CommerceSearchParserThread.h"
 
-#include <NotImplementedException.h>
 #include <HttpUrl.h>
 #include <DatabaseUrl.h>
-
 #include <HtmlParserFactory.h>
 #include <IHtmlParser.h>
+
+#include <NotImplementedException.h>
 
 namespace parser {
 

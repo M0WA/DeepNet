@@ -32,7 +32,6 @@ public:
 	virtual ~CommerceSearchParserThread();
 
 private:
-	//virtual bool ParsePage(const HtmlParserEntry& entry,const htmlparser::HtmlSAX2Document& document);
 	virtual void InitParserThread();
 	virtual void OnAfterParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images);
 
