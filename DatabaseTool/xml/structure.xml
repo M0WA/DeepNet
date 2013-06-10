@@ -645,6 +645,7 @@
 	<primary_key column="ID" />
 	<index column="scheduled" sort="ASC" />
 	<unique column="URL_ID" />
+	<foreign_key column="URL_ID" references_table="urls" references_column="ID"  MySQL_Database="documents" />
 	
 </table>
 
