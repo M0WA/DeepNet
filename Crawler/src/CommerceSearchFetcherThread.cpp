@@ -182,6 +182,8 @@ bool CommerceSearchFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs
 				syncTbl.Set_URL_ID(iterUrlsTbls->GetUrlID());
 				syncTbl.Set_scheduled(tools::TimeTools::NowUTCAdd(RESCHEDULE_MAX_AGE_DAYS_URL));
 				syncTbl.InsertOrUpdate(DB().Connection());
+
+				urlIDs.push_back(iterUrlsTbls->GetUrlID());
 			}
 		}
 	}
