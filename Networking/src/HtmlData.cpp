@@ -33,8 +33,11 @@ bool HtmlData::ConvertToHostCharset() {
 
 	//parse content-type as mime string
 	std::string mimeType,mimeEncoding;
+	bool isHtml = false;
 	if(!contentType.empty() && tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding))	{
-		if(mimeType.compare("text/html") != 0) {
+		isHtml =  mimeType.compare("text/html") == 0;
+		bool validType = isHtml || mimeType.compare("text/plain") == 0;
+		if(!validType) {
 			if (log::Logging::IsLogLevelTrace())
 				log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "not an html document");
 			Release();
@@ -63,20 +66,18 @@ bool HtmlData::ConvertToHostCharset() {
 		return false;
 	}
 
-	//tools::CharsetEncoder::Convert(...) returns true and empty string
-	//when no conversion needed...
-	if(!out.empty()) {
-		Release();
-		Append(out.c_str(),out.length());
-		Append(&zero,1);
-		out.clear();
-		return true;
+	Release();
+	Append(out.c_str(),out.length());
+	Append(&zero,1);
+
+	if(isHtml) {
+		//EncodeHtml();
 	}
-	else {
-		Release();
-		return false;
-	}
+
+	return !out.empty();
 }
+
+/*
 bool HtmlData::EncodeHtml() {
 
 	if(GetCount() == 0) {
@@ -99,6 +100,7 @@ bool HtmlData::EncodeHtml() {
 		Release();
 		return false; }
 }
+*/
 
 bool HtmlData::DetectCharset(const std::string& charsetHint, int& confidence, std::string& detectedEncoding, bool& hintCorrect) {
 

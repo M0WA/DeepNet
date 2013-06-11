@@ -28,12 +28,6 @@ public:
 	bool ConvertToHostCharset();
 
 	/**
-	 * encode all characters that have a HTML Character Reference
-	 * @return true if successful, false if unsuccessful
-	 */
-	bool EncodeHtml();
-
-	/**
 	 * gets current buffer
 	 * @return current buffer
 	 */
@@ -59,6 +53,12 @@ public:
 
 private:
 	bool DetectCharset(const std::string& charsetHint, int& confidence, std::string& detectedEncoding, bool& hintCorrect);
+
+	/**
+	 * encode all characters that have a HTML Character Reference
+	 * @return true if successful, false if unsuccessful
+	 */
+	//bool EncodeHtml();
 
 private:
 	std::string contentType;
