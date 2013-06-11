@@ -164,6 +164,8 @@ public:
 	 * @return first element.
 	 */
 	T* Append(const size_t appendAt,const T* append, const size_t appendStart, const size_t appendCount) {
+		if(appendCount == 0)
+			return 0;
 		if(!EnsureSize(appendAt + appendCount, true))
 			return 0;
 		memcpy(&element[appendAt],&append[appendStart],sizeof(T) * appendCount);
