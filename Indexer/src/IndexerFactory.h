@@ -2,7 +2,7 @@
  *
  * @file IndexerFactory.h
  * @author Moritz Wagner
- * @date Jun 13, 2013
+ * @date 13.06.2013
  *
  */
 
@@ -17,14 +17,35 @@ namespace database {
 namespace indexing {
 
 class IIndexer;
+
+/**
+ * @brief factory class for IIndexer
+ * @see indexing::IIndexer
+ */
 class IndexerFactory {
 public:
+	/**
+	 * @enum IndexerType
+	 */
 	typedef enum {
+		/**
+		 * generic parser based on flex
+		 */
 		FLEX_GENERIC,
+
+		/**
+		 * own implementation of a simple parser
+		 */
 		OWN_GENERIC,
 
+		/**
+		 * datamining parser based on flex
+		 */
 		FLEX_DATAMINING,
 
+		/**
+		 * do not use
+		 */
 		MAX_INDEXER_TYPE,
 	} IndexerType;
 
@@ -34,6 +55,13 @@ public:
 	virtual ~IndexerFactory();
 
 public:
+	/**
+	 * creates an instance of an IIndexer
+	 * @param db database connection
+	 * @param type indexer type
+	 * @param indexer created indexer
+	 * @return true if successful, false if unsuccessful
+	 */
 	static bool CreateInstance(database::DatabaseConnection* db,const IndexerType& type, tools::Pointer<IIndexer>& indexer);
 };
 

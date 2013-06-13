@@ -2,7 +2,7 @@
  *
  * @file IndexerFactory.cpp
  * @author Moritz Wagner
- * @date Jun 13, 2013
+ * @date 13.06.2013
  *
  */
 

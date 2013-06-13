@@ -2,7 +2,7 @@
  *
  * @file IndexerEx.h
  * @author Moritz Wagner
- * @date Jun 13, 2013
+ * @date 13.06.2013
  *
  */
 
@@ -18,6 +18,10 @@ namespace database {
 namespace indexing {
 
 class IndexerFactory;
+
+/**
+ * @brief simple implementation of an IIndexer interface
+ */
 class IndexerEx : public IIndexer {
 
 	friend class IndexerFactory;
