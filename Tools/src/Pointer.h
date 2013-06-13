@@ -121,14 +121,6 @@ public:
 		ptr = 0;
 	}
 
-	/**
-	 * set to false, if pointer should not be deleted on destruction
-	 * @param autoDelete true: delete on destruct, false: dont delete
-	 */
-	void SetAutoDelete(const bool autoDelete) {
-		this->autoDelete = autoDelete;
-	}
-
 private:
 	void Destruct() {
 		if(autoDelete)
