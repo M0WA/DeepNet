@@ -38,16 +38,12 @@ struct ContentIndexerCtx : public IndexerCtx
 
 namespace indexing {
 
-class Dictionary;
 class ContentIndexer : public IndexerBase
 {
 protected:
 	ContentIndexer(database::DatabaseConnection* database,const IndexerBase::IndexerType type);
 public:
 	virtual ~ContentIndexer();
-
-public:
-	virtual Dictionary& GetDictionary()=0;
 
 public:
 	virtual void OnCharacterReference(std::string* characterReference);

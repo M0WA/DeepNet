@@ -20,8 +20,10 @@ class IIndexer;
 class IndexerFactory {
 public:
 	typedef enum {
-		FLEX,
-		OWN,
+		FLEX_GENERIC,
+		OWN_GENERIC,
+
+		FLEX_DATAMINING,
 
 		MAX_INDEXER_TYPE,
 	} IndexerType;

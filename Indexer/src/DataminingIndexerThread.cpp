@@ -6,7 +6,8 @@
  */
 
 #include "DataminingIndexerThread.h"
-#include "DataminingContentIndexer.h"
+
+#include "IndexerFactory.h"
 
 namespace indexing {
 
@@ -16,9 +17,12 @@ DataminingIndexerThread::DataminingIndexerThread() {
 DataminingIndexerThread::~DataminingIndexerThread() {
 }
 
-IIndexer* DataminingIndexerThread::CreateIndexer()
-{
-	return dynamic_cast<IIndexer*>(new DataminingContentIndexer(DB().Connection(),indexing::IndexerBase::BODY_CONTENT));
+void DataminingIndexerThread::OnCreateIndexer(
+			tools::Pointer<IIndexer>& indexerMeta,
+			tools::Pointer<IIndexer>& indexerContent) {
+
+	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_DATAMINING,indexerContent);
+	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_DATAMINING,indexerMeta);
 }
 
 }

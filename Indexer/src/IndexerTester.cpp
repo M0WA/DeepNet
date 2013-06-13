@@ -8,7 +8,9 @@
 #include "IndexerTester.h"
 
 #include "IndexerBase.h"
-#include "GenericWebContentIndexer.h"
+#include "IIndexer.h"
+#include "IndexerFactory.h"
+#include "Dictionary.h"
 
 #include <StringTools.h>
 #include <Logging.h>
@@ -24,13 +26,13 @@ IndexerTester::~IndexerTester() {
 
 bool IndexerTester::Parse(database::DatabaseConnection* database, const std::string& content)
 {
-	indexing::ContentIndexer* indexer = new indexing::GenericWebContentIndexer(database, indexing::IndexerBase::BODY_CONTENT);
-	indexer->GetDictionary().SetTestMode(true);
-	indexer->Parse( content,-1 );
+	tools::Pointer<IIndexer> indexer;
+	IndexerFactory::CreateInstance(database,IndexerFactory::FLEX_GENERIC,indexer);
+	indexer.Get()->GetDictionary().SetTestMode(true);
+	indexer.Get()->Parse( content,-1 );
 
 	std::string dictDump;
-	indexer->GetDictionary().Dump(dictDump);
-	delete indexer;
+	indexer.Get()->GetDictionary().Dump(dictDump);
 
 	log::Logging::Log(log::Logging::LOGLEVEL_INFO,"dumping dictionary:\n%s",dictDump.c_str());
 	return true;

@@ -13,9 +13,14 @@
 namespace indexing {
 
 class Dictionary;
+
 class GenericWebContentIndexer: public indexing::ContentIndexer {
-public:
+
+	friend class IndexerFactory;
+
+private:
 	GenericWebContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type);
+public:
 	virtual ~GenericWebContentIndexer();
 
 public:

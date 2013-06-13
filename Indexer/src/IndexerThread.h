@@ -9,6 +9,7 @@
 
 #include <CacheParsed.h>
 #include <Thread.h>
+#include <Pointer.h>
 #include <DatabaseHelper.h>
 
 namespace database {
@@ -50,9 +51,6 @@ public:
 	virtual ~IndexerThread();
 
 private:
-	virtual IIndexer* CreateIndexer()=0;
-
-private:
 	static void* IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam);
 
 private:
@@ -60,14 +58,19 @@ private:
 	bool ParsePages(std::map<long long,caching::CacheParsed::CacheParsedEntry>& entries);
 	void OnIdle();
 
+private:
+	virtual void OnCreateIndexer(
+			tools::Pointer<IIndexer>& indexerMeta,
+			tools::Pointer<IIndexer>& indexerContent) = 0;
+
 protected:
 	database::DatabaseHelper& DB() { return databaseHelper; }
 
 private:
 	IndexerThreadParam indexerThreadParam;
 	database::DatabaseHelper databaseHelper;
-	IIndexer* indexerMeta;
-	IIndexer* indexerContent;
+	tools::Pointer<IIndexer> indexerMeta;
+	tools::Pointer<IIndexer> indexerContent;
 };
 
 }

@@ -6,7 +6,8 @@
  */
 
 #include "GenericWebIndexerThread.h"
-#include "GenericWebContentIndexer.h"
+
+#include "IndexerFactory.h"
 
 namespace indexing {
 
@@ -16,9 +17,12 @@ GenericWebIndexerThread::GenericWebIndexerThread() {
 GenericWebIndexerThread::~GenericWebIndexerThread() {
 }
 
-IIndexer* GenericWebIndexerThread::CreateIndexer()
-{
-	return dynamic_cast<IIndexer*>(new GenericWebContentIndexer(DB().Connection(),indexing::IndexerBase::BODY_CONTENT));
+void GenericWebIndexerThread::OnCreateIndexer(
+			tools::Pointer<IIndexer>& indexerMeta,
+			tools::Pointer<IIndexer>& indexerContent) {
+
+	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_GENERIC,indexerContent);
+	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_GENERIC,indexerMeta);
 }
 
 }

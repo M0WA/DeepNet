@@ -12,9 +12,14 @@
 
 namespace indexing {
 
+class IndexerFactory;
 class DataminingContentIndexer: public indexing::ContentIndexer {
-public:
+
+	friend class IndexerFactory;
+
+private:
 	DataminingContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type);
+public:
 	virtual ~DataminingContentIndexer();
 
 public:

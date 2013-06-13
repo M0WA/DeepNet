@@ -18,7 +18,9 @@ public:
 	virtual ~DataminingIndexerThread();
 
 private:
-	virtual IIndexer* CreateIndexer();
+	virtual void OnCreateIndexer(
+			tools::Pointer<IIndexer>& indexerMeta,
+			tools::Pointer<IIndexer>& indexerContent);
 };
 
 }

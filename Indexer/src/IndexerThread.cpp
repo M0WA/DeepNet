@@ -12,15 +12,12 @@
 #include <DatabaseLayer.h>
 
 #include "Dictionary.h"
-#include "ContentIndexer.h"
-#include "MetaIndexer.h"
+#include "IIndexer.h"
 
 namespace indexing {
 
 IndexerThread::IndexerThread()
 : Thread((Thread::ThreadFunction)&(IndexerThread::IndexerThreadFunc))
-, indexerMeta(0)
-, indexerContent(0)
 {
 }
 
@@ -41,8 +38,8 @@ void* IndexerThread::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadPa
 
 	if(	connectedDB )
 	{
-		instance->indexerMeta    = instance->CreateIndexer();
-		instance->indexerContent = instance->CreateIndexer();
+		instance->OnCreateIndexer(instance->indexerMeta,instance->indexerContent);
+
 		std::map<long long,caching::CacheParsed::CacheParsedEntry> entries;
 		while( !instance->ShallEnd() ) {
 
@@ -61,9 +58,6 @@ void* IndexerThread::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadPa
 	}
 	else {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not start indexer. check database configuration."); }
-
-	delete instance->indexerMeta;
-	delete instance->indexerContent;
 
 	return 0;
 }
@@ -85,24 +79,24 @@ bool IndexerThread::ParsePages(std::map<long long,caching::CacheParsed::CachePar
 	std::map<long long,caching::CacheParsed::CacheParsedEntry>::iterator iterEntries = entries.begin();
 	for( ; iterEntries != entries.end(); ++iterEntries ) {
 
-		indexerContent->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
+		indexerContent.Get()->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
 
 		std::vector< std::string >::iterator iterContent = iterEntries->second.content.begin();
 		for(size_t iParagraph = 0;iterContent != iterEntries->second.content.end();++iParagraph,++iterContent) {
-			indexerContent->Parse(*iterContent,iParagraph); }
-		indexerContent->GetDictionary().CommitContent();
+			indexerContent.Get()->Parse(*iterContent,iParagraph); }
+		indexerContent.Get()->GetDictionary().CommitContent();
 
-		indexerMeta   ->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
+		indexerMeta.Get()->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
 		std::vector< std::pair<std::string,std::string> >::iterator iterMeta = iterEntries->second.meta.begin();
 		for(;iterMeta != iterEntries->second.meta.end();++iterMeta)
 		{
 			if (( iterMeta->first.compare("keywords") == 0 )||
 				( iterMeta->first.compare("description") == 0 )
 			   ){
-				indexerMeta->Parse(iterMeta->second,-1);
+				indexerMeta.Get()->Parse(iterMeta->second,-1);
 			}
 		}
-		indexerMeta->GetDictionary().CommitMeta();
+		indexerMeta.Get()->GetDictionary().CommitMeta();
 	}
 	return true;
 }
