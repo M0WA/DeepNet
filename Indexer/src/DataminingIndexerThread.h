@@ -11,14 +11,14 @@
 
 namespace indexing {
 
-class ContentIndexer;
+class IIndexer;
 class DataminingIndexerThread: public indexing::IndexerThread {
 public:
 	DataminingIndexerThread();
 	virtual ~DataminingIndexerThread();
 
 private:
-	virtual ContentIndexer* CreateContentIndexer();
+	virtual IIndexer* CreateIndexer();
 };
 
 }

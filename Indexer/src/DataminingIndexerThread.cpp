@@ -16,9 +16,9 @@ DataminingIndexerThread::DataminingIndexerThread() {
 DataminingIndexerThread::~DataminingIndexerThread() {
 }
 
-ContentIndexer* DataminingIndexerThread::CreateContentIndexer()
+IIndexer* DataminingIndexerThread::CreateIndexer()
 {
-	return dynamic_cast<ContentIndexer*>(new DataminingContentIndexer(DB().Connection(),indexing::IndexerBase::BODY_CONTENT));
+	return dynamic_cast<IIndexer*>(new DataminingContentIndexer(DB().Connection(),indexing::IndexerBase::BODY_CONTENT));
 }
 
 }

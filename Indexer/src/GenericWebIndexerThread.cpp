@@ -16,9 +16,9 @@ GenericWebIndexerThread::GenericWebIndexerThread() {
 GenericWebIndexerThread::~GenericWebIndexerThread() {
 }
 
-ContentIndexer* GenericWebIndexerThread::CreateContentIndexer()
+IIndexer* GenericWebIndexerThread::CreateIndexer()
 {
-	return dynamic_cast<ContentIndexer*>(new GenericWebContentIndexer(DB().Connection(),indexing::IndexerBase::BODY_CONTENT));
+	return dynamic_cast<IIndexer*>(new GenericWebContentIndexer(DB().Connection(),indexing::IndexerBase::BODY_CONTENT));
 }
 
 }

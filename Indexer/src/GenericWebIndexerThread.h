@@ -11,14 +11,14 @@
 
 namespace indexing {
 
-class ContentIndexer;
+class IIndexer;
 class GenericWebIndexerThread : public indexing::IndexerThread {
 public:
 	GenericWebIndexerThread();
 	virtual ~GenericWebIndexerThread();
 
 private:
-	virtual ContentIndexer* CreateContentIndexer();
+	virtual IIndexer* CreateIndexer();
 };
 
 }

@@ -18,6 +18,8 @@
 #include <istream>
 #include <iostream>
 
+#include "IIndexer.h"
+
 namespace indexing {
 	class IndexerBase;
 }
@@ -48,7 +50,7 @@ struct IndexerCtx {
 
 namespace indexing
 {
-class IndexerBase
+class IndexerBase : public indexing::IIndexer
 {
 public:
 	enum WordLen {

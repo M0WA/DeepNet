@@ -18,7 +18,7 @@ namespace database {
 namespace indexing {
 
 class IndexerBase;
-class ContentIndexer;
+class IIndexer;
 class IndexerThread : public threading::Thread
 {
 public:
@@ -50,7 +50,7 @@ public:
 	virtual ~IndexerThread();
 
 private:
-	virtual ContentIndexer* CreateContentIndexer()=0;
+	virtual IIndexer* CreateIndexer()=0;
 
 private:
 	static void* IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam);
@@ -66,8 +66,8 @@ protected:
 private:
 	IndexerThreadParam indexerThreadParam;
 	database::DatabaseHelper databaseHelper;
-	ContentIndexer* indexerMeta;
-	ContentIndexer* indexerContent;
+	IIndexer* indexerMeta;
+	IIndexer* indexerContent;
 };
 
 }

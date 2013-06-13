@@ -26,7 +26,8 @@ MetaIndexer::~MetaIndexer()
 
 MetaIndexer* MetaIndexer::CreateIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type)
 {
-	return new MetaIndexer(database,type);
+	return 0;
+	//return new MetaIndexer(database,type);
 }
 
 void MetaIndexer::OnParse(const long long paragraph)

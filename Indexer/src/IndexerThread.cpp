@@ -41,8 +41,8 @@ void* IndexerThread::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadPa
 
 	if(	connectedDB )
 	{
-		instance->indexerMeta    = instance->CreateContentIndexer();
-		instance->indexerContent = instance->CreateContentIndexer();
+		instance->indexerMeta    = instance->CreateIndexer();
+		instance->indexerContent = instance->CreateIndexer();
 		std::map<long long,caching::CacheParsed::CacheParsedEntry> entries;
 		while( !instance->ShallEnd() ) {
 
