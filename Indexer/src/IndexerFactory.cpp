@@ -30,11 +30,11 @@ bool IndexerFactory::CreateInstance(database::DatabaseConnection* db,const Index
 	case FLEX_GENERIC:
 		indexer.Set(new GenericWebContentIndexer(db,indexing::IndexerBase::BODY_CONTENT),true);
 		return true;
-/*
+
 	case FLEX_DATAMINING:
 		indexer.Set(new DataminingContentIndexer(db,indexing::IndexerBase::BODY_CONTENT),true);
 		return true;
-*/
+
 	default:
 		return false;
 	}

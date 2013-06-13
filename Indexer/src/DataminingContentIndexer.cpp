@@ -14,4 +14,7 @@ DataminingContentIndexer::DataminingContentIndexer(database::DatabaseConnection*
 , dictionary(database) {
 }
 
+DataminingContentIndexer::~DataminingContentIndexer() {
+}
+
 }
