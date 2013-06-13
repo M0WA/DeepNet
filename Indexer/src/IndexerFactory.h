@@ -19,7 +19,7 @@ namespace indexing {
 class IIndexer;
 
 /**
- * @brief factory class for IIndexer
+ * @brief factory class for IIndexer interfaces
  * @see indexing::IIndexer
  */
 class IndexerFactory {
