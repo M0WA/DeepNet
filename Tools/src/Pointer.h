@@ -89,9 +89,18 @@ public:
 	 * takes over ownership of a pointer from another instance
 	 * @param swap instance to be owned
 	 */
-	void Swap(Pointer<T>& swap) {
+	void SwapFrom(Pointer<T>& swap) {
 		swap.autoDelete = false;
 		Set(swap.Get(),true);
+	}
+
+	/**
+	 * swaps contents to pointer, disabling memory management
+	 * @param swap pointer to swap to
+	 */
+	void SwapTo(T*& swap) {
+		swap = Get();
+		autoDelete = false;
 	}
 
 	/**
@@ -110,6 +119,14 @@ public:
 			delete ptr;
 		autoDelete = true;
 		ptr = 0;
+	}
+
+	/**
+	 * set to false, if pointer should not be deleted on destruction
+	 * @param autoDelete true: delete on destruct, false: dont delete
+	 */
+	void SetAutoDelete(const bool autoDelete) {
+		this->autoDelete = autoDelete;
 	}
 
 private:
