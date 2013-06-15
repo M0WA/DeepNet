@@ -106,7 +106,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 	if( strcmp((char*)name,elementRef.attribute.localname.c_str()) != 0 )
 	{
 		if(log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"closing tag " +elementRef.attribute.localname +" mismatches expected tag: " + std::string((const char*)name));
+			log::Logging::LogTrace("closing tag " +elementRef.attribute.localname +" mismatches expected tag: " + std::string((const char*)name));
 		return; //tag mismatch => this is evil
 	}
 
@@ -236,6 +236,9 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 	else if (
 		!elementRef.attribute.value.empty() &&
 		(
+			(curName.compare("dt")==0)    ||
+			(curName.compare("dd")==0)    ||
+			(curName.compare("abbr")==0)    ||
 			(curName.compare("td")==0)    ||
 			(curName.compare("h1")==0)    ||
 			(curName.compare("h2")==0)    ||
@@ -384,7 +387,7 @@ void HtmlSAX2Parser::fatalError( void * ctx, const char * msg, ... )
 	if((int)context->htmlDocument->elements.size() != (context->nCurrentElement+1))
 	{
 		if(log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"closing wrong tag");
+			log::Logging::LogTrace("closing wrong tag");
 		return; //this is evil => closing wrong tag ....
 	}
 
@@ -408,7 +411,7 @@ void HtmlSAX2Parser::genericErrorFunc(void * ctx,
 	tools::StringTools::FormatVAString(errorMsg,msg,args);
 	va_end(args);
 
-	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"libXML generic error: " + errorMsg);
+	log::Logging::LogWarn("libXML generic error: " + errorMsg);
 }
 
 bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result)
@@ -460,10 +463,17 @@ bool HtmlSAX2Parser::Parse(const htmlparser::DatabaseUrl& url,const network::Htm
 	parserCtxt = 0;
 	if(htmlDoc){
 		xmlFreeDoc(htmlDoc);
-		htmlDoc = 0;
-	}
+		htmlDoc = 0; }
 
 	result.Set(dynamic_cast<htmlparser::IHtmlParserResult*>(new LibXMLParserResult(htmlDocument.result)),true);
+
+	/*
+	if(log::Logging::IsLogLevelTrace()) {
+		std::string parsedContent;
+		result.Get()->DumpXML(parsedContent);
+		log::Logging::LogTraceUnlimited(parsedContent); }
+	*/
+
 	return true;
 }
 
