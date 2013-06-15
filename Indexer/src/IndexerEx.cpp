@@ -33,13 +33,21 @@ void IndexerEx::Parse(const std::string& input, const long long paragraph)
 
 	PERFORMANCE_LOG_START;
 	std::vector<std::string> groups;
-	tools::PCRERegex regex("(\\w{2,})",true,false,isUTF8);
+	tools::PCRERegex regex("\\w{2,}",true,false,isUTF8);
 	if(!regex.Match(input,groups)) {
 		if(log::Logging::IsLogLevelTrace()) {
 			log::Logging::LogTrace("did not detect any words in content");	}
 		return;
 	}
 	PERFORMANCE_LOG_STOP("splitting content group to words");
+
+	/*
+	if(log::Logging::IsLogLevelTrace()) {
+		std::string dmpGroups;
+		tools::ContainerTools::DumpVector(groups,dmpGroups);
+		log::Logging::LogTraceUnlimited("indexer found groups: \n" + dmpGroups);
+	}
+	*/
 
 	PERFORMANCE_LOG_RESTART;
 	std::vector<std::string>::const_iterator i = groups.begin();
