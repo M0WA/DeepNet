@@ -64,7 +64,7 @@ Exception::~Exception() {
 
 void Exception::Log() const {
 
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,Dump());
+	log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,Dump());
 }
 
 void Exception::DisableLogging() {
