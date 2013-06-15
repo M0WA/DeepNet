@@ -8,6 +8,8 @@ CPP_SRCS += \
 ../src/CharacterData.cpp \
 ../src/Comment.cpp \
 ../src/DOMImplementation.cpp \
+../src/DOMParser.cpp \
+../src/DOMParserResult.cpp \
 ../src/DOMSettableTokenList.cpp \
 ../src/DOMTokenList.cpp \
 ../src/Document.cpp \
@@ -42,6 +44,8 @@ OBJS += \
 ./src/CharacterData.o \
 ./src/Comment.o \
 ./src/DOMImplementation.o \
+./src/DOMParser.o \
+./src/DOMParserResult.o \
 ./src/DOMSettableTokenList.o \
 ./src/DOMTokenList.o \
 ./src/Document.o \
@@ -76,6 +80,8 @@ CPP_DEPS += \
 ./src/CharacterData.d \
 ./src/Comment.d \
 ./src/DOMImplementation.d \
+./src/DOMParser.d \
+./src/DOMParserResult.d \
 ./src/DOMSettableTokenList.d \
 ./src/DOMTokenList.d \
 ./src/Document.d \
