@@ -35,8 +35,7 @@ bool SpellChecking::GenerateProposals(const std::string& keyword, bool& spelledC
 	if(!instanceHunspell)
 		throw;
 
-	//spelledCorrectly = (bool)instanceHunspell->spell(keyword.c_str());
-	spelledCorrectly = false;
+	spelledCorrectly = (instanceHunspell->spell(keyword.c_str()) > 0);
 
 	char ** wlst = 0;
 	int ns = instanceHunspell->suggest(&wlst,keyword.c_str());
