@@ -88,6 +88,12 @@ public:
 	static void LogTrace(const std::string& msg) { Log(LOGLEVEL_TRACE,msg); }
 
 	/**
+	 * log a debug information not respecting max log length.
+	 * @param msg log message.
+	 */
+	static void LogTraceUnlimited(const std::string& msg) { LogUnlimited(LOGLEVEL_TRACE,msg); }
+
+	/**
 	 * register a current thread assigning it a name.
 	 * @param threadName thread name.
 	 */
@@ -104,6 +110,12 @@ public:
 	 * @param maxLogMsgLengthIn maximum length.
 	 */
 	static void SetMaxLogLength(size_t maxLogMsgLengthIn);
+
+	/**
+	 * get the maximum length of a log message.
+	 * @return maximum length.
+	 */
+	static size_t GetMaxLogLength() { return (instance ? instance->maxLogMsgLength : 0); };
 
 	/**
 	 * set the log level.
@@ -133,7 +145,7 @@ public:
 	static void Log(const LogLevel levelMsg,const char* fmt,...);
 
 	/**
-	 * log a message.
+	 * log a message not respecting max log length.
 	 * @param levelMsg log level.
 	 * @param fmt format string.
 	 */
