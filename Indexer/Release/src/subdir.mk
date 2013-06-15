@@ -19,6 +19,8 @@ CPP_SRCS += \
 ../src/GenericWebIndexerThread.cpp \
 ../src/Indexer.cpp \
 ../src/IndexerBase.cpp \
+../src/IndexerEx.cpp \
+../src/IndexerFactory.cpp \
 ../src/IndexerTester.cpp \
 ../src/IndexerThread.cpp \
 ../src/MetaIndexer.cpp \
@@ -40,6 +42,8 @@ OBJS += \
 ./src/GenericWebIndexerThread.o \
 ./src/Indexer.o \
 ./src/IndexerBase.o \
+./src/IndexerEx.o \
+./src/IndexerFactory.o \
 ./src/IndexerTester.o \
 ./src/IndexerThread.o \
 ./src/MetaIndexer.o \
@@ -61,6 +65,8 @@ CPP_DEPS += \
 ./src/GenericWebIndexerThread.d \
 ./src/Indexer.d \
 ./src/IndexerBase.d \
+./src/IndexerEx.d \
+./src/IndexerFactory.d \
 ./src/IndexerTester.d \
 ./src/IndexerThread.d \
 ./src/MetaIndexer.d \
