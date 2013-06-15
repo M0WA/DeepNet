@@ -91,6 +91,8 @@ bool HtmlData::ConvertToHostCharset() {
 		Release();
 		Append(out.c_str(),out.length());
 		Append(&zero,1);
+
+		//TODO: set new content-type with host charset
 	}
 
 	if(isHtml) {
