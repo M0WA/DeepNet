@@ -113,6 +113,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 	std::string curName = name ? (char*)name : "";
 	curName = tools::StringTools::ToLowerNP(curName);
 	if (
+		(curName.compare("noscript")==0) ||
 		(curName.compare("script")==0) ||
 		(curName.compare("head")==0)   ||
 		(curName.compare("html")==0)   ||
@@ -261,6 +262,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			(curName.compare("blockquote")==0) ||
 			(curName.compare("textarea")==0)   ||
 		//	(curName.compare("body")==0)  ||
+		//  (curName.compare("noscript")==0) ||
 			(curName.compare("center")==0)||
 			(curName.compare("select")==0)||
 			(curName.compare("strike")==0)||
@@ -273,8 +275,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			(curName.compare("label")==0) ||
 			(curName.compare("menu")==0)  ||
 			(curName.compare("button")==0)||
-			(curName.compare("option")==0)||
-			(curName.compare("noscript")==0)
+			(curName.compare("option")==0)
 		)
 	)
 	{
