@@ -19,7 +19,7 @@ else
 	DEEPNETTOOL_PATH="Release/"
 fi
 
-${DEEPNETTOOL_PATH}./DeepNetTool --configfile ../Scripts/conf/deepnet.tool.conf --curlGetFile ../../Scripts/tests/httpclient/http_get_urls.conf --curlPostFile ../../Scripts/tests/httpclient/http_post_urls.conf
+${DEEPNETTOOL_PATH}./DeepNetTool --configfile "../Scripts/conf/deepnet.tool.conf" --curlGetFile "../Scripts/tests/httpclient/http_get_urls.conf" --curlPostFile "../Scripts/tests/httpclient/http_post_urls.conf"
 if [ $? -ne 0 ]; then
  	cd ${TMP}
     exit 1
