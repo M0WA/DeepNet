@@ -21,7 +21,7 @@ namespace toolbot {
 
 class UnitTestIndexerEx: public toolbot::UnitTest {
 public:
-	UnitTestIndexerEx(database::DatabaseConnection* connection, const std::vector<std::string>& contents);
+	UnitTestIndexerEx(database::DatabaseConnection* connection, const std::string& testPath);
 	virtual ~UnitTestIndexerEx();
 
 public:
@@ -30,6 +30,7 @@ public:
 
 private:
 	database::DatabaseConnection* connection;
+	std::string testPath;
 	std::vector<std::string> contentFiles;
 };
 

@@ -22,15 +22,20 @@
 
 namespace toolbot {
 
-UnitTestIndexerEx::UnitTestIndexerEx(database::DatabaseConnection* connection, const std::vector<std::string>& contentFiles)
+UnitTestIndexerEx::UnitTestIndexerEx(database::DatabaseConnection* connection, const std::string& testPath)
 : connection(connection)
-, contentFiles(contentFiles){
+, testPath(testPath) {
+	tools::FileTools::ListDirectory(contentFiles, testPath, ".*?\\.txt$", true);
 }
 
 UnitTestIndexerEx::~UnitTestIndexerEx() {
 }
 
 bool UnitTestIndexerEx::Run() {
+
+	if(contentFiles.size() == 0) {
+		log::Logging::LogError("could not find any indexable .txt files in " + testPath);
+		return false; }
 
 	tools::SpellChecking spellCheck;
 	spellCheck.InitSpellChecking("/usr/share/hunspell/en_US.dic","/usr/share/hunspell/en_US.aff");

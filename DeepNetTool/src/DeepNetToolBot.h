@@ -36,6 +36,7 @@ private:
 	void RegisterPCRERegexTestParams();
 	void RegisterHtmlClientCURLParams();
 	void RegisterHtmlDocumentFactoryParams();
+	void RegisterIndexerExParams();
 
 private:
 	bool ProcessUnitTests();

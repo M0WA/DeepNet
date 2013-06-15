@@ -30,6 +30,7 @@
 #include "UnitTestSAX2HtmlParser.h"
 #include "UnitTestHttpClientCURL.h"
 #include "UnitTestHtmlDocumentFactory.h"
+#include "UnitTestIndexerEx.h"
 
 namespace toolbot {
 
@@ -65,7 +66,7 @@ bool DeepNetToolBot::OnRun() {
 	if(Config().GetValue("databaseRepair", isRepair) && isRepair) {
 		bSuccess = DatabaseRepair::FixUncleanShutdown(conn);
 		if(!bSuccess) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while fixing database after unclean shutdown.");
+			log::Logging::LogError("error while fixing database after unclean shutdown.");
 			bSuccess = false;
 		}
 	}
@@ -78,15 +79,15 @@ bool DeepNetToolBot::OnRun() {
 		std::multimap<std::string,std::string> urls;
 		htmlparser::UrlInserter::ReadURLFile(urlFile,urls);
 		htmlparser::UrlInserter::InsertURLFile(DB().Connection(),urls);
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"inserting urls done");
+		log::Logging::LogInfo("inserting urls done");
 	}
 
 	//insert an url into database and schedule it for search engine
 	if( Config().GetValue("insertUrl", urlFile) ) {
 
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"inserting url");
+		log::Logging::LogInfo("inserting url");
 		htmlparser::UrlInserter::InsertURL(DB().Connection(),urlFile,"");
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"inserting url done");
+		log::Logging::LogInfo("inserting url done");
 	}
 
 	//add commerce search user
@@ -98,15 +99,15 @@ bool DeepNetToolBot::OnRun() {
 			Config().GetValue("csDomain", csDomain)  &&
 			Config().GetValue("csRevisitInterval", csRevisitInterval)
 	    ) {
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"adding user to commerce search database");
+			log::Logging::LogInfo("adding user to commerce search database");
 
 			if(!CommerceSearchTools::AddCustomer(DB().Connection(),csUser,csPass,csDomain,csRevisitInterval)) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"an error occured while inserting new customer for commerce search, customer was not inserted.");}
+				log::Logging::LogError("an error occured while inserting new customer for commerce search, customer was not inserted.");}
 			else {
-				log::Logging::Log(log::Logging::LOGLEVEL_INFO,"new customer for commerce search was inserted successfully");}
+				log::Logging::LogInfo("new customer for commerce search was inserted successfully");}
 		}
 		else {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"either csUser, csPass, csDomain or csRevisitInterval parameter is/are missing, exiting...");
+			log::Logging::LogError("either csUser, csPass, csDomain or csRevisitInterval parameter is/are missing, exiting...");
 		}
 	}
 
@@ -231,6 +232,10 @@ void DeepNetToolBot::RegisterHtmlDocumentFactoryParams() {
 	Config().RegisterParam("domParserUnitTestPath", "path to unit test html files for DOM parser", false, false, 0);
 }
 
+void DeepNetToolBot::RegisterIndexerExParams() {
+	Config().RegisterParam("indexerExUnitTestPath", "path to unit test text and dictionary xml files for indexer", false, false, 0);
+}
+
 bool DeepNetToolBot::ProcessUnitTests() {
 
 	bool bSuccess = true;
@@ -279,7 +284,7 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	//initiate html parser based unit tests
 	if(successParse) {
 		std::string domParserUnitTestPath,domParserUnitTestFile;
-		if(Config().GetValue("domParserUnitTestPath",domParserUnitTestPath)) {
+		if( Config().GetValue("domParserUnitTestPath",domParserUnitTestPath) && !domParserUnitTestPath.empty()) {
 			std::vector<std::string> files;
 			tools::FileTools::ListDirectory(files, domParserUnitTestPath, ".*?\\.html$", true);
 
@@ -292,6 +297,12 @@ bool DeepNetToolBot::ProcessUnitTests() {
 		if(Config().GetValue("domParserUnitTestFile",domParserUnitTestFile)) {
 			unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestFile));
 		}
+	}
+
+	//initiate indexer based unit tests
+	std::string indexerExUnitTestPath;
+	if( Config().GetValue("indexerExUnitTestPath",indexerExUnitTestPath) && !indexerExUnitTestPath.empty() ) {
+		unitTests.AddUnitTest(new toolbot::UnitTestIndexerEx(DB().Connection(),indexerExUnitTestPath));
 	}
 
 	//finally run all previously registered unit tests
