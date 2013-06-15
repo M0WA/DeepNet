@@ -62,6 +62,14 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
     exit 1
   fi
   
+  echo "Running unit-tests for indexer"
+  ./test_indexer.sh
+  if [ $? -ne 0 ]; then
+    ./update_and_compile_release.sh clean_projects
+    echo "ERROR: unit-tests for indexer exited unsuccessful, aborting..."
+    exit 1
+  fi
+  
   echo "Running unit-tests for url-parser"
   ./test_url_parser.sh
   if [ $? -ne 0 ]; then
