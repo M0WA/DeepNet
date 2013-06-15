@@ -44,7 +44,7 @@ all: WorkerBot
 WorkerBot: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L../../Bot/Release -L../../Tools/Release -L../../Networking/Release -L../../Caching/Release -L../../Indexer/Release -L../../Crawler/Release -L../../Parser/Release -L../../Database/Release -L../../HtmlParser/Release -L../../Logging/Release -L../../Threading/Release -rdynamic -o"WorkerBot" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L../../Bot/Release -L../../LibXMLParser/Release -L../../Tools/Release -L../../Networking/Release -L../../Caching/Release -L../../Indexer/Release -L../../Crawler/Release -L../../Parser/Release -L../../Database/Release -L../../HtmlParser/Release -L../../Logging/Release -L../../Threading/Release -rdynamic -o"WorkerBot" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
