@@ -29,7 +29,7 @@ Logging::~Logging()
 {
 }
 
-void Logging::Log_Intern(LogLevel levelMsg,const std::string& msg)
+void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std::string& msg)
 {
 	if(levelMsg>logLevel)
 		return;
@@ -39,8 +39,8 @@ void Logging::Log_Intern(LogLevel levelMsg,const std::string& msg)
 		Logging::mutex.Lock();
 
 	std::string preparedMessage = msg;
-	if(maxLogMsgLength > 0 && msg.length() > (size_t)maxLogMsgLength) {
-		preparedMessage = msg.substr(0,maxLogMsgLength);
+	if(length > 0 && msg.length() > length) {
+		preparedMessage = msg.substr(0,length);
 		preparedMessage += "...";
 	}
 
@@ -89,9 +89,53 @@ void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
 		return;
 
     if(instance)
-    	instance->Log_Intern(levelMsg,msgOut);
+    	instance->Log_Intern(levelMsg,instance->maxLogMsgLength,msgOut);
     else{
     	Logging::Log(levelMsg,msgOut);}
+}
+
+void Logging::LogUnlimited(LogLevel levelMsg, const char* fmt,...) {
+
+	if(instance && levelMsg > instance->logLevel)
+		return;
+
+	std::string msgOut;
+	int n, size = 100;
+	char *p = 0, *np = 0;
+	va_list ap;
+
+	if ((p = (char*)malloc (size)) == NULL)
+		return;
+
+	while (1) {
+		va_start(ap, fmt);
+		n = vsnprintf (p, size, fmt, ap);
+		va_end(ap);
+		if (n > -1 && n < size) {
+			msgOut = p;
+		    break; }
+		if (n > -1)    // glibc 2.1
+		   size = n+1;
+		else           // glibc 2.0
+		   size *= 2;
+		if ((np = (char*)realloc(p, size)) == NULL) {
+		   free(p);
+		   p = 0;
+		   break;
+		} else {
+		   p = np;
+		}
+	}
+	if(p) {
+		msgOut = p;
+		free(p); }
+	else
+		return;
+
+    if(instance)
+    	instance->Log_Intern(levelMsg,0,msgOut);
+    else{
+    	Logging::LogUnlimited(levelMsg,msgOut);}
 }
 
 void Logging::RegisterThreadID(const std::string& threadName) {
@@ -101,7 +145,18 @@ void Logging::RegisterThreadID(const std::string& threadName) {
 
 void Logging::Log(const LogLevel levelMsg,const std::string& msg) {
 	if(instance)
-		instance->Log_Intern(levelMsg,msg);
+		instance->Log_Intern(levelMsg,instance->maxLogMsgLength,msg);
+	else {
+		std::string timeString,logLevelString;
+		GetTimeString(timeString);
+		GetLogLevelString(levelMsg, logLevelString);
+		std::cout << "[" << timeString << "]" << logLevelString << msg << std::endl;
+	}
+}
+
+void Logging::LogUnlimited(const LogLevel levelMsg,const std::string& msg) {
+	if(instance)
+		instance->Log_Intern(levelMsg,0,msg);
 	else {
 		std::string timeString,logLevelString;
 		GetTimeString(timeString);
@@ -115,7 +170,7 @@ void Logging::SetApplicationName(const std::string& applicationNameIn) {
 		instance->SetApplicationName_Intern(applicationNameIn);
 }
 
-void Logging::SetMaxLogLength(int maxLogMsgLengthIn) {
+void Logging::SetMaxLogLength(size_t maxLogMsgLengthIn) {
 	if(instance)
 		instance->SetMaxLogLength_Intern(maxLogMsgLengthIn);
 }
@@ -129,12 +184,6 @@ Logging::LogLevel Logging::GetLogLevel() {
 	if(instance)
 		return instance->logLevel;
 	return LOGLEVEL_MAX;
-}
-
-int Logging::GetMaxLogLength() {
-	if(instance)
-		return instance->maxLogMsgLength;
-	return -1;
 }
 
 bool Logging::IsLogLevelTrace() {
@@ -191,7 +240,7 @@ void Logging::GetPIDTIDString(const std::string& applicationName,std::string& pi
 	pidTIDString = ssOut.str();
 }
 
-void Logging::SetMaxLogLength_Intern(int maxLogMsgLength) {
+void Logging::SetMaxLogLength_Intern(size_t maxLogMsgLength) {
 	this->maxLogMsgLength = maxLogMsgLength;
 }
 

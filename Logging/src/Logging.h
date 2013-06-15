@@ -103,7 +103,7 @@ public:
 	 * set the maximum length of a log message.
 	 * @param maxLogMsgLengthIn maximum length.
 	 */
-	static void SetMaxLogLength(int maxLogMsgLengthIn);
+	static void SetMaxLogLength(size_t maxLogMsgLengthIn);
 
 	/**
 	 * set the log level.
@@ -119,6 +119,13 @@ public:
 	static void Log(const LogLevel levelMsg,const std::string& msg);
 
 	/**
+	 * log a message not respecting max log length.
+	 * @param levelMsg log level.
+	 * @param msg log message.
+	 */
+	static void LogUnlimited(const LogLevel levelMsg,const std::string& msg);
+
+	/**
 	 * log a message.
 	 * @param levelMsg log level.
 	 * @param fmt format string.
@@ -126,15 +133,16 @@ public:
 	static void Log(const LogLevel levelMsg,const char* fmt,...);
 
 	/**
+	 * log a message.
+	 * @param levelMsg log level.
+	 * @param fmt format string.
+	 */
+	static void LogUnlimited(const LogLevel levelMsg,const char* fmt,...);
+
+	/**
 	 * get the log level.
 	 */
 	static LogLevel GetLogLevel();
-
-	/**
-	 * get the maximum length of a log message.
-	 * @return maximum length.
-	 */
-	static int GetMaxLogLength();
 
 	/**
 	 * checks if current log level is debug.
@@ -177,15 +185,15 @@ protected:
 private:
 	virtual void OnLog(const LogLevel levelMsg,const std::string& msg)=0;
 
-	void SetMaxLogLength_Intern(int maxLogMsgLength);
+	void SetMaxLogLength_Intern(size_t maxLogMsgLength);
 	void SetLogLevel_Intern(LogLevel logLevel);
 	void SetApplicationName_Intern(const std::string& applicationName);
-	void Log_Intern(const LogLevel levelMsg,const std::string& msg);
+	void Log_Intern(const LogLevel levelMsg, const size_t length,const std::string& msg);
 
 private:
 	volatile bool isLocking;
 	volatile LogLevel logLevel;
-	volatile int maxLogMsgLength;
+	volatile size_t maxLogMsgLength;
 
 	static threading::Mutex mutex;
 	static Logging* instance;
