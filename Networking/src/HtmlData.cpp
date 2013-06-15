@@ -29,6 +29,8 @@ size_t HtmlData::GetBufferSize() const {
 bool HtmlData::ConvertToHostCharset() {
 
 	if(GetCount() == 0) {
+		if (log::Logging::IsLogLevelTrace())
+			log::Logging::LogTrace("empty html/txt document cannot be converted, skipping");
 		return false;}
 
 	//parse indicated content-type as mime string
@@ -40,7 +42,7 @@ bool HtmlData::ConvertToHostCharset() {
 		bool validType = isHtml || mimeType.compare("text/plain") == 0;
 		if(!validType) {
 			if (log::Logging::IsLogLevelTrace())
-				log::Logging::LogTrace("not an html/txt document");
+				log::Logging::LogTrace("not a valid content type string from html/txt document");
 			Release();
 			return false;
 		}
@@ -67,6 +69,8 @@ bool HtmlData::ConvertToHostCharset() {
 
 	if(confidence == 10) {
 		//is a compatible charset
+		if (log::Logging::IsLogLevelTrace())
+			log::Logging::LogTrace("compatible charset detected, no conversion needed");
 	}
 	else if (confidence > 10)
 	{
@@ -78,6 +82,10 @@ bool HtmlData::ConvertToHostCharset() {
 				log::Logging::LogTrace("error while converting to host charset");
 			Release();
 			return false;
+		}
+		else {
+			if (log::Logging::IsLogLevelTrace())
+				log::Logging::LogTrace("conversion from " + mimeEncoding + " to host charset successful" );
 		}
 
 		Release();
