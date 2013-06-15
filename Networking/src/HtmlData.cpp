@@ -31,50 +31,65 @@ bool HtmlData::ConvertToHostCharset() {
 	if(GetCount() == 0) {
 		return false;}
 
-	//parse content-type as mime string
+	//parse indicated content-type as mime string
 	std::string mimeType,mimeEncoding;
 	bool isHtml = false;
-	if(!contentType.empty() && tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding))	{
+	if( !contentType.empty() &&
+		tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding))	{
 		isHtml =  mimeType.compare("text/html") == 0;
 		bool validType = isHtml || mimeType.compare("text/plain") == 0;
 		if(!validType) {
 			if (log::Logging::IsLogLevelTrace())
-				log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "not an html document");
-			Release();
-			return false;
-		}
-
-		int confidence;
-		std::string encodingHint = mimeEncoding;
-		bool hintCorrect;
-		if(!DetectCharset(encodingHint, confidence, mimeEncoding, hintCorrect) ||
-		   !tools::CharsetEncoder::IsValidEncodingName(mimeEncoding) ) {
-			if (log::Logging::IsLogLevelTrace())
-				log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while detecting charset for html");
+				log::Logging::LogTrace("not an html/txt document");
 			Release();
 			return false;
 		}
 	}
-
-	char zero = 0;
-	std::string out;
-	if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), mimeEncoding, out) ) {
-
+	else {
 		if (log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while converting to host charset");
+			log::Logging::LogTrace("no content type specified, guessing charset...");
+	}
+
+	int confidence;
+	std::string encodingHint = mimeEncoding;
+	bool hintCorrect;
+	if(!DetectCharset(encodingHint, confidence, mimeEncoding, hintCorrect) ||
+	   !tools::CharsetEncoder::IsValidEncodingName(mimeEncoding) ) {
+		if (log::Logging::IsLogLevelTrace())
+			log::Logging::LogTrace("error while detecting charset for html");
 		Release();
 		return false;
 	}
+	else {
+		if (log::Logging::IsLogLevelTrace())
+			log::Logging::LogTrace("detected charset: " + mimeEncoding + ", hint was: " + encodingHint);
+	}
 
-	Release();
-	Append(out.c_str(),out.length());
-	Append(&zero,1);
+	if(confidence == 10) {
+		//is a compatible charset
+	}
+	else if (confidence > 10)
+	{
+		char zero = 0;
+		std::string out;
+		if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), mimeEncoding, out) ) {
+
+			if (log::Logging::IsLogLevelTrace())
+				log::Logging::LogTrace("error while converting to host charset");
+			Release();
+			return false;
+		}
+
+		Release();
+		Append(out.c_str(),out.length());
+		Append(&zero,1);
+	}
 
 	if(isHtml) {
 		//EncodeHtml();
 	}
 
-	return !out.empty();
+	return GetBufferSize() > 1;
 }
 
 /*

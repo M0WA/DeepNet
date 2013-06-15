@@ -62,7 +62,7 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 	if(res != CURLE_OK) {
 		response.html.Release();//not needed but nice;)
 		if (log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "libcurl error while fetching url");
+			log::Logging::LogTrace("libcurl error while fetching url " + url.GetFullUrl() + ": " + errorBuffer);
 		return false;
 	}
 
@@ -85,8 +85,14 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 	curl_easy_getinfo(curlPtr, CURLINFO_CONTENT_TYPE, &contentType );
 	if(contentType) {
 		response.html.SetContentType(contentType);
+		return response.html.ConvertToHostCharset();
 	}
-	return response.html.ConvertToHostCharset();
+	else {
+		response.html.Release();//not needed but nice;)
+		if(log::Logging::IsLogLevelTrace()) {
+			log::Logging::LogTrace("could not detect content type for url: " + url.GetFullUrl()); }
+		return false;
+	}
 }
 
 int HttpClientCURL::WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* instance)
