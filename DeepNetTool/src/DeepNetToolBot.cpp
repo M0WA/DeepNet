@@ -165,6 +165,7 @@ void DeepNetToolBot::RegisterDefaultParams(void) {
 	RegisterRobotTxtParams();
 	RegisterHtmlClientCURLParams();
 	RegisterHtmlDocumentFactoryParams();
+	RegisterIndexerExParams();
 
 	Bot::RegisterDefaultParams();
 }

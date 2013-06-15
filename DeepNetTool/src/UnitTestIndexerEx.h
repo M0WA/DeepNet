@@ -17,6 +17,10 @@ namespace database {
 	class DatabaseConnection;
 }
 
+namespace tools {
+	class SpellChecking;
+}
+
 namespace toolbot {
 
 class UnitTestIndexerEx: public toolbot::UnitTest {
@@ -27,6 +31,9 @@ public:
 public:
 	virtual bool Run();
 	virtual std::string GetName() const { return "UnitTestIndexerEx"; }
+
+private:
+	bool HandleSingleFile(tools::SpellChecking& spellCheck,const std::string& fileName);
 
 private:
 	database::DatabaseConnection* connection;
