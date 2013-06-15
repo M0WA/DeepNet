@@ -131,13 +131,6 @@ public:
 	static void Log(const LogLevel levelMsg,const std::string& msg);
 
 	/**
-	 * log a message not respecting max log length.
-	 * @param levelMsg log level.
-	 * @param msg log message.
-	 */
-	static void LogUnlimited(const LogLevel levelMsg,const std::string& msg);
-
-	/**
 	 * log a message.
 	 * @param levelMsg log level.
 	 * @param fmt format string.
@@ -150,6 +143,13 @@ public:
 	 * @param fmt format string.
 	 */
 	static void LogUnlimited(const LogLevel levelMsg,const char* fmt,...);
+
+	/**
+	 * log a message not respecting max log length.
+	 * @param levelMsg log level.
+	 * @param msg log message.
+	 */
+	static void LogUnlimited(const LogLevel levelMsg,const std::string& msg);
 
 	/**
 	 * get the log level.
