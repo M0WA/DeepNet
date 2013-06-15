@@ -1,0 +1,303 @@
+<document wellformed="1" url="http://siridia.de:80">
+<links count="8">
+	<link>http://siridia.de:80/personal.html</link>
+	<link>http://cs.tut.fi:80</link>
+	<link>http://siridia.de:80/index.html</link>
+	<link>http://www.unicode.org:80/versions/Unicode4.0.0/ch06.pdf</link>
+	<link>http://www.useit.com:80</link>
+	<link>http://siridia.de:80/links.html</link>
+	<link>http://siridia.de:80/personal.html</link>
+	<link>http://siridia.de:80/iso8601.html</link>
+</links>
+<images count="0">
+</images>
+<elements content="209" meta="1">
+	<content type="h1">Testing display of HTML elements</content>
+	<content type="h2">This is 2nd level heading</content>
+	<content type="p">This is a test paragraph.</content>
+	<content type="h3">This is 3rd level heading</content>
+	<content type="p">This is a test paragraph.</content>
+	<content type="h4">This is 4th level heading</content>
+	<content type="p">This is a test paragraph.</content>
+	<content type="h5">This is 5th level heading</content>
+	<content type="p">This is a test paragraph.</content>
+	<content type="h6">This is 6th level heading</content>
+	<content type="p">This is a test paragraph.</content>
+	<content type="h2">Basic block level elements</content>
+	<content type="code">p</content>
+	<content type="strong">user style sheets</content>
+	<content type="p">This is a normal paragraph ( element).
+To add some length to it, let us mention that this page was
+primarily written for testing the effect of .
+You can use it for various other purposes as well, like just checking how
+your browser displays various HTML elements.</content>
+	<content type="p">This is another paragraph. I think it needs to be added that
+the set of elements tested is not exhaustive in any sense. I have selected
+those elements for which it can make sense to write user style sheet rules,
+in my opionion.</content>
+	<content type="code">div</content>
+	<content type="code">div</content>
+	<content type="div">This is a  element. Authors may use such elements instead
+of paragraph markup for various reasons. (End of .)</content>
+	<content type="em">really</content>
+	<content type="p">This is a block quotation containing a single
+paragraph. Well, not quite, since this is not 
+quoted text, but I hope you understand the point. After all, this
+page does not use HTML markup very normally anyway.</content>
+	<content type="code">address</content>
+	<content type="p">The following contains address information about the author, in an 
+element.</content>
+	<content type="a">Jukka Korpela</content>
+	<content type="a">jkorpela@cs.tut.fi</content>
+	<content type="h2">Lists</content>
+	<content type="strong">unnumbered</content>
+	<content type="code">ul</content>
+	<content type="p">This is a paragraph before an  list (). Note that
+the spacing between a paragraph and a list before or after that is hard
+to tune in a user style sheet. You can't guess which paragraphs are
+logically related to a list, e.g. as a "list header".</content>
+	<content type="li">One.</content>
+	<content type="li">Two.</content>
+	<content type="li">Three. Well, probably this list item should be longer. Note that
+for short items lists look better if they are compactly presented,
+       whereas for long items, it would be better to have more vertical spacing between items.</content>
+	<content type="li">Four. This is the last item in this list.
+       Let us terminate the list now without making any more fuss about it.</content>
+	<content type="code">menu</content>
+	<content type="p">The following is a  list:</content>
+	<content type="li">One.</content>
+	<content type="li">Two.</content>
+	<content type="li">Three. Well, probably this list item should be longer so that it will
+probably wrap to the next line in rendering.</content>
+	<content type="code">dir</content>
+	<content type="p">The following is a  list:</content>
+	<content type="li">One.</content>
+	<content type="li">Two.</content>
+	<content type="li">Three. Well, probably this list item should be longer so that it will
+probably wrap to the next line in rendering.</content>
+	<content type="strong">numbered</content>
+	<content type="code">ol</content>
+	<content type="p">This is a paragraph before a  list (). Note that
+the spacing between a paragraph and a list before or after that is hard
+to tune in a user style sheet. You can't guess which paragraphs are
+logically related to a list, e.g. as a "list header".</content>
+	<content type="li">One.</content>
+	<content type="li">Two.</content>
+	<content type="li">Three. Well, probably this list item should be longer. Note that if
+items are short, lists look better if they are compactly presented,
+       whereas for long items, it would be better to have more vertical spacing between items.</content>
+	<content type="li">Four. This is the last item in this list.
+       Let us terminate the list now without making any more fuss about it.</content>
+	<content type="strong">definition</content>
+	<content type="code">dl</content>
+	<content type="em">terms</content>
+	<content type="code">dl</content>
+	<content type="em">too</content>
+	<content type="code">dl</content>
+	<content type="p">This is a paragraph before a  list ().
+In principle, such a list should consist of  and associated 
+definitions.
+But many authors use  elements for fancy "layout" things. Usually the
+effect is not  bad, if you design user style sheet rules for 
+which are suitable
+for real definition lists.</content>
+	<content type="dt">recursion</content>
+	<content type="dd">see recursion</content>
+	<content type="dt">recursion, indirect</content>
+	<content type="dd">see indirect recursion</content>
+	<content type="dt">indirect recursion</content>
+	<content type="dd">see recursion, indirect</content>
+	<content type="dt">term</content>
+	<content type="dd">a word or other expression taken into specific use in
+       a well-defined meaning, which is often defined rather rigorously, even
+       formally, and may differ quite a lot from an everyday meaning</content>
+	<content type="h2">Text-level markup</content>
+	<content type="abbr">CSS</content>
+	<content type="code">abbr</content>
+	<content type="li">(an abbreviation;
+  markup used)</content>
+	<content type="code">acronym</content>
+	<content type="li">(an acronym;  markup used)</content>
+	<content type="b">bolded</content>
+	<content type="code">b</content>
+	<content type="li">( markup used - just bolding with unspecified
+       semantics)</content>
+	<content type="big">big thing</content>
+	<content type="code">big</content>
+	<content type="li">( markup used)</content>
+	<content type="font">large size</content>
+	<content type="code">font size=6</content>
+	<content type="li">( markup used)</content>
+	<content type="font">Courier font</content>
+	<content type="code">font face=Courier</content>
+	<content type="li">( markup used)</content>
+	<content type="font">red text</content>
+	<content type="code">font color=red</content>
+	<content type="li">( markup used)</content>
+	<content type="cite">Origin of Species</content>
+	<content type="code">cite</content>
+	<content type="li">(a book title;
+        markup used)</content>
+	<content type="code">a[i] = b[i] + c[i);</content>
+	<content type="code">code</content>
+	<content type="li">(computer code;  markup used)</content>
+	<content type="code">del</content>
+	<content type="li">here we have some  text ( markup used)</content>
+	<content type="code">dfn</content>
+	<content type="li">an  is an entity consisting of eight bits
+       ( markup used for the term being defined)</content>
+	<content type="em">very</content>
+	<content type="code">em</content>
+	<content type="li">this is  simple ( markup used for emphasizing
+       a word)</content>
+	<content type="i">Homo sapiens</content>
+	<content type="code">i</content>
+	<content type="li">(should appear in italics;   markup used)</content>
+	<content type="code">ins</content>
+	<content type="li">here we have some  text ( markup used)</content>
+	<content type="code">kbd</content>
+	<content type="li">type  when prompted for an answer ( markup
+       used for text indicating keyboard input)</content>
+	<content type="code">q</content>
+	<content type="li">( markup used for quotation)</content>
+	<content type="li">He said:  (a quotation inside a quotation)</content>
+	<content type="code">samp</content>
+	<content type="li">you may get the message  at times
+       ( markup used for sample output)</content>
+	<content type="small">this is not that important</content>
+	<content type="code">small</content>
+	<content type="li">( markup used)</content>
+	<content type="strike">overstruck</content>
+	<content type="code">strike</content>
+	<content type="code">s</content>
+	<content type="code">strike</content>
+	<content type="li">( markup used; note:
+        is a nonstandard synonym for )</content>
+	<content type="strong">this is highlighted text</content>
+	<content type="code">strong</content>
+	<content type="li">(
+       markup used)</content>
+	<content type="code">sub</content>
+	<content type="code">sup</content>
+	<content type="sub">1</content>
+	<content type="sub">2</content>
+	<content type="sup">lle</content>
+	<content type="sup">st</content>
+	<content type="sup">x</content>
+	<content type="sup">2</content>
+	<content type="i">x</content>
+	<content type="sup">2</content>
+	<content type="sup">x</content>
+	<content type="sup">a+b+c</content>
+	<content type="sup">g(x)</content>
+	<content type="li">In order to test how subscripts and superscripts ( and
+        markup) work inside running text, we need some
+       dummy text around constructs like x and HO
+       (where subscripts occur). So here is some fill so that
+       you will (hopefully) see whether and how badly the subscripts
+       and superscripts mess up vertical spacing between lines.
+       Now superscripts: M, 1, and then some
+       mathematical notations: e, sin ,
+       and some nested superscripts (exponents) too:
+       e and f(x)
+       (where 2 and a+b+c should appear as exponents of exponents).</content>
+	<content type="code">tt</content>
+	<content type="li">( markup used)</content>
+	<content type="u">underlined</content>
+	<content type="code">u</content>
+	<content type="li">text ( markup used)</content>
+	<content type="code">cat</content>
+	<content type="code">var</content>
+	<content type="li">the command   displays the
+       file specified by the  ( markup
+       used to indicate a word as a variable).</content>
+	<content type="em">same</content>
+	<content type="p">Some of the elements tested above are typically displayed in a monospace
+font, often using the  presentation for all of them. This
+tests whether that is the case on your browser:</content>
+	<content type="code">This is sample text inside code markup</content>
+	<content type="h2">Links</content>
+	<content type="a">main page</content>
+	<content type="a">Unicode Standard, chapter&nbsp;6</content>
+	<content type="a">Unicode Standard, chapter&nbsp;6</content>
+	<content type="a">usability</content>
+	<content type="a">Links Want To Be Links</content>
+	<content type="p">This is a text paragraph that contains some
+inline links. Generally, inline links (as opposite to e.g. links
+lists) are problematic
+from the
+ perspective,
+but they may have use as
+&ldquo;incidental&rdquo;, less relevant links. See the document
+.</content>
+	<content type="h2">Forms</content>
+	<content type="div">This is a form containing various fields (with some initial
+values (defaults) set, so that you can see how input text looks
+like without actually typing it):</content>
+	<content type="button">A coolbutton</content>
+	<content type="label">Button:</content>
+	<content type="label">Reset button:</content>
+	<content type="label">Single-line text input field:</content>
+	<content type="label">Multi-line text input field (textarea):</content>
+	<content type="textarea">Default text.</content>
+	<content type="code">fieldset</content>
+	<content type="code">legend</content>
+	<content type="div">The following two radio buttons are inside
+a  element with a :</content>
+	<content type="label">Radio button 1</content>
+	<content type="label">Radio button 2 (initially checked)</content>
+	<content type="label">Checkbox 1</content>
+	<content type="label">Checkbox 2 (initially checked)</content>
+	<content type="code">select</content>
+	<content type="code">size="1"</content>
+	<content type="option">one</content>
+	<content type="option">two (default)</content>
+	<content type="option">three</content>
+	<content type="label">A  element with 
+(dropdown box):</content>
+	<content type="code">select</content>
+	<content type="code">size="3"</content>
+	<content type="label">A  element with 
+(listbox):</content>
+	<content type="option">one</content>
+	<content type="option">two (default)</content>
+	<content type="option">three</content>
+	<content type="label">Submit button:</content>
+	<content type="h2">Tables</content>
+	<content type="code">th</content>
+	<content type="code">td</content>
+	<content type="code">align="right"</content>
+	<content type="p">The following table has a caption. The first row and the first column
+contain table header cells ( elements) only; other cells
+are data cells ( elements), with 
+attributes:</content>
+	<content type="th">Country</content>
+	<content type="th">Total area</content>
+	<content type="th">Land area</content>
+	<content type="th">Denmark</content>
+	<content type="td">43,070</content>
+	<content type="td">42,370</content>
+	<content type="th">Finland</content>
+	<content type="td">337,030</content>
+	<content type="td">305,470</content>
+	<content type="th">Iceland</content>
+	<content type="td">103,000</content>
+	<content type="td">100,250</content>
+	<content type="th">Norway</content>
+	<content type="td">324,220</content>
+	<content type="td">307,860</content>
+	<content type="th">Sweden</content>
+	<content type="td">449,964</content>
+	<content type="td">410,928</content>
+	<content type="a">Jukka Korpela</content>
+	<content type="a">
+Date</content>
+	<content type="a">
+Date</content>
+	<content type="div">of creation: 2000-09-15.
+Last update: 2012-02-16.</content>
+	<meta type="title">Test display of HTML elements</meta>
+</elements>
+<errors warnings="0" errors="0" fatals="0">
+</errors>
+</document>
