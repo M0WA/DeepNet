@@ -2,7 +2,7 @@
  *
  * @file UnitTestIndexerEx.cpp
  * @author Moritz Wagner
- * @date Jun 15, 2013
+ * @date 15.06.2013
  *
  */
 
