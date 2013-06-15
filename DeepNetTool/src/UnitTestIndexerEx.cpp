@@ -41,7 +41,7 @@ bool UnitTestIndexerEx::Run() {
 
 		std::vector<std::string>::const_iterator iBroken = brokenFiles.begin();
 		for(;iBroken != brokenFiles.end();++iBroken) {
-			tools::FileTools::DeleteFile(testPath+*iBroken); }
+			tools::FileTools::DeleteFile(testPath+"/"+*iBroken); }
 	}
 
 	if(contentFiles.size() == 0) {
@@ -98,23 +98,27 @@ bool UnitTestIndexerEx::HandleSingleFile(tools::SpellChecking& spellCheck,const 
 		  << "</dictionary>" << std::endl;
 
 	std::string completeXML(ssOut.str());
+	/*
 	if(log::Logging::IsLogLevelTrace()) {
 		log::Logging::LogTraceUnlimited(completeXML); }
+	*/
 
 	std::string tmplFileName(curFileName+".tmpl");
 	if(!tools::FileTools::FileExists(tmplFileName)) {
-		log::Logging::LogWarn("no template file found for " + curFileName + ", writing it");
+		log::Logging::LogError("could not find template html, setting current result as template, please check it for correctness and rerun this unittest: " + tmplFileName);
 		tools::FileTools::WriteFile(tmplFileName,completeXML,false); }
 
 	std::string tmpFile(curFileName+".temp");
+	tools::FileTools::DeleteFile(tmpFile);
 	tools::FileTools::WriteFile(tmpFile,completeXML,false);
 	bool isEqualToTemplate = tools::FileTools::CompareFiles(tmpFile,tmplFileName);
 	tools::FileTools::DeleteFile(tmpFile);
 
 	if(!isEqualToTemplate) {
-		log::Logging::LogError("file not matching it's template: " + curFileName + ".broken");
+		log::Logging::LogError("template and unittest output did not match, please check it for correctness and rerun this unittest: " + curFileName + ".broken");
 		tools::FileTools::WriteFile(curFileName + ".broken",completeXML,false);
-		return false; }
+		return false;
+	}
 
 	return true;
 }

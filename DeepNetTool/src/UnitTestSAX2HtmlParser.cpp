@@ -22,10 +22,10 @@
 
 namespace toolbot {
 
-UnitTestSAX2HtmlParser::UnitTestSAX2HtmlParser(database::DatabaseConnection* db, const std::string& unitBaseDir,const std::vector<std::string>& htmlFilenames)
+UnitTestSAX2HtmlParser::UnitTestSAX2HtmlParser(database::DatabaseConnection* db, const std::string& unitBaseDir)
 : db(db)
-, unitBaseDir(unitBaseDir)
-, htmlFilenames(htmlFilenames){
+, unitBaseDir(unitBaseDir){
+	tools::FileTools::ListDirectory(contentFiles, unitBaseDir, ".*?\\.html$", true);
 }
 
 UnitTestSAX2HtmlParser::~UnitTestSAX2HtmlParser() {
@@ -47,6 +47,17 @@ bool UnitTestSAX2HtmlParser::Run() {
 
 bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 {
+	//remove all broken files
+	std::vector<std::string> brokenFiles;
+	tools::FileTools::ListDirectory(brokenFiles, unitBaseDir, ".*?\\.broken$", true);
+	if(brokenFiles.size() > 0) {
+		log::Logging::LogInfo("cleaning up old *.broken files before beginning unit test");
+
+		std::vector<std::string>::const_iterator iBroken = brokenFiles.begin();
+		for(;iBroken != brokenFiles.end();++iBroken) {
+			tools::FileTools::DeleteFile(unitBaseDir+ "/"+*iBroken); }
+	}
+
 	bool success = true;
 
 	tools::Pointer<htmlparser::IHtmlParser> parser;
@@ -55,10 +66,12 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 	std::string html;
 	network::HtmlData htmlData;
 	std::ostringstream ssOut;
-	std::vector<std::string>::const_iterator iter = htmlFilenames.begin();
-	for(;iter != htmlFilenames.end();++iter) {
+	std::vector<std::string>::const_iterator iter = contentFiles.begin();
+	for(;iter != contentFiles.end();++iter) {
 
-		std::string htmlFileName = unitBaseDir +"/" + *iter;
+		std::string htmlFileName(unitBaseDir + "/" + *iter);
+		if(htmlFileName.at(unitBaseDir.length() - 1) == '/' ) {
+			htmlFileName = unitBaseDir + *iter; }
 
 		html.clear();
 		htmlData.Release();
@@ -85,24 +98,22 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 		std::string outFileContent;
 		result.Get()->DumpXML(outFileContent);
 
-		std::string unitTestOutFile = htmlFileName + ".unittest.xml";
-		std::string unitTestTemplateFile = unitBaseDir +"/" + *iter + ".unittest.template.xml";
-
-		tools::FileTools::DeleteFile(unitTestOutFile);
-		tools::FileTools::WriteFile(unitTestOutFile, outFileContent, false);
-
-		if(tools::FileTools::FileExists(unitTestTemplateFile)){
-			bool tmpSuccess = tools::FileTools::CompareFiles(unitTestOutFile,unitTestTemplateFile);
-			if(!tmpSuccess) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"template and unittest output did not match, please check it for correctness and rerun this unittest: %s",unitTestOutFile.c_str());
-				success = false;
-			}
+		std::string tmplFileName = htmlFileName + ".tmpl.xml";
+		if(!tools::FileTools::FileExists(tmplFileName)){
+			tools::FileTools::WriteFile(tmplFileName, outFileContent, false);
+			log::Logging::LogError("could not find template html, setting current result as template, please check it for correctness and rerun this unittest: " + tmplFileName);
 		}
-		else {
-			tools::FileTools::WriteFile(unitTestTemplateFile, outFileContent, false);
-			success = false;
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find template html: %s, setting current result as template, please check it for correctness and rerun this unittest",unitTestTemplateFile.c_str());
-		}
+
+		std::string tmpFile = htmlFileName + ".temp";
+		tools::FileTools::DeleteFile(tmpFile);
+		tools::FileTools::WriteFile(tmpFile, outFileContent, false);
+		bool isEqualToTemplate = tools::FileTools::CompareFiles(tmpFile,tmplFileName);
+		tools::FileTools::DeleteFile(tmpFile);
+
+		if(!isEqualToTemplate) {
+			log::Logging::LogError("template and unittest output did not match, please check it for correctness and rerun this unittest: " + htmlFileName + ".broken");
+			tools::FileTools::WriteFile(htmlFileName + ".broken",outFileContent,false);
+			continue; }
 	}
 	return success;
 }

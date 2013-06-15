@@ -25,7 +25,7 @@ namespace toolbot {
 
 class UnitTestSAX2HtmlParser: public toolbot::UnitTest {
 public:
-	UnitTestSAX2HtmlParser(database::DatabaseConnection* db, const std::string& unitBaseDir,const std::vector<std::string>& htmlFilenames);
+	UnitTestSAX2HtmlParser(database::DatabaseConnection* db, const std::string& unitBaseDir);
 	virtual ~UnitTestSAX2HtmlParser();
 
 	virtual bool Run();
@@ -37,7 +37,7 @@ private:
 private:
 	database::DatabaseConnection* db;
 	std::string unitBaseDir;
-	std::vector<std::string> htmlFilenames;
+	std::vector<std::string> contentFiles;
 };
 
 }

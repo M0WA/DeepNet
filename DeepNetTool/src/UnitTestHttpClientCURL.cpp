@@ -44,7 +44,7 @@ bool UnitTestHttpClientCURL::Run() {
 
 		std::vector<network::HttpUrl> getUrls;
 		if(!ReadURLFile(get, getUrls)) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not open/read get-file: " + get);
+			log::Logging::LogError("could not open/read get-file: " + get);
 			return false; }
 
 		std::vector<network::HttpUrl>::const_iterator i = getUrls.begin();
@@ -55,7 +55,7 @@ bool UnitTestHttpClientCURL::Run() {
 			//TODO: do something with response...
 
 			if(!successGet) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not get url: " + i->GetFullUrl());
+				log::Logging::LogError("could not get url: " + i->GetFullUrl());
 				return false; }
 		}
 	}
@@ -63,8 +63,7 @@ bool UnitTestHttpClientCURL::Run() {
 	if(!post.empty()) {
 		std::vector<network::HttpUrl> postUrls;
 		if(!ReadURLFile(post,postUrls)) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not open/read post-file: " + post);
-			return false; }
+			log::Logging::LogError("could not open/read post-file: " + post); }
 	}
 
 	return true;

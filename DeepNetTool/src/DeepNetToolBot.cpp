@@ -263,9 +263,7 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	//initiate html parser based unit tests
 	std::string htmlUnitTestPath;
 	if(Config().GetValue("htmlUnitTestPath",htmlUnitTestPath)) {
-		std::vector<std::string> files;
-		tools::FileTools::ListDirectory(files, htmlUnitTestPath, ".*?\\.html$", true);
-		unitTests.AddUnitTest(new toolbot::UnitTestSAX2HtmlParser(DB().Connection(),htmlUnitTestPath,files)); }
+		unitTests.AddUnitTest(new toolbot::UnitTestSAX2HtmlParser(DB().Connection(),htmlUnitTestPath)); }
 
 	//initiate http client CURL based unit tests
 	std::string curlGetFile,curlPostFile;
