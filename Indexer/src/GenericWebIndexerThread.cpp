@@ -21,8 +21,9 @@ void GenericWebIndexerThread::OnCreateIndexer(
 			tools::Pointer<IIndexer>& indexerMeta,
 			tools::Pointer<IIndexer>& indexerContent) {
 
-	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_GENERIC,indexerContent);
-	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_GENERIC,indexerMeta);
+	//TODO: make indexer type configurable via file config
+	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::OWN_GENERIC,indexerContent);
+	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::OWN_GENERIC,indexerMeta);
 }
 
 }
