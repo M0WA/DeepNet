@@ -64,8 +64,6 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	signalMutex.Lock();
 
 	tools::DebuggingTools::SignalInfos signalInfo = tools::DebuggingTools::GetSignalInfos(signum, info, ucontext);
-	int oldLen = log::Logging::GetMaxLogLength();
-	log::Logging::SetMaxLogLength(0);
 
 	switch(signum)
 	{
@@ -73,7 +71,7 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGSEGV:
 	case SIGABRT:
 	case SIGILL:
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully");
 		exit(1);
 		break;
@@ -81,7 +79,7 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	//graceful shutdown
 	case SIGINT:
 	case SIGTERM:
-		if(log::Logging::IsLogLevelTrace()) log::Logging::Log(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
+		if(log::Logging::IsLogLevelTrace()) log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
 		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"initiating shutting down");
 		Bot::instance->shutdownReceived = true;
 		Bot::instance->restartAfterShutdown = false;
@@ -89,7 +87,7 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 
 	//graceful restart
 	case SIGHUP:
-		if(log::Logging::IsLogLevelTrace()) log::Logging::Log(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
+		if(log::Logging::IsLogLevelTrace()) log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
 		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"initiating soft restart");
 		Bot::instance->restartAfterShutdown = true;
 		Bot::instance->shutdownReceived = true;
@@ -97,11 +95,10 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 
 		//other signals
 	default:
-		if(log::Logging::IsLogLevelTrace()) log::Logging::Log(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
+		if(log::Logging::IsLogLevelTrace()) log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
 		break;
 	}
 
-	log::Logging::SetMaxLogLength(oldLen);
 	signalMutex.Unlock();
 }
 
