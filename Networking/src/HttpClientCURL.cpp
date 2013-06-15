@@ -85,7 +85,15 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 	curl_easy_getinfo(curlPtr, CURLINFO_CONTENT_TYPE, &contentType );
 	if(contentType) {
 		response.html.SetContentType(contentType);
-		return response.html.ConvertToHostCharset();
+		bool conversionSuccess = response.html.ConvertToHostCharset();
+
+		/*
+		if(log::Logging::IsLogLevelTrace()) {
+			log::Logging::LogTraceUnlimited(
+				"converted raw html from "+ url.GetFullUrl() +" \n" + response.html.GetBuffer()); }
+		*/
+
+		return conversionSuccess;
 	}
 	else {
 		response.html.Release();//not needed but nice;)
