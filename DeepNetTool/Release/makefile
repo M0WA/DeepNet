@@ -44,7 +44,7 @@ all: DeepNetTool
 DeepNetTool: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L../../Bot/Release -L../../DOMParser/Release -L../../Tools/Release -L../../Networking/Release -L../../Crawler/Release -L../../Indexer/Release -L../../HtmlParser/Release -L../../Logging/Release -L../../Caching/Release -L../../Threading/Release -L../../Database/Release -rdynamic -o"DeepNetTool" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L../../Bot/Release -L../../LibXMLParser/Release -L../../DOMParser/Release -L../../Tools/Release -L../../Networking/Release -L../../Crawler/Release -L../../Indexer/Release -L../../HtmlParser/Release -L../../Logging/Release -L../../Caching/Release -L../../Threading/Release -L../../Database/Release -rdynamic -o"DeepNetTool" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
