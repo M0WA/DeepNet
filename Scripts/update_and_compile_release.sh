@@ -54,43 +54,11 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
 
   cd $BASE_DIR_TMP
   
-  echo "Running unit-tests for pcre regexes"
-  ./test_pcre_processor.sh
+  echo "Running unit-tests"
+  ./run_all_unit_tests.sh
   if [ $? -ne 0 ]; then
     ./update_and_compile_release.sh clean_projects
-    echo "ERROR: unit-tests for pcre regexes exited unsuccessful, aborting..."
-    exit 1
-  fi
-  
-  echo "Running unit-tests for indexer"
-  ./test_indexer.sh
-  if [ $? -ne 0 ]; then
-    ./update_and_compile_release.sh clean_projects
-    echo "ERROR: unit-tests for indexer exited unsuccessful, aborting..."
-    exit 1
-  fi
-  
-  echo "Running unit-tests for url-parser"
-  ./test_url_parser.sh
-  if [ $? -ne 0 ]; then
-    ./update_and_compile_release.sh clean_projects
-    echo "ERROR: unit-tests for url-parser exited unsuccessful, aborting..."
-    exit 1
-  fi
-  
-  echo "Running unit-tests for html-parser"
-  ./test_html_parser.sh
-  if [ $? -ne 0 ]; then
-    ./update_and_compile_release.sh clean_projects
-    echo "ERROR: unit-tests for html-parser exited unsuccessful, aborting..."
-    exit 1
-  fi
-  
-  echo "Running unit-tests for http client"
-  ./test_http_client.sh
-  if [ $? -ne 0 ]; then
-    ./update_and_compile_release.sh clean_projects
-    echo "ERROR: unit-tests for http client exited unsuccessful, aborting..."
+    echo "ERROR: unit-tests exited unsuccessful, aborting..."
     exit 1
   fi
 
