@@ -15,39 +15,24 @@ DEBUG="--debug"
 echo "WARNING: enabling debug version of unit tests"
 fi
 
-echo "Running unit-tests for pcre regexes"
-tests/./test_pcre_processor.sh ${DEBUG}
-if [ $? -ne 0 ]; then
-  echo "ERROR: unit-tests for pcre regexes exited unsuccessful"
-  exit 1
-fi
+function run_unittest() {
 
-echo "Running unit-tests for indexer"
-tests/./test_indexer.sh ${DEBUG}
-if [ $? -ne 0 ]; then
-  echo "ERROR: unit-tests for indexer exited unsuccessful"
-  exit 1
-fi
+SCRIPT_NAME="tests/./$1 ${DEBUG}"
+TEST_NAME=$2
 
-echo "Running unit-tests for url-parser"
-tests/./test_url_parser.sh ${DEBUG}
-if [ $? -ne 0 ]; then
-  echo "ERROR: unit-tests for url-parser exited unsuccessful"
-  exit 1
-fi
+  echo "Running unit-test: ${TEST_NAME}"
+  $SCRIPT_NAME
+  if [ $? -ne 0 ]; then
+    echo "ERROR: unit-test: ${TEST_NAME} exited UNSUCCESSFUL"
+    exit 1
+  fi
+}
 
-echo "Running unit-tests for html-parser"
-tests/./test_html_parser.sh ${DEBUG}
-if [ $? -ne 0 ]; then
-  echo "ERROR: unit-tests for html-parser exited unsuccessful"
-  exit 1
-fi
+run_unittest "test_pcre_processor.sh" "pcre regex"
+run_unittest "test_indexer.sh" "indexer"
+run_unittest "test_url_parser.sh" " url parser"
+run_unittest "test_html_parser.sh" "html parser"
+run_unittest "test_http_client.sh" "http client"
 
-echo "Running unit-tests for http client"
-tests/./test_http_client.sh ${DEBUG}
-if [ $? -ne 0 ]; then
-  echo "ERROR: unit-tests for http client exited unsuccessful"
-  exit 1
-fi
-
+echo "all unit-tests exited SUCCESSFULLY"
 exit 0
