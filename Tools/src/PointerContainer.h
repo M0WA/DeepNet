@@ -23,6 +23,8 @@ private:
 
 public:
 	PointerContainer<T>() : container(std::vector<T*>()){}
+	PointerContainer<T>(const std::vector<T*>& container) : container(container){
+		ResetIter();}
 
 	/**
 	 * deletes all entries when destructed.
