@@ -20,7 +20,7 @@ public:
 	Mutex(void);
 	virtual ~Mutex(void);
 private:
-	Mutex(const Mutex&) { throw; } //never ever copy pthread_mutex_t => undefined behaviour
+	Mutex(const Mutex&) { throw; }
 	Mutex& operator =(const Mutex& rhs) { throw; }
 
 public:
