@@ -26,34 +26,4 @@ void Semaphore::Unlock(){
 	sem_post(&sem);
 }
 
-SynchronizedIDArray::SynchronizedIDArray(const size_t& idCount)
-: Semaphore(idCount)
-{
-}
-
-size_t SynchronizedIDArray::GetID()
-{
-	Lock();
-
-	size_t ret = 0;
-	idLockMutex.Lock();
-	std::vector<bool>::iterator i = idLock.begin();
-	for(size_t id=0;i != idLock.end();++i,id++) {
-		if(!(*i)) {
-			*i = false;
-			ret = id;
-			break; }
-	}
-	idLockMutex.Unlock();
-	return ret;
-}
-
-void SynchronizedIDArray::ReleaseID(const size_t& id)
-{
-	AutoMutex lockAuto(idLockMutex);
-
-	Unlock();
-	idLock.at(id) = false;
-}
-
 }
