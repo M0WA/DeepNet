@@ -75,9 +75,8 @@ public:
 	 */
 	template <class T>
 	static void ListToVector(const std::list<T>& in,std::vector<T>& out) {
-		typename std::list<T>::const_iterator iterTrans = in.begin();
-		for(;iterTrans != in.end();++iterTrans){
-			out.push_back(*iterTrans); }
+		List2ToVectorFunc<T> convFunc(out);
+		std::for_each(in.begin(),in.end(),convFunc);
 	}
 
 	/**
@@ -87,9 +86,8 @@ public:
 	 */
 	template <class T, class V>
 	static void Map1ToVector(const std::map<T,V> mapIn,std::vector<T>& vecOut) {
-		typename std::map<T,V>::const_iterator iterMap = mapIn.begin();
-		for(; iterMap != mapIn.end(); ++iterMap) {
-			vecOut.push_back(iterMap->first); }
+		Map1ToVectorFunc<T,V> convFunc(vecOut);
+		std::for_each(mapIn.begin(),mapIn.end(),convFunc);
 	}
 
 	/**
@@ -99,9 +97,8 @@ public:
 	 */
 	template <class T, class V>
 	static void Map2ToVector(const std::map<T,V> mapIn,std::vector<V>& vecOut) {
-		typename std::map<T,V>::const_iterator iterMap = mapIn.begin();
-		for(; iterMap != mapIn.end(); ++iterMap) {
-			vecOut.push_back(iterMap->second); }
+		Map2ToVectorFunc<T,V> convFunc(vecOut);
+		std::for_each(mapIn.begin(),mapIn.end(),convFunc);
 	}
 
 	/**
@@ -111,9 +108,8 @@ public:
 	 */
 	template <class T, class V>
 	static void VectorPair1ToVector(const std::vector< std::pair<T,V> >& vecIn, std::vector< T >& vecOut) {
-		typename std::vector< std::pair<T,V> >::const_iterator iterVec = vecIn.begin();
-		for(; iterVec != vecIn.end(); ++iterVec) {
-			vecOut.push_back(iterVec->first); }
+		VectorPair1ToVectorFunc<T,V> convFunc(vecOut);
+		std::for_each(vecIn.begin(),vecIn.end(),convFunc);
 	}
 
 	/**
@@ -122,10 +118,9 @@ public:
 	 * @param vecOut converted vector.
 	 */
 	template <class T, class V>
-	static void VectorPair2ToVector(const std::vector< std::pair<T,V> >& vecIn, std::vector< T >& vecOut) {
-		typename std::vector< std::pair<T,V> >::const_iterator iterVec = vecIn.begin();
-		for(; iterVec != vecIn.end(); ++iterVec) {
-			vecOut.push_back(iterVec->first); }
+	static void VectorPair2ToVector(const std::vector< std::pair<T,V> >& vecIn, std::vector< V >& vecOut) {
+		VectorPair2ToVectorFunc<T,V> convFunc(vecOut);
+		std::for_each(vecIn.begin(),vecIn.end(),convFunc);
 	}
 
 	/**
@@ -243,9 +238,70 @@ private:
 			dump << "element " << itemNo << ": \"" << item.first << "\" -> \"" << item.second << "\"" << std::endl;
 			itemNo++;
 			return true;}
+
 	private:
 		int itemNo;
 		std::ostringstream& dump;
+	};
+
+	template <class T, class V>
+	struct Map1ToVectorFunc : public std::binary_function<T,V,bool> {
+		Map1ToVectorFunc(std::vector<T>& in): in(in) {}
+
+		bool operator() (const std::pair<T,V>& item) {
+			in.push_back(item->first);
+			return true;}
+
+	private:
+		std::vector<T>& in;
+	};
+
+	template <class T, class V>
+	struct Map2ToVectorFunc : public std::binary_function<T,V,bool> {
+		Map2ToVectorFunc(std::vector<V>& in): in(in) {}
+
+		bool operator() (const std::pair<T,V>& item) {
+			in.push_back(item->second);
+			return true;}
+
+	private:
+		std::vector<V>& in;
+	};
+
+	template <class T, class V>
+	struct VectorPair1ToVectorFunc : public std::unary_function< std::pair<T,V>,bool> {
+		VectorPair1ToVectorFunc(std::vector<T>& in): in(in) {}
+
+		bool operator() (const std::pair<T,V>& item) {
+			in.push_back(item->first);
+			return true;}
+
+	private:
+		std::vector<T>& in;
+	};
+
+	template <class T, class V>
+	struct VectorPair2ToVectorFunc : public std::unary_function< std::pair<T,V>,bool> {
+		VectorPair2ToVectorFunc(std::vector<V>& in): in(in) {}
+
+		bool operator() (const std::pair<T,V>& item) {
+			in.push_back(item->second);
+			return true;}
+
+	private:
+		std::vector<V>& in;
+	};
+
+	template <class T>
+	struct List2ToVectorFunc : public std::unary_function<T ,bool> {
+		List2ToVectorFunc(std::vector<T>& in): in(in) {}
+
+		bool operator() (const T& item) {
+			in.push_back(item);
+			return true;}
+
+	private:
+		std::vector<T>& in;
 	};
 };
 
