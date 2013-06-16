@@ -163,7 +163,7 @@ public:
 	static bool IsLogLevelTrace();
 
 	/**
-	 * creates time string from log output.
+	 * creates time string for log output.
 	 * @param timeString time string.
 	 */
 	static void GetTimeString(std::string& timeString);
