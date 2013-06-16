@@ -33,8 +33,9 @@ SynchronizedIDArray::SynchronizedIDArray(const size_t& idCount)
 
 size_t SynchronizedIDArray::GetID()
 {
-	size_t ret = 0;
 	Lock();
+
+	size_t ret = 0;
 	idLockMutex.Lock();
 	std::vector<bool>::iterator i = idLock.begin();
 	for(size_t id=0;i != idLock.end();++i,id++) {
@@ -49,10 +50,10 @@ size_t SynchronizedIDArray::GetID()
 
 void SynchronizedIDArray::ReleaseID(const size_t& id)
 {
-	idLockMutex.Lock();
+	AutoMutex lockAuto(idLockMutex);
+
 	Unlock();
 	idLock.at(id) = false;
-	idLockMutex.Unlock();
 }
 
 }
