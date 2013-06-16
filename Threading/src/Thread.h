@@ -62,8 +62,8 @@ protected:
 	Thread(ThreadFunction pFunction, bool bAutoDelete = false);
 
 private:
-	Thread(const Thread& copy) {}
-	Thread& operator =(const Thread& rhs) { return *this; }
+	Thread(const Thread& copy) { throw; }
+	Thread& operator =(const Thread& rhs) { throw; }
 
 public:
 	virtual ~Thread();

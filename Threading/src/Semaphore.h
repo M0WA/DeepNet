@@ -29,8 +29,8 @@ public:
 	virtual ~Semaphore();
 
 private:
-	Semaphore(const Semaphore& sem) {}
-	Semaphore& operator =(const Semaphore& rhs) { return *this; }
+	Semaphore(const Semaphore& sem) { throw; }
+	Semaphore& operator =(const Semaphore& rhs) { throw; }
 
 public:
 	/**
