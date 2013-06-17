@@ -23,10 +23,10 @@ UnitTestHtmlTokeniser::UnitTestHtmlTokeniser(UnitTestHtmlDocumentFactory& factor
 UnitTestHtmlTokeniser::~UnitTestHtmlTokeniser() {
 }
 
-void UnitTestHtmlTokeniser::EmitCharacter() {
+void UnitTestHtmlTokeniser::EmitCharacter(const char charToEmit) {
 
 	log::Logging::LogTrace(GetLineColumnString() + " emmiting character");
-	domparser::Tokeniser::EmitCharacter();
+	domparser::Tokeniser::EmitCharacter(charToEmit);
 }
 
 void UnitTestHtmlTokeniser::EmitComment() {

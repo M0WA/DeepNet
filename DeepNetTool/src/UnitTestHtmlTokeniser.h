@@ -22,7 +22,7 @@ public:
 	virtual ~UnitTestHtmlTokeniser();
 
 protected:
-	virtual void EmitCharacter();
+	virtual void EmitCharacter(const char charToEmit);
 	virtual void EmitComment();
 	virtual void EmitTag();
 	virtual void EmitDocType();
