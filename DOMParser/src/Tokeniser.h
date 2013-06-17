@@ -24,12 +24,8 @@ namespace database {
 	class DatabaseConnection;
 }
 
-namespace network {
-	class HtmlData;
-}
-
 namespace domparser {
-	class DatabaseUrl;
+
 	class DocumentFactory;
 
 /**
