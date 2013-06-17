@@ -149,7 +149,6 @@ private:
 
 protected:
 	virtual void EmitCharacter(const char charToEmit);
-	virtual void EmitCharacter(const char* charToEmit, const size_t size = 1);
 	virtual void EmitComment();
 	virtual void EmitTag();
 	virtual void EmitDocType();
@@ -157,6 +156,7 @@ protected:
 	virtual void ParseError() const;
 
 private:
+	void EmitCharacter(const char* charToEmit, const size_t size = 1);
 	std::string ConsumeCharacterReference(const char* additionalCharacterAllowed = NULL);
 	size_t ConsumeNamedCharacterReference(char* tmpCur) const;
 	size_t ConsumeNumericCharacterReference(char* tmpCur) const;
