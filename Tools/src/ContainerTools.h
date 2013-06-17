@@ -249,7 +249,7 @@ private:
 		Map1ToVectorFunc(std::vector<T>& in): in(in) {}
 
 		bool operator() (const std::pair<T,V>& item) {
-			in.push_back(item->first);
+			in.push_back(item.first);
 			return true;}
 
 	private:
@@ -261,7 +261,7 @@ private:
 		Map2ToVectorFunc(std::vector<V>& in): in(in) {}
 
 		bool operator() (const std::pair<T,V>& item) {
-			in.push_back(item->second);
+			in.push_back(item.second);
 			return true;}
 
 	private:
@@ -273,7 +273,7 @@ private:
 		VectorPair1ToVectorFunc(std::vector<T>& in): in(in) {}
 
 		bool operator() (const std::pair<T,V>& item) {
-			in.push_back(item->first);
+			in.push_back(item.first);
 			return true;}
 
 	private:
@@ -285,7 +285,7 @@ private:
 		VectorPair2ToVectorFunc(std::vector<V>& in): in(in) {}
 
 		bool operator() (const std::pair<T,V>& item) {
-			in.push_back(item->second);
+			in.push_back(item.second);
 			return true;}
 
 	private:
