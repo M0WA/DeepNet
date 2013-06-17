@@ -147,6 +147,13 @@ private:
 	bool OnScriptDataDoubleEscapedLessThanSignState();
 	bool OnScriptDataDoubleEscapeEndState();
 
+	bool OnRAWTEXTState();
+	bool OnRAWTEXTLessThanSignState();
+	bool OnRAWTEXTEndTagOpenState();
+	bool OnRAWTEXTEndTagNameState();
+
+	bool OnPLAINTEXTState();
+
 protected:
 	virtual void EmitCharacter(const char charToEmit);
 	virtual void EmitComment();

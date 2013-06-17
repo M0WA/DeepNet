@@ -1678,6 +1678,103 @@ bool Tokeniser::OnScriptDataDoubleEscapeEndState() {
 	return true;
 }
 
+bool Tokeniser::OnRAWTEXTState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '<':
+		SwitchState(RAWTEXT_less_than_sign_state);
+		return true;
+
+	default:
+		EmitCharacter(*current);
+		return true;
+	}
+}
+
+bool Tokeniser::OnRAWTEXTLessThanSignState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '/':
+		temporaryBuffer.clear();
+		SwitchState(RAWTEXT_end_tag_open_state);
+		return true;
+
+	default:
+		SwitchState(RAWTEXT_state);
+		EmitCharacter('<');
+		next--;
+		return true;
+	}
+}
+
+bool Tokeniser::OnRAWTEXTEndTagOpenState() {
+	const char* current = Consume();
+
+	if(std::isalpha(*current)) {
+		tagToken.tagType = TagToken::END_TAG;
+		tagToken.name = std::tolower(*current);
+		temporaryBuffer += *current;
+		SwitchState(RAWTEXT_end_tag_name_state);
+	}
+	else {
+		SwitchState(RAWTEXT_state);
+		EmitCharacter("</",2);
+		next--;
+	}
+
+	return true;
+}
+
+bool Tokeniser::OnRAWTEXTEndTagNameState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '\t':
+	case '\n':
+	case '\r':
+	case  ' ':
+		if(IsAppropriateEndTag()) {
+			SwitchState(Before_attribute_name_state);
+			return true; }
+		break;
+
+	case  '/':
+		if(IsAppropriateEndTag()) {
+			SwitchState(Self_closing_start_tag_state);
+			return true; }
+		break;
+
+	case  '>':
+		if(IsAppropriateEndTag()) {
+			SwitchState(Data_state);
+			return true; }
+		break;
+
+	default:
+		break;
+	}
+
+	if(std::isalpha(*current)) {
+		tagToken.name = std::tolower(*current);
+		temporaryBuffer += *current;
+	}
+	else {
+		SwitchState(RAWTEXT_state);
+		EmitCharacter("</",2);
+		EmitCharacter(temporaryBuffer.c_str(),temporaryBuffer.length());
+		next--;
+	}
+
+	return true;
+}
+
+bool Tokeniser::OnPLAINTEXTState() {
+	EmitCharacter(Consume(),1);
+	return true;
+}
+
 void Tokeniser::EmitCharacter(const char* charToEmit, const size_t size) {
 	for(size_t pos = 0; pos < size; pos++) {
 		CharacterToken charToken;
@@ -1877,11 +1974,13 @@ bool Tokeniser::ProcessState() {
 		success = OnCharacterReferenceInRCDATAState();
 	    break;
 	case RAWTEXT_state:
+		success = OnRAWTEXTState();
 	    break;
 	case Script_data_state:
 		success = OnScriptDataState();
 	    break;
 	case PLAINTEXT_state:
+		success = OnPLAINTEXTState();
 	    break;
 	case Tag_open_state:
 		success = OnTagOpenState();
@@ -1902,10 +2001,13 @@ bool Tokeniser::ProcessState() {
 		success = OnRCDATAEndTagNameState();
 	    break;
 	case RAWTEXT_less_than_sign_state:
+		success = OnRAWTEXTLessThanSignState();
 	    break;
 	case RAWTEXT_end_tag_open_state:
+		success = OnRAWTEXTEndTagOpenState();
 	    break;
 	case RAWTEXT_end_tag_name_state:
+		success = OnRAWTEXTEndTagNameState();
 	    break;
 	case Script_data_less_than_sign_state:
 		success = OnScriptDataLessThanSignState();
