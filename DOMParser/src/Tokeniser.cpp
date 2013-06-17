@@ -46,8 +46,7 @@ bool Tokeniser::OnDataState() {
 		SwitchState(Tag_open_state);
 		break;
 	default:
-		charToken.Append(current,1);
-		EmitCharacter();
+		EmitCharacter(current,1);
 		break;
 	}
 	return true;
@@ -57,14 +56,12 @@ bool Tokeniser::OnCharacterReferenceInDataState() {
 
 	SwitchState(Data_state);
 	std::string refString = ConsumeCharacterReference();
-	charToken.Reset();
 
 	if(refString.empty()) {
-		charToken.Append("&",1);}
+		EmitCharacter("&",1);}
 	else {
-		charToken.Append(refString.c_str(),refString.length()); }
+		EmitCharacter(refString.c_str(),refString.length()); }
 
-	EmitCharacter();
 	return true;
 }
 
@@ -90,8 +87,7 @@ bool Tokeniser::OnTagOpenState() {
 
 	if(!isalpha(*current)){
 		ParseError();
-		charToken.Append("<",1);
-		EmitCharacter();
+		EmitCharacter("<",1);
 		SwitchState(Data_state);
 		next--;
 		return true; }
@@ -259,8 +255,7 @@ bool Tokeniser::OnCDataSectionState(){
 	}
 
 	if(i) {
-		charToken.Append(current,i);
-		EmitCharacter();
+		EmitCharacter(current,i);
 	}
 
 	Consume(i+3);
@@ -1152,8 +1147,7 @@ bool Tokeniser::OnRCDATAState() {
 		return true;
 
 	default:
-		charToken.Append(current,1);
-		EmitCharacter();
+		EmitCharacter(current,1);
 		return true;
 	}
 }
@@ -1163,13 +1157,11 @@ bool Tokeniser::OnCharacterReferenceInRCDATAState() {
 	SwitchState(RCDATA_state);
 	std::string refString = ConsumeCharacterReference();
 
-	charToken.Reset();
 	if(refString.empty()) {
-		charToken.Append("&",1); }
+		EmitCharacter("&",1); }
 	else {
-		charToken.Append(refString.c_str(),refString.length()); }
+		EmitCharacter(refString.c_str(),refString.length()); }
 
-	EmitCharacter();
 	return true;
 }
 
@@ -1184,9 +1176,7 @@ bool Tokeniser::OnRCDATALessThanSignState() {
 		return true;
 	default:
 		SwitchState(RCDATA_state);
-		charToken.Reset();
-		charToken.Append("<",1);
-		EmitCharacter();
+		EmitCharacter("<",1);
 		next--;
 		return true;
 	}
@@ -1205,9 +1195,7 @@ bool Tokeniser::OnRCDATAEndTagOpenState() {
 	}
 	else {
 		SwitchState(RCDATA_state);
-		charToken.Reset();
-		charToken.Append("</",2);
-		EmitCharacter();
+		EmitCharacter("</",2);
 		next--;
 	}
 
@@ -1254,10 +1242,8 @@ bool Tokeniser::OnRCDATAEndTagNameState() {
 	}
 
 	SwitchState(RCDATA_state);
-	charToken.Reset();
-	charToken.Append("</",2);
-	charToken.Append(temporaryBuffer.c_str(),temporaryBuffer.length());
-	EmitCharacter();
+	EmitCharacter("</",2);
+	EmitCharacter(temporaryBuffer.c_str(),temporaryBuffer.length());
 	next--;
 	return true;
 }
@@ -1272,9 +1258,7 @@ bool Tokeniser::OnScriptDataState() {
 		return true;
 
 	default:
-		charToken.Reset();
-		charToken.text += *current;
-		EmitCharacter();
+		EmitCharacter(current,1);
 		return true;
 	}
 }
@@ -1292,16 +1276,12 @@ bool Tokeniser::OnScriptDataLessThanSignState() {
 
 	case '!':
 		SwitchState(Script_data_escape_start_state);
-		charToken.Reset();
-		charToken.Append("<!",2);
-		EmitCharacter();
+		EmitCharacter("<!",2);
 		return true;
 
 	default:
 		SwitchState(Script_data_state);
-		charToken.Reset();
-		charToken.text = "<";
-		EmitCharacter();
+		EmitCharacter("<");
 		next--;
 		return true;
 	}
@@ -1319,9 +1299,7 @@ bool Tokeniser::OnScriptDataEndTagOpenState() {
 	}
 	else {
 		SwitchState(Script_data_state);
-		charToken.Reset();
-		charToken.Append("</",2);
-		EmitCharacter();
+		EmitCharacter("</",2);
 		next--;
 	}
 
@@ -1364,29 +1342,352 @@ bool Tokeniser::OnScriptDataEndTagNameState() {
 	}
 
 	SwitchState(Script_data_state);
-	charToken.Reset();
-	charToken.Append("</",2);
-	charToken.Append(temporaryBuffer.c_str(),temporaryBuffer.length());
-	EmitCharacter();
+	EmitCharacter("</",2);
+	EmitCharacter(temporaryBuffer.c_str(),temporaryBuffer.length());
 	next--;
 	return true;
 }
 
-void Tokeniser::EmitCharacter() {
+bool Tokeniser::OnScriptDataEscapeStartState() {
+	const char* current = Consume();
 
-	if(charToken.text.length() > 1 ) {
-		std::string tmpTxt = charToken.text;
-		std::string::const_iterator iterTxt = tmpTxt.begin();
-		charToken.Reset();
-		for(;iterTxt != tmpTxt.end();++iterTxt) {
-			charToken.Append(&(*iterTxt),1);
-			EmitCharacter(); }
-		charToken.Reset();
+	switch(*current) {
+	case '-':
+		SwitchState(Script_data_escape_start_dash_state);
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		SwitchState(Script_data_state);
+		next--;
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataEscapeStartDashState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		SwitchState(Script_data_escaped_dash_dash_state);
+  		EmitCharacter(*current);
+		return true;
+
+	default:
+		SwitchState(Script_data_state);
+		next--;
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataEscapedDashDashState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		EmitCharacter(current,1);
+		return true;
+
+	case '<':
+		SwitchState(Script_data_escaped_less_than_sign_state);
+		return true;
+
+	case '>':
+		SwitchState(Script_data_state);
+		EmitCharacter(current,1);
+		return true;
+
+	default:
+		SwitchState(Script_data_escaped_state);
+		EmitCharacter(current,1);
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataEscapedLessThanSignState() {
+
+	const char* current = Consume();
+
+	switch(*current) {
+	case '/':
+		SwitchState(Script_data_escaped_end_tag_open_state);
+		temporaryBuffer.clear();
+		return true;
+
+	default:
+		break;
+	}
+
+	if(std::isalpha(*current)) {
+		temporaryBuffer = std::tolower(*current);
+		SwitchState(Script_data_double_escape_start_state);
+		EmitCharacter('<');
+		EmitCharacter(current,1);
 	}
 	else {
-		factory.OnToken(charToken);
-		charToken.Reset();
+		SwitchState(Script_data_escaped_state);
+		EmitCharacter('<');
+		next--;
 	}
+
+	return true;
+}
+
+bool Tokeniser::OnScriptDataEscapedState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		SwitchState(Script_data_escaped_dash_state);
+		return true;
+
+	case '<':
+		SwitchState(Script_data_escaped_less_than_sign_state);
+		return true;
+
+	default:
+		EmitCharacter(current);
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataEscapedDashState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		SwitchState(Script_data_escaped_dash_state);
+		EmitCharacter(*current);
+		return true;
+
+	case '<':
+		SwitchState(Script_data_escaped_less_than_sign_state);
+		return true;
+
+	default:
+		SwitchState(Script_data_escaped_state);
+		EmitCharacter(*current);
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataEscapedEndTagOpenState() {
+	const char* current = Consume();
+
+	if(std::isalpha(*current)) {
+		tagToken.tagType = TagToken::END_TAG;
+		tagToken.name = std::tolower(*current);
+		temporaryBuffer += *current;
+		SwitchState(Script_data_end_tag_name_state);
+	}
+	else {
+		SwitchState(Script_data_state);
+		EmitCharacter("</",2);
+		next--;
+	}
+
+	return true;
+}
+
+bool Tokeniser::OnScriptDataEscapedEndTagNameState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '\t':
+	case '\n':
+	case '\r':
+	case  ' ':
+		if(IsAppropriateEndTag()) {
+			SwitchState(Before_attribute_name_state);
+			return true; }
+		break;
+
+	case '/':
+		if(IsAppropriateEndTag()) {
+			SwitchState(Self_closing_start_tag_state);
+			return true; }
+		break;
+
+	case '>':
+		if(IsAppropriateEndTag()) {
+			SwitchState(Data_state);
+			return true; }
+		break;
+
+	default:
+		break;
+	}
+
+	if(std::isalpha(*current)) {
+		tagToken.name += std::tolower(*current);
+		temporaryBuffer += *current;
+	}
+	else {
+		SwitchState(Script_data_escaped_state);
+		EmitCharacter("</",2);
+		EmitCharacter(temporaryBuffer.c_str(),temporaryBuffer.length());
+		next--;
+	}
+
+	return true;
+}
+
+bool Tokeniser::OnScriptDataDoubleEscapeStartState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '\t':
+	case '\n':
+	case '\r':
+	case  ' ':
+	case  '/':
+	case  '>':
+		if(temporaryBuffer.compare("script") == 0) {
+			SwitchState(Script_data_double_escaped_state); }
+		else {
+			SwitchState(Script_data_escaped_state);	}
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		break;
+	}
+
+	if(std::isalpha(*current)) {
+		temporaryBuffer += std::tolower(*current);
+		EmitCharacter(*current); }
+	else {
+		SwitchState(Script_data_escaped_state);
+		next--;
+	}
+
+	return true;
+}
+
+bool Tokeniser::OnScriptDataDoubleEscapedState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		SwitchState(Script_data_double_escaped_dash_state);
+		EmitCharacter(*current);
+		return true;
+
+	case '<':
+		SwitchState(Script_data_double_escaped_less_than_sign_state);
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		EmitCharacter(*current);
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataDoubleEscapedDashState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		SwitchState(Script_data_double_escaped_dash_dash_state);
+		EmitCharacter(*current);
+		return true;
+
+	case '<':
+		SwitchState(Script_data_double_escaped_less_than_sign_state);
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		SwitchState(Script_data_double_escaped_state);
+		EmitCharacter(*current);
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataDoubleEscapedDashDashState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '-':
+		EmitCharacter(*current);
+		return true;
+
+	case '<':
+		SwitchState(Script_data_double_escaped_less_than_sign_state);
+		EmitCharacter(*current);
+		return true;
+
+	case '>':
+		SwitchState(Script_data_state);
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		SwitchState(Script_data_double_escaped_state);
+		EmitCharacter(*current);
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataDoubleEscapedLessThanSignState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '/':
+		temporaryBuffer.clear();
+		SwitchState(Script_data_double_escape_end_state);
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		SwitchState(Script_data_double_escaped_state);
+		next--;
+		return true;
+	}
+}
+
+bool Tokeniser::OnScriptDataDoubleEscapeEndState() {
+	const char* current = Consume();
+
+	switch(*current) {
+	case '\t':
+	case '\n':
+	case '\r':
+	case  ' ':
+	case  '/':
+	case  '>':
+		if(temporaryBuffer.compare("script") == 0) {
+			SwitchState(Script_data_escaped_state);	}
+		else {
+			SwitchState(Script_data_double_escaped_state); }
+		EmitCharacter(*current);
+		return true;
+
+	default:
+		break;
+	}
+
+	if(std::isalpha(*current)) {
+		temporaryBuffer += std::tolower(*current);
+		EmitCharacter(*current);}
+	else {
+		SwitchState(Script_data_double_escaped_state);
+		next--; }
+
+	return true;
+}
+
+void Tokeniser::EmitCharacter(const char* charToEmit, const size_t size) {
+	for(size_t pos = 0; pos < size; pos++) {
+		CharacterToken charToken;
+		charToken.Append(&charToEmit[pos],1);
+		factory.OnToken(charToken);
+	}
+}
+
+void Tokeniser::EmitCharacter(const char charToEmit) {
+	EmitCharacter(&charToEmit,1);
 }
 
 void Tokeniser::EmitComment() {
@@ -1619,30 +1920,43 @@ bool Tokeniser::ProcessState() {
 		success = OnScriptDataEscapeStartState();
 	    break;
 	case Script_data_escape_start_dash_state:
+		success = OnScriptDataEscapeStartDashState();
 	    break;
 	case Script_data_escaped_state:
+		success = OnScriptDataEscapedState();
 	    break;
 	case Script_data_escaped_dash_state:
+		success = OnScriptDataEscapedDashState();
 	    break;
 	case Script_data_escaped_dash_dash_state:
+		success = OnScriptDataEscapedDashDashState();
 	    break;
 	case Script_data_escaped_less_than_sign_state:
+		success = OnScriptDataEscapedLessThanSignState();
 	    break;
 	case Script_data_escaped_end_tag_open_state:
+		success = OnScriptDataEscapedEndTagOpenState();
 	    break;
 	case Script_data_escaped_end_tag_name_state:
+		success = OnScriptDataEscapedEndTagNameState();
 	    break;
 	case Script_data_double_escape_start_state:
+		success = OnScriptDataDoubleEscapeStartState();
 	    break;
 	case Script_data_double_escaped_state:
+		success = OnScriptDataDoubleEscapedState();
 	    break;
 	case Script_data_double_escaped_dash_state:
+		success = OnScriptDataDoubleEscapedDashState();
 	    break;
 	case Script_data_double_escaped_dash_dash_state:
+		success = OnScriptDataDoubleEscapedDashDashState();
 	    break;
 	case Script_data_double_escaped_less_than_sign_state:
+		success = OnScriptDataDoubleEscapedLessThanSignState();
 	    break;
 	case Script_data_double_escape_end_state:
+		success = OnScriptDataDoubleEscapeEndState();
 	    break;
 	case Before_attribute_name_state:
 		success = OnBeforeAttributeNameState();
@@ -1828,27 +2142,7 @@ std::string Tokeniser::GetLineColumnString() const {
 }
 
 bool Tokeniser::IsAppropriateEndTag() const {
-
 	return (tagToken.tagType == TagToken::END_TAG && tagToken.name.compare(lastStartTagName) == 0 );
-}
-
-bool Tokeniser::OnScriptDataEscapeStartState() {
-	/*
-	const char* current = Consume();
-
-	switch(*current) {
-	case '<':
-		SwitchState(Script_data_less_than_sign_state);
-		return true;
-
-	default:
-		charToken.Reset();
-		charToken.text += *current;
-		EmitCharacter();
-		return true;
-	}
-	 */
-	return false;
 }
 
 }

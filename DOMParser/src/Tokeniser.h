@@ -133,9 +133,23 @@ private:
 	bool OnScriptDataEndTagOpenState();
 	bool OnScriptDataEscapeStartState();
 	bool OnScriptDataEndTagNameState();
+	bool OnScriptDataEscapeStartDashState();
+	bool OnScriptDataEscapedDashDashState();
+	bool OnScriptDataEscapedLessThanSignState();
+	bool OnScriptDataEscapedState();
+	bool OnScriptDataEscapedDashState();
+	bool OnScriptDataEscapedEndTagOpenState();
+	bool OnScriptDataEscapedEndTagNameState();
+	bool OnScriptDataDoubleEscapeStartState();
+	bool OnScriptDataDoubleEscapedState();
+	bool OnScriptDataDoubleEscapedDashState();
+	bool OnScriptDataDoubleEscapedDashDashState();
+	bool OnScriptDataDoubleEscapedLessThanSignState();
+	bool OnScriptDataDoubleEscapeEndState();
 
 protected:
-	virtual void EmitCharacter();
+	virtual void EmitCharacter(const char charToEmit);
+	virtual void EmitCharacter(const char* charToEmit, const size_t size = 1);
 	virtual void EmitComment();
 	virtual void EmitTag();
 	virtual void EmitDocType();
@@ -167,7 +181,6 @@ private:
 	TagToken tagToken;
 	CommentToken commentToken;
 	DocTypeToken doctypeToken;
-	CharacterToken charToken;
 
 	TokeniserState preCharRefInAttribState;
 	char charRefInAttribValAddChar;
