@@ -85,8 +85,8 @@ protected:
 	virtual void SwitchState(const TokeniserState& newState);
 	virtual void ParseError() const;
 
-	//state handler functions
 private:
+	//state handler functions
 	bool OnDataState();
 	bool OnCharacterReferenceInDataState();
 	bool OnTagOpenState();
