@@ -2,9 +2,7 @@
  *
  * @file DocumentFactory.cpp
  * @author Moritz Wagner
- * @date Mar 3, 2013
- *
- * TODO: description for this file
+ * @date 03.03.2013
  *
  */
 
@@ -489,13 +487,20 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 			}
 			else if ( tagToken.tagType == TagToken::START_TAG &&
 					tagToken.name.compare("script") == 0 ) {
+
+				HTMLScriptElement* scriptElement = dynamic_cast<HTMLScriptElement*>(NodeFactory::FromToken(curDoc,0,token));
+				scriptElement->async = false;
+				scriptElement->defer = true; //TODO: check if this is correct
+
 				//
 				//TODO: not fully implemented
 				//
 
+				curDoc->appendChild(scriptElement);
+				openElementStack.Push(scriptElement);
+
 				tokeniser->SwitchState(Script_data_state);
 				orgInsertionMode = insertionMode;
-				AppendHtmlElement(tagToken);
 				SwitchMode(text);
 				return true;
 			}

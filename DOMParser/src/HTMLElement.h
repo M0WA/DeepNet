@@ -255,7 +255,7 @@ class HTMLScriptElement : public domparser::HTMLElement {
 public:
 	HTMLScriptElement(Document* ownerDocument) : HTMLElement(ownerDocument,HTMLElement::scriptTag) {}
 
-private:
+public:
 	DOMString src;
 	bool async;
 	bool defer;
