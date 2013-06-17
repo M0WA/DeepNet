@@ -76,11 +76,17 @@ public:
 	 */
 	std::string GetLineColumnString() const;
 
-private:
-	bool ProcessState();
+protected:
+	//used by unit tests
+	virtual void EmitCharacter(const char charToEmit);
+	virtual void EmitComment();
+	virtual void EmitTag();
+	virtual void EmitDocType();
+	virtual void SwitchState(const TokeniserState& newState);
+	virtual void ParseError() const;
 
-private:
 	//state handler functions
+private:
 	bool OnDataState();
 	bool OnCharacterReferenceInDataState();
 	bool OnTagOpenState();
@@ -154,22 +160,13 @@ private:
 
 	bool OnPLAINTEXTState();
 
-protected:
-	virtual void EmitCharacter(const char charToEmit);
-	virtual void EmitComment();
-	virtual void EmitTag();
-	virtual void EmitDocType();
-	virtual void SwitchState(const TokeniserState& newState);
-	virtual void ParseError() const;
-
 private:
+	bool ProcessState();
 	void EmitCharacter(const char* charToEmit, const size_t size = 1);
 	std::string ConsumeCharacterReference(const char* additionalCharacterAllowed = NULL);
 	size_t ConsumeNamedCharacterReference(char* tmpCur) const;
 	size_t ConsumeNumericCharacterReference(char* tmpCur) const;
 	bool IsAppropriateEndTag() const;
-
-private:
 	void ResetAllTokens();
 	char* Consume(size_t count = 1);
 
@@ -195,7 +192,6 @@ private:
 	std::string temporaryBuffer;
 	std::string lastStartTagName;
 
-private:
 	std::vector< std::pair<size_t,size_t> > lines;
 };
 
