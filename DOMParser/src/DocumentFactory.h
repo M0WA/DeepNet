@@ -33,6 +33,8 @@ namespace domparser {
 	class TagToken;
 	class Tokeniser;
 	class HTMLElement;
+	class HTMLHeadElement;
+	class HTMLFormElement;
 
 /**
  * @brief factory class for html documents
@@ -106,10 +108,13 @@ protected:
 	bool AppendGenericRCDATA(const TagToken& token);
 	bool AppendGenericRawText(const TagToken& token);
 	bool AppendGenericRCDATAOrRawText(const TagToken& token, bool isRCData);
-	HTMLElement* AppendHtmlElement(const TagToken& token);
 	bool InsertCharacter(const CharacterToken& token);
-	void ResetInsertionMode();
+
+private:
+	//dom algorithms/rules
+	HTMLElement* InsertHtmlElement(const TagToken& token);
 	void ReconstructActiveFormatElements();
+	void ResetInsertionMode();
 
 protected:
 	//handle insertion modes
@@ -158,6 +163,9 @@ protected:
 	InsertionMode orgInsertionMode;
 
 	tools::Stack<Node*> openElementStack;
+
+	HTMLHeadElement* headElement;
+	HTMLFormElement* formElement;
 
 private:
 	bool scriptingFlag;

@@ -32,6 +32,8 @@ DocumentFactory::DocumentFactory(const network::HttpUrl& url)
 , tokeniser(0)
 , insertionMode(initial)
 , orgInsertionMode(initial)
+, headElement(0)
+, formElement(0)
 , scriptingFlag(false)
 , framesetOk(true){
 }
@@ -79,17 +81,22 @@ bool DocumentFactory::AppendDocType(const DocTypeToken& token) {
 	return true;
 }
 
-HTMLElement* DocumentFactory::AppendHtmlElement(const TagToken& token) {
+HTMLElement* DocumentFactory::InsertHtmlElement(const TagToken& token) {
 
 	HTMLElement* newElement = dynamic_cast<HTMLElement*>(NodeFactory::FromToken(curDoc,0,token));
 	curDoc->appendChild(newElement);
 	openElementStack.Push(newElement);
+
+	//
+	//TODO: not fully implemented
+	//
+
 	return newElement;
 }
 
 bool DocumentFactory::AppendGenericRCDATAOrRawText(const TagToken& token, bool isRCData) {
 
-	AppendHtmlElement(token);
+	InsertHtmlElement(token);
 
 	if(isRCData) {
 		tokeniser->SwitchState(RCDATA_state); }
@@ -360,7 +367,7 @@ bool DocumentFactory::OnBeforeHtmlInsertion(const Token& token) {
 			if(	tagToken.name.compare("html") == 0 &&
 				tagToken.tagType == TagToken::START_TAG
 			) {
-				AppendHtmlElement(tagToken);
+				InsertHtmlElement(tagToken);
 				SwitchMode(before_head);
 				return true;
 			}
@@ -413,7 +420,7 @@ bool DocumentFactory::OnBeforeHeadInsertion(const Token& token) {
 			else if(tagToken.name.compare("head") == 0 &&
 					tagToken.tagType == TagToken::START_TAG )
 			{
-				curDoc->headElement = dynamic_cast<HTMLHeadElement*>(AppendHtmlElement(tagToken));
+				headElement = dynamic_cast<HTMLHeadElement*>(InsertHtmlElement(tagToken));
 				SwitchMode(in_head);
 				return true;
 			}
@@ -463,7 +470,7 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 			else if( tagToken.tagType == TagToken::START_TAG &&
 					 tools::StringTools::IsOneOf(tagToken.name, base_basefont_bgsound_link ) )
 			{
-				AppendHtmlElement(tagToken);
+				InsertHtmlElement(tagToken);
 				openElementStack.Pop();
 				if(!tagToken.selfClosingFlag)
 					ParseError();
@@ -472,7 +479,7 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 			else if( tagToken.tagType == TagToken::START_TAG &&
 				    tagToken.name.compare("meta") == 0 )
 			{
-				AppendHtmlElement(tagToken);
+				InsertHtmlElement(tagToken);
 				openElementStack.Pop();
 				if(!tagToken.selfClosingFlag)
 					ParseError();
@@ -495,7 +502,7 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 			else if ( tagToken.tagType == TagToken::START_TAG &&
 					(tagToken.name.compare("noscript") == 0 && !scriptingFlag) ) {
 
-				AppendHtmlElement(tagToken);
+				InsertHtmlElement(tagToken);
 				SwitchMode(in_head_noscript);
 				return true;
 			}
@@ -614,19 +621,19 @@ bool DocumentFactory::OnAfterHeadInsertion(const Token& token) {
 				return OnInsertion(token,in_body); }
 
 			if(tagToken.name.compare("body") == 0) {
-				AppendHtmlElement(tagToken);
+				InsertHtmlElement(tagToken);
 				framesetOk = false;
 				SwitchMode(in_body);
 				return true; }
 
 			if(tagToken.name.compare("frameset") == 0) {
-				AppendHtmlElement(tagToken);
+				InsertHtmlElement(tagToken);
 				SwitchMode(in_frameset);
 				return true; }
 
 			if(tools::StringTools::IsOneOf(tagToken.name,base_basefont_bgsound_link_meta_noframes_script_style_title)) {
 				ParseError();
-				openElementStack.Push(curDoc->headElement);
+				openElementStack.Push(headElement);
 				OnInsertion(token,in_head);
 				openElementStack.Pop();
 				return true; }
@@ -1028,15 +1035,25 @@ bool DocumentFactory::OnAfterAfterFramesetInsertion(const Token& token) {
 }
 
 bool DocumentFactory::InsertCharacter(const CharacterToken& token) {
+
+	//
+	//TODO: not fully implemented
+	//
 	return false;
 }
 
 void DocumentFactory::ResetInsertionMode() {
 
+	//
+	//TODO: not fully implemented
+	//
 }
 
 void DocumentFactory::ReconstructActiveFormatElements() {
 
+	//
+	//TODO: not fully implemented
+	//
 }
 
 bool DocumentFactory::OnTextInsertion(const Token& token) {
@@ -1126,7 +1143,7 @@ bool DocumentFactory::OnInBodyStartTagInsertion(const TagToken& tagToken) {
 				else {
 					break; }
 			}
-			AppendHtmlElement(tagToken);
+			InsertHtmlElement(tagToken);
 			SwitchMode(in_frameset);
 		}
 		return true;

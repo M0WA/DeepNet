@@ -28,8 +28,7 @@ Document::Document(const network::HttpUrl& url, const char* characterSet, const 
 , dbUrl(url)
 , URL(url.GetFullUrl())
 , characterSet(characterSet)
-, contentType(contentType)
-, headElement(0){
+, contentType(contentType){
 }
 
 Document::~Document() {

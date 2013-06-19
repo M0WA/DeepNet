@@ -185,8 +185,6 @@ private:
 
 	DocumentType* doctype;
 	Element* documentElement;
-
-	HTMLHeadElement* headElement;
 };
 
 }
