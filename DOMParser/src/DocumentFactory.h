@@ -144,6 +144,9 @@ protected:
 	static std::string InsertionModeToString(const InsertionMode& insertMode);
 
 private:
+	bool OnInitialInsertion_DOCTYPE(const DocTypeToken& token);
+
+private:
 	bool IgnoreHtmlWhiteSpace(const CharacterToken& token);
 
 protected:

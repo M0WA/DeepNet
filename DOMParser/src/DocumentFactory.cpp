@@ -22,30 +22,9 @@
 #include "Comment.h"
 #include "Node.h"
 #include "NodeFactory.h"
+#include "StringConstants.h"
 
 namespace domparser {
-
-static const char* head_body_html_br[] = {"head","body","html","br",0};
-static const char* body_html_br[] = { "body", "html", "br", 0 };
-static const char* base_basefont_bgsound_link_meta_noframes_script_style_title[] = { "base", "basefont", "bgsound", "link", "meta", "noframes", "script", "style", "title", 0 };
-static const char* head_noscript[] = { "head", "noscript", 0 };
-static const char* basefont_bgsound_link_meta_noframes_style[] = { "basefont", "bgsound", "link", "meta", "noframes", "style", 0 };
-static const char* base_basefont_bgsound_link[] = { "base", "basefont", "bgsound", "link", 0 };
-static const char* noframes_style[] = { "noframes", "style", 0 };
-static const char* dd_dt[] = { "dd", "dt", 0 };
-static const char* hTags[] = { "h1", "h2", "h3", "h4", "h5", "h6", 0 };
-static const char* applet_marquee_object[] = { "applet", "marquee", "object", 0 };
-static const char* address_article_aside_blockquote_button_center_details_dialog_dir_div_dl_fieldset_figcaption_figure_footer_header_hgroup_listing_main_menu_nav_ol_pre_section_summary_ul[] = { "address", "article", "aside", "blockquote", "button", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "listing", "main", "menu", "nav", "ol", "pre", "section", "summary", "ul", 0};
-static const char* a_b_big_code_em_font_i_nobr_s_small_strike_strong_tt_u[] = { "a", "b", "big", "code", "em", "font", "i", "nobr", "s", "small", "strike", "strong", "tt", "u", 0};
-static const char* base_basefont_bgsound_link_menuitem_meta_noframes_script_style_title[] = { "base", "basefont", "bgsound", "link", "menuitem", "meta", "noframes", "script", "style", "title", 0 };
-static const char* address_article_aside_blockquote_center_details_dialog_dir_div_dl_fieldset_figcaption_figure_footer_header_hgroup_main_menu_nav_ol_p_section_summary_ul[] = { "address", "article", "aside", "blockquote", "center", "details", "dialog", "dir", "div", "dl", "fieldset", "figcaption", "figure", "footer", "header", "hgroup", "main", "menu", "nav", "ol", "p", "section", "summary", "ul", 0 };
-static const char* pre_listing[] = { "pre", "listing", 0 };
-static const char* b_big_code_em_font_i_s_small_strike_strong_tt_u[] = { "b", "big", "code", "em", "font", "i", "s", "small", "strike", "strong", "tt", "u", 0 };
-static const char* area_br_embed_img_keygen_wbr[] = { "area", "br", "embed", "img", "keygen", "wbr", 0 };
-static const char* param_source_track[] = { "param", "source", "track", 0 };
-static const char* optgroup_option[] = { "optgroup", "option", 0 };
-static const char* rp_rt[] = { "rp", "rt", 0 };
-static const char* caption_col_colgroup_frame_head_tbody_td_tfoot_th_thead_tr[] = { "caption", "col", "colgroup", "frame", "head", "tbody", "td", "tfoot", "th", "thead", "tr", 0 };
 
 DocumentFactory::DocumentFactory(const network::HttpUrl& url)
 : url(url)
@@ -305,11 +284,7 @@ bool DocumentFactory::OnInitialInsertion(const Token& token) {
 		return AppendComment(dynamic_cast<const CommentToken&>(token));
 
 	case Token::DOCTYPE:
-		//
-		//TODO: not fully implemented
-		//
-		SwitchMode(before_html);
-		return AppendDocType(dynamic_cast<const DocTypeToken&>(token));
+		return OnInitialInsertion_DOCTYPE(dynamic_cast<const DocTypeToken&>(token));
 
 	case Token::TAG:
 		ParseError();
@@ -321,6 +296,45 @@ bool DocumentFactory::OnInitialInsertion(const Token& token) {
 	//
 	SwitchMode(before_html);
 	return OnToken(token);
+}
+
+bool DocumentFactory::OnInitialInsertion_DOCTYPE(const DocTypeToken& token) {
+
+	bool isParseError = (token.name.compare("html") != 0);
+	isParseError |= (token.pPublicIdentifier != 0);
+	isParseError |= (token.pSystemIdentifier != 0);
+	isParseError |= (token.system_identifier.compare("about:legacy-compat") != 0);
+
+	if(isParseError) {
+		if((token.name.compare("html") == 0)) {
+
+			const char* compareSysIdent = 0;
+			if(token.public_identifier.compare(public_identifier_html_40) == 0) {
+				compareSysIdent = system_identifier_html_strict_40;	}
+			else if(token.public_identifier.compare(public_identifier_html_401) == 0) {
+				compareSysIdent = system_identifier_html_strict_401; }
+			else if(token.public_identifier.compare(public_identifier_xhtml_10) == 0) {
+				compareSysIdent = system_identifier_xhtml_strict_10; }
+			else if(token.public_identifier.compare(public_identifier_xhtml_11) == 0) {
+				compareSysIdent = system_identifier_xhtml_strict_11; }
+
+			isParseError = !(token.pSystemIdentifier == 0);
+			if(isParseError && compareSysIdent) {
+				isParseError = !(token.system_identifier.compare(compareSysIdent) == 0); }
+		}
+	}
+
+	if(isParseError) {
+		ParseError(); }
+
+	bool success = AppendDocType(token);
+
+	//
+	//TODO: not fully implemented
+	//
+
+	SwitchMode(before_html);
+	return success;
 }
 
 bool DocumentFactory::OnBeforeHtmlInsertion(const Token& token) {
@@ -404,9 +418,9 @@ bool DocumentFactory::OnBeforeHeadInsertion(const Token& token) {
 				return true;
 			}
 			else if ( tagToken.tagType == TagToken::END_TAG &&
-					  !tools::StringTools::IsOneOf(tagToken.name, head_body_html_br ) )	{
-					ParseError();
-					return true;
+				  !tools::StringTools::IsOneOf(tagToken.name, head_body_html_br ) )	{
+				ParseError();
+				return true;
 			}
 		}
 		break;
