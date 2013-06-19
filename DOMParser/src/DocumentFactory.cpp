@@ -593,7 +593,7 @@ bool DocumentFactory::OnAfterHeadInsertion(const Token& token) {
 
 	if(token.type == Token::TAG) {
 
-		static const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
+		const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
 		if(tagToken.tagType == TagToken::START_TAG) {
 
 			if(tagToken.name.compare("html") == 0) {
