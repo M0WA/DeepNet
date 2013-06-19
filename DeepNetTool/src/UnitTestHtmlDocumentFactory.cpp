@@ -38,7 +38,7 @@ bool UnitTestHtmlDocumentFactory::Run(){
 	std::vector<std::string>::const_iterator iterFiles = files.begin();
 	for(;iterFiles != files.end(); ++iterFiles) {
 		std::string htmlContent;
-		tools::FileTools::ReadFile(*iterFiles,htmlContent);
+		tools::FileTools::ReadFile(htmlDirectory + "/" + *iterFiles,htmlContent);
 
 		log::Logging::LogTrace("parsing html file: "+*iterFiles);
 
