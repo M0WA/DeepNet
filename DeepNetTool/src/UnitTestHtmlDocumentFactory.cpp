@@ -48,8 +48,8 @@ bool UnitTestHtmlDocumentFactory::Run(){
 		tokeniserImpl.Parse(htmlContent.c_str(),htmlContent.length());
 		delete curDoc;
 
-		tools::FileTools::DeleteFile(*iterFiles + ".tokeniser.xml");
-		tools::FileTools::WriteFile(*iterFiles + ".tokeniser.xml", ssXML.str(), false);
+		tools::FileTools::DeleteFile(htmlDirectory + "/" + *iterFiles + ".tokeniser.xml");
+		tools::FileTools::WriteFile(htmlDirectory + "/" + *iterFiles + ".tokeniser.xml", ssXML.str(), false);
 	}
 
 	return true;
