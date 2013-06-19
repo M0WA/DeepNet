@@ -20,10 +20,10 @@
 
 namespace toolbot {
 
-UnitTestHtmlDocumentFactory::UnitTestHtmlDocumentFactory( const network::HttpUrl& url, const std::string& htmlFile )
+UnitTestHtmlDocumentFactory::UnitTestHtmlDocumentFactory( const network::HttpUrl& url, const std::string& htmlDirectory )
 : domparser::DocumentFactory(url)
 , toolbot::UnitTest()
-, htmlFile(htmlFile){
+, htmlDirectory(htmlDirectory){
 
 }
 
@@ -32,18 +32,27 @@ UnitTestHtmlDocumentFactory::~UnitTestHtmlDocumentFactory() {
 
 bool UnitTestHtmlDocumentFactory::Run(){
 
-	std::string htmlContent;
-	tools::FileTools::ReadFile(htmlFile,htmlContent);
+	std::vector<std::string> files;
+	tools::FileTools::ListDirectory(files, htmlDirectory, ".*?\\.html$", true);
 
-	UnitTestHtmlTokeniser tokeniserImpl(*this);
-	curDoc = new domparser::Document(url, "utf-8", "text/html");
-	tokeniser = &tokeniserImpl;
-	tokeniserImpl.Parse(htmlContent.c_str(),htmlContent.length());
-	delete curDoc;
+	std::vector<std::string>::const_iterator iterFiles = files.begin();
+	for(;iterFiles != files.end(); ++iterFiles) {
+		std::string htmlContent;
+		tools::FileTools::ReadFile(*iterFiles,htmlContent);
 
-	tools::FileTools::DeleteFile(htmlFile + ".tokeniser.xml");
-	tools::FileTools::WriteFile(htmlFile + ".tokeniser.xml", ssXML.str(), false);
-	return false;
+		log::Logging::LogTrace("parsing html file: "+*iterFiles);
+
+		UnitTestHtmlTokeniser tokeniserImpl(*this);
+		curDoc = new domparser::Document(url, "utf-8", "text/html");
+		tokeniser = &tokeniserImpl;
+		tokeniserImpl.Parse(htmlContent.c_str(),htmlContent.length());
+		delete curDoc;
+
+		tools::FileTools::DeleteFile(*iterFiles + ".tokeniser.xml");
+		tools::FileTools::WriteFile(*iterFiles + ".tokeniser.xml", ssXML.str(), false);
+	}
+
+	return true;
 }
 
 bool UnitTestHtmlDocumentFactory::OnToken(const domparser::Token& token) {

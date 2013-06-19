@@ -29,7 +29,7 @@ namespace toolbot {
 class UnitTestHtmlDocumentFactory : public domparser::DocumentFactory, public toolbot::UnitTest {
 
 public:
-	UnitTestHtmlDocumentFactory( const network::HttpUrl& url, const std::string& htmlFile );
+	UnitTestHtmlDocumentFactory( const network::HttpUrl& url, const std::string& htmlDirectory );
 	virtual ~UnitTestHtmlDocumentFactory();
 
 private:
@@ -43,7 +43,7 @@ public:
 private:
 	std::stringstream ssXML;
 	network::HttpUrl url;
-	std::string htmlFile;
+	std::string htmlDirectory;
 };
 
 }

@@ -171,19 +171,16 @@ void DeepNetToolBot::RegisterDefaultParams(void) {
 }
 
 void DeepNetToolBot::RegisterDatabaseRepairParams() {
-
 	std::string defaultOff = "0";
 	Config().RegisterParam("databaseRepair", "repairs database after unclean shutdown", false, true, &defaultOff);
 }
 
 void DeepNetToolBot::RegisterHtmlTestParams() {
-
 	Config().RegisterParam("htmlFile", "filename of html file to parse/check", false, false, 0);
 	Config().RegisterParam("htmlUnitTestPath", "path to unit test html files", false, false, 0);
 }
 
 void DeepNetToolBot::RegisterUrlInserterParams() {
-
 	Config().RegisterParam("urlFile", "insert urls from file into database", false, false, 0 );
 	Config().RegisterParam("insertUrl", "domain to insert ie. dummy.siridia.de", false, false, 0 );
 
@@ -192,7 +189,6 @@ void DeepNetToolBot::RegisterUrlInserterParams() {
 }
 
 void DeepNetToolBot::RegisterCommerceSearchParams() {
-
 	Config().RegisterParam("csUserAdd", "add commerce search user to database", false, false, 0);
 	Config().RegisterParam("csUser", "username of commerce search user", false, false, 0);
 	Config().RegisterParam("csPass", "password of commerce search user", false, false, 0);
@@ -201,7 +197,6 @@ void DeepNetToolBot::RegisterCommerceSearchParams() {
 }
 
 void DeepNetToolBot::RegisterDataminingParams() {
-
 	Config().RegisterParam("dmAddDataminingUser", "add datamining user to database", false, false, 0);
 	Config().RegisterParam("dmAddDataminingAlert", "add datamining alert to database", false, false, 0);
 	Config().RegisterParam("dmDataminingUsername", "datamining username", false, false, 0);
@@ -212,24 +207,19 @@ void DeepNetToolBot::RegisterDataminingParams() {
 }
 
 void DeepNetToolBot::RegisterPCRERegexTestParams() {
-
 	Config().RegisterParam("pcreRegexFile", "validates pcre regexes from file", false, false, 0 );
 }
 
 void DeepNetToolBot::RegisterRobotTxtParams() {
-
 	Config().RegisterParam("robotsTxtFile", "validates robots.txt from file", false, false, 0 );
 }
 
 void DeepNetToolBot::RegisterHtmlClientCURLParams() {
-
 	Config().RegisterParam("curlGetFile", "filename of urls to \"GET\" via cURL-based client", false, false, 0 );
 	Config().RegisterParam("curlPostFile", "filename of urls to \"POST\" via cURL-based client", false, false, 0 );
 }
 
 void DeepNetToolBot::RegisterHtmlDocumentFactoryParams() {
-
-	Config().RegisterParam("domParserUnitTestFile", "filename of html file to parse/check for DOM parser", false, false, 0);
 	Config().RegisterParam("domParserUnitTestPath", "path to unit test html files for DOM parser", false, false, 0);
 }
 
@@ -272,37 +262,27 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if(isHttpCurlTest){
 		unitTests.AddUnitTest(new toolbot::UnitTestHttpClientCURL(curlGetFile,curlPostFile)); }
 
-	//used for html parsed as base url
-	network::HttpUrl httpUrl;
-	bool successParse = true;
-	try {
-		network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
-	catch(errors::Exception& e) {
-		successParse = false; }
-
 	//initiate html parser based unit tests
-	if(successParse) {
-		std::string domParserUnitTestPath,domParserUnitTestFile;
-		if( Config().GetValue("domParserUnitTestPath",domParserUnitTestPath) && !domParserUnitTestPath.empty()) {
-			std::vector<std::string> files;
-			tools::FileTools::ListDirectory(files, domParserUnitTestPath, ".*?\\.html$", true);
+	std::string domParserUnitTestPath,domParserUnitTestFile;
+	if( Config().GetValue("domParserUnitTestPath",domParserUnitTestPath) && !domParserUnitTestPath.empty()) {
+		//used for html parsed as base url
+		network::HttpUrl httpUrl;
+		bool successParse = true;
+		try {
+			network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
+		catch(errors::Exception& e) {
+			successParse = false; }
 
-			std::vector<std::string>::const_iterator iterFiles = files.begin();
-			for(;iterFiles != files.end(); ++iterFiles) {
-				unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestPath +"/" + *iterFiles));
-			}
-		}
-
-		if(Config().GetValue("domParserUnitTestFile",domParserUnitTestFile)) {
-			unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestFile));
-		}
+		if(successParse)
+			unitTests.AddUnitTest(new toolbot::UnitTestHtmlDocumentFactory(httpUrl,domParserUnitTestPath));
+		else
+			return false;
 	}
 
 	//initiate indexer based unit tests
 	std::string indexerExUnitTestPath;
 	if( Config().GetValue("indexerExUnitTestPath",indexerExUnitTestPath) && !indexerExUnitTestPath.empty() ) {
-		unitTests.AddUnitTest(new toolbot::UnitTestIndexerEx(DB().Connection(),indexerExUnitTestPath));
-	}
+		unitTests.AddUnitTest(new toolbot::UnitTestIndexerEx(DB().Connection(),indexerExUnitTestPath));	}
 
 	//finally run all previously registered unit tests
 	bSuccess &= unitTests.Run();
