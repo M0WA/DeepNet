@@ -11,11 +11,13 @@
 #include <HtmlData.h>
 #include <StringTools.h>
 
-#include "DatabaseUrl.h"
-#include "NamedCharacterReferences.h"
-#include "DocumentFactory.h"
+#include <DatabaseUrl.h>
+#include "../NamedCharacterReferences.h"
+#include "../DocumentFactory.h"
 
 namespace domparser {
+
+namespace html5 {
 
 Tokeniser::Tokeniser(DocumentFactory& factory)
 : state(Data_state)
@@ -2245,6 +2247,8 @@ std::string Tokeniser::GetLineColumnString() const {
 
 bool Tokeniser::IsAppropriateEndTag() const {
 	return (tagToken.tagType == TagToken::END_TAG && tagToken.name.compare(lastStartTagName) == 0 );
+}
+
 }
 
 }

@@ -14,7 +14,7 @@
 #include <Stack.h>
 
 #include "TokeniserStates.h"
-#include "Token.h"
+#include "../Token.h"
 
 namespace toolbot {
 	class UnitTestHtmlTokeniser;
@@ -26,14 +26,16 @@ namespace database {
 
 namespace domparser {
 
-	class DocumentFactory;
+class DocumentFactory;
+
+namespace html5 {
 
 /**
  * @brief standard compliant html5 tokeniser
  */
 class Tokeniser {
 
-	friend class DocumentFactory;
+	friend class domparser::DocumentFactory;
 	friend class toolbot::UnitTestHtmlTokeniser;
 
 private:
@@ -190,5 +192,7 @@ private:
 
 	std::vector< std::pair<size_t,size_t> > lines;
 };
+
+}
 
 }

@@ -13,6 +13,8 @@
 
 namespace domparser {
 
+namespace html5 {
+
 /**
  * @enum TokeniserState
  * @brief standard compliant tokeniser states.
@@ -88,5 +90,7 @@ enum TokeniserState {
 	Bogus_DOCTYPE_state,                                //!< Bogus_DOCTYPE_state
 	CDATA_section_state,                                //!< CDATA_section_state
 };
+
+}
 
 }

@@ -13,8 +13,10 @@
 #include <StringTools.h>
 #include <HttpUrl.h>
 
+#include "html5/Tokeniser.h"
+#include "html5/TokeniserStates.h"
+
 #include "Token.h"
-#include "Tokeniser.h"
 #include "Document.h"
 #include "DocumentType.h"
 #include "Element.h"
@@ -44,7 +46,7 @@ DocumentFactory::~DocumentFactory() {
 Document* DocumentFactory::FromHtmlData(const network::HttpUrl& url, const network::HtmlData& data) {
 
 	DocumentFactory instance(url);
-	Tokeniser tokeniserImpl(instance);
+	html5::Tokeniser tokeniserImpl(instance);
 	instance.curDoc = new Document(url, "utf-8", data.GetContentType().c_str());
 	instance.tokeniser = &tokeniserImpl;
 	tokeniserImpl.Parse(data.GetBuffer(),data.GetBufferSize());
@@ -99,9 +101,9 @@ bool DocumentFactory::AppendGenericRCDATAOrRawText(const TagToken& token, bool i
 	InsertHtmlElement(token);
 
 	if(isRCData) {
-		tokeniser->SwitchState(RCDATA_state); }
+		tokeniser->SwitchState(html5::RCDATA_state); }
 	else {
-		tokeniser->SwitchState(RAWTEXT_state); }
+		tokeniser->SwitchState(html5::RAWTEXT_state); }
 
 	orgInsertionMode = insertionMode;
 	insertionMode = text;
@@ -520,7 +522,7 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 				curDoc->appendChild(scriptElement);
 				openElementStack.Push(scriptElement);
 
-				tokeniser->SwitchState(Script_data_state);
+				tokeniser->SwitchState(html5::Script_data_state);
 				orgInsertionMode = insertionMode;
 				SwitchMode(text);
 				return true;

@@ -25,13 +25,17 @@ namespace network {
 }
 
 namespace domparser {
+
+	namespace html5 {
+		class Tokeniser;
+	}
+
 	class Document;
 	class Token;
 	class CommentToken;
 	class CharacterToken;
 	class DocTypeToken;
 	class TagToken;
-	class Tokeniser;
 	class HTMLElement;
 	class HTMLHeadElement;
 	class HTMLFormElement;
@@ -43,7 +47,7 @@ namespace domparser {
  */
 class DocumentFactory {
 
-	friend class Tokeniser;
+	friend class html5::Tokeniser;
 
 protected:
 	enum InsertionMode {
@@ -157,7 +161,7 @@ private:
 protected:
 	const network::HttpUrl& url;
 	Document* curDoc;
-	Tokeniser* tokeniser;
+	html5::Tokeniser* tokeniser;
 
 	InsertionMode insertionMode;
 	InsertionMode orgInsertionMode;

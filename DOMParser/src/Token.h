@@ -41,7 +41,7 @@ public:
 
 /**
  * @brief generic token
- * @see domparser::Tokeniser
+ * @see domparser::html5::Tokeniser
  */
 class Token {
 public:
