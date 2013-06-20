@@ -9,10 +9,14 @@
 #pragma once
 
 namespace domparser {
-	class Token;
-	class TagToken;
-	class CommentToken;
-	class DocTypeToken;
+
+	namespace generic {
+		class Token;
+		class TagToken;
+		class CommentToken;
+		class DocTypeToken;
+	}
+
 	class Node;
 	class DatabaseUrl;
 	class Document;
@@ -29,7 +33,7 @@ private:
 	 * @param token tag name/token of this node
 	 * @see domparser::NodeFactory::FromToken
 	 */
-	NodeFactory(Document* doc, DatabaseUrl* baseUrl, const Token& token);
+	NodeFactory(Document* doc, DatabaseUrl* baseUrl, const domparser::generic::Token& token);
 public:
 	virtual ~NodeFactory();
 
@@ -40,18 +44,18 @@ public:
 	 * @param token tag token
 	 * @return created node
 	 */
-	static Node* FromToken(Document* doc, DatabaseUrl* baseUrl, const Token& token);
+	static Node* FromToken(Document* doc, DatabaseUrl* baseUrl, const domparser::generic::Token& token);
 
 private:
 	Node* FromToken();
-	Node* CreateElement(const TagToken& tagToken);
-	Node* CreateComment(const CommentToken& commentToken);
-	Node* CreateDoctype(const DocTypeToken& doctypeToken);
+	Node* CreateElement(const domparser::generic::TagToken& tagToken);
+	Node* CreateComment(const domparser::generic::CommentToken& commentToken);
+	Node* CreateDoctype(const domparser::generic::DocTypeToken& doctypeToken);
 
 private:
 	Document* doc;
 	DatabaseUrl* baseUrl;
-	const Token& token;
+	const domparser::generic::Token& token;
 };
 
 }

@@ -2,15 +2,14 @@
  *
  * @file NodeFactory.cpp
  * @author Moritz Wagner
- * @date Mar 3, 2013
- *
- * TODO: description for this file
+ * @date 03.03.2013
  *
  */
 
 #include "NodeFactory.h"
 
-#include "Token.h"
+#include "generic/Token.h"
+
 #include "Node.h"
 #include "Document.h"
 #include "DocumentType.h"
@@ -19,7 +18,7 @@
 
 namespace domparser {
 
-NodeFactory::NodeFactory(Document* doc, DatabaseUrl* baseUrl, const Token& token)
+NodeFactory::NodeFactory(Document* doc, DatabaseUrl* baseUrl, const domparser::generic::Token& token)
 : doc(doc)
 , baseUrl(baseUrl)
 , token(token) {
@@ -28,7 +27,7 @@ NodeFactory::NodeFactory(Document* doc, DatabaseUrl* baseUrl, const Token& token
 NodeFactory::~NodeFactory() {
 }
 
-Node* NodeFactory::FromToken(Document* doc, DatabaseUrl* baseUrl, const Token& token) {
+Node* NodeFactory::FromToken(Document* doc, DatabaseUrl* baseUrl, const domparser::generic::Token& token) {
 
 	NodeFactory instance(doc,baseUrl,token);
 	return instance.FromToken();
@@ -39,19 +38,19 @@ Node* NodeFactory::FromToken() {
 	Node* newNode = 0;
 	switch(token.type) {
 
-	case Token::TAG:
-		newNode = CreateElement(dynamic_cast<const TagToken&>(token));
+	case domparser::generic::Token::TAG:
+		newNode = CreateElement(dynamic_cast<const domparser::generic::TagToken&>(token));
 		break;
 
-	case Token::COMMENT:
-		newNode = CreateComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		newNode = CreateComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 		break;
 
-	case Token::DOCTYPE:
-		newNode = CreateDoctype(dynamic_cast<const DocTypeToken&>(token));
+	case domparser::generic::Token::DOCTYPE:
+		newNode = CreateDoctype(dynamic_cast<const domparser::generic::DocTypeToken&>(token));
 		break;
 
-	case Token::CHAR:
+	case domparser::generic::Token::CHAR:
 	default:
 		break;
 	}
@@ -63,23 +62,23 @@ Node* NodeFactory::FromToken() {
 	return newNode;
 }
 
-Node* NodeFactory::CreateElement(const TagToken& tagToken) {
+Node* NodeFactory::CreateElement(const domparser::generic::TagToken& tagToken) {
 
 	Element* pElement = doc->createElement(tagToken.name);
 
-	std::vector<AttributeToken>::const_iterator iterAttr = tagToken.attributes.begin();
+	std::vector<domparser::generic::AttributeToken>::const_iterator iterAttr = tagToken.attributes.begin();
 	for(;iterAttr != tagToken.attributes.end();++iterAttr) {
 		pElement->setAttribute(iterAttr->name,iterAttr->value); }
 
 	return dynamic_cast<Node*>(pElement);
 }
 
-Node* NodeFactory::CreateComment(const CommentToken& commentToken) {
+Node* NodeFactory::CreateComment(const domparser::generic::CommentToken& commentToken) {
 	Comment* pComment = doc->createComment(commentToken.comment);
 	return dynamic_cast<Node*>(pComment);
 }
 
-Node* NodeFactory::CreateDoctype(const DocTypeToken& doctypeToken) {
+Node* NodeFactory::CreateDoctype(const domparser::generic::DocTypeToken& doctypeToken) {
 	DocumentType* docType =
 			doc->implementation.createDocumentType(
 					doctypeToken.name,

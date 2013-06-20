@@ -14,6 +14,8 @@
 
 namespace domparser {
 
+namespace generic {
+
 Token::Token(const TokenType& type)
 :type(type){
 }
@@ -30,25 +32,25 @@ std::string Token::ToString() const {
 	{
 	case COMMENT:
 		ssStream << "Token::COMMENT ";
-		ssStream << "text: \"" << dynamic_cast<const domparser::CommentToken&>(*this).comment << "\"";
+		ssStream << "text: \"" << dynamic_cast<const CommentToken&>(*this).comment << "\"";
 		break;
 	case CHAR:
 		ssStream << "Token::CHAR ";
-		tmp = dynamic_cast<const domparser::CharacterToken&>(*this).text;
+		tmp = dynamic_cast<const CharacterToken&>(*this).text;
 		tools::StringTools::ReplaceString("\r","\\r",tmp);
 		tools::StringTools::ReplaceString("\n","\\n",tmp);
 		ssStream << "text: \"" << tmp << "\"";
 		break;
 	case DOCTYPE:
 		ssStream << "Token::DOCTYPE ";
-		ssStream << "name: \"" << dynamic_cast<const domparser::DocTypeToken&>(*this).name << "\" ";
-		ssStream << "public_identifier: \"" << dynamic_cast<const domparser::DocTypeToken&>(*this).public_identifier << "\" ";
-		ssStream << "system_identifier: \"" << dynamic_cast<const domparser::DocTypeToken&>(*this).system_identifier << "\"";
+		ssStream << "name: \"" << dynamic_cast<const DocTypeToken&>(*this).name << "\" ";
+		ssStream << "public_identifier: \"" << dynamic_cast<const DocTypeToken&>(*this).public_identifier << "\" ";
+		ssStream << "system_identifier: \"" << dynamic_cast<const DocTypeToken&>(*this).system_identifier << "\"";
 		break;
 	case TAG:
 		{
 			std::string tokenType;
-			switch(dynamic_cast<const domparser::TagToken&>(*this).tagType){
+			switch(dynamic_cast<const TagToken&>(*this).tagType){
 			case TagToken::START_TAG:
 				tokenType = "TagToken::START_TAG";
 				break;
@@ -61,8 +63,8 @@ std::string Token::ToString() const {
 			}
 			ssStream << "Token::TAG ";
 			ssStream << "type: \"" << tokenType << "\" ";
-			ssStream << "name: \"" << dynamic_cast<const domparser::TagToken&>(*this).name << "\" ";
-			ssStream << "selfClosing: \"" << (dynamic_cast<const domparser::TagToken&>(*this).selfClosingFlag ? "1" : "0" ) << "\"";
+			ssStream << "name: \"" << dynamic_cast<const TagToken&>(*this).name << "\" ";
+			ssStream << "selfClosing: \"" << (dynamic_cast<const TagToken&>(*this).selfClosingFlag ? "1" : "0" ) << "\"";
 		}
 		break;
 	}
@@ -80,25 +82,25 @@ std::string Token::ToXML() const {
 	{
 	case COMMENT:
 		tokenName = "COMMENT";
-		ssContent << dynamic_cast<const domparser::CommentToken&>(*this).comment;
+		ssContent << dynamic_cast<const CommentToken&>(*this).comment;
 		break;
 	case CHAR:
 		tokenName = "CHAR";
-		tmp = dynamic_cast<const domparser::CharacterToken&>(*this).text;
+		tmp = dynamic_cast<const CharacterToken&>(*this).text;
 		tools::StringTools::ReplaceString("\r","\\r",tmp);
 		tools::StringTools::ReplaceString("\n","\\n",tmp);
 		ssContent << tmp;
 		break;
 	case DOCTYPE:
 		tokenName = "DOCTYPE";
-		ssAttributes << " name=\"" << dynamic_cast<const domparser::DocTypeToken&>(*this).name << "\"";
-		ssAttributes << " public_identifier=\"" << dynamic_cast<const domparser::DocTypeToken&>(*this).public_identifier << "\"";
-		ssAttributes << " system_identifier=\"" << dynamic_cast<const domparser::DocTypeToken&>(*this).system_identifier << "\"";
+		ssAttributes << " name=\"" << dynamic_cast<const DocTypeToken&>(*this).name << "\"";
+		ssAttributes << " public_identifier=\"" << dynamic_cast<const DocTypeToken&>(*this).public_identifier << "\"";
+		ssAttributes << " system_identifier=\"" << dynamic_cast<const DocTypeToken&>(*this).system_identifier << "\"";
 		break;
 	case TAG:
 		tokenName = "TAG";
 		std::string tokenType;
-		switch(dynamic_cast<const domparser::TagToken&>(*this).tagType){
+		switch(dynamic_cast<const TagToken&>(*this).tagType){
 		case TagToken::START_TAG:
 			tokenType = "START_TAG";
 			break;
@@ -109,9 +111,9 @@ std::string Token::ToXML() const {
 			tokenType = "INVALID_TYPE";
 			break;
 		}
-		ssAttributes << " name=\"" << dynamic_cast<const domparser::TagToken&>(*this).name << "\"";
+		ssAttributes << " name=\"" << dynamic_cast<const TagToken&>(*this).name << "\"";
 		ssAttributes << " type=\"" << tokenType << "\"";
-		ssAttributes << " selfClosing=\"" << (dynamic_cast<const domparser::TagToken&>(*this).selfClosingFlag ? "1" : "0" ) << "\"";
+		ssAttributes << " selfClosing=\"" << (dynamic_cast<const TagToken&>(*this).selfClosingFlag ? "1" : "0" ) << "\"";
 		break;
 	}
 
@@ -120,6 +122,8 @@ std::string Token::ToXML() const {
 			 << ssContent.str()
 			 << "</" << tokenName << ">";
 	return ssStream.str();
+}
+
 }
 
 }

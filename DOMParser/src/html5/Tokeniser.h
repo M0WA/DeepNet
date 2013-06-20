@@ -14,7 +14,7 @@
 #include <Stack.h>
 
 #include "TokeniserStates.h"
-#include "../Token.h"
+#include "../generic/Token.h"
 
 namespace toolbot {
 	class UnitTestHtmlTokeniser;
@@ -180,9 +180,9 @@ private:
 	database::DatabaseConnection* db;
 	bool logVerbose;
 
-	TagToken tagToken;
-	CommentToken commentToken;
-	DocTypeToken doctypeToken;
+	domparser::generic::TagToken tagToken;
+	domparser::generic::CommentToken commentToken;
+	domparser::generic::DocTypeToken doctypeToken;
 
 	TokeniserState preCharRefInAttribState;
 	char charRefInAttribValAddChar;

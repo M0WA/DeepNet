@@ -12,6 +12,8 @@ namespace domparser {
 
 namespace generic {
 
+class Token;
+
 class TreeConstructionBase {
 
 protected:
@@ -20,7 +22,7 @@ public:
 	virtual ~TreeConstructionBase();
 
 public:
-	virtual bool OnToken(const Token& token) = 0;
+	virtual bool OnToken(const domparser::generic::Token& token) = 0;
 };
 
 }

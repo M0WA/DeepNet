@@ -10,10 +10,14 @@
 
 namespace domparser {
 
+namespace generic {
+
 TreeConstructionBase::TreeConstructionBase() {
 }
 
 TreeConstructionBase::~TreeConstructionBase() {
+}
+
 }
 
 }

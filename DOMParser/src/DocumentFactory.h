@@ -30,12 +30,15 @@ namespace domparser {
 		class Tokeniser;
 	}
 
+	namespace generic {
+		class Token;
+		class CommentToken;
+		class CharacterToken;
+		class DocTypeToken;
+		class TagToken;
+	}
+
 	class Document;
-	class Token;
-	class CommentToken;
-	class CharacterToken;
-	class DocTypeToken;
-	class TagToken;
 	class HTMLElement;
 	class HTMLHeadElement;
 	class HTMLFormElement;
@@ -98,65 +101,65 @@ protected:
 	bool ParseFromString(const char* content, const size_t& size);
 
 protected:
-	virtual bool OnToken(const Token& token);
+	virtual bool OnToken(const domparser::generic::Token& token);
 	virtual void SwitchMode(const InsertionMode& newInsertionMode);
 
 protected:
 	void ParseError() const;
-	bool OnInsertion(const Token& token, InsertionMode mode);
-	bool OnForeignContent(const Token& token);
+	bool OnInsertion(const domparser::generic::Token& token, InsertionMode mode);
+	bool OnForeignContent(const domparser::generic::Token& token);
 
 protected:
-	bool AppendComment(const CommentToken& token);
-	bool AppendDocType(const DocTypeToken& token);
-	bool AppendGenericRCDATA(const TagToken& token);
-	bool AppendGenericRawText(const TagToken& token);
-	bool AppendGenericRCDATAOrRawText(const TagToken& token, bool isRCData);
-	bool InsertCharacter(const CharacterToken& token);
+	bool AppendComment(const domparser::generic::CommentToken& token);
+	bool AppendDocType(const domparser::generic::DocTypeToken& token);
+	bool AppendGenericRCDATA(const domparser::generic::TagToken& token);
+	bool AppendGenericRawText(const domparser::generic::TagToken& token);
+	bool AppendGenericRCDATAOrRawText(const domparser::generic::TagToken& token, bool isRCData);
+	bool InsertCharacter(const domparser::generic::CharacterToken& token);
 
 private:
 	//dom algorithms/rules
-	HTMLElement* InsertHtmlElement(const TagToken& token);
+	HTMLElement* InsertHtmlElement(const domparser::generic::TagToken& token);
 	void ReconstructActiveFormatElements();
 	void ResetInsertionMode();
 
 protected:
 	//handle insertion modes
-	bool OnInitialInsertion(const Token& token);
-	bool OnBeforeHtmlInsertion(const Token& token);
-	bool OnBeforeHeadInsertion(const Token& token);
-	bool OnInHeadInsertion(const Token& token);
-	bool OnInHeadNoscriptInsertion(const Token& token);
-	bool OnAfterHeadInsertion(const Token& token);
-	bool OnInBodyInsertion(const Token& token);
-	bool OnTextInsertion(const Token& token);
-	bool OnInTableInsertion(const Token& token);
-	bool OnInTableTextInsertion(const Token& token);
-	bool OnInCaptionInsertion(const Token& token);
-	bool OnInColumnGroupInsertion(const Token& token);
-	bool OnInTableBodyInsertion(const Token& token);
-	bool OnInRowInsertion(const Token& token);
-	bool OnInCellInsertion(const Token& token);
-	bool OnInSelectInsertion(const Token& token);
-	bool OnInSelectInTableInsertion(const Token& token);
-	bool OnAfterBodyInsertion(const Token& token);
-	bool OnInFramesetInsertion(const Token& token);
-	bool OnAfterFramesetInsertion(const Token& token);
-	bool OnAfterAfterBodyInsertion(const Token& token);
-	bool OnAfterAfterFramesetInsertion(const Token& token);
+	bool OnInitialInsertion(const domparser::generic::Token& token);
+	bool OnBeforeHtmlInsertion(const domparser::generic::Token& token);
+	bool OnBeforeHeadInsertion(const domparser::generic::Token& token);
+	bool OnInHeadInsertion(const domparser::generic::Token& token);
+	bool OnInHeadNoscriptInsertion(const domparser::generic::Token& token);
+	bool OnAfterHeadInsertion(const domparser::generic::Token& token);
+	bool OnInBodyInsertion(const domparser::generic::Token& token);
+	bool OnTextInsertion(const domparser::generic::Token& token);
+	bool OnInTableInsertion(const domparser::generic::Token& token);
+	bool OnInTableTextInsertion(const domparser::generic::Token& token);
+	bool OnInCaptionInsertion(const domparser::generic::Token& token);
+	bool OnInColumnGroupInsertion(const domparser::generic::Token& token);
+	bool OnInTableBodyInsertion(const domparser::generic::Token& token);
+	bool OnInRowInsertion(const domparser::generic::Token& token);
+	bool OnInCellInsertion(const domparser::generic::Token& token);
+	bool OnInSelectInsertion(const domparser::generic::Token& token);
+	bool OnInSelectInTableInsertion(const domparser::generic::Token& token);
+	bool OnAfterBodyInsertion(const domparser::generic::Token& token);
+	bool OnInFramesetInsertion(const domparser::generic::Token& token);
+	bool OnAfterFramesetInsertion(const domparser::generic::Token& token);
+	bool OnAfterAfterBodyInsertion(const domparser::generic::Token& token);
+	bool OnAfterAfterFramesetInsertion(const domparser::generic::Token& token);
 
 protected:
-	bool OnInBodyStartTagInsertion(const TagToken& tagToken);
-	bool OnInBodyEndTagInsertion(const TagToken& tagToken);
+	bool OnInBodyStartTagInsertion(const domparser::generic::TagToken& tagToken);
+	bool OnInBodyEndTagInsertion(const domparser::generic::TagToken& tagToken);
 
 protected:
 	static std::string InsertionModeToString(const InsertionMode& insertMode);
 
 private:
-	bool OnInitialInsertion_DOCTYPE(const DocTypeToken& token);
+	bool OnInitialInsertion_DOCTYPE(const domparser::generic::DocTypeToken& token);
 
 private:
-	bool IgnoreHtmlWhiteSpace(const CharacterToken& token);
+	bool IgnoreHtmlWhiteSpace(const domparser::generic::CharacterToken& token);
 
 protected:
 	const network::HttpUrl& url;

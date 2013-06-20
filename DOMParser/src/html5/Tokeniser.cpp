@@ -94,7 +94,7 @@ bool Tokeniser::OnTagOpenState() {
 		next--;
 		return true; }
 
-	tagToken.tagType = TagToken::START_TAG;
+	tagToken.tagType = domparser::generic::TagToken::START_TAG;
 	tagToken.name = *current;
 
 	SwitchState(Tag_name_state);
@@ -140,7 +140,7 @@ bool Tokeniser::OnEndTagOpenState(){
 		SwitchState(Bogus_comment_state);
 	}
 	else {
-		tagToken.tagType = TagToken::END_TAG;
+		tagToken.tagType = domparser::generic::TagToken::END_TAG;
 		tagToken.name = *current;
 		SwitchState(Tag_name_state);
 	}
@@ -1191,7 +1191,7 @@ bool Tokeniser::OnRCDATAEndTagOpenState() {
 	if(isalpha(*current)) {
 		tagToken.Reset();
 		tagToken.name += tolower(*current);
-		tagToken.tagType = TagToken::END_TAG;
+		tagToken.tagType = domparser::generic::TagToken::END_TAG;
 		temporaryBuffer += *current;
 		SwitchState(RCDATA_end_tag_name_state);
 	}
@@ -1294,7 +1294,7 @@ bool Tokeniser::OnScriptDataEndTagOpenState() {
 	const char* current = Consume();
 	if(isalpha(*current)) {
 		tagToken.Reset();
-		tagToken.tagType = TagToken::END_TAG;
+		tagToken.tagType = domparser::generic::TagToken::END_TAG;
 		tagToken.name += tolower(*current);
 		temporaryBuffer += *current;
 		SwitchState(Script_data_end_tag_name_state);
@@ -1477,7 +1477,7 @@ bool Tokeniser::OnScriptDataEscapedEndTagOpenState() {
 	const char* current = Consume();
 
 	if(std::isalpha(*current)) {
-		tagToken.tagType = TagToken::END_TAG;
+		tagToken.tagType = domparser::generic::TagToken::END_TAG;
 		tagToken.name = std::tolower(*current);
 		temporaryBuffer += *current;
 		SwitchState(Script_data_end_tag_name_state);
@@ -1715,7 +1715,7 @@ bool Tokeniser::OnRAWTEXTEndTagOpenState() {
 	const char* current = Consume();
 
 	if(std::isalpha(*current)) {
-		tagToken.tagType = TagToken::END_TAG;
+		tagToken.tagType = domparser::generic::TagToken::END_TAG;
 		tagToken.name = std::tolower(*current);
 		temporaryBuffer += *current;
 		SwitchState(RAWTEXT_end_tag_name_state);
@@ -1779,7 +1779,7 @@ bool Tokeniser::OnPLAINTEXTState() {
 
 void Tokeniser::EmitCharacter(const char* charToEmit, const size_t size) {
 	for(size_t pos = 0; pos < size; pos++) {
-		CharacterToken charToken;
+		domparser::generic::CharacterToken charToken;
 		charToken.Append(&charToEmit[pos],1);
 		factory.OnToken(charToken);
 	}
@@ -1797,7 +1797,7 @@ void Tokeniser::EmitComment() {
 
 void Tokeniser::EmitTag() {
 
-	if(tagToken.tagType == TagToken::START_TAG) {
+	if(tagToken.tagType == domparser::generic::TagToken::START_TAG) {
 		lastStartTagName = tagToken.name; }
 
 	factory.OnToken(tagToken);
@@ -2246,7 +2246,7 @@ std::string Tokeniser::GetLineColumnString() const {
 }
 
 bool Tokeniser::IsAppropriateEndTag() const {
-	return (tagToken.tagType == TagToken::END_TAG && tagToken.name.compare(lastStartTagName) == 0 );
+	return (tagToken.tagType == domparser::generic::TagToken::END_TAG && tagToken.name.compare(lastStartTagName) == 0 );
 }
 
 }

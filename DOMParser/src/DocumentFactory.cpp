@@ -16,7 +16,7 @@
 #include "html5/Tokeniser.h"
 #include "html5/TokeniserStates.h"
 
-#include "Token.h"
+#include "generic/Token.h"
 #include "Document.h"
 #include "DocumentType.h"
 #include "Element.h"
@@ -60,30 +60,30 @@ void DocumentFactory::ParseError() const {
 	log::Logging::LogInfo(ssLog.str());
 }
 
-bool DocumentFactory::AppendComment(const CommentToken& token) {
+bool DocumentFactory::AppendComment(const domparser::generic::CommentToken& token) {
 	Comment* pComment = dynamic_cast<Comment*>(NodeFactory::FromToken(curDoc,0,token));
 	curDoc->appendChild(dynamic_cast<Node*>(pComment));
 	return true;
 }
 
-bool DocumentFactory::AppendGenericRCDATA(const TagToken& token) {
+bool DocumentFactory::AppendGenericRCDATA(const domparser::generic::TagToken& token) {
 
 	return AppendGenericRCDATAOrRawText(token, true);
 }
 
-bool DocumentFactory::AppendGenericRawText(const TagToken& token) {
+bool DocumentFactory::AppendGenericRawText(const domparser::generic::TagToken& token) {
 
 	return AppendGenericRCDATAOrRawText(token, false);
 }
 
-bool DocumentFactory::AppendDocType(const DocTypeToken& token) {
+bool DocumentFactory::AppendDocType(const domparser::generic::DocTypeToken& token) {
 
 	DocumentType* docType = curDoc->implementation.createDocumentType(token.name,token.public_identifier,token.system_identifier);
 	curDoc->appendChild(dynamic_cast<Node*>(docType));
 	return true;
 }
 
-HTMLElement* DocumentFactory::InsertHtmlElement(const TagToken& token) {
+HTMLElement* DocumentFactory::InsertHtmlElement(const domparser::generic::TagToken& token) {
 
 	HTMLElement* newElement = dynamic_cast<HTMLElement*>(NodeFactory::FromToken(curDoc,0,token));
 	curDoc->appendChild(newElement);
@@ -96,7 +96,7 @@ HTMLElement* DocumentFactory::InsertHtmlElement(const TagToken& token) {
 	return newElement;
 }
 
-bool DocumentFactory::AppendGenericRCDATAOrRawText(const TagToken& token, bool isRCData) {
+bool DocumentFactory::AppendGenericRCDATAOrRawText(const domparser::generic::TagToken& token, bool isRCData) {
 
 	InsertHtmlElement(token);
 
@@ -111,7 +111,7 @@ bool DocumentFactory::AppendGenericRCDATAOrRawText(const TagToken& token, bool i
 	return true;
 }
 
-bool DocumentFactory::IgnoreHtmlWhiteSpace(const CharacterToken& token) {
+bool DocumentFactory::IgnoreHtmlWhiteSpace(const domparser::generic::CharacterToken& token) {
 
 	std::string::const_iterator iterText = token.text.begin();
 	for(;iterText != token.text.end();++iterText) {
@@ -185,7 +185,7 @@ void DocumentFactory::SwitchMode(const InsertionMode& newInsertionMode) {
 	insertionMode = newInsertionMode;
 }
 
-bool DocumentFactory::OnToken(const Token& token) {
+bool DocumentFactory::OnToken(const domparser::generic::Token& token) {
 
 	bool success = false;
 	if( 1 ) {
@@ -197,7 +197,7 @@ bool DocumentFactory::OnToken(const Token& token) {
 	return success;
 }
 
-bool DocumentFactory::OnInsertion(const Token& token, InsertionMode mode) {
+bool DocumentFactory::OnInsertion(const domparser::generic::Token& token, InsertionMode mode) {
 
 	bool success = false;
 	switch(mode) {
@@ -273,29 +273,29 @@ bool DocumentFactory::OnInsertion(const Token& token, InsertionMode mode) {
 	return success;
 }
 
-bool DocumentFactory::OnForeignContent(const Token& token) {
+bool DocumentFactory::OnForeignContent(const domparser::generic::Token& token) {
 
 	//TODO: not fully implemented
 
 	return false;
 }
 
-bool DocumentFactory::OnInitialInsertion(const Token& token) {
+bool DocumentFactory::OnInitialInsertion(const domparser::generic::Token& token) {
 
 	switch(token.type) {
 
-	case Token::CHAR:
-		if(IgnoreHtmlWhiteSpace(dynamic_cast<const CharacterToken&>(token)))
+	case domparser::generic::Token::CHAR:
+		if(IgnoreHtmlWhiteSpace(dynamic_cast<const domparser::generic::CharacterToken&>(token)))
 			return true;
 		break;
 
-	case Token::COMMENT:
-		return AppendComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		return AppendComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 
-	case Token::DOCTYPE:
-		return OnInitialInsertion_DOCTYPE(dynamic_cast<const DocTypeToken&>(token));
+	case domparser::generic::Token::DOCTYPE:
+		return OnInitialInsertion_DOCTYPE(dynamic_cast<const domparser::generic::DocTypeToken&>(token));
 
-	case Token::TAG:
+	case domparser::generic::Token::TAG:
 		ParseError();
 		break;
 	}
@@ -307,7 +307,7 @@ bool DocumentFactory::OnInitialInsertion(const Token& token) {
 	return OnToken(token);
 }
 
-bool DocumentFactory::OnInitialInsertion_DOCTYPE(const DocTypeToken& token) {
+bool DocumentFactory::OnInitialInsertion_DOCTYPE(const domparser::generic::DocTypeToken& token) {
 
 	bool isParseError = (token.name.compare("html") != 0);
 	isParseError |= (token.pPublicIdentifier != 0);
@@ -346,39 +346,39 @@ bool DocumentFactory::OnInitialInsertion_DOCTYPE(const DocTypeToken& token) {
 	return success;
 }
 
-bool DocumentFactory::OnBeforeHtmlInsertion(const Token& token) {
+bool DocumentFactory::OnBeforeHtmlInsertion(const domparser::generic::Token& token) {
 
 	switch(token.type) {
 
-	case Token::CHAR:
-		if(IgnoreHtmlWhiteSpace(dynamic_cast<const CharacterToken&>(token)))
+	case domparser::generic::Token::CHAR:
+		if(IgnoreHtmlWhiteSpace(dynamic_cast<const domparser::generic::CharacterToken&>(token)))
 			return true;
 		break;
 
-	case Token::COMMENT:
-		AppendComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		AppendComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 		return true;
 
-	case Token::DOCTYPE:
+	case domparser::generic::Token::DOCTYPE:
 		ParseError();
 		return true;
 
-	case Token::TAG:
+	case domparser::generic::Token::TAG:
 		{
-			const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
+			const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
 			if(	tagToken.name.compare("html") == 0 &&
-				tagToken.tagType == TagToken::START_TAG
+				tagToken.tagType == domparser::generic::TagToken::START_TAG
 			) {
 				InsertHtmlElement(tagToken);
 				SwitchMode(before_head);
 				return true;
 			}
-			else if ( tagToken.tagType == TagToken::END_TAG &&
+			else if ( tagToken.tagType == domparser::generic::TagToken::END_TAG &&
 					  tools::StringTools::IsOneOf(tagToken.name, head_body_html_br ) ) {
 				ParseError();
 				break;
 			}
-			else if ( tagToken.tagType == TagToken::END_TAG ){
+			else if ( tagToken.tagType == domparser::generic::TagToken::END_TAG ){
 				ParseError();
 				return true;
 			}
@@ -386,47 +386,47 @@ bool DocumentFactory::OnBeforeHtmlInsertion(const Token& token) {
 		break;
 	}
 
-	TagToken tagHtmlToken;
+	domparser::generic::TagToken tagHtmlToken;
 	tagHtmlToken.name = "html";
-	tagHtmlToken.tagType = TagToken::START_TAG;
+	tagHtmlToken.tagType = domparser::generic::TagToken::START_TAG;
 	OnToken(tagHtmlToken);
 
 	SwitchMode(before_head);
 	return OnToken(token);
 }
 
-bool DocumentFactory::OnBeforeHeadInsertion(const Token& token) {
+bool DocumentFactory::OnBeforeHeadInsertion(const domparser::generic::Token& token) {
 
 	switch(token.type) {
 
-	case Token::CHAR:
-		if(IgnoreHtmlWhiteSpace(dynamic_cast<const CharacterToken&>(token)))
+	case domparser::generic::Token::CHAR:
+		if(IgnoreHtmlWhiteSpace(dynamic_cast<const domparser::generic::CharacterToken&>(token)))
 			return true;
 		break;
 
-	case Token::COMMENT:
-		return AppendComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		return AppendComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 
-	case Token::DOCTYPE:
+	case domparser::generic::Token::DOCTYPE:
 		ParseError();
 		return true;
 
-	case Token::TAG:
+	case domparser::generic::Token::TAG:
 		{
-			const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
+			const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
 			if(	tagToken.name.compare("html") == 0 &&
-				tagToken.tagType == TagToken::START_TAG )
+				tagToken.tagType == domparser::generic::TagToken::START_TAG )
 			{
 				return OnInsertion(token, in_body);
 			}
 			else if(tagToken.name.compare("head") == 0 &&
-					tagToken.tagType == TagToken::START_TAG )
+					tagToken.tagType == domparser::generic::TagToken::START_TAG )
 			{
 				headElement = dynamic_cast<HTMLHeadElement*>(InsertHtmlElement(tagToken));
 				SwitchMode(in_head);
 				return true;
 			}
-			else if ( tagToken.tagType == TagToken::END_TAG &&
+			else if ( tagToken.tagType == domparser::generic::TagToken::END_TAG &&
 				  !tools::StringTools::IsOneOf(tagToken.name, head_body_html_br ) )	{
 				ParseError();
 				return true;
@@ -435,41 +435,41 @@ bool DocumentFactory::OnBeforeHeadInsertion(const Token& token) {
 		break;
 	}
 
-	TagToken tagHeadToken;
+	domparser::generic::TagToken tagHeadToken;
 	tagHeadToken.name = "head";
-	tagHeadToken.tagType = TagToken::START_TAG;
+	tagHeadToken.tagType = domparser::generic::TagToken::START_TAG;
 
 	if(!OnToken(tagHeadToken))
 		return false;
 	return OnToken(token);
 }
 
-bool DocumentFactory::OnInHeadInsertion(const Token& token) {
+bool DocumentFactory::OnInHeadInsertion(const domparser::generic::Token& token) {
 
 	switch(token.type) {
 
-	case Token::CHAR:
-		if(IgnoreHtmlWhiteSpace(dynamic_cast<const CharacterToken&>(token))) {
-			return InsertCharacter(dynamic_cast<const CharacterToken&>(token)); }
+	case domparser::generic::Token::CHAR:
+		if(IgnoreHtmlWhiteSpace(dynamic_cast<const domparser::generic::CharacterToken&>(token))) {
+			return InsertCharacter(dynamic_cast<const domparser::generic::CharacterToken&>(token)); }
 		break;
 
-	case Token::COMMENT:
-		return AppendComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		return AppendComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 
-	case Token::DOCTYPE:
+	case domparser::generic::Token::DOCTYPE:
 		ParseError();
 		return true;
 
-	case Token::TAG:
+	case domparser::generic::Token::TAG:
 		{
-			const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
+			const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
 
-			if( tagToken.tagType == TagToken::START_TAG &&
+			if( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 			    tagToken.name.compare("html") == 0 )
 			{
 				return OnInsertion(token, in_body);
 			}
-			else if( tagToken.tagType == TagToken::START_TAG &&
+			else if( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 					 tools::StringTools::IsOneOf(tagToken.name, base_basefont_bgsound_link ) )
 			{
 				InsertHtmlElement(tagToken);
@@ -478,7 +478,7 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 					ParseError();
 				return true;
 			}
-			else if( tagToken.tagType == TagToken::START_TAG &&
+			else if( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 				    tagToken.name.compare("meta") == 0 )
 			{
 				InsertHtmlElement(tagToken);
@@ -489,26 +489,26 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 				//TODO: not fully implemented
 				return true;
 			}
-			else if( tagToken.tagType == TagToken::START_TAG &&
+			else if( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 				    tagToken.name.compare("title") == 0 )
 			{
 				return AppendGenericRCDATA(tagToken);
 			}
-			else if ( tagToken.tagType == TagToken::START_TAG &&
+			else if ( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 					( (tagToken.name.compare("noscript") == 0 && scriptingFlag) ||
 					  tools::StringTools::IsOneOf(tagToken.name, noframes_style)
 					) )
 			{
 				return AppendGenericRawText(tagToken);
 			}
-			else if ( tagToken.tagType == TagToken::START_TAG &&
+			else if ( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 					(tagToken.name.compare("noscript") == 0 && !scriptingFlag) ) {
 
 				InsertHtmlElement(tagToken);
 				SwitchMode(in_head_noscript);
 				return true;
 			}
-			else if ( tagToken.tagType == TagToken::START_TAG &&
+			else if ( tagToken.tagType == domparser::generic::TagToken::START_TAG &&
 					tagToken.name.compare("script") == 0 ) {
 
 				HTMLScriptElement* scriptElement = dynamic_cast<HTMLScriptElement*>(NodeFactory::FromToken(curDoc,0,token));
@@ -527,15 +527,15 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 				SwitchMode(text);
 				return true;
 			}
-			else if ( tagToken.tagType == TagToken::END_TAG &&
+			else if ( tagToken.tagType == domparser::generic::TagToken::END_TAG &&
 					tagToken.name.compare("head") == 0 ) {
 				openElementStack.Pop();
 				SwitchMode(after_head);
 				return true;
 			}
 			else if (
-				(tagToken.tagType == TagToken::END_TAG && !tools::StringTools::IsOneOf(tagToken.name,body_html_br)) ||
-				(tagToken.tagType == TagToken::START_TAG && tagToken.name.compare("head"))
+				(tagToken.tagType == domparser::generic::TagToken::END_TAG && !tools::StringTools::IsOneOf(tagToken.name,body_html_br)) ||
+				(tagToken.tagType == domparser::generic::TagToken::START_TAG && tagToken.name.compare("head"))
 				) {
 				ParseError();
 				return true;
@@ -544,24 +544,24 @@ bool DocumentFactory::OnInHeadInsertion(const Token& token) {
 		break;
 	}
 
-	TagToken endHead;
+	domparser::generic::TagToken endHead;
 	endHead.name = "head";
-	endHead.tagType = TagToken::END_TAG;
+	endHead.tagType = domparser::generic::TagToken::END_TAG;
 	OnToken(endHead);
 	return OnToken(token);
 }
 
-bool DocumentFactory::OnInHeadNoscriptInsertion(const Token& token) {
+bool DocumentFactory::OnInHeadNoscriptInsertion(const domparser::generic::Token& token) {
 
-	if(token.type == Token::DOCTYPE) {
+	if(token.type == domparser::generic::Token::DOCTYPE) {
 		return true;
 	}
 
-	bool isTagToken = (token.type == Token::TAG);
-	bool isStartToken = isTagToken && dynamic_cast<const TagToken&>(token).tagType == TagToken::START_TAG;
-	bool isEndToken = isTagToken && dynamic_cast<const TagToken&>(token).tagType == TagToken::END_TAG;
+	bool isTagToken = (token.type == domparser::generic::Token::TAG);
+	bool isStartToken = isTagToken && dynamic_cast<const domparser::generic::TagToken&>(token).tagType == domparser::generic::TagToken::START_TAG;
+	bool isEndToken = isTagToken && dynamic_cast<const domparser::generic::TagToken&>(token).tagType == domparser::generic::TagToken::END_TAG;
 	if(isTagToken) {
-		const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
+		const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
 		if(isStartToken && tagToken.name.compare("html")) {
 			return OnInsertion(token,in_body);
 		}
@@ -572,52 +572,52 @@ bool DocumentFactory::OnInHeadNoscriptInsertion(const Token& token) {
 		}
 	}
 
-	bool test = (token.type == Token::COMMENT);
-	test |= (token.type == Token::CHAR && IgnoreHtmlWhiteSpace( dynamic_cast<const CharacterToken&>(token) ));
-	test |= (isStartToken && tools::StringTools::IsOneOf(dynamic_cast<const TagToken&>(token).name,basefont_bgsound_link_meta_noframes_style) );
+	bool test = (token.type == domparser::generic::Token::COMMENT);
+	test |= (token.type == domparser::generic::Token::CHAR && IgnoreHtmlWhiteSpace( dynamic_cast<const domparser::generic::CharacterToken&>(token) ));
+	test |= (isStartToken && tools::StringTools::IsOneOf(dynamic_cast<const domparser::generic::TagToken&>(token).name,basefont_bgsound_link_meta_noframes_style) );
 	if(test) {
 		return OnInsertion(token,in_head);
 	}
 
-	test = ( isEndToken && dynamic_cast<const TagToken&>(token).name.compare("br") != 0 );
-	test |= ( isStartToken && tools::StringTools::IsOneOf(dynamic_cast<const TagToken&>(token).name,head_noscript) );
+	test = ( isEndToken && dynamic_cast<const domparser::generic::TagToken&>(token).name.compare("br") != 0 );
+	test |= ( isStartToken && tools::StringTools::IsOneOf(dynamic_cast<const domparser::generic::TagToken&>(token).name,head_noscript) );
 	if(test) {
 		ParseError();
 		return true;
 	}
 
-	TagToken endNoscript;
+	domparser::generic::TagToken endNoscript;
 	endNoscript.name = "noscript";
-	endNoscript.tagType = TagToken::END_TAG;
+	endNoscript.tagType = domparser::generic::TagToken::END_TAG;
 	OnToken(endNoscript);
 
 	return OnToken(token);
 }
 
-bool DocumentFactory::OnAfterHeadInsertion(const Token& token) {
+bool DocumentFactory::OnAfterHeadInsertion(const domparser::generic::Token& token) {
 
 	switch(token.type){
 
-	case Token::COMMENT:
-		return AppendComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		return AppendComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 
-	case Token::DOCTYPE:
+	case domparser::generic::Token::DOCTYPE:
 		ParseError();
 		return true;
 
-	case Token::CHAR:
-		if( IgnoreHtmlWhiteSpace(dynamic_cast<const CharacterToken&>(token)) ) {
-			return InsertCharacter(dynamic_cast<const CharacterToken&>(token)); }
+	case domparser::generic::Token::CHAR:
+		if( IgnoreHtmlWhiteSpace(dynamic_cast<const domparser::generic::CharacterToken&>(token)) ) {
+			return InsertCharacter(dynamic_cast<const domparser::generic::CharacterToken&>(token)); }
 		break;
 
-	case Token::TAG:
+	case domparser::generic::Token::TAG:
 		break;
 	}
 
-	if(token.type == Token::TAG) {
+	if(token.type == domparser::generic::Token::TAG) {
 
-		const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
-		if(tagToken.tagType == TagToken::START_TAG) {
+		const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
+		if(tagToken.tagType == domparser::generic::TagToken::START_TAG) {
 
 			if(tagToken.name.compare("html") == 0) {
 				return OnInsertion(token,in_body); }
@@ -645,7 +645,7 @@ bool DocumentFactory::OnAfterHeadInsertion(const Token& token) {
 				return true; }
 
 		}
-		else if(tagToken.tagType == TagToken::END_TAG) {
+		else if(tagToken.tagType == domparser::generic::TagToken::END_TAG) {
 			if(!tools::StringTools::IsOneOf(tagToken.name,body_html_br)) {
 				ParseError();
 				return true;
@@ -653,54 +653,54 @@ bool DocumentFactory::OnAfterHeadInsertion(const Token& token) {
 		}
 	}
 
-	TagToken bodyToken;
+	domparser::generic::TagToken bodyToken;
 	bodyToken.name = "body";
-	bodyToken.tagType = TagToken::START_TAG;
+	bodyToken.tagType = domparser::generic::TagToken::START_TAG;
 	OnToken(bodyToken);
 
 	framesetOk = true;
 	return OnToken(token);
 }
 
-bool DocumentFactory::OnInBodyInsertion(const Token& token) {
+bool DocumentFactory::OnInBodyInsertion(const domparser::generic::Token& token) {
 
 	switch(token.type) {
 
-	case Token::CHAR:
+	case domparser::generic::Token::CHAR:
 		ReconstructActiveFormatElements();
-		InsertCharacter(dynamic_cast<const CharacterToken&>(token));
-		if( !IgnoreHtmlWhiteSpace(dynamic_cast<const CharacterToken&>(token)) ) {
+		InsertCharacter(dynamic_cast<const domparser::generic::CharacterToken&>(token));
+		if( !IgnoreHtmlWhiteSpace(dynamic_cast<const domparser::generic::CharacterToken&>(token)) ) {
 			framesetOk = false; }
 		return true;
 
-	case Token::COMMENT:
-		return AppendComment(dynamic_cast<const CommentToken&>(token));
+	case domparser::generic::Token::COMMENT:
+		return AppendComment(dynamic_cast<const domparser::generic::CommentToken&>(token));
 
-	case Token::DOCTYPE:
+	case domparser::generic::Token::DOCTYPE:
 		ParseError();
 		return true;
 
-	case Token::TAG:
+	case domparser::generic::Token::TAG:
 		break;
 
 	}
 
-	const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
+	const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
 	switch(tagToken.tagType)
 	{
-	case TagToken::START_TAG:
+	case domparser::generic::TagToken::START_TAG:
 		return OnInBodyStartTagInsertion(tagToken);
 
-	case TagToken::END_TAG:
+	case domparser::generic::TagToken::END_TAG:
 		return OnInBodyEndTagInsertion(tagToken);
 
-	case TagToken::INVALID_TYPE:
+	case domparser::generic::TagToken::INVALID_TYPE:
 	default:
 		return false;
 	}
 }
 
-bool DocumentFactory::OnInTableInsertion(const Token& token) {
+bool DocumentFactory::OnInTableInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -724,7 +724,7 @@ bool DocumentFactory::OnInTableInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInTableTextInsertion(const Token& token) {
+bool DocumentFactory::OnInTableTextInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -748,7 +748,7 @@ bool DocumentFactory::OnInTableTextInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInCaptionInsertion(const Token& token) {
+bool DocumentFactory::OnInCaptionInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -772,7 +772,7 @@ bool DocumentFactory::OnInCaptionInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInColumnGroupInsertion(const Token& token) {
+bool DocumentFactory::OnInColumnGroupInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -796,7 +796,7 @@ bool DocumentFactory::OnInColumnGroupInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInTableBodyInsertion(const Token& token) {
+bool DocumentFactory::OnInTableBodyInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -820,7 +820,7 @@ bool DocumentFactory::OnInTableBodyInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInRowInsertion(const Token& token) {
+bool DocumentFactory::OnInRowInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -844,7 +844,7 @@ bool DocumentFactory::OnInRowInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInCellInsertion(const Token& token) {
+bool DocumentFactory::OnInCellInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -868,7 +868,7 @@ bool DocumentFactory::OnInCellInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInSelectInsertion(const Token& token) {
+bool DocumentFactory::OnInSelectInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -892,7 +892,7 @@ bool DocumentFactory::OnInSelectInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInSelectInTableInsertion(const Token& token) {
+bool DocumentFactory::OnInSelectInTableInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -916,7 +916,7 @@ bool DocumentFactory::OnInSelectInTableInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnAfterBodyInsertion(const Token& token) {
+bool DocumentFactory::OnAfterBodyInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -940,7 +940,7 @@ bool DocumentFactory::OnAfterBodyInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnInFramesetInsertion(const Token& token) {
+bool DocumentFactory::OnInFramesetInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -964,7 +964,7 @@ bool DocumentFactory::OnInFramesetInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnAfterFramesetInsertion(const Token& token) {
+bool DocumentFactory::OnAfterFramesetInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -988,7 +988,7 @@ bool DocumentFactory::OnAfterFramesetInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnAfterAfterBodyInsertion(const Token& token) {
+bool DocumentFactory::OnAfterAfterBodyInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -1012,7 +1012,7 @@ bool DocumentFactory::OnAfterAfterBodyInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::OnAfterAfterFramesetInsertion(const Token& token) {
+bool DocumentFactory::OnAfterAfterFramesetInsertion(const domparser::generic::Token& token) {
     return false;
 
 	/*
@@ -1036,7 +1036,7 @@ bool DocumentFactory::OnAfterAfterFramesetInsertion(const Token& token) {
 	*/
 }
 
-bool DocumentFactory::InsertCharacter(const CharacterToken& token) {
+bool DocumentFactory::InsertCharacter(const domparser::generic::CharacterToken& token) {
 
 	//
 	//TODO: not fully implemented
@@ -1058,7 +1058,7 @@ void DocumentFactory::ReconstructActiveFormatElements() {
 	//
 }
 
-bool DocumentFactory::OnTextInsertion(const Token& token) {
+bool DocumentFactory::OnTextInsertion(const domparser::generic::Token& token) {
 
 	//
 	//TODO: not fully implemented
@@ -1066,21 +1066,21 @@ bool DocumentFactory::OnTextInsertion(const Token& token) {
 
 	switch(token.type) {
 
-	case Token::CHAR:
-		return InsertCharacter(dynamic_cast<const CharacterToken&>(token));
+	case domparser::generic::Token::CHAR:
+		return InsertCharacter(dynamic_cast<const domparser::generic::CharacterToken&>(token));
 
-	case Token::TAG:
-		if(dynamic_cast<const TagToken&>(token).tagType == TagToken::END_TAG)
+	case domparser::generic::Token::TAG:
+		if(dynamic_cast<const domparser::generic::TagToken&>(token).tagType == domparser::generic::TagToken::END_TAG)
 			break;
 		return false;
 
-	case Token::COMMENT:
-	case Token::DOCTYPE:
+	case domparser::generic::Token::COMMENT:
+	case domparser::generic::Token::DOCTYPE:
 		return false;
 	}
 
-	const TagToken& tagToken = dynamic_cast<const TagToken&>(token);
-	if(tagToken.tagType != TagToken::END_TAG)
+	const domparser::generic::TagToken& tagToken = dynamic_cast<const domparser::generic::TagToken&>(token);
+	if(tagToken.tagType != domparser::generic::TagToken::END_TAG)
 		return false;
 
 	if(tagToken.name.compare("script") == 0) {
@@ -1097,11 +1097,11 @@ bool DocumentFactory::OnTextInsertion(const Token& token) {
 	return true;
 }
 
-bool DocumentFactory::OnInBodyStartTagInsertion(const TagToken& tagToken) {
+bool DocumentFactory::OnInBodyStartTagInsertion(const domparser::generic::TagToken& tagToken) {
 
 	if(tagToken.name.compare("html") == 0) {
 		ParseError();
-		std::vector<AttributeToken>::const_iterator iterAttr = tagToken.attributes.begin();
+		std::vector<domparser::generic::AttributeToken>::const_iterator iterAttr = tagToken.attributes.begin();
 		for( ; iterAttr != tagToken.attributes.end(); ++iterAttr) {
 			Element* currentNode = dynamic_cast<Element*>(openElementStack.Peek());
 			if( !currentNode->hasAttribute(iterAttr->name) ) {
@@ -1121,7 +1121,7 @@ bool DocumentFactory::OnInBodyStartTagInsertion(const TagToken& tagToken) {
 		}
 		else {
 			framesetOk = false;
-			std::vector<AttributeToken>::const_iterator iterAttr = tagToken.attributes.begin();
+			std::vector<domparser::generic::AttributeToken>::const_iterator iterAttr = tagToken.attributes.begin();
 			for(;iterAttr != tagToken.attributes.end();++iterAttr) {
 				if(!bodyElement->hasAttribute(iterAttr->name)) {
 					bodyElement->setAttribute(iterAttr->name,iterAttr->value); }
@@ -1221,7 +1221,7 @@ bool DocumentFactory::OnInBodyStartTagInsertion(const TagToken& tagToken) {
 
 	if(tagToken.name.compare("image") == 0) {
 		ParseError();
-		TagToken corrected(tagToken);
+		domparser::generic::TagToken corrected(tagToken);
 		corrected.name = "img";
 		return OnToken(corrected);
 	}
@@ -1275,7 +1275,7 @@ bool DocumentFactory::OnInBodyStartTagInsertion(const TagToken& tagToken) {
     return false;
 }
 
-bool DocumentFactory::OnInBodyEndTagInsertion(const TagToken& tagToken) {
+bool DocumentFactory::OnInBodyEndTagInsertion(const domparser::generic::TagToken& tagToken) {
 
 	if(tagToken.name.compare("body") == 0) {
 		size_t i = openElementStack.Size() - 1;
@@ -1319,9 +1319,9 @@ bool DocumentFactory::OnInBodyEndTagInsertion(const TagToken& tagToken) {
 	}
 
 	if(tagToken.name.compare("html") == 0) {
-		TagToken bodyTag;
+		domparser::generic::TagToken bodyTag;
 		bodyTag.name = "body";
-		bodyTag.tagType = TagToken::END_TAG;
+		bodyTag.tagType = domparser::generic::TagToken::END_TAG;
 		OnToken(bodyTag);
 		//
 		//TODO: not fully implemented
@@ -1363,8 +1363,8 @@ bool DocumentFactory::OnInBodyEndTagInsertion(const TagToken& tagToken) {
 
 	if(tagToken.name.compare("br") == 0) {
 		ParseError();
-		TagToken startBR(tagToken);
-		startBR.tagType = TagToken::START_TAG;
+		domparser::generic::TagToken startBR(tagToken);
+		startBR.tagType = domparser::generic::TagToken::START_TAG;
 		return OnToken(startBR);
 	}
 

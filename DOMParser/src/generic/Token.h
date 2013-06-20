@@ -13,6 +13,8 @@
 
 namespace domparser {
 
+namespace generic {
+
 /**
  * @brief token representing an DOM node attribute
  * attributes are special,
@@ -252,5 +254,7 @@ public:
 	std::string public_identifier;
 	std::string system_identifier;
 };
+
+}
 
 }

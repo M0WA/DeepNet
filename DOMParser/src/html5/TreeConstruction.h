@@ -46,7 +46,7 @@ public:
 	virtual ~TreeConstruction();
 
 public:
-	virtual bool OnToken(const Token& token);
+	virtual bool OnToken(const domparser::generic::Token& token);
 
 private:
 	//rules

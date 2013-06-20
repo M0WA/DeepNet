@@ -18,7 +18,7 @@ TreeConstruction::TreeConstruction() {
 TreeConstruction::~TreeConstruction() {
 }
 
-bool TreeConstruction::OnToken(const Token& token) {
+bool TreeConstruction::OnToken(const domparser::generic::Token& token) {
 	return false;
 }
 
