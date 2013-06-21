@@ -29,7 +29,7 @@ DOMString* DOMStringList::item(const size_t& index) {
 		return &(list.at(index));
 }
 
-bool DOMStringList::contains(const DOMString& str) {
+bool DOMStringList::contains(const DOMString& str) const {
 	return (std::find(list.begin(),list.end(),str) != list.end());
 }
 
