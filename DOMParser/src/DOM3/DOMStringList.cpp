@@ -22,14 +22,14 @@ DOMStringList::DOMStringList(const std::vector<domparser::dom3::DOMString>& list
 DOMStringList::~DOMStringList() {
 }
 
-DOMString* DOMStringList::item(const size_t& index) {
+const domparser::dom3::DOMString* DOMStringList::item(const size_t& index) const {
 	if(index >= list.size())
 		return 0;
 	else
 		return &(list.at(index));
 }
 
-bool DOMStringList::contains(const DOMString& str) const {
+bool DOMStringList::contains(const domparser::dom3::DOMString& str) const {
 	return (std::find(list.begin(),list.end(),str) != list.end());
 }
 

@@ -23,9 +23,9 @@ public:
 
 public:
 	//DOM3 interface
-	DOMString* item(const size_t& index);
+	const domparser::dom3::DOMString* item(const size_t& index) const;
 	const size_t length() const { return list.size(); }
-	bool contains(const DOMString& str) const;
+	bool contains(const domparser::dom3::DOMString& str) const;
 
 private:
 	std::vector<domparser::dom3::DOMString> list;
