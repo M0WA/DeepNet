@@ -27,6 +27,7 @@ private:
 
 	public:
 		bool operator== (const NameListPair& rhs) const;
+		bool operator< (const NameListPair& rhs) const;
 
 	public:
 		const domparser::dom3::DOMString& name() const { return pair.first; }
@@ -37,7 +38,7 @@ private:
 	};
 
 public:
-	NameList();
+	NameList(const std::vector<NameListPair>& names);
 	virtual ~NameList();
 
 public:

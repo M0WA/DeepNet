@@ -39,7 +39,26 @@ bool NameList::NameListPair::operator== (const NameListPair& rhs) const {
 		return false;
 }
 
-NameList::NameList() {
+bool NameList::NameListPair::operator< (const NameListPair& rhs) const {
+
+	if(pair.first == rhs.pair.first) {
+
+		if( !pair.second.IsNull() && !rhs.pair.second.IsNull() ) {
+			return ( (*pair.second.GetConst()) < (*rhs.pair.second.GetConst()) ); }
+
+		if( pair.second.IsNull() ) {
+			return true; }
+
+		return false;
+	}
+	else {
+		return pair.first < rhs.pair.first;
+	}
+}
+
+NameList::NameList(const std::vector<NameListPair>& names)
+: names(names){
+	std::sort(this->names.begin(),this->names.end());
 }
 
 NameList::~NameList() {
