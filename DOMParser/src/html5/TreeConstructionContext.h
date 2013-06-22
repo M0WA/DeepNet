@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include "OpenElementStack.h"
+
 namespace domparser {
 
 namespace html5 {
@@ -65,7 +67,7 @@ private:
 	InsertionMode insertionMode;
 	InsertionMode orgInsertionMode;
 
-	//std::vector<Element*> openElements;
+	OpenElementStack openElements;
 };
 
 }
