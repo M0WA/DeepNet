@@ -54,6 +54,8 @@ void ErrorNamesTable::InitTable() {
 
 ErrorNamesTable::ErrorNamesTableEntry ErrorNamesTable::GetEntryByName(const std::string& name) {
 
+	ErrorNamesTable::InitTable();
+
 	std::vector<ErrorNamesTableEntry>::const_iterator i = std::find(errorNamesTable.begin(),errorNamesTable.end(),name);
 	if(i == errorNamesTable.end())
 		return ErrorNamesTableEntry::GetInvalidEntry();
