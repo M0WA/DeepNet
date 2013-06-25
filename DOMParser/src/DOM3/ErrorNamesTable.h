@@ -55,25 +55,16 @@ public:
 		ErrorNamesTableEntry(
 			const std::string& name,
 			const std::string& description,
-			const DOMErrorCode& code)
-		: name(name)
-		, description(description)
-		, code(code)
-		{}
+			const DOMErrorCode& code);
 
 	public:
-		bool operator==(const std::string& rhsName) const {
-			return name.compare(rhsName) == 0; }
+		bool operator==(const std::string& rhsName) const;
 
 	public:
-		bool IsValidEntry() const {
-			bool isValid = !name.empty();
-			isValid &= code != MAX_ERROR_CODE;
-			return isValid;	}
+		bool IsValidEntry() const;
 
 	public:
-		static ErrorNamesTableEntry GetInvalidEntry() {
-			return ErrorNamesTableEntry("","",MAX_ERROR_CODE); }
+		static ErrorNamesTableEntry GetInvalidEntry();
 
 	public:
 		std::string name;

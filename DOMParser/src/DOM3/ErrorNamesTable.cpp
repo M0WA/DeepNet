@@ -17,6 +17,30 @@ namespace dom3 {
 std::vector<ErrorNamesTable::ErrorNamesTableEntry> ErrorNamesTable::errorNamesTable;
 threading::Mutex ErrorNamesTable::initTableMutex;
 
+ErrorNamesTable::ErrorNamesTableEntry::ErrorNamesTableEntry(
+	const std::string& name,
+	const std::string& description,
+	const DOMErrorCode& code)
+: name(name)
+, description(description)
+, code(code)
+{
+}
+
+bool ErrorNamesTable::ErrorNamesTableEntry::operator==(const std::string& rhsName) const {
+	return name.compare(rhsName) == 0;
+}
+
+bool ErrorNamesTable::ErrorNamesTableEntry::IsValidEntry() const {
+	bool isValid = !name.empty();
+	isValid &= code != MAX_ERROR_CODE;
+	return isValid;
+}
+
+ErrorNamesTable::ErrorNamesTableEntry GetInvalidEntry() {
+	return ErrorNamesTable::ErrorNamesTableEntry("","",ErrorNamesTable::MAX_ERROR_CODE);
+}
+
 ErrorNamesTable::ErrorNamesTable() {
 }
 
