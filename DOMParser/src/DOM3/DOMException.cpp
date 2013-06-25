@@ -18,15 +18,18 @@ DOMException::DOMException(
 		const std::string& file,
 		const int line,
 		const std::string& function,
-		const ExceptionCode& code)
+		const ErrorNamesTable::DOMErrorCode& code)
 : errors::Exception(file,line,function,"DOMParser", "DOMException", "", true)
-, exceptionCode(code){
+, errorCode(code){
 	std::ostringstream ssOut;
-	ssOut << "DOMException Code: " << exceptionCode;
+	ssOut << "DOMException Code: " << errorCode;
 	message = ssOut.str();
 }
 
 DOMException::~DOMException() {
+}
+
+void DOMException::ThrowNamedException(const std::string& errorName) {
 }
 
 }
