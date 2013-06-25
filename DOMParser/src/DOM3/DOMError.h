@@ -8,6 +8,10 @@
 
 #pragma once
 
+#include <string>
+
+#include "ErrorNamesTable.h"
+
 namespace domparser {
 
 namespace dom3 {
@@ -15,8 +19,15 @@ namespace dom3 {
 class DOMError {
 
 public:
-	DOMError();
+	DOMError(const std::string& name);
 	virtual ~DOMError();
+
+public:
+	//DOM3 interface
+	const std::string& name() const { return entry.name; }
+
+private:
+	ErrorNamesTable::ErrorNamesTableEntry entry;
 };
 
 }

@@ -12,7 +12,8 @@ namespace domparser {
 
 namespace dom3 {
 
-DOMError::DOMError() {
+DOMError::DOMError(const std::string& name)
+: entry(ErrorNamesTable::GetEntryByName(name)){
 }
 
 DOMError::~DOMError() {
