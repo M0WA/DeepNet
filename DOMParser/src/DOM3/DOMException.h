@@ -22,17 +22,17 @@ public:
 			const std::string& file,
 			const int line,
 			const std::string& function,
-			const ErrorNamesTable::DOMErrorCode& code);
+			const std::string& errorName);
 	virtual ~DOMException();
 
 public:
 	static void ThrowNamedException(const std::string& errorName);
 
 public:
-	const ErrorNamesTable::DOMErrorCode& code() const { return errorCode; }
+	const ErrorNamesTable::DOMErrorCode& code() const { return error.code; }
 
 private:
-	ErrorNamesTable::DOMErrorCode errorCode;
+	ErrorNamesTable::ErrorNamesTableEntry error;
 };
 
 }

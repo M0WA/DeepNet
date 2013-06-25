@@ -18,11 +18,20 @@ DOMException::DOMException(
 		const std::string& file,
 		const int line,
 		const std::string& function,
-		const ErrorNamesTable::DOMErrorCode& code)
+		const std::string& errorName)
 : errors::Exception(file,line,function,"DOMParser", "DOMException", "", true)
-, errorCode(code){
+, error(ErrorNamesTable::GetEntryByName(errorName)) {
+
 	std::ostringstream ssOut;
-	ssOut << "DOMException Code: " << errorCode;
+	if(error.IsValidEntry()) {
+		ssOut <<
+			"Name: " << error.name <<
+			" Description: "<< error.description <<
+			" ErrorCode: " << error.code; }
+	else {
+		ssOut <<
+			"Name: invalid error" <<
+			" ErrorCode: " << error.code; }
 	message = ssOut.str();
 }
 
@@ -30,6 +39,7 @@ DOMException::~DOMException() {
 }
 
 void DOMException::ThrowNamedException(const std::string& errorName) {
+	THROW_EXCEPTION(DOMException,errorName);
 }
 
 }
