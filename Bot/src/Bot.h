@@ -125,16 +125,7 @@ private:
 	static void SignalHandler(int signum, siginfo_t* info, void* ucontext);
 
 private:
-	/**
-	 * registers default commandline flags available for this bot.
-	 * usually used to register application specific commandline flags.
-	 */
 	void RegisterDefaultFlags(void);
-
-	/**
-	 * registers default commandline parameters available for this bot.
-	 * usually used to register application specific commandline parameters.
-	 */
 	void RegisterDefaultParams(void);
 
 	bool RegisterSignalHandlers();
