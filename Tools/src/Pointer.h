@@ -86,6 +86,15 @@ public:
 	}
 
 	/**
+	 * gets const content of this pointer, consider using
+	 * cast operators for performance reasons
+	 * @return this instances pointer
+	 */
+	const T* const GetConst() const {
+		return ptr;
+	}
+
+	/**
 	 * takes over ownership of a pointer from another instance
 	 * @param swap instance to be owned
 	 */
