@@ -152,7 +152,7 @@ bool DeepNetToolBot::OnShutdown() {
 	return true;
 }
 
-void DeepNetToolBot::RegisterDefaultParams(void) {
+bool DeepNetToolBot::OnPreInit() {
 
 	RegisterDatabaseRepairParams();
 	RegisterCommerceSearchParams();
@@ -167,7 +167,7 @@ void DeepNetToolBot::RegisterDefaultParams(void) {
 	RegisterHtmlDocumentFactoryParams();
 	RegisterIndexerExParams();
 
-	Bot::RegisterDefaultParams();
+	return true;
 }
 
 void DeepNetToolBot::RegisterDatabaseRepairParams() {

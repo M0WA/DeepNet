@@ -21,7 +21,7 @@ public:
 	virtual ~DeepNetToolBot();
 
 protected:
-	virtual void RegisterDefaultParams(void);
+	virtual bool OnPreInit();
 	virtual bool OnInit();
 	virtual bool OnRun();
 	virtual bool OnShutdown();
