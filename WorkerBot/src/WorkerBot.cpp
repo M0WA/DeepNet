@@ -62,35 +62,6 @@ bool WorkerBot::OnInit()
 {
 	bool bSuccess = true;
 
-	std::string workerBotMode;
-	if(!Config().GetValue("worker_bot_mode",workerBotMode) ){
-		THROW_EXCEPTION(errors::NotImplementedException,"WorkerBot missing mode, use one of: commercesearch,datamining,searchengine");}
-
-	//initializing commercesearch
-	if(workerBotMode.compare("commercesearch") == 0) {
-		crawler = dynamic_cast<crawler::Crawler*>(new crawler::CommerceSearchCrawler());
-		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::CommerceSearchParser());
-		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::CommerceSearchParserParam());
-		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
-	}
-	//initializing searchengine
-	else if(workerBotMode.compare("searchengine") == 0) {
-		crawler = dynamic_cast<crawler::Crawler*>(new crawler::GenericWebCrawler());
-		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser());
-		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam());
-		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
-	}
-	//initializing datamining
-	else if (workerBotMode.compare("datamining") == 0) {
-		crawler = dynamic_cast<crawler::Crawler*>(new crawler::DataminingCrawler());
-		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser());
-		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam());
-		indexer = dynamic_cast<indexing::Indexer*>(new indexing::DataminingIndexer());
-	}
-	else {
-		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine, current mode: " + workerBotMode);
-	}
-
 	bSuccess &= InitCrawlerConfig();
 	bSuccess &= InitParserConfig();
 	bSuccess &= InitIndexerConfigParams();
@@ -144,7 +115,7 @@ bool WorkerBot::OnShutdown() {
 	return true;
 }
 
-void WorkerBot::RegisterDefaultParams(void)
+bool WorkerBot::OnPreInit(void)
 {
 	RegisterCrawlerConfigParams();
 	RegisterParserConfigParams();
@@ -153,7 +124,41 @@ void WorkerBot::RegisterDefaultParams(void)
 	std::string workerBotMode = "searchengine";
 	Config().RegisterParam("worker_bot_mode", "mode of workerbot, one of: searchengine, commercesearch, datamining", true, false, &workerBotMode);
 
-	Bot::RegisterDefaultParams();
+	return true;
+}
+
+bool WorkerBot::OnPostInit() {
+
+	std::string workerBotMode;
+	if(!Config().GetValue("worker_bot_mode",workerBotMode) ){
+		THROW_EXCEPTION(errors::NotImplementedException,"WorkerBot missing mode, use one of: commercesearch,datamining,searchengine");}
+
+	//initializing commercesearch
+	if(workerBotMode.compare("commercesearch") == 0) {
+		crawler = dynamic_cast<crawler::Crawler*>(new crawler::CommerceSearchCrawler());
+		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::CommerceSearchParser());
+		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::CommerceSearchParserParam());
+		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
+	}
+	//initializing searchengine
+	else if(workerBotMode.compare("searchengine") == 0) {
+		crawler = dynamic_cast<crawler::Crawler*>(new crawler::GenericWebCrawler());
+		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser());
+		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam());
+		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
+	}
+	//initializing datamining
+	else if (workerBotMode.compare("datamining") == 0) {
+		crawler = dynamic_cast<crawler::Crawler*>(new crawler::DataminingCrawler());
+		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser());
+		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam());
+		indexer = dynamic_cast<indexing::Indexer*>(new indexing::DataminingIndexer());
+	}
+	else {
+		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine, current mode: " + workerBotMode);
+	}
+
+	return true;
 }
 
 void WorkerBot::RegisterCrawlerConfigParams()

@@ -22,8 +22,9 @@ public:
 	virtual ~WorkerBot();
 
 protected:
-	virtual void RegisterDefaultParams(void);
+	virtual bool OnPreInit();
 	virtual bool OnInit();
+	virtual bool OnPostInit();
 	virtual bool OnRun();
 	virtual bool OnShutdown();
 
