@@ -81,42 +81,36 @@ protected:
 	 */
 	database::DatabaseHelper& DB() {return databaseHelper; }
 
-protected:
-	/**
-	 * registers default commandline flags available for this bot.
-	 * usually used to register application specific commandline flags.
-	 */
-	virtual void RegisterDefaultFlags(void);
-
-	/**
-	 * registers default commandline parameters available for this bot.
-	 * usually used to register application specific commandline parameters.
-	 */
-	virtual void RegisterDefaultParams(void);
-
-	/**
-	 * initialization when configuration is initialized and validated.
-	 * @return false on error, true on success.
-	 */
-	virtual bool OnPostInit();
-
+private:
 	/**
 	 * periodically called watchdog function.
 	 * call interval is hardcoded in WATCHDOG_TIMER_INTERVAL.
 	 * @return false on error, true on success.
 	 */
-	virtual bool OnWatchDog();
+	virtual bool OnWatchDog() { return true; }
+
+	/**
+	 * called before initialization of this configuration.
+	 * @return false on error, true on success.
+	 */
+	virtual bool OnPreInit() { return true; }
 
 	/**
 	 * called when configuration and initialization is comleted.
 	 * usually used to initialize application specific commandline parameters.
 	 * @return false on error, true on success.
 	 */
-	virtual bool OnInit()=0;
+	virtual bool OnInit() { return true; }
+
+	/**
+	 * initialization when configuration is initialized and validated.
+	 * @return false on error, true on success.
+	 */
+	virtual bool OnPostInit() { return true; }
 
 	/**
 	 * called when all initialization is comleted and the applications starts running.
-	 * when this function returns, the applications exits.
+	 * when this function returns, the applications does NOT exit.
 	 * @return false on error, true on success.
 	 */
 	virtual bool OnRun()=0;
@@ -125,10 +119,23 @@ protected:
 	 * called before the application is shutting down.
 	 * @return false on error, true on success.
 	 */
-	virtual bool OnShutdown()=0;
+	virtual bool OnShutdown() { return true; }
 
 private:
 	static void SignalHandler(int signum, siginfo_t* info, void* ucontext);
+
+private:
+	/**
+	 * registers default commandline flags available for this bot.
+	 * usually used to register application specific commandline flags.
+	 */
+	void RegisterDefaultFlags(void);
+
+	/**
+	 * registers default commandline parameters available for this bot.
+	 * usually used to register application specific commandline parameters.
+	 */
+	void RegisterDefaultParams(void);
 
 	bool RegisterSignalHandlers();
 
@@ -141,13 +148,19 @@ private:
 	void RegisterPerformanceLoggingParams();
 	void InitPerformanceLoggingParams();
 
-	bool SwitchUser(const uid_t setUid, const gid_t setGid);
 	void InitLogging();
+	bool InitDefaultParameters();
+
+	bool SwitchUser(const uid_t setUid, const gid_t setGid);
+	bool Daemonize();
 
 private:
-	bool Init();
+	bool PreInit();
+	bool Init(int argc, char** argv);
+	bool PostInit();
+	bool Run();
 	bool Shutdown();
-	bool Daemonize();
+	bool WatchDog();
 
 private:
 	static Bot* instance;

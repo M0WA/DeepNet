@@ -148,55 +148,6 @@ void Bot::RegisterDefaultParams(void)
 	Config().RegisterParam("configfile", "filename of config file", false, false, 0);
 }
 
-bool Bot::OnPostInit()
-{
-	//init database configs and toplevel domain cache
-	bool bSuccessDB = InitDatabaseConfigs();
-	if(!bSuccessDB)
-		return false;
-
-	bool bSuccessCache = InitCacheConfigParams();
-	if(!bSuccessCache)
-		return false;
-
-	//usage specified, print it and exit this
-	//process then
-	bool usageFlag = false;
-	if(Config().GetValue("h",usageFlag) && usageFlag){
-		Config().PrintUsage();
-		return false; }
-
-	//Daemonize return false, when in parent process
-	//forked successfully => exit this process
-	bool daemonize = false;
-	if(Config().GetValue("D",daemonize) && daemonize && !Daemonize())
-		return false;
-
-	InitLogging();
-
-	//switch user and/or group
-	bool bSwitch = false;
-	std::string userID;
-	uid_t newUid = 0;
-	std::string groupID;
-	gid_t newGid = 0;
-	if ( Config().GetValue("user",userID) )
-	{
-		newUid = atoi(userID.c_str());
-		bSwitch = true;
-	}
-	if ( Config().GetValue("group",groupID) )
-	{
-		newGid = atoi(groupID.c_str());
-		bSwitch = true;
-	}
-	if(bSwitch)
-		SwitchUser(newUid,newGid);
-
-	InitPerformanceLoggingParams();
-	return true;
-}
-
 void Bot::RegisterCacheConfigParams()
 {
 	std::string defaultUrlCacheSize = "1000";
@@ -254,33 +205,15 @@ bool Bot::Run(int argc, char** argv)
 	errors::Exception::InitializeExceptionHandling();
 
 	do {
-
 		restartAfterShutdown = false;
 
-		if(!Init())
+		if(!PreInit())
 			return false;
-		if(!Config().Init(argc, argv))
+		if(!Init(argc, argv))
 			return false;
-		if(!OnInit())
+		if(!PostInit())
 			return false;
-		if(!OnPostInit())
-			return false;
-		if(!OnRun())
-			return false;
-
-		//wait till shutdown
-		int nSleep = 0;
-		while(!shutdownReceived) {
-			if(nSleep==0)
-				OnWatchDog();
-
-			sleep(1);
-			++nSleep;
-			if(nSleep > WATCHDOG_TIMER_INTERVAL)
-				nSleep = 0;
-		}
-
-		if(!OnShutdown())
+		if(!Run())
 			return false;
 		if(!Shutdown())
 			return false;
@@ -290,26 +223,11 @@ bool Bot::Run(int argc, char** argv)
 	return true;
 }
 
-bool Bot::Init()
+bool Bot::InitDefaultParameters()
 {
 	RegisterDefaultFlags();
 	RegisterDefaultParams();
 	RegisterSignalHandlers();
-	return true;
-}
-
-bool Bot::Shutdown()
-{
-	if(DB().Connection())
-		DB().Connection()->Disconnect();
-
-	if(dbConfig)
-		delete dbConfig;
-	dbConfig = 0;
-
-	if(logging)
-		delete logging;
-	logging = NULL;
 	return true;
 }
 
@@ -447,8 +365,99 @@ void Bot::InitPerformanceLoggingParams()
 		enablePerformanceLog = false;
 }
 
-bool Bot::OnWatchDog()
-{
+void Bot::OnException(errors::Exception& ex) {
+
+	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to uncaught exception");
+}
+
+void Bot::OnException() {
+
+	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to unknown and uncaught exception");
+}
+
+bool Bot::Run() {
+
+	if(!OnRun())
+		return false;
+
+	//wait till shutdown
+	int nSleep = 0;
+	while(!shutdownReceived) {
+		if(nSleep==0)
+			WatchDog();
+
+		sleep(1);
+		++nSleep;
+		if(nSleep > WATCHDOG_TIMER_INTERVAL)
+			nSleep = 0;
+	}
+
+	return true;
+}
+
+bool Bot::Init(int argc, char** argv) {
+
+	if(!InitDefaultParameters())
+		return false;
+	if(!Config().Init(argc, argv))
+		return false;
+
+	return OnInit();
+}
+
+bool Bot::PreInit(){
+	return OnPreInit();
+}
+
+bool Bot::PostInit(){
+	//init database configs and toplevel domain cache
+	bool bSuccessDB = InitDatabaseConfigs();
+	if(!bSuccessDB)
+		return false;
+
+	bool bSuccessCache = InitCacheConfigParams();
+	if(!bSuccessCache)
+		return false;
+
+	//usage specified, print it and exit this
+	//process then
+	bool usageFlag = false;
+	if(Config().GetValue("h",usageFlag) && usageFlag){
+		Config().PrintUsage();
+		return false; }
+
+	//Daemonize return false, when in parent process
+	//forked successfully => exit this process
+	bool daemonize = false;
+	if(Config().GetValue("D",daemonize) && daemonize && !Daemonize())
+		return false;
+
+	InitLogging();
+
+	//switch user and/or group
+	bool bSwitch = false;
+	std::string userID;
+	uid_t newUid = 0;
+	std::string groupID;
+	gid_t newGid = 0;
+	if ( Config().GetValue("user",userID) )
+	{
+		newUid = atoi(userID.c_str());
+		bSwitch = true;
+	}
+	if ( Config().GetValue("group",groupID) )
+	{
+		newGid = atoi(groupID.c_str());
+		bSwitch = true;
+	}
+	if(bSwitch)
+		SwitchUser(newUid,newGid);
+
+	InitPerformanceLoggingParams();
+	return OnPostInit();
+}
+
+bool Bot::WatchDog(){
 	if(enablePerformanceLog) {
 
 		DB().CreateConnection(dbConfig);
@@ -501,17 +510,24 @@ bool Bot::OnWatchDog()
 
 		DB().DestroyConnection();
 	}
-	return true;
+	return OnWatchDog();
 }
 
-void Bot::OnException(errors::Exception& ex) {
+bool Bot::Shutdown()
+{
+	if(DB().Connection())
+		DB().Connection()->Disconnect();
 
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to uncaught exception");
+	if(dbConfig)
+		delete dbConfig;
+	dbConfig = 0;
+
+	if(logging)
+		delete logging;
+	logging = NULL;
+
+	return OnShutdown();
 }
 
-void Bot::OnException() {
-
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to unknown and uncaught exception");
-}
 
 }
