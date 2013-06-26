@@ -55,7 +55,7 @@ bool UnitTestHtmlDocumentFactory::Run(){
 	return true;
 }
 
-bool UnitTestHtmlDocumentFactory::OnToken(const domparser::Token& token) {
+bool UnitTestHtmlDocumentFactory::OnToken(const domparser::generic::Token& token) {
 
 	std::ostringstream ssStream;
 	ssStream << tokeniser->GetLineColumnString();

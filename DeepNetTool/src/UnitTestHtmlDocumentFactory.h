@@ -17,7 +17,9 @@
 #include <HttpUrl.h>
 
 namespace domparser {
-	class Token;
+	namespace generic {
+		class Token;
+	}
 }
 
 namespace database {
@@ -33,7 +35,7 @@ public:
 	virtual ~UnitTestHtmlDocumentFactory();
 
 private:
-	virtual bool OnToken(const domparser::Token& token);
+	virtual bool OnToken(const domparser::generic::Token& token);
 	virtual void SwitchMode(const domparser::DocumentFactory::InsertionMode& newInsertionMode);
 
 public:
