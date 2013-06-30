@@ -44,6 +44,7 @@
 #include "customerqueriesTableBase.h"
 #include "searchqueryTableBase.h"
 #include "docmetaTableBase.h"
+#include "fencedsearchTableBase.h"
 #include "dataminingalertsTableBase.h"
 #include "cacheurlTableBase.h"
 #include "dictTableBase.h"
