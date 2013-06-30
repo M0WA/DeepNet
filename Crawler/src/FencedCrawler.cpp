@@ -9,7 +9,6 @@
 #include "FencedCrawler.h"
 
 #include <cmath>
-
 #include <OpenSSLThreadLock.h>
 
 #include "FencedUrlFetcherThread.h"
@@ -28,7 +27,6 @@ bool FencedCrawler::StartCrawler() {
 	tools::thread_setup();
 
 	if(boundSecondLevelDomains.size() == 0) {
-		//log::Logging::LogError("no secondlevel domain ids found for FencedCrawler");
 		return false; }
 
 	//check if there are more threads allowed than needed
