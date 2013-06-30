@@ -8,6 +8,8 @@
 
 #include "FencedCrawler.h"
 
+#include <cmath>
+
 #include <OpenSSLThreadLock.h>
 
 #include "FencedUrlFetcherThread.h"
@@ -25,26 +27,32 @@ FencedCrawler::~FencedCrawler() {
 bool FencedCrawler::StartCrawler() {
 	tools::thread_setup();
 
+	if(boundSecondLevelDomains.size() == 0) {
+		//log::Logging::LogError("no secondlevel domain ids found for FencedCrawler");
+		return false; }
 
-	//TODO: distribute second level domain id fairly among running threads (crawlerParam->threadCount)
+	//check if there are more threads allowed than needed
+	size_t actualThreadCount = crawlerParam->threadCount;
+	if(actualThreadCount > boundSecondLevelDomains.size()) {
+		actualThreadCount = boundSecondLevelDomains.size(); }
+	size_t domainsPerThread = std::ceil(boundSecondLevelDomains.size()/actualThreadCount);
 
-	/*
-	for(int i = 0; i < crawlerParam->threadCount; i++)
-	{
-		//TODO: get second level domain id
-		std::vector<long long> fencedSecondLevelIDs;
+	size_t curPos = 0;
+	for(size_t i = 0; i < actualThreadCount && curPos < boundSecondLevelDomains.size(); i++) {
+		std::vector<long long> tmpBound;
+		for(size_t posTmp = 0; posTmp < domainsPerThread && curPos < boundSecondLevelDomains.size(); posTmp++,curPos++) {
+			tmpBound.push_back(boundSecondLevelDomains.at(curPos)); }
 
-		FencedUrlFetcherThread::FencedUrlFetcherThreadParam* fencedThreadParam = new FencedUrlFetcherThread::FencedUrlFetcherThreadParam(*crawlerParam,fencedSecondLevelIDs);
+		if(tmpBound.size() > 0) {
+			FencedUrlFetcherThread::FencedUrlFetcherThreadParam* fencedThreadParam =
+					new FencedUrlFetcherThread::FencedUrlFetcherThreadParam(*crawlerParam,tmpBound);
+			FencedUrlFetcherThread* urlFetcherThread = new FencedUrlFetcherThread();
+			urlFetcherThread->StartThread(fencedThreadParam);
 
-		//fencedThreadParam->secondLevelDomains = boundSecondLevelDomains;
-
-		FencedUrlFetcherThread* urlFetcherThread = new FencedUrlFetcherThread();
-		urlFetcherThread->StartThread(fencedThreadParam);
-
-		urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =
-				dynamic_cast<UrlFetcherThreadParam*>(fencedThreadParam);
+			urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =
+					dynamic_cast<UrlFetcherThreadParam*>(fencedThreadParam);
+		}
 	}
-	*/
 	tools::thread_cleanup();
 	return true;
 }
