@@ -69,7 +69,7 @@ public:
 	 * @param ptr new instance
 	 * @param autoDelete true if the instance is bound to this instance
 	 */
-	void Set(T* ptr, bool autoDelete) {
+	void Set(T* ptr, bool autoDelete = true) {
 		Destruct();
 
 		this->ptr = ptr;
