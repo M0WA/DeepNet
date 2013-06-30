@@ -82,12 +82,6 @@ protected:
 	database::DatabaseHelper& DB() {return databaseHelper; }
 
 private:
-	/**
-	 * periodically called watchdog function.
-	 * call interval is hardcoded in WATCHDOG_TIMER_INTERVAL.
-	 * @return false on error, true on success.
-	 */
-	virtual bool OnWatchDog() { return true; }
 
 	/**
 	 * called before initialization of this configuration.
@@ -96,7 +90,7 @@ private:
 	virtual bool OnPreInit() { return true; }
 
 	/**
-	 * called when configuration and initialization is comleted.
+	 * called when configuration and initialization is completed.
 	 * usually used to initialize application specific commandline parameters.
 	 * @return false on error, true on success.
 	 */
@@ -114,6 +108,13 @@ private:
 	 * @return false on error, true on success.
 	 */
 	virtual bool OnRun()=0;
+
+	/**
+	 * periodically called watchdog function.
+	 * call interval is hardcoded in WATCHDOG_TIMER_INTERVAL.
+	 * @return false on error, true on success.
+	 */
+	virtual bool OnWatchDog() { return true; }
 
 	/**
 	 * called before the application is shutting down.
