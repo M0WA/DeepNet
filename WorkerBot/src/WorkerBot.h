@@ -50,6 +50,9 @@ private:
 	void RegisterIndexerConfigParams();
 	bool InitIndexerConfigParams();
 
+	void RegisterModeSpecificParams();
+	bool InitModeConfig();
+
 private:
 	tools::Pointer<crawler::Crawler> crawler;
 	tools::Pointer<crawler::CrawlerParam> crawlerParam;

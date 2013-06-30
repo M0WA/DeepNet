@@ -97,60 +97,13 @@ bool WorkerBot::OnPreInit(void)
 	RegisterCrawlerConfigParams();
 	RegisterParserConfigParams();
 	RegisterIndexerConfigParams();
-
-	std::string workerBotMode = "searchengine";
-	Config().RegisterParam("worker_bot_mode", "mode of workerbot, one of: searchengine, commercesearch, datamining", true, false, &workerBotMode);
-
+	RegisterModeSpecificParams();
 	return true;
 }
 
 bool WorkerBot::OnPostInit() {
 
-	std::string workerBotMode;
-	if(!Config().GetValue("worker_bot_mode",workerBotMode) ){
-		THROW_EXCEPTION(errors::NotImplementedException,"WorkerBot missing mode, use one of: commercesearch,datamining,searchengine");}
-
-	//initializing commercesearch
-	if(workerBotMode.compare("commercesearch") == 0) {
-
-		crawlerParam.Set(new crawler::CrawlerParam(),true);
-		crawler.Set(crawler::CrawlerFactory::CreateCommerceSearchCrawler(crawlerParam.Get()),true);
-
-		parserParam.Set(new parser::HtmlParserParam(),true);
-		parser.Set(parser::HtmlParserBaseFactory::CreateCommerceSearchParser(parserParam.Get()),true);
-
-		indexerParam.Set(new indexing::IndexerParam(),true);
-		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
-	}
-	//initializing searchengine
-	else if(workerBotMode.compare("searchengine") == 0) {
-
-		crawlerParam.Set(new crawler::CrawlerParam(),true);
-		crawler.Set(crawler::CrawlerFactory::CreateGenericWebCrawler(crawlerParam.Get()),true);
-
-		parserParam.Set(new parser::HtmlParserParam(),true);
-		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
-
-		indexerParam.Set(new indexing::IndexerParam(),true);
-		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
-	}
-	//initializing datamining
-	else if (workerBotMode.compare("datamining") == 0) {
-
-		crawlerParam.Set(new crawler::CrawlerParam(),true);
-		crawler.Set(crawler::CrawlerFactory::CreateDataminingCrawler(crawlerParam.Get()),true);
-
-		parserParam.Set(new parser::HtmlParserParam(),true);
-		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
-
-		indexerParam.Set(new indexing::IndexerParam(),true);
-		indexer.Set(indexing::IndexerFactory::CreateDataminingIndexer(indexerParam.Get()),true);
-	}
-	else {
-		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine, current mode: " + workerBotMode);
-	}
-
-	return true;
+	return InitModeConfig();
 }
 
 void WorkerBot::RegisterCrawlerConfigParams()
@@ -343,5 +296,71 @@ bool WorkerBot::InitIndexerConfigParams()
 		return false;
 
 	return true;
+}
+
+void WorkerBot::RegisterModeSpecificParams()
+{
+	std::string workerBotMode = "searchengine";
+	Config().RegisterParam("worker_bot_mode", "mode of workerbot, one of: searchengine, commercesearch, datamining, fenced", true, false, &workerBotMode);
+}
+
+bool WorkerBot::InitModeConfig()
+{
+	std::string workerBotMode;
+	if(!Config().GetValue("worker_bot_mode",workerBotMode) ){
+		THROW_EXCEPTION(errors::NotImplementedException,"WorkerBot missing mode, use one of: commercesearch,datamining,searchengine");}
+
+	//initializing commercesearch
+	if(workerBotMode.compare("commercesearch") == 0) {
+
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateCommerceSearchCrawler(crawlerParam.Get()),true);
+
+		parserParam.Set(new parser::HtmlParserParam(),true);
+		parser.Set(parser::HtmlParserBaseFactory::CreateCommerceSearchParser(parserParam.Get()),true);
+
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
+	}
+	//initializing searchengine
+	else if(workerBotMode.compare("searchengine") == 0) {
+
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateGenericWebCrawler(crawlerParam.Get()),true);
+
+		parserParam.Set(new parser::HtmlParserParam(),true);
+		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
+
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
+	}
+	//initializing datamining
+	else if (workerBotMode.compare("datamining") == 0) {
+
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateDataminingCrawler(crawlerParam.Get()),true);
+
+		parserParam.Set(new parser::HtmlParserParam(),true);
+		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
+
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateDataminingIndexer(indexerParam.Get()),true);
+	}
+	//initializing fenced mode
+	else if (workerBotMode.compare("fenced") == 0) {
+
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateFencedCrawler(crawlerParam.Get()),true);
+
+		parserParam.Set(new parser::HtmlParserParam(),true);
+		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
+
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
+	}
+	else {
+		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine,fenced; current mode: " + workerBotMode);
+	}
+	return false;
 }
 
