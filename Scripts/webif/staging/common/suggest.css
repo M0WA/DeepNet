@@ -1,0 +1,25 @@
+/* ******************************************************
+
+  this is part of the SIRIDIA search engine software
+  Copyright 2012, SIRIDIA GmbH
+  Author: Moritz Wagner (moritz.wagner@siridia.de)
+
+********************************************************* */
+
+.suggest_option
+{
+  background-color: white;
+  font-weight:      normal;
+  padding-left:     3px;
+  padding-top:      3px;
+  padding-bottom:   3px;
+}
+
+.suggest_option_highlighted
+{
+  background-color: #ADD8E6;
+  font-weight:      bold;
+  padding-left:     5px;
+  padding-top:      5px;
+  padding-bottom:   5px;
+}
