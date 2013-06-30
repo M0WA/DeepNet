@@ -33,29 +33,10 @@
 #include <DatabaseLayer.h>
 
 WorkerBot::WorkerBot()
-: Bot()
-, crawler(0)
-, parser(0)
-, htmlParserParam(0)
-, indexer(0) {
+: Bot() {
 }
 
 WorkerBot::~WorkerBot() {
-
-	if(crawler || parser || htmlParserParam || indexer) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR," !!!!!!! LEAKING MEMORY: crawler, parser or indexer not deleted properly !!!!!!! "); }
-
-	delete crawler;
-	crawler = 0;
-
-	delete parser;
-	parser = 0;
-
-	delete htmlParserParam;
-	htmlParserParam = 0;
-
-	delete indexer;
-	indexer = 0;
 }
 
 bool WorkerBot::OnInit()
@@ -71,7 +52,9 @@ bool WorkerBot::OnInit()
 
 bool WorkerBot::OnRun() {
 
-	indexerParam.databaseConfig = crawlerParam.databaseConfig = htmlParserParam->databaseConfig = dbConfig;
+	crawlerParam.Get()->databaseConfig =
+	parserParam.Get() ->databaseConfig =
+	indexerParam.Get()->databaseConfig = dbConfig;
 
 	database::DatabaseConnection* conn = DB().CreateConnection(dbConfig);
 	if(conn) {
@@ -86,31 +69,23 @@ bool WorkerBot::OnRun() {
 
 	bool bSuccess = true;
 
-	bSuccess &= crawler->StartThread(&crawlerParam);
-	bSuccess &= parser ->StartThread(htmlParserParam);
-	bSuccess &= indexer->StartThread(&indexerParam);
+	bSuccess &= crawler.Get()->StartThread(crawlerParam.Get());
+	bSuccess &= parser.Get() ->StartThread(parserParam.Get());
+	bSuccess &= indexer.Get()->StartThread(indexerParam.Get());
 
 	return bSuccess;
 }
 
 bool WorkerBot::OnShutdown() {
 
-	crawler->SetShallEnd(true);
-	crawler->WaitForThread();
-	delete crawler;
-	crawler = NULL;
+	crawler.Get()->SetShallEnd(true);
+	crawler.Get()->WaitForThread();
 
-	parser->SetShallEnd(true);
-	parser->WaitForThread();
-	delete parser;
-	delete htmlParserParam;
-	parser = NULL;
-	htmlParserParam = NULL;
+	parser.Get()->SetShallEnd(true);
+	parser.Get()->WaitForThread();
 
-	indexer->SetShallEnd(true);
-	indexer->WaitForThread();
-	delete indexer;
-	indexer = NULL;
+	indexer.Get()->SetShallEnd(true);
+	indexer.Get()->WaitForThread();
 
 	return true;
 }
@@ -135,24 +110,39 @@ bool WorkerBot::OnPostInit() {
 
 	//initializing commercesearch
 	if(workerBotMode.compare("commercesearch") == 0) {
-		crawler = dynamic_cast<crawler::Crawler*>(new crawler::CommerceSearchCrawler());
-		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::CommerceSearchParser());
-		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::CommerceSearchParserParam());
-		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
+
+		crawler.Set(dynamic_cast<crawler::Crawler*>(new crawler::CommerceSearchCrawler()),true);
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+
+		parser.Set(dynamic_cast<parser::HtmlParserBase*>(new parser::CommerceSearchParser()),true);
+		parserParam.Set(dynamic_cast<parser::HtmlParserParam*>(new parser::CommerceSearchParserParam()),true);
+
+		indexer.Set(dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer()),true);
+		indexerParam.Set(new indexing::Indexer::IndexerParam(),true);
 	}
 	//initializing searchengine
 	else if(workerBotMode.compare("searchengine") == 0) {
-		crawler = dynamic_cast<crawler::Crawler*>(new crawler::GenericWebCrawler());
-		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser());
-		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam());
-		indexer = dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer());
+
+		crawler.Set(dynamic_cast<crawler::Crawler*>(new crawler::GenericWebCrawler()),true);
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+
+		parser.Set(dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser()),true);
+		parserParam.Set(dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam()),true);
+
+		indexer.Set(dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer()),true);
+		indexerParam.Set(new indexing::Indexer::IndexerParam(),true);
 	}
 	//initializing datamining
 	else if (workerBotMode.compare("datamining") == 0) {
-		crawler = dynamic_cast<crawler::Crawler*>(new crawler::DataminingCrawler());
-		parser  = dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser());
-		htmlParserParam = dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam());
-		indexer = dynamic_cast<indexing::Indexer*>(new indexing::DataminingIndexer());
+
+		crawler.Set(dynamic_cast<crawler::Crawler*>(new crawler::DataminingCrawler()),true);
+		crawlerParam.Set(new crawler::CrawlerParam(),true);
+
+		parser.Set(dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser()),true);
+		parserParam.Set(dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam()),true);
+
+		indexer.Set(dynamic_cast<indexing::Indexer*>(new indexing::DataminingIndexer()),true);
+		indexerParam.Set(new indexing::Indexer::IndexerParam(),true);
 	}
 	else {
 		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine, current mode: " + workerBotMode);
@@ -198,53 +188,57 @@ void WorkerBot::RegisterCrawlerConfigParams()
 
 bool WorkerBot::InitCrawlerConfig()
 {
-	if( !Config().GetValue( "crawler_threads", crawlerParam.threadCount) )
+	if(crawlerParam.IsNull()) {
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"crawler parameters not initialized correctly. exiting...");
+		return false;}
+
+	if( !Config().GetValue( "crawler_threads", crawlerParam.Get()->threadCount) )
 		return false;
 
-	if(crawlerParam.threadCount<=0){
+	if(crawlerParam.Get()->threadCount<=0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_threads count specified (<= 0). exiting...");
 		return false;}
 
-	if(!Config().GetValue("crawler_maxUrl",crawlerParam.maxPerSelect)){
+	if(!Config().GetValue("crawler_maxUrl",crawlerParam.Get()->maxPerSelect)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_maxUrl !!!");
 		return false;}
-	if(crawlerParam.maxPerSelect<=0){
+	if(crawlerParam.Get()->maxPerSelect<=0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_maxUrl specified (<= 0). exiting...");
 		return false;}
 
-	if(!Config().GetValue("crawler_minAge",crawlerParam.minAge)){
+	if(!Config().GetValue("crawler_minAge",crawlerParam.Get()->minAge)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_minAge !!!");
 		return false;}
-	if(crawlerParam.minAge<0){
+	if(crawlerParam.Get()->minAge<0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_minAge specified (< 0). exiting...");
 		return false;}
-	if(crawlerParam.minAge==0){
+	if(crawlerParam.Get()->minAge==0){
 		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"!!! WARNING crawler_minAge == 0 specified !!!");}
 
-	if(!Config().GetValue("crawler_userAgent",crawlerParam.userAgent)){
+	if(!Config().GetValue("crawler_userAgent",crawlerParam.Get()->userAgent)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_userAgent !!!");
 		return false;}
 
-	if(!Config().GetValue("crawler_cntTimeout",crawlerParam.connectTimeout) || crawlerParam.connectTimeout <= 0){
+	if(!Config().GetValue("crawler_cntTimeout",crawlerParam.Get()->connectTimeout) || crawlerParam.Get()->connectTimeout <= 0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! invalid/missing crawler_cntTimeout timeout !!!");
 		return false;}
 
-	if(!Config().GetValue("crawler_connectionTimeout",crawlerParam.connectionTimeout) || crawlerParam.connectionTimeout <= 0){
+	if(!Config().GetValue("crawler_connectionTimeout",crawlerParam.Get()->connectionTimeout) || crawlerParam.Get()->connectionTimeout <= 0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! invalid/missing crawler_connectionTimeout !!!");
 		return false;}
 
-	if(!Config().GetValue("crawler_ipv6",crawlerParam.useIPv6))
-		crawlerParam.useIPv6 = false;
+	if(!Config().GetValue("crawler_ipv6",crawlerParam.Get()->useIPv6))
+		crawlerParam.Get()->useIPv6 = false;
 
-	if(!Config().GetValue("crawler_limit", crawlerParam.speedLimitKB)){
+	if(!Config().GetValue("crawler_limit", crawlerParam.Get()->speedLimitKB)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_limit !!!");
 		return false;}
 
-	if(!Config().GetValue("crawler_waitIdle",crawlerParam.waitOnIdle)){
+	if(!Config().GetValue("crawler_waitIdle",crawlerParam.Get()->waitOnIdle)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_waitIdle !!!");
 		return false;}
 
-	if(!Config().GetValue("crawler_respectRobotsTxt",crawlerParam.respectRobotsTxt)){
+	if(!Config().GetValue("crawler_respectRobotsTxt",crawlerParam.Get()->respectRobotsTxt)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_respectRobotsTxt !!!");
 		return false;}
 
@@ -253,9 +247,9 @@ bool WorkerBot::InitCrawlerConfig()
 		httpClientType = "curl";}
 
 	if(httpClientType.compare("curl") == 0) {
-		crawlerParam.clientType = network::HttpClientFactory::CURL; }
+		crawlerParam.Get()->clientType = network::HttpClientFactory::CURL; }
 	else if(httpClientType.compare("own") == 0) {
-		crawlerParam.clientType = network::HttpClientFactory::OWN; }
+		crawlerParam.Get()->clientType = network::HttpClientFactory::OWN; }
 	else {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_client specified. exiting...");
 		return false; }
@@ -280,26 +274,26 @@ void WorkerBot::RegisterParserConfigParams()
 
 bool WorkerBot::InitParserConfig()
 {
-	if(!htmlParserParam) {
+	if(parserParam.IsNull()) {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"parser parameters not initialized correctly. exiting...");
 		return false;}
 
-	if( !Config().GetValue( "parser_threads", htmlParserParam->parserThreadCount) )
+	if( !Config().GetValue( "parser_threads", parserParam.Get()->parserThreadCount) )
 		return false; //should not happen as "threads" is mandatory...
 
-	if(htmlParserParam->parserThreadCount<=0){
+	if(parserParam.Get()->parserThreadCount<=0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser thread count specified (<= 0). exiting...");
 		return false;}
 
-	if(!Config().GetValue("parser_maxUrl",htmlParserParam->maxPerSelect))
+	if(!Config().GetValue("parser_maxUrl",parserParam.Get()->maxPerSelect))
 		return false;
-	if(htmlParserParam->maxPerSelect<=0){
+	if(parserParam.Get()->maxPerSelect<=0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_maxUrl specified (<= 0). exiting...");
 		return false;}
 
-	if(!Config().GetValue("parser_waitIdle",htmlParserParam->waitOnIdle))
+	if(!Config().GetValue("parser_waitIdle",parserParam.Get()->waitOnIdle))
 		return false;
-	if(htmlParserParam->waitOnIdle<=0){
+	if(parserParam.Get()->waitOnIdle<=0){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_waitIdle specified (<= 0). exiting...");
 		return false;}
 
@@ -309,9 +303,9 @@ bool WorkerBot::InitParserConfig()
 
 	tools::StringTools::ToLowerIP(parserType);
 	if(parserType.compare("libxml") == 0) {
-		htmlParserParam->parserType = htmlparser::HtmlParserFactory::LIBXML; }
+		parserParam.Get()->parserType = htmlparser::HtmlParserFactory::LIBXML; }
 	else if(parserType.compare("dom") == 0) {
-		htmlParserParam->parserType = htmlparser::HtmlParserFactory::DOM; }
+		parserParam.Get()->parserType = htmlparser::HtmlParserFactory::DOM; }
 	else {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_type specified. exiting...");
 		return false; }
@@ -333,13 +327,17 @@ void WorkerBot::RegisterIndexerConfigParams()
 
 bool WorkerBot::InitIndexerConfigParams()
 {
-	if( !Config().GetValue( "indexer_threads", indexerParam.threadCount) )
+	if(indexerParam.IsNull()) {
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"parser parameters not initialized correctly. exiting...");
+		return false;}
+
+	if( !Config().GetValue( "indexer_threads", indexerParam.Get()->threadCount) )
 		return false;
 
-	if( !Config().GetValue( "indexer_waitIdle", indexerParam.waitOnIdle) )
+	if( !Config().GetValue( "indexer_waitIdle", indexerParam.Get()->waitOnIdle) )
 		return false;
 
-	if( !Config().GetValue( "indexer_maxUrl", indexerParam.maxPerSelect) )
+	if( !Config().GetValue( "indexer_maxUrl", indexerParam.Get()->maxPerSelect) )
 		return false;
 
 	return true;
