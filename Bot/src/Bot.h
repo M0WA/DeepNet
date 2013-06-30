@@ -84,26 +84,27 @@ protected:
 private:
 
 	/**
-	 * called before initialization of this configuration.
+	 * called after registration of default parameters and before initialization.
+	 * usually used to register application specific config parameters.
 	 * @return false on error, true on success.
 	 */
 	virtual bool OnPreInit() { return true; }
 
 	/**
-	 * called when configuration and initialization is completed.
-	 * usually used to initialize application specific commandline parameters.
+	 * called after bot configuration and initialization has completed.
+	 * usually used to initialize application specific config parameters.
 	 * @return false on error, true on success.
 	 */
 	virtual bool OnInit() { return true; }
 
 	/**
-	 * initialization when configuration is initialized and validated.
+	 * called after bot and application specific configuration is initialized and validated.
 	 * @return false on error, true on success.
 	 */
 	virtual bool OnPostInit() { return true; }
 
 	/**
-	 * called when all initialization is comleted and the applications starts running.
+	 * called when all initialization is completed and the applications starts running.
 	 * when this function returns, the applications does NOT exit.
 	 * @return false on error, true on success.
 	 */
