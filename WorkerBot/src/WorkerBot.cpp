@@ -12,14 +12,14 @@
 #include <map>
 #include <iostream>
 
-#include <GenericWebCrawler.h>
-#include <CommerceSearchCrawler.h>
+#include <Crawler.h>
+#include <CrawlerFactory.h>
+
 #include <CommerceSearchParser.h>
 #include <CommerceSearchParserParam.h>
 #include <GenericWebHtmlParser.h>
 #include <GenericWebHtmlParserParam.h>
 #include <GenericWebIndexer.h>
-#include <DataminingCrawler.h>
 #include <DataminingIndexer.h>
 
 #include <HtmlParserBase.h>
@@ -69,7 +69,7 @@ bool WorkerBot::OnRun() {
 
 	bool bSuccess = true;
 
-	bSuccess &= crawler.Get()->StartThread(crawlerParam.Get());
+	bSuccess &= crawler.Get()->StartThread();
 	bSuccess &= parser.Get() ->StartThread(parserParam.Get());
 	bSuccess &= indexer.Get()->StartThread(indexerParam.Get());
 
@@ -111,8 +111,8 @@ bool WorkerBot::OnPostInit() {
 	//initializing commercesearch
 	if(workerBotMode.compare("commercesearch") == 0) {
 
-		crawler.Set(dynamic_cast<crawler::Crawler*>(new crawler::CommerceSearchCrawler()),true);
 		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateCommerceSearchCrawler(crawlerParam.Get()),true);
 
 		parser.Set(dynamic_cast<parser::HtmlParserBase*>(new parser::CommerceSearchParser()),true);
 		parserParam.Set(dynamic_cast<parser::HtmlParserParam*>(new parser::CommerceSearchParserParam()),true);
@@ -123,8 +123,8 @@ bool WorkerBot::OnPostInit() {
 	//initializing searchengine
 	else if(workerBotMode.compare("searchengine") == 0) {
 
-		crawler.Set(dynamic_cast<crawler::Crawler*>(new crawler::GenericWebCrawler()),true);
 		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateGenericWebCrawler(crawlerParam.Get()),true);
 
 		parser.Set(dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser()),true);
 		parserParam.Set(dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam()),true);
@@ -135,8 +135,8 @@ bool WorkerBot::OnPostInit() {
 	//initializing datamining
 	else if (workerBotMode.compare("datamining") == 0) {
 
-		crawler.Set(dynamic_cast<crawler::Crawler*>(new crawler::DataminingCrawler()),true);
 		crawlerParam.Set(new crawler::CrawlerParam(),true);
+		crawler.Set(crawler::CrawlerFactory::CreateDataminingCrawler(crawlerParam.Get()),true);
 
 		parser.Set(dynamic_cast<parser::HtmlParserBase*>(new parser::GenericWebHtmlParser()),true);
 		parserParam.Set(dynamic_cast<parser::HtmlParserParam*>(new parser::GenericWebHtmlParserParam()),true);
