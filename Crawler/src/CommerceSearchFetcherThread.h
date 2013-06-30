@@ -9,10 +9,14 @@
 #include <map>
 #include <vector>
 
-#include "UrlFetcherThread.h"
 #include <DatabaseUrl.h>
 
+#include "UrlFetcherThread.h"
+#include "UrlFetcherThreadParam.h"
+
 namespace crawler {
+
+	class CrawlerParam;
 
 /**
  * @brief url fetcher implementation for commerce search.
@@ -23,9 +27,10 @@ namespace crawler {
 class CommerceSearchFetcherThread : public UrlFetcherThread {
 
 public:
-	struct CommerceSearchFetcherThreadParam : public UrlFetcherThread::UrlFetcherThreadParam {
-		CommerceSearchFetcherThreadParam()
-		: UrlFetcherThreadParam() {
+	class CommerceSearchFetcherThreadParam : public UrlFetcherThreadParam {
+	public:
+		CommerceSearchFetcherThreadParam(const CrawlerParam& crawlerParam)
+		: UrlFetcherThreadParam(crawlerParam) {
 		}
 	};
 

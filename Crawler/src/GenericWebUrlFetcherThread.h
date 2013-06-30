@@ -10,9 +10,12 @@
 #include <vector>
 #include <map>
 
+#include "UrlFetcherThreadParam.h"
 #include "UrlFetcherThread.h"
 
 namespace crawler {
+
+	class CrawlerParam;
 
 /**
  * @brief generic web crawler url fetcher thread implementation.
@@ -20,14 +23,6 @@ namespace crawler {
  * @see crawler::DataminingUrlFetcherThread
  */
 class GenericWebUrlFetcherThread : public UrlFetcherThread {
-
-public:
-	struct GenericWebUrlFetcherThreadParam : public UrlFetcherThread::UrlFetcherThreadParam {
-
-		GenericWebUrlFetcherThreadParam()
-		: UrlFetcherThreadParam(){
-		}
-	};
 
 public:
 	GenericWebUrlFetcherThread();

@@ -6,6 +6,9 @@
 
 #include "Crawler.h"
 
+#include "CrawlerParam.h"
+#include "UrlFetcherThread.h"
+
 using namespace threading;
 
 namespace crawler
@@ -45,7 +48,7 @@ void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
 
 bool Crawler::StopCrawler()
 {
-	std::map<UrlFetcherThread*,UrlFetcherThread::UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
+	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
 	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads)
 	{
 		iterThreads->first->SetShallEnd(true);
@@ -65,7 +68,7 @@ bool Crawler::StopCrawler()
 
 bool Crawler::WatchDog()
 {
-	std::map<UrlFetcherThread*,UrlFetcherThread::UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
+	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
 
 	//check if at least one thread is alive
 	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads){

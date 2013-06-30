@@ -1,29 +1,31 @@
 /**
- * @file DataminingCrawler.cpp
+ * @file GenericWebCrawler.cpp
  * @author Moritz Wagner
- * @date 07.10.2012
+ * @date 24.07.2012
  */
 
-#include "DataminingCrawler.h"
-#include "DataminingUrlFetcherThread.h"
+#include "GenericWebCrawler.h"
+#include "GenericWebUrlFetcherThread.h"
+#include "GenericWebUrlFetcherThreadParam.h"
 
 #include <OpenSSLThreadLock.h>
 
 namespace crawler {
 
-DataminingCrawler::DataminingCrawler() {
+GenericWebCrawler::GenericWebCrawler()
+: Crawler() {
 }
 
-DataminingCrawler::~DataminingCrawler() {
+GenericWebCrawler::~GenericWebCrawler() {
 }
 
-bool DataminingCrawler::StartCrawler()
+bool GenericWebCrawler::StartCrawler()
 {
 	tools::thread_setup();
 	for(int i = 0; i < crawlerParam->threadCount; i++)
 	{
-		DataminingUrlFetcherThread::DataminingUrlFetcherThreadParam* threadParam = new DataminingUrlFetcherThread::DataminingUrlFetcherThreadParam(*crawlerParam);
-		/*
+		GenericWebUrlFetcherThreadParam* threadParam = new GenericWebUrlFetcherThreadParam(*crawlerParam);
+/*
 		threadParam->waitOnIdle        = crawlerParam->waitOnIdle;
 		threadParam->minAge            = crawlerParam->minAge;
 		threadParam->maxPerSelect      = crawlerParam->maxPerSelect;
@@ -34,9 +36,9 @@ bool DataminingCrawler::StartCrawler()
 		threadParam->speedLimitKB      = crawlerParam->speedLimitKB;
 		threadParam->respectRobotsTxt  = crawlerParam->respectRobotsTxt;
 		threadParam->databaseConfig    = crawlerParam->databaseConfig;
-		*/
-
-		DataminingUrlFetcherThread* urlFetcherThread = new DataminingUrlFetcherThread();
+		threadParam->clientType        = crawlerParam->clientType;
+*/
+		GenericWebUrlFetcherThread* urlFetcherThread = new GenericWebUrlFetcherThread();
 		urlFetcherThread->StartThread(threadParam);
 
 		urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =

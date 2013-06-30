@@ -23,7 +23,8 @@ bool CommerceSearchCrawler::StartCrawler()
 	tools::thread_setup();
 	for(int i = 0; i < crawlerParam->threadCount; i++)
 	{
-		CommerceSearchFetcherThread::CommerceSearchFetcherThreadParam* threadParam = new CommerceSearchFetcherThread::CommerceSearchFetcherThreadParam();
+		CommerceSearchFetcherThread::CommerceSearchFetcherThreadParam* threadParam = new CommerceSearchFetcherThread::CommerceSearchFetcherThreadParam(*crawlerParam);
+		/*
 		threadParam->waitOnIdle        = crawlerParam->waitOnIdle;
 		threadParam->minAge            = crawlerParam->minAge;
 		threadParam->maxPerSelect      = crawlerParam->maxPerSelect;
@@ -34,12 +35,13 @@ bool CommerceSearchCrawler::StartCrawler()
 		threadParam->speedLimitKB      = crawlerParam->speedLimitKB;
 		threadParam->respectRobotsTxt  = crawlerParam->respectRobotsTxt;
 		threadParam->databaseConfig    = crawlerParam->databaseConfig;
+		*/
 
 		CommerceSearchFetcherThread* urlFetcherThread = new CommerceSearchFetcherThread();
 		urlFetcherThread->StartThread(threadParam);
 
 		urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =
-				dynamic_cast<UrlFetcherThread::UrlFetcherThreadParam*>(threadParam);
+				dynamic_cast<UrlFetcherThreadParam*>(threadParam);
 	}
 	tools::thread_cleanup();
 	return true;

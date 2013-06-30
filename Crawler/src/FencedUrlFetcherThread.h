@@ -9,14 +9,16 @@
 #pragma once
 
 #include <vector>
+
 #include "GenericWebUrlFetcherThread.h"
+#include "GenericWebUrlFetcherThreadParam.h"
 
 namespace crawler {
 
 class FencedUrlFetcherThread : public GenericWebUrlFetcherThread {
 
 public:
-	struct FencedUrlFetcherThreadParam : public GenericWebUrlFetcherThread::GenericWebUrlFetcherThreadParam {
+	class FencedUrlFetcherThreadParam : public GenericWebUrlFetcherThreadParam {
 		std::vector<long long> secondLevelDomains;
 	};
 

@@ -9,14 +9,16 @@
 #pragma once
 
 #include <vector>
+
 #include "Crawler.h"
+#include "CrawlerParam.h"
 
 namespace crawler {
 
 class FencedCrawler : public Crawler {
 
 public:
-	struct FencedCrawlerParam : public Crawler::CrawlerParam {
+	struct FencedCrawlerParam : public CrawlerParam {
 		std::vector<long long> secondLevelDomains;
 	};
 

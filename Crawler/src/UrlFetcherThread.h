@@ -15,6 +15,7 @@
 #include <HttpClientFactory.h>
 
 #include "UrlFetchParam.h"
+#include "CrawlerParam.h"
 
 namespace htmlparser {
 	class DatabaseUrl;
@@ -26,87 +27,12 @@ namespace network {
 
 namespace crawler {
 
+	class UrlFetcherThreadParam;
+
 /**
  * @brief generic url fetcher thread implementation.
  */
 class UrlFetcherThread: public threading::Thread {
-
-public:
-	/**
-	 * @struct UrlFetcherThreadParam
-	 * @brief url fetcher parameters.
-	 */
-	struct UrlFetcherThreadParam
-	{
-		UrlFetcherThreadParam()
-		: waitOnIdle(25)
-		, minAge(30)
-		, maxPerSelect(20)
-		, userAgent("Mozilla/5.0 (Windows NT 6.2; rv:9.0.1) Gecko/20100101 Firefox/9.0.1")
-		, connectTimeout(8)
-		, connectionTimeout(15)
-		, useIPv6(false)
-		, speedLimitKB(300)
-		, respectRobotsTxt(false)
-		, databaseConfig(0)
-		{
-		}
-
-		/**
-		 * how long to sleep before retrying to get a new url to fetch (in seconds).
-		 */
-		int waitOnIdle;
-
-		/**
-		 * minimum age of an url before recrawling (in days).
-		 */
-		int minAge;
-
-		/**
-		 * maximum number urls that should be fetched at once from database.
-		 */
-		int maxPerSelect;
-
-		/**
-		 * useragent.
-		 */
-		std::string userAgent;
-
-		/**
-		 * TODO: document
-		 */
-		int connectTimeout;
-
-		/**
-		 * TODO: document
-		 */
-		int connectionTimeout;
-
-		/**
-		 * TODO: document
-		 */
-		bool useIPv6;
-
-		/**
-		 * speed limit in kb (upload and download).
-		 */
-		int speedLimitKB;
-
-		/**
-		 * crawl only if allowed by robots.txt.
-		 */
-		bool respectRobotsTxt;
-
-		/**
-		 * database configuration.
-		 */
-		database::DatabaseConfig* databaseConfig;
-
-		/**
-		 * type of the http client
-		 */
-		network::HttpClientFactory::HttpClientType clientType;
-	};
 
 public:
 	UrlFetcherThread();
