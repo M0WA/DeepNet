@@ -13,9 +13,14 @@
 namespace indexing {
 
 class IndexerThread;
+class IndexerFactory;
 class DataminingIndexer: public indexing::Indexer {
+
+	friend class IndexerFactory;
+
+private:
+	DataminingIndexer(const IndexerParam* param);
 public:
-	DataminingIndexer();
 	virtual ~DataminingIndexer();
 
 private:

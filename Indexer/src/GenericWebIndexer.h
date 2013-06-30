@@ -11,10 +11,15 @@
 
 namespace indexing {
 
+class IndexerFactory;
 class IndexerThread;
 class GenericWebIndexer: public indexing::Indexer {
+
+	friend class IndexerFactory;
+
+private:
+	GenericWebIndexer(const IndexerParam* param);
 public:
-	GenericWebIndexer();
 	virtual ~GenericWebIndexer();
 
 private:

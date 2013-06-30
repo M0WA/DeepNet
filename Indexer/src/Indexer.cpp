@@ -9,8 +9,9 @@
 
 namespace indexing {
 
-Indexer::Indexer()
+Indexer::Indexer(const IndexerParam* param)
 : Thread((Thread::ThreadFunction)&(Indexer::IndexerThreadFunc))
+, indexerParam(param)
 {
 }
 
@@ -20,7 +21,6 @@ Indexer::~Indexer() {
 void* Indexer::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 {
 	Indexer* instance = (Indexer*)threadParam->instance;
-	instance->indexerParam = *((Indexer::IndexerParam*)threadParam->pParam);
 
 	if(!instance->StartIndexer())
 		return (void*)1;
@@ -41,12 +41,12 @@ void* Indexer::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 
 bool Indexer::StartIndexer()
 {
-	for(int i = 0; i < indexerParam.threadCount; i++)
+	for(int i = 0; i < indexerParam->threadCount; i++)
 	{
 		IndexerThread::IndexerThreadParam* threadParam = new IndexerThread::IndexerThreadParam(
-				indexerParam.maxPerSelect,
-				indexerParam.waitOnIdle,
-				indexerParam.databaseConfig);
+				indexerParam->maxPerSelect,
+				indexerParam->waitOnIdle,
+				indexerParam->databaseConfig);
 
 		indexing::IndexerThread* indexerThread = CreateIndexerThread();
 		indexerThread->StartThread(threadParam);

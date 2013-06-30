@@ -10,7 +10,8 @@
 
 namespace indexing {
 
-GenericWebIndexer::GenericWebIndexer() {
+GenericWebIndexer::GenericWebIndexer(const IndexerParam* param)
+: Indexer(param) {
 }
 
 GenericWebIndexer::~GenericWebIndexer() {

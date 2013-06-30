@@ -8,7 +8,9 @@
 #pragma once
 
 #include <Thread.h>
+
 #include "IndexerThread.h"
+#include "IndexerParam.h"
 
 namespace database {
 	class DatabaseConfig;
@@ -17,36 +19,9 @@ namespace database {
 namespace indexing {
 
 class Indexer : public threading::Thread {
-public:
-	struct IndexerParam
-	{
-		IndexerParam()
-		{
-			threadCount = 0;
-			waitOnIdle = 0;
-			maxPerSelect = 0;
-		}
-
-		IndexerParam(
-			const int maxPerSelect,
-			const int waitOnIdle,
-			const int threadCount,
-			database::DatabaseConfig* databaseConfig)
-		{
-			this->maxPerSelect = maxPerSelect;
-			this->waitOnIdle = waitOnIdle;
-			this->threadCount = threadCount;
-			this->databaseConfig = databaseConfig;
-		}
-
-		int threadCount;
-		int waitOnIdle;
-		int maxPerSelect;
-		database::DatabaseConfig* databaseConfig;
-	};
 
 protected:
-	Indexer();
+	Indexer(const IndexerParam* param);
 public:
 	virtual ~Indexer();
 
@@ -62,7 +37,7 @@ private:
 	static void* IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam);
 
 private:
-	Indexer::IndexerParam indexerParam;
+	const IndexerParam* indexerParam;
 	std::map<IndexerThread*,IndexerThread::IndexerThreadParam*> indexerThreads;
 };
 

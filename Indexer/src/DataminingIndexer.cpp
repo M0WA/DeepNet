@@ -10,7 +10,8 @@
 
 namespace indexing {
 
-DataminingIndexer::DataminingIndexer() {
+DataminingIndexer::DataminingIndexer(const IndexerParam* param)
+: Indexer(param){
 }
 
 DataminingIndexer::~DataminingIndexer() {
