@@ -7,7 +7,7 @@
 
 #include "DataminingIndexerThread.h"
 
-#include "IndexerFactory.h"
+#include "IIndexerFactory.h"
 
 namespace indexing {
 
@@ -21,8 +21,8 @@ void DataminingIndexerThread::OnCreateIndexer(
 			tools::Pointer<IIndexer>& indexerMeta,
 			tools::Pointer<IIndexer>& indexerContent) {
 
-	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_DATAMINING,indexerContent);
-	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::FLEX_DATAMINING,indexerMeta);
+	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::FLEX_DATAMINING,indexerContent);
+	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::FLEX_DATAMINING,indexerMeta);
 }
 
 }

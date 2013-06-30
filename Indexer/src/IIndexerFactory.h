@@ -1,6 +1,6 @@
 /**
  *
- * @file IndexerFactory.h
+ * @file IIndexerFactory.h
  * @author Moritz Wagner
  * @date 13.06.2013
  *
@@ -22,7 +22,7 @@ class IIndexer;
  * @brief factory class for IIndexer interfaces
  * @see indexing::IIndexer
  */
-class IndexerFactory {
+class IIndexerFactory {
 public:
 	/**
 	 * @enum IndexerType
@@ -50,9 +50,9 @@ public:
 	} IndexerType;
 
 private:
-	IndexerFactory();
+	IIndexerFactory();
 public:
-	virtual ~IndexerFactory();
+	virtual ~IIndexerFactory();
 
 public:
 	/**

@@ -9,7 +9,7 @@
 
 #include "IndexerBase.h"
 #include "IIndexer.h"
-#include "IndexerFactory.h"
+#include "IIndexerFactory.h"
 #include "Dictionary.h"
 
 #include <StringTools.h>
@@ -27,7 +27,7 @@ IndexerTester::~IndexerTester() {
 bool IndexerTester::Parse(database::DatabaseConnection* database, const std::string& content)
 {
 	tools::Pointer<IIndexer> indexer;
-	IndexerFactory::CreateInstance(database,IndexerFactory::FLEX_GENERIC,indexer);
+	IIndexerFactory::CreateInstance(database,IIndexerFactory::FLEX_GENERIC,indexer);
 	indexer.Get()->GetDictionary().SetTestMode(true);
 	indexer.Get()->Parse( content,-1 );
 

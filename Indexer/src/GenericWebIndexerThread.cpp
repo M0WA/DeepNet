@@ -7,7 +7,7 @@
 
 #include "GenericWebIndexerThread.h"
 
-#include "IndexerFactory.h"
+#include "IIndexerFactory.h"
 
 namespace indexing {
 
@@ -22,8 +22,8 @@ void GenericWebIndexerThread::OnCreateIndexer(
 			tools::Pointer<IIndexer>& indexerContent) {
 
 	//TODO: make indexer type configurable via file config
-	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::OWN_GENERIC,indexerContent);
-	IndexerFactory::CreateInstance(DB().Connection(),IndexerFactory::OWN_GENERIC,indexerMeta);
+	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::OWN_GENERIC,indexerContent);
+	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::OWN_GENERIC,indexerMeta);
 }
 
 }

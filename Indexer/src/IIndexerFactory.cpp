@@ -1,12 +1,12 @@
 /**
  *
- * @file IndexerFactory.cpp
+ * @file IIndexerFactory.cpp
  * @author Moritz Wagner
  * @date 13.06.2013
  *
  */
 
-#include "IndexerFactory.h"
+#include "IIndexerFactory.h"
 
 #include "IndexerEx.h"
 #include "GenericWebContentIndexer.h"
@@ -14,13 +14,13 @@
 
 namespace indexing {
 
-IndexerFactory::IndexerFactory() {
+IIndexerFactory::IIndexerFactory() {
 }
 
-IndexerFactory::~IndexerFactory() {
+IIndexerFactory::~IIndexerFactory() {
 }
 
-bool IndexerFactory::CreateInstance(database::DatabaseConnection* db,const IndexerType& type, tools::Pointer<IIndexer>& indexer) {
+bool IIndexerFactory::CreateInstance(database::DatabaseConnection* db,const IndexerType& type, tools::Pointer<IIndexer>& indexer) {
 	switch(type)
 	{
 	case OWN_GENERIC:

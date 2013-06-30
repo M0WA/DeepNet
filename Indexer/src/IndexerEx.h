@@ -17,14 +17,14 @@ namespace database {
 
 namespace indexing {
 
-class IndexerFactory;
+class IIndexerFactory;
 
 /**
  * @brief simple implementation of an IIndexer interface
  */
 class IndexerEx : public IIndexer {
 
-	friend class IndexerFactory;
+	friend class IIndexerFactory;
 
 private:
 	IndexerEx(database::DatabaseConnection* database);

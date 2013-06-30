@@ -16,7 +16,7 @@ class Dictionary;
 
 class GenericWebContentIndexer: public indexing::ContentIndexer {
 
-	friend class IndexerFactory;
+	friend class IIndexerFactory;
 
 private:
 	GenericWebContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type);

@@ -15,7 +15,7 @@ namespace indexing {
 class IndexerFactory;
 class DataminingContentIndexer: public indexing::ContentIndexer {
 
-	friend class IndexerFactory;
+	friend class IIndexerFactory;
 
 private:
 	DataminingContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type);
