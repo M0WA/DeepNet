@@ -1,8 +1,7 @@
-/*
- * WorkerBot.cpp
- *
- *  Created on: 06.03.2012
- *      Author: Moritz Wagner
+/**
+ * @file WorkerBot.cpp
+ * @author Moritz Wagner
+ * @date 06.03.2012
  */
 
 #include "WorkerBot.h"

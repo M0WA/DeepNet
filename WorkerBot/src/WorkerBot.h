@@ -1,8 +1,7 @@
-/*
- * WorkerBot.h
- *
- *  Created on: 06.03.2012
- *      Author: Moritz Wagner
+/**
+ * @file WorkerBot.h
+ * @author Moritz Wagner
+ * @date 06.03.2012
  */
 
 #pragma once
@@ -25,6 +24,10 @@ namespace indexing {
 	class IndexerParam;
 }
 
+/**
+ * @brief implementation of the worker bot which is the main application
+ * of the whole DeepNet infrastructure.
+ */
 class WorkerBot : public bot::Bot {
 public:
 	WorkerBot();
