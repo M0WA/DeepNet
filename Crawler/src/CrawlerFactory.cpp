@@ -21,8 +21,8 @@ CrawlerFactory::CrawlerFactory() {
 CrawlerFactory::~CrawlerFactory() {
 }
 
-Crawler* CrawlerFactory::CreateFencedCrawler(const CrawlerParam* crawlerParam,const std::vector<long long>& boundSecondLevelDomains){
-	return new FencedCrawler(crawlerParam,boundSecondLevelDomains);
+Crawler* CrawlerFactory::CreateFencedCrawler(const CrawlerParam* crawlerParam){
+	return new FencedCrawler(crawlerParam);
 }
 
 Crawler* CrawlerFactory::CreateCommerceSearchCrawler(const CrawlerParam* crawlerParam){

@@ -22,7 +22,7 @@ class FencedCrawler : public Crawler {
 	friend class CrawlerFactory;
 
 private:
-	FencedCrawler(const CrawlerParam* crawlerParam,const std::vector<long long>& boundSecondLevelDomains);
+	FencedCrawler(const CrawlerParam* crawlerParam);
 public:
 	virtual ~FencedCrawler();
 

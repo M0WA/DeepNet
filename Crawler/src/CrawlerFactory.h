@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <vector>
-
 namespace crawler {
 
 	class Crawler;
@@ -25,7 +23,7 @@ public:
 	static Crawler* CreateCommerceSearchCrawler(const CrawlerParam* crawlerParam);
 	static Crawler* CreateDataminingCrawler(const CrawlerParam* crawlerParam);
 	static Crawler* CreateGenericWebCrawler(const CrawlerParam* crawlerParam);
-	static Crawler* CreateFencedCrawler(const CrawlerParam* crawlerParam,const std::vector<long long>& boundSecondLevelDomains);
+	static Crawler* CreateFencedCrawler(const CrawlerParam* crawlerParam);
 };
 
 }
