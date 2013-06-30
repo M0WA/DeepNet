@@ -47,7 +47,7 @@
  -->
 <table
 	name="secondleveldomains"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="documents"
 >
 
@@ -67,7 +67,7 @@
  --> 
 <table
 	name="subdomains"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="documents"
 >
 
@@ -107,7 +107,7 @@
  -->
 <table
 	name="urls"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="documents"
 >
 
@@ -141,7 +141,7 @@
  -->
 <table
 	name="images"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="documents"
 >
 
@@ -182,7 +182,7 @@
  -->
 <table
 	name="urlstages"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="contents"
 >
 
@@ -217,7 +217,7 @@
  -->
 <table
 	name="documentcode"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="contents"
 >
 
@@ -238,7 +238,7 @@
  -->
 <table
 	name="latesturlstages"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="contents"
 >
 
@@ -261,7 +261,7 @@
  -->
 <table
 	name="hyperlinks"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="contents"
 >
 
@@ -286,7 +286,7 @@
  -->
 <table
 	name="imagelinks"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="contents"
 >
 
@@ -312,7 +312,7 @@
  -->
 <table
 	name="metainfo"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="contents"
 >
 
@@ -343,7 +343,7 @@
  -->
 <table
 	name="dict"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="lexicon"
 >
 
@@ -365,7 +365,7 @@
  -->
 <table
 	name="dockey"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="lexicon"
 >
 
@@ -389,7 +389,7 @@
  -->
 <table
 	name="docmeta"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="lexicon"
 >
 
@@ -413,7 +413,7 @@
  -->
 <table
 	name="docurl"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="lexicon"
 >
 
@@ -437,7 +437,7 @@
  -->
 <table
 	name="dockeypos"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="lexicon"
 >
 
@@ -483,7 +483,7 @@
  -->
 <table
 	name="locksecondleveldomain"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="sync"
 >
 
@@ -504,7 +504,7 @@
  -->
 <table
 	name="syncurls"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="sync"
 >
 
@@ -542,7 +542,7 @@
  -->
 <table
 	name="customers"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -563,7 +563,7 @@
  -->
 <table
 	name="customersessions"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -584,7 +584,7 @@
  -->
 <table
 	name="customerdomains"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -609,7 +609,7 @@
  -->
 <table
 	name="customersynccrawler"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -634,7 +634,7 @@
  -->
 <table
 	name="customersyncurl"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -657,7 +657,7 @@
  -->
 <table
 	name="customerkeywords"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -681,7 +681,7 @@
  -->
 <table
 	name="customerdomainblacklist"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -704,7 +704,7 @@
  -->
 <table
 	name="customerqueries"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -726,7 +726,7 @@
  -->
 <table
 	name="customerproducts"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -751,7 +751,7 @@
  -->
 <table
 	name="customerproductimages"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -772,7 +772,7 @@
  -->
 <table
 	name="customerproductkeywords"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -794,7 +794,7 @@
  -->
 <table
 	name="customerproducturls"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="commercesearch"
 >
 
@@ -818,7 +818,7 @@
  -->
 <table
     name="customermatchcriteria"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="commercesearch"
 >
 
@@ -842,7 +842,7 @@
  --> 
 <table
     name="matchcriteria"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="commercesearch"
 >
     <column name="ID"          type="INTEGER"       notnull="1" autoincrement="1" />
@@ -859,7 +859,7 @@
  -->
 <table
     name="customermatchcriteriagrouptype"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="commercesearch"
 >
 
@@ -888,7 +888,7 @@
  -->
 <table
     name="dataminingcustomer"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="datamining"
 >
 
@@ -908,7 +908,7 @@
  -->
 <table
     name="dataminingcustomersession"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="datamining"
 >
 
@@ -930,7 +930,7 @@
  -->
 <table
     name="dataminingcriteria"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="datamining"
 >
 
@@ -950,7 +950,7 @@
  -->
 <table
     name="dataminingalerts"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="datamining"
 >
 
@@ -970,7 +970,7 @@
  -->
 <table
     name="dataminingcriteriaalerts"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="datamining"
 >
 
@@ -993,7 +993,7 @@
  -->
 <table
     name="dataminingblacklist"
-    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+    MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
     MySQL_Database="datamining"
 >
 
@@ -1003,6 +1003,27 @@
     
     <primary_key column="ID" />
     <foreign_key column="CUSTOMER_ID"    references_table="dataminingcustomer" references_column="ID"  MySQL_Database="datamining" />
+</table>
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: fencedsearch
+ *
+ -->
+
+<table
+	name="fencedsearch"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="datamining"
+>
+	<column name="ID"                   type="INTEGER"      notnull="1" autoincrement="1" />
+    <column name="CUSTOMER_ID"          type="INTEGER"      notnull="1" />
+	<column name="SECONDLEVELDOMAIN_ID" type="INTEGER"      notnull="1" />
+
+	<primary_key column="ID" />
+    <foreign_key column="CUSTOMER_ID"           references_table="dataminingcustomer" references_column="ID"    MySQL_Database="datamining" />
+	<foreign_key column="SECONDLEVELDOMAIN_ID"  references_table="secondleveldomains" references_column="ID"    MySQL_Database="documents" />
+    <unique_key  column="CUSTOMER_ID,SECONDLEVELDOMAIN_ID" />
 </table>
 
 
@@ -1020,7 +1041,7 @@
  -->
 <table
 	name="searchquery"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="queryserver"
 >
 
@@ -1039,7 +1060,7 @@
  -->
 <table
 	name="queryresults"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="queryserver"
 >
 
@@ -1063,7 +1084,7 @@
  -->
 <table
 	name="keywordquery"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="queryserver"
 >
 
@@ -1083,7 +1104,7 @@
  -->
 <table
 	name="searchquerykeywords"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="queryserver"
 >
 
@@ -1113,7 +1134,7 @@
  -->
 <table
 	name="logmessages"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1139,7 +1160,7 @@
  -->
 <table
 	name="cacheurl"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1161,7 +1182,7 @@
  -->
 <table
 	name="cachesecondleveldomain"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1183,7 +1204,7 @@
  -->
 <table
 	name="cachesubdomain"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1205,7 +1226,7 @@
  -->
 <table
 	name="cacheparsed"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1227,7 +1248,7 @@
  -->
 <table
 	name="cachehtml"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1249,7 +1270,7 @@
  -->
 <table
   name="cacherobots"
-  MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+  MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
   MySQL_Database="logging"
 >
 
@@ -1270,7 +1291,7 @@
  *
 <table
 	name="indexperformance"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
@@ -1291,7 +1312,7 @@
  *
 <table
 	name="processindex"
-	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPRESSED"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
 	MySQL_Database="logging"
 >
 
