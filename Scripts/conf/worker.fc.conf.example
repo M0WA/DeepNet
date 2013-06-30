@@ -27,7 +27,7 @@ worker_bot_mode=fenced
 # loglevel=error
 
 # log file, needed only for log type: file
-# logfile=/var/log/worker.se.log
+# logfile=/var/log/worker.fc.log
 
 # enable logging for cache sizes etc
 # P=1

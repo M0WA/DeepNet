@@ -10,7 +10,7 @@
 
 if [ $# -ne 2 ]; then
   echo ""
-  echo "usage: ./add_datamining_user.sh <username> <password>"
+  echo "usage: ./add_datamining_user.sh <username> <password> [--debug]"
   echo ""
   echo "please enter valid username and password:"
   echo "  i.e. ./add_datamining_user.sh \"dummy_customer@siridia.de\" \"areallyreallysecurepassword\""
