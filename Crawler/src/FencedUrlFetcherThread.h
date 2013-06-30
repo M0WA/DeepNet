@@ -31,6 +31,13 @@ public:
 public:
 	FencedUrlFetcherThread();
 	virtual ~FencedUrlFetcherThread();
+
+private:
+	virtual bool LockNextSecondLevelDomain();
+
+private:
+	const FencedUrlFetcherThreadParam* fencedParam;
+	bool isDomainsReserved;
 };
 
 }

@@ -34,6 +34,9 @@ private:
 	virtual void OnExit();
 
 private:
+	virtual bool LockNextSecondLevelDomain();
+
+private:
 	/**
 	 * removes reservations for a certain secondleveldomain-id.
 	 * @param secondLevelID secondleveldomain-id to remove reservation for.
@@ -41,9 +44,11 @@ private:
 	 */
 	void RemoveSecondLevelReservation(const long long secondLevelID, const int addSchedule);
 
+protected:
+	std::map<long long,time_t> syncSecondLevelDomains;
+
 private:
 	bool urlsFound;
-	std::map<long long,time_t> syncSecondLevelDomains;
 };
 
 }

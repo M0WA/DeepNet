@@ -40,6 +40,34 @@ bool GenericWebUrlFetcherThread::GetNextSecondLevelDomain()
 {
 	PERFORMANCE_LOG_START;
 
+	if(!LockNextSecondLevelDomain())
+		return false;
+
+	database::SelectResultContainer<database::locksecondleveldomainTableBase> tblLockDomains;
+	database::locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,tblLockDomains);
+
+	if(tblLockDomains.Size() == 0){
+		OnIdle();
+		return false; }
+
+	tblLockDomains.ResetIter();
+	for(;!tblLockDomains.IsIterEnd(); tblLockDomains.Next()){
+
+		long long secondLevelDomainID = -1;
+		tblLockDomains.GetIter()->Get_SECONDLEVELDOMAIN_ID(secondLevelDomainID);
+		if(secondLevelDomainID <= 0) {
+			THROW_EXCEPTION(URLInvalidSecondLevelDomainIDException,secondLevelDomainID,-1);}
+
+		if(syncSecondLevelDomains.count(secondLevelDomainID) == 0){
+			syncSecondLevelDomains[secondLevelDomainID] = time(0); }
+	}
+
+	return true;
+}
+
+bool GenericWebUrlFetcherThread::LockNextSecondLevelDomain() {
+	PERFORMANCE_LOG_START;
+
 	database::TableBaseUpdateParam param;
 	param.onlyDirtyColumns = true;
 	param.limit = 1;
@@ -62,25 +90,6 @@ bool GenericWebUrlFetcherThread::GetNextSecondLevelDomain()
 	PERFORMANCE_LOG_RESTART;
 	tblLockDomain.Update(DB().Connection(),param);
 	PERFORMANCE_LOG_STOP("locking new second level domain id to crawl");
-
-	database::SelectResultContainer<database::locksecondleveldomainTableBase> tblLockDomains;
-	database::locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,tblLockDomains);
-
-	if(tblLockDomains.Size() == 0){
-		OnIdle();
-		return false; }
-
-	tblLockDomains.ResetIter();
-	for(;!tblLockDomains.IsIterEnd(); tblLockDomains.Next()){
-
-		long long secondLevelDomainID = -1;
-		tblLockDomains.GetIter()->Get_SECONDLEVELDOMAIN_ID(secondLevelDomainID);
-		if(secondLevelDomainID <= 0) {
-			THROW_EXCEPTION(URLInvalidSecondLevelDomainIDException,secondLevelDomainID,-1);}
-
-		if(syncSecondLevelDomains.count(secondLevelDomainID) == 0){
-			syncSecondLevelDomains[secondLevelDomainID] = time(0); }
-	}
 
 	return true;
 }
