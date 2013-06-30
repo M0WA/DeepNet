@@ -19,6 +19,12 @@ class FencedUrlFetcherThread : public GenericWebUrlFetcherThread {
 
 public:
 	class FencedUrlFetcherThreadParam : public GenericWebUrlFetcherThreadParam {
+	public:
+		FencedUrlFetcherThreadParam(const CrawlerParam& crawlerParam, const std::vector<long long>& secondLevelDomains)
+		: GenericWebUrlFetcherThreadParam(crawlerParam)
+		, secondLevelDomains(secondLevelDomains)
+		{}
+
 		std::vector<long long> secondLevelDomains;
 	};
 

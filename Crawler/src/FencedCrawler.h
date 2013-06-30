@@ -18,11 +18,6 @@ namespace crawler {
 class FencedCrawler : public Crawler {
 
 public:
-	struct FencedCrawlerParam : public CrawlerParam {
-		std::vector<long long> secondLevelDomains;
-	};
-
-public:
 	FencedCrawler();
 	virtual ~FencedCrawler();
 
