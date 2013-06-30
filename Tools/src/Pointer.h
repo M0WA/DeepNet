@@ -113,6 +113,28 @@ public:
 	}
 
 	/**
+	 * dynamic casts pointer to given type X (and make it const)
+	 * @return const pointer or 0 if not successful
+	 */
+	template <class X>
+	const X* DynCastConst() const {
+		if(!ptr)
+			return 0;
+		return dynamic_cast<const X*>(ptr);
+	}
+
+	/**
+	 * dynamic casts pointer to given type X
+	 * @return pointer or 0 if not successful
+	 */
+	template <class X>
+	X* DynCast() {
+		if(!ptr)
+			return 0;
+		return dynamic_cast<X*>(ptr);
+	}
+
+	/**
 	 * checks if pointer is null
 	 * @return true if pointer is null
 	 */
