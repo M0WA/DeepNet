@@ -39,6 +39,11 @@ private:
 	virtual void OnExit();
 
 private:
+	/**
+	 * removes reservations for a certain secondleveldomain-id.
+	 * @param secondLevelID secondleveldomain-id to remove reservation for.
+	 * @param addSchedule reschedule crawling (in days).
+	 */
 	void RemoveSecondLevelReservation(const long long secondLevelID, const int addSchedule);
 
 private:

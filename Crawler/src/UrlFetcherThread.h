@@ -124,7 +124,6 @@ protected:
 
 protected:
 	//called by UrlFetcherThreadFunction()
-
 	/**
 	 * fetches urls from cache/database and reserves them for crawling.
 	 * @param urls gets filled with url-ids and urls.
@@ -196,14 +195,6 @@ protected:
 	 */
 	void RemoveCrawlerReservation();
 
-	/**
-	 * removes reservations for a certain secondleveldomain-id.
-	 * @param secondLevelID secondleveldomain-id to remove reservation for.
-	 * @param addSchedule reschedule crawling (in days).
-	 */
-	void RemoveSecondLevelReservation(const long long secondLevelID, const int addSchedule);
-
-	//helper for FetchHtmlCode()
 	/**
 	 * helper function for crawler:.UrlFetcherThread::FetchHtmlCode.
 	 * @param urlID url-id
