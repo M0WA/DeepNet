@@ -34,6 +34,10 @@ private:
 	virtual void OnExit();
 
 private:
+	/**
+	 * locks current secondlevel domains with this crawler session id.
+	 * @return true if successful, false if not successful
+	 */
 	virtual bool LockNextSecondLevelDomain();
 
 private:
