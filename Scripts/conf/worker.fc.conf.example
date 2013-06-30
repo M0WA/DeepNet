@@ -12,7 +12,7 @@
 # group=0
 
 # mode of workerbot, one of: searchengine, commercesearch, datamining, fenced
-worker_bot_mode=searchengine
+worker_bot_mode=fenced
 
 ##################################################
 #

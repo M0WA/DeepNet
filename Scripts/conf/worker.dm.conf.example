@@ -11,7 +11,7 @@
 # user=0
 # group=0
 
-# mode of workerbot, one of: searchengine, commercesearch, datamining
+# mode of workerbot, one of: searchengine, commercesearch, datamining, fenced
 worker_bot_mode=datamining
 
 ##################################################
