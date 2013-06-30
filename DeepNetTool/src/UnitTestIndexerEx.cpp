@@ -15,7 +15,7 @@
 #include <DatabaseLayer.h>
 #include <SpellChecking.h>
 
-#include <IndexerFactory.h>
+#include <IIndexerFactory.h>
 #include <IIndexer.h>
 #include <Dictionary.h>
 #include <FileTools.h>
@@ -67,7 +67,7 @@ bool UnitTestIndexerEx::HandleSingleFile(tools::SpellChecking& spellCheck,const 
 		curFileName = testPath + fileName; }
 
 	tools::Pointer<indexing::IIndexer> indexer;
-	if(!indexing::IndexerFactory::CreateInstance(connection,indexing::IndexerFactory::OWN_GENERIC,indexer)) {
+	if(!indexing::IIndexerFactory::CreateInstance(connection,indexing::IIndexerFactory::OWN_GENERIC,indexer)) {
 		log::Logging::LogError("error while creating indexer");
 		return false; }
 
