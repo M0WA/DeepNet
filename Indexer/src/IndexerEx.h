@@ -33,6 +33,7 @@ public:
 
 public:
 	virtual void Parse(const std::string& input, const long long paragraph);
+	virtual void ParseMeta(const std::string& input, const Dictionary::MetaInformationType& type);
 	virtual Dictionary& GetDictionary() { return dictionary; }
 
 private:

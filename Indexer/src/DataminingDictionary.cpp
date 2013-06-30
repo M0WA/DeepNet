@@ -40,7 +40,9 @@ void DataminingDictionary::InitFromDatabase() {
 }
 
 bool DataminingDictionary::CommitMeta(void) {
-	return Commit(mapDataMiningMeta);
+	wordMeta.clear();
+	return true;
+	//return Commit(mapDataMiningMeta);
 }
 
 bool DataminingDictionary::CommitContent(void) {
@@ -48,14 +50,14 @@ bool DataminingDictionary::CommitContent(void) {
 }
 
 bool DataminingDictionary::Commit(const std::map< DataminingCriteria*, std::list<DataminingNotifier*> >& mapDictionary) {
-	if( testMode || !words.size() )
+	if( testMode || !wordContent.size() )
 		return true;
 
 	std::list<DataminingNotifier*>::const_iterator iterNotifier;
 	std::map< DataminingCriteria*, std::list<DataminingNotifier*> >::const_iterator iterAlerts = mapDictionary.begin();
 	for(;iterAlerts != mapDictionary.end(); ++iterAlerts) {
 
-		if( iterAlerts->first->Match(words) ) {
+		if( iterAlerts->first->Match(wordContent) ) {
 			iterNotifier = iterAlerts->second.begin();
 			for(;iterNotifier != iterAlerts->second.end(); ++iterNotifier) {
 				(*iterNotifier)->AddAlert(iterAlerts->first);}
@@ -66,7 +68,7 @@ bool DataminingDictionary::Commit(const std::map< DataminingCriteria*, std::list
 			(*iterNotifier)->OnNotify();}
 	}
 
-	words.clear();
+	wordContent.clear();
 	return true;
 }
 

@@ -10,9 +10,9 @@
 
 #include <string>
 
-namespace indexing {
+#include "Dictionary.h"
 
-class Dictionary;
+namespace indexing {
 
 /**
  * @brief interface class for indexers
@@ -29,6 +29,13 @@ public:
 	 * @param paragraph paragraph of this text
 	 */
 	virtual void Parse(const std::string& input, const long long paragraph) = 0;
+
+	/**
+	 * parses content part of a meta type
+	 * @param input content part to parse
+	 * @param type meta type to set
+	 */
+	virtual void ParseMeta(const std::string& input, const Dictionary::MetaInformationType& type);
 
 	/**
 	 * gets dictionary of this indexer

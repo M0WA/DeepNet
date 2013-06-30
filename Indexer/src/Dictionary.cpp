@@ -31,27 +31,13 @@ Dictionary::~Dictionary()
 {
 }
 
-/*
-void Dictionary::Merge(const Dictionary& dic1,const Dictionary& dic2, Dictionary& merged)
-{
-	merged = dic1;
-	std::set<Word>::const_iterator iterWords = dic2.words.begin();
-	for(;iterWords != dic2.words.end();iterWords++) {
-		std::pair<std::set<Word>::iterator,bool> insertPair = merged.words.insert(*iterWords);
-		if(!insertPair.second) {
-			//add up occurrences when not inserted
-			insertPair.first->IncrementOccurances(iterWords->GetOccurances());
-		}
-	}
-}
-*/
-bool Dictionary::Add(const std::string& word, const std::pair<long long,long long>& paragraphPosition)
+bool Dictionary::AddContent(const std::string& word, const std::pair<long long,long long>& paragraphPosition)
 {
 	if(!testMode && urlID < 0) {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"dictionary url id not set");
 		return false; }
 
-	std::pair<std::set<Word>::iterator,bool> insertPair = words.insert(Word(word));
+	std::pair<std::set<Word>::iterator,bool> insertPair = wordContent.insert(Word(word));
 	if(!insertPair.second) {
 		//was already there -> increment occurrences
 		insertPair.first->IncrementOccurrences();
@@ -62,13 +48,31 @@ bool Dictionary::Add(const std::string& word, const std::pair<long long,long lon
 	return insertPair.second;
 }
 
-bool Dictionary::Add(const std::string& word)
+bool Dictionary::AddContent(const std::string& word)
 {
 	if(!testMode && urlID < 0) {
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"dictionary url id not set");
 		return false; }
 
-	std::pair<std::set<Word>::iterator,bool> insertPair = words.insert(Word(word));
+	std::pair<std::set<Word>::iterator,bool> insertPair = wordContent.insert(Word(word));
+	if(!insertPair.second) {
+		//was already there -> increment occurrences
+		insertPair.first->IncrementOccurrences();
+	}
+
+	//only return true when a new word was inserted
+	return insertPair.second;
+}
+
+bool Dictionary::AddMeta(const std::string& word, const MetaInformationType& type) {
+
+	if(!testMode && urlID < 0) {
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"dictionary url id not set");
+		return false; }
+
+	std::set<Word>& typeWords(wordMeta[type]);
+
+	std::pair<std::set<Word>::iterator,bool> insertPair = typeWords.insert(Word(word));
 	if(!insertPair.second) {
 		//was already there -> increment occurrences
 		insertPair.first->IncrementOccurrences();
@@ -80,26 +84,40 @@ bool Dictionary::Add(const std::string& word)
 
 void Dictionary::SetUrlID(const long long urlID, const long long urlStageID)
 {
-	words.clear();
+	wordContent.clear();
+	wordMeta.clear();
 	this->urlID = urlID;
 	this->urlStageID = urlStageID;
 }
 
 void Dictionary::Dump(std::string& dictDump) const
 {
-	std::set<Word>::const_iterator iterWords = words.begin();
+	std::set<Word>::const_iterator iterWords = wordContent.begin();
 	std::stringstream dump;
-	for(int i = 0; iterWords != words.end(); i++, ++iterWords) {
+	for(int i = 0; iterWords != wordContent.end(); i++, ++iterWords) {
 		dump << iterWords->GetString() << "\t" << iterWords->GetOccurrences() << std::endl;
 	}
+
+	dump << "meta dictionary:" << std::endl;
+	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
+	for(;iterTypes != wordMeta.end();++iterTypes) {
+		const std::set<Word>& refWords(iterTypes->second);
+		iterWords = refWords.begin();
+		for(;iterWords != refWords.end(); ++iterWords) {
+			dump << iterWords->GetString() << "\t" << iterWords->GetOccurrences() << std::endl;
+		}
+	}
+
 	dictDump = dump.str();
 }
 
 void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellChecker) const
 {
-	std::set<Word>::const_iterator iterWords = words.begin();
+	std::set<Word>::const_iterator iterWords = wordContent.begin();
 	std::stringstream dump;
-	for(int i = 0; iterWords != words.end(); i++, ++iterWords) {
+
+	dump << "<content>" << std::endl;
+	for(int i = 0; iterWords != wordContent.end(); i++, ++iterWords) {
 		const char* curWord = iterWords->GetChars();
 		std::vector<std::string> proposals;
 		bool spelledCorrectly = true;
@@ -130,6 +148,47 @@ void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellCheck
 			"</proposals>"
 		"</keyword>" << std::endl;
 	}
+	dump << "</content>" << std::endl;
+
+	dump << "<meta>" << std::endl;
+	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
+	for(;iterTypes != wordMeta.end();++iterTypes) {
+		const std::set<Word>& refWords(iterTypes->second);
+		iterWords = refWords.begin();
+		for(int i = 0;iterWords != refWords.end(); ++iterWords,i++) {
+			const char* curWord = iterWords->GetChars();
+			std::vector<std::string> proposals;
+			bool spelledCorrectly = true;
+			spellChecker.GenerateProposals(curWord,spelledCorrectly,proposals);
+
+			std::vector<std::string>::iterator iterProp = proposals.begin();
+			for(;iterProp != proposals.end();++iterProp) {
+				network::HttpUrlParser::EncodeUrl(*iterProp);}
+
+			std::string dumpVec;
+			tools::StringTools::VectorToString(proposals,"<proposal>","</proposal>",dumpVec);
+
+			std::string encodedWord = curWord;
+			network::HttpUrlParser::EncodeUrl(encodedWord);
+			dump <<
+			"<keyword id=\"" << i << "\">"
+				"<word>"
+					<< encodedWord <<
+				"</word>"
+				"<occurrence>"
+					<< iterWords->GetOccurrences() <<
+				"</occurrence>"
+				"<spell>"
+					<< spelledCorrectly <<
+				"</spell>"
+				"<proposals>"
+					<< dumpVec <<
+				"</proposals>"
+			"</keyword>" << std::endl;
+		}
+	}
+	dump << "</meta>" << std::endl;
+
 	dictDump = dump.str();
 }
 

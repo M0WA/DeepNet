@@ -24,13 +24,13 @@ GenericWebDictionary::~GenericWebDictionary() {
 
 bool GenericWebDictionary::CommitContent(void)
 {
-	if( testMode || !words.size() )
+	if( testMode || !wordContent.size() )
 		return true;
 
-	std::set<Word>::iterator iterWords = words.begin();
+	std::set<Word>::iterator iterWords = wordContent.begin();
 	long long occurrences = 0;
 
-	for(int i = 0; iterWords != words.end(); i++, ++iterWords) {
+	for(int i = 0; iterWords != wordContent.end(); i++, ++iterWords) {
 
 		const Word& wordRef = *iterWords;
 		occurrences = wordRef.GetOccurrences();
@@ -99,67 +99,72 @@ bool GenericWebDictionary::CommitContent(void)
 		database->TransactionCommit();
 	}
 
-	words.clear();
+	wordContent.clear();
 	return true;
 }
 
 bool GenericWebDictionary::CommitMeta(void)
 {
-	if( testMode || !words.size() )
+	if( testMode || !wordMeta.size() )
 		return true;
 
-	std::set<Word>::iterator iterWords = words.begin();
+	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
+
 	long long occurrences = 0;
+	for(;iterTypes != wordMeta.end();++iterTypes) {
+		const std::set<Word>& refWords(iterTypes->second);
+		std::set<Word>::const_iterator iterWords = refWords.begin();
+		for(;iterWords != refWords.end(); ++iterWords) {
 
-	for(int i = 0; iterWords != words.end(); i++, ++iterWords) {
+			occurrences = iterWords->GetOccurrences();
 
-		occurrences = iterWords->GetOccurrences();
+			const std::string& word = iterWords->GetString();
 
-		const std::string& word = iterWords->GetString();
+			database::dictTableBase dictKeyword;
+			dictKeyword.Set_keyword(word);
+			dictKeyword.Set_occurrence(occurrences);
 
-		database::dictTableBase dictKeyword;
-		dictKeyword.Set_keyword(word);
-		dictKeyword.Set_occurrence(occurrences);
+			std::vector<database::TableColumnDefinition*> colDefsSum;
+			colDefsSum.push_back(database::dictTableBase::GetDefinition_occurrence());
 
-		std::vector<database::TableColumnDefinition*> colDefsSum;
-		colDefsSum.push_back(database::dictTableBase::GetDefinition_occurrence());
+			database->TransactionStart();
 
-		database->TransactionStart();
+			try {
+				dictKeyword.InsertOrUpdate(database,colDefsSum);
+			}
+			catch(...) {
+				database->TransactionRollback();
+				throw;
+			}
 
-		try {
-			dictKeyword.InsertOrUpdate(database,colDefsSum);
+			long long dictID = -1;
+			if(!database->LastInsertID(dictID) || dictID<0){
+				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"error while getting ID for word in dictionary: " + word);
+				database->TransactionRollback();
+				continue; }
+
+			database::docmetaTableBase docMeta;
+			docMeta.Set_DICT_ID(dictID);
+			docMeta.Set_URLSTAGE_ID(urlStageID);
+			docMeta.Set_occurrence(occurrences);
+			docMeta.Set_type(iterTypes->first);
+
+			colDefsSum.clear();
+			colDefsSum.push_back(database::docmetaTableBase::GetDefinition_occurrence());
+
+			try {
+				docMeta.InsertOrUpdate(database,colDefsSum);
+			}
+			catch(...) {
+				database->TransactionRollback();
+				throw;
+			}
+
+			database->TransactionCommit();
 		}
-		catch(...) {
-			database->TransactionRollback();
-			throw;
-		}
-
-		long long dictID = -1;
-		if(!database->LastInsertID(dictID) || dictID<0){
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"error while getting ID for word in dictionary: " + word);
-			database->TransactionRollback();
-			continue; }
-
-		database::docmetaTableBase docMeta;
-		docMeta.Set_DICT_ID(dictID);
-		docMeta.Set_URLSTAGE_ID(urlStageID);
-		docMeta.Set_occurrence(occurrences);
-
-		colDefsSum.clear();
-		colDefsSum.push_back(database::docmetaTableBase::GetDefinition_occurrence());
-
-		try {
-			docMeta.InsertOrUpdate(database,colDefsSum);
-		}
-		catch(...) {
-			database->TransactionRollback();
-			throw;
-		}
-
-		database->TransactionCommit();
 	}
 
-	words.clear();
+	wordMeta.clear();
 	return true;
 }
 }

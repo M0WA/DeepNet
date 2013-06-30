@@ -60,7 +60,7 @@ void ContentIndexer::TerminateWord(void)
 {
 	++posWord;
 	if( !tmpWord.empty() && tmpWord.length() > 2 ) {
-		GetDictionary().Add(tmpWord,std::pair<long long, long long>(paragraph,posWord)); }
+		GetDictionary().AddContent(tmpWord,std::pair<long long, long long>(paragraph,posWord)); }
 	tmpWord.clear();
 }
 

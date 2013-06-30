@@ -25,6 +25,22 @@ namespace indexing
 {
 
 class Dictionary {
+
+public:
+	typedef enum {
+
+		META_UNKNOWN = 0,
+
+		META_TITLE = 1,
+		META_DESCRIPTION = 2,
+		META_KEYWORDS = 3,
+		META_AUTHOR = 4,
+		META_COPYRIGHT = 5,
+
+		META_TYPE_MAX, //do not use this
+
+	} MetaInformationType;
+
 public:
 	Dictionary(database::DatabaseConnection* database);
 	virtual ~Dictionary();
@@ -34,23 +50,24 @@ public:
 	virtual bool CommitContent(void)=0;
 
 public:
-	bool Add(const std::string& word, const std::pair<long long,long long>& paragraphPosition);
-	bool Add(const std::string& word);
+	bool AddContent(const std::string& word, const std::pair<long long,long long>& paragraphPosition);
+	bool AddContent(const std::string& word);
+
+	bool AddMeta(const std::string& word, const MetaInformationType& type);
+
 	void SetUrlID(const long long urlID, const long long urlStageID);
 
 	void SetTestMode(const bool testMode) { this->testMode = testMode; }
 	void Dump(std::string& dictDump) const;
 	void DumpXML(std::string& dictDump, tools::SpellChecking& spellChecker) const;
-	int  Size(void) const { return words.size(); }
-/*
-public:
-	static void Merge(const Dictionary& dic1,const Dictionary& dic2, Dictionary& merged);
-*/
+	size_t ContentSize(void) const { return wordContent.size(); }
+	size_t MetaSize(void) const { return wordMeta.size(); }
 
 protected:
 	int limit;
 	database::DatabaseConnection* database;
-	std::set<Word> words;
+	std::set<Word> wordContent;
+	std::map<MetaInformationType,std::set<Word> > wordMeta;
 
 	long long urlID;
 	long long urlStageID;
