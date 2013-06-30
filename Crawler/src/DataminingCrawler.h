@@ -10,6 +10,9 @@
 
 namespace crawler {
 
+	class CrawlerParam;
+	class CrawlerFactory;
+
 /**
  * @brief crawler implementation for datamining.
  * @see crawler::DataminingUrlFetcherThread
@@ -21,7 +24,7 @@ class DataminingCrawler: public crawler::Crawler {
 	friend class CrawlerFactory;
 
 private:
-	DataminingCrawler();
+	DataminingCrawler(const CrawlerParam* crawlerParam);
 public:
 	virtual ~DataminingCrawler();
 

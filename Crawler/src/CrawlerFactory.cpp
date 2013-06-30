@@ -21,20 +21,20 @@ CrawlerFactory::CrawlerFactory() {
 CrawlerFactory::~CrawlerFactory() {
 }
 
-Crawler* CrawlerFactory::CreateFencedCrawler(const std::vector<long long>& boundSecondLevelDomains){
-	return new FencedCrawler(boundSecondLevelDomains);
+Crawler* CrawlerFactory::CreateFencedCrawler(const CrawlerParam* crawlerParam,const std::vector<long long>& boundSecondLevelDomains){
+	return new FencedCrawler(crawlerParam,boundSecondLevelDomains);
 }
 
-Crawler* CrawlerFactory::CreateCommerceSearchCrawler(){
-	return new CommerceSearchCrawler();
+Crawler* CrawlerFactory::CreateCommerceSearchCrawler(const CrawlerParam* crawlerParam){
+	return new CommerceSearchCrawler(crawlerParam);
 }
 
-Crawler* CrawlerFactory::CreateDataminingCrawler(){
-	return new DataminingCrawler();
+Crawler* CrawlerFactory::CreateDataminingCrawler(const CrawlerParam* crawlerParam){
+	return new DataminingCrawler(crawlerParam);
 }
 
-Crawler* CrawlerFactory::CreateGenericWebCrawler(){
-	return new GenericWebCrawler();
+Crawler* CrawlerFactory::CreateGenericWebCrawler(const CrawlerParam* crawlerParam){
+	return new GenericWebCrawler(crawlerParam);
 }
 
 }

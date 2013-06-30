@@ -13,6 +13,7 @@
 namespace crawler {
 
 	class Crawler;
+	class CrawlerParam;
 
 class CrawlerFactory {
 private:
@@ -21,10 +22,10 @@ public:
 	virtual ~CrawlerFactory();
 
 public:
-	static Crawler* CreateCommerceSearchCrawler();
-	static Crawler* CreateDataminingCrawler();
-	static Crawler* CreateGenericWebCrawler();
-	static Crawler* CreateFencedCrawler(const std::vector<long long>& boundSecondLevelDomains);
+	static Crawler* CreateCommerceSearchCrawler(const CrawlerParam* crawlerParam);
+	static Crawler* CreateDataminingCrawler(const CrawlerParam* crawlerParam);
+	static Crawler* CreateGenericWebCrawler(const CrawlerParam* crawlerParam);
+	static Crawler* CreateFencedCrawler(const CrawlerParam* crawlerParam,const std::vector<long long>& boundSecondLevelDomains);
 };
 
 }

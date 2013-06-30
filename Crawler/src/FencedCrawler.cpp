@@ -14,8 +14,9 @@
 
 namespace crawler {
 
-FencedCrawler::FencedCrawler(const std::vector<long long>& boundSecondLevelDomains)
-: boundSecondLevelDomains(boundSecondLevelDomains){
+FencedCrawler::FencedCrawler(const CrawlerParam* crawlerParam,const std::vector<long long>& boundSecondLevelDomains)
+: Crawler(crawlerParam)
+, boundSecondLevelDomains(boundSecondLevelDomains){
 }
 
 FencedCrawler::~FencedCrawler() {

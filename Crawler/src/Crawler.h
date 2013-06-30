@@ -28,7 +28,7 @@ namespace crawler
 class Crawler : public threading::Thread
 {
 protected:
-	Crawler();
+	Crawler(const CrawlerParam* crawlerParam);
 public:
 	virtual ~Crawler();
 
@@ -50,7 +50,7 @@ protected:
 	/**
 	 * crawler parameters associated with this thread.
 	 */
-	CrawlerParam* crawlerParam;
+	const CrawlerParam* crawlerParam;
 
 	/**
 	 * map of url fetcher threads and their parameters.

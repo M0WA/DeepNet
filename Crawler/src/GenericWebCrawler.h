@@ -10,6 +10,9 @@
 
 namespace crawler {
 
+	class CrawlerParam;
+	class CrawlerFactory;
+
 /**
  * @brief generic web crawler thread implementation.
  * @see crawler::GenericWebUrlFetcherThread
@@ -20,7 +23,7 @@ class GenericWebCrawler: public crawler::Crawler {
 	friend class CrawlerFactory;
 
 private:
-	GenericWebCrawler();
+	GenericWebCrawler(const CrawlerParam* crawlerParam);
 public:
 	virtual ~GenericWebCrawler();
 

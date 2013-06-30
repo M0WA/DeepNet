@@ -10,6 +10,7 @@
 
 namespace crawler {
 
+	class CrawlerParam;
 	class CrawlerFactory;
 
 /**
@@ -23,7 +24,7 @@ class CommerceSearchCrawler: public crawler::Crawler {
 	friend class CrawlerFactory;
 
 private:
-	CommerceSearchCrawler();
+	CommerceSearchCrawler(const CrawlerParam* crawlerParam);
 public:
 	virtual ~CommerceSearchCrawler();
 

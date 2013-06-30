@@ -11,8 +11,8 @@
 
 namespace crawler {
 
-CommerceSearchCrawler::CommerceSearchCrawler()
-: Crawler() {
+CommerceSearchCrawler::CommerceSearchCrawler(const CrawlerParam* crawlerParam)
+: Crawler(crawlerParam) {
 }
 
 CommerceSearchCrawler::~CommerceSearchCrawler() {

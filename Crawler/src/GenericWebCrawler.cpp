@@ -12,8 +12,8 @@
 
 namespace crawler {
 
-GenericWebCrawler::GenericWebCrawler()
-: Crawler() {
+GenericWebCrawler::GenericWebCrawler(const CrawlerParam* crawlerParam)
+: Crawler(crawlerParam) {
 }
 
 GenericWebCrawler::~GenericWebCrawler() {

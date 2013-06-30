@@ -15,9 +15,9 @@ using namespace threading;
 namespace crawler
 {
 
-Crawler::Crawler()
+Crawler::Crawler(const CrawlerParam* crawlerParam)
 : Thread((Thread::ThreadFunction)&(Crawler::CrawlerThreadFunc))
-, crawlerParam(NULL)
+, crawlerParam(crawlerParam)
 {
 }
 
@@ -27,7 +27,6 @@ Crawler::~Crawler() {
 void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
 {
 	Crawler* instance = (Crawler*)threadParam->instance;
-	instance->crawlerParam = (CrawlerParam*)threadParam->pParam;
 
 	if(!instance->StartCrawler())
 		return (void*)1;

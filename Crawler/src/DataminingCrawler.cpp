@@ -11,7 +11,8 @@
 
 namespace crawler {
 
-DataminingCrawler::DataminingCrawler() {
+DataminingCrawler::DataminingCrawler(const CrawlerParam* crawlerParam)
+: Crawler(crawlerParam){
 }
 
 DataminingCrawler::~DataminingCrawler() {
