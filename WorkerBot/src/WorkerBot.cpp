@@ -13,15 +13,17 @@
 #include <iostream>
 
 #include <Crawler.h>
+#include <CrawlerParam.h>
 #include <CrawlerFactory.h>
 
 #include <HtmlParserBase.h>
-#include <HtmlParserBaseFactory.h>
 #include <HtmlParserParam.h>
+#include <HtmlParserBaseFactory.h>
 #include <HtmlParserFactory.h>
 
-#include <GenericWebIndexer.h>
-#include <DataminingIndexer.h>
+#include <Indexer.h>
+#include <IndexerParam.h>
+#include <IndexerFactory.h>
 
 #include <HtmlParserBase.h>
 #include <HttpUrlParser.h>
@@ -118,8 +120,8 @@ bool WorkerBot::OnPostInit() {
 		parserParam.Set(new parser::HtmlParserParam(),true);
 		parser.Set(parser::HtmlParserBaseFactory::CreateCommerceSearchParser(parserParam.Get()),true);
 
-		indexer.Set(dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer()),true);
-		indexerParam.Set(new indexing::Indexer::IndexerParam(),true);
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
 	}
 	//initializing searchengine
 	else if(workerBotMode.compare("searchengine") == 0) {
@@ -130,8 +132,8 @@ bool WorkerBot::OnPostInit() {
 		parserParam.Set(new parser::HtmlParserParam(),true);
 		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
 
-		indexer.Set(dynamic_cast<indexing::Indexer*>(new indexing::GenericWebIndexer()),true);
-		indexerParam.Set(new indexing::Indexer::IndexerParam(),true);
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateGenericWebIndexer(indexerParam.Get()),true);
 	}
 	//initializing datamining
 	else if (workerBotMode.compare("datamining") == 0) {
@@ -142,8 +144,8 @@ bool WorkerBot::OnPostInit() {
 		parserParam.Set(new parser::HtmlParserParam(),true);
 		parser.Set(parser::HtmlParserBaseFactory::CreateGenericWebParser(parserParam.Get()),true);
 
-		indexer.Set(dynamic_cast<indexing::Indexer*>(new indexing::DataminingIndexer()),true);
-		indexerParam.Set(new indexing::Indexer::IndexerParam(),true);
+		indexerParam.Set(new indexing::IndexerParam(),true);
+		indexer.Set(indexing::IndexerFactory::CreateDataminingIndexer(indexerParam.Get()),true);
 	}
 	else {
 		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine, current mode: " + workerBotMode);

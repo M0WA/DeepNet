@@ -8,18 +8,21 @@
 #pragma once
 
 #include <Bot.h>
-#include <CrawlerParam.h>
-#include <Indexer.h>
-
 #include <Pointer.h>
+
+namespace crawler {
+	class Crawler;
+	class CrawlerParam;
+}
 
 namespace parser {
 	class HtmlParserBase;
 	class HtmlParserParam;
 }
 
-namespace crawler {
-	class Crawler;
+namespace indexing {
+	class Indexer;
+	class IndexerParam;
 }
 
 class WorkerBot : public bot::Bot {
@@ -52,5 +55,5 @@ private:
 	tools::Pointer<parser::HtmlParserParam> parserParam;
 
 	tools::Pointer<indexing::Indexer> indexer;
-	tools::Pointer<indexing::Indexer::IndexerParam> indexerParam;
+	tools::Pointer<indexing::IndexerParam> indexerParam;
 };
