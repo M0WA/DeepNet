@@ -14,9 +14,9 @@ using namespace threading;
 
 namespace parser {
 
-HtmlParserBase::HtmlParserBase()
+HtmlParserBase::HtmlParserBase(const HtmlParserParam* parserParam)
 : Thread((Thread::ThreadFunction)&(HtmlParserBase::HtmlParserThreadFunc))
-, parserParam(NULL)
+, parserParam(parserParam)
 {
 
 }
@@ -27,7 +27,6 @@ HtmlParserBase::~HtmlParserBase() {
 void* HtmlParserBase::HtmlParserThreadFunc(Thread::THREAD_PARAM* threadParam)
 {
 	parser::HtmlParserBase* instance = dynamic_cast<parser::HtmlParserBase*>(threadParam->instance);
-	instance->parserParam = reinterpret_cast<HtmlParserParam*>(threadParam->pParam);
 
 	if(!instance->StartParser())
 		return (void*)1;
@@ -43,7 +42,6 @@ void* HtmlParserBase::HtmlParserThreadFunc(Thread::THREAD_PARAM* threadParam)
 	}
 
 	bool bReturn = !instance->StopParser() || errorOccured;
-	instance->parserParam = NULL;
 	return (void*)bReturn;
 }
 

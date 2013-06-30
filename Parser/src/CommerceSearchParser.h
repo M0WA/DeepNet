@@ -11,9 +11,16 @@
 
 namespace parser {
 
+class HtmlParserBaseFactory;
+class HtmlParserParam;
+
 class CommerceSearchParser : public parser::HtmlParserBase {
+
+	friend class HtmlParserBaseFactory;
+
+private:
+	CommerceSearchParser(const HtmlParserParam* parserParam);
 public:
-	CommerceSearchParser();
 	virtual ~CommerceSearchParser();
 
 private:

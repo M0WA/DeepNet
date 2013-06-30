@@ -6,12 +6,12 @@
  */
 
 #include "GenericWebHtmlParser.h"
-#include "GenericWebHtmlParserParam.h"
 #include "GenericWebHtmlParserThread.h"
 
 namespace parser {
 
-GenericWebHtmlParser::GenericWebHtmlParser() {
+GenericWebHtmlParser::GenericWebHtmlParser(const HtmlParserParam* parserParam)
+: HtmlParserBase(parserParam){
 }
 
 GenericWebHtmlParser::~GenericWebHtmlParser() {
@@ -21,12 +21,7 @@ bool GenericWebHtmlParser::StartParser()
 {
 	for(unsigned int i = 0; i < parserParam->parserThreadCount; i++)
 	{
-		HtmlParserParam* param = dynamic_cast<HtmlParserParam*>(new GenericWebHtmlParserParam());
-		param->maxPerSelect = parserParam->maxPerSelect;
-		param->waitOnIdle = parserParam->waitOnIdle;
-		param->databaseConfig = parserParam->databaseConfig;
-		param->parserType = parserParam->parserType;
-
+		HtmlParserParam* param = new HtmlParserParam(*parserParam);
 		HtmlParserThread* parser = dynamic_cast<HtmlParserThread*>(new GenericWebHtmlParserThread());
 		parser->StartThread(param);
 

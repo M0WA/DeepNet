@@ -11,9 +11,16 @@
 
 namespace parser {
 
+class HtmlParserBaseFactory;
+class HtmlParserParam;
+
 class GenericWebHtmlParser: public parser::HtmlParserBase {
+
+	friend class HtmlParserBaseFactory;
+
+private:
+	GenericWebHtmlParser(const HtmlParserParam* parserParam);
 public:
-	GenericWebHtmlParser();
 	virtual ~GenericWebHtmlParser();
 
 private:

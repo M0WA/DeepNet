@@ -14,9 +14,11 @@ namespace parser {
 
 class HtmlParserParam;
 class HtmlParserThread;
+
 class HtmlParserBase : public threading::Thread {
+protected:
+	HtmlParserBase(const HtmlParserParam* parserParam);
 public:
-	HtmlParserBase();
 	virtual ~HtmlParserBase();
 
 private:
@@ -30,7 +32,7 @@ private:
 	bool WatchDog();
 
 protected:
-	HtmlParserParam* parserParam;
+	const HtmlParserParam* parserParam;
 	std::map<HtmlParserThread*, HtmlParserParam*> htmlParserThreads;
 };
 

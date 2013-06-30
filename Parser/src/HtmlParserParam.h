@@ -16,9 +16,8 @@ namespace database {
 namespace parser {
 
 class HtmlParserParam {
-protected:
-	HtmlParserParam();
 public:
+	HtmlParserParam();
 	virtual ~HtmlParserParam();
 
 	unsigned int parserThreadCount;

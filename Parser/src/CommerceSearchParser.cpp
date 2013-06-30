@@ -6,13 +6,12 @@
  */
 
 #include "CommerceSearchParser.h"
-#include "CommerceSearchParserParam.h"
 #include "CommerceSearchParserThread.h"
 
 namespace parser {
 
-CommerceSearchParser::CommerceSearchParser()
-: HtmlParserBase() {
+CommerceSearchParser::CommerceSearchParser(const HtmlParserParam* parserParam)
+: HtmlParserBase(parserParam) {
 }
 
 CommerceSearchParser::~CommerceSearchParser() {
@@ -22,7 +21,7 @@ bool CommerceSearchParser::StartParser()
 {
 	for(unsigned int i = 0; i < parserParam->parserThreadCount; i++)
 	{
-		HtmlParserParam* param = dynamic_cast<HtmlParserParam*>(new CommerceSearchParserParam());
+		HtmlParserParam* param = new HtmlParserParam(*parserParam);
 		param->maxPerSelect = parserParam->maxPerSelect;
 		param->waitOnIdle = parserParam->waitOnIdle;
 		param->databaseConfig = parserParam->databaseConfig;
