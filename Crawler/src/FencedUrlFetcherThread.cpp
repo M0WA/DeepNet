@@ -13,7 +13,6 @@
 #include <ContainerTools.h>
 #include <TimeTools.h>
 
-#include <DatabaseLayer.h>
 #include <WhereCondition.h>
 
 namespace crawler {
@@ -67,6 +66,15 @@ bool FencedUrlFetcherThread::LockNextSecondLevelDomain() {
 
 		isDomainsReserved = true;
 	}
+
+	if(syncSecondLevelDomains.size() == 0) {
+		log::Logging::LogError("no secondlevel domain ids found for FencedUrlFetcherThread");
+		return false; }
+
+	return true;
+}
+
+bool FencedUrlFetcherThread::CheckSecondLevelDomainTimeout(database::SelectResultContainer<database::locksecondleveldomainTableBase>& tblLockDomains) {
 
 	if(syncSecondLevelDomains.size() == 0) {
 		log::Logging::LogError("no secondlevel domain ids found for FencedUrlFetcherThread");

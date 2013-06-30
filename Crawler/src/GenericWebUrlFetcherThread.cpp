@@ -8,7 +8,6 @@
 
 #include <TimeTools.h>
 #include <PerformanceCounter.h>
-#include <DatabaseLayer.h>
 #include <ContainerTools.h>
 
 #include <TableDefinition.h>
@@ -38,17 +37,24 @@ GenericWebUrlFetcherThread::~GenericWebUrlFetcherThread() {
 
 bool GenericWebUrlFetcherThread::GetNextSecondLevelDomain()
 {
-	PERFORMANCE_LOG_START;
-
-	if(!LockNextSecondLevelDomain())
-		return false;
+	if(!LockNextSecondLevelDomain()){
+		OnIdle();
+		return false; }
 
 	database::SelectResultContainer<database::locksecondleveldomainTableBase> tblLockDomains;
 	database::locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,tblLockDomains);
-
 	if(tblLockDomains.Size() == 0){
 		OnIdle();
 		return false; }
+
+	if(!CheckSecondLevelDomainTimeout(tblLockDomains)){
+		OnIdle();
+		return false; }
+
+	return true;
+}
+
+bool GenericWebUrlFetcherThread::CheckSecondLevelDomainTimeout(database::SelectResultContainer<database::locksecondleveldomainTableBase>& tblLockDomains) {
 
 	tblLockDomains.ResetIter();
 	for(;!tblLockDomains.IsIterEnd(); tblLockDomains.Next()){

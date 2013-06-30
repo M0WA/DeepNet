@@ -10,6 +10,8 @@
 #include <vector>
 #include <map>
 
+#include <DatabaseLayer.h>
+
 #include "UrlFetcherThreadParam.h"
 #include "UrlFetcherThread.h"
 
@@ -39,6 +41,12 @@ private:
 	 * @return true if successful, false if not successful
 	 */
 	virtual bool LockNextSecondLevelDomain();
+
+	/**
+	 * checks and removes timed out secondlevel domains from cache
+	 * @return true if successful, false if not successful
+	 */
+	virtual bool CheckSecondLevelDomainTimeout(database::SelectResultContainer<database::locksecondleveldomainTableBase>& tblLockDomains);
 
 private:
 	/**
