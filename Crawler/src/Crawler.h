@@ -27,8 +27,9 @@ namespace crawler
  */
 class Crawler : public threading::Thread
 {
-public:
+protected:
 	Crawler();
+public:
 	virtual ~Crawler();
 
 private:

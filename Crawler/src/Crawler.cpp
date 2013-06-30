@@ -8,6 +8,7 @@
 
 #include "CrawlerParam.h"
 #include "UrlFetcherThread.h"
+#include "UrlFetcherThreadParam.h"
 
 using namespace threading;
 

@@ -16,8 +16,12 @@ namespace crawler {
  * @see crawler::DataminingCrawler
  */
 class GenericWebCrawler: public crawler::Crawler {
-public:
+
+	friend class CrawlerFactory;
+
+private:
 	GenericWebCrawler();
+public:
 	virtual ~GenericWebCrawler();
 
 private:

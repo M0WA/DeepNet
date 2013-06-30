@@ -14,7 +14,8 @@
 
 namespace crawler {
 
-FencedCrawler::FencedCrawler() {
+FencedCrawler::FencedCrawler(const std::vector<long long>& boundSecondLevelDomains)
+: boundSecondLevelDomains(boundSecondLevelDomains){
 }
 
 FencedCrawler::~FencedCrawler() {
@@ -23,6 +24,10 @@ FencedCrawler::~FencedCrawler() {
 bool FencedCrawler::StartCrawler() {
 	tools::thread_setup();
 
+
+	//TODO: distribute second level domain id fairly among running threads (crawlerParam->threadCount)
+
+	/*
 	for(int i = 0; i < crawlerParam->threadCount; i++)
 	{
 		//TODO: get second level domain id
@@ -30,12 +35,15 @@ bool FencedCrawler::StartCrawler() {
 
 		FencedUrlFetcherThread::FencedUrlFetcherThreadParam* fencedThreadParam = new FencedUrlFetcherThread::FencedUrlFetcherThreadParam(*crawlerParam,fencedSecondLevelIDs);
 
+		//fencedThreadParam->secondLevelDomains = boundSecondLevelDomains;
+
 		FencedUrlFetcherThread* urlFetcherThread = new FencedUrlFetcherThread();
 		urlFetcherThread->StartThread(fencedThreadParam);
 
 		urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =
 				dynamic_cast<UrlFetcherThreadParam*>(fencedThreadParam);
 	}
+	*/
 	tools::thread_cleanup();
 	return true;
 }

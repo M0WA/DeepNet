@@ -10,6 +10,8 @@
 
 namespace crawler {
 
+	class CrawlerFactory;
+
 /**
  * @brief crawler implementation for commerce search.
  * @see crawler::CommerceSearchFetcherThread
@@ -17,8 +19,12 @@ namespace crawler {
  * this class implements the crawler::Crawler for the commerce search.
  */
 class CommerceSearchCrawler: public crawler::Crawler {
-public:
+
+	friend class CrawlerFactory;
+
+private:
 	CommerceSearchCrawler();
+public:
 	virtual ~CommerceSearchCrawler();
 
 private:

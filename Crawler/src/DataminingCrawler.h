@@ -17,8 +17,12 @@ namespace crawler {
  * this class implements the crawler::Crawler for datamining.
  */
 class DataminingCrawler: public crawler::Crawler {
-public:
+
+	friend class CrawlerFactory;
+
+private:
 	DataminingCrawler();
+public:
 	virtual ~DataminingCrawler();
 
 private:

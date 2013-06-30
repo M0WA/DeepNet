@@ -15,14 +15,22 @@
 
 namespace crawler {
 
+	class CrawlerFactory;
+
 class FencedCrawler : public Crawler {
 
+	friend class CrawlerFactory;
+
+private:
+	FencedCrawler(const std::vector<long long>& boundSecondLevelDomains);
 public:
-	FencedCrawler();
 	virtual ~FencedCrawler();
 
 private:
 	virtual bool StartCrawler();
+
+private:
+	std::vector<long long> boundSecondLevelDomains;
 };
 
 }
