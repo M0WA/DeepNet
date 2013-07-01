@@ -87,7 +87,6 @@ bool WorkerBot::OnShutdown() {
 
 #ifdef ENABLE_PERFORMANCE_LOG
 	tools::PerformanceCounter tmp;
-	double tmpT = 0.0f;
 	std::ostringstream oDetails;
 #endif
 
