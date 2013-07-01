@@ -28,6 +28,7 @@
 #include <HttpUrlParser.h>
 
 #include <Logging.h>
+#include <PerformanceCounter.h>
 #include <StringTools.h>
 #include <NotImplementedException.h>
 
@@ -84,15 +85,42 @@ bool WorkerBot::OnRun() {
 
 bool WorkerBot::OnShutdown() {
 
+#ifdef ENABLE_PERFORMANCE_LOG
+	tools::PerformanceCounter tmp;
+	double tmpT = 0.0f;
+	std::ostringstream oDetails;
+#endif
+
+	PERFORMANCE_LOG_START;
+
+#ifdef ENABLE_PERFORMANCE_LOG
+	tmp.Start();
+#endif
 	crawler.Get()->SetShallEnd(true);
 	crawler.Get()->WaitForThread();
+
+#ifdef ENABLE_PERFORMANCE_LOG
+	oDetails << "crawler threads shutdown: " << tmp.Stop() << std::endl;
+	tmp.Start();
+#endif
 
 	parser.Get()->SetShallEnd(true);
 	parser.Get()->WaitForThread();
 
+#ifdef ENABLE_PERFORMANCE_LOG
+	oDetails << "parser threads shutdown: " << tmp.Stop() << std::endl;
+	tmp.Start();
+#endif
+
 	indexer.Get()->SetShallEnd(true);
 	indexer.Get()->WaitForThread();
 
+#ifdef ENABLE_PERFORMANCE_LOG
+	oDetails << "indexer threads shutdown: " << tmp.Stop() << std::endl;
+	tmp.Start();
+#endif
+
+	PERFORMANCE_LOG_STOP("shutdown WorkerBot");
 	return true;
 }
 
