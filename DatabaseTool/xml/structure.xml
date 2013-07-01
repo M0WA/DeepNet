@@ -397,6 +397,7 @@
 	<column name="DICT_ID"      type="INTEGER" notnull="1" />
 	<column name="URLSTAGE_ID"  type="INTEGER" notnull="1" />
 	<column name="occurrence"   type="INTEGER" notnull="1" />
+	<column name="type"         type="INTEGER" notnull="1" />
 
 	<primary_key column="ID" />
 	<index       column="occurrence"  sort="DESC" />
