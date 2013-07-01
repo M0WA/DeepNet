@@ -169,9 +169,10 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		//insert into syncurls/syncdomains table done by trigger
 
 		try {
-			htmlparser::DatabaseUrl urlLink = caching::CacheDatabaseUrl::GetByUrl(db,*iterUrls);
-			dbLinks.push_back(urlLink);
-			mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(urlLink,urlLink.GetUrlID()));
+			tools::Pointer<htmlparser::DatabaseUrl> urlLink;
+			caching::CacheDatabaseUrl::GetByUrl(db,*iterUrls,urlLink);
+			dbLinks.push_back(*urlLink.Get());
+			mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(*urlLink.Get(),urlLink.Get()->GetUrlID()));
 		}
 		catch(const network::HttpUrlParserException& ex) {
 			if(log::Logging::IsLogLevelTrace()) {

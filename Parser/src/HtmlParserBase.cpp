@@ -10,6 +10,8 @@
 #include "HtmlParserThread.h"
 #include "HtmlParserParam.h"
 
+#include <Logging.h>
+
 using namespace threading;
 
 namespace parser {
@@ -26,6 +28,7 @@ HtmlParserBase::~HtmlParserBase() {
 
 void* HtmlParserBase::HtmlParserThreadFunc(Thread::THREAD_PARAM* threadParam)
 {
+	log::Logging::RegisterThreadID("HtmlParserBase");
 	parser::HtmlParserBase* instance = dynamic_cast<parser::HtmlParserBase*>(threadParam->instance);
 
 	if(!instance->StartParser())
