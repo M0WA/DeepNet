@@ -10,10 +10,12 @@
 #include <iostream>
 
 #include <CacheDatabaseUrl.h>
+
 #include <FileTools.h>
 #include <StringTools.h>
 #include <Regex.h>
 #include <Exception.h>
+#include <Pointer.h>
 
 #include "DatabaseUrl.h"
 
@@ -61,16 +63,21 @@ bool UrlInserter::ValidateURLFile(database::DatabaseConnection* db,const std::mu
 DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std::string& sDomain, const std::string& sUrl, bool dumpUrl)
 {
 	try {
-		DatabaseUrl url = (!sDomain.empty()) ?
-			caching::CacheDatabaseUrl::GetByUrlString( db, sUrl, caching::CacheDatabaseUrl::GetByUrlString( db, sDomain ) ) :
-			caching::CacheDatabaseUrl::GetByUrlString( db, sUrl ) ;
+		tools::Pointer<DatabaseUrl> url, urlDomain;
+		if(!sDomain.empty()){
+			caching::CacheDatabaseUrl::GetByUrlString( db, sDomain, urlDomain );
+			caching::CacheDatabaseUrl::GetByUrlString( db, sUrl, *urlDomain.Get(), url );
+		}
+		else {
+			caching::CacheDatabaseUrl::GetByUrlString( db, sUrl, url ) ;
+		}
 
 		if (dumpUrl){
 			std::string urlDump;
-			url.Dump(urlDump);
+			url.Get()->Dump(urlDump);
 			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"dumping URL: %s  => %s\n%s",sUrl.c_str(),sDomain.c_str(),urlDump.c_str());
 		}
-		return url;
+		return *url.Get();
 	}
 	catch(errors::Exception& e) {
 
@@ -84,7 +91,10 @@ bool UrlInserter::InsertURL(database::DatabaseConnection* db,const std::string& 
 	bool success = true;
 	try {
 		DatabaseUrl url = ValidateURL(db,sDomain,sUrl,false);
-		url = caching::CacheDatabaseUrl::GetByUrlString(db,sUrl,sDomain);
+		tools::Pointer<DatabaseUrl> tmpPtr;
+		success = caching::CacheDatabaseUrl::GetByUrlString(db,sUrl,sDomain,tmpPtr);
+		if(success)
+			url = *tmpPtr.Get();
 
 		if(url.GetUrlID() <= 0){
 			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not insert url " + url.GetFullUrl());
