@@ -17,6 +17,9 @@ namespace log {
 Logging* Logging::instance = NULL;
 threading::Mutex Logging::mutex;
 
+std::map<long int,std::string> Logging::threadNames;
+threading::ReadWriteLock Logging::lockThreadNames;
+
 Logging::Logging()
 : isLocking(true)
 , logLevel(LOGLEVEL_INFO)
@@ -139,8 +142,10 @@ void Logging::LogUnlimited(LogLevel levelMsg, const char* fmt,...) {
 }
 
 void Logging::RegisterThreadID(const std::string& threadName) {
-	if(instance)
-		instance->threadNames[syscall(SYS_gettid)] = threadName;
+
+	lockThreadNames.WaitForWriteLock();
+	threadNames[syscall(SYS_gettid)] = threadName;
+	lockThreadNames.ReleaseLock();
 }
 
 void Logging::Log(const LogLevel levelMsg,const std::string& msg) {
@@ -230,14 +235,24 @@ void Logging::GetPIDTIDString(const std::string& applicationName,std::string& pi
 	__pid_t pid = getpid();
 	ssOut << "[" << (!applicationName.empty() ? (applicationName + "-") : "") << getpid();
 
+	std::string threadName;
 	long int tid = syscall(SYS_gettid);
-	if(instance->threadNames.count(tid)) {
-		ssOut << "-" << instance->threadNames[tid];}
+	if(GetThreadNameByTID(tid, threadName)) {
+		ssOut << "-" << threadName;}
 
 	if(pid!=tid)
-		ssOut << "-" << syscall(SYS_gettid);
+		ssOut << "-" << tid;
 	ssOut<< "]";
 	pidTIDString = ssOut.str();
+}
+
+bool Logging::GetThreadNameByTID(const long int& tid, std::string& threadName) {
+	threadName.clear();
+	lockThreadNames.WaitForReadLock();
+	if(threadNames.count(tid)) {
+		threadName = threadNames.at(tid);}
+	lockThreadNames.ReleaseLock();
+	return !threadName.empty();
 }
 
 void Logging::SetMaxLogLength_Intern(size_t maxLogMsgLength) {

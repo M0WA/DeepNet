@@ -16,6 +16,7 @@
 #include <sys/syscall.h>
 
 #include <Mutex.h>
+#include <ReadWriteLock.h>
 
 namespace log {
 
@@ -183,16 +184,19 @@ protected:
 	 */
 	static void GetPIDTIDString(const std::string& applicationName,std::string& pidTIDString);
 
+	/**
+	 * gets a thread's name by it's thread id
+	 * @param tid tid of thread
+	 * @param threadName name of thread
+	 * @return true if successful, false if unsuccessful
+	 */
+	static bool GetThreadNameByTID(const long int& tid, std::string& threadName);
+
 protected:
 	/**
 	 * application name.
 	 */
 	std::string applicationName;
-
-	/**
-	 * map of thread names.
-	 */
-	std::map<long int,std::string> threadNames;
 
 private:
 	virtual void OnLog(const LogLevel levelMsg,const std::string& msg)=0;
@@ -209,6 +213,9 @@ private:
 
 	static threading::Mutex mutex;
 	static Logging* instance;
+
+	static threading::ReadWriteLock lockThreadNames;
+	static std::map<long int,std::string> threadNames;
 };
 
 }
