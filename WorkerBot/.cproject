@@ -75,6 +75,7 @@
 									<listOptionValue builtIn="false" value="Logging"/>
 									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Caching"/>
+									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="pcre"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="mysqlclient_r"/>
@@ -191,6 +192,7 @@
 									<listOptionValue builtIn="false" value="Logging"/>
 									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Caching"/>
+									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="pcre"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="mysqlclient_r"/>
