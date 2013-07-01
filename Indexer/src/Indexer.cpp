@@ -20,6 +20,8 @@ Indexer::~Indexer() {
 
 void* Indexer::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 {
+	log::Logging::RegisterThreadID("Indexer");
+
 	Indexer* instance = (Indexer*)threadParam->instance;
 
 	if(!instance->StartIndexer())
