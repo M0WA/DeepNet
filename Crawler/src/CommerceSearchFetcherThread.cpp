@@ -18,8 +18,9 @@
 #include <TimeTools.h>
 #include <Logging.h>
 #include <PerformanceCounter.h>
-#include <TableColumn.h>
+#include <Pointer.h>
 
+#include <TableColumn.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
 
@@ -59,8 +60,9 @@ bool CommerceSearchFetcherThread::GetNextSecondLevelDomain()
 			tblCustDomains.GetIter()->Get_revisitInterval(revisitInterval);
 
 			//TODO: domain name is a regex
-			htmlparser::DatabaseUrl curUrl = caching::CacheDatabaseUrl::GetByUrlString(DB().Connection(), "http://"+domainName+"/");
-			urls[curUrl] = curUrl.GetUrlID();
+			tools::Pointer<htmlparser::DatabaseUrl> curUrl;
+			caching::CacheDatabaseUrl::GetByUrlString(DB().Connection(), "http://"+domainName+"/",curUrl);
+			urls[*curUrl.Get()] = curUrl.Get()->GetUrlID();
 
 			CustomerDomainProperties custDomProp(urls.begin()->first);
 			custDomProp.customerDomainId = customerDomainId;

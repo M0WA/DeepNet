@@ -104,26 +104,6 @@ bool GenericWebUrlFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs)
 {
 	PERFORMANCE_LOG_START;
 
-	//check if domains in cache are too old, if so delete them
-	if( MAX_AGE_MINUTES_SECONDLEVELDOMAIN > 0 &&
-	    syncSecondLevelDomains.size() > 0 )
-	{
-		time_t tmpMin = time(0);
-		std::vector<long long> removeDomains;
-		std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
-		for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
-			if(tmpMin > (iterSecondLevel->second + (60*MAX_AGE_MINUTES_SECONDLEVELDOMAIN) ) ) {
-				removeDomains.push_back(iterSecondLevel->first); }
-		}
-
-		if(removeDomains.size()>0){
-			std::vector<long long>::iterator iterRemoveDomain = removeDomains.begin();
-			for(;iterRemoveDomain != removeDomains.end(); ++iterRemoveDomain) {
-				RemoveSecondLevelReservation(*iterRemoveDomain,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN);
-			}
-		}
-	}
-
 	//fetch a new domain if neccessary
 	if(!urlsFound || syncSecondLevelDomains.size() == 0) {
 
@@ -267,7 +247,27 @@ void GenericWebUrlFetcherThread::CheckMaxSecondLevelDomain() {
 		}
 		if(minID != -1)	{
 			RemoveSecondLevelReservation(minID,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN); }
-}
+	}
+
+	//check if domains in cache are too old, if so delete them
+	if( MAX_AGE_MINUTES_SECONDLEVELDOMAIN > 0 &&
+	    syncSecondLevelDomains.size() > 0 )
+	{
+		time_t tmpMin = time(0);
+		std::vector<long long> removeDomains;
+		std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
+		for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
+			if(tmpMin > (iterSecondLevel->second + (60*MAX_AGE_MINUTES_SECONDLEVELDOMAIN) ) ) {
+				removeDomains.push_back(iterSecondLevel->first); }
+		}
+
+		if(removeDomains.size()>0){
+			std::vector<long long>::iterator iterRemoveDomain = removeDomains.begin();
+			for(;iterRemoveDomain != removeDomains.end(); ++iterRemoveDomain) {
+				RemoveSecondLevelReservation(*iterRemoveDomain,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN);
+			}
+		}
+	}
 }
 
 }

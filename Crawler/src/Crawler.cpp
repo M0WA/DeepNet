@@ -10,6 +10,8 @@
 #include "UrlFetcherThread.h"
 #include "UrlFetcherThreadParam.h"
 
+#include <Logging.h>
+
 using namespace threading;
 
 namespace crawler
@@ -26,8 +28,9 @@ Crawler::~Crawler() {
 
 void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
 {
-	Crawler* instance = (Crawler*)threadParam->instance;
+	log::Logging::RegisterThreadID("Crawler");
 
+	Crawler* instance = (Crawler*)threadParam->instance;
 	if(!instance->StartCrawler())
 		return (void*)1;
 
