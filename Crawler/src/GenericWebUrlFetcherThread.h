@@ -48,6 +48,11 @@ private:
 	 */
 	virtual bool CheckSecondLevelDomainTimeout(database::SelectResultContainer<database::locksecondleveldomainTableBase>& tblLockDomains);
 
+	/**
+	 * checks for upper barrier in active secondlevel domains and deletes oldest if neccessary
+	 */
+	virtual void CheckMaxSecondLevelDomain();
+
 private:
 	/**
 	 * removes reservations for a certain secondleveldomain-id.

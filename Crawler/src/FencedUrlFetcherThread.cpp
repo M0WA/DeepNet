@@ -98,4 +98,8 @@ bool FencedUrlFetcherThread::CheckSecondLevelDomainTimeout(database::SelectResul
 	return true;
 }
 
+void FencedUrlFetcherThread::CheckMaxSecondLevelDomain() {
+
+}
+
 }

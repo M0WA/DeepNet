@@ -35,6 +35,7 @@ public:
 private:
 	virtual bool LockNextSecondLevelDomain();
 	virtual bool CheckSecondLevelDomainTimeout(database::SelectResultContainer<database::locksecondleveldomainTableBase>& tblLockDomains);
+	virtual void CheckMaxSecondLevelDomain();
 
 private:
 	const FencedUrlFetcherThreadParam* fencedParam;

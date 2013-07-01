@@ -133,19 +133,7 @@ bool GenericWebUrlFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs)
 				return false;
 		}
 
-		if(syncSecondLevelDomains.size() >= MAX_SECONDLEVEL_PER_THREAD ) {
-			long long minID = -1;
-			time_t tmpMin = time(0);
-			std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
-			//remove oldest entries first
-			for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
-				if(tmpMin > iterSecondLevel->second) {
-					tmpMin = iterSecondLevel->second;
-					minID  = iterSecondLevel->first; }
-			}
-			if(minID != -1)	{
-				RemoveSecondLevelReservation(minID,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN); }
-		}
+		CheckMaxSecondLevelDomain();
 	}
 
 	//fetch urls for current second level domains and crawler id
@@ -264,6 +252,22 @@ void GenericWebUrlFetcherThread::OnExit()
 	for(;iterResSndLvl != vecResSndLvl.end();++iterResSndLvl) {
 		RemoveSecondLevelReservation(*iterResSndLvl,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN); }
 	syncSecondLevelDomains.clear();
+}
+
+void GenericWebUrlFetcherThread::CheckMaxSecondLevelDomain() {
+	if(syncSecondLevelDomains.size() >= MAX_SECONDLEVEL_PER_THREAD ) {
+		long long minID = -1;
+		time_t tmpMin = time(0);
+		std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
+		//remove oldest entries first
+		for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
+			if(tmpMin > iterSecondLevel->second) {
+				tmpMin = iterSecondLevel->second;
+				minID  = iterSecondLevel->first; }
+		}
+		if(minID != -1)	{
+			RemoveSecondLevelReservation(minID,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN); }
+}
 }
 
 }
