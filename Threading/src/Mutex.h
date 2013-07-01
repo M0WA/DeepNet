@@ -17,10 +17,10 @@ namespace threading
 class Mutex
 {
 public:
-	Mutex(void);
+	Mutex(const bool isErrorChecked = false);
 	virtual ~Mutex(void);
 private:
-	Mutex(const Mutex&) { throw; }
+	Mutex(const Mutex&) : isErrorChecked(false) { throw; }
 	Mutex& operator =(const Mutex& rhs) { throw; }
 
 public:
@@ -44,6 +44,8 @@ public:
 
 private:
 	volatile bool m_bIsLocked;
+	const bool isErrorChecked;
+	volatile long int tid;
 	pthread_mutex_t m_tMutex;
 };
 

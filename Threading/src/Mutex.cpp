@@ -6,11 +6,16 @@
 
 #include "Mutex.h"
 
+#include <unistd.h>
+#include <sys/syscall.h>
+
 namespace threading
 {
 
-Mutex::Mutex(void)
+Mutex::Mutex(const bool isErrorChecked)
 : m_bIsLocked(false)
+, isErrorChecked(false)
+, tid(0)
 {
 	pthread_mutex_init( &m_tMutex, NULL );
 }
@@ -25,18 +30,23 @@ Mutex::~Mutex(void)
 
 bool Mutex::Lock(void)
 {
-	pthread_mutex_lock( &m_tMutex );
+	int err = pthread_mutex_lock( &m_tMutex );
 	m_bIsLocked = true;
 
-	return true;
+	if(err == 0 && isErrorChecked) {
+		tid = syscall(SYS_gettid);}
+
+	return (err == 0);
 }
 
 bool Mutex::Unlock(void)
 {
-	pthread_mutex_unlock( &m_tMutex );
+	if(isErrorChecked && tid != syscall(SYS_gettid)) {
+		tid = 0;
+		return false; }
+	int err = pthread_mutex_unlock( &m_tMutex );
 	m_bIsLocked = false;
-
-	return true;
+	return (err == 0);
 }
 
 bool Mutex::IsLocked(void) const
