@@ -45,8 +45,9 @@ void DatabaseLogging::OnLog(const LogLevel levelMsg,const std::string& msg) {
 	if(!applicationName.empty())
 		logMessage.Set_appName(applicationName);
 
-	if(threadNames.count(tid)) {
-		logMessage.Set_threadName(threadNames[tid]);}
+	std::string threadName;
+	if(Logging::GetThreadNameByTID(tid, threadName)) {
+		logMessage.Set_threadName(threadName);}
 
 	logMessage.Insert(dbHelper->Connection());
 }
