@@ -42,26 +42,46 @@ public:
 	 */
 	void Stop(timeval& duration);
 
+public:
+	/**
+	 * used to enable/disable PERFORMANCE_LOG_* macros at runtime
+	 * @param enable true to enable, false to disable
+	 */
+	static void EnablePerformanceLog(const bool enable);
+
+	/**
+	 * checks if performance log is enabled
+	 * @return true if enabled, false if disabled
+	 */
+	static bool IsPerformanceLogEnabled() const;
+
 private:
 	timeval startval;
 	timeval endval;
+
+private:
+	static bool enablePerformanceLog;
 };
 }
 
 #ifdef ENABLE_PERFORMANCE_LOG
 	#define PERFORMANCE_LOG_START  \
-		tools::PerformanceCounter loggingPerformanceCounter;\
-		loggingPerformanceCounter.Start();
+		tools::PerformanceCounter loggingPerformanceCounter();\
+		if(IsPerformanceLogEnabled()) \
+			loggingPerformanceCounter.Start();
 
 	#define PERFORMANCE_LOG_RESTART \
-		loggingPerformanceCounter.Start();
+		if(tools::PerformanceCounter::IsPerformanceLogEnabled()) \
+			loggingPerformanceCounter.Start();
 
 	#define PERFORMANCE_LOG_STOP(logMsg){ \
-		double dDurationPerformanceCounter = 0.0; \
-		std::ostringstream ssLogPerformanceCounter; \
-		dDurationPerformanceCounter = loggingPerformanceCounter.Stop(); \
-		ssLogPerformanceCounter << logMsg << " duration: " <<  dDurationPerformanceCounter << " sec(-s)"; \
-		log::Logging::Log(log::Logging::GetLogLevel(),ssLogPerformanceCounter.str()); }
+		double dDurationPerformanceCounter(loggingPerformanceCounter.Stop()); \
+		if(tools::PerformanceCounter::IsPerformanceLogEnabled()) { \
+			std::ostringstream ssLogPerformanceCounter; \
+			ssLogPerformanceCounter << logMsg << " duration: " <<  dDurationPerformanceCounter << " sec(-s)"; \
+			log::Logging::Log(log::Logging::GetLogLevel(),ssLogPerformanceCounter.str()); \
+		} \
+	}
 
 #else
 	#define PERFORMANCE_LOG_START

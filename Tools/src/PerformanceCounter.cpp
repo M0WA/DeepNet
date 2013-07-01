@@ -11,6 +11,8 @@
 namespace tools
 {
 
+bool PerformanceCounter::enablePerformanceLog = true;
+
 PerformanceCounter::PerformanceCounter()
 {
 }
@@ -38,6 +40,14 @@ double PerformanceCounter::Stop(void)
 void PerformanceCounter::Stop(timeval& duration) {
 	gettimeofday(&endval, 0);
 	TimeTools::TimevalSubtract(endval, startval, duration);
+}
+
+void PerformanceCounter::EnablePerformanceLog(const bool enable) {
+	enablePerformanceLog = enable;
+}
+
+bool PerformanceCounter::IsPerformanceLogEnabled() const {
+	return enablePerformanceLog;
 }
 
 }
