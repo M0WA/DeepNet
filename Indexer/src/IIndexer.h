@@ -35,7 +35,7 @@ public:
 	 * @param input content part to parse
 	 * @param type meta type to set
 	 */
-	virtual void ParseMeta(const std::string& input, const Dictionary::MetaInformationType& type);
+	virtual void ParseMeta(const std::string& input, const Dictionary::MetaInformationType& type) = 0;
 
 	/**
 	 * gets dictionary of this indexer

@@ -10,6 +10,7 @@
 #include <TLD.h>
 #include <PerformanceCounter.h>
 #include <DatabaseLayer.h>
+#include <StringTools.h>
 
 #include "Dictionary.h"
 #include "IIndexer.h"
@@ -90,11 +91,23 @@ bool IndexerThread::ParsePages(std::map<long long,caching::CacheParsed::CachePar
 		std::vector< std::pair<std::string,std::string> >::iterator iterMeta = iterEntries->second.meta.begin();
 		for(;iterMeta != iterEntries->second.meta.end();++iterMeta)
 		{
-			if (( iterMeta->first.compare("keywords") == 0 )||
-				( iterMeta->first.compare("description") == 0 )
-			   ){
-				indexerMeta.Get()->Parse(iterMeta->second,-1);
-			}
+			std::string lowerName = tools::StringTools::ToLowerNP(iterMeta->first);
+
+			Dictionary::MetaInformationType type = Dictionary::META_UNKNOWN;
+			if(lowerName.compare("description") == 0) {
+				type = Dictionary::META_DESCRIPTION;}
+			else if(lowerName.compare("keywords") == 0) {
+				type = Dictionary::META_KEYWORDS;}
+			else if(lowerName.compare("title") == 0) {
+				type = Dictionary::META_TITLE;}
+			else if(lowerName.compare("author") == 0) {
+				type = Dictionary::META_AUTHOR;	}
+			else if(lowerName.compare("copyright") == 0) {
+				type = Dictionary::META_COPYRIGHT; }
+			else if (log::Logging::IsLogLevelTrace()) {
+				log::Logging::LogTrace("unknown meta type: " + iterMeta->first);}
+
+			indexerMeta.Get()->ParseMeta(iterMeta->second,type);
 		}
 		indexerMeta.Get()->GetDictionary().CommitMeta();
 	}

@@ -101,6 +101,7 @@ void Dictionary::Dump(std::string& dictDump) const
 	dump << "meta dictionary:" << std::endl;
 	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
 	for(;iterTypes != wordMeta.end();++iterTypes) {
+		dump << "type " << iterTypes->first << std::endl;
 		const std::set<Word>& refWords(iterTypes->second);
 		iterWords = refWords.begin();
 		for(;iterWords != refWords.end(); ++iterWords) {
@@ -153,6 +154,9 @@ void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellCheck
 	dump << "<meta>" << std::endl;
 	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
 	for(;iterTypes != wordMeta.end();++iterTypes) {
+
+		dump << "<metatype = \"" << iterTypes->first << "\" >" << std::endl;
+
 		const std::set<Word>& refWords(iterTypes->second);
 		iterWords = refWords.begin();
 		for(int i = 0;iterWords != refWords.end(); ++iterWords,i++) {
@@ -186,6 +190,7 @@ void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellCheck
 				"</proposals>"
 			"</keyword>" << std::endl;
 		}
+		dump << "</metatype>" << std::endl;
 	}
 	dump << "</meta>" << std::endl;
 

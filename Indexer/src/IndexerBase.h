@@ -73,10 +73,14 @@ public:
 
 public:
 	virtual void Parse(const std::string& input, const long long paragraph);
+	virtual void ParseMeta(const std::string& input, const Dictionary::MetaInformationType& type);
 	int Read(char* buf,int maxSize);
 
 private:
 	virtual void OnParse(const long long paragraph)=0;
+
+	//TODO: implement meta parsing
+	virtual void OnParseMeta(const Dictionary::MetaInformationType& type) {};
 
 private:
 	IndexerType type;

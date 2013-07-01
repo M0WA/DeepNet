@@ -36,6 +36,10 @@ void IndexerBase::Parse(const std::string& input, const long long paragraph)
 	OnParse(paragraph);
 }
 
+void IndexerBase::ParseMeta(const std::string& input, const Dictionary::MetaInformationType& type) {
+	OnParseMeta(type);
+}
+
 int IndexerBase::Read(char* buf,int maxSize)
 {
 	std::string::iterator const content_end(content.end());
