@@ -183,7 +183,7 @@ private:
 	uid_t cur_uid;
 	gid_t cur_gid;
 
-	bool enablePerformanceLog;
+	size_t cacheLogInterval;
 };
 
 }

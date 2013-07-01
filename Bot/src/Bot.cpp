@@ -21,8 +21,6 @@
 #include <DebuggingTools.h>
 #include <TimeTools.h>
 
-#define WATCHDOG_TIMER_INTERVAL (30*60) //(30min)
-
 bot::Bot* bot::Bot::instance = 0;
 threading::Mutex bot::Bot::signalMutex;
 
@@ -49,7 +47,7 @@ Bot::Bot()
 , orig_gid(getegid())
 , cur_uid(geteuid())
 , cur_gid(getegid())
-, enablePerformanceLog(false)
+, cacheLogInterval(0)
 {
 	Bot::instance = this;
 }
@@ -356,13 +354,26 @@ bool Bot::InitDatabaseConfigs(void)
 
 void Bot::RegisterPerformanceLoggingParams()
 {
-	Config().RegisterParam("P", "enable logging for caches", false, true, NULL);
+#ifdef ENABLE_PERFORMANCE_LOG
+	std::string defaultEnablePerformance = "1";
+	Config().RegisterParam("EnablePerformanceLogging", "enables performance logging", false, false, &defaultEnablePerformance);
+#endif
+
+	std::string defaultDumpCaches = "0";
+	Config().RegisterParam("DumpCaches", "log all cache stati (0: off, interval in mins) ", false, false, &defaultDumpCaches);
 }
 
 void Bot::InitPerformanceLoggingParams()
 {
-	if(!Config().GetValue("P",enablePerformanceLog))
-		enablePerformanceLog = false;
+#ifdef ENABLE_PERFORMANCE_LOG
+	bool enablePerformanceLog = true;
+	if(!Config().GetValue("EnablePerformanceLogging",enablePerformanceLog)) {
+		enablePerformanceLog = true; }
+#endif
+
+	if(!Config().GetValue("DumpCaches",cacheLogInterval)) {
+		cacheLogInterval = 0; }
+	cacheLogInterval *= 60; //convert to seconds
 }
 
 void Bot::OnException(errors::Exception& ex) {
@@ -381,14 +392,14 @@ bool Bot::Run() {
 		return false;
 
 	//wait till shutdown
-	int nSleep = 0;
+	size_t nSleep = 0;
 	while(!shutdownReceived) {
 		if(nSleep==0)
 			WatchDog();
 
 		sleep(1);
 		++nSleep;
-		if(nSleep > WATCHDOG_TIMER_INTERVAL)
+		if(cacheLogInterval > 0 && nSleep > cacheLogInterval)
 			nSleep = 0;
 	}
 
@@ -458,7 +469,7 @@ bool Bot::PostInit(){
 }
 
 bool Bot::WatchDog(){
-	if(enablePerformanceLog) {
+	if(cacheLogInterval > 0) {
 
 		DB().CreateConnection(dbConfig);
 
