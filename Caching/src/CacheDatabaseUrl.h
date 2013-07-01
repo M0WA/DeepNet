@@ -20,6 +20,10 @@ namespace database {
 	class DatabaseConnection;
 }
 
+namespace tools {
+	template <class T> class Pointer;
+}
+
 namespace caching {
 
 /**
@@ -42,11 +46,13 @@ public:
 	 * if non-existing in cache.
 	 * @param db database connection.
 	 * @param urlID url-id to search for.
-	 * @return url in cache.
+	 * @param urlOut requested url [out]
+	 * @return true if successful, false if unsuccessful.
 	 */
-	static htmlparser::DatabaseUrl GetByUrlID(
+	static bool GetByUrlID(
 			database::DatabaseConnection* db,
-			const long long& urlID);
+			const long long& urlID,
+			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by an url-id and inserts if non-existing.
@@ -60,26 +66,30 @@ public:
 			std::map<long long,htmlparser::DatabaseUrl>& urls);
 
 	/**
-	 * gets an url by a preparsed url.
+	 * gets a database url by a preparsed http url.
 	 * this function may insert new urls into the database.
 	 * @param db database connection.
-	 * @param url preparsed url.
-	 * @return url in cache.
+	 * @param urlIn preparsed http url.
+	 * @param urlOut requested database url [out]
+	 * @return true if successful, false if unsuccessful.
 	 */
-	static htmlparser::DatabaseUrl GetByUrl(
+	static bool GetByUrl(
 			database::DatabaseConnection* db,
-			const network::HttpUrl& url);
+			const network::HttpUrl& urlIn,
+			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string.
 	 * this function may insert new urls into the database.
 	 * @param db database connection.
 	 * @param url url as a string.
-	 * @return url in cache.
+	 * @param urlOut requested database url [out]
+	 * @return true if successful, false if unsuccessful.
 	 */
-	static htmlparser::DatabaseUrl GetByUrlString(
+	static bool GetByUrlString(
 			database::DatabaseConnection* db,
-			const std::string& url);
+			const std::string& url,
+			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string and it's relative url (also a string).
@@ -87,12 +97,14 @@ public:
 	 * @param db database connection.
 	 * @param url url as a string.
 	 * @param baseUrl relative url.
-	 * @return url in cache.
+	 * @param urlOut requested database url [out]
+	 * @return true if successful, false if unsuccessful.
 	 */
-	static htmlparser::DatabaseUrl GetByUrlString(
+	static bool GetByUrlString(
 			database::DatabaseConnection* db,
 			const std::string& url,
-			const std::string& baseUrl);
+			const std::string& baseUrl,
+			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string and it's preparsed relative url.
@@ -100,12 +112,14 @@ public:
 	 * @param db database connection.
 	 * @param url url as a string.
 	 * @param baseUrl relative url.
-	 * @return url in cache.
+	 * @param urlOut requested database url [out]
+	 * @return true if successful, false if unsuccessful.
 	 */
-	static htmlparser::DatabaseUrl GetByUrlString(
+	static bool GetByUrlString(
 			database::DatabaseConnection* db,
 			const std::string& url,
-			const network::HttpUrl& baseUrl);
+			const network::HttpUrl& baseUrl,
+			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string and it's preparsed relative url.
@@ -113,12 +127,14 @@ public:
 	 * @param db database connection.
 	 * @param url url as a string.
 	 * @param baseUrl relative url.
-	 * @return url in cache.
+	 * @param urlOut requested database url [out]
+	 * @return true if successful, false if unsuccessful.
 	 */
-	static htmlparser::DatabaseUrl GetByUrlString(
+	static bool GetByUrlString(
 			database::DatabaseConnection* db,
 			const std::string& url,
-			const htmlparser::DatabaseUrl& baseUrl);
+			const htmlparser::DatabaseUrl& baseUrl,
+			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
 
 	/**
 	 * finds urls with a certain secondlevel/subdomain-id in the cache and in the database.
