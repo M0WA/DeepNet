@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
 	SSL_load_error_strings();
 	OpenSSL_add_all_algorithms();
 
-	WorkerBot bot;
+	workerbot::WorkerBot bot;
 
 	try {
 		bot.Run(argc,argv);

@@ -35,6 +35,8 @@
 #include <TLD.h>
 #include <DatabaseLayer.h>
 
+namespace workerbot {
+
 WorkerBot::WorkerBot()
 : Bot() {
 }
@@ -88,6 +90,7 @@ bool WorkerBot::OnShutdown() {
 #ifdef ENABLE_PERFORMANCE_LOG
 	tools::PerformanceCounter tmp;
 	std::ostringstream oDetails;
+	oDetails << "detailed shutdown times: " << std::endl;
 #endif
 
 	PERFORMANCE_LOG_START;
@@ -115,8 +118,8 @@ bool WorkerBot::OnShutdown() {
 	indexer.Get()->WaitForThread();
 
 #ifdef ENABLE_PERFORMANCE_LOG
-	oDetails << "indexer threads shutdown: " << tmp.Stop() << std::endl;
-	tmp.Start();
+	oDetails << "indexer threads shutdown: " << tmp.Stop();
+	log::Logging::LogTrace(oDetails.str());
 #endif
 
 	PERFORMANCE_LOG_STOP("shutdown WorkerBot");
@@ -375,3 +378,4 @@ bool WorkerBot::InitModeConfig()
 	return true;
 }
 
+}

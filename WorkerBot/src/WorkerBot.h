@@ -24,6 +24,8 @@ namespace indexing {
 	class IndexerParam;
 }
 
+namespace workerbot {
+
 /**
  * @brief implementation of the worker bot which is the main application
  * of the whole DeepNet infrastructure.
@@ -63,3 +65,5 @@ private:
 	tools::Pointer<indexing::Indexer> indexer;
 	tools::Pointer<indexing::IndexerParam> indexerParam;
 };
+
+}
