@@ -78,6 +78,17 @@ public:
 	 * @param in value.
 	 */
     void Set_occurrence(const long long& in);
+    /**
+     * gets value of type.
+     * @param out value.
+     */
+	void Get_type(long long& out) const;
+
+	/**
+	 * sets value of type.
+	 * @param in value.
+	 */
+    void Set_type(const long long& in);
 
 
 public:
@@ -169,6 +180,28 @@ public:
 	 * @param results contains results.
 	 */
     static void GetBy_occurrence(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<docmetaTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of type.
+	 * @param db database connection.
+	 * @param fieldValue value of type.
+	 * @param results contains results.
+	 */
+    static void GetBy_type(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<docmetaTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of type.
+	 * @param db database connection.
+	 * @param fieldValue values of type.
+	 * @param results contains results.
+	 */
+    static void GetBy_type(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
         SelectResultContainer<docmetaTableBase>& results);
@@ -276,6 +309,27 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of type.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_type(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of type.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_type(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -302,6 +356,11 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_occurrence();
+	/**
+     * create a column definition for column type.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_type();
 
 };
 

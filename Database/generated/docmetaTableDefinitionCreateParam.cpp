@@ -32,6 +32,9 @@ void docmetaTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for occurrence
     columnDefinitions.push_back(docmetaTableBase::GetDefinition_occurrence());
 
+    //creating column definition for type
+    columnDefinitions.push_back(docmetaTableBase::GetDefinition_type());
+
 }
 
 }
