@@ -12,6 +12,7 @@
 
 #include <FileTools.h>
 #include <Logging.h>
+#include <Pointer.h>
 
 #include <HtmlData.h>
 #include <IHtmlParser.h>
@@ -35,8 +36,9 @@ bool UnitTestSAX2HtmlParser::Run() {
 	bool success = true;
 	try
 	{
-		htmlparser::DatabaseUrl baseUrl = caching::CacheDatabaseUrl::GetByUrlString(db,"siridia.de");
-		success = Test(baseUrl);
+		tools::Pointer<htmlparser::DatabaseUrl> baseUrl;
+		caching::CacheDatabaseUrl::GetByUrlString(db,"siridia.de",baseUrl);
+		success = Test(*baseUrl.Get());
 	}
 	catch(...)
 	{

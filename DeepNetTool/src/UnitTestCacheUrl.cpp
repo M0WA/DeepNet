@@ -9,10 +9,13 @@
 
 #include <HttpUrlParser.h>
 #include <HttpUrl.h>
+
 #include <DatabaseUrl.h>
 #include <CacheDatabaseUrl.h>
+
 #include <Exception.h>
 #include <Logging.h>
+#include <Pointer.h>
 
 namespace toolbot {
 
@@ -67,8 +70,10 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 
 	//fetch result and test url from cache by string
-	htmlparser::DatabaseUrl byStringTestUrl   = caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.url.GetFullUrl());
-	htmlparser::DatabaseUrl byStringResultUrl = caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.result.GetFullUrl());
+	tools::Pointer<htmlparser::DatabaseUrl> byStringTestUrlPtr,byStringResultUrlPtr;
+	caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.url.GetFullUrl(),byStringTestUrlPtr);
+	caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.result.GetFullUrl(),byStringResultUrlPtr);
+	htmlparser::DatabaseUrl& byStringTestUrl(*byStringTestUrlPtr.Get()), &byStringResultUrl(*byStringResultUrlPtr.Get());
 	if(!byStringTestUrl.DeepMatchUrl(byStringResultUrl)) {
 		log::Logging::Log(
 			log::Logging::LOGLEVEL_ERROR,
@@ -80,8 +85,10 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 
 	//fetch result and test url from cache by HttpUrl
-	htmlparser::DatabaseUrl dbTestUrl   = caching::CacheDatabaseUrl::GetByUrl(db,testUrl.url);
-	htmlparser::DatabaseUrl dbResultUrl = caching::CacheDatabaseUrl::GetByUrl(db,testUrl.result);
+	tools::Pointer<htmlparser::DatabaseUrl> dbTestUrlPtr,dbResultUrlPtr;
+	caching::CacheDatabaseUrl::GetByUrl(db,testUrl.url,dbTestUrlPtr);
+	caching::CacheDatabaseUrl::GetByUrl(db,testUrl.result,dbResultUrlPtr);
+	htmlparser::DatabaseUrl& dbTestUrl(*dbTestUrlPtr.Get()), &dbResultUrl(*dbResultUrlPtr.Get());
 	if( dbTestUrl.GetUrlID() == -1 || !dbTestUrl.DeepMatchUrl(dbResultUrl) ) {
 		log::Logging::Log(
 			log::Logging::LOGLEVEL_ERROR,
@@ -93,8 +100,10 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 
 	//fetch result and test url from cache by ID
-	htmlparser::DatabaseUrl byIdTestUrl   = caching::CacheDatabaseUrl::GetByUrlID(db, dbTestUrl.GetUrlID());
-	htmlparser::DatabaseUrl byIdResultUrl = caching::CacheDatabaseUrl::GetByUrlID(db, dbResultUrl.GetUrlID());
+	tools::Pointer<htmlparser::DatabaseUrl> byIdTestUrlPtr,byIdResultUrlPtr;
+	caching::CacheDatabaseUrl::GetByUrlID(db, dbTestUrl.GetUrlID(),byIdTestUrlPtr);
+	caching::CacheDatabaseUrl::GetByUrlID(db, dbResultUrl.GetUrlID(),byIdResultUrlPtr);
+	htmlparser::DatabaseUrl& byIdTestUrl(*byIdTestUrlPtr.Get()), &byIdResultUrl(*byIdResultUrlPtr.Get());
 	if( byIdTestUrl.GetUrlID() == -1 || !byIdTestUrl.DeepMatchUrl(byIdResultUrl) ) {
 		log::Logging::Log(
 			log::Logging::LOGLEVEL_ERROR,
