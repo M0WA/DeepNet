@@ -515,6 +515,8 @@ bool Bot::WatchDog(){
 
 bool Bot::Shutdown()
 {
+	bool shutdownSuccess = OnShutdown();
+
 	if(DB().Connection())
 		DB().Connection()->Disconnect();
 
@@ -526,7 +528,7 @@ bool Bot::Shutdown()
 		delete logging;
 	logging = NULL;
 
-	return OnShutdown();
+	return shutdownSuccess;
 }
 
 
