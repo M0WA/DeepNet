@@ -9,6 +9,7 @@
 		<project>Database</project>
 		<project>HtmlParser</project>
 		<project>Indexer</project>
+		<project>LibXMLParser</project>
 		<project>Logging</project>
 		<project>Networking</project>
 		<project>Parser</project>
