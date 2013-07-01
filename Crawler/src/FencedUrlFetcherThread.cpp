@@ -21,11 +21,6 @@ FencedUrlFetcherThread::FencedUrlFetcherThread()
 : GenericWebUrlFetcherThread()
 , isDomainsReserved(false){
 
-	fencedParam = dynamic_cast<const FencedUrlFetcherThreadParam*>(fetcherThreadParam);
-	std::vector<long long>::const_iterator i = fencedParam->secondLevelDomains.begin();
-	std::vector<long long>::const_iterator end = fencedParam->secondLevelDomains.end();
-	for(;i != end; ++i) {
-		syncSecondLevelDomains[*i] = time(0); }
 }
 
 FencedUrlFetcherThread::~FencedUrlFetcherThread() {
@@ -33,7 +28,22 @@ FencedUrlFetcherThread::~FencedUrlFetcherThread() {
 
 bool FencedUrlFetcherThread::LockNextSecondLevelDomain() {
 
+	if(!fetcherThreadParam) {
+		log::Logging::LogError("FencedUrlFetcherThread NOT INITIALIZED");
+		return false; }
+
 	if(!isDomainsReserved) {
+
+		fencedParam = dynamic_cast<const FencedUrlFetcherThreadParam*>(fetcherThreadParam);
+		std::vector<long long>::const_iterator i = fencedParam->secondLevelDomains.begin();
+		std::vector<long long>::const_iterator end = fencedParam->secondLevelDomains.end();
+		for(;i != end; ++i) {
+			syncSecondLevelDomains[*i] = time(0); }
+
+		if(syncSecondLevelDomains.size() == 0) {
+			log::Logging::LogError("no secondlevel domain ids specified for FencedUrlFetcherThread");
+			return false; }
+
 		PERFORMANCE_LOG_START;
 		database::TableBaseUpdateParam param;
 		param.onlyDirtyColumns = true;
