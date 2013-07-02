@@ -357,23 +357,23 @@ void Bot::RegisterPerformanceLoggingParams()
 {
 #ifdef ENABLE_PERFORMANCE_LOG
 	std::string defaultEnablePerformance = "1";
-	Config().RegisterParam("EnablePerformanceLogging", "enables performance logging", false, &defaultEnablePerformance);
+	Config().RegisterParam("enablePerformanceLogging", "enables performance logging", false, &defaultEnablePerformance);
 #endif
 
 	std::string defaultDumpCaches = "0";
-	Config().RegisterParam("DumpCaches", "log all cache stati (0: off, interval in mins) ", false, &defaultDumpCaches);
+	Config().RegisterParam("dumpCaches", "log all cache stati (0: off, interval in mins) ", false, &defaultDumpCaches);
 }
 
 void Bot::InitPerformanceLoggingParams()
 {
 #ifdef ENABLE_PERFORMANCE_LOG
 	bool enablePerformanceLog = true;
-	if(!Config().GetValue("EnablePerformanceLogging",enablePerformanceLog)) {
+	if(!Config().GetValue("enablePerformanceLogging",enablePerformanceLog)) {
 		enablePerformanceLog = true; }
 	tools::PerformanceCounter::EnablePerformanceLog(enablePerformanceLog);
 #endif
 
-	if(!Config().GetValue("DumpCaches",cacheLogInterval)) {
+	if(!Config().GetValue("dumpCaches",cacheLogInterval)) {
 		cacheLogInterval = 0; }
 	cacheLogInterval *= 60; //convert to seconds
 }

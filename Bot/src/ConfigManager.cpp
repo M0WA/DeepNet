@@ -43,15 +43,18 @@ bool ConfigManager::Init(const int argc, char** argv) {
 
 void ConfigManager::PrintUsage(void) const {
 
+	std::string compileTimeFlags("compile time flags (if any): ");
+#ifdef ENABLE_PERFORMANCE_LOG
+	compileTimeFlags += "ENABLE_PERFORMANCE_LOG ";
+#endif
+
 	std::cout << std::endl << std::endl;
 	std::cout << "/=========================================================\\" << std::endl;
 	std::cout << "| This software is part of the DeepNet search engine      |" << std::endl;
 	std::cout << "| Copyright 2012-2013, Moritz Wagner                      |" << std::endl;
 	std::cout << "| Author: Moritz Wagner (moritz.wagner@mo-sys.de)         |" << std::endl;
 	std::cout << "\\=========================================================/" << std::endl;
-#ifdef ENABLE_PERFORMANCE_LOG
-	std::cout << "compiled with ENABLE_PERFORMANCE_LOG = on" << std::endl;
-#endif
+	std::cout << compileTimeFlags << std::endl << std::endl;
 	std::cout << std::endl << "usage: ./" << cmdLine.GetApplicationName() << " [parameters]" << std::endl;
 
 	if(registeredParams.size()) {
