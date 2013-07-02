@@ -29,8 +29,11 @@ worker_bot_mode=datamining
 # log file, needed only for log type: file
 # logfile=/var/log/worker.dm.log
 
-# enable logging for cache sizes etc
-# P=1
+# enables or disables performance logging at runtime (if compiled with ENABLE_PERFORMANCE_LOG)
+# EnablePerformanceLogging=1
+
+# log all cache stati (0: off, interval in mins)
+# DumpCaches=0
 
 ##################################################
 #
