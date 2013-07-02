@@ -29,7 +29,11 @@ public:
 	virtual ~ConfigManager();
 
 	/**
-	 * initializes ConfigManager with a command line.
+	 * parses command line and if given also the config file.
+	 * command line args overrule config file parameters.
+	 * call this function only after ALL parameters have been
+	 * registered with bot::ConfigManager::RegisterFlag or
+	 * bot::ConfigManager::RegisterParam
 	 * @param argc number of commandline arguments.
 	 * @param argv array of commandline arguments.
 	 * @return false on error, true on success.
@@ -37,7 +41,8 @@ public:
 	bool Init(const int argc, char** argv);
 
 	/**
-	 * registers a flag.
+	 * registers a new flag.
+	 * this function can only be called before bot::ConfigManager::Init is called.
 	 * @param flagName name of the flag.
 	 * @param description description of the flag.
 	 * @param isMandatory is a mandatory flag.
@@ -49,7 +54,8 @@ public:
 			const bool* defaultValue);
 
 	/**
-	 * registers a parameter.
+	 * registers a new parameter.
+	 * this function can only be called before bot::ConfigManager::Init is called.
 	 * @param paramName name of the parameter.
 	 * @param description description of the parameter.
 	 * @param isMandatory is a mandatory parameter.
@@ -91,7 +97,6 @@ public:
 		std::string tmp;
 		if(!GetValue(key,tmp))
 			return false;
-
 		std::stringstream in;
 		in << std::skipws;
 		in << tmp;
