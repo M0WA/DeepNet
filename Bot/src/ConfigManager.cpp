@@ -24,15 +24,30 @@ bool ConfigManager::Init(const int argc, char** argv) {
 
 	if(!ProcessCmdLine(argc, argv)) {
 		PrintUsage();
+		std::string dump;
+		DumpConfig(dump);
+		log::Logging::LogError("config:\n" + dump);
 		return false;}
 
 	if(!ProcessConfigFile()){
 		PrintUsage();
+		std::string dump;
+		DumpConfig(dump);
+		log::Logging::LogError("config:\n" + dump);
 		return false;}
 
 	if(!ValidateConfig()) {
 		PrintUsage();
+		std::string dump;
+		DumpConfig(dump);
+		log::Logging::LogError("config:\n" + dump);
 		return false;}
+
+	if(log::Logging::IsLogLevelTrace()) {
+		std::string dump;
+		DumpConfig(dump);
+		log::Logging::LogTrace("config:\n" + dump);
+	}
 
 	return true;
 }
@@ -68,6 +83,18 @@ void ConfigManager::PrintUsage(void) const {
 		}
 	}
 	std::cout << std::endl;
+}
+
+void ConfigManager::DumpConfig(std::string& dump) const {
+	std::ostringstream ssOut;
+	std::vector<ConfigEntry>::const_iterator i = registeredParams.begin();
+	for(;i != registeredParams.end(); ++i) {
+		if(i->valueSet) {
+			ssOut <<
+				( i->isFlag ? "flag" : "param" ) << ":" << i->name << " => " << i->GetValue() << std::endl;
+		}
+	}
+	dump = ssOut.str();
 }
 
 void ConfigManager::RegisterParam(const std::string& paramName, const std::string& description, const bool isMandatory, const std::string* defaultValue) {

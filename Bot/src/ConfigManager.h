@@ -99,6 +99,12 @@ public:
 		return true;
 	}
 
+	/**
+	 * dumps config to a string
+	 * @param dump string to dump to
+	 */
+	void DumpConfig(std::string& dump) const;
+
 private:
 	bool ProcessCmdLine(const int argc, char** argv);
 	bool ProcessConfigFile();
