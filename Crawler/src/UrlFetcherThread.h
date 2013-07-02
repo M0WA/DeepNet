@@ -38,6 +38,12 @@ public:
 	UrlFetcherThread();
 	virtual ~UrlFetcherThread();
 
+public:
+	/**
+	 * gets old crawler session id after this thread ended
+	 */
+	long long GetOldCrawlerSessionID() const;
+
 private:
 	static void* UrlFetcherThreadFunction(Thread::THREAD_PARAM* threadParam);
 
@@ -145,6 +151,7 @@ protected:
 
 private:
 	database::DatabaseHelper databaseHelper;
+	long long oldCrawlerSessionID;
 };
 
 }

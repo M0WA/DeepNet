@@ -31,6 +31,8 @@ void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
 	log::Logging::RegisterThreadID("Crawler");
 
 	Crawler* instance = (Crawler*)threadParam->instance;
+	instance->oldCrawlerSessionIDs.clear();
+
 	if(!instance->StartCrawler())
 		return (void*)1;
 
@@ -52,8 +54,8 @@ void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
 bool Crawler::StopCrawler()
 {
 	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
-	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads)
-	{
+
+	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads) {
 		iterThreads->first->SetShallEnd(true);
 	}
 
@@ -61,6 +63,7 @@ bool Crawler::StopCrawler()
 	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads)
 	{
 		iterThreads->first->WaitForThread();
+		oldCrawlerSessionIDs.push_back(iterThreads->first->GetOldCrawlerSessionID());
 		delete iterThreads->first;
 		delete iterThreads->second;
 	}
@@ -79,6 +82,10 @@ bool Crawler::WatchDog()
 			return false;
 	}
 	return true;
+}
+
+const std::vector<long long>& Crawler::GetOldCrawlerSessionIDs() const {
+	return oldCrawlerSessionIDs;
 }
 
 }

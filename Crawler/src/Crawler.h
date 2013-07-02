@@ -8,6 +8,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include <HttpClientFactory.h>
 #include <Thread.h>
@@ -31,6 +32,12 @@ protected:
 	Crawler(const CrawlerParam* crawlerParam);
 public:
 	virtual ~Crawler();
+
+public:
+	/**
+	 * gets old crawler session ids after crawling threads ended
+	 */
+	const std::vector<long long>& GetOldCrawlerSessionIDs() const;
 
 private:
 	/**
@@ -56,6 +63,9 @@ protected:
 	 * map of url fetcher threads and their parameters.
 	 */
 	std::map<UrlFetcherThread*,UrlFetcherThreadParam*> urlFetcherThreads;
+
+private:
+	std::vector<long long> oldCrawlerSessionIDs;
 };
 
 }

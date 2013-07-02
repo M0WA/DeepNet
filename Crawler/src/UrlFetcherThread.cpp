@@ -45,6 +45,7 @@ namespace crawler
 UrlFetcherThread::UrlFetcherThread()
 : Thread((Thread::ThreadFunction)&(UrlFetcherThread::UrlFetcherThreadFunction))
 , crawlerSessionID(-1)
+, oldCrawlerSessionID(-1)
 {
 }
 
@@ -164,14 +165,15 @@ bool UrlFetcherThread::GetNextCrawlerSessionID()
 {
 	database::crawlersessionsTableBase crawlerSession;
 
+	crawlerSessionID = oldCrawlerSessionID = -1;
 	PERFORMANCE_LOG_START;
 	crawlerSession.Insert(DB().Connection());
-	crawlerSessionID = -1;
 	if(!DB().Connection()->LastInsertID(crawlerSessionID)){
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not request crawler_session_id, this is bad...");
-		return false;
-	}
+		crawlerSessionID = -1;
+		return false; }
 	PERFORMANCE_LOG_STOP("requesting session id");
+	oldCrawlerSessionID = crawlerSessionID;
 	return true;
 }
 
@@ -210,23 +212,23 @@ void UrlFetcherThread::RemoveCrawlerSessionID()
 	if(crawlerSessionID == -1) {
 		return;	}
 
+	std::vector<database::WhereConditionTableColumn*> where;
+	database::crawlersessionsTableBase::GetWhereColumnsFor_ID(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::InitialComp()	),
+		crawlerSessionID,
+		where
+	);
+
 	database::DeleteStatement deleteSession(database::crawlersessionsTableBase::CreateTableDefinition());
-
-	database::TableColumnDefinition* pTmpDef = database::crawlersessionsTableBase::GetDefinition_ID();
-	database::TableColumn* pCol = database::TableColumn::CreateInstanceFromValue(
-		pTmpDef,
-		crawlerSessionID);
-	delete pTmpDef;
-
-	database::WhereConditionTableColumn* pWhereCol = database::WhereConditionTableColumn::CreateInstance(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
-		pCol );
-
-	deleteSession.Where().AddColumn(pWhereCol);
+	deleteSession.Where().AddColumns(where);
 
 	PERFORMANCE_LOG_START;
 	DB().Connection()->Delete(deleteSession);
 	PERFORMANCE_LOG_STOP("removing crawler session");
+
+	crawlerSessionID = 0;
 }
 
 void UrlFetcherThread::OnIdle()
@@ -435,6 +437,10 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	PERFORMANCE_LOG_STOP("inserting html code into database");
 
 	return success;
+}
+
+long long UrlFetcherThread::GetOldCrawlerSessionID() const {
+	return oldCrawlerSessionID;
 }
 
 }
