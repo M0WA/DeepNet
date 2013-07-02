@@ -48,7 +48,7 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	RegisterLoggingParams();
 	RegisterSocketConfig();
 
-	config.RegisterParam("configfile", "filename of config file", false, false, 0);
+	config.RegisterParam("configfile", "filename of config file", false, 0);
 
 	config.Init(argc,argv);
 
@@ -97,13 +97,13 @@ bool FastCGIServer::StopServer()
 void FastCGIServer::RegisterLoggingParams()
 {
 	std::string defaultLogType = "none";
-	config.RegisterParam("log", "logging, one of: none,console,file,database", false, false, &defaultLogType );
+	config.RegisterParam("log", "logging, one of: none,console,file,database", false, &defaultLogType );
 
 	std::string defaultLogLevel = "info";
-	config.RegisterParam("loglevel", "log level, one of: error,warn,info,trace", false, false, &defaultLogType );
+	config.RegisterParam("loglevel", "log level, one of: error,warn,info,trace", false, &defaultLogType );
 
 	std::string defaultLogFile = "server.log";
-	config.RegisterParam("logfile", "log file, needed only for log type: file", false, false, &defaultLogFile );
+	config.RegisterParam("logfile", "log file, needed only for log type: file", false, &defaultLogFile );
 }
 
 void FastCGIServer::InitLoggingConfig()
@@ -166,11 +166,11 @@ void FastCGIServer::InitLoggingConfig()
 void FastCGIServer::RegisterSocketConfig()
 {
 	std::string defaultThreadCount = "1";
-	config.RegisterParam("threads", "number of threads per server application", false, false, &defaultThreadCount );
+	config.RegisterParam("threads", "number of threads per server application", false, &defaultThreadCount );
 
 	std::string defaultSocketType = "port";
-	config.RegisterParam("socket_type", "one of: port, filename(not supported)", false, false, &defaultSocketType );
-	config.RegisterParam("base_port", "base port for fastcgi applications (needed only in socket_type port)", false, false, NULL );
+	config.RegisterParam("socket_type", "one of: port, filename(not supported)", false, &defaultSocketType );
+	config.RegisterParam("base_port", "base port for fastcgi applications (needed only in socket_type port)", false, NULL );
 }
 
 bool FastCGIServer::InitSocketConfig()
@@ -195,16 +195,16 @@ bool FastCGIServer::InitSocketConfig()
 
 void FastCGIServer::RegisterDatabaseConfigParams(void)
 {
-	config.RegisterParam( "dbhost", "database host"    , true, false, 0 );
-	config.RegisterParam( "dbport", "database port"    , true, false, 0 );
-	config.RegisterParam( "dbname", "database name"    , true, false, 0 );
-	config.RegisterParam( "dbuser", "database username", true, false, 0 );
-	config.RegisterParam( "dbpass", "database password", true, false, 0 );
-	config.RegisterParam( "request_xsd", "xsd file for request validation", false, false, &requestXSD );
-	config.RegisterParam( "response_xsd", "xsd file for request validation", false, false, &responseXSD );
+	config.RegisterParam( "dbhost", "database host"    , true, 0 );
+	config.RegisterParam( "dbport", "database port"    , true, 0 );
+	config.RegisterParam( "dbname", "database name"    , true, 0 );
+	config.RegisterParam( "dbuser", "database username", true, 0 );
+	config.RegisterParam( "dbpass", "database password", true, 0 );
+	config.RegisterParam( "request_xsd", "xsd file for request validation", false, &requestXSD );
+	config.RegisterParam( "response_xsd", "xsd file for request validation", false, &responseXSD );
 
-	config.RegisterParam( "dictionary_file", " hunspell dictionary (dictionary files normally found in /usr/share/hunspell)", true, false, 0 );
-	config.RegisterParam( "affix_file", " hunspell affix file (see dictionary_file)", true, false, 0 );
+	config.RegisterParam( "dictionary_file", " hunspell dictionary (dictionary files normally found in /usr/share/hunspell)", true, 0 );
+	config.RegisterParam( "affix_file", " hunspell affix file (see dictionary_file)", true, 0 );
 }
 
 bool FastCGIServer::InitDatabaseConfigs(void)
