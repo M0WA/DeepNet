@@ -32,8 +32,9 @@
 #include <StringTools.h>
 #include <NotImplementedException.h>
 
-#include <TLD.h>
 #include <DatabaseLayer.h>
+
+#include <DatabaseRepair.h>
 
 namespace workerbot {
 
@@ -64,17 +65,6 @@ bool WorkerBot::OnRun() {
 	crawlerParam.Get()->databaseConfig =
 	parserParam.Get() ->databaseConfig =
 	indexerParam.Get()->databaseConfig = dbConfig;
-
-	database::DatabaseConnection* conn = DB().CreateConnection(dbConfig);
-	if(conn) {
-		htmlparser::TLD::InitTLDCache(DB().Connection());
-		std::vector<std::string> tldString;
-		htmlparser::TLD::GetTLDStrings(tldString);
-		network::HttpUrlParser::SetTopLevelDomains(tldString);
-		DB().DestroyConnection();
-	}
-	else {
-		return false;}
 
 	bool bSuccess = true;
 
@@ -132,6 +122,9 @@ bool WorkerBot::OnPreInit(void)
 	RegisterParserConfigParams();
 	RegisterIndexerConfigParams();
 	RegisterModeSpecificParams();
+
+	bool defaultAutoFixUncleanShutdown = false;
+	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown (use only when this is the single instance running)",true,&defaultAutoFixUncleanShutdown);
 	return true;
 }
 
@@ -375,6 +368,24 @@ bool WorkerBot::InitModeConfig()
 	else {
 		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine,fenced; current mode: " + workerBotMode);
 	}
+	return true;
+}
+
+bool WorkerBot::CheckCleanShutdown() {
+
+	bool autoFixUncleanShutdown = false;
+	if(!Config().GetValue("autoFixUncleanShutdown",autoFixUncleanShutdown) ||
+		autoFixUncleanShutdown == false ) {
+		return true;}
+
+	log::Logging::LogInfo("checking database consistency after shutdown");
+
+	if(!bot::DatabaseRepair::ValidateSyncTables(DB().Connection())) {
+		log::Logging::LogError("errors while checking database consistency after shutdown, trying to fix them before shutdown");
+		if(!bot::DatabaseRepair::FixUncleanShutdown(DB().Connection()))
+			return false;
+	}
+
 	return true;
 }
 

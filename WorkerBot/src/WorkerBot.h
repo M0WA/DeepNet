@@ -55,6 +55,8 @@ private:
 	void RegisterModeSpecificParams();
 	bool InitModeConfig();
 
+	bool CheckCleanShutdown();
+
 private:
 	tools::Pointer<crawler::Crawler> crawler;
 	tools::Pointer<crawler::CrawlerParam> crawlerParam;
