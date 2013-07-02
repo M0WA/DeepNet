@@ -143,36 +143,36 @@ bool WorkerBot::OnPostInit() {
 void WorkerBot::RegisterCrawlerConfigParams()
 {
 	std::string initalThreads = "8";
-	Config().RegisterParam("crawler_threads", "number of concurrent crawler threads", true, false, &initalThreads);
+	Config().RegisterParam("crawler_threads", "number of concurrent crawler threads", true, &initalThreads);
 
 	std::string defaultMinAge = "30";
-	Config().RegisterParam("crawler_minAge", "minimum age of page in days before recrawl", true, false, &defaultMinAge);
+	Config().RegisterParam("crawler_minAge", "minimum age of page in days before recrawl", true, &defaultMinAge);
 
 	std::string defaultMaxPerSelect = "20";
-	Config().RegisterParam("crawler_maxUrl", "maximum size of selected urls per turn", true, false, &defaultMaxPerSelect);
+	Config().RegisterParam("crawler_maxUrl", "maximum size of selected urls per turn", true, &defaultMaxPerSelect);
 
 	std::string defaultUserAgent = "Mozilla/5.0 (Windows NT 6.2; rv:9.0.1) Gecko/20100101 Firefox/9.0.1";
-	Config().RegisterParam("crawler_userAgent", "user agent string", true, false, &defaultUserAgent);
+	Config().RegisterParam("crawler_userAgent", "user agent string", true, &defaultUserAgent);
 
 	std::string defaultConnectTimeout = "8";
-	Config().RegisterParam("crawler_cntTimeout", "timeout for connect() in sec", true, false, &defaultConnectTimeout);
+	Config().RegisterParam("crawler_cntTimeout", "timeout for connect() in sec", true, &defaultConnectTimeout);
 
 	std::string defaultConnectionTimeout = "15";
-	Config().RegisterParam("crawler_connectionTimeout", "timeout for connection, overall in sec", true, false, &defaultConnectionTimeout);
+	Config().RegisterParam("crawler_connectionTimeout", "timeout for connection, overall in sec", true, &defaultConnectionTimeout);
 
-	Config().RegisterParam("crawler_ipv6", "enable the use of ipv6", false, true, 0);
+	Config().RegisterFlag("crawler_ipv6", "enable the use of ipv6", false, 0);
 
 	std::string defaultSpeedLimit = "300";
-	Config().RegisterParam("crawler_limit", "speed limit per connection in kb (0 <= unlimited)", true, false, &defaultSpeedLimit);
+	Config().RegisterParam("crawler_limit", "speed limit per connection in kb (0 <= unlimited)", true, &defaultSpeedLimit);
 
 	std::string waitOnIdle = "10";
 	Config().RegisterParam("crawler_waitIdle", "how long to wait for recheck if idle in seconds", true, false, &waitOnIdle);
 
 	std::string respectRobotsTxt = "1";
-	Config().RegisterParam("crawler_respectRobotsTxt", "respect robots.txt when crawling sites", true, false, &respectRobotsTxt);
+	Config().RegisterParam("crawler_respectRobotsTxt", "respect robots.txt when crawling sites", true, &respectRobotsTxt);
 
 	std::string httpClientType = "curl";
-	Config().RegisterParam("crawler_client", "http client used for crawling ( curl | own )", true, false, &httpClientType);
+	Config().RegisterParam("crawler_client", "http client used for crawling ( curl | own )", true, &httpClientType);
 }
 
 bool WorkerBot::InitCrawlerConfig()
@@ -249,16 +249,16 @@ bool WorkerBot::InitCrawlerConfig()
 void WorkerBot::RegisterParserConfigParams()
 {
 	std::string initalThreads = "8";
-	Config().RegisterParam("parser_threads", "number of concurrent parser threads", true, false , &initalThreads);
+	Config().RegisterParam("parser_threads", "number of concurrent parser threads", true, &initalThreads);
 
 	std::string defaultMaxPerSelect = "20";
-	Config().RegisterParam("parser_maxUrl", "maximum size of selected urls per turn", true, false ,&defaultMaxPerSelect);
+	Config().RegisterParam("parser_maxUrl", "maximum size of selected urls per turn", true, &defaultMaxPerSelect);
 
 	std::string waitOnIdle = "10";
-	Config().RegisterParam("parser_waitIdle", "how long to wait for recheck if parser is idle in seconds", true, false ,&waitOnIdle);
+	Config().RegisterParam("parser_waitIdle", "how long to wait for recheck if parser is idle in seconds", true, &waitOnIdle);
 
 	std::string parserType = "libxml";
-	Config().RegisterParam("parser_type", "type of parser: libxml | domparser", true, false ,&parserType);
+	Config().RegisterParam("parser_type", "type of parser: libxml | domparser", true, &parserType);
 }
 
 bool WorkerBot::InitParserConfig()
@@ -305,13 +305,13 @@ bool WorkerBot::InitParserConfig()
 void WorkerBot::RegisterIndexerConfigParams()
 {
 	std::string initalThreads = "8";
-	Config().RegisterParam("indexer_threads", "number of concurrent indexer threads", true, false, &initalThreads);
+	Config().RegisterParam("indexer_threads", "number of concurrent indexer threads", true, &initalThreads);
 
 	std::string waitOnIdle = "10";
-	Config().RegisterParam("indexer_waitIdle", "how long to wait for recheck if indexer is idle in seconds", true, false ,&waitOnIdle);
+	Config().RegisterParam("indexer_waitIdle", "how long to wait for recheck if indexer is idle in seconds", true, &waitOnIdle);
 
 	std::string maxPerSelect = "100";
-	Config().RegisterParam("indexer_maxUrl", "maximum size of selected urls per turn", true, false ,&maxPerSelect);
+	Config().RegisterParam("indexer_maxUrl", "maximum size of selected urls per turn", true, &maxPerSelect);
 }
 
 bool WorkerBot::InitIndexerConfigParams()
@@ -335,7 +335,7 @@ bool WorkerBot::InitIndexerConfigParams()
 void WorkerBot::RegisterModeSpecificParams()
 {
 	std::string workerBotMode = "searchengine";
-	Config().RegisterParam("worker_bot_mode", "mode of workerbot, one of: searchengine, commercesearch, datamining, fenced", true, false, &workerBotMode);
+	Config().RegisterParam("worker_bot_mode", "mode of workerbot, one of: searchengine, commercesearch, datamining, fenced", true, &workerBotMode);
 }
 
 bool WorkerBot::InitModeConfig()
