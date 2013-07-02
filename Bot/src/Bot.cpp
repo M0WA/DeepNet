@@ -20,6 +20,7 @@
 #include <Exception.h>
 #include <DebuggingTools.h>
 #include <TimeTools.h>
+#include <PerformanceCounter.h>
 
 bot::Bot* bot::Bot::instance = 0;
 threading::Mutex bot::Bot::signalMutex;
@@ -121,8 +122,8 @@ bool Bot::RegisterSignalHandlers()
 
 void Bot::RegisterDefaultFlags(void)
 {
-	Config().RegisterParam("h", "prints this message", false, true, NULL);
-	Config().RegisterParam("D", "daemonize", false, true, NULL);
+	Config().RegisterFlag("h", "prints this message", false, NULL);
+	Config().RegisterFlag("D", "daemonize", false, NULL);
 }
 
 void Bot::RegisterDefaultParams(void)
@@ -131,34 +132,34 @@ void Bot::RegisterDefaultParams(void)
 	RegisterCacheConfigParams();
 	RegisterPerformanceLoggingParams();
 
-	Config().RegisterParam("user", "user id to drop privileges to", false, false, NULL );
-	Config().RegisterParam("group", "group id to drop privileges to", false, false, NULL );
+	Config().RegisterParam("user", "user id to drop privileges to", false, NULL );
+	Config().RegisterParam("group", "group id to drop privileges to", false, NULL );
 
 	std::string defaultLogType = "none";
-	Config().RegisterParam("log", "logging, one of: none,console,file,database", false, false, &defaultLogType );
+	Config().RegisterParam("log", "logging, one of: none,console,file,database", false, &defaultLogType );
 
 	std::string defaultLogLevel = "info";
-	Config().RegisterParam("loglevel", "log level, one of: error,warn,info,trace", false, false, &defaultLogType );
+	Config().RegisterParam("loglevel", "log level, one of: error,warn,info,trace", false, &defaultLogType );
 
 	std::string defaultLogFile = "bot.log";
-	Config().RegisterParam("logfile", "log file, needed only for log type: file", false, false, &defaultLogFile );
+	Config().RegisterParam("logfile", "log file, needed only for log type: file", false, &defaultLogFile );
 
-	Config().RegisterParam("configfile", "filename of config file", false, false, 0);
+	Config().RegisterParam("configfile", "filename of config file", false, 0);
 }
 
 void Bot::RegisterCacheConfigParams()
 {
 	std::string defaultUrlCacheSize = "1000";
-	Config().RegisterParam("urlcache", "number of urls in cache", true, false, &defaultUrlCacheSize );
+	Config().RegisterParam("urlcache", "number of urls in cache", true, &defaultUrlCacheSize );
 
 	std::string defaultHtmlCacheSize = "100";
-	Config().RegisterParam("htmlcache", "number of html docs in cache", true, false, &defaultHtmlCacheSize );
+	Config().RegisterParam("htmlcache", "number of html docs in cache", true, &defaultHtmlCacheSize );
 
 	std::string defaultParsedCacheSize = "100";
-	Config().RegisterParam("parsercache", "number of parsed html in cache", true, false, &defaultParsedCacheSize );
+	Config().RegisterParam("parsercache", "number of parsed html in cache", true, &defaultParsedCacheSize );
 
 	std::string defaultRobotsTxtCacheSize = "500";
-	Config().RegisterParam("robotscache", "number of robots.txt in cache", true, false, &defaultRobotsTxtCacheSize);
+	Config().RegisterParam("robotscache", "number of robots.txt in cache", true, &defaultRobotsTxtCacheSize);
 }
 
 bool Bot::InitCacheConfigParams()
@@ -324,11 +325,11 @@ void Bot::InitLogging()
 
 void Bot::RegisterDatabaseConfigParams(void)
 {
-	Config().RegisterParam( "dbhost", "database host"    , true, false, 0 );
-	Config().RegisterParam( "dbport", "database port"    , true, false, 0 );
-	Config().RegisterParam( "dbname", "database name"    , true, false, 0 );
-	Config().RegisterParam( "dbuser", "database username", true, false, 0 );
-	Config().RegisterParam( "dbpass", "database password", true, false, 0 );
+	Config().RegisterParam( "dbhost", "database host"    , true, 0 );
+	Config().RegisterParam( "dbport", "database port"    , true, 0 );
+	Config().RegisterParam( "dbname", "database name"    , true, 0 );
+	Config().RegisterParam( "dbuser", "database username", true, 0 );
+	Config().RegisterParam( "dbpass", "database password", true, 0 );
 }
 
 bool Bot::InitDatabaseConfigs(void)
@@ -356,11 +357,11 @@ void Bot::RegisterPerformanceLoggingParams()
 {
 #ifdef ENABLE_PERFORMANCE_LOG
 	std::string defaultEnablePerformance = "1";
-	Config().RegisterParam("EnablePerformanceLogging", "enables performance logging", false, false, &defaultEnablePerformance);
+	Config().RegisterParam("EnablePerformanceLogging", "enables performance logging", false, &defaultEnablePerformance);
 #endif
 
 	std::string defaultDumpCaches = "0";
-	Config().RegisterParam("DumpCaches", "log all cache stati (0: off, interval in mins) ", false, false, &defaultDumpCaches);
+	Config().RegisterParam("DumpCaches", "log all cache stati (0: off, interval in mins) ", false, &defaultDumpCaches);
 }
 
 void Bot::InitPerformanceLoggingParams()
@@ -369,6 +370,7 @@ void Bot::InitPerformanceLoggingParams()
 	bool enablePerformanceLog = true;
 	if(!Config().GetValue("EnablePerformanceLogging",enablePerformanceLog)) {
 		enablePerformanceLog = true; }
+	tools::PerformanceCounter::EnablePerformanceLog(enablePerformanceLog);
 #endif
 
 	if(!Config().GetValue("DumpCaches",cacheLogInterval)) {

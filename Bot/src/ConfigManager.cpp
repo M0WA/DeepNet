@@ -7,7 +7,9 @@
 #include "ConfigManager.h"
 
 #include <iostream>
+
 #include <ContainerTools.h>
+#include <Logging.h>
 
 namespace bot
 {
@@ -18,25 +20,48 @@ ConfigManager::ConfigManager() {
 ConfigManager::~ConfigManager() {
 }
 
+bool ConfigManager::Init(const int argc, char** argv) {
+
+	if(!ProcessCmdLine(argc, argv)) {
+		PrintUsage();
+		return false;}
+
+	if(!ProcessConfigFile()){
+		PrintUsage();
+		return false;}
+
+	if(!ValidateConfig()) {
+		PrintUsage();
+		return false;}
+
+	return true;
+}
+
 void ConfigManager::PrintUsage(void) const {
 
 	std::cout << std::endl << std::endl;
 	std::cout << "/=========================================================\\" << std::endl;
-	std::cout << "| This software is part of the SIRIDIA search engine      |" << std::endl;
-	std::cout << "| Copyright 2012, SIRIDIA GmbH                            |" << std::endl;
-	std::cout << "| Author: Moritz Wagner (moritz.wagner@siridia.de)        |" << std::endl;
+	std::cout << "| This software is part of the DeepNet search engine      |" << std::endl;
+	std::cout << "| Copyright 2012-2013, Moritz Wagner                      |" << std::endl;
+	std::cout << "| Author: Moritz Wagner (moritz.wagner@mo-sys.de)         |" << std::endl;
 	std::cout << "\\=========================================================/" << std::endl;
+#ifdef ENABLE_PERFORMANCE_LOG
+	std::cout << "compiled with ENABLE_PERFORMANCE_LOG = on" << std::endl;
+#endif
 	std::cout << std::endl << "usage: ./" << cmdLine.GetApplicationName() << " [parameters]" << std::endl;
 
-	if(defaultConfig.size()) {
+	if(registeredParams.size()) {
 
 		std::cout << "parameters:" << std::endl << "(mandatory parameters are marked with a \"*\")" << std::endl << std::endl;
-		std::vector<ConfigEntry>::const_iterator iterParams = defaultConfig.begin();
-		for(;iterParams != defaultConfig.end(); ++iterParams) {
+		std::vector<ConfigEntry>::const_iterator iterParams = registeredParams.begin();
+		for(;iterParams != registeredParams.end(); ++iterParams) {
+
+			std::map<std::string, std::string>::const_iterator iFind =
+					defaultValues.find(iterParams->name);
 
 			// name: description
 			std::ostringstream ssInitial;
-			ssInitial << ( !iterParams->value.empty() ? "" : (" default: " + iterParams->value) );
+			ssInitial << ( iFind == defaultValues.end() ? "" : (" (default: " + iFind->second) + ")" );
 			std::ostringstream ssMandatory;
 			ssMandatory << (iterParams->mandatory ? " (*)" : "");
 			std::cout << "\t" << (iterParams->isFlag ? "-" : "--") << iterParams->name  << (iterParams->isFlag ? "" : " <value>") << ": " << iterParams->desc << ssInitial.str() << ssMandatory.str() << std::endl;
@@ -45,70 +70,69 @@ void ConfigManager::PrintUsage(void) const {
 	std::cout << std::endl;
 }
 
-bool ConfigManager::Init(const int argc, char** argv) {
-
-	if(!InitCommandLine(argc,argv))
-		return false;
-
-	if(cmdLine.GetValue("configfile",configFileName) && !configFileName.empty() )
-		InitConfigFile();
-
-	return Process();
+void ConfigManager::RegisterParam(const std::string& paramName, const std::string& description, const bool isMandatory, const std::string* defaultValue) {
+	if(defaultValue) {
+		defaultValues[paramName] = *defaultValue;}
+	registeredParams.push_back(ConfigEntry(paramName, description, isMandatory, false, defaultValue));
 }
 
-bool ConfigManager::InitConfigFile() {
-
-	return configFile.SetFileName(configFileName,validParameterNames);
+void ConfigManager::RegisterFlag(const std::string& paramName,const std::string& description,const bool isMandatory,const bool* defaultValue) {
+	std::string* defaultValueString = 0;
+	std::string tmpDefault;
+	if(defaultValue) {
+		tmpDefault = ( ( *defaultValue ) ? "1" : "0");
+		defaultValueString = &tmpDefault;
+		defaultValues[paramName] = tmpDefault;}
+	registeredParams.push_back(ConfigEntry(paramName, description, isMandatory, true, defaultValueString));
 }
 
-bool ConfigManager::InitAndProcessConfigFile(const std::string& configFileName) {
-
-	this->configFileName = configFileName;
-	if(!configFile.SetFileName(configFileName,validParameterNames))
-		return false;
-	return Process();
+bool ConfigManager::ProcessCmdLine(const int argc, char** argv) {
+	bool success = cmdLine.ParseCommandLine(argc,argv,registeredParams);
+	if(!GetValue("configfile",configFileName))
+		configFileName.clear();
+	return success;
 }
 
-bool ConfigManager::InitCommandLine(const int argc, char** argv) {
-
-	return cmdLine.ParseCommandLine(argc,argv,validParameterNames);
+bool ConfigManager::ProcessConfigFile(){
+	if(configFileName.empty())
+		return true;
+	if(!configFile.ParseConfigFile(configFileName,registeredParams)) {
+		return false;}
+	return true;
 }
 
-void ConfigManager::RegisterParam(const std::string& paramName, const std::string& description, const bool isMandatory, const bool isFlag, const std::string* defaultValue ) {
-
-	defaultConfig.push_back(ConfigEntry(paramName, description, isMandatory, isFlag, defaultValue));
-	validParameterNames.push_back(paramName);
-}
-
-bool ConfigManager::Process() {
-
-	std::vector<ConfigEntry>::iterator iterDefault = defaultConfig.begin();
-	for(; iterDefault != defaultConfig.end(); ++iterDefault) {
-
-		std::string sValue;
-		bool bAvailable = GetValueDirect(iterDefault->name,sValue);
-		if(	!bAvailable ) {
-
-			//check if missing mandatory parameters has a default value
-			if( iterDefault->mandatory && iterDefault->value.empty() ){
-
-				std::string confFileContent;
-				tools::ContainerTools::DumpMap(configValues,confFileContent);
-				std::cout << std::endl << "missing mandatory parameter/config entry: " << iterDefault->name;
-				std::cout << std::endl << "config file contents:" << std::endl << confFileContent << std::endl;
-				PrintUsage();
-				return false;
-			}
-
-			//fill missing parameters with default
-			if(!iterDefault->value.empty()) {
-				configValues[iterDefault->name] = iterDefault->value; }
-		}
-		else {
-			configValues[iterDefault->name] = sValue;
+bool ConfigManager::ValidateConfig() const {
+	bool success = true;
+	std::vector<ConfigEntry>::const_iterator i = registeredParams.begin();
+	for(;i != registeredParams.end();++i) {
+		if(i->mandatory && !i->valueSet) {
+			std::string prefixName(i->isFlag ? "-" : "--");
+			log::Logging::Log(
+				log::Logging::LOGLEVEL_ERROR,
+				"missing mandatory config parameter, please check config: %s%s",
+				prefixName.c_str(),i->name.c_str() );
+			success = false;
 		}
 	}
+
+	return success;
+}
+
+bool ConfigManager::GetValue(const std::string& key, std::string& value) const {
+	std::vector<ConfigEntry>::const_iterator iFind =
+			std::find(registeredParams.begin(),registeredParams.end(),key);
+
+	if(iFind == registeredParams.end()) {
+		return false; }
+	if(!iFind->valueSet) {
+		return false; }
+
+	value = iFind->GetValue();
 	return true;
+}
+
+const std::string& ConfigManager::GetApplicationName() const {
+	return cmdLine.GetApplicationName();
 }
 
 }

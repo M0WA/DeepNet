@@ -8,6 +8,8 @@
 
 #include <algorithm>
 
+#include "ConfigEntry.h"
+
 #include <StringTools.h>
 #include <FileTools.h>
 #include <Logging.h>
@@ -21,19 +23,19 @@ ConfigFile::ConfigFile() {
 ConfigFile::~ConfigFile() {
 }
 
-bool ConfigFile::SetFileName(const std::string& fileName, const std::vector<std::string>& validParameterNames)
+bool ConfigFile::ParseConfigFile(const std::string& fileName, std::vector<ConfigEntry>& registeredParams)
 {
 	std::vector<std::string> fileContent;
 	if(!tools::FileTools::ReadFile(fileName, fileContent))
 		return false;
 	tools::StringTools::RemoveComments(fileContent);
-	bool success = ParseFile(fileContent,validParameterNames);
+	bool success = ParseFile(fileContent,registeredParams);
 	if(success)
 		this->fileName = fileName;
 	return success;
 }
 
-bool ConfigFile::ParseFile(std::vector<std::string>& fileContent, const std::vector<std::string>& validParameterNames) {
+bool ConfigFile::ParseFile(std::vector<std::string>& fileContent, std::vector<ConfigEntry>& registeredParams) {
 
 	std::vector<std::string>::iterator iterLines = fileContent.begin();
 	for(int nLine = 1; iterLines != fileContent.end(); iterLines++,nLine++)
@@ -55,24 +57,23 @@ bool ConfigFile::ParseFile(std::vector<std::string>& fileContent, const std::vec
 		if(value.empty()){
 			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"error in line %d, empty value specified for key: %s", nLine, key.c_str());}
 
-		if(mapKeyValues.count(key)){
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"overriding value '%s' with '%s' from line %d for key %s",mapKeyValues[key].c_str(),value.c_str(),nLine,key.c_str());}
-
-		if(std::find(validParameterNames.begin(),validParameterNames.end(),key) == validParameterNames.end()){
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"ignoring unknown commandline parameter: %s",key.c_str()); }
+		std::vector<ConfigEntry>::iterator iFind = std::find(registeredParams.begin(),registeredParams.end(),key);
+		if(iFind == registeredParams.end()) {
+			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"ignoring unknown parameter from config file: %s",key.c_str()); }
 		else {
-			mapKeyValues.insert(std::pair<std::string,std::string>(key,value)); }
+			if(iFind->lockOverride) {
+				log::Logging::Log(
+						log::Logging::LOGLEVEL_WARN,
+						"ignoring value '%s' with '%s' from line %d for key %s because it would override",
+						iFind->GetValue().c_str(),value.c_str(),nLine,key.c_str());
+			}
+			else {
+				iFind->SetValue(value);
+			}
+		}
 	}
 
-	return (bool)mapKeyValues.size();
-}
-
-bool ConfigFile::GetValue(const std::string& key, std::string& out) const
-{
-	if(mapKeyValues.count(key)){
-		out = mapKeyValues.at(key);
-		return true;}
-	return false;
+	return true;
 }
 
 }
