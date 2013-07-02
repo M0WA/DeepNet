@@ -22,32 +22,21 @@ ConfigManager::~ConfigManager() {
 
 bool ConfigManager::Init(const int argc, char** argv) {
 
-	if(!ProcessCmdLine(argc, argv)) {
-		PrintUsage();
+	if( !ProcessCmdLine(argc, argv) ||
+		!ProcessConfigFile() ||
+		!ValidateConfig() )
+	{
 		std::string dump;
 		DumpConfig(dump);
 		log::Logging::LogError("config:\n" + dump);
-		return false;}
-
-	if(!ProcessConfigFile()){
 		PrintUsage();
-		std::string dump;
-		DumpConfig(dump);
-		log::Logging::LogError("config:\n" + dump);
-		return false;}
-
-	if(!ValidateConfig()) {
-		PrintUsage();
-		std::string dump;
-		DumpConfig(dump);
-		log::Logging::LogError("config:\n" + dump);
-		return false;}
+		return false;
+	}
 
 	if(log::Logging::IsLogLevelTrace()) {
 		std::string dump;
 		DumpConfig(dump);
-		log::Logging::LogTrace("config:\n" + dump);
-	}
+		log::Logging::LogTrace("config:\n" + dump);	}
 
 	return true;
 }
