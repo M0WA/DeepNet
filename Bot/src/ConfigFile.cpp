@@ -30,7 +30,7 @@ bool ConfigFile::ParseConfigFile(const std::string& fileName, std::vector<Config
 		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not open config file: %s", fileName.c_str());
 		return false; }
 
-	if(fileContent.size()) {
+	if(!fileContent.size()) {
 		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"ignoring empty config file: %s", fileName.c_str());
 		return true;}
 
