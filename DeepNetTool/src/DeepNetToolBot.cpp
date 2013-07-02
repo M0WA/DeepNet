@@ -9,15 +9,19 @@
 
 #include <iostream>
 
-#include <TLD.h>
 #include <UrlInserter.h>
-#include <IndexerTester.h>
-#include <FileTools.h>
 #include <HttpUrl.h>
 #include <HttpUrlParser.h>
-#include <Exception.h>
+#include <IndexerTester.h>
 
-#include "DatabaseRepair.h"
+#include <FileTools.h>
+#include <Exception.h>
+#include <Logging.h>
+
+#include <DatabaseRepair.h>
+
+#include <DatabaseLayer.h>
+
 #include "CommerceSearchTools.h"
 #include "DataMiningTools.h"
 
@@ -49,14 +53,6 @@ bool DeepNetToolBot::OnInit() {
 bool DeepNetToolBot::OnRun() {
 
 	bool bSuccess = true;
-	database::DatabaseConnection* conn = DB().CreateConnection(dbConfig);
-	if(!conn || !htmlparser::TLD::InitTLDCache(DB().Connection())) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "cannot initialize top level domain cache, exiting...");
-		return false;
-	}
-	std::vector<std::string> tldStrings;
-	htmlparser::TLD::GetTLDStrings(tldStrings);
-	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
 
 	//check for requested unit tests
 	bSuccess = ProcessUnitTests();
@@ -64,7 +60,7 @@ bool DeepNetToolBot::OnRun() {
 	//repair database after unclean shutdown
 	bool isRepair = false;
 	if(Config().GetValue("databaseRepair", isRepair) && isRepair) {
-		bSuccess = DatabaseRepair::FixUncleanShutdown(conn);
+		bSuccess = bot::DatabaseRepair::FixUncleanShutdown(DB().Connection());
 		if(!bSuccess) {
 			log::Logging::LogError("error while fixing database after unclean shutdown.");
 			bSuccess = false;
@@ -148,7 +144,7 @@ bool DeepNetToolBot::OnRun() {
 }
 
 bool DeepNetToolBot::OnShutdown() {
-
+	DB().DestroyConnection();
 	return true;
 }
 

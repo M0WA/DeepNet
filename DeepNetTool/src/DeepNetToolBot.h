@@ -7,10 +7,6 @@
 
 #pragma once
 
-#include "DeepNetToolBot.h"
-#include <Bot.h>
-#include <Logging.h>
-#include <DatabaseLayer.h>
 #include <Bot.h>
 
 namespace toolbot {
