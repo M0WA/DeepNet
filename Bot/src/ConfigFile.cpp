@@ -26,8 +26,14 @@ ConfigFile::~ConfigFile() {
 bool ConfigFile::ParseConfigFile(const std::string& fileName, std::vector<ConfigEntry>& registeredParams)
 {
 	std::vector<std::string> fileContent;
-	if(!tools::FileTools::ReadFile(fileName, fileContent))
-		return false;
+	if(!tools::FileTools::ReadFile(fileName, fileContent)){
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not open config file: %s", fileName.c_str());
+		return false; }
+
+	if(fileContent.size()) {
+		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"ignoring empty config file: %s", fileName.c_str());
+		return true;}
+
 	tools::StringTools::RemoveComments(fileContent);
 	bool success = ParseFile(fileContent,registeredParams);
 	if(success)
