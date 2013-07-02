@@ -30,10 +30,10 @@ worker_bot_mode=commercesearch
 # logfile=/var/log/worker.cs.log
 
 # enables or disables performance logging at runtime (if compiled with ENABLE_PERFORMANCE_LOG)
-# EnablePerformanceLogging=1
+# enablePerformanceLogging=1
 
 # log all cache stati (0: off, interval in mins)
-# DumpCaches=0
+# dumpCaches=0
 
 ##################################################
 #
