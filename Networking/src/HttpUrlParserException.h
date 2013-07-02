@@ -18,7 +18,8 @@ public:
 			const int line,
 			const std::string& function,
 			const std::string& exceptionName,
-			const std::string& message);
+			const std::string& message,
+			const bool logException = true);
 	virtual ~HttpUrlParserException();
 };
 

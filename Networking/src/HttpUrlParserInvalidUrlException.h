@@ -11,6 +11,10 @@
 
 namespace network {
 
+/**
+ * @brief exception raised when an invalid url was parsed
+ * this exception does NOT log by default
+ */
 class HttpUrlParserInvalidUrlException : public HttpUrlParserException {
 public:
 	HttpUrlParserInvalidUrlException(
@@ -18,7 +22,8 @@ public:
 			const int line,
 			const std::string& function,
 			const std::string& url,
-			const std::string& urlBase);
+			const std::string& urlBase,
+			const bool logException = false);
 	virtual ~HttpUrlParserInvalidUrlException();
 };
 

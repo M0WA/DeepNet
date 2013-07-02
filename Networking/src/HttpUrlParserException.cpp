@@ -14,8 +14,9 @@ HttpUrlParserException::HttpUrlParserException(
 	const int line,
 	const std::string& function,
 	const std::string& exceptionName,
-	const std::string& message)
-: errors::Exception(file,line,function,"HttpUrlParser", exceptionName, message) {
+	const std::string& message,
+	const bool logException)
+: errors::Exception(file,line,function,"HttpUrlParser", exceptionName, message,logException) {
 }
 
 HttpUrlParserException::~HttpUrlParserException() {

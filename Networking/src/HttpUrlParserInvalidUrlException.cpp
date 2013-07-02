@@ -14,8 +14,9 @@ HttpUrlParserInvalidUrlException::HttpUrlParserInvalidUrlException(
 		const int line,
 		const std::string& function,
 		const std::string& url,
-		const std::string& urlBase)
-: HttpUrlParserException(file,line,function,"HttpUrlParserInvalidUrlException", "cannot parse url:\n" + url + "\nbaseUrl: " + urlBase) {
+		const std::string& urlBase,
+		const bool logException)
+: HttpUrlParserException(file,line,function,"HttpUrlParserInvalidUrlException", "cannot parse url:\n" + url + "\nbaseUrl: " + urlBase, logException) {
 }
 
 HttpUrlParserInvalidUrlException::~HttpUrlParserInvalidUrlException() {
