@@ -6,6 +6,8 @@
 
 #include "Bot.h"
 
+#include <HttpUrlParser.h>
+
 #include <ConsoleLogging.h>
 #include <DatabaseLogging.h>
 #include <FileLogging.h>
@@ -16,6 +18,7 @@
 #include <CacheParsed.h>
 #include <CacheHtml.h>
 #include <CacheRobotsTxt.h>
+#include <TLD.h>
 
 #include <Exception.h>
 #include <DebuggingTools.h>
@@ -164,6 +167,14 @@ void Bot::RegisterCacheConfigParams()
 
 bool Bot::InitCacheConfigParams()
 {
+	if(!htmlparser::TLD::InitTLDCache(DB().Connection())) {
+		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "cannot initialize top level domain cache, exiting...");
+		return false;}
+
+	std::vector<std::string> tldStrings;
+	htmlparser::TLD::GetTLDStrings(tldStrings);
+	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
+
 	int sizeUrlCache = -1;
 	if(!Config().GetValue("urlcache", sizeUrlCache)) {
 		log::Logging::Log(log::Logging::LOGLEVEL_WARN, "missing urlcache parameter, using default value: 1000");
@@ -349,6 +360,10 @@ bool Bot::InitDatabaseConfigs(void)
 	if( ( bSuccess &= Config().GetValue("dbpass", tmp) ) ) {
 		dbConfig->SetPass(tmp);}
 
+	if(!DB().CreateConnection(dbConfig)){
+		log::Logging::LogError("could not create database connection");
+		return false; }
+
 	return bSuccess;
 }
 
@@ -422,18 +437,26 @@ bool Bot::PreInit(){
 	return OnPreInit();
 }
 
-bool Bot::PostInit(){
-	//init database configs and toplevel domain cache
+bool Bot::PostInit()
+{
+	//init logging at first
+	InitLogging();
+	if(log::Logging::IsLogLevelTrace()) {
+		std::string dump;
+		configManager.DumpConfig(dump);
+		log::Logging::LogTrace("config:\n" + dump);	}
+
+	//init database configs
 	bool bSuccessDB = InitDatabaseConfigs();
 	if(!bSuccessDB)
 		return false;
 
+	//init caches
 	bool bSuccessCache = InitCacheConfigParams();
 	if(!bSuccessCache)
 		return false;
 
-	//usage specified, print it and exit this
-	//process then
+	//usage specified, print it and exit this process
 	bool usageFlag = false;
 	if(Config().GetValue("h",usageFlag) && usageFlag){
 		Config().PrintUsage();
@@ -444,8 +467,6 @@ bool Bot::PostInit(){
 	bool daemonize = false;
 	if(Config().GetValue("D",daemonize) && daemonize && !Daemonize())
 		return false;
-
-	InitLogging();
 
 	//switch user and/or group
 	bool bSwitch = false;
@@ -472,8 +493,6 @@ bool Bot::PostInit(){
 
 bool Bot::WatchDog(){
 	if(cacheLogInterval > 0) {
-
-		DB().CreateConnection(dbConfig);
 
 		struct tm now;
 		tools::TimeTools::NowUTC(now);
@@ -520,8 +539,6 @@ bool Bot::WatchDog(){
 		cacheRobots.Set_misses(caching::CacheRobotsTxt::GetMisses());
 		cacheRobots.Set_action_time(now);
 		cacheRobots.Insert(db);
-
-		DB().DestroyConnection();
 	}
 	return OnWatchDog();
 }
@@ -530,9 +547,7 @@ bool Bot::Shutdown()
 {
 	bool shutdownSuccess = OnShutdown();
 
-	if(DB().Connection())
-		DB().Connection()->Disconnect();
-
+	DB().DestroyConnection();
 	if(dbConfig)
 		delete dbConfig;
 	dbConfig = 0;

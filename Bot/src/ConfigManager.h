@@ -121,14 +121,6 @@ private:
 	std::string configFileName;
 	std::vector<ConfigEntry> registeredParams;
 	std::map<std::string,std::string> defaultValues;
-
-
-
-
-
-
-
-
 };
 
 }

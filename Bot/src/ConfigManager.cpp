@@ -33,11 +33,6 @@ bool ConfigManager::Init(const int argc, char** argv) {
 		return false;
 	}
 
-	if(log::Logging::IsLogLevelTrace()) {
-		std::string dump;
-		DumpConfig(dump);
-		log::Logging::LogTrace("config:\n" + dump);	}
-
 	return true;
 }
 
