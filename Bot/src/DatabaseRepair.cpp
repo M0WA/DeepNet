@@ -25,23 +25,132 @@ DatabaseRepair::DatabaseRepair() {
 DatabaseRepair::~DatabaseRepair() {
 }
 
-bool DatabaseRepair::ValidateSecondLevelLockTable(database::DatabaseConnection* db) {
-	return false;
-}
-
-bool DatabaseRepair::ValidateCrawlerSessionTable(database::DatabaseConnection* db) {
-	return false;
-}
-
-bool DatabaseRepair::ValidateSyncUrlTable(database::DatabaseConnection* db) {
+bool DatabaseRepair::ValidateCrawlerSessionTable(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
 
 	std::vector<database::WhereConditionTableColumn*> where;
-	database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
-		database::WhereConditionTableColumnCreateParam(
-			database::WhereCondition::NotEquals(),
-			database::WhereCondition::InitialComp()	),
-		0,
-		where );
+
+	if(oldCrawlerSessionIDs.size() == 0) {
+		database::crawlersessionsTableBase::GetWhereColumnsFor_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::NotEquals(),
+				database::WhereCondition::InitialComp()	),
+			0,
+			where );
+	}
+	else {
+		database::crawlersessionsTableBase::GetWhereColumnsFor_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::InitialComp()	),
+			oldCrawlerSessionIDs,
+			where );
+	}
+
+	database::SelectStatement selectCrawlerSessionStmt(database::crawlersessionsTableBase::CreateTableDefinition());
+	selectCrawlerSessionStmt.SelectAddCountColumn(database::crawlersessionsTableBase::GetDefinition_ID(),"","crawlerSessionCount");
+	selectCrawlerSessionStmt.Where().AddColumns(where);
+
+	database::SelectResultContainer<database::TableBase> resultCrawlerSession;
+	db->Select(selectCrawlerSessionStmt,resultCrawlerSession);
+
+	if(resultCrawlerSession.Size() == 0) {
+		log::Logging::LogError("error while selecting count for crawler sessions");
+		return false; }
+
+	resultCrawlerSession.ResetIter();
+	for(;!resultCrawlerSession.IsIterEnd();resultCrawlerSession.Next())
+	{
+		const database::TableBase* resultCrawlerSessionTbl = resultCrawlerSession.GetIter();
+		const database::TableColumn* crawlerSession = resultCrawlerSessionTbl->GetConstColumnByName(std::string("crawlerSessionCount"));
+		if(!crawlerSession) {
+			log::Logging::LogError("error while getting count for crawler sessions");
+			return false;}
+
+		long long crawlerSessionCount = -1;
+		crawlerSession->Get(crawlerSessionCount);
+
+		if(crawlerSessionCount > 0) {
+			log::Logging::LogError("error, count for crawler sessions is not 0");
+			return false; }
+	}
+
+	log::Logging::LogTrace("CrawlerSessionTable was already in a clean state, nothing to be done here");
+	return true;
+}
+
+bool DatabaseRepair::ValidateSecondLevelLockTable(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
+
+	std::vector<database::WhereConditionTableColumn*> where;
+
+	if(oldCrawlerSessionIDs.size() == 0) {
+		database::locksecondleveldomainTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::NotEquals(),
+				database::WhereCondition::InitialComp()	),
+			0,
+			where );
+	}
+	else {
+		database::locksecondleveldomainTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::InitialComp()	),
+			oldCrawlerSessionIDs,
+			where );
+	}
+
+	database::SelectStatement selectSndLockStmt(database::locksecondleveldomainTableBase::CreateTableDefinition());
+	selectSndLockStmt.SelectAddCountColumn(database::locksecondleveldomainTableBase::GetDefinition_CRAWLERSESSION_ID(),"","lockedUrlCount");
+	selectSndLockStmt.Where().AddColumns(where);
+
+	database::SelectResultContainer<database::TableBase> resultSndLock;
+	db->Select(selectSndLockStmt,resultSndLock);
+
+	if(resultSndLock.Size() == 0) {
+		log::Logging::LogError("error while selecting count for locked second level domains");
+		return false; }
+
+	resultSndLock.ResetIter();
+	for(;!resultSndLock.IsIterEnd();resultSndLock.Next())
+	{
+		const database::TableBase* resultSndTbl = resultSndLock.GetIter();
+		const database::TableColumn* lockedUrl = resultSndTbl->GetConstColumnByName(std::string("lockedUrlCount"));
+		if(!lockedUrl) {
+			log::Logging::LogError("error while getting count for locked second level domains");
+			return false;}
+
+		long long lockedUrlCount = -1;
+		lockedUrl->Get(lockedUrlCount);
+
+		if(lockedUrlCount > 0) {
+			log::Logging::LogError("error, count for locked second level domains is not 0");
+			return false; }
+	}
+
+	log::Logging::LogTrace("SyncSecondLevelTable was already in a clean state, nothing to be done here");
+	return true;
+}
+
+bool DatabaseRepair::ValidateSyncUrlTable(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
+
+	std::vector<database::WhereConditionTableColumn*> where;
+
+	if(oldCrawlerSessionIDs.size() == 0) {
+		database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::NotEquals(),
+				database::WhereCondition::InitialComp()	),
+			0,
+			where );
+	}
+	else {
+		database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::InitialComp()	),
+			oldCrawlerSessionIDs,
+			where );
+	}
 
 	database::SelectStatement selectSyncUrlStmt(database::syncurlsTableBase::CreateTableDefinition());
 	selectSyncUrlStmt.SelectAddCountColumn(database::syncurlsTableBase::GetDefinition_CRAWLERSESSION_ID(),"","reservedUrlCount");
@@ -71,43 +180,61 @@ bool DatabaseRepair::ValidateSyncUrlTable(database::DatabaseConnection* db) {
 			return false; }
 	}
 
-	log::Logging::LogInfo("SyncUrlTable was already in a clean state, nothing to be done here");
+	log::Logging::LogTrace("SyncUrlTable was already in a clean state, nothing to be done here");
 	return true;
 }
 
-bool DatabaseRepair::ValidateSyncTables(database::DatabaseConnection* db) {
+bool DatabaseRepair::ValidateSyncTables(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
+
+	if(oldCrawlerSessionIDs.size() == 0) {
+		log::Logging::LogWarn("validating all sync tables, please ensure that no other instance is using the database"); }
+
 	bool success = true;
-	success &= ValidateSyncUrlTable(db);
-	success &= ValidateSecondLevelLockTable(db);
-	success &= ValidateCrawlerSessionTable(db);
+	success &= ValidateSyncUrlTable(db,oldCrawlerSessionIDs);
+	success &= ValidateSecondLevelLockTable(db,oldCrawlerSessionIDs);
+	success &= ValidateCrawlerSessionTable(db,oldCrawlerSessionIDs);
 	return success;
 }
 
-bool DatabaseRepair::FixUncleanShutdown(database::DatabaseConnection* db) {
+bool DatabaseRepair::FixUncleanShutdown(database::DatabaseConnection* db, const bool validateBeforeFix, const std::vector<long long>& oldCrawlerSessionIDs) {
 
-	if(!ValidateSyncUrlTable(db) && !FixSyncUrlTable(db))
+	if(oldCrawlerSessionIDs.size() == 0) {
+		log::Logging::LogWarn("cleaning all sync tables, please ensure that no other instance is using the database"); }
+
+	bool isValidated = validateBeforeFix && ValidateSyncUrlTable(db,oldCrawlerSessionIDs);
+	if( !isValidated && !FixSyncUrlTable(db,oldCrawlerSessionIDs))
 		return false;
 
-	if(!ValidateSecondLevelLockTable(db) && !FixSecondLevelLockTable(db))
+	isValidated = validateBeforeFix && ValidateSecondLevelLockTable(db,oldCrawlerSessionIDs);
+	if(!isValidated && !FixSecondLevelLockTable(db,oldCrawlerSessionIDs))
 		return false;
 
-	if(!ValidateCrawlerSessionTable(db) && !FixCrawlerSessionTable(db))
+	isValidated = validateBeforeFix && ValidateCrawlerSessionTable(db,oldCrawlerSessionIDs);
+	if(!isValidated && !FixCrawlerSessionTable(db,oldCrawlerSessionIDs))
 		return false;
 
 	return true;
 }
 
-bool DatabaseRepair::FixSyncUrlTable(database::DatabaseConnection* db) {
+bool DatabaseRepair::FixSyncUrlTable(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
 
 	database::syncurlsTableBase syncUrlTbl;
 	syncUrlTbl.Set_CRAWLERSESSION_ID(0);
 	syncUrlTbl.Set_schedule(tools::TimeTools::NowUTC());
 
 	std::vector<database::WhereConditionTableColumn*> whereCols;
-	database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(), database::WhereCondition::InitialComp()),
-		0,
-		whereCols );
+	if(oldCrawlerSessionIDs.size() == 0) {
+		database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(), database::WhereCondition::InitialComp()),
+			0,
+			whereCols );
+	}
+	else {
+		database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::InitialComp()),
+			oldCrawlerSessionIDs,
+			whereCols );
+	}
 
 	database::UpdateStatement updSyncUrl(
 		&syncUrlTbl,
@@ -119,17 +246,25 @@ bool DatabaseRepair::FixSyncUrlTable(database::DatabaseConnection* db) {
 	return true;
 }
 
-bool DatabaseRepair::FixSecondLevelLockTable(database::DatabaseConnection* db) {
+bool DatabaseRepair::FixSecondLevelLockTable(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
 
 	database::locksecondleveldomainTableBase lockSndDomainTbl;
 	lockSndDomainTbl.Set_CRAWLERSESSION_ID(0);
 	lockSndDomainTbl.Set_schedule(tools::TimeTools::NowUTC());
 
 	std::vector<database::WhereConditionTableColumn*> whereCols;
-	database::locksecondleveldomainTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(), database::WhereCondition::InitialComp()),
-		0,
-		whereCols );
+	if(oldCrawlerSessionIDs.size() == 0) {
+		database::locksecondleveldomainTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(), database::WhereCondition::InitialComp()),
+			0,
+			whereCols );
+	}
+	else {
+		database::locksecondleveldomainTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::InitialComp()),
+			oldCrawlerSessionIDs,
+			whereCols );
+	}
 
 	database::UpdateStatement updLockSndDomain(
 		&lockSndDomainTbl,
@@ -141,9 +276,19 @@ bool DatabaseRepair::FixSecondLevelLockTable(database::DatabaseConnection* db) {
 	return true;
 }
 
-bool DatabaseRepair::FixCrawlerSessionTable(database::DatabaseConnection* db) {
+bool DatabaseRepair::FixCrawlerSessionTable(database::DatabaseConnection* db, const std::vector<long long>& oldCrawlerSessionIDs) {
+
+	std::vector<database::WhereConditionTableColumn*> whereCols;
+	if(oldCrawlerSessionIDs.size() != 0) {
+		database::crawlersessionsTableBase::GetWhereColumnsFor_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::InitialComp()),
+			oldCrawlerSessionIDs,
+			whereCols );
+	}
 
 	database::DeleteStatement delCrawlSess(database::crawlersessionsTableBase::CreateTableDefinition());
+	if(whereCols.size() > 0) {
+		delCrawlSess.Where().AddColumns(whereCols);	}
 	db->Delete(delCrawlSess);
 	return true;
 }
