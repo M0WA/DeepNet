@@ -31,7 +31,7 @@ DatabaseHelper::~DatabaseHelper()
 DatabaseConnection* DatabaseHelper::CreateConnection(DatabaseConfig* dbConfig, const bool logQuery)
 {
 	if(dbConnection) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"recreating active database connection.");
+		log::Logging::LogWarn("recreating active database connection.");
 		DestroyConnection(); }
 
 	switch(dbConfig->GetType())
