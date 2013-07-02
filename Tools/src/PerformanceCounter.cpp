@@ -46,7 +46,7 @@ void PerformanceCounter::EnablePerformanceLog(const bool enable) {
 	enablePerformanceLog = enable;
 }
 
-bool PerformanceCounter::IsPerformanceLogEnabled() const {
+bool PerformanceCounter::IsPerformanceLogEnabled() {
 	return enablePerformanceLog;
 }
 

@@ -53,7 +53,7 @@ public:
 	 * checks if performance log is enabled
 	 * @return true if enabled, false if disabled
 	 */
-	static bool IsPerformanceLogEnabled() const;
+	static bool IsPerformanceLogEnabled();
 
 private:
 	timeval startval;
@@ -66,13 +66,11 @@ private:
 
 #ifdef ENABLE_PERFORMANCE_LOG
 	#define PERFORMANCE_LOG_START  \
-		tools::PerformanceCounter loggingPerformanceCounter();\
-		if(IsPerformanceLogEnabled()) \
-			loggingPerformanceCounter.Start();
+		tools::PerformanceCounter loggingPerformanceCounter;\
+		loggingPerformanceCounter.Start(); \
 
 	#define PERFORMANCE_LOG_RESTART \
-		if(tools::PerformanceCounter::IsPerformanceLogEnabled()) \
-			loggingPerformanceCounter.Start();
+		loggingPerformanceCounter.Start(); \
 
 	#define PERFORMANCE_LOG_STOP(logMsg){ \
 		double dDurationPerformanceCounter(loggingPerformanceCounter.Stop()); \
@@ -81,7 +79,7 @@ private:
 			ssLogPerformanceCounter << logMsg << " duration: " <<  dDurationPerformanceCounter << " sec(-s)"; \
 			log::Logging::Log(log::Logging::GetLogLevel(),ssLogPerformanceCounter.str()); \
 		} \
-	}
+	} \
 
 #else
 	#define PERFORMANCE_LOG_START
