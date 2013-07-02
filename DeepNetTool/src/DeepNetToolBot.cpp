@@ -171,60 +171,59 @@ bool DeepNetToolBot::OnPreInit() {
 }
 
 void DeepNetToolBot::RegisterDatabaseRepairParams() {
-	std::string defaultOff = "0";
-	Config().RegisterParam("databaseRepair", "repairs database after unclean shutdown", false, true, &defaultOff);
+	Config().RegisterFlag("databaseRepair", "repairs database after unclean shutdown", false, 0);
 }
 
 void DeepNetToolBot::RegisterHtmlTestParams() {
-	Config().RegisterParam("htmlFile", "filename of html file to parse/check", false, false, 0);
-	Config().RegisterParam("htmlUnitTestPath", "path to unit test html files", false, false, 0);
+	Config().RegisterParam("htmlFile", "filename of html file to parse/check", false, 0);
+	Config().RegisterParam("htmlUnitTestPath", "path to unit test html files", false, 0);
 }
 
 void DeepNetToolBot::RegisterUrlInserterParams() {
-	Config().RegisterParam("urlFile", "insert urls from file into database", false, false, 0 );
-	Config().RegisterParam("insertUrl", "domain to insert ie. dummy.siridia.de", false, false, 0 );
+	Config().RegisterParam("urlFile", "insert urls from file into database", false, 0 );
+	Config().RegisterParam("insertUrl", "domain to insert ie. dummy.siridia.de", false, 0 );
 
-	Config().RegisterParam("urlValidateFile", "validates urls from file", false, false, 0 );
-	Config().RegisterParam("urlInvalidateFile", "validates invalid urls from file", false, false, 0 );
+	Config().RegisterParam("urlValidateFile", "validates urls from file", false, 0 );
+	Config().RegisterParam("urlInvalidateFile", "validates invalid urls from file", false, 0 );
 }
 
 void DeepNetToolBot::RegisterCommerceSearchParams() {
-	Config().RegisterParam("csUserAdd", "add commerce search user to database", false, false, 0);
-	Config().RegisterParam("csUser", "username of commerce search user", false, false, 0);
-	Config().RegisterParam("csPass", "password of commerce search user", false, false, 0);
-	Config().RegisterParam("csDomain", "domain of commerce search user", false, false, 0);
-	Config().RegisterParam("csRevisitInterval", "crawler revisit interval of commerce search user (in minutes)", false, false, 0);
+	Config().RegisterParam("csUserAdd", "add commerce search user to database", false, 0);
+	Config().RegisterParam("csUser", "username of commerce search user", false, 0);
+	Config().RegisterParam("csPass", "password of commerce search user", false, 0);
+	Config().RegisterParam("csDomain", "domain of commerce search user", false, 0);
+	Config().RegisterParam("csRevisitInterval", "crawler revisit interval of commerce search user (in minutes)", false, 0);
 }
 
 void DeepNetToolBot::RegisterDataminingParams() {
-	Config().RegisterParam("dmAddDataminingUser", "add datamining user to database", false, false, 0);
-	Config().RegisterParam("dmAddDataminingAlert", "add datamining alert to database", false, false, 0);
-	Config().RegisterParam("dmDataminingUsername", "datamining username", false, false, 0);
-	Config().RegisterParam("dmDataminingPassword", "datamining password", false, false, 0);
-	Config().RegisterParam("dmDataminingCriteria", "regex for datamining criteria", false, false, 0);
-	Config().RegisterParam("dmDataminingAlertType", "type of alert, one of: email", false, false, 0);
-	Config().RegisterParam("dmDataminingAlertParam", "parameters for alert types", false, false, 0);
+	Config().RegisterParam("dmAddDataminingUser", "add datamining user to database", false, 0);
+	Config().RegisterParam("dmAddDataminingAlert", "add datamining alert to database", false, 0);
+	Config().RegisterParam("dmDataminingUsername", "datamining username", false, 0);
+	Config().RegisterParam("dmDataminingPassword", "datamining password", false, 0);
+	Config().RegisterParam("dmDataminingCriteria", "regex for datamining criteria", false, 0);
+	Config().RegisterParam("dmDataminingAlertType", "type of alert, one of: email", false, 0);
+	Config().RegisterParam("dmDataminingAlertParam", "parameters for alert types", false, 0);
 }
 
 void DeepNetToolBot::RegisterPCRERegexTestParams() {
-	Config().RegisterParam("pcreRegexFile", "validates pcre regexes from file", false, false, 0 );
+	Config().RegisterParam("pcreRegexFile", "validates pcre regexes from file", false, 0 );
 }
 
 void DeepNetToolBot::RegisterRobotTxtParams() {
-	Config().RegisterParam("robotsTxtFile", "validates robots.txt from file", false, false, 0 );
+	Config().RegisterParam("robotsTxtFile", "validates robots.txt from file", false, 0 );
 }
 
 void DeepNetToolBot::RegisterHtmlClientCURLParams() {
-	Config().RegisterParam("curlGetFile", "filename of urls to \"GET\" via cURL-based client", false, false, 0 );
-	Config().RegisterParam("curlPostFile", "filename of urls to \"POST\" via cURL-based client", false, false, 0 );
+	Config().RegisterParam("curlGetFile", "filename of urls to \"GET\" via cURL-based client", false, 0 );
+	Config().RegisterParam("curlPostFile", "filename of urls to \"POST\" via cURL-based client", false, 0 );
 }
 
 void DeepNetToolBot::RegisterHtmlDocumentFactoryParams() {
-	Config().RegisterParam("domParserUnitTestPath", "path to unit test html files for DOM parser", false, false, 0);
+	Config().RegisterParam("domParserUnitTestPath", "path to unit test html files for DOM parser", false, 0);
 }
 
 void DeepNetToolBot::RegisterIndexerExParams() {
-	Config().RegisterParam("indexerExUnitTestPath", "path to unit test text and dictionary xml files for indexer", false, false, 0);
+	Config().RegisterParam("indexerExUnitTestPath", "path to unit test text and dictionary xml files for indexer", false, 0);
 }
 
 bool DeepNetToolBot::ProcessUnitTests() {
