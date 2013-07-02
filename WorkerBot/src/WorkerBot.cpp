@@ -166,7 +166,7 @@ void WorkerBot::RegisterCrawlerConfigParams()
 	Config().RegisterParam("crawler_limit", "speed limit per connection in kb (0 <= unlimited)", true, &defaultSpeedLimit);
 
 	std::string waitOnIdle = "10";
-	Config().RegisterParam("crawler_waitIdle", "how long to wait for recheck if idle in seconds", true, false, &waitOnIdle);
+	Config().RegisterParam("crawler_waitIdle", "how long to wait for recheck if idle in seconds", true, &waitOnIdle);
 
 	std::string respectRobotsTxt = "1";
 	Config().RegisterParam("crawler_respectRobotsTxt", "respect robots.txt when crawling sites", true, &respectRobotsTxt);
