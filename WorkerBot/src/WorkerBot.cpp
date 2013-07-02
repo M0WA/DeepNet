@@ -124,7 +124,7 @@ bool WorkerBot::OnPreInit(void)
 	RegisterModeSpecificParams();
 
 	bool defaultAutoFixUncleanShutdown = false;
-	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown (use only when this is the single instance running)",true,&defaultAutoFixUncleanShutdown);
+	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown",true,&defaultAutoFixUncleanShutdown);
 	return true;
 }
 
@@ -380,11 +380,9 @@ bool WorkerBot::CheckCleanShutdown() {
 
 	log::Logging::LogInfo("checking database consistency after shutdown");
 
-	if(!bot::DatabaseRepair::ValidateSyncTables(DB().Connection())) {
-		log::Logging::LogError("errors while checking database consistency after shutdown, trying to fix them before shutdown");
-		if(!bot::DatabaseRepair::FixUncleanShutdown(DB().Connection()))
-			return false;
-	}
+	if(!bot::DatabaseRepair::FixUncleanShutdown(DB().Connection(),true,crawler.Get()->GetOldCrawlerSessionIDs())) {
+		log::Logging::LogError("errors while checking/fixing database consistency after shutdown");
+		return false; }
 
 	return true;
 }
