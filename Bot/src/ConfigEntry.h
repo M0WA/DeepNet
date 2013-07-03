@@ -66,6 +66,7 @@ public:
 	 */
 	const std::string& GetValue() const;
 
+public:
 	/**
 	 * name of the parameter
 	 */
@@ -76,10 +77,6 @@ public:
 	 */
 	std::string desc;
 
-private:
-	std::string value;
-
-public:
 	/**
 	 * true if parameter is mandatory
 	 */
@@ -99,6 +96,9 @@ public:
 	 * true if value is set
 	 */
 	bool valueSet;
+
+private:
+	std::string value;
 };
 
 }
