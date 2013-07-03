@@ -125,8 +125,8 @@ bool Bot::RegisterSignalHandlers()
 
 void Bot::RegisterDefaultFlags(void)
 {
-	Config().RegisterFlag("h", "prints this message", false, NULL);
-	Config().RegisterFlag("D", "daemonize", false, NULL);
+	Config().RegisterFlag("h", "prints this message", false);
+	Config().RegisterFlag("D", "daemonize", false);
 }
 
 void Bot::RegisterDefaultParams(void)

@@ -45,13 +45,11 @@ public:
 	 * this function can only be called before bot::ConfigManager::Init is called.
 	 * @param flagName name of the flag.
 	 * @param description description of the flag.
-	 * @param isMandatory is a mandatory flag.
-	 * @param defaultValue default value of flag or NULL if no default value.
+	 * @param defaultValue default value of flag
 	 */
 	void RegisterFlag(const std::string& flagName,
 			const std::string& description,
-			const bool isMandatory,
-			const bool* defaultValue);
+			const bool defaultValue);
 
 	/**
 	 * registers a new parameter.

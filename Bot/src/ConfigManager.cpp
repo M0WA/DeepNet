@@ -90,14 +90,10 @@ void ConfigManager::RegisterParam(const std::string& paramName, const std::strin
 	registeredParams.push_back(ConfigEntry(paramName, description, isMandatory, false, defaultValue));
 }
 
-void ConfigManager::RegisterFlag(const std::string& paramName,const std::string& description,const bool isMandatory,const bool* defaultValue) {
-	std::string* defaultValueString = 0;
-	std::string tmpDefault;
-	if(defaultValue) {
-		tmpDefault = ( ( *defaultValue ) ? "1" : "0");
-		defaultValueString = &tmpDefault;
-		defaultValues[paramName] = tmpDefault;}
-	registeredParams.push_back(ConfigEntry(paramName, description, isMandatory, true, defaultValueString));
+void ConfigManager::RegisterFlag(const std::string& paramName,const std::string& description,const bool defaultValue) {
+	std::string tmpDefault(( defaultValue ) ? "1" : "0");
+	defaultValues[paramName] = tmpDefault;
+	registeredParams.push_back(ConfigEntry(paramName, description, true, true, &tmpDefault ));
 }
 
 bool ConfigManager::ProcessCmdLine(const int argc, char** argv) {
