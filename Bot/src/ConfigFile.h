@@ -27,7 +27,7 @@ public:
 	/**
 	 * sets the filename of the config file and tries to process it.
 	 * @param fileName filename of the config file
-	 * @param validParameterNames list of parameters, will get filled if paramaters are found.
+	 * @param registeredParams list of allowed parameters, will get filled if paramaters are found.
 	 * @return false on error, true on success.
 	 */
 	bool ParseConfigFile(const std::string& fileName, std::vector<ConfigEntry>& registeredParams);
