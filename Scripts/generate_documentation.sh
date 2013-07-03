@@ -16,3 +16,8 @@ echo "generating documentation"
 cd ..
 doxygen Scripts/doxygen/Doxyfile
 cd Scripts
+
+echo "copying documentation to website directory"
+rm -rf webif/deepnet/doxygen
+mkdir -p webif/deepnet/doxygen
+cp -r doc/html/ webif/deepnet/doxygen
