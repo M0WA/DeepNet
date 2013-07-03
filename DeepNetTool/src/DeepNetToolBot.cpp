@@ -167,7 +167,7 @@ bool DeepNetToolBot::OnPreInit() {
 }
 
 void DeepNetToolBot::RegisterDatabaseRepairParams() {
-	Config().RegisterFlag("databaseRepair", "repairs database after unclean shutdown", false, 0);
+	Config().RegisterFlag("databaseRepair", "repairs database after unclean shutdown", false);
 }
 
 void DeepNetToolBot::RegisterHtmlTestParams() {
