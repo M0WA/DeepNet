@@ -290,58 +290,6 @@ public:
 	}
 
 	/**
-	 * checks if cache contains a certain key.
-	 * @param key key to check for.
-	 * @return false if non-existent, true if existent.
-	 */
-	/*
-	bool ContainsKey(const T& key) const
-	{
-		threading::AutoMutex lock(mutex);
-		return mapEntries.count(key) > 0;
-	}
-	*/
-
-	/**
-	 * checks if cache contains a certain value of the transformed type X.
-	 * @param value value to check for.
-	 * @return false if non-existent, true if existent.
-	 */
-	/*
-	template <class X>
-	bool ContainsValue(const X& value) const
-	{
-		threading::AutoMutex lock(mutex);
-		typename std::map<T,V>::const_iterator iterEntries = mapEntries.begin();
-		for(;iterEntries != mapEntries.end();++iterEntries) {
-			if ( dynamic_cast<const X&>(iterEntries->second) == value ) {
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-
-	/**
-	 * checks if cache contains a certain value.
-	 * @param value value to check for.
-	 * @return false if non-existent, true if existent.
-	 */
-	/*
-	bool ContainsValue(const V& value) const
-	{
-		threading::AutoMutex lock(mutex);
-		typename std::map<T,V>::const_iterator iterEntries = mapEntries.begin();
-		for(;iterEntries != mapEntries.end();++iterEntries) {
-			if ( iterEntries->second == value ) {
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-
-	/**
 	 * get current match count of cache, clearing internal match counter.
 	 * @return number of matches.
 	 */
