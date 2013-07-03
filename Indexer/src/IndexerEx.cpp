@@ -61,7 +61,7 @@ void IndexerEx::Parse(const std::string& input, const long long paragraph)
 	tools::PCRERegex regex("\\w{2,}",true,false,isUTF8);
 	if(!regex.Match(input,groups)) {
 		if(log::Logging::IsLogLevelTrace()) {
-			log::Logging::LogTrace("did not detect any words in content");	}
+			log::Logging::LogTrace("did not detect any words in content: " + input);	}
 		return;
 	}
 
