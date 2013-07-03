@@ -1,6 +1,6 @@
 <?php
 
-$header = "
+$menu = "
     <div id=\"menu_wrapper\" class=\"menu\">
       <a href=\"index.html\">home</a>
       |

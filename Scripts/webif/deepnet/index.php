@@ -1,9 +1,9 @@
 <?php
-    include_once("/lib/header.inc.php");
-    include_once("/lib/menu.inc.php");
-    include_once("/lib/content.inc.php");
-    include_once("/lib/footer.inc.php");
-    include_once("/lib/stylesheets.inc.php");
+    include_once("lib/header.inc.php");
+    include_once("lib/menu.inc.php");
+    include_once("lib/content.inc.php");
+    include_once("lib/footer.inc.php");
+    include_once("lib/stylesheets.inc.php");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
         "http://www.w3.org/TR/html4/strict.dtd">
