@@ -1,6 +1,6 @@
 /**
  *
- * @file FencedCrawlerFetcherThread.cpp
+ * @file FencedUrlFetcherThread.cpp
  * @author Moritz Wagner
  * @date 30.06.2013
  *
