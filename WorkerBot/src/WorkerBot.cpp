@@ -123,8 +123,7 @@ bool WorkerBot::OnPreInit(void)
 	RegisterIndexerConfigParams();
 	RegisterModeSpecificParams();
 
-	bool defaultAutoFixUncleanShutdown = false;
-	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown",true,&defaultAutoFixUncleanShutdown);
+	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown",false);
 	return true;
 }
 
@@ -153,7 +152,7 @@ void WorkerBot::RegisterCrawlerConfigParams()
 	std::string defaultConnectionTimeout = "15";
 	Config().RegisterParam("crawler_connectionTimeout", "timeout for connection, overall in sec", true, &defaultConnectionTimeout);
 
-	Config().RegisterFlag("crawler_ipv6", "enable the use of ipv6", false, 0);
+	Config().RegisterFlag("crawler_ipv6", "enable the use of ipv6", false);
 
 	std::string defaultSpeedLimit = "300";
 	Config().RegisterParam("crawler_limit", "speed limit per connection in kb (0 <= unlimited)", true, &defaultSpeedLimit);
