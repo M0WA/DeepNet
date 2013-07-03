@@ -1,6 +1,6 @@
 /**
  *
- * @file ProcessingInstruction.h
+ * @file src/ProcessingInstruction.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

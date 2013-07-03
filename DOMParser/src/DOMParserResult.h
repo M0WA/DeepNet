@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMParserResult.h
+ * @file src/DOMParserResult.h
  * @author Moritz Wagner
  * @date 09.07.2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file DocumentType.cpp
+ * @file DOM3/DocumentType.cpp
  * @author Moritz Wagner
  * @date 22.06.2013
  *

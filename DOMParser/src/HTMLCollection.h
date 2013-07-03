@@ -1,6 +1,6 @@
 /**
  *
- * @file HTMLCollection.h
+ * @file src/HTMLCollection.h
  * @author Moritz Wagner
  * @date 04.03.2013
  *

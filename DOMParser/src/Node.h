@@ -1,6 +1,6 @@
 /**
  *
- * @file Node.h
+ * @file src/Node.h
  * @author Moritz Wagner
  * @date 03.03.2013
  *

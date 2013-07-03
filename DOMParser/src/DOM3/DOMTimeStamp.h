@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMTimeStamp.h
+ * @file DOM3/DOMTimeStamp.h
  * @author Moritz Wagner
  * @date 21.06.2013
  *

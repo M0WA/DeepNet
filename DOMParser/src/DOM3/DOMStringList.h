@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMStringList.h
+ * @file DOM3/DOMStringList.h
  * @author Moritz Wagner
  * @date 21.06.2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMStringList.cpp
+ * @file DOM3/DOMStringList.cpp
  * @author Moritz Wagner
  * @date 21.06.2013
  *

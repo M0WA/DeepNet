@@ -1,6 +1,6 @@
 /**
  *
- * @file NodeFactory.h
+ * @file src/NodeFactory.h
  * @author Moritz Wagner
  * @date 03.03.2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMImplementation.h
+ * @file src/DOMImplementation.h
  * @author Moritz Wagner
  * @date 04.03.2013
  *

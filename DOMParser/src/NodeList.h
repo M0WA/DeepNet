@@ -1,6 +1,6 @@
 /**
  *
- * @file NodeList.h
+ * @file src/NodeList.h
  * @author Moritz Wagner
  * @date Mar 3, 2013
  *

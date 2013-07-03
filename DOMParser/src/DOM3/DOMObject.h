@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMObject.h
+ * @file DOM3/DOMObject.h
  * @author Moritz Wagner
  * @date 22.06.2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMSettableTokenList.h
+ * @file src/DOMSettableTokenList.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

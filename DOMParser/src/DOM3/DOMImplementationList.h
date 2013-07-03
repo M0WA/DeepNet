@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMImplementationList.h
+ * @file DOM3/DOMImplementationList.h
  * @author Moritz Wagner
  * @date 21.06.2013
  *

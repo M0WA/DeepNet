@@ -1,6 +1,6 @@
 /**
  *
- * @file Node.cpp
+ * @file DOM3/Node.cpp
  * @author Moritz Wagner
  * @date 22.06.2013
  *

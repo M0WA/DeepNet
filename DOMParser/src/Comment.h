@@ -1,6 +1,6 @@
 /**
  *
- * @file Comment.h
+ * @file src/Comment.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

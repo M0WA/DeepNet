@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMObject.cpp
+ * @file DOM3/DOMObject.cpp
  * @author Moritz Wagner
  * @date 22.06.2013
  *

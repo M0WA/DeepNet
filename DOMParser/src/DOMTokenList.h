@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMTokenList.h
+ * @file src/DOMTokenList.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

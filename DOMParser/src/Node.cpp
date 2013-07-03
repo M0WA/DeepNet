@@ -1,6 +1,6 @@
 /**
  *
- * @file Node.cpp
+ * @file src/Node.cpp
  * @author Moritz Wagner
  * @date Mar 3, 2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file Traverser.h
+ * @file src/Traverser.h
  * @author Moritz Wagner
  * @date Mar 6, 2013
  *

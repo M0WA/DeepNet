@@ -1,6 +1,6 @@
 /**
  *
- * @file Node.h
+ * @file DOM3/Node.h
  * @author Moritz Wagner
  * @date 22.06.2013
  *

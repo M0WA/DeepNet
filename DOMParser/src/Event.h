@@ -1,6 +1,6 @@
 /**
  *
- * @file Event.h
+ * @file src/Event.h
  * @author Moritz Wagner
  * @date 04.03.2013
  *

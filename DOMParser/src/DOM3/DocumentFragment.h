@@ -1,6 +1,6 @@
 /**
  *
- * @file DocumentFragment.h
+ * @file DOM3/DocumentFragment.h
  * @author Moritz Wagner
  * @date 22.06.2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file EventTarget.h
+ * @file src/EventTarget.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

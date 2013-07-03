@@ -1,6 +1,6 @@
 /**
  *
- * @file MutationObserver.h
+ * @file src/MutationObserver.h
  * @author Moritz Wagner
  * @date 06.03.2013
  *

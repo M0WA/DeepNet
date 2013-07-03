@@ -1,6 +1,6 @@
 /**
  *
- * @file NameList.cpp
+ * @file DOM3/NameList.cpp
  * @author Moritz Wagner
  * @date 21.06.2013
  *

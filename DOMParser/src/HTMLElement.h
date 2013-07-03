@@ -1,6 +1,6 @@
 /**
  *
- * @file HTMLElement.h
+ * @file src/HTMLElement.h
  * @author Moritz Wagner
  * @date 05.03.2013
  *

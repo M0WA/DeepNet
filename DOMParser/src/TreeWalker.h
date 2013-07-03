@@ -1,6 +1,6 @@
 /**
  *
- * @file TreeWalker.h
+ * @file src/TreeWalker.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

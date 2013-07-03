@@ -1,6 +1,6 @@
 /**
  *
- * @file MutationRecord.h
+ * @file src/MutationRecord.h
  * @author Moritz Wagner
  * @date 06.03.2013
  *

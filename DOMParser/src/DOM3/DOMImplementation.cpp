@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMImplementation.cpp
+ * @file DOM3/DOMImplementation.cpp
  * @author Moritz Wagner
  * @date 21.06.2013
  *

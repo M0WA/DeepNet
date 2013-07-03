@@ -1,6 +1,6 @@
 /**
  *
- * @file NodeFilter.h
+ * @file src/NodeFilter.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

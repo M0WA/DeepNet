@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMException.cpp
+ * @file DOM3/DOMException.cpp
  * @author Moritz Wagner
  * @date 21.06.2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file Document.cpp
+ * @file src/Document.cpp
  * @author Moritz Wagner
  * @date Mar 2, 2013
  *

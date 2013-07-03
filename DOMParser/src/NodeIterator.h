@@ -1,6 +1,6 @@
 /**
  *
- * @file NodeIterator.h
+ * @file src/NodeIterator.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

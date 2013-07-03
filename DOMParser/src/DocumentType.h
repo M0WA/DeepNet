@@ -1,6 +1,6 @@
 /**
  *
- * @file DocumentType.h
+ * @file src/DocumentType.h
  * @author Moritz Wagner
  * @date 04.03.2013
  *

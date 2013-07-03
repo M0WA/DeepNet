@@ -1,6 +1,6 @@
 /**
  *
- * @file CharacterData.h
+ * @file src/CharacterData.h
  * @author Moritz Wagner
  * @date Mar 4, 2013
  *

@@ -1,6 +1,6 @@
 /**
  *
- * @file DOMParser.h
+ * @file src/DOMParser.h
  * @author Moritz Wagner
  * @date 09.06.2013
  *
