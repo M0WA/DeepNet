@@ -13,22 +13,22 @@ namespace bot {
 ConfigEntry::ConfigEntry()
 : name("")
 , desc("")
-, value("")
 , mandatory(false)
 , isFlag(false)
 , lockOverride(false)
 , valueSet(true)
+, value("")
 {
 }
 
 ConfigEntry::ConfigEntry( const std::string& name, const std::string& desc, const bool mandatory, const bool isFlag, const std::string* defaultValue )
 : name(name)
 , desc(desc)
-, value( (defaultValue ? *defaultValue : "") )
 , mandatory(mandatory)
 , isFlag(isFlag)
 , lockOverride(false)
 , valueSet(defaultValue)
+, value( (defaultValue ? *defaultValue : "") )
 {
 }
 
