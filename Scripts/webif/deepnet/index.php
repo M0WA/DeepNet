@@ -37,7 +37,7 @@
   <!--
   content_end
   -->
-  
+  äöüäöüäöü
   <!--
   footer_begin
   -->
