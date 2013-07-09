@@ -71,10 +71,22 @@ public:
 	static void LogError(const std::string& msg) { Log(LOGLEVEL_ERROR,msg); }
 
 	/**
+	 * log an error.
+	 * @param fmt format string.
+	 */
+	static void LogError(const char* fmt,...);
+
+	/**
 	 * log a warning.
 	 * @param msg log message.
 	 */
 	static void LogWarn(const std::string& msg) { Log(LOGLEVEL_WARN,msg); }
+
+	/**
+	 * log a warning.
+	 * @param fmt format string.
+	 */
+	static void LogWarn(const char* fmt,...);
 
 	/**
 	 * log an information.
@@ -83,10 +95,22 @@ public:
 	static void LogInfo(const std::string& msg) { Log(LOGLEVEL_INFO,msg); }
 
 	/**
+	 * log a information.
+	 * @param fmt format string.
+	 */
+	static void LogInfo(const char* fmt,...);
+
+	/**
 	 * log a debug information.
 	 * @param msg log message.
 	 */
 	static void LogTrace(const std::string& msg) { Log(LOGLEVEL_TRACE,msg); }
+
+	/**
+	 * log a debug information.
+	 * @param fmt format string.
+	 */
+	static void LogTrace(const char* fmt,...);
 
 	/**
 	 * log a debug information not respecting max log length.
@@ -125,20 +149,6 @@ public:
 	static void SetLogLevel(LogLevel logLevelIn);
 
 	/**
-	 * log a message.
-	 * @param levelMsg log level.
-	 * @param msg log message.
-	 */
-	static void Log(const LogLevel levelMsg,const std::string& msg);
-
-	/**
-	 * log a message.
-	 * @param levelMsg log level.
-	 * @param fmt format string.
-	 */
-	static void Log(const LogLevel levelMsg,const char* fmt,...);
-
-	/**
 	 * log a message not respecting max log length.
 	 * @param levelMsg log level.
 	 * @param fmt format string.
@@ -151,6 +161,13 @@ public:
 	 * @param msg log message.
 	 */
 	static void LogUnlimited(const LogLevel levelMsg,const std::string& msg);
+
+	/**
+	 * logs at current log level
+	 * @param msg log message.
+	 */
+	static void LogCurrentLevel(const std::string& msg) {
+		Log(GetLogLevel(),msg);	}
 
 	/**
 	 * get the log level.
@@ -170,6 +187,20 @@ public:
 	static void GetTimeString(std::string& timeString);
 
 protected:
+	/**
+	 * log a message.
+	 * @param levelMsg log level.
+	 * @param msg log message.
+	 */
+	static void Log(const LogLevel levelMsg,const std::string& msg);
+
+	/**
+	 * log a message.
+	 * @param levelMsg log level.
+	 * @param fmt format string.
+	 */
+	static void Log(const LogLevel levelMsg,const char* fmt,...);
+
 	/**
 	 * gets the log level as a string.
 	 * @param logLevel log level.
