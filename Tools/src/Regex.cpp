@@ -34,7 +34,7 @@ bool Regex::Compile(const std::string& regexExp, const bool caseInsensitive, reg
 	if( regError ) {
 		char errorBuf[512];
 		regerror(regError,&regex,errorBuf,512);
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid regular expression: %s\n%s", regexExp.c_str(),regError);
+		log::Logging::LogError("invalid regular expression: %s\n%s", regexExp.c_str(),regError);
 		return false;
 	}
 	return true;

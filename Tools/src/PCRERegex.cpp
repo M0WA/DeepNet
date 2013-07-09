@@ -53,7 +53,7 @@ bool PCRERegex::Compile(
 	int erroffset;
 	*regex = pcre_compile(regexExp.c_str(),options, &error, &erroffset,  NULL);
 	if (*regex == NULL) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"PCRE compilation failed at offset %d: %s\n", erroffset, error);
+		log::Logging::LogError("PCRE compilation failed at offset %d: %s\n", erroffset, error);
 		return false; }
 
 	*extra_data = pcre_study(*regex,0,&error);
@@ -84,7 +84,7 @@ bool PCRERegex::Match(const pcre* regex, const pcre_extra* extra_data, const int
     while (offset < len && (rc = pcre_exec(regex, extra_data, str, len, offset, 0, subStringPos, subStringCount)) >= 0) {
 
     	if(rc == 0) {
-    		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"output buffer for regex groups too small");
+    		log::Logging::LogError("output buffer for regex groups too small");
 			return false;}
 
     	const char* psubStrMatchStr = 0;
@@ -97,7 +97,7 @@ bool PCRERegex::Match(const pcre* regex, const pcre_extra* extra_data, const int
         		pcre_free_substring(psubStrMatchStr);
         	}
         	else {
-            	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid subgroup");
+            	log::Logging::LogError("invalid subgroup");
     			return false;
         	}
         }
@@ -170,7 +170,7 @@ PCRERegexResult PCRERegex::MatchEx(const pcre* regex,const pcre_extra* extra_dat
     while ( offset < len && (rc = pcre_exec(regex, extra_data, str, len, offset, 0, subStringPos, subStringCount)) >= 0) {
 
     	if(rc == 0) {
-    		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"output buffer for regex groups too small");
+    		log::Logging::LogError("output buffer for regex groups too small");
     		resultRegex.success = false;
     		return resultRegex;
     	}
@@ -195,7 +195,7 @@ PCRERegexResult PCRERegex::MatchEx(const pcre* regex,const pcre_extra* extra_dat
         		pcre_free_substring(psubStrMatchStr);
         	}
         	else {
-            	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid subgroup");
+            	log::Logging::LogError("invalid subgroup");
         		resultRegex.success = false;
         		resultRegex.begin = resultRegex.end = -1;
         		return resultRegex;

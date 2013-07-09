@@ -268,7 +268,7 @@ bool CharsetEncoder::EncodeHtmlEntities(const unsigned char* pszIn, const int in
 		int end = ((inSize-1) < (outlen + 20) ) ? inSize-1 : outlen + 20;
 		unsigned char tmp = buf[end];
 		buf[end] = 0;
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"an error occured while transforming to html entities: %s",&buf[pos]);
+		log::Logging::LogError("an error occured while transforming to html entities: %s",&buf[pos]);
 		buf[end] = tmp;
 		delete [] buf;
 		return false;}
