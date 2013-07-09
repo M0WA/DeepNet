@@ -43,8 +43,6 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	threading::AutoMutex autoMutex(signalMutex);
 
 	tools::DebuggingTools::SignalInfos signalInfo = tools::DebuggingTools::GetSignalInfos(signum, info, ucontext);
-	int oldLen = log::Logging::GetMaxLogLength();
-	log::Logging::SetMaxLogLength(0);
 
 	switch(signum)
 	{
@@ -52,7 +50,7 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGSEGV:
 	case SIGABRT:
 	case SIGILL:
-		log::Logging::LogError(signalInfo.infoText);
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
 		log::Logging::LogError("killing none gracefully");
 		exit(1);
 		break;
@@ -61,7 +59,7 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGTERM:
 	case SIGINT:
 		run = false;
-		log::Logging::LogError(signalInfo.infoText);
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
 		log::Logging::LogError("killing gracefully");
 		break;
 
@@ -78,11 +76,9 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 
 	//other signals
 	default:
-		log::Logging::LogError(signalInfo.infoText);
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
 		break;
 	}
-
-	log::Logging::SetMaxLogLength(oldLen);
 }
 
 
