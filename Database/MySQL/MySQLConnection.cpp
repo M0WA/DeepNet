@@ -54,7 +54,7 @@ bool MySQLConnection::Connect(DatabaseConfig* dbConfig)
 	if(mysqlConnection)
 	{
 		Disconnect();
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"closing established database connection due to a reconnect.");
+		log::Logging::LogWarn("closing established database connection due to a reconnect.");
 	}
 
 	mysqlConnection = mysql_init(mysqlConnection);
@@ -80,14 +80,14 @@ bool MySQLConnection::Connect(DatabaseConfig* dbConfig)
 		std::string msg = "mysql error: ";
 		msg += std::string(pszMySQLError ? pszMySQLError : "N/A" );
 		msg += "\n";
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,msg);
+		log::Logging::LogError(msg);
 	}
 	else
 	{
 		mysql_autocommit(mysqlConnection,1);
 	}
 
-	log::Logging::Log(log::Logging::LOGLEVEL_INFO,"connected to mysql-database");
+	log::Logging::LogInfo("connected to mysql-database");
 
 	return true;
 }
@@ -96,7 +96,7 @@ bool MySQLConnection::Disconnect()
 {
 	if(mysqlConnection) {
 		mysql_close(mysqlConnection);
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"disconnected from mysql-database");
+		log::Logging::LogInfo("disconnected from mysql-database");
 	}
 	mysqlConnection = NULL;
 	return true;
@@ -120,7 +120,7 @@ void MySQLConnection::Query(const std::string& query, std::vector<TableBase*>& r
 		std::string msg = "error while fetching query result: ";
 		msg += std::string(pszMySQLError ? pszMySQLError : "N/A" ) + "\n";
 		msg += "query: "+query+"\n";
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,msg);
+		log::Logging::LogError(msg);
 		THROW_EXCEPTION(MySQLQueryResultStoreException);
 	}
 
@@ -141,7 +141,7 @@ void MySQLConnection::Query(const std::string& query, std::vector<TableBase*>& r
 void MySQLConnection::Execute(const std::string& query, bool doRetry)
 {
 	if(logQuery){
-		log::Logging::Log(log::Logging::GetLogLevel(),"execute: " + query); }
+		log::Logging::LogCurrentLevel("execute: " + query); }
 
 	if(!mysqlConnection) {
 		THROW_EXCEPTION(DatabaseNotConnectedException);
@@ -154,7 +154,7 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 		if(errNoMysql == ER_LOCK_DEADLOCK || errNoMysql == ER_LOCK_WAIT_TIMEOUT) {
 			bool exceptionOccurred = true;
 			if(doRetry) {
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"timeout or deadlock in mysql database connection, retrying statement: " + query);
+				log::Logging::LogWarn("timeout or deadlock in mysql database connection, retrying statement: %s",query.c_str());
 				exceptionOccurred = true;
 				for(int i = 0; exceptionOccurred && i < 3; i++) {
 					try{
@@ -168,14 +168,14 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 			}
 			if(exceptionOccurred){
 				if(logQuery){
-					log::Logging::Log(log::Logging::GetLogLevel(),"execute: " + query); }
+					log::Logging::LogCurrentLevel("execute: " + query); }
 				THROW_EXCEPTION(MySQLOperationTimeoutException);
 			}
 		}
 		else {
 			std::string mySQLError = mysql_error(mysqlConnection);
 			if(logQuery){
-				log::Logging::Log(log::Logging::GetLogLevel(),"execute: " + query); }
+				log::Logging::LogCurrentLevel("execute: " + query); }
 			THROW_EXCEPTION(MySQLQueryErrorException,mySQLError,query);
 		}
 	}
