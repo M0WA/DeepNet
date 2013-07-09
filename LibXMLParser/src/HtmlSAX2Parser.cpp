@@ -91,7 +91,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 	if((int)context->htmlDocument->elements.size() != (context->nCurrentElement+1))
 	{
 		if(log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"closing wrong tag");
+			log::Logging::LogTrace("closing wrong tag");
 		return; //this is evil => closing wrong tag ....
 	}
 	HtmlSAX2Element& elementRef = context->htmlDocument->elements.at(context->nCurrentElement);
@@ -99,7 +99,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 	if( !name || elementRef.attribute.localname.empty() )
 	{
 		if(log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"closing tag has no name");
+			log::Logging::LogTrace("closing tag has no name");
 		return; //this is evil => tag has no name....
 	}
 
@@ -140,7 +140,8 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			catch(const network::HttpUrlParserException& ex)
 			{
 				if(log::Logging::IsLogLevelTrace()){
-					log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"error while parsing url %s from document %s",attributeHref.value.c_str(),theUrl.GetFullUrl().c_str());
+					log::Logging::LogTrace("error while parsing url %s from document %s",
+							attributeHref.value.c_str(),theUrl.GetFullUrl().c_str());
 				}
 			}
 		}
@@ -181,7 +182,8 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			catch(const network::HttpUrlParserException& ex)
 			{
 				if(log::Logging::IsLogLevelTrace()){
-					log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"error while parsing image url %s from document %s",attributeSrc.value.c_str(),theUrl.GetFullUrl().c_str());
+					log::Logging::LogTrace("error while parsing image url %s from document %s",
+							attributeSrc.value.c_str(),theUrl.GetFullUrl().c_str());
 				}
 			}
 		}
@@ -296,7 +298,9 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 			std::string content = elementRef.attribute.value;
 			tools::StringTools::Trim(content);
 			if(!content.empty())
-				log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"a <%s> tag has unsaved content: \"%s\"",curName.c_str(),elementRef.attribute.value.c_str());
+				log::Logging::LogTrace(
+					"a <%s> tag has unsaved content: \"%s\"",
+					curName.c_str(),elementRef.attribute.value.c_str());
 		}
 	}
 	else
