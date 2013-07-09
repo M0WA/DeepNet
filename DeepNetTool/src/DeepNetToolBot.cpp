@@ -71,7 +71,7 @@ bool DeepNetToolBot::OnRun() {
 	std::string urlFile;
 	if( Config().GetValue("urlFile", urlFile) )	{
 
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"inserting urls");
+		log::Logging::LogInfo("inserting urls");
 		std::multimap<std::string,std::string> urls;
 		htmlparser::UrlInserter::ReadURLFile(urlFile,urls);
 		htmlparser::UrlInserter::InsertURLFile(DB().Connection(),urls);

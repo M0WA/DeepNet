@@ -42,9 +42,9 @@ bool UnitTestCacheUrl::Run() {
 	}
 
 	if(!success) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"\n\n !!! CACHE URL UNIT TEST FAILED !!! \n\n");	}
+		log::Logging::LogError("\n\n !!! CACHE URL UNIT TEST FAILED !!! \n\n");	}
 	else {
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"all cache url unit tests passed");	}
+		log::Logging::LogInfo("all cache url unit tests passed");	}
 	return success;
 }
 
@@ -60,8 +60,7 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 	network::HttpUrlParser::ParseURL(testUrl.resultUrl,testUrl.result);
 	if(!testUrl.url.DeepMatchUrl(testUrl.result)) {
-		log::Logging::Log(
-			log::Logging::LOGLEVEL_ERROR,
+		log::Logging::LogError(
 			"failed matching HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
 			testUrl.url.Dump().c_str(),
 			testUrl.result.Dump().c_str()
@@ -75,8 +74,7 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.result.GetFullUrl(),byStringResultUrlPtr);
 	htmlparser::DatabaseUrl& byStringTestUrl(*byStringTestUrlPtr.Get()), &byStringResultUrl(*byStringResultUrlPtr.Get());
 	if(!byStringTestUrl.DeepMatchUrl(byStringResultUrl)) {
-		log::Logging::Log(
-			log::Logging::LOGLEVEL_ERROR,
+		log::Logging::LogError(
 			"failed matching DatabaseUrls by HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
 			byStringTestUrl.Dump().c_str(),
 			byStringResultUrl.Dump().c_str()
@@ -90,8 +88,7 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	caching::CacheDatabaseUrl::GetByUrl(db,testUrl.result,dbResultUrlPtr);
 	htmlparser::DatabaseUrl& dbTestUrl(*dbTestUrlPtr.Get()), &dbResultUrl(*dbResultUrlPtr.Get());
 	if( dbTestUrl.GetUrlID() == -1 || !dbTestUrl.DeepMatchUrl(dbResultUrl) ) {
-		log::Logging::Log(
-			log::Logging::LOGLEVEL_ERROR,
+		log::Logging::LogError(
 			"failed matching DatabaseUrls by HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
 			dbTestUrl.Dump().c_str(),
 			dbResultUrl.Dump().c_str()
@@ -105,8 +102,7 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	caching::CacheDatabaseUrl::GetByUrlID(db, dbResultUrl.GetUrlID(),byIdResultUrlPtr);
 	htmlparser::DatabaseUrl& byIdTestUrl(*byIdTestUrlPtr.Get()), &byIdResultUrl(*byIdResultUrlPtr.Get());
 	if( byIdTestUrl.GetUrlID() == -1 || !byIdTestUrl.DeepMatchUrl(byIdResultUrl) ) {
-		log::Logging::Log(
-			log::Logging::LOGLEVEL_ERROR,
+		log::Logging::LogError(
 			"failed matching DatabaseUrls by IDs:\nTestUrl: %s\nResultUrl:\n%s",
 			dbTestUrl.Dump().c_str(),
 			dbResultUrl.Dump().c_str()

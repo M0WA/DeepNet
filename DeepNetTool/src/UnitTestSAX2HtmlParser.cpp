@@ -80,7 +80,7 @@ bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
 
 		if(!tools::FileTools::ReadFile(htmlFileName,html)||html.length() == 0) {
 			success = false;
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"cannot read html file: %s, skipping",iter->c_str());
+			log::Logging::LogWarn("cannot read html file: %s, skipping",iter->c_str());
 			continue;}
 
 		htmlData.Append(html.c_str(),html.length());

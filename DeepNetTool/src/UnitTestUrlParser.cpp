@@ -129,19 +129,18 @@ bool UnitTestUrlParser::TestValidUrls(const std::string& urlFileName) {
 			continue;
 		}
 
-		if(log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"line %d: OK => %s", curTestUrl.line, curTestUrl.result.GetFullUrl().c_str());
+		log::Logging::LogTrace("line %d: OK => %s", curTestUrl.line, curTestUrl.result.GetFullUrl().c_str());
 	}
 
 
 	if(!success){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"\n\n !!! URL PARSER UNIT-TEST FAILED (VALID URL TEST) !!! \n");
+		log::Logging::LogError("\n\n !!! URL PARSER UNIT-TEST FAILED (VALID URL TEST) !!! \n");
 	}
 	else {
 		std::stringstream msgPerf;
 		msgPerf << "parsed " << testUrls.size() << " urls";
 		PERFORMANCE_LOG_STOP(msgPerf.str().c_str());
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"url parser passed all tests (valid urls)");}
+		log::Logging::LogInfo("url parser passed all tests (valid urls)");}
 
 	return success;
 }
@@ -197,14 +196,14 @@ bool UnitTestUrlParser::TestInvalidUrls(database::DatabaseConnection* connection
 	}
 
 	if(!success){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"\n\n !!! URL PARSER UNIT-TEST FAILED (INVALID URL TEST)!!! \n");
+		log::Logging::LogError("\n\n !!! URL PARSER UNIT-TEST FAILED (INVALID URL TEST)!!! \n");
 	}
 	else {
 		std::stringstream msgPerf;
 		msgPerf << "parsed " << testUrls.size() << " urls";
 		std::string sMsgPerf = msgPerf.str();
 		PERFORMANCE_LOG_STOP(sMsgPerf.c_str());
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"url parser passed all tests (invalid urls)");}
+		log::Logging::LogInfo("url parser passed all tests (invalid urls)");}
 	return success;
 }
 
@@ -216,7 +215,7 @@ void UnitTestUrlParser::OnError(const std::string& message, const UnitTestUrl& e
 		"theUrl   : " << errorUrl.theUrl << std::endl <<
 		"resultUrl: " << errorUrl.resultUrl << std::endl <<
 		"line     : " << errorUrl.line << std::endl;
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,msg.str());
+	log::Logging::LogError(msg.str());
 }
 
 }

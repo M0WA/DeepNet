@@ -26,13 +26,13 @@ bool DataMiningTools::RegisterDataminingAlert(database::DatabaseConnection* db, 
 	database::SelectResultContainer<database::dataminingcustomerTableBase> userInfoContainer;
 	database::dataminingcustomerTableBase::GetBy_login(db,username,userInfoContainer);
 	if(userInfoContainer.Size() != 1) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find user (%zu) for %s, alert has not been registered",userInfoContainer.Size(),username.c_str());
+		log::Logging::LogError("could not find user (%zu) for %s, alert has not been registered",userInfoContainer.Size(),username.c_str());
 		return false; }
 
 	long long userID = -1;
 	userInfoContainer.GetIter()->Get_ID(userID);
 	if(userID <= 0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid userid %lld for user %s found, alert has not been registered",userID,username.c_str());
+		log::Logging::LogError("invalid userid %lld for user %s found, alert has not been registered",userID,username.c_str());
 		return false; }
 
 	long long alertTypeNum = indexing::DataminingNotifier::NOTIFY_TYPE_EMAIL;
@@ -40,7 +40,7 @@ bool DataMiningTools::RegisterDataminingAlert(database::DatabaseConnection* db, 
 		alertTypeNum = indexing::DataminingNotifier::NOTIFY_TYPE_EMAIL;
 
 	if(alertTypeNum == indexing::DataminingNotifier::NOTIFY_TYPE_UNKNOWN) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid alert type specified %s, alert has not been registered",alertType.c_str());
+		log::Logging::LogError("invalid alert type specified %s, alert has not been registered",alertType.c_str());
 		return false;}
 
 	database::dataminingcriteriaTableBase criteriaTable;
@@ -73,7 +73,7 @@ bool DataMiningTools::RegisterDataminingAlert(database::DatabaseConnection* db, 
 	}
 	catch(errors::Exception& ex) {
 		db->TransactionRollback();
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while inserting dataming alert (%lld, %lld), alert has not been registered",critID,alertID);
+		log::Logging::LogError("error while inserting dataming alert (%lld, %lld), alert has not been registered",critID,alertID);
 		return false;
 	}
 	catch(...) {
@@ -87,7 +87,7 @@ bool DataMiningTools::RegisterDataminingAlert(database::DatabaseConnection* db, 
 bool DataMiningTools::InsertDataminingUser(database::DatabaseConnection* db, const std::string& username, const std::string& password) {
 
 	if(username.empty()||password.empty()){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"empty username or password not allowed, user not created",username.c_str(),password.c_str());
+		log::Logging::LogError("empty username or password not allowed, user not created",username.c_str(),password.c_str());
 		return false; }
 
 
@@ -99,10 +99,10 @@ bool DataMiningTools::InsertDataminingUser(database::DatabaseConnection* db, con
 	try {
 		userTable.Insert(db);
 		db->LastInsertID(userID);
-		log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"inserted user %s has userID: %lld",username.c_str(),userID);
+		log::Logging::LogTrace("inserted user %s has userID: %lld",username.c_str(),userID);
 	}
 	catch(errors::Exception& ex) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while inserting datamining user, user not created");
+		log::Logging::LogError("error while inserting datamining user, user not created");
 		return false;
 	}
 

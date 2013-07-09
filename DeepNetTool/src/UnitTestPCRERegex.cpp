@@ -29,7 +29,7 @@ void UnitTestPCRERegex::ParseTestFile(const std::string& unitTestFile) {
 
 	std::vector<std::string> lines;
 	if(!tools::FileTools::ReadFile(unitTestFile,lines)) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while reading pcre test input file (%s)",unitTestFile.c_str());
+		log::Logging::LogError("error while reading pcre test input file (%s)",unitTestFile.c_str());
 		return; }
 
 	std::string parseLineTerm = "^\\s*\"(.*?)\"\\s*;\\s*\"(0|1)\"\\s*;\\s*\"(0|1)\"\\s*;\\s*\"(0|1)\"\\s*;\\s*\"(.*?)\"\\s*;(.*)$";
@@ -42,7 +42,7 @@ void UnitTestPCRERegex::ParseTestFile(const std::string& unitTestFile) {
 		if(	!parseLineRegex.Match(*iterLines,parsedLineGroups)){
 			continue;}
 		if( parsedLineGroups.size() < 6 ) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while parsing pcre regex test input in line %d:\n'%s' ", i, iterLines->c_str());
+			log::Logging::LogError("error while parsing pcre regex test input in line %d:\n'%s' ", i, iterLines->c_str());
 			continue;}
 
 		PCRERegexUnitTestEntry entry;
@@ -77,7 +77,7 @@ void UnitTestPCRERegex::ParseExpectedGroups(const std::string& groupsTerm, PCRER
 
 		std::vector<std::string> parsedGroup;
 		if(!parseGroupRegex.Match(*iterGroups,parsedGroup) || parsedGroup.size() != 2){
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while parsing %d. group in line %d:\n'%s'", i, entry.line, iterGroups->c_str());
+			log::Logging::LogError("error while parsing %d. group in line %d:\n'%s'", i, entry.line, iterGroups->c_str());
 			entry.expectedGroups.clear();
 			return;}
 		*iterGroups = parsedGroup.at(1);
@@ -121,8 +121,8 @@ void UnitTestPCRERegex::OnError(const std::string& formatMessage,const PCRERegex
 	std::string detectedGroupsDump,expectedGroupsDump;
 	tools::ContainerTools::DumpVector(groups,detectedGroupsDump);
 	tools::ContainerTools::DumpVector(entry.expectedGroups,expectedGroupsDump);
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,formatMessage.c_str(), entry.line);
-	log::Logging::Log(log::Logging::LOGLEVEL_INFO,"\n\t===> '%s' -> '%s' <===\ndetected groups:\n%s\nexpected groups:\n%s\n", entry.regex.c_str(), entry.target.c_str(), detectedGroupsDump.c_str(), expectedGroupsDump.c_str());
+	log::Logging::LogError(formatMessage.c_str(), entry.line);
+	log::Logging::LogInfo("\n\t===> '%s' -> '%s' <===\ndetected groups:\n%s\nexpected groups:\n%s\n", entry.regex.c_str(), entry.target.c_str(), detectedGroupsDump.c_str(), expectedGroupsDump.c_str());
 }
 
 }
