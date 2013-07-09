@@ -176,7 +176,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		}
 		catch(const network::HttpUrlParserException& ex) {
 			if(log::Logging::IsLogLevelTrace()) {
-				log::Logging::Log(log::Logging::LOGLEVEL_TRACE,
+				log::Logging::LogTrace(
 						"exception while trying to add url %s to database",iterUrls->GetFullUrl().c_str());
 			}
 		}
@@ -198,7 +198,10 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 
 
 			if(entry.urlID <= 0 || entry.urlStageID <=0 || iterInsertLinks->second<=0){
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "error while inserting links, invalid ids: \nurlID: %ll urlStageID: %ll %s",entry.urlID, entry.urlStageID, iterInsertLinks->first.GetFullUrl().c_str());
+				log::Logging::LogError(
+						"error while inserting links, invalid ids: \nurlID: %ll urlStageID: %ll %s",
+						entry.urlID, entry.urlStageID, iterInsertLinks->first.GetFullUrl().c_str()
+				);
 				i--;
 				continue;
 			}
