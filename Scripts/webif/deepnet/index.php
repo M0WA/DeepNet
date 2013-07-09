@@ -1,4 +1,4 @@
-<!DOCTYPE html>   
+<!DOCTYPE html>  
 <?php
     include_once("lib/header.inc.php");
     include_once("lib/menu.inc.php");
@@ -37,7 +37,7 @@
   <!--
   content_end
   -->
-  äöüäöüäöü
+  
   <!--
   footer_begin
   -->
