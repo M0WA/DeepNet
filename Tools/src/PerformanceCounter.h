@@ -77,7 +77,7 @@ private:
 		if(tools::PerformanceCounter::IsPerformanceLogEnabled()) { \
 			std::ostringstream ssLogPerformanceCounter; \
 			ssLogPerformanceCounter << logMsg << " duration: " <<  dDurationPerformanceCounter << " sec(-s)"; \
-			log::Logging::Log(log::Logging::GetLogLevel(),ssLogPerformanceCounter.str()); \
+			log::Logging::LogCurrentLevel(ssLogPerformanceCounter.str()); \
 		} \
 	} \
 
