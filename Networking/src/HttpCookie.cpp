@@ -22,7 +22,7 @@ bool HttpCookie::FromString(const std::string& rawCookieString)
 	std::vector<std::string> groups;
 	tools::Regex::Match("([^[:space:]]+)[:space:]*=[:space:]*([^[:space:]]+)",rawCookieString,groups);
 	if(groups.size()!=2){
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN, "could not parse cookie entry: " + rawCookieString);
+		log::Logging::LogWarn("could not parse cookie entry: %s",rawCookieString.c_str());
 		return false;}
 
 	keyValuePair.first = groups.at(0);

@@ -137,7 +137,7 @@ bool HtmlData::DetectCharset(const std::string& charsetHint, int& confidence, st
 	detectedEncoding = result.encodingName;
 
 	if (!success && log::Logging::IsLogLevelTrace()) {
-		log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error while detecting charset encoding");}
+		log::Logging::LogTrace("error while detecting charset encoding");}
 	return success;
 }
 
