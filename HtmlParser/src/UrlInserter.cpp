@@ -40,7 +40,7 @@ bool UrlInserter::InsertURLFile(database::DatabaseConnection* db,const std::mult
 	std::multimap<std::string,std::string>::const_iterator iterUrl = fileContent.begin();
 	for(;iterUrl!=fileContent.end();++iterUrl){
 		if(!InsertURL(db,iterUrl->first,iterUrl->second) ){
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while inserting url: %s",iterUrl->second.c_str());}
+			log::Logging::LogError("error while inserting url: %s",iterUrl->second.c_str());}
 	}
 	return true;
 }
@@ -54,7 +54,7 @@ bool UrlInserter::ValidateURLFile(database::DatabaseConnection* db,const std::mu
 			ValidateURL(db,iterUrl->first,iterUrl->second);
 		}
 		catch(...) {
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"url: %s is VALID", iterUrl->second.c_str());
+			log::Logging::LogInfo("url: %s is VALID", iterUrl->second.c_str());
 		}
 	}
 	return true;
@@ -75,13 +75,13 @@ DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std:
 		if (dumpUrl){
 			std::string urlDump;
 			url.Get()->Dump(urlDump);
-			log::Logging::Log(log::Logging::LOGLEVEL_INFO,"dumping URL: %s  => %s\n%s",sUrl.c_str(),sDomain.c_str(),urlDump.c_str());
+			log::Logging::LogInfo("dumping URL: %s  => %s\n%s",sUrl.c_str(),sDomain.c_str(),urlDump.c_str());
 		}
 		return *url.Get();
 	}
 	catch(errors::Exception& e) {
 
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid url: %s",sUrl.c_str());
+		log::Logging::LogError("invalid url: %s",sUrl.c_str());
 		throw;
 	}
 }
@@ -97,7 +97,7 @@ bool UrlInserter::InsertURL(database::DatabaseConnection* db,const std::string& 
 			url = *tmpPtr.Get();
 
 		if(url.GetUrlID() <= 0){
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not insert url " + url.GetFullUrl());
+			log::Logging::LogError("could not insert url " + url.GetFullUrl());
 			success = false;
 		}
 	}
@@ -121,7 +121,7 @@ int UrlInserter::ReadURLFile(const std::string& fileName, std::multimap<std::str
 		std::vector<std::string> groups;
 		if(!tools::Regex::Match("^\"(.*)\".*,.*\"(.*)\".*",iterLines->c_str(),groups,true)
 		 || groups.size() < 2 ) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not parse \"%s\", skipping...", iterLines->c_str());
+			log::Logging::LogError("could not parse \"%s\", skipping...", iterLines->c_str());
 			continue; }
 
 		std::string domain = groups.at(0);
