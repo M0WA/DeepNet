@@ -170,57 +170,57 @@ void WorkerBot::RegisterCrawlerConfigParams()
 bool WorkerBot::InitCrawlerConfig()
 {
 	if(crawlerParam.IsNull()) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"crawler parameters not initialized correctly. exiting...");
+		log::Logging::LogError("crawler parameters not initialized correctly. exiting...");
 		return false;}
 
 	if( !Config().GetValue( "crawler_threads", crawlerParam.Get()->threadCount) )
 		return false;
 
 	if(crawlerParam.Get()->threadCount<=0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_threads count specified (<= 0). exiting...");
+		log::Logging::LogError("invalid crawler_threads count specified (<= 0). exiting...");
 		return false;}
 
 	if(!Config().GetValue("crawler_maxUrl",crawlerParam.Get()->maxPerSelect)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_maxUrl !!!");
+		log::Logging::LogError("!!! missing crawler_maxUrl !!!");
 		return false;}
 	if(crawlerParam.Get()->maxPerSelect<=0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_maxUrl specified (<= 0). exiting...");
+		log::Logging::LogError("invalid crawler_maxUrl specified (<= 0). exiting...");
 		return false;}
 
 	if(!Config().GetValue("crawler_minAge",crawlerParam.Get()->minAge)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_minAge !!!");
+		log::Logging::LogError("!!! missing crawler_minAge !!!");
 		return false;}
 	if(crawlerParam.Get()->minAge<0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_minAge specified (< 0). exiting...");
+		log::Logging::LogError("invalid crawler_minAge specified (< 0). exiting...");
 		return false;}
 	if(crawlerParam.Get()->minAge==0){
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"!!! WARNING crawler_minAge == 0 specified !!!");}
+		log::Logging::LogWarn("!!! WARNING crawler_minAge == 0 specified !!!");}
 
 	if(!Config().GetValue("crawler_userAgent",crawlerParam.Get()->userAgent)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_userAgent !!!");
+		log::Logging::LogError("!!! missing crawler_userAgent !!!");
 		return false;}
 
 	if(!Config().GetValue("crawler_cntTimeout",crawlerParam.Get()->connectTimeout) || crawlerParam.Get()->connectTimeout <= 0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! invalid/missing crawler_cntTimeout timeout !!!");
+		log::Logging::LogError("!!! invalid/missing crawler_cntTimeout timeout !!!");
 		return false;}
 
 	if(!Config().GetValue("crawler_connectionTimeout",crawlerParam.Get()->connectionTimeout) || crawlerParam.Get()->connectionTimeout <= 0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! invalid/missing crawler_connectionTimeout !!!");
+		log::Logging::LogError("!!! invalid/missing crawler_connectionTimeout !!!");
 		return false;}
 
 	if(!Config().GetValue("crawler_ipv6",crawlerParam.Get()->useIPv6))
 		crawlerParam.Get()->useIPv6 = false;
 
 	if(!Config().GetValue("crawler_limit", crawlerParam.Get()->speedLimitKB)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_limit !!!");
+		log::Logging::LogError("!!! missing crawler_limit !!!");
 		return false;}
 
 	if(!Config().GetValue("crawler_waitIdle",crawlerParam.Get()->waitOnIdle)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_waitIdle !!!");
+		log::Logging::LogError("!!! missing crawler_waitIdle !!!");
 		return false;}
 
 	if(!Config().GetValue("crawler_respectRobotsTxt",crawlerParam.Get()->respectRobotsTxt)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"!!! missing crawler_respectRobotsTxt !!!");
+		log::Logging::LogError("!!! missing crawler_respectRobotsTxt !!!");
 		return false;}
 
 	std::string httpClientType = "curl";
@@ -232,7 +232,7 @@ bool WorkerBot::InitCrawlerConfig()
 	else if(httpClientType.compare("own") == 0) {
 		crawlerParam.Get()->clientType = network::HttpClientFactory::OWN; }
 	else {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid crawler_client specified. exiting...");
+		log::Logging::LogError("invalid crawler_client specified. exiting...");
 		return false; }
 
 	return true;
@@ -256,26 +256,26 @@ void WorkerBot::RegisterParserConfigParams()
 bool WorkerBot::InitParserConfig()
 {
 	if(parserParam.IsNull()) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"parser parameters not initialized correctly. exiting...");
+		log::Logging::LogError("parser parameters not initialized correctly. exiting...");
 		return false;}
 
 	if( !Config().GetValue( "parser_threads", parserParam.Get()->parserThreadCount) )
 		return false; //should not happen as "threads" is mandatory...
 
 	if(parserParam.Get()->parserThreadCount<=0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser thread count specified (<= 0). exiting...");
+		log::Logging::LogError("invalid parser thread count specified (<= 0). exiting...");
 		return false;}
 
 	if(!Config().GetValue("parser_maxUrl",parserParam.Get()->maxPerSelect))
 		return false;
 	if(parserParam.Get()->maxPerSelect<=0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_maxUrl specified (<= 0). exiting...");
+		log::Logging::LogError("invalid parser_maxUrl specified (<= 0). exiting...");
 		return false;}
 
 	if(!Config().GetValue("parser_waitIdle",parserParam.Get()->waitOnIdle))
 		return false;
 	if(parserParam.Get()->waitOnIdle<=0){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_waitIdle specified (<= 0). exiting...");
+		log::Logging::LogError("invalid parser_waitIdle specified (<= 0). exiting...");
 		return false;}
 
 	std::string parserType = "libxml";
@@ -288,7 +288,7 @@ bool WorkerBot::InitParserConfig()
 	else if(parserType.compare("dom") == 0) {
 		parserParam.Get()->parserType = htmlparser::HtmlParserFactory::DOM; }
 	else {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"invalid parser_type specified. exiting...");
+		log::Logging::LogError("invalid parser_type specified. exiting...");
 		return false; }
 
 	return true;
@@ -309,7 +309,7 @@ void WorkerBot::RegisterIndexerConfigParams()
 bool WorkerBot::InitIndexerConfigParams()
 {
 	if(indexerParam.IsNull()) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"parser parameters not initialized correctly. exiting...");
+		log::Logging::LogError("parser parameters not initialized correctly. exiting...");
 		return false;}
 
 	if( !Config().GetValue( "indexer_threads", indexerParam.Get()->threadCount) )
