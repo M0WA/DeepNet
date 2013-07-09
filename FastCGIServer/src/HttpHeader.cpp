@@ -86,7 +86,7 @@ std::string HttpHeader::ToString(const size_t contentLen)
 		"Content-Length: " << contentLen << "\r\n" <<
 		"Content-Type: application/xml; charset=utf-8\r\n\r\n";
 
-	log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"header:\n" + ssHeader.str());
+	log::Logging::LogTrace("header:\n" + ssHeader.str());
 
 	return ssHeader.str();
 }

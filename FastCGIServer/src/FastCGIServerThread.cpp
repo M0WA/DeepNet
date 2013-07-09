@@ -76,27 +76,27 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 
 		if(rc != 0)	{
 			if(isAcceptWaiting) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while accepting client ( %d )",rc);}
+				log::Logging::LogError("error while accepting client ( %d )",rc);}
 
 			goto END_OF_REQUEST;
 		}
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "client accepted");
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("client accepted");
 
 		fcgiRequest = instance->CreateRequest();
 		fcgiRequest->Handle(instance->request);
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "client handled: %s", fcgiRequest->GetClientAddress().c_str());
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("client handled: %s", fcgiRequest->GetClientAddress().c_str());
 
 		if(!fcgiRequest->IsComplete()) {
-			if(log::Logging::IsLogLevelTrace())	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "error in client request");
+			if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("error in client request");
 			goto END_OF_REQUEST; }
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "client request completed");
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("client request completed");
 
 		fcgiResponse = instance->CreateResponse(instance->DB(),fcgiRequest);
 		fcgiResponse->Process(instance->request);
-		if(log::Logging::IsLogLevelTrace())	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "client response sent");
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("client response sent");
 
 END_OF_REQUEST:
 		FCGX_Finish_r(&instance->request);
@@ -107,7 +107,7 @@ END_OF_REQUEST:
 		delete fcgiResponse;
 		fcgiResponse = NULL;
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "client finished");
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("client finished");
 	}
 
 	FCGX_Free(&instance->request, 1);

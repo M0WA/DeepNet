@@ -211,7 +211,7 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 {
 	int port;
 	std::string tmp;
-	databaseConfig = (database::DatabaseConfig*)new database::MySQLDatabaseConfig();
+	databaseConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
 	bool bSuccess = true;
 	if( ( bSuccess &= config.GetValue("dbhost", tmp) ) ) {
 		databaseConfig->SetHost(tmp);}
@@ -229,24 +229,24 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 	if(!requestXSD.empty())
 		tools::FileTools::ReadFile(requestXSD, xsdRequestContent);
 	else{
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"no valid xsd filename found, please check request_xsd config option to enable xsd validation");	}
+		log::Logging::LogWarn("no valid xsd filename found, please check request_xsd config option to enable xsd validation");	}
 
 	if ( !config.GetValue("response_xsd",responseXSD) )
 		responseXSD = "";
 	if(!responseXSD.empty())
 		tools::FileTools::ReadFile(responseXSD, xsdResponseContent);
 	else{
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"no valid xsd filename found, please check response_xsd config option to enable xsd validation");	}
+		log::Logging::LogWarn("no valid xsd filename found, please check response_xsd config option to enable xsd validation");	}
 
 	if(!config.GetValue("dictionary_file", dictionaryFile) || dictionaryFile.empty() ){
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"spellchecking will not be initialized, please check dictionary_file config option");	}
+		log::Logging::LogWarn("spellchecking will not be initialized, please check dictionary_file config option");	}
 
 	if(!config.GetValue("affix_file", affixFile) || dictionaryFile.empty() ){
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"spellchecking will not be initialized, please check affix_file config option");	}
+		log::Logging::LogWarn("spellchecking will not be initialized, please check affix_file config option");	}
 
 	database::DatabaseConnection* conn = dbHelper.CreateConnection(databaseConfig);
 	if(!conn) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not establish database connection, exiting.");
+		log::Logging::LogError("could not establish database connection, exiting.");
 		return false; }
 	else {
 		htmlparser::TLD::InitTLDCache(dbHelper.Connection());
@@ -257,13 +257,13 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 
 void FastCGIServer::OnException() {
 
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to unknown and uncaught exception");
+	log::Logging::LogError("killing none gracefully due to unknown and uncaught exception");
 
 }
 
 void FastCGIServer::OnException(errors::Exception& ex) {
 
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to uncaught exception");
+	log::Logging::LogError("killing none gracefully due to uncaught exception");
 }
 
 }

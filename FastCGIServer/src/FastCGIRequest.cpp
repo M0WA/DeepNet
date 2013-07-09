@@ -71,7 +71,7 @@ void FastCGIRequest::LogRequest() {
 		for(;iterCookies != cookies.end();++iterCookies) {
 			ssIn << "\t" << iterCookies->ToString() << std::endl; }
 
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,ssIn.str());
+		log::Logging::LogInfo(ssIn.str());
 	}
 }
 
@@ -124,11 +124,11 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		{
 			clen = strtoul(clenstr.c_str(), NULL, 10);
 			if (clen<=0) {
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"empty post request received, dropping");
+				log::Logging::LogWarn("empty post request received, dropping");
 				return false;
 			}
 			if(clen>STDIN_MAX) {
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"request is too big, dropping");
+				log::Logging::LogWarn("request is too big, dropping");
 				return false;
 			}
 
@@ -138,7 +138,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 			rawPostData[clen] = 0;
 		}
 		else {
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"post request did not specify content length, dropping");
+			log::Logging::LogWarn("post request did not specify content length, dropping");
 			return false;
 		}
     }
@@ -147,7 +147,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 	}
     else {
     	//unsupported HTTP request method
-    	log::Logging::Log(log::Logging::LOGLEVEL_WARN,"unsupported http method received: " + requestMethod + ", dropping");
+    	log::Logging::LogWarn("unsupported http method received: " + requestMethod + ", dropping");
     	return false;
     }
 
@@ -232,7 +232,7 @@ void FastCGIRequest::ParseCookies(std::string cookieString)
 	for(;iterCookie != vecRawCookie.end(); ++iterCookie) {
 		network::HttpCookie cookie;
 		if(!cookie.FromString(*iterCookie)){
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN, "could not parse cookie parameter: " + *iterCookie);
+			log::Logging::LogWarn("could not parse cookie parameter: " + *iterCookie);
 			continue; }
 		cookies.push_back(cookie);
 	}
@@ -336,21 +336,21 @@ bool FastCGIRequest::Xpath(std::list<std::string>& queryparts, const char* xmlDo
     /* Load XML document */
     doc = xmlParseMemory(xmlDocument,strlen(xmlDocument));
     if (doc == NULL) {
-    	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "unable to parse incoming xml:\n" + std::string(xmlDocument));
+    	log::Logging::LogTrace("unable to parse incoming xml:\n" + std::string(xmlDocument));
 		return false;
     }
 
     /* Create xpath evaluation context */
     xpathCtx = xmlXPathNewContext(doc);
     if(xpathCtx == NULL) {
-    	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "unable to create new XPath context");
+    	log::Logging::LogTrace("unable to create new XPath context");
         xmlFreeDoc(doc);
         return false;
     }
 
     /* Register namespaces from list (if any) */
     if((nsList != NULL) && (register_namespaces(xpathCtx, nsList) < 0)) {
-    	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "failed to register namespaces list");
+    	log::Logging::LogTrace("failed to register namespaces list");
         xmlXPathFreeContext(xpathCtx);
         xmlFreeDoc(doc);
         return false;
@@ -359,7 +359,7 @@ bool FastCGIRequest::Xpath(std::list<std::string>& queryparts, const char* xmlDo
     /* Evaluate xpath expression */
     xpathObj = xmlXPathEvalExpression(xpathExpr, xpathCtx);
     if(xpathObj == NULL) {
-    	log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "unable to evaluate xpath expression");
+    	log::Logging::LogTrace("unable to evaluate xpath expression");
         xmlXPathFreeContext(xpathCtx);
         xmlFreeDoc(doc);
         return false;
