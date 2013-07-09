@@ -65,7 +65,8 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 {
 	signalMutex.Lock();
 
-	tools::DebuggingTools::SignalInfos signalInfo = tools::DebuggingTools::GetSignalInfos(signum, info, ucontext);
+	tools::DebuggingTools::SignalInfos signalInfo(
+		tools::DebuggingTools::GetSignalInfos(signum,info,ucontext)	);
 
 	switch(signum)
 	{
@@ -74,7 +75,7 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGABRT:
 	case SIGILL:
 		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully");
+		log::Logging::LogError("killing none gracefully");
 		exit(1);
 		break;
 
@@ -82,7 +83,7 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGINT:
 	case SIGTERM:
 		if(log::Logging::IsLogLevelTrace()) log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"initiating shutting down");
+		log::Logging::LogInfo("initiating shutting down");
 		Bot::instance->shutdownReceived = true;
 		Bot::instance->restartAfterShutdown = false;
 		break;
@@ -90,7 +91,7 @@ void Bot::SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	//graceful restart
 	case SIGHUP:
 		if(log::Logging::IsLogLevelTrace()) log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,signalInfo.infoText);
-		log::Logging::Log(log::Logging::LOGLEVEL_INFO,"initiating soft restart");
+		log::Logging::LogInfo("initiating soft restart");
 		Bot::instance->restartAfterShutdown = true;
 		Bot::instance->shutdownReceived = true;
 		break;
@@ -168,7 +169,7 @@ void Bot::RegisterCacheConfigParams()
 bool Bot::InitCacheConfigParams()
 {
 	if(!htmlparser::TLD::InitTLDCache(DB().Connection())) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "cannot initialize top level domain cache, exiting...");
+		log::Logging::LogError("cannot initialize top level domain cache, exiting...");
 		return false;}
 
 	std::vector<std::string> tldStrings;
@@ -177,7 +178,7 @@ bool Bot::InitCacheConfigParams()
 
 	int sizeUrlCache = -1;
 	if(!Config().GetValue("urlcache", sizeUrlCache)) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN, "missing urlcache parameter, using default value: 1000");
+		log::Logging::LogWarn("missing urlcache parameter, using default value: 1000");
 		sizeUrlCache = 1000;
 	}
 	caching::CacheDatabaseUrl::SetCapacity(sizeUrlCache);
@@ -188,21 +189,21 @@ bool Bot::InitCacheConfigParams()
 
 	int sizeHtmlCache = -1;
 	if(!Config().GetValue("htmlcache", sizeHtmlCache)) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN, "missing htmlcache parameter, using default value: 100");
+		log::Logging::LogWarn("missing htmlcache parameter, using default value: 100");
 		sizeHtmlCache = 100;
 	}
 	caching::CacheHtml::SetCapacity(sizeHtmlCache);
 
 	int sizeParsedCache = -1;
 	if(!Config().GetValue("parsercache", sizeParsedCache)) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN, "missing parsercache parameter, using default value: 100");
+		log::Logging::LogWarn("missing parsercache parameter, using default value: 100");
 		sizeParsedCache = 100;
 	}
 	caching::CacheParsed::SetCapacity(sizeParsedCache);
 
 	int sizeRobotsCache = -1;
 	if(!Config().GetValue("robotscache",sizeRobotsCache)) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN, "missing robotscache parameter, using default value: 500");
+		log::Logging::LogWarn("missing robotscache parameter, using default value: 500");
 		sizeRobotsCache = 500;
 	}
 	caching::CacheRobotsTxt::SetCapacity(sizeRobotsCache);
@@ -248,29 +249,26 @@ bool Bot::Daemonize()
 	//forking did not work
 	//keep this process alive
 	if (pid < 0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not daemonize, starting in default mode");
+		log::Logging::LogError("could not daemonize, starting in default mode");
 		return true; }
 
 	//exit parent if child has valid PID
 	if (pid > 0) {
-			return false;}
+		log::Logging::LogInfo("daemonized, exiting this process");
+		return false;}
 
 	return true;
 }
 
 bool Bot::SwitchUser(const uid_t setUid, const gid_t setGid)
 {
-	if(setUid != cur_uid)
-	{
+	if(setUid != cur_uid) {
 		cur_uid = setUid;
-		setuid(setUid);
-	}
+		setuid(setUid); }
 
-	if(setGid != cur_gid)
-	{
+	if(setGid != cur_gid){
 		cur_uid = setGid;
-		setgid(setGid);
-	}
+		setgid(setGid);	}
 
 	return true;
 }
@@ -347,7 +345,7 @@ bool Bot::InitDatabaseConfigs(void)
 {
 	int port;
 	std::string tmp;
-	dbConfig = (database::DatabaseConfig*)new database::MySQLDatabaseConfig();
+	dbConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
 	bool bSuccess = true;
 	if( ( bSuccess &= Config().GetValue("dbhost", tmp) ) ) {
 		dbConfig->SetHost(tmp);}
@@ -366,7 +364,6 @@ bool Bot::InitDatabaseConfigs(void)
 
 	return bSuccess;
 }
-
 
 void Bot::RegisterPerformanceLoggingParams()
 {
@@ -395,12 +392,12 @@ void Bot::InitPerformanceLoggingParams()
 
 void Bot::OnException(errors::Exception& ex) {
 
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to uncaught exception");
+	log::Logging::LogError("killing none gracefully due to uncaught exception");
 }
 
 void Bot::OnException() {
 
-	log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully due to unknown and uncaught exception");
+	log::Logging::LogError("killing none gracefully due to unknown and uncaught exception");
 }
 
 bool Bot::Run() {
@@ -465,8 +462,12 @@ bool Bot::PostInit()
 	//Daemonize return false, when in parent process
 	//forked successfully => exit this process
 	bool daemonize = false;
-	if(Config().GetValue("D",daemonize) && daemonize && !Daemonize())
-		return false;
+	if(Config().GetValue("D",daemonize)){
+		if(daemonize) {
+			if(!Daemonize())
+				return false;
+		}
+	}
 
 	//switch user and/or group
 	bool bSwitch = false;

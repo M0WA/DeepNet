@@ -42,10 +42,10 @@ bool CommandLine::ParseCommandLine(int argc, char** argv, std::vector<ConfigEntr
 			std::vector<ConfigEntry>::iterator iFind =
 					std::find(registeredParams.begin(),registeredParams.end(),trimmedKey);
 			if(iFind == registeredParams.end()){
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"ignoring unknown commandline parameter: %s",trimmedKey.c_str()); }
+				log::Logging::LogWarn("ignoring unknown commandline parameter: %s",trimmedKey.c_str()); }
 			else {
 				if(iFind->isFlag) {
-					log::Logging::Log(log::Logging::LOGLEVEL_WARN,"commandline parameter registered as flag is used as a parameter: %s",trimmedKey.c_str());
+					log::Logging::LogWarn("commandline parameter registered as flag is used as a parameter: %s",trimmedKey.c_str());
 					iFind->SetValue("1");}
 				else {
 					iFind->SetValue(value);}
@@ -58,10 +58,10 @@ bool CommandLine::ParseCommandLine(int argc, char** argv, std::vector<ConfigEntr
 			std::vector<ConfigEntry>::iterator iFind =
 					std::find(registeredParams.begin(),registeredParams.end(),trimmedKey);
 			if(iFind == registeredParams.end()){
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"ignoring unknown commandline parameter: %s",trimmedKey.c_str()); }
+				log::Logging::LogWarn("ignoring unknown commandline parameter: %s",trimmedKey.c_str()); }
 			else {
 				if(!iFind->isFlag) {
-					log::Logging::Log(log::Logging::LOGLEVEL_WARN,"commandline parameter registered as parameter is used as a flag, ignoring: %s",trimmedKey.c_str());
+					log::Logging::LogWarn("commandline parameter registered as parameter is used as a flag, ignoring: %s",trimmedKey.c_str());
 				}
 				else {
 					iFind->SetValue("1");}

@@ -117,8 +117,7 @@ bool ConfigManager::ValidateConfig() const {
 	for(;i != registeredParams.end();++i) {
 		if(i->mandatory && !i->valueSet) {
 			std::string prefixName(i->isFlag ? "-" : "--");
-			log::Logging::Log(
-				log::Logging::LOGLEVEL_ERROR,
+			log::Logging::LogError(
 				"missing mandatory config parameter, please check config: %s%s",
 				prefixName.c_str(),i->name.c_str() );
 			success = false;
