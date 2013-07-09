@@ -58,7 +58,7 @@ void* IndexerThread::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadPa
 		PERFORMANCE_LOG_STOP("disconnect to databases");
 	}
 	else {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not start indexer. check database configuration."); }
+		log::Logging::LogError("could not start indexer. check database configuration."); }
 
 	return 0;
 }

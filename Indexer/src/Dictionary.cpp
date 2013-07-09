@@ -34,7 +34,7 @@ Dictionary::~Dictionary()
 bool Dictionary::AddContent(const std::string& word, const std::pair<long long,long long>& paragraphPosition)
 {
 	if(!testMode && urlID < 0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"dictionary url id not set");
+		log::Logging::LogError("dictionary url id not set");
 		return false; }
 
 	std::pair<std::set<Word>::iterator,bool> insertPair = wordContent.insert(Word(word));
@@ -51,7 +51,7 @@ bool Dictionary::AddContent(const std::string& word, const std::pair<long long,l
 bool Dictionary::AddContent(const std::string& word)
 {
 	if(!testMode && urlID < 0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"dictionary url id not set");
+		log::Logging::LogError("dictionary url id not set");
 		return false; }
 
 	std::pair<std::set<Word>::iterator,bool> insertPair = wordContent.insert(Word(word));
@@ -67,7 +67,7 @@ bool Dictionary::AddContent(const std::string& word)
 bool Dictionary::AddMeta(const std::string& word, const MetaInformationType& type) {
 
 	if(!testMode && urlID < 0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"dictionary url id not set");
+		log::Logging::LogError("dictionary url id not set");
 		return false; }
 
 	std::set<Word>& typeWords(wordMeta[type]);

@@ -56,7 +56,7 @@ bool GenericWebDictionary::CommitContent(void)
 
 		long long dictID = -1;
 		if(!database->LastInsertID(dictID) || dictID<0){
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN,"error while getting ID for word in dictionary: " + word);
+			log::Logging::LogWarn("error while getting ID for word in dictionary: %s",word.c_str());
 			database->TransactionRollback();
 			continue; }
 
@@ -139,7 +139,7 @@ bool GenericWebDictionary::CommitMeta(void)
 
 			long long dictID = -1;
 			if(!database->LastInsertID(dictID) || dictID<0){
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"error while getting ID for word in dictionary: " + word);
+				log::Logging::LogWarn("error while getting ID for word in dictionary: %s",word.c_str());
 				database->TransactionRollback();
 				continue; }
 

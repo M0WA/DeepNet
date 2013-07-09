@@ -34,7 +34,7 @@ bool IndexerTester::Parse(database::DatabaseConnection* database, const std::str
 	std::string dictDump;
 	indexer.Get()->GetDictionary().Dump(dictDump);
 
-	log::Logging::Log(log::Logging::LOGLEVEL_INFO,"dumping dictionary:\n%s",dictDump.c_str());
+	log::Logging::LogInfo("dumping dictionary:\n%s",dictDump.c_str());
 	return true;
 }
 
