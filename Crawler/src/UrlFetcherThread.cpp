@@ -61,7 +61,7 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 	instance->fetcherThreadParam = (UrlFetcherThreadParam*)threadParam->pParam;
 
 	if(instance->fetcherThreadParam->minAge < 10) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"setting crawler_minAge to 10 days for crawling");
+		log::Logging::LogWarn("setting crawler_minAge to 10 days for crawling");
 		instance->fetcherThreadParam->minAge = 10; }
 
 	PERFORMANCE_LOG_START;
@@ -99,7 +99,7 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 		PERFORMANCE_LOG_STOP("disconnect to databases");
 	}
 	else {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not start crawler. check database configuration."); }
+		log::Logging::LogError("could not start crawler. check database configuration."); }
 
 	return 0;
 }
@@ -154,7 +154,7 @@ bool UrlFetcherThread::CommitPages(const std::vector<UrlFetchParam>& fetchParame
 		case 500:
 		default:
 			if(log::Logging::IsLogLevelTrace())	{
-				log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "download of %s failed with http response code: %d", iterParam->url.GetFullUrl().c_str(), iterParam->responseCode ); }
+				log::Logging::LogTrace("download of %s failed with http response code: %d", iterParam->url.GetFullUrl().c_str(), iterParam->responseCode ); }
 			break;
 		}
 	}
@@ -169,7 +169,7 @@ bool UrlFetcherThread::GetNextCrawlerSessionID()
 	PERFORMANCE_LOG_START;
 	crawlerSession.Insert(DB().Connection());
 	if(!DB().Connection()->LastInsertID(crawlerSessionID)){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not request crawler_session_id, this is bad...");
+		log::Logging::LogError("could not request crawler_session_id, this is bad...");
 		crawlerSessionID = -1;
 		return false; }
 	PERFORMANCE_LOG_STOP("requesting session id");
@@ -241,7 +241,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 {
 	PERFORMANCE_LOG_START;
 	if(log::Logging::IsLogLevelTrace())
-		log::Logging::Log(log::Logging::LOGLEVEL_TRACE, "downloading url: " + url.GetFullUrl());
+		log::Logging::LogTrace("downloading url: " + url.GetFullUrl());
 
 	tools::Pointer<network::IHttpClient> client;
 	network::HttpClientFactory::CreateInstance(fetcherThreadParam->clientType,client);
@@ -262,7 +262,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	if(!success) {
 		htmlCode.Release();
 		if (log::Logging::IsLogLevelTrace())
-			log::Logging::Log(log::Logging::LOGLEVEL_TRACE,"could not connect to/fetch %s ", url.GetFullUrl().c_str());
+			log::Logging::LogTrace("could not connect to/fetch %s ", url.GetFullUrl().c_str());
 	}
 	else {
 		htmlCode.Swap(result.html);

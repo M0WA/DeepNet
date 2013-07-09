@@ -116,7 +116,7 @@ bool CommerceSearchFetcherThread::GetNextSecondLevelDomain()
 		database::SelectResultContainer<database::customersynccrawlerTableBase> syncTbls;
 		database::customersynccrawlerTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,syncTbls);
 		if(syncTbls.Size() == 0) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"no domain found for commerce search");
+			log::Logging::LogError("no domain found for commerce search");
 			OnIdle();
 			return false;
 		}
