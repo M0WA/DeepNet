@@ -23,11 +23,11 @@ InspectorServerRequest::~InspectorServerRequest()
 void InspectorServerRequest::OnHandle(FCGX_Request& request)
 {
 	if(rawPostData==0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"no post data received, ommitting...");
+		log::Logging::LogWarn("no post data received, ommitting...");
 		return;	}
 
 	if( !Xpath(htmlCodes, rawPostData, (xmlChar*)"/request/inspect/text()")){
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not parse xml inspect request");
+		log::Logging::LogError("could not parse xml inspect request");
 		return; }
 }
 

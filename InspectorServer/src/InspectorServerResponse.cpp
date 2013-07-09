@@ -60,7 +60,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				network::HttpUrlParser::DecodeUrl(htmlCode);
 			}
 			catch(errors::Exception& e) {
-				log::Logging::Log(log::Logging::LOGLEVEL_WARN,"error while url-decoding:\n" + htmlCode);
+				log::Logging::LogWarn("error while url-decoding:\n" + htmlCode);
 				continue;
 			}
 
@@ -72,7 +72,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 					network::HttpUrlParser::ParseURL(htmlCode,urlIn);
 				}
 				catch(errors::Exception& e) {
-					log::Logging::Log(log::Logging::LOGLEVEL_WARN,"error while url-parsing:\n" + htmlCode);
+					log::Logging::LogWarn("error while url-parsing:\n" + htmlCode);
 					continue; }
 
 				fullURL = urlIn.GetFullUrl();
