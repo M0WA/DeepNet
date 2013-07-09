@@ -24,7 +24,7 @@ XMLQueryRequest::~XMLQueryRequest()
 void XMLQueryRequest::OnHandle(FCGX_Request& request)
 {
 	if(rawPostData==0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"no post data received, ommitting...");
+		log::Logging::LogWarn("no post data received, ommitting...");
 		return;	}
 
 	bool success = ParseQuery(rawPostData,queryRequestParam);
@@ -37,7 +37,7 @@ bool XMLQueryRequest::ParseQueryGrouping(const std::string& xmlRequest, QueryReq
 	//parsing query grouping flag
 	std::list<std::string> queryGrouping;
 	if( !Xpath(queryGrouping, xmlRequest.c_str(), (xmlChar*)"/request/query/grouping/flag/text()")) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not parse xml query grouping flag");
+		log::Logging::LogError("could not parse xml query grouping flag");
 		return false; }
 	std::list<std::string>::iterator iterGrouping = queryGrouping.begin();
 	out.groupFlag = 0;
@@ -67,7 +67,7 @@ bool XMLQueryRequest::ParseQueryCriteria(const std::string& xmlRequest, QueryReq
 	//parsing query criteria flag
 	std::list<std::string> queryCriterias;
 	if( !Xpath(queryCriterias, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/flag/text()")) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not parse xml query criteria flag");
+		log::Logging::LogError("could not parse xml query criteria flag");
 		return false; }
 	std::list<std::string>::iterator iterCriterias = queryCriterias.begin();
 	out.criteriaFlag = 0;
@@ -152,7 +152,7 @@ bool XMLQueryRequest::ParseQueryLimitations(const std::string& xmlRequest, Query
 	//parsing query limitations flag
 	std::list<std::string> queryLimitations;
 	if( !Xpath(queryLimitations, xmlRequest.c_str(), (xmlChar*)"/request/query/limitations/flag/text()")) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not parse xml query limitation flag");
+		log::Logging::LogError("could not parse xml query limitation flag");
 		return false; }
 	std::list<std::string>::iterator iterLimitations = queryLimitations.begin();
 	out.limitFlag = 0;
@@ -189,7 +189,7 @@ bool XMLQueryRequest::ParseQueryLimitations(const std::string& xmlRequest, Query
 	//parsing max results
 	std::list<std::string> maxResults;
 	if( !Xpath(maxResults, xmlRequest.c_str(), (xmlChar*)"/request/query/limitations/maxResults/text()") || maxResults.size() == 0) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not parse xml query max results");
+		log::Logging::LogError("could not parse xml query max results");
 		out.maxResults = 100;
 	} else {
 		tools::StringTools::TransformString(*maxResults.begin(), out.maxResults);
@@ -203,7 +203,7 @@ bool XMLQueryRequest::ParseQuery(const std::string& xmlRequest, QueryRequestPara
 {
 	//parsing query parts
 	if( !Xpath(out.queryParts, xmlRequest.c_str(), (xmlChar*)"/request/query/querypart/text()")) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR, "could not parse xml query request");
+		log::Logging::LogError("could not parse xml query request");
 		return false; }
 
 	out.pageNo = 0;

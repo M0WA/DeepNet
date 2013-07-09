@@ -208,7 +208,7 @@ bool XMLQueryResponse::GetResultsFromDatasources(
 	for(;iterStageProperties != mapUrlStageProperties.end();++iterStageProperties){
 		const long long urlStageID = iterStageProperties->first;
 		if(mapUrlStageProperties.count(urlStageID) == 0) {
-			log::Logging::Log(log::Logging::LOGLEVEL_WARN, "could not find urlstage properties");
+			log::Logging::LogWarn("could not find urlstage properties");
 			continue; }
 		const UrlStageProperties& stageProperties = mapUrlStageProperties.at(urlStageID);
 		const std::vector<KeywordEntry>& keywords = idUrlStage[urlStageID];
@@ -293,7 +293,7 @@ bool XMLQueryResponse::GetPagesByMeta(const std::map<long long, KeywordEntry>& i
 
 		std::map<long long, KeywordEntry>::const_iterator posKeyword = idKeywords.find(dictID);
 		if(posKeyword == idKeywords.end()) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find keyword matching for meta information");
+			log::Logging::LogError("could not find keyword matching for meta information");
 			continue; }
 
 		idUrlStage[urlStageID].push_back(
@@ -363,7 +363,7 @@ bool XMLQueryResponse::GetPagesByDomain(const std::map<long long, KeywordEntry>&
 
 		std::map<long long, std::string>::const_iterator posKeyword = mapSecondLevelIDKeyword.find(secondLevelDomain);
 		if(posKeyword == mapSecondLevelIDKeyword.end()) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find keyword matching for domain information");
+			log::Logging::LogError("could not find keyword matching for domain information");
 			continue; }
 
 		idUrlStage[urlStageID].push_back(
@@ -413,7 +413,7 @@ bool XMLQueryResponse::GetPagesByContent(const std::map<long long, KeywordEntry>
 
 		std::map<long long, KeywordEntry>::const_iterator posKeyword = idKeywords.find(dictID);
 		if(posKeyword == idKeywords.end()) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find keyword matching for content information");
+			log::Logging::LogError("could not find keyword matching for content information");
 			continue; }
 
 		idUrlStage[urlStageID].push_back(
@@ -647,7 +647,7 @@ bool XMLQueryResponse::OutputResults(
 			mapUrlStagePageInfo.count(urlStageID) == 0 ) {
 				std::stringstream ssStream;
 				ssStream << "could not find information for urlstage id: " << urlStageID;
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,ssStream.str());
+				log::Logging::LogError(ssStream.str());
 				continue; }
 
 		const long long urlID      = mapUrlStageIDUrlID.at(urlStageID);
@@ -655,7 +655,7 @@ bool XMLQueryResponse::OutputResults(
 		if(	mapUrls.count(urlID) == 0 ){
 			std::stringstream ssStream;
 			ssStream << "could not find information for url id: " << urlID;
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,ssStream.str());
+			log::Logging::LogError(ssStream.str());
 			continue; }
 
 		const htmlparser::DatabaseUrl& url = mapUrls.at(urlID);
@@ -754,7 +754,7 @@ bool XMLQueryResponse::GetPagesByUrlPath(const std::map<long long, KeywordEntry>
 
 		std::map<long long, KeywordEntry>::const_iterator posKeyword = idKeywords.find(dictID);
 		if(posKeyword == idKeywords.end()) {
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find keyword matching for content information");
+			log::Logging::LogError("could not find keyword matching for content information");
 			continue; }
 
 		//TODO: maybe set weight
@@ -777,7 +777,7 @@ bool XMLQueryResponse::GroupResults(std::map<long long, UrlStageEntry >& idUrlSt
 		for(;iterSorted != sortedUrlStageIDs.end();++iterSorted) {
 
 			if(idUrlStages.count(*iterSorted) == 0) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"could not find urlstage id for grouping results");
+				log::Logging::LogError("could not find urlstage id for grouping results");
 				continue;}
 
 			UrlStageEntry& urlStageEntry  = idUrlStages.find(*iterSorted)->second;
@@ -810,7 +810,7 @@ bool XMLQueryResponse::LogQuery(const std::vector<std::string>& vecKeywords, boo
 
 		network::HttpCookie sessionCookie;
 		if(!network::HttpCookieHelper::GetCookieByKey("SIRIDIAID",xmlQueryRequest->Cookies(),sessionCookie)){
-			log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"no session id found");
+			log::Logging::LogError("no session id found");
 			return false; }
 
 		database::searchqueryTableBase tblQuery;
@@ -831,7 +831,7 @@ bool XMLQueryResponse::LogQuery(const std::vector<std::string>& vecKeywords, boo
 
 			long long keywordQueryID = -1;
 			if( !dbHelper.Connection()->LastInsertID(keywordQueryID) || keywordQueryID == -1) {
-				log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while inserting keyword id: " + keyword);
+				log::Logging::LogError("error while inserting keyword id: " + keyword);
 				return false; }
 
 			database::searchquerykeywordsTableBase searchQueryKeyword;
@@ -867,7 +867,7 @@ bool XMLQueryResponse::SaveResults(
 	}
 
 	if( !success ) {
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"error while inserting results"); }
+		log::Logging::LogError("error while inserting results"); }
 	return success;
 }
 
