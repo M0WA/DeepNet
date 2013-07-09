@@ -52,8 +52,8 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGSEGV:
 	case SIGABRT:
 	case SIGILL:
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing none gracefully");
+		log::Logging::LogError(signalInfo.infoText);
+		log::Logging::LogError("killing none gracefully");
 		exit(1);
 		break;
 
@@ -61,24 +61,24 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 	case SIGTERM:
 	case SIGINT:
 		run = false;
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"killing gracefully");
+		log::Logging::LogError(signalInfo.infoText);
+		log::Logging::LogError("killing gracefully");
 		break;
 
 	//graceful restart
 	case SIGHUP:
 	case SIGUSR1:
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,"restart gracefully");
+		log::Logging::LogError("restart gracefully");
 		break;
 
 	//client disconnected (if webserver support this signal)
 	case SIGPIPE:
-		log::Logging::Log(log::Logging::LOGLEVEL_WARN,"client disconnected");
+		log::Logging::LogWarn("client disconnected");
 		break;
 
 	//other signals
 	default:
-		log::Logging::Log(log::Logging::LOGLEVEL_ERROR,signalInfo.infoText);
+		log::Logging::LogError(signalInfo.infoText);
 		break;
 	}
 
