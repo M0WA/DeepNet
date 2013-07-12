@@ -9,17 +9,26 @@
 #include "PostgreSQLConnection.h"
 
 #include <StringTools.h>
-
-#include "PostgreSQLPGC.h"
+#include <Logging.h>
 
 #include "DatabaseTypes.h"
 #include "DatabaseConfig.h"
+
+#include "InsertStatement.h"
+#include "InsertOrUpdateStatement.h"
+#include "UpdateStatement.h"
+#include "DeleteStatement.h"
+
+#include "DatabaseNotConnectedException.h"
+#include "PostgreSQLInvalidStatementException.h"
 
 namespace database {
 
 PostgreSQLConnection::PostgreSQLConnection(const bool logQuery)
 : database::DatabaseConnection(DB_POSTGRESQL,logQuery)
-, connectionID(0){
+, connection(0)
+, affectedRows(-1)
+, lastInsertID(-1) {
 }
 
 PostgreSQLConnection::~PostgreSQLConnection() {
@@ -29,70 +38,192 @@ PostgreSQLConnection::~PostgreSQLConnection() {
 
 bool PostgreSQLConnection::Connect(DatabaseConfig* dbConfig){
 
-	bool success = pg_db_connect(
-		connectionID,
+	tools::StringTools::FormatString(
+		connectionString,
+		"host = '%s' "
+		"port = '%d' "
+		"dbname = '%s' "
+		"user = '%s' "
+		"password = '%s' ",
 		dbConfig->GetHost().c_str(),
 		dbConfig->GetPort(),
 		dbConfig->GetUser().c_str(),
 		dbConfig->GetPass().c_str(),
-		dbConfig->GetDatabaseName().c_str()	);
+		dbConfig->GetDatabaseName().c_str()
+	);
 
-	return success;
+	connection = PQconnectdb(connectionString.c_str());
+	return connection;
 }
 
 bool PostgreSQLConnection::Disconnect(void){
-	bool success = pg_db_disconnect(connectionID);
-	connectionID = -1;
-	return success;
+
+	if(connection)
+		PQfinish(connection);
+	connection = 0;
+	connectionString.clear();
+	return true;
 }
 
 bool PostgreSQLConnection::Connected(void){
-	return (connectionID != -1);
+	return connection;
 }
 
 void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase*>& results){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	PGresult* res = Execute_Intern(query);
+
+
+	PQclear(res);
 }
 
-void PostgreSQLConnection::Execute(const std::string& query){
+void PostgreSQLConnection::Execute(const std::string& query) {
+	 PQclear(Execute_Intern(query));
+}
+
+PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	PGresult* res = PQexec(connection, query.c_str());
+	if(!res) {
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,query); }
+
+	ExecStatusType type = PQresultStatus(res);
+	switch(type) {
+
+	// empty query string was executed
+	case PGRES_EMPTY_QUERY:
+		log::Logging::LogWarn("empty query in PostgreSQLConnection::Query(...)");
+		lastInsertID = -1;
+		affectedRows = -1;
+		break;
+
+	//a query command that doesn't return anything was executed properly
+	case PGRES_COMMAND_OK:
+		lastInsertID = -1;
+		affectedRows = 0;
+		break;
+
+	//a query command that returns tuples was executed properly
+	case PGRES_TUPLES_OK:
+		break;
+
+	//Copy Out data transfer in progress
+	case PGRES_COPY_OUT:
+	//Copy In data transfer in progress
+	case PGRES_COPY_IN:
+	//Copy In/Out data transfer in progress
+	case PGRES_COPY_BOTH:
+		break;
+
+	//an unexpected response was recv'd from the backend
+	case PGRES_BAD_RESPONSE:
+	//notice or warning message
+	case PGRES_NONFATAL_ERROR:
+	//query failed
+	case PGRES_FATAL_ERROR:
+	default:
+		lastInsertID = -1;
+		affectedRows = -1;
+		PQclear(res);
+		res = 0;
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,query);
+		break;
+	}
+
+	return res;
 }
 
 void PostgreSQLConnection::Insert(const InsertStatement& stmt){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	Execute( stmt.ToSQL(this).c_str() );
 }
 
 void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	Execute( stmt.ToSQL(this).c_str() );
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	Execute( stmt.ToSQL(this).c_str() );
 }
 
 void PostgreSQLConnection::Select(const SelectStatement& stmt, std::vector<TableBase*>& results){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 }
 
 void PostgreSQLConnection::Delete(const DeleteStatement& stmt){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	Execute( stmt.ToSQL(this).c_str() );
 }
 
 void PostgreSQLConnection::TransactionStart(void){
-	pg_db_start_transaction(connectionID);
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 }
 
 void PostgreSQLConnection::TransactionCommit(void){
-	pg_db_commit_transaction(connectionID);
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 }
 
 void PostgreSQLConnection::TransactionRollback(void){
-	pg_db_rollback_transaction(connectionID);
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 }
 
 bool PostgreSQLConnection::LastInsertID(long long& lastInsertID){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 	return false;
 }
 
 bool PostgreSQLConnection::AffectedRows(long long& affectedRows){
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
 	return false;
 }
 
 bool PostgreSQLConnection::EscapeString(std::string& inEscape){
-	return false;
+
+	if(!Connected()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	char* pszTmp = PQescapeLiteral(connection, inEscape.c_str(), inEscape.length());
+	if(!pszTmp) {
+		log::Logging::LogError("could not escape string: %s",inEscape.c_str());
+		inEscape.clear();
+		return false; }
+
+	inEscape = pszTmp;
+	PQfreemem(pszTmp);
+	return true;
 }
 
 void PostgreSQLConnection::Initialize(){

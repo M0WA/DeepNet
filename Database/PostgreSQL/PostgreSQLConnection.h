@@ -10,6 +10,8 @@
 
 #include "DatabaseConnection.h"
 
+#include <libpq-fe.h>
+
 namespace database {
 
 	class PostgreSQLDatabaseConfig;
@@ -51,8 +53,16 @@ public:
 	virtual void Shutdown();
 
 private:
+	PGresult* Execute_Intern(const std::string& query);
+
+private:
 	PostgreSQLDatabaseConfig* config;
-	long long connectionID;
+	PGconn* connection;
+	std::string connectionString;
+
+	long long affectedRows;
+	long long lastInsertID;
+
 };
 
 }

@@ -15,7 +15,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.debug.1874339962" name="Debug" parent="cdt.managedbuild.config.gnu.lib.debug" preannouncebuildStep="generating PostgreSQL specific code" prebuildStep="# rm -rf ../PostgreSQL/PostgreSQLPGC.cpp &amp;&amp; ecpg -o ../PostgreSQL/PostgreSQLPGC.cpp ../PostgreSQL/PostgreSQLPGC.pgc">
+				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.debug.1874339962" name="Debug" parent="cdt.managedbuild.config.gnu.lib.debug" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.lib.debug.1874339962." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.debug.1211937231" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.lib.debug.39119883" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.lib.debug"/>
@@ -80,15 +80,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.lib.debug.1874339962.1259245671" name="PostgresSQLPGC.gpc" rcbsApplicability="disable" resourcePath="PostgreSQL/PostgreSQLPGC.pgc" toolsToInvoke="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975">
-						<tool command="ecpg -o PostgreSQLPGC.cpp PostgreSQLPGC.pgc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975" name="Resource Custom Build Step"/>
-						<tool announcement="Invoking: Resource Custom Build Step" command="ecpg -o PostgreSQLPGC.cpp PostgreSQLPGC.pgc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.1987819527" name="Resource Custom Build Step">
-							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.723758292" name="Resource Custom Build Step Input Type">
-								<additionalInput kind="additionalinputdependency" paths=""/>
-							</inputType>
-							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.109160933" name="Resource Custom Build Step Output Type" outputNames="PostgreSQLPGC.cpp"/>
-						</tool>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MySQL"/>
 						<entry excluding="epgc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PostgreSQL"/>
@@ -122,7 +113,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.release.2886091" name="Release" parent="cdt.managedbuild.config.gnu.lib.release" preannouncebuildStep="generating PostgreSQL specific code" prebuildStep="# rm -rf ../PostgreSQL/PostgreSQLPGC.cpp &amp;&amp; ecpg -o ../PostgreSQL/PostgreSQLPGC.cpp ../PostgreSQL/PostgreSQLPGC.pgc">
+				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.release.2886091" name="Release" parent="cdt.managedbuild.config.gnu.lib.release" preannouncebuildStep="" prebuildStep="">
 					<folderInfo id="cdt.managedbuild.config.gnu.lib.release.2886091." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.release.1118097818" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.lib.release.1036762227" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.lib.release"/>
@@ -159,14 +150,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.lib.release.2886091.1863912612" name="PostgresSQLPGC.gpc" rcbsApplicability="override" resourcePath="PostgreSQL/PostgreSQLPGC.pgc" toolsToInvoke="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975">
-						<tool command="ecpg -o PostgreSQLPGC.c PostgreSQLPGC.pgc" customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975" name="Resource Custom Build Step">
-							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.1739495473" name="Resource Custom Build Step Input Type">
-								<additionalInput kind="additionalinputdependency" paths=""/>
-							</inputType>
-							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.625068854" name="Resource Custom Build Step Output Type"/>
-						</tool>
-					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="generated"/>
 						<entry excluding="epgc|PostgreSQL|MySQL|DB2|generated|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
