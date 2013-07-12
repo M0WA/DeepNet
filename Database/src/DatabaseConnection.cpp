@@ -16,6 +16,8 @@ DatabaseConnection::DatabaseConnection(const DatabaseType& databaseType, const b
 
 DatabaseConnection::~DatabaseConnection()
 {
+	if(Connected())
+		Disconnect();
 }
 
 }
