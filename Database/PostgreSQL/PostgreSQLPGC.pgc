@@ -1,0 +1,22 @@
+/**
+ *
+ * @file PostgresSQLPGC.cpp
+ * @author Moritz Wagner
+ * @date 12.06.2013
+ *
+ */
+
+#include "PostgreSQLPGC.h"
+#include <stdio.h>
+
+void
+pg_db_connect(const char* host, const int port, const char* user, const char* pass, const char* dbname)
+{
+    EXEC SQL CONNECT TO testdb1;
+}
+
+void
+pg_db_disconnect()
+{
+    EXEC SQL DISCONNECT ALL;
+}

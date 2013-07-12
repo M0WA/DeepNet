@@ -22,5 +22,10 @@ namespace database
 		 * database type for IBM DB2 databases.
 		 */
 		DB_IBM_DB2,
+
+		/**
+		 * database type for PostgreSQL databases.
+		 */
+		DB_POSTGRESQL,
 	};
 }

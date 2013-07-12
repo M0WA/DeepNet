@@ -5,12 +5,7 @@
 	<storageModule moduleId="org.eclipse.cdt.core.settings">
 		<cconfiguration id="cdt.managedbuild.config.gnu.lib.debug.1874339962">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.lib.debug.1874339962" moduleId="org.eclipse.cdt.core.settings" name="Debug">
-				<externalSettings>
-					<externalSetting>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Database"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Database/Debug"/>
-					</externalSetting>
-				</externalSettings>
+				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
@@ -20,22 +15,28 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.debug.1874339962" name="Debug" parent="cdt.managedbuild.config.gnu.lib.debug">
+				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.debug.1874339962" name="Debug" parent="cdt.managedbuild.config.gnu.lib.debug" preannouncebuildStep="generating PostgreSQL specific code" prebuildStep="rm -rf ../PostgreSQL/PostgreSQLPGC.cpp &amp;&amp; ecpg -o ../PostgreSQL/PostgreSQLPGC.cpp ../PostgreSQL/PostgreSQLPGC.pgc">
 					<folderInfo id="cdt.managedbuild.config.gnu.lib.debug.1874339962." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.debug.1211937231" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.debug">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.lib.debug.39119883" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.lib.debug"/>
-							<builder buildPath="${workspace_loc:/Database/Debug}" id="cdt.managedbuild.target.gnu.builder.lib.debug.413498196" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="-1" superClass="cdt.managedbuild.target.gnu.builder.lib.debug"/>
-							<tool id="cdt.managedbuild.tool.gnu.archiver.lib.debug.628189250" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.lib.debug"/>
+							<builder buildPath="${workspace_loc:/Database/Debug}" id="cdt.managedbuild.target.gnu.builder.lib.debug.413498196" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="-1" superClass="cdt.managedbuild.target.gnu.builder.lib.debug">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release"/>
+								</outputEntries>
+							</builder>
+							<tool command="ar" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="cdt.managedbuild.tool.gnu.archiver.lib.debug.628189250" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.lib.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug.550853535" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug">
 								<option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1757785351" name="Optimization Level" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.210497086" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1612543022" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../src"/>
-									<listOptionValue builtIn="false" value="../../Bot/src"/>
-									<listOptionValue builtIn="false" value="../generated"/>
-									<listOptionValue builtIn="false" value="../../Logging/src"/>
-									<listOptionValue builtIn="false" value="../../Tools/src"/>
-									<listOptionValue builtIn="false" value="../../Threading/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Logging/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Tools/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Threading/src"/>
+									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.494512883" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.879403064" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -50,21 +51,51 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.1600104223" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.debug">
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.lib.debug.option.optimization.level.1284529078" name="Optimization Level" superClass="gnu.c.compiler.lib.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.lib.debug.option.debugging.level.159068060" name="Debug Level" superClass="gnu.c.compiler.lib.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.include.paths.14570893" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Logging/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Tools/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Threading/src"/>
+								</option>
+								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1084703599" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="_REENTRANT"/>
+									<listOptionValue builtIn="false" value="ENABLE_PERFORMANCE_LOG"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.880756127" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.333203743" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1812873715" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.lib.debug.1970916795" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.lib.debug">
+								<option id="gnu.both.asm.option.include.paths.556663152" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Logging/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Tools/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Threading/src"/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1619016458" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.lib.debug.1874339962.1259245671" name="PostgresSQLPGC.gpc" rcbsApplicability="disable" resourcePath="PostgreSQL/PostgreSQLPGC.pgc" toolsToInvoke="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975">
+						<tool command="ecpg -o PostgreSQLPGC.cpp PostgreSQLPGC.pgc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" id="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975" name="Resource Custom Build Step"/>
+						<tool announcement="Invoking: Resource Custom Build Step" command="ecpg -o PostgreSQLPGC.cpp PostgreSQLPGC.pgc" commandLinePattern="${COMMAND} ${FLAGS} ${OUTPUT_FLAG} ${OUTPUT_PREFIX}${OUTPUT} ${INPUTS}" customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.1987819527" name="Resource Custom Build Step">
+							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.723758292" name="Resource Custom Build Step Input Type">
+								<additionalInput kind="additionalinputdependency" paths=""/>
+							</inputType>
+							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.109160933" name="Resource Custom Build Step Output Type" outputNames="PostgreSQLPGC.cpp"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MySQL"/>
+						<entry excluding="epgc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PostgreSQL"/>
+						<entry excluding="src|generated|PostgreSQL|epgc|DB2|MySQL" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="generated"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DB2"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="generated"/>
-						<entry excluding="MySQL|DB2|generated|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MySQL"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -79,6 +110,7 @@
 					<externalSetting>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="includePath" name="/Database"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="libraryPath" name="/Database/Release"/>
+						<entry flags="RESOLVED" kind="libraryFile" name="Database"/>
 					</externalSetting>
 				</externalSettings>
 				<extensions>
@@ -90,7 +122,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.release.2886091" name="Release" parent="cdt.managedbuild.config.gnu.lib.release">
+				<configuration artifactExtension="a" artifactName="Database" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.staticLib" buildProperties="org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release,org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.staticLib" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.lib.release.2886091" name="Release" parent="cdt.managedbuild.config.gnu.lib.release" preannouncebuildStep="generating PostgreSQL specific code" prebuildStep="rm -rf ../PostgreSQL/PostgreSQLPGC.cpp &amp;&amp; ecpg -o ../PostgreSQL/PostgreSQLPGC.cpp ../PostgreSQL/PostgreSQLPGC.pgc">
 					<folderInfo id="cdt.managedbuild.config.gnu.lib.release.2886091." name="/" resourcePath="">
 						<toolChain id="cdt.managedbuild.toolchain.gnu.lib.release.1118097818" name="Linux GCC" superClass="cdt.managedbuild.toolchain.gnu.lib.release">
 							<targetPlatform id="cdt.managedbuild.target.gnu.platform.lib.release.1036762227" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.lib.release"/>
@@ -100,12 +132,13 @@
 								<option id="gnu.cpp.compiler.lib.release.option.optimization.level.1089364979" name="Optimization Level" superClass="gnu.cpp.compiler.lib.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.release.option.debugging.level.746810726" name="Debug Level" superClass="gnu.cpp.compiler.lib.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.699820374" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="../src"/>
-									<listOptionValue builtIn="false" value="../../Bot/src"/>
-									<listOptionValue builtIn="false" value="../generated"/>
-									<listOptionValue builtIn="false" value="../../Logging/src"/>
-									<listOptionValue builtIn="false" value="../../Tools/src"/>
-									<listOptionValue builtIn="false" value="../../Threading/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Logging/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Tools/src"/>
+									<listOptionValue builtIn="false" value="/home/momo/deepnet/Threading/src"/>
+									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.228460405" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1398395486" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -126,12 +159,21 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.lib.release.2886091.1863912612" name="PostgresSQLPGC.gpc" rcbsApplicability="override" resourcePath="PostgreSQL/PostgreSQLPGC.pgc" toolsToInvoke="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975">
+						<tool command="ecpg -o PostgreSQLPGC.c PostgreSQLPGC.pgc" customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.346923975" name="Resource Custom Build Step">
+							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.1739495473" name="Resource Custom Build Step Input Type">
+								<additionalInput kind="additionalinputdependency" paths=""/>
+							</inputType>
+							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.625068854" name="Resource Custom Build Step Output Type"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="generated"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DB2"/>
-						<entry excluding="MySQL|DB2|generated|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="epgc|PostgreSQL|MySQL|DB2|generated|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="MySQL"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="DB2"/>
+						<entry excluding="epgc" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="PostgreSQL"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
