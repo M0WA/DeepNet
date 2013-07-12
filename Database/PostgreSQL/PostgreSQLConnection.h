@@ -52,6 +52,7 @@ public:
 
 private:
 	PostgreSQLDatabaseConfig* config;
+	long long connectionID;
 };
 
 }

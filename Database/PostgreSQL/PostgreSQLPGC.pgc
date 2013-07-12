@@ -7,16 +7,159 @@
  */
 
 #include "PostgreSQLPGC.h"
+
 #include <stdio.h>
+#include <string>
+#include <map>
 
-void
-pg_db_connect(const char* host, const int port, const char* user, const char* pass, const char* dbname)
-{
-    EXEC SQL CONNECT TO testdb1;
+#include <StringTools.h>
+#include <Logging.h>
+#include <Mutex.h>
+
+static threading::Mutex connLock;
+static std::map<long long, std::string> connectionNames;
+
+void pg_get_connection_name_from_id(const long long& id,std::string& connectionName){
+  tools::StringTools::FormatString(
+    connectionName, "%d", id  );
 }
 
-void
-pg_db_disconnect()
-{
-    EXEC SQL DISCONNECT ALL;
+void pg_get_next_connection_id(long long& id,std::string& connectionName) {
+
+  connLock.Lock();
+  for(id = 0; ;id++) {
+    if(connectionNames.count(id) == 0) {
+      pg_get_connection_name_from_id(id,connectionName);
+      connectionNames[id] = connectionName;
+    }
+  }
+  connLock.Unlock();
 }
+
+void pg_release_connection_id(const long long& id) {
+
+  connLock.Lock();
+  connectionNames.erase(id);
+  connLock.Unlock();
+}
+
+bool pg_db_connect(
+  long long& id,
+  const char* host, 
+  const int port, 
+  const char* user, 
+  const char* pass, 
+  const char* dbName ) {
+  
+  std::string connectionString;
+  tools::StringTools::FormatString(
+    connectionString,
+    "tcp:postgresql://%s:%d/%s",
+    host, port, dbName );
+  
+  std::string connectionName;
+  pg_get_next_connection_id(id,connectionName);
+
+EXEC SQL BEGIN DECLARE SECTION;
+  const char* pszConnectionString = connectionString.c_str();  
+  const char* connNameDecl = connectionName.c_str();  
+  const char* userDecl = user;
+  const char* passDecl = pass;
+EXEC SQL END DECLARE SECTION;
+
+    EXEC SQL CONNECT TO :pszConnectionString AS :connNameDecl USER :userDecl IDENTIFIED BY :passDecl;
+    EXEC SQL WHENEVER SQLERROR CALL pg_db_log_sqlca(id);
+    return true;
+}
+
+bool pg_db_disconnect(long long& id) {
+
+  std::string connectionName;
+  pg_get_connection_name_from_id(id,connectionName);
+  
+EXEC SQL BEGIN DECLARE SECTION;  
+  const char* connNameDecl = connectionName.c_str();  
+EXEC SQL END DECLARE SECTION;
+
+    EXEC SQL DISCONNECT :connNameDecl;
+    
+    pg_release_connection_id(id);
+    id = -1;
+    return true;
+}
+
+bool pg_db_start_transaction(long long& id) {
+
+  return pg_db_set_autocommit(id, false);
+}
+
+bool pg_db_commit_transaction(const long long& id) {
+
+  std::string connectionName;
+  pg_get_connection_name_from_id(id,connectionName);
+  
+EXEC SQL BEGIN DECLARE SECTION;  
+  const char* connNameDecl = connectionName.c_str();  
+EXEC SQL END DECLARE SECTION;
+
+  EXEC SQL AT :connNameDecl COMMIT;
+  return true;
+}
+
+bool pg_db_rollback_transaction(const long long& id) {
+
+  std::string connectionName;
+  pg_get_connection_name_from_id(id,connectionName);
+  
+EXEC SQL BEGIN DECLARE SECTION;  
+  const char* connNameDecl = connectionName.c_str();  
+EXEC SQL END DECLARE SECTION;
+
+  EXEC SQL AT :connNameDecl ROLLBACK;
+  return true;
+}
+
+bool pg_db_set_autocommit(const long long& id, const bool autocommit) {
+
+  std::string connectionName;
+  pg_get_connection_name_from_id(id,connectionName);
+  
+EXEC SQL BEGIN DECLARE SECTION;  
+  const char* connNameDecl = connectionName.c_str();  
+EXEC SQL END DECLARE SECTION;
+
+  if(autocommit) {
+    EXEC SQL AT :connNameDecl SET AUTOCOMMIT TO ON;
+  }
+  else {
+    EXEC SQL AT :connNameDecl SET AUTOCOMMIT TO OFF;
+  }
+  return true;
+}
+
+void pg_db_log_sqlca(const long long id) {
+
+  std::string caError;
+  tools::StringTools::FormatString(
+    caError,
+    "connection id: %d\n"
+    "sqlca\n"
+    "sqlcode: %ld\n"
+    "sqlerrm.sqlerrml: %d\n"
+    "sqlerrm.sqlerrmc: %s\n"
+    "sqlerrd: %ld %ld %ld %ld %ld %ld\n"
+    "sqlwarn: %d %d %d %d %d %d %d %d\n"
+    "sqlstate: %5s\n"
+    ,id
+    ,sqlca.sqlcode
+    ,sqlca.sqlerrm.sqlerrml
+    ,sqlca.sqlerrm.sqlerrmc
+    ,sqlca.sqlerrd[0],sqlca.sqlerrd[1],sqlca.sqlerrd[2],sqlca.sqlerrd[3],sqlca.sqlerrd[4]
+                     ,sqlca.sqlerrd[5]
+    ,sqlca.sqlwarn[0],sqlca.sqlwarn[1],sqlca.sqlwarn[2],sqlca.sqlwarn[3],sqlca.sqlwarn[4]
+                     ,sqlca.sqlwarn[5],sqlca.sqlwarn[6],sqlca.sqlwarn[7]
+    ,sqlca.sqlstate );
+  
+  log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,caError.c_str());
+}
+
