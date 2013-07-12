@@ -76,6 +76,9 @@ void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase
 
 	PGresult* res = Execute_Intern(query);
 
+	//
+	//TODO
+	//
 
 	PQclear(res);
 }
@@ -107,10 +110,16 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	case PGRES_COMMAND_OK:
 		lastInsertID = -1;
 		affectedRows = 0;
+		//
+		//TODO
+		//
 		break;
 
 	//a query command that returns tuples was executed properly
 	case PGRES_TUPLES_OK:
+		//
+		//TODO
+		//
 		break;
 
 	//Copy Out data transfer in progress
@@ -119,6 +128,9 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	case PGRES_COPY_IN:
 	//Copy In/Out data transfer in progress
 	case PGRES_COPY_BOTH:
+		//
+		//TODO
+		//
 		break;
 
 	//an unexpected response was recv'd from the backend
@@ -167,6 +179,10 @@ void PostgreSQLConnection::Select(const SelectStatement& stmt, std::vector<Table
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	//
+	//TODO
+	//
 }
 
 void PostgreSQLConnection::Delete(const DeleteStatement& stmt){
@@ -181,24 +197,41 @@ void PostgreSQLConnection::TransactionStart(void){
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	//
+	//TODO
+	//
 }
 
 void PostgreSQLConnection::TransactionCommit(void){
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	//
+	//TODO
+	//
 }
 
 void PostgreSQLConnection::TransactionRollback(void){
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	//
+	//TODO
+	//
 }
 
 bool PostgreSQLConnection::LastInsertID(long long& lastInsertID){
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	//
+	//TODO
+	//
+
 	return false;
 }
 
@@ -206,6 +239,10 @@ bool PostgreSQLConnection::AffectedRows(long long& affectedRows){
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
+
+	//
+	//TODO
+	//
 
 	return false;
 }
