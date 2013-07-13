@@ -139,8 +139,9 @@ sub GenerateDDL
     #generate contraint ddl for primary keys
     foreach my $primaryKeyColumn (@primaryKeys) {
       my $primaryKeyDDL = $self->GeneratePrimaryKeyDDL($tableName, $primaryKeyColumn);
-      $MySQLCreateTableDDL .= ",\n ".$primaryKeyDDL;
-      $DB2CreateTableDDL   .= ",\n ".$primaryKeyDDL;
+      $MySQLCreateTableDDL   .= ",\n ".$primaryKeyDDL;
+      $DB2CreateTableDDL     .= ",\n ".$primaryKeyDDL;
+      $PostgreCreateTableDDL .= ",\n ".$primaryKeyDDL;
     }
 
     #generate contraints for foreign keys
@@ -150,16 +151,18 @@ sub GenerateDDL
       my @params;
       push(@params,{%table_attributes});
       push(@params,{%foreignKey_attributes});
-      my ($MySQLFkDDL,$DB2FkDDL) = $self->GenerateForeignKeyDDL(@params);
-      $MySQLTableFkDDL .= "\n".$MySQLFkDDL;
-      $DB2TableFkDDL   .= "\n".$DB2FkDDL;
+      my ($MySQLFkDDL,$DB2FkDDL,$PostgreFkDDL) = $self->GenerateForeignKeyDDL(@params);
+      $MySQLTableFkDDL   .= "\n".$MySQLFkDDL;
+      $DB2TableFkDDL     .= "\n".$DB2FkDDL;
+      $PostgreTableFkDDL .= "\n".$PostgreFkDDL;
     }
 
     #generate contraint ddl for unique keys
     foreach my $uniqueKeyColumn (@uniqueKeys) {
       my $uniqCreateDDL = $self->GenerateUniqueKeyDDL($tableName, $uniqueKeyColumn);
-      $MySQLCreateTableDDL .= ",\n ".$uniqCreateDDL;
-      $DB2CreateTableDDL   .= ",\n ".$uniqCreateDDL;
+      $MySQLCreateTableDDL   .= ",\n ".$uniqCreateDDL;
+      $DB2CreateTableDDL     .= ",\n ".$uniqCreateDDL;
+      $PostgreCreateTableDDL .= ",\n ".$uniqCreateDDL;
     }
 
     #generate contraints for indices
@@ -206,7 +209,7 @@ sub GeneratePrimaryKeyDDL
 
 #
 #
-# ($MySQLFkDDL,$DB2FkDDL) GenerateForeignKeyDDL(%tableAttributes, %foreignAttributes)
+# ($MySQLFkDDL,$DB2FkDDL,$PostgreFkDDL) GenerateForeignKeyDDL(%tableAttributes, %foreignAttributes)
 #
 # generates foreign key sql ddl
 #
@@ -228,7 +231,10 @@ sub GenerateForeignKeyDDL
   my $foreignKeyDDLDB2 = "ALTER TABLE ".$tableName." ADD CONSTRAINT FK__".uc($columnName)." ";
   $foreignKeyDDLDB2   .= "FOREIGN KEY (".$columnName.") REFERENCES ".$references.";\n";
 
-  return @{[$foreignKeyDDLMySQL,$foreignKeyDDLDB2]};
+  my $foreignKeyDDLPostgre = "ALTER TABLE ".$tableName." ADD CONSTRAINT FK__".uc($columnName)." ";
+  $foreignKeyDDLPostgre   .= "FOREIGN KEY (".$columnName.") REFERENCES ".$references.";\n";
+
+  return @{[$foreignKeyDDLMySQL,$foreignKeyDDLDB2,$foreignKeyDDLPostgre]};
 }
 
 #
@@ -341,15 +347,14 @@ sub GenerateTableDDL
 
   #create prefixes for tables
 
+  #we do a little bit more for mysql tables right now than for other database types,...
   my $MySQLTableDDLPrefix = "\n\n/* ".$tableAttributes{'name'}." - MySQL */".
   "\nCREATE TABLE IF NOT EXISTS  ".$tableAttributes{'MySQL_Database'}.".".$tableAttributes{'name'}." (ID INTEGER);".
   "\nDROP TABLE ".$tableAttributes{'MySQL_Database'}.".".$tableAttributes{'name'}.";".
   "\nCREATE TABLE ".$tableAttributes{'MySQL_Database'}.".".$tableAttributes{'name'}."\n(";
 
-  my $DB2TableDDLPrefix   = "\n\n/* ".$tableAttributes{'name'}." - DB2   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
-
-  my $PostgreTableDDLPrefix = "\nDROP TABLE ".$tableAttributes{'name'}.";";
-  $PostgreTableDDLPrefix .= "\n\n/* ".$tableAttributes{'name'}." - Postgre   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
+  my $DB2TableDDLPrefix      = "\n\n/* ".$tableAttributes{'name'}." - DB2   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
+  my $PostgreTableDDLPrefix .= "\n\n/* ".$tableAttributes{'name'}." - Postgre   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
 
   #create postfix for tables  
 
