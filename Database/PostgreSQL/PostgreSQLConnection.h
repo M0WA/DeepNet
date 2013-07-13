@@ -49,13 +49,9 @@ public:
 
 	virtual bool EscapeString(std::string& inEscape);
 
-	/*
-	virtual void Initialize();
-	virtual void Shutdown();
-	*/
-
 private:
 	PGresult* Execute_Intern(const std::string& query);
+	void SetLastInsertID(PGresult* res);
 
 private:
 	PostgreSQLDatabaseConfig* config;
