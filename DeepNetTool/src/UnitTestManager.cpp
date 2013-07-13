@@ -2,7 +2,7 @@
  *
  * @file UnitTestManager.cpp
  * @author Moritz Wagner
- * @date Apr 19, 2013
+ * @date 19.04.2013
  *
  */
 

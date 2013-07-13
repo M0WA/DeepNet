@@ -2,7 +2,7 @@
  *
  * @file UnitTestManager.h
  * @author Moritz Wagner
- * @date Apr 19, 2013
+ * @date 19.04.2013
  *
  */
 
@@ -10,6 +10,9 @@
 
 #include <vector>
 
+/**
+ * @brief class to run multiple toolbot::UnitTest in sequence
+ */
 namespace toolbot {
 
 class UnitTest;
@@ -18,7 +21,19 @@ public:
 	UnitTestManager();
 	virtual ~UnitTestManager();
 
+	/**
+	 * schedules a toolbot::UnitTest to run.
+	 * all unit tests are cleaned up on finish automatically.
+	 * @param unitTest unittest to run
+	 */
 	void AddUnitTest(toolbot::UnitTest* unitTest);
+
+
+	/**
+	 * runs all previously scheduled unit tests.
+	 * log will tell more details about errors.
+	 * @return true if all unit tests succeeded, else false
+	 */
 	bool Run();
 
 private:
