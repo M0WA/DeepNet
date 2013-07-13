@@ -46,7 +46,7 @@ case ${TYPE} in
  "db2")
    execute_db2 ${EXEC_FILENAME}
    ;;
- "db2")
+ "postgre")
    execute_postgre ${EXEC_FILENAME}
    ;;
  *)
