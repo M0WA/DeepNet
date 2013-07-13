@@ -8,8 +8,13 @@
 
 #include "PostgreSQLConnection.h"
 
+#include <TimeTools.h>
 #include <StringTools.h>
 #include <Logging.h>
+
+#include <postgres.h>
+#include <libpq-fe.h>
+#include <catalog/pg_type.h>
 
 #include "DatabaseTypes.h"
 #include "DatabaseConfig.h"
@@ -24,6 +29,8 @@
 #include "TableDefinition.h"
 #include "TableColumnDefinition.h"
 
+#include "DatabaseInvalidColumnNameException.h"
+#include "DatabaseInvalidTypeException.h"
 #include "DatabaseNotConnectedException.h"
 #include "PostgreSQLInvalidStatementException.h"
 
@@ -116,7 +123,36 @@ void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase
 		TableColumnDefinitionCreateParam colCreateParam;
 		colCreateParam.columnName = colName;
 
-		//colCreateParam.columnType
+		Oid colType = PQftype(res, i);
+		switch(colType)
+		{
+		case FLOAT8OID:
+		case FLOAT4OID:
+			colCreateParam.columnType = DB_TYPE_DOUBLE;
+			break;
+
+		case INT8OID:
+		case OIDOID:
+		case INT2OID:
+		case INT4OID:
+		case CHAROID:
+		case BOOLOID:
+			colCreateParam.columnType = DB_TYPE_INTEGER;
+			break;
+
+		case TEXTOID:
+		case BYTEAOID:
+			colCreateParam.columnType = DB_TYPE_VARCHAR;
+			break;
+
+		case ABSTIMEOID:
+			colCreateParam.columnType = DB_TYPE_TIMESTAMP;
+			break;
+
+		default:
+			THROW_EXCEPTION(database::DatabaseInvalidTypeException);
+			break;
+		}
 
 		colCreateParam.isNullable = true;
 
@@ -129,17 +165,40 @@ void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase
 		for(int curCol = 0; curCol < noCol; curCol++) {
 
 			char* colName = PQfname(res, curCol);
+			TableColumn* tblCol = tblBase->GetColumnByName(colName);
+			if(!tblCol) {
+				THROW_EXCEPTION(database::DatabaseInvalidColumnNameException);
+				return; }
+
 			if(PQgetisnull(res,curRow,curCol)) {
-				tblBase->GetColumnByName(colName)->SetNull();
+				tblCol->SetNull();
 			}
 			else {
 
-				//
-				//TODO
-				//
+				switch(tblCol->GetConstColumnDefinition()->GetColumnType()) {
 
-				//tblBase->GetColumnByName(colName)->Set();
+				case DB_TYPE_DOUBLE:
+				case DB_TYPE_INTEGER:
+				case DB_TYPE_VARCHAR:
+					tblCol->Set(PQgetvalue(res,curRow,curCol));
+					break;
+
+				case DB_TYPE_TIMESTAMP:
+					{
+						struct tm out;
+						if(!tools::TimeTools::TryParseDate(PQgetvalue(res,curRow,curCol),out)) {
+							THROW_EXCEPTION(database::DatabaseInvalidTypeException);
+							return;	}
+					}
+					break;
+
+				default:
+					THROW_EXCEPTION(database::DatabaseInvalidTypeException);
+					return;
+				}
 			}
+
+			tblCol->SetClean();
 		}
 		results.push_back(tblBase);
 	}
@@ -262,9 +321,7 @@ void PostgreSQLConnection::TransactionStart(void){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	//
-	//TODO
-	//
+	Execute("BEGIN");
 }
 
 void PostgreSQLConnection::TransactionCommit(void){
@@ -272,9 +329,7 @@ void PostgreSQLConnection::TransactionCommit(void){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	//
-	//TODO
-	//
+	Execute("COMMIT");
 }
 
 void PostgreSQLConnection::TransactionRollback(void){
@@ -282,9 +337,7 @@ void PostgreSQLConnection::TransactionRollback(void){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	//
-	//TODO
-	//
+	Execute("ROLLBACK");
 }
 
 bool PostgreSQLConnection::LastInsertID(long long& lastInsertID){
