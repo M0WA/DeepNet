@@ -12,6 +12,9 @@
 
 namespace database {
 
+/**
+ * @brief implementation of database::TableBase for PostgreSQL servers
+ */
 class PostgreSQLTableBase: public database::TableBase {
 public:
 	PostgreSQLTableBase();

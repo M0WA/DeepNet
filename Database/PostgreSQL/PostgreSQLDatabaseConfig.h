@@ -12,6 +12,9 @@
 
 namespace database {
 
+/**
+ * @brief implementation of database::DatabaseConfig for PostgreSQL servers
+ */
 class PostgreSQLDatabaseConfig: public database::DatabaseConfig {
 public:
 	PostgreSQLDatabaseConfig();

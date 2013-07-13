@@ -17,7 +17,7 @@ namespace database {
 	class PostgreSQLDatabaseConfig;
 
 /**
- * @brief connection to PostgreSQL database
+ * @brief implementation of database::DatabaseConnection for PostgreSQL servers
  */
 class PostgreSQLConnection: public database::DatabaseConnection {
 public:
