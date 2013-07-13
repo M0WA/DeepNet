@@ -15,8 +15,8 @@ echo "installing prerequirements"
 
 apt-get install build-essential \
 libxml2 libxml2-dev \
-libmysqlclient-dev mysql-server \
-libpg-dev libpg \
+libmysqlclient-dev \
+libpg-dev \
 libcurl3 libcurl3-dev \
 libmagic-dev \
 binutils libfcgi-dev libfcgi-perl lighttpd \
