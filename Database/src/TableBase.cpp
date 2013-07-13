@@ -100,6 +100,7 @@ const TableColumn* TableBase::GetConstColumnByName(const std::string& columnName
 	}
 
 	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	return 0;
 }
 
 TableColumn* TableBase::GetColumnByName(const std::string& columnName) {
@@ -112,6 +113,7 @@ TableColumn* TableBase::GetColumnByName(const std::string& columnName) {
 	}
 
 	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	return 0;
 }
 
 void TableBase::CopyColumns(const TableBase* base) {

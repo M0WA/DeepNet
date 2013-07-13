@@ -25,16 +25,19 @@ bool DB2Connection::Connect(DatabaseConfig* dbConfig)
 {
 	//config = reinterpret_cast<DB2DatabaseConfig*>(dbConfig);
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return false;
 }
 
 bool DB2Connection::Disconnect(void)
 {
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return false;
 }
 
 bool DB2Connection::Connected(void)
 {
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return false;
 }
 
 void DB2Connection::Query(const std::string& query, std::vector<TableBase*>& results)
@@ -90,16 +93,19 @@ void DB2Connection::TransactionRollback(void)
 bool DB2Connection::LastInsertID(long long& lastInsertID)
 {
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return false;
 }
 
 bool DB2Connection::AffectedRows(long long& affectedRows)
 {
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return false;
 }
 
 bool DB2Connection::EscapeString(std::string& inEscape)
 {
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return false;
 }
 
 }

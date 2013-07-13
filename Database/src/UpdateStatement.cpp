@@ -76,6 +76,7 @@ std::string UpdateStatement::ToSQL(database::DatabaseConnection* db) const {
 InnerJoinCondition& UpdateStatement::InnerJoin() {
 
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return *static_cast<InnerJoinCondition*>( 0 );
 }
 
 }
