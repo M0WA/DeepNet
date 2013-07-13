@@ -8,7 +8,7 @@
 #
 #########################################################
 
-rm -rf webif/deepnet/doxygen/html
-mkdir -p webif/deepnet/doxygen/html
-tar -zxvf doxygen/doxygen.tgz -C webif/deepnet/doxygen/html
+rm -rf html
+mkdir -p html
+tar -zxvf doxygen.tgz -C html
 echo "done"
