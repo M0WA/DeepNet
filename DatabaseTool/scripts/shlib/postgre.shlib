@@ -1,0 +1,16 @@
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
+#
+#########################################################
+
+source ../Scripts/conf/db.generator.conf
+
+function execute_postgre()
+{
+EXEC_FILENAME=$1
+# echo "executing ${EXEC_FILENAME}"
+# echo "source ${EXEC_FILENAME};" | mysql -p${DBPASS} -u${DBUSER}
+}

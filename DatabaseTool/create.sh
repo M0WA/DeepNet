@@ -10,6 +10,7 @@
 
 source scripts/shlib/mysql.shlib
 source scripts/shlib/db2.shlib
+source scripts/shlib/postgre.shlib
 
 TYPE=""
 
@@ -23,9 +24,12 @@ TYPE="mysql"
 elif [[ $* == *--db2* ]]
 then
 TYPE="db2"
+elif [[ $* == *-postgre* ]]
+TYPE="postgre"
+then
 else
   echo "usage: ./create.sh [type]"
-  echo "please specify type: --mysql or --db2"
+  echo "please specify type: --mysql or --db2 or --postgre"
   echo ""
   exit 0
 fi
@@ -41,6 +45,9 @@ case ${TYPE} in
    ;;
  "db2")
    execute_db2 ${EXEC_FILENAME}
+   ;;
+ "db2")
+   execute_postgre ${EXEC_FILENAME}
    ;;
  *)
    echo "invalid database type"
