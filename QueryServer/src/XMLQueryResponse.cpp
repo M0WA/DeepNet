@@ -186,7 +186,7 @@ bool XMLQueryResponse::GetResultsFromDatasources(
 	const unsigned long long& critFlag = xmlQueryRequest->Params().CriteriaFlag();
 	bool allFlags = critFlag & XMLQueryRequest::CRITERIA_ALL;
 	if( allFlags || ((critFlag & XMLQueryRequest::CRITERIA_META) ||
-		critFlag & XMLQueryRequest::CRITERIA_TITLE) ){
+		(critFlag & XMLQueryRequest::CRITERIA_TITLE) )){
 		GetPagesByMeta(idKeywords, idUrlStage);}
 	if( allFlags || (critFlag & XMLQueryRequest::CRITERIA_DOMAIN)){
 		GetPagesByDomain(idKeywords, idUrlStage);}
