@@ -24,7 +24,7 @@
 
 #include <Exception.h>
 
-extern char ** environ;
+//extern char ** environ;
 
 namespace fastcgiserver {
 
