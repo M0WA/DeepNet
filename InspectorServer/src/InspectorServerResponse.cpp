@@ -76,7 +76,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 					continue; }
 
 				fullURL = urlIn.GetFullUrl();
-				bIsUrl = true;
+				//bIsUrl = true;
 
 
 				tools::Pointer<network::IHttpClient> client;
