@@ -103,8 +103,11 @@ void FileTools::ListDirectory(std::vector<std::string>& files, const std::string
 				switch(dirEntry->d_type) {
 
 				case DT_DIR: //directory
-					if (onlyFiles)
-						break;
+					if (!onlyFiles){
+						if(regexFileName.Match(dirEntry->d_name))
+							files.push_back(dirEntry->d_name);
+					}
+					break;
 				case DT_REG: //regular file
 					if(regexFileName.Match(dirEntry->d_name))
 						files.push_back(dirEntry->d_name);
