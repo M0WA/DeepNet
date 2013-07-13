@@ -22,6 +22,7 @@
 #include "DeleteStatement.h"
 
 #include "PostgreSQLTableBase.h"
+#include "PostgreSQLInsertOrUpdateStatement.h"
 
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseNotConnectedException.h"
@@ -189,8 +190,10 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	PostgreSQLInsertOrUpdateStatement pgStmt(&stmt);
+
 	lastInsertID = -1;
-	PGresult* res = Execute_Intern(stmt.ToSQL(this).c_str());
+	PGresult* res = Execute_Intern(pgStmt.ToSQL(this).c_str());
 	SetLastInsertID(res);
 	PQclear(res);
 }

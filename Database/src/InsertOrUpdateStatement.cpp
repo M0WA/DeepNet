@@ -30,6 +30,7 @@ InsertOrUpdateStatement::~InsertOrUpdateStatement() {
 std::string InsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
 
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return "";
 }
 
 void InsertOrUpdateStatement::AddSumUpColumn(TableColumnDefinition* colDef) {
@@ -42,9 +43,15 @@ void InsertOrUpdateStatement::AddSumUpColumns(std::vector<TableColumnDefinition*
 	sumColumns.insert(sumColumns.end(),colDefs.begin(),colDefs.end());
 }
 
-InnerJoinCondition& InsertOrUpdateStatement::InnerJoin() {
+bool InsertOrUpdateStatement::IsSumColumn(const std::string& columnName) const {
 
-	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	std::vector< TableColumnDefinition* >::const_iterator iterSum = sumColumns.begin();
+	for(;iterSum != sumColumns.end();++iterSum) {
+		if((*iterSum)->GetColumnName().compare(columnName) == 0)
+			return true;
+	}
+
+	return false;
 }
 
 }

@@ -36,7 +36,20 @@ std::string TableDefinition::GetFullQualifiedTableName(void) const {
 	return (DatabaseName().empty() ? TableName() :  DatabaseName()+"."+TableName());
 }
 
-const TableColumnDefinition* TableDefinition::GetPrimaryKeyColumnDefinition() const {
+std::vector< const TableColumnDefinition* > TableDefinition::GetConstUniqueKeyColumnDefinitions() const {
+
+	std::vector< const TableColumnDefinition* > out;
+
+	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
+	std::vector< TableColumnDefinition* >::const_iterator iterColDefs = colDefs.begin();
+	for(;iterColDefs != colDefs.end();++iterColDefs) {
+		if( (*iterColDefs)->IsUniqueKey() )
+			out.push_back(*iterColDefs);
+	}
+	return out;
+}
+
+const TableColumnDefinition* TableDefinition::GetConstPrimaryKeyColumnDefinition() const {
 
 	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
 	std::vector< TableColumnDefinition* >::const_iterator iterColDefs = colDefs.begin();
@@ -47,6 +60,7 @@ const TableColumnDefinition* TableDefinition::GetPrimaryKeyColumnDefinition() co
 	}
 
 	THROW_EXCEPTION(DatabaseNoPrimaryKeyException);
+	return 0;
 }
 
 const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(const std::string& columnName) const {
@@ -60,6 +74,7 @@ const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(con
 	}
 
 	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	return 0;
 }
 
 }

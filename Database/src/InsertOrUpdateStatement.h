@@ -46,8 +46,14 @@ public:
 	 */
 	void AddSumUpColumns(std::vector<TableColumnDefinition*> colDefs);
 
+	/**
+	 * checks if a certain column is a "sum" column.
+	 * @param columnName column name to check
+	 * @return true if "sum" column, false if not
+	 */
+	bool IsSumColumn(const std::string& columnName) const;
+
 public:
-	virtual InnerJoinCondition& InnerJoin();
 	virtual std::string ToSQL( DatabaseConnection* db ) const;
 
 public:

@@ -148,23 +148,6 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 
 		tblCol->SetClean();
 	}
-
-	/*
-	int noRows = PQntuples(res);
-	if(noRows <= 0) {
-		log::Logging::LogInfo("no rows in resultset for statement");
-		return; }
-
-	int noCol = PQnfields(res);
-	if(noCol <= 0) {
-		log::Logging::LogWarn("no columns in resultset for statement");
-		THROW_EXCEPTION(database::DatabaseNoColumnsException);
-		return; }
-
-	for(int curRow = 0; curRow < noRows; curRow++) {
-		results.push_back(tblBase);
-	}
-	*/
 }
 
 }

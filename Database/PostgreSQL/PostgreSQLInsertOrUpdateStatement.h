@@ -1,26 +1,27 @@
 /**
- * @file MySQLInsertOrUpdateStatement.h
+ *
+ * @file PostgreSQLInsertOrUpdateStatement.h
  * @author Moritz Wagner
- * @date 01.05.2012
+ * @date 13.07.2013
+ *
  */
 
 #pragma once
 
 #include <string>
 
-#include "Statement.h"
-
 namespace database {
-class DatabaseConnection;
+
 class InsertOrUpdateStatement;
+class DatabaseConnection;
 
 /**
- * @brief implementation of a insert or update statement for MySQL servers
+ * @brief implementation of a insert or update statement for PostgreSQL servers
  */
-class MySQLInsertOrUpdateStatement {
+class PostgreSQLInsertOrUpdateStatement {
 public:
-	MySQLInsertOrUpdateStatement(const InsertOrUpdateStatement* stmt);
-	virtual ~MySQLInsertOrUpdateStatement();
+	PostgreSQLInsertOrUpdateStatement(const InsertOrUpdateStatement* stmt);
+	virtual ~PostgreSQLInsertOrUpdateStatement();
 
 public:
 	/**
@@ -35,4 +36,3 @@ private:
 };
 
 }
-

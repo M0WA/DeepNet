@@ -81,13 +81,22 @@ public:
 	 * gets column definition of this table's primary key.
 	 * @return column definition of this table's primary key.
 	 */
-	const TableColumnDefinition* GetPrimaryKeyColumnDefinition() const;
+	const TableColumnDefinition* GetConstPrimaryKeyColumnDefinition() const;
+
+	/**
+	 * gets all unqiue key columns except primary key columns.
+	 * to get primary key column(s)
+	 * @see database::TableBase::GetConstPrimaryKeyColumnDefinition
+	 * @return list of unique key columns
+	 */
+	std::vector< const TableColumnDefinition* > GetConstUniqueKeyColumnDefinitions() const;
 
 	/**
 	 * gets column definition by name.
 	 * @return column definition.
 	 */
 	const TableColumnDefinition* GetConstColumnDefinitionByName(const std::string& columnName) const;
+
 
 private:
 	TableDefinitionCreateParam definition;

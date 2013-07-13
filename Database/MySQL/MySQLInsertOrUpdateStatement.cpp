@@ -17,6 +17,7 @@
 
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseInvalidColumnNameException.h"
+#include "DatabaseNoPrimaryKeyException.h"
 
 namespace database {
 
@@ -34,7 +35,9 @@ std::string MySQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const 
 	if(cols.size() == 0)
 		THROW_EXCEPTION(DatabaseNoColumnsException);
 
-	const TableColumnDefinition* primaryKeyDef = tableBase->GetConstTableDefinition()->GetPrimaryKeyColumnDefinition();
+	const TableColumnDefinition* primaryKeyDef = tableBase->GetConstTableDefinition()->GetConstPrimaryKeyColumnDefinition();
+	if(!primaryKeyDef) {
+		THROW_EXCEPTION(database::DatabaseNoPrimaryKeyException);}
 	const std::string& primaryKeyColumnName = primaryKeyDef->GetColumnName();
 
 	std::stringstream ssQuery;
@@ -52,7 +55,7 @@ std::string MySQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const 
 		if(columnName.compare(primaryKeyColumnName) == 0)
 			continue;
 
-		if(!IsSumColumn(columnName)) {
+		if(!orgStatement->IsSumColumn(columnName)) {
 			ssQuery << ", " << columnName << " = VALUES( " << columnName << " ) ";
 		}
 	}
@@ -68,17 +71,6 @@ std::string MySQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const 
 	}
 
 	return ssQuery.str();
-}
-
-bool MySQLInsertOrUpdateStatement::IsSumColumn(const std::string& columnName) const {
-
-	std::vector< TableColumnDefinition* >::const_iterator iterSum = orgStatement->sumColumns.begin();
-	for(;iterSum != orgStatement->sumColumns.end();++iterSum) {
-		if((*iterSum)->GetColumnName().compare(columnName) == 0)
-			return true;
-	}
-
-	return false;
 }
 
 }
