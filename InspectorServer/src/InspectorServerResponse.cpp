@@ -50,7 +50,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 		std::list<std::string>::const_iterator iterCode = htmlcodes.begin();
 		for(;iterCode != htmlcodes.end();++iterCode){
 
-			bool bIsUrl = false;
+			//bool bIsUrl = false;
 			network::HttpUrl urlIn;
 			std::string fullURL = "";
 			std::string htmlCode = *iterCode;
