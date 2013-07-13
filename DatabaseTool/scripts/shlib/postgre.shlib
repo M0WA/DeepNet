@@ -11,6 +11,6 @@ source ../Scripts/conf/db.generator.conf
 function execute_postgre()
 {
 EXEC_FILENAME=$1
-# echo "executing ${EXEC_FILENAME}"
-# echo "source ${EXEC_FILENAME};" | mysql -p${DBPASS} -u${DBUSER}
+echo "executing ${EXEC_FILENAME}"
+psql -h ${DBHOST} -U ${DBUSER} -P ${DBPASS} -d ${DBNAME} -p ${DBPORT} -f ${EXEC_FILENAME}
 }

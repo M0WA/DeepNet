@@ -36,22 +36,23 @@ our @EXPORT = qw(
 our $VERSION = '0.01';
 
 my %datatype_manufacturer = (
-  "MySQL" => 0,
-  "DB2"   => 1
+  "MySQL"   => 0,
+  "DB2"     => 1,
+  "Postgre" => 2,
 );
 
 #
 # database generic type mapping
 #
 # format:
-#   generic_type => [ MySQL SQL-Type, DB2 SQL-Type ]
+#   generic_type => [ MySQL SQL-Type, DB2 SQL-Type, Postgre SQL-Type ]
 my %datatypes = (
-  "INTEGER"    => [ "INTEGER"  , "INTEGER"  ],
-  "CHAR"       => [ "CHAR"     , "CHAR"     ],
-  "VARCHAR"    => [ "VARCHAR"  , "VARCHAR"  ],
-  "LARGE_TEXT" => [ "VARCHAR"  , "CLOG"     ],
-  "DOUBLE"     => [ "DOUBLE"   , "DOUBLE"   ],
-  "TIMESTAMP"  => [ "TIMESTAMP", "TIMESTAMP"]
+  "INTEGER"    => [ "INTEGER"  , "INTEGER"  , "INTEGER"   ],
+  "CHAR"       => [ "CHAR"     , "CHAR"     , "CHAR"      ],
+  "VARCHAR"    => [ "VARCHAR"  , "VARCHAR"  , "VARCHAR"   ],
+  "LARGE_TEXT" => [ "VARCHAR"  , "CLOG"     , "VARCHAR"   ],
+  "DOUBLE"     => [ "DOUBLE"   , "DOUBLE"   , "DOUBLE"    ],
+  "TIMESTAMP"  => [ "TIMESTAMP", "TIMESTAMP", "TIMESTAMP" ]
 );
 
 my %tables;
@@ -65,7 +66,7 @@ sub new {
 
 #
 #
-# GenerateDDL($MySQLCreateTableDDLFile,$DB2CreateTableDDLFile,%tables)
+# GenerateDDL(%tables)
 #
 # generates DDL SQL script
 #
@@ -77,8 +78,15 @@ sub GenerateDDL
 
   my $MySQLTableDDL = "";
   my $MySQLTableFkDDL = "";
+
   my $DB2TableDDL   = "";
   my $DB2TableFkDDL = "";
+
+  #
+  # TODO: fill postgre ddl from here
+  #
+  my $PostgreTableDDL   = "";
+  my $PostgreTableFkDDL = "";
 
   print "\n\n=========================\n";
   foreach my $tableName (keys %tables) {
@@ -162,12 +170,14 @@ sub GenerateDDL
     $DB2TableDDL   .= $DB2SingleTableDDL;
   }
 
-  $MySQLTableDDL .= "\n".$MySQLTableFkDDL;
-  $DB2TableDDL   .= "\n".$DB2TableFkDDL;
+  $MySQLTableDDL   .= "\n".$MySQLTableFkDDL;
+  $DB2TableDDL     .= "\n".$DB2TableFkDDL;
+  $PostgreTableDDL .= "\n".$PostgreTableFkDDL;
 
   #write to outfiles
   $self->WriteFile("sql/mysql/create_table.sql",$MySQLTableDDL);
   $self->WriteFile("sql/db2/create_table.sql",$DB2TableDDL);
+  $self->WriteFile("sql/postgre/create_table.sql",$PostgreTableDDL);
 }
 
 #

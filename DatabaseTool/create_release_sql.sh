@@ -20,9 +20,12 @@ then
 elif [[ $* == *--db2* ]]
 then
   TYPE="db2"
+elif [[ $* == *--postgre* ]]
+then
+  TYPE="postgre"
 else
   echo "usage: ./create_release_sql.sh [type]"
-  echo "please specify type: --mysql or --db2"
+  echo "please specify type: --mysql or --db2 or --postgre"
   echo ""
   exit 0
 fi
