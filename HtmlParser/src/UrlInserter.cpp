@@ -62,8 +62,8 @@ bool UrlInserter::ValidateURLFile(database::DatabaseConnection* db,const std::mu
 
 DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std::string& sDomain, const std::string& sUrl, bool dumpUrl)
 {
+	tools::Pointer<DatabaseUrl> url, urlDomain;
 	try {
-		tools::Pointer<DatabaseUrl> url, urlDomain;
 		if(!sDomain.empty()){
 			caching::CacheDatabaseUrl::GetByUrlString( db, sDomain, urlDomain );
 			caching::CacheDatabaseUrl::GetByUrlString( db, sUrl, *urlDomain.Get(), url );
@@ -77,13 +77,14 @@ DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std:
 			url.Get()->Dump(urlDump);
 			log::Logging::LogInfo("dumping URL: %s  => %s\n%s",sUrl.c_str(),sDomain.c_str(),urlDump.c_str());
 		}
-		return *url.Get();
 	}
 	catch(errors::Exception& e) {
 
 		log::Logging::LogError("invalid url: %s",sUrl.c_str());
 		throw;
 	}
+
+	return *url.Get();
 }
 
 bool UrlInserter::InsertURL(database::DatabaseConnection* db,const std::string& sDomain, const std::string& sUrl){
