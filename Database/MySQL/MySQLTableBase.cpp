@@ -42,7 +42,7 @@ MySQLTableBase* MySQLTableBase::CreateInstance(
 
 	MySQLTableBase::CreateTableDefinition( fieldNames, fieldCount, tblParam );
 	MySQLTableBase* pTbl = new MySQLTableBase(TableDefinition::CreateInstance(tblParam));
-	MySQLTableBase::SetColumnValues( row, fieldNames, fieldCount, pTbl);
+	pTbl->SetColumnValues(row, fieldNames, fieldCount);
 	return pTbl;
 }
 
@@ -112,6 +112,7 @@ void MySQLTableBase::CreateTableDefinition(
 		case MYSQL_TYPE_GEOMETRY:
 		default:
 			THROW_EXCEPTION(DatabaseInvalidTypeException);
+			break;
 		}
 
 		paramIn.columnDefinitions.push_back(TableColumnDefinition::CreateInstance(colParam));
@@ -124,13 +125,12 @@ void MySQLTableBase::CreateTableDefinition(
 void MySQLTableBase::SetColumnValues(
 		const MYSQL_ROW& row,
 		const MYSQL_FIELD* fieldNames,
-		const unsigned int fieldCount,
-		MySQLTableBase* pTbl)
+		const unsigned int fieldCount)
 {
 	for(unsigned int i = 0;i< fieldCount;i++) {
 
 		std::stringstream ssConvert;
-		TableColumn* col = pTbl->GetColumnByName(fieldNames[i].name);
+		TableColumn* col = GetColumnByName(fieldNames[i].name);
 
 		if( row[i] == 0 ) {
 
@@ -184,6 +184,7 @@ void MySQLTableBase::SetColumnValues(
 
 			default:
 				THROW_EXCEPTION(DatabaseInvalidTypeException);
+				break;
 			}
 		}
 	}

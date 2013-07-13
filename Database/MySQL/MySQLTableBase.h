@@ -12,6 +12,7 @@
 
 namespace database {
 
+class MySQLConnection;
 class TableDefinitionCreateParam;
 class TableDefinition;
 
@@ -19,8 +20,12 @@ class TableDefinition;
  * @brief implementation of database::TableBase for MySQL servers
  */
 class MySQLTableBase : public TableBase {
-public:
+
+	friend class MySQLConnection;
+
+private:
 	MySQLTableBase(TableDefinition* definition);
+public:
 	virtual ~MySQLTableBase();
 
 public:
@@ -35,11 +40,11 @@ private:
 			const unsigned int fieldCount,
 			TableDefinitionCreateParam& paramIn);
 
-	static void SetColumnValues(
+private:
+	void SetColumnValues(
 			const MYSQL_ROW& row,
 			const MYSQL_FIELD* fieldNames,
-			const unsigned int fieldCount,
-			MySQLTableBase* pTbl);
+			const unsigned int fieldCount);
 };
 
 }
