@@ -25,8 +25,8 @@ elif [[ $* == *--db2* ]]
 then
 TYPE="db2"
 elif [[ $* == *-postgre* ]]
-TYPE="postgre"
 then
+TYPE="postgre"
 else
   echo "usage: ./create.sh [type]"
   echo "please specify type: --mysql or --db2 or --postgre"

@@ -82,6 +82,7 @@ sub GenerateDDL
   my $DB2TableDDL   = "";
   my $DB2TableFkDDL = "";
 
+
   #
   # TODO: fill postgre ddl from here
   #
@@ -91,8 +92,9 @@ sub GenerateDDL
   print "\n\n=========================\n";
   foreach my $tableName (keys %tables) {
 
-    my $MySQLCreateTableDDL = "";
-    my $DB2CreateTableDDL   = "";
+    my $MySQLCreateTableDDL   = "";
+    my $DB2CreateTableDDL     = "";
+    my $PostgreCreateTableDDL = "";
 
     #prepare table specific variables
     my %table_attributes = %{$tables{$tableName}};
@@ -116,17 +118,21 @@ sub GenerateDDL
     my $count = 0;
     foreach my $column (@columns) {
       my %column_attributes = %$column;
-      my ($MySQLColumnDDL,$DB2ColumnDDL) = $self->GenerateColumnDDL(%column_attributes);
-      if($count != 0){
-        $MySQLColumnDDL = ",\n ".$MySQLColumnDDL;
-        $DB2ColumnDDL   = ",\n ".$DB2ColumnDDL; 
-      } else {
-        $MySQLColumnDDL = "\n ".$MySQLColumnDDL;
-        $DB2ColumnDDL   = "\n ".$DB2ColumnDDL;
-      }
+      my ($MySQLColumnDDL,$DB2ColumnDDL,$PostgreColumnDDL) = $self->GenerateColumnDDL(%column_attributes);
   
-      $MySQLCreateTableDDL .= $MySQLColumnDDL;
-      $DB2CreateTableDDL   .= $DB2ColumnDDL;
+      if($count != 0){
+        $MySQLCreateTableDDL   .= ",";
+        $DB2CreateTableDDL     .= ",";
+        $PostgreCreateTableDDL .= ","; }
+
+      $MySQLColumnDDL   = "\n ".$MySQLColumnDDL;
+      $DB2ColumnDDL     = "\n ".$DB2ColumnDDL;
+      $PostgreColumnDDL = "\n ".$PostgreColumnDDL;
+
+      $MySQLCreateTableDDL   .= $MySQLColumnDDL;
+      $DB2CreateTableDDL     .= $DB2ColumnDDL;
+      $PostgreCreateTableDDL .= $PostgreColumnDDL;
+
       $count++;
     }
 
@@ -165,9 +171,11 @@ sub GenerateDDL
     }
 
     #generate table ddl
-    my ($MySQLSingleTableDDL,$DB2SingleTableDDL) = $self->GenerateTableDDL($MySQLCreateTableDDL,$DB2CreateTableDDL,%table_attributes);
-    $MySQLTableDDL .= $MySQLSingleTableDDL;
-    $DB2TableDDL   .= $DB2SingleTableDDL;
+    my ($MySQLSingleTableDDL,$DB2SingleTableDDL,$PostgreSingleTableDDL) = $self->GenerateTableDDL($MySQLCreateTableDDL,$DB2CreateTableDDL,$PostgreCreateTableDDL,%table_attributes);
+
+    $MySQLTableDDL   .= $MySQLSingleTableDDL;
+    $DB2TableDDL     .= $DB2SingleTableDDL;
+    $PostgreTableDDL .= $PostgreSingleTableDDL;
   }
 
   $MySQLTableDDL   .= "\n".$MySQLTableFkDDL;
@@ -269,7 +277,7 @@ sub GenerateIndexDDL
 
 #
 #
-# ($MySQLColumnDDL,$DB2ColumnDDL) GenerateColumnDDL(%column_attributes)
+# ($MySQLColumnDDL,$DB2ColumnDDL,$PostgreColumnDDL) GenerateColumnDDL(%column_attributes)
 #
 # generates column sql ddl
 #
@@ -278,51 +286,60 @@ sub GenerateColumnDDL
 {
   my ($self, %column_attributes) = @_;
 
-  my $MySQLDataType = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"MySQL"}];
-  my $DB2DataType   = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"DB2"}];
+  my $MySQLDataType   = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"MySQL"}];
+  my $DB2DataType     = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"DB2"}];
+  my $PostgreDataType = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"Postgre"}];
   
   if($column_attributes{'isSized'} == 1) {
-    $MySQLDataType .= $column_attributes{'typeSize'};
-    $DB2DataType   .= $column_attributes{'typeSize'};
+    $MySQLDataType   .= $column_attributes{'typeSize'};
+    $DB2DataType     .= $column_attributes{'typeSize'};
+    $PostgreDataType .= $column_attributes{'typeSize'};
   }
 
-  if(! $MySQLDataType || ! $DB2DataType  )
+  if(! $MySQLDataType || ! $DB2DataType || ! $PostgreDataType )
   {
     print "unknown data-type ".$column_attributes{'typeUnsized'}."\n";
     exit 1;
   }
 
-  my $MySQLColumnDefinition = $column_attributes{'name'}." ".$MySQLDataType;
-  my $DB2ColumnDefinition   = $column_attributes{'name'}." ".$DB2DataType;
+  my $MySQLColumnDefinition   = $column_attributes{'name'}." ".$MySQLDataType;
+  my $DB2ColumnDefinition     = $column_attributes{'name'}." ".$DB2DataType;
+  my $PostgreColumnDefinition = $column_attributes{'name'}." ".$PostgreDataType;
 
   if( $column_attributes{'autoincrement'} && ($column_attributes{'autoincrement'} == 1) ) {
     $MySQLColumnDefinition .= ' AUTO_INCREMENT';
     $DB2ColumnDefinition   .= ' GENERATED ALWAYS AS IDENTITY';
+    #postgres has own data type for primary keys, so ignore "real" datatype for primary keys
+    $PostgreColumnDefinition = $column_attributes{'name'}." BIGSERIAL";
   }
 
   if( $column_attributes{'notnull'} && ($column_attributes{'notnull'} == 1) ) {
-    $MySQLColumnDefinition .= ' NOT NULL';
-    $DB2ColumnDefinition   .= ' NOT NULL';
+    $MySQLColumnDefinition   .= ' NOT NULL';
+    $DB2ColumnDefinition     .= ' NOT NULL';
+    $PostgreColumnDefinition .= ' NOT NULL';
   }
 
   if( $column_attributes{'hasDefault'} && ($column_attributes{'hasDefault'} == 1) ) {
-    $MySQLColumnDefinition .= ' DEFAULT '.$column_attributes{'defaultValue'};
-    $DB2ColumnDefinition   .= ' DEFAULT '.$column_attributes{'defaultValue'};
+    $MySQLColumnDefinition   .= ' DEFAULT '.$column_attributes{'defaultValue'};
+    $DB2ColumnDefinition     .= ' DEFAULT '.$column_attributes{'defaultValue'};
+    $PostgreColumnDefinition .= ' DEFAULT '.$column_attributes{'defaultValue'};
   }
 
-  return @{[$MySQLColumnDefinition,$DB2ColumnDefinition]};
+  return @{[$MySQLColumnDefinition,$DB2ColumnDefinition,$PostgreColumnDefinition]};
 }
 
 #
 #
-# ($MySQLDDL,$DB2DDL) GenerateTableDDL($MySQLCreateTableDDL,$DB2CreateTableDDL,%tableAttributes)
+# ($MySQLDDL,$DB2DDL,$PostgreDDL) GenerateTableDDL($MySQLCreateTableDDL,$DB2CreateTableDDL,$PostgreCreateTableDDL,%tableAttributes)
 #
 # generates table sql ddl
 #
 #
 sub GenerateTableDDL
 {
-  my ($self,$MySQLCreateTableDDL,$DB2CreateTableDDL,%tableAttributes) = @_;
+  my ($self,$MySQLCreateTableDDL,$DB2CreateTableDDL,$PostgreCreateTableDDL,%tableAttributes) = @_;
+
+  #create prefixes for tables
 
   my $MySQLTableDDLPrefix = "\n\n/* ".$tableAttributes{'name'}." - MySQL */".
   "\nCREATE TABLE IF NOT EXISTS  ".$tableAttributes{'MySQL_Database'}.".".$tableAttributes{'name'}." (ID INTEGER);".
@@ -331,13 +348,22 @@ sub GenerateTableDDL
 
   my $DB2TableDDLPrefix   = "\n\n/* ".$tableAttributes{'name'}." - DB2   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
 
+  my $PostgreTableDDLPrefix = "\nDROP TABLE ".$tableAttributes{'name'}.";";
+  $PostgreTableDDLPrefix .= "\n\n/* ".$tableAttributes{'name'}." - Postgre   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
+
+  #create postfix for tables  
+
   my $MySQLTableDDLPostfix = ") ".$tableAttributes{'MySQL_Engine'}.";\nSHOW WARNINGS;\n";
   my $DB2TableDDLPostfix   = ");\n";
+  my $PostgreTableDDLPostfix   = ");\n";
 
-  my $MySQLDDL = $MySQLTableDDLPrefix.$MySQLCreateTableDDL."\n".$MySQLTableDDLPostfix;
-  my $DB2DDL   = $DB2TableDDLPrefix  .$DB2CreateTableDDL  ."\n".$DB2TableDDLPostfix;
+  #assemble table DDL
 
-  return @{[$MySQLDDL,$DB2DDL]};
+  my $MySQLDDL   = $MySQLTableDDLPrefix.$MySQLCreateTableDDL."\n".$MySQLTableDDLPostfix;
+  my $DB2DDL     = $DB2TableDDLPrefix  .$DB2CreateTableDDL  ."\n".$DB2TableDDLPostfix;
+  my $PostgreDDL = $PostgreTableDDLPrefix  .$PostgreCreateTableDDL  ."\n".$PostgreTableDDLPostfix;
+
+  return @{[$MySQLDDL,$DB2DDL,$PostgreDDL]};
 }
 
 sub WriteFile {
@@ -360,7 +386,7 @@ DDLGenerator - Perl extension for blah blah blah
 
   use DDLGenerator;
 
-  ($MySQLCreateTableDDL,$DB2CreateTableDDL) GenerateDDL(%tables); # generates complete sql ddl script
+  ($MySQLCreateTableDDL,$DB2CreateTableDDL,$PostgreCreateTableDDL) GenerateDDL(%tables); # generates complete sql ddl script
 
   # function beyond are not exported  
   string GenerateTableDDL(%tableAttributes); #generates table sql ddl
