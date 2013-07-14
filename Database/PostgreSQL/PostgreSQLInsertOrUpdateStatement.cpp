@@ -27,7 +27,7 @@
 
 namespace database {
 
-PostgreSQLInsertOrUpdateStatement::PostgreSQLInsertOrUpdateStatement(const InsertOrUpdateStatement* stmt)
+PostgreSQLInsertOrUpdateStatement::PostgreSQLInsertOrUpdateStatement(const InsertOrUpdateStatement& stmt)
 : orgStatement(stmt){
 }
 
@@ -80,7 +80,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 		setNewValuesColumnNames, whereNewValuesColumnNames,
 		whereInsertColumnNames;
 
-	const TableBase* tableBase = orgStatement->GetConstTableBase();
+	const TableBase* tableBase = orgStatement.GetConstTableBase();
 	const TableDefinition* tblDef = tableBase->GetConstTableDefinition();
 
 	const std::vector<TableColumn*>& cols = tableBase->GetConstColumns();
@@ -100,7 +100,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 			continue;
 		}
 
-		if(orgStatement->IsSumColumn(curColName)) {
+		if(orgStatement.IsSumColumn(curColName)) {
 			THROW_EXCEPTION(errors::NotImplementedException,"PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys() for sum columns");
 		}
 
@@ -161,7 +161,7 @@ std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) c
 
 	std::stringstream ssQuery;
 
-	const TableBase* tableBase = orgStatement->GetConstTableBase();
+	const TableBase* tableBase = orgStatement.GetConstTableBase();
 	const TableDefinition* tblDef = tableBase->GetConstTableDefinition();
 
 	if(tableBase->GetConstColumns().size() == 0)

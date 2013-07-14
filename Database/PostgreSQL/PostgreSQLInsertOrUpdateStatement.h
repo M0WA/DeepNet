@@ -20,7 +20,7 @@ class DatabaseConnection;
  */
 class PostgreSQLInsertOrUpdateStatement {
 public:
-	PostgreSQLInsertOrUpdateStatement(const InsertOrUpdateStatement* stmt);
+	PostgreSQLInsertOrUpdateStatement(const InsertOrUpdateStatement& stmt);
 	virtual ~PostgreSQLInsertOrUpdateStatement();
 
 public:
@@ -36,7 +36,7 @@ private:
 	std::string UpdateOrInsertByUniqueKeys( DatabaseConnection* db ) const;
 
 private:
-	const InsertOrUpdateStatement* orgStatement;
+	const InsertOrUpdateStatement& orgStatement;
 };
 
 }

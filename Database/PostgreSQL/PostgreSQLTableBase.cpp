@@ -91,10 +91,6 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 
 		case ABSTIMEOID:
 			colCreateParam.columnType = DB_TYPE_TIMESTAMP;
-			//
-			//TODO: how to process timestamps
-			//
-			THROW_EXCEPTION(errors::NotImplementedException,"converting timestamps not implemented for PostgreSQL");
 			break;
 
 		default:

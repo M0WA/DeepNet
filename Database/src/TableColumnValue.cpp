@@ -130,10 +130,11 @@ void TableColumnValue::Get(double& out) const {
 
 std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 
-	std::string stringQuotation;
+	std::string stringQuotation, timestampPrefix;
 	switch(db->GetDatabaseType()) {
 	case DB_POSTGRESQL:
 		stringQuotation = "'";
+		timestampPrefix = " timestamp ";
 		break;
 
 	case DB_IBM_DB2:
@@ -179,7 +180,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		Get(rawValue);
 		std::string timeString;
 		DatabaseHelper::TmToDateTime(rawValue,timeString);
-		ssSQLValue << stringQuotation << timeString << stringQuotation;
+		ssSQLValue << timestampPrefix << stringQuotation << timeString << stringQuotation;
 	}
 		break;
 

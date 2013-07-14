@@ -20,9 +20,11 @@
 #include "InsertOrUpdateStatement.h"
 #include "UpdateStatement.h"
 #include "DeleteStatement.h"
+#include "TableColumn.h"
 
 #include "PostgreSQLTableBase.h"
 #include "PostgreSQLInsertOrUpdateStatement.h"
+#include "PostgreSQLInsertOrUpdateAffectedKeyStatement.h"
 
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseNotConnectedException.h"
@@ -214,12 +216,39 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	PostgreSQLInsertOrUpdateStatement pgStmt(&stmt);
+	PostgreSQLInsertOrUpdateStatement pgStmt(stmt);
 
 	lastInsertID = -1;
 	PGresult* res = Execute_Intern(pgStmt.ToSQL(this).c_str());
 	SetLastInsertID(res);
 	PQclear(res);
+
+	if(lastInsertID == -1) {
+		long long tmpAffected = affectedRows;
+		PostgreSQLInsertOrUpdateAffectedKeyStatement selectIDStmt(stmt);
+		SelectResultContainer<TableBase> results;
+		DatabaseConnection::Select(dynamic_cast<const SelectStatement&>(selectIDStmt),results);
+
+		if(results.Size() != 1) {
+			//
+			//TODO: rollback transaction
+			//
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
+		}
+		results.ResetIter();
+		const std::vector<TableColumn*>& cols = results.GetConstIter()->GetConstColumns();
+		if(cols.size() != 1) {
+			//
+			//TODO: rollback transaction
+			//
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
+		}
+
+		TableColumn* priKeyCol = cols.at(0);
+		priKeyCol->Get(lastInsertID);
+
+		affectedRows = tmpAffected;
+	}
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){

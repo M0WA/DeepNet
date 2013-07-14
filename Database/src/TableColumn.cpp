@@ -217,6 +217,7 @@ void TableColumn::CopyValue(const TableColumn* copyCol) {
 		SetNull();
 	}
 	else {
+		isNull = false;
 		switch(columnDefinition->GetColumnType())
 		{
 		case DB_TYPE_INTEGER:
