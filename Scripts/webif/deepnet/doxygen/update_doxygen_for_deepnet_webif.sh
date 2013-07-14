@@ -8,6 +8,8 @@
 #
 #########################################################
 
+rm doxygen.tgz
+svn up doxygen.tgz
 rm -rf html
 mkdir -p html
 tar -zxvf doxygen.tgz -C html
