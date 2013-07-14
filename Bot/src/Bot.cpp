@@ -341,10 +341,12 @@ void Bot::RegisterDatabaseConfigParams(void)
 	Config().RegisterParam( "dbname", "database name"    , true, 0 );
 	Config().RegisterParam( "dbuser", "database username", true, 0 );
 	Config().RegisterParam( "dbpass", "database password", true, 0 );
+	Config().RegisterFlag( "dblogquery", "logs all queries", false );
 }
 
 bool Bot::InitDatabaseConfigs(void)
 {
+
 	bool bSuccess = true;
 	std::string tmp;
 	if( ( bSuccess &= Config().GetValue("dbtype", tmp) ) ) {
@@ -372,7 +374,11 @@ bool Bot::InitDatabaseConfigs(void)
 	if( ( bSuccess &= Config().GetValue("dbpass", tmp) ) ) {
 		dbConfig->SetPass(tmp);}
 
-	if(!DB().CreateConnection(dbConfig)){
+	bool logQuery = true;
+	if(!Config().GetValue("dblogquery",logQuery)){
+		logQuery = false;}
+
+	if(!DB().CreateConnection(dbConfig,logQuery)){
 		log::Logging::LogError("could not create database connection");
 		return false; }
 
