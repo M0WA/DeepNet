@@ -81,6 +81,7 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 			colCreateParam.columnType = DB_TYPE_INTEGER;
 			break;
 
+		case VARCHAROID:
 		case TEXTOID:
 		case BYTEAOID:
 			colCreateParam.columnType = DB_TYPE_VARCHAR;
@@ -88,6 +89,9 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 
 		case ABSTIMEOID:
 			colCreateParam.columnType = DB_TYPE_TIMESTAMP;
+			//
+			//TODO: how to process timestamps
+			//
 			break;
 
 		default:
@@ -126,7 +130,25 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 			switch(tblCol->GetConstColumnDefinition()->GetColumnType()) {
 
 			case DB_TYPE_DOUBLE:
+			{
+				double convert;
+				std::stringstream ss;
+				ss << PQgetvalue(res,curRow,curCol);
+				ss >> convert;
+				tblCol->Set(convert);
+			}
+				break;
+
 			case DB_TYPE_INTEGER:
+			{
+				long long convert;
+				std::stringstream ss;
+				ss << PQgetvalue(res,curRow,curCol);
+				ss >> convert;
+				tblCol->Set(convert);
+			}
+				break;
+
 			case DB_TYPE_VARCHAR:
 				tblCol->Set(PQgetvalue(res,curRow,curCol));
 				break;
@@ -137,6 +159,7 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 					if(!tools::TimeTools::TryParseDate(PQgetvalue(res,curRow,curCol),out)) {
 						THROW_EXCEPTION(database::DatabaseInvalidTypeException);
 						return;	}
+					tblCol->Set(out);
 				}
 				break;
 
