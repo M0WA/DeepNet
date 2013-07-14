@@ -77,7 +77,7 @@ std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) c
 		const TableColumnDefinition* colDef = col->GetConstColumnDefinition();
 		if(colDef->IsUniqueKey() || colDef->IsPrimaryKey()) {
 			if(orgStatement->IsSumColumn(col->GetColumnName())) {
-				THROW_EXCEPTION(database::PostgreSQLUniqueKeyIsSumColumnException); }
+				THROW_EXCEPTION(database::PostgreSQLUniqueKeyIsSumColumnException,0,col->GetColumnName() + " is a sum column"); }
 
 			colNames.push_back(col->GetColumnName());
 			colVals.push_back(col->GetForSQL(db));

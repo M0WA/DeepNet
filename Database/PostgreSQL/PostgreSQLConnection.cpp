@@ -144,9 +144,7 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	if(!res) {
 		affectedRows = -1;
 		lastInsertID = -1;
-		std::string exMsg(PQerrorMessage(connection));
-		exMsg += "query: " + query;
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException, exMsg); }
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException, connection, query); }
 
 	std::stringstream ssIn;
 	ssIn <<	PQcmdTuples(res);
@@ -189,10 +187,8 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 		affectedRows = -1;
 		lastInsertID = -1;
 		res = 0;
-		std::string exMsg(PQerrorMessage(connection));
 		PQclear(res);
-		exMsg += "query: " + query;
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,exMsg);
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,query);
 		break;
 	}
 

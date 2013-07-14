@@ -13,8 +13,10 @@ namespace database {
 PostgreSQLUniqueKeyIsSumColumnException::PostgreSQLUniqueKeyIsSumColumnException(
 	const std::string& file,
 	const int line,
-	const std::string& function)
-: database::DatabaseException(file,line,function,"PostgreSQLUniqueKeyIsSumColumnException","unique key cannot be a sum column") {
+	const std::string& function,
+	PGconn* connection,
+	const std::string& msg)
+: database::PostgreSQLException(file,line,function,"PostgreSQLUniqueKeyIsSumColumnException",connection,"unique key cannot be a sum column") {
 }
 
 PostgreSQLUniqueKeyIsSumColumnException::~PostgreSQLUniqueKeyIsSumColumnException() {

@@ -8,16 +8,18 @@
 
 #pragma once
 
-#include "DatabaseException.h"
+#include "PostgreSQLException.h"
 
 namespace database {
 
-class PostgreSQLUniqueKeyIsSumColumnException: public database::DatabaseException {
+class PostgreSQLUniqueKeyIsSumColumnException: public database::PostgreSQLException {
 public:
 	PostgreSQLUniqueKeyIsSumColumnException(
 		const std::string& file,
 		const int line,
-		const std::string& function);
+		const std::string& function,
+		PGconn* connection,
+		const std::string& msg);
 	virtual ~PostgreSQLUniqueKeyIsSumColumnException();
 };
 
