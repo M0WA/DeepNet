@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 __TMPL_TABLE_BASE__INCLUDE_INNER_JOIN_FIELDS__

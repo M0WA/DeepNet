@@ -4,6 +4,8 @@
 #include "__TMPL_TABLE_NAME__TableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 __TMPL_TABLE_NAME__TableDefinitionCreateParam::__TMPL_TABLE_NAME__TableDefinitionCreateParam()
