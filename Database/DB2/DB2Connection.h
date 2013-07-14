@@ -27,7 +27,7 @@ public:
 	virtual ~DB2Connection();
 
 public:
-	virtual bool Connect   (DatabaseConfig* dbConfig);
+	virtual bool Connect   (const DatabaseConfig* dbConfig);
 	virtual bool Disconnect(void);
 	virtual bool Connected (void);
 

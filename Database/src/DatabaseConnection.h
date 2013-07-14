@@ -51,7 +51,7 @@ public:
 	 * @param config database config.
 	 * @return false on error, true on success.
 	 */
-	virtual bool Connect(DatabaseConfig* config)=0;
+	virtual bool Connect(const DatabaseConfig* dbConfig)=0;
 
 	/**
 	 * disconnect from database.

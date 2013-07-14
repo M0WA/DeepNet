@@ -21,7 +21,7 @@ DB2Connection::~DB2Connection()
 {
 }
 
-bool DB2Connection::Connect(DatabaseConfig* dbConfig)
+bool DB2Connection::Connect(const DatabaseConfig* dbConfig)
 {
 	//config = reinterpret_cast<DB2DatabaseConfig*>(dbConfig);
 	THROW_EXCEPTION(errors::NotImplementedException,"database");

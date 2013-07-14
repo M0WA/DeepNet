@@ -32,6 +32,7 @@ namespace database {
 
 PostgreSQLConnection::PostgreSQLConnection(const bool logQuery)
 : database::DatabaseConnection(DB_POSTGRESQL,logQuery)
+, config(0)
 , connection(0)
 , affectedRows(-1)
 , lastInsertID(-1){
@@ -42,11 +43,19 @@ PostgreSQLConnection::~PostgreSQLConnection() {
 		Disconnect();
 }
 
-bool PostgreSQLConnection::Connect(DatabaseConfig* dbConfig){
+bool PostgreSQLConnection::Connect(const DatabaseConfig* dbConfig){
 
 	if(PQisthreadsafe() == 0) {
 		log::Logging::LogError("please use a thread-safe version of libpq");
 		return false; }
+
+	if(dbConfig->GetType() != GetDatabaseType()) {
+		log::Logging::LogError("type of database config is wrong");
+		return false;
+	}
+	else {
+		config = reinterpret_cast<const PostgreSQLDatabaseConfig*>(dbConfig);
+	}
 
 	tools::StringTools::FormatString(
 		connectionString,
@@ -57,12 +66,15 @@ bool PostgreSQLConnection::Connect(DatabaseConfig* dbConfig){
 		"password = '%s' ",
 		dbConfig->GetHost().c_str(),
 		dbConfig->GetPort(),
+		dbConfig->GetDatabaseName().c_str(),
 		dbConfig->GetUser().c_str(),
-		dbConfig->GetPass().c_str(),
-		dbConfig->GetDatabaseName().c_str()
+		dbConfig->GetPass().c_str()
 	);
 
 	connection = PQconnectdb(connectionString.c_str());
+	if (PQstatus(connection) != CONNECTION_OK) {
+		log::Logging::LogError("Connection to database failed: %s",	PQerrorMessage(connection));
+		Disconnect(); }
 	return connection;
 }
 
@@ -71,6 +83,7 @@ bool PostgreSQLConnection::Disconnect(void){
 	if(connection)
 		PQfinish(connection);
 
+	config = 0;
 	connection = 0;
 	connectionString.clear();
 	affectedRows = lastInsertID = -1;
@@ -78,6 +91,14 @@ bool PostgreSQLConnection::Disconnect(void){
 }
 
 bool PostgreSQLConnection::Connected(void){
+
+	if(!connection)
+		return false;
+
+	if (PQstatus(connection) != CONNECTION_OK) {
+		log::Logging::LogError("Connection to database failed: %s",	PQerrorMessage(connection));
+		Disconnect(); }
+
 	return connection;
 }
 
@@ -123,7 +144,9 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	if(!res) {
 		affectedRows = -1;
 		lastInsertID = -1;
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,query); }
+		std::string exMsg(PQerrorMessage(connection));
+		exMsg += "query: " + query;
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException, exMsg); }
 
 	std::stringstream ssIn;
 	ssIn <<	PQcmdTuples(res);
@@ -165,9 +188,11 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	default:
 		affectedRows = -1;
 		lastInsertID = -1;
-		PQclear(res);
 		res = 0;
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,query);
+		std::string exMsg(PQerrorMessage(connection));
+		PQclear(res);
+		exMsg += "query: " + query;
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,exMsg);
 		break;
 	}
 

@@ -15,7 +15,7 @@ PostgreSQLInvalidStatementException::PostgreSQLInvalidStatementException(
 		const int line,
 		const std::string& function,
 		const std::string& stmt)
-: database::DatabaseException(file,line,function,"PostgreSQLInvalidStatementException", "invalid statement " + stmt){
+: database::DatabaseException(file,line,function,"PostgreSQLInvalidStatementException", stmt){
 }
 
 PostgreSQLInvalidStatementException::~PostgreSQLInvalidStatementException() {

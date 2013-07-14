@@ -48,9 +48,15 @@ MySQLConnection::~MySQLConnection()
 	mysql_thread_end();
 }
 
-bool MySQLConnection::Connect(DatabaseConfig* dbConfig)
+bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 {
-	config = reinterpret_cast<MySQLDatabaseConfig*>(dbConfig);
+
+	if(dbConfig->GetType() != GetDatabaseType()) {
+		log::Logging::LogError("type of database config is wrong");
+		return false;
+	}
+
+	config = reinterpret_cast<const MySQLDatabaseConfig*>(dbConfig);
 	if(mysqlConnection)
 	{
 		Disconnect();
