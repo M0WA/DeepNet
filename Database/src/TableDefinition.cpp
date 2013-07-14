@@ -6,11 +6,15 @@
 
 #include "TableDefinition.h"
 
+#include "DatabaseHelper.h"
 #include "TableColumnDefinition.h"
 
-#include <NotImplementedException.h>
 #include "DatabaseNoPrimaryKeyException.h"
 #include "DatabaseInvalidColumnNameException.h"
+
+#include <StringTools.h>
+
+#include <NotImplementedException.h>
 
 namespace database {
 
@@ -63,7 +67,17 @@ const TableColumnDefinition* TableDefinition::GetConstPrimaryKeyColumnDefinition
 	return 0;
 }
 
-const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(const std::string& columnName) const {
+const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(std::string columnName) const {
+
+
+	switch(DatabaseHelper::GetDatabaseType())
+	{
+	case DB_POSTGRESQL:
+		tools::StringTools::ToLowerIP(columnName);
+		break;
+	default:
+		break;
+	}
 
 	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
 	std::vector< TableColumnDefinition* >::const_iterator iterColDefs = colDefs.begin();

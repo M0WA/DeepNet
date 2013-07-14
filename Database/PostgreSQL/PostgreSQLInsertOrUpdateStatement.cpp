@@ -19,7 +19,9 @@
 
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseNoPrimaryKeyException.h"
+
 #include "PostgreSQLUniqueKeyIsSumColumnException.h"
+#include "PostgreSQLInvalidStatementException.h"
 
 #include <NotImplementedException.h>
 
@@ -32,102 +34,148 @@ PostgreSQLInsertOrUpdateStatement::PostgreSQLInsertOrUpdateStatement(const Inser
 PostgreSQLInsertOrUpdateStatement::~PostgreSQLInsertOrUpdateStatement() {
 }
 
-std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
+std::string PostgreSQLInsertOrUpdateStatement::UpdateByPrimaryKey( DatabaseConnection* db ) const {
+	//
+	//TODO
+	//
+	THROW_EXCEPTION(errors::NotImplementedException,"PostgreSQLInsertOrUpdateStatement::UpdateByPrimaryKey()");
+	return "";
+}
+
+std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( DatabaseConnection* db ) const {
 
 	//example:
 	/*
-	WITH new_values (id, field1, field2) as (
-	  values
-	     (1, 'A', 'X'),
-	     (2, 'B', 'Y'),
-	     (3, 'C', 'Z')
-
-	),
-	upsert as
+	WITH new_values
+	  (domain)
+	AS
+	  (VALUES ('domainname') ),
+	upsert AS
 	(
-	    update mytable m
-	        set field1 = nv.field1,
-	            field2 = nv.field2
-	    FROM new_values nv
-	    WHERE m.id = nv.id
-	    RETURNING m.*
+	  UPDATE deepnet.public.secondleveldomains m
+	  SET
+		domain = nv.domain
+	  FROM new_values nv
+	  WHERE
+		m.domain = nv.domain
+	  RETURNING m.*
 	)
-	INSERT INTO mytable (id, field1, field2)
-	SELECT id, field1, field2
+	INSERT INTO deepnet.public.secondleveldomains (domain)
+	SELECT
+	  domain
 	FROM new_values
-	WHERE NOT EXISTS (SELECT 1
-	                  FROM upsert up
-	                  WHERE up.id = new_values.id)
+	WHERE NOT EXISTS
+	(
+	  SELECT
+		1
+	  FROM
+		upsert up
+	  WHERE
+		domain = new_values.domain
+	)
 	*/
+
+	std::vector<std::string>
+		newValuesColumnNames, newValuesColumnValues,
+		setNewValuesColumnNames, whereNewValuesColumnNames,
+		whereInsertColumnNames;
+
+	const TableBase* tableBase = orgStatement->GetConstTableBase();
+	const TableDefinition* tblDef = tableBase->GetConstTableDefinition();
+
+	const std::vector<TableColumn*>& cols = tableBase->GetConstColumns();
+	std::vector<TableColumn*>::const_iterator iCols = cols.begin();
+	for(;iCols != cols.end();++iCols) {
+
+		const TableColumn* pCurCol = (*iCols);
+		const std::string& curColName = pCurCol->GetColumnName();
+		const TableColumnDefinition* pCurColDef = tblDef->GetConstColumnDefinitionByName(curColName);
+
+		//ignore primary keys, should be NULL anyway
+		//otherwise UpdateOrInsertByUniqueKeys() would
+		//not have been called in first place
+		if(pCurColDef->IsPrimaryKey()) {
+			if(!tableBase->GetConstColumnByName(curColName)->IsNull()) {
+				THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"primary key cannot be NULL but it is"); }
+			continue;
+		}
+
+		if(orgStatement->IsSumColumn(curColName)) {
+			THROW_EXCEPTION(errors::NotImplementedException,"PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys() for sum columns");
+		}
+
+		if(pCurCol->IsNull() && !pCurColDef->IsNullable() && !pCurColDef->HasDefaultValue()) {
+			THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,curColName + " must contain value, column is not nullable and has no default value");
+		}
+
+		if(pCurCol->IsNull()) {
+			continue; }
+
+		newValuesColumnNames.push_back(curColName);
+		newValuesColumnValues.push_back(pCurCol->GetForSQL(db));
+		setNewValuesColumnNames.push_back(curColName+"=nvu."+curColName);
+
+		//add unique columns to where clauses
+		if(pCurColDef->IsUniqueKey() && !pCurColDef->IsPrimaryKey()) {
+			whereNewValuesColumnNames.push_back("m."+curColName+"=nvu."+curColName);
+			whereInsertColumnNames.push_back(curColName+"=nvi."+curColName);
+		}
+	}
+
+	std::string newValuesColumnNamesString,newValuesColumnValuesString,setNewValuesColumnNamesString,whereNewValuesColumnNamesString,whereInsertColumnNamesString;
+	tools::StringTools::VectorToString(newValuesColumnNames,newValuesColumnNamesString,",");
+	tools::StringTools::VectorToString(newValuesColumnValues,newValuesColumnValuesString,",");
+	tools::StringTools::VectorToString(setNewValuesColumnNames,setNewValuesColumnNamesString,",");
+	tools::StringTools::VectorToString(whereNewValuesColumnNames,whereNewValuesColumnNamesString," OR ");
+	tools::StringTools::VectorToString(whereInsertColumnNames,whereInsertColumnNamesString," OR ");
+
+	std::string fullQualifiedTableName(tblDef->GetFullQualifiedTableName());
+	std::stringstream ssQuery;
+	ssQuery <<
+" \
+WITH vals \
+	(" << newValuesColumnNamesString << ") \
+AS \
+	(VALUES (" << newValuesColumnValuesString << ") ), \
+upsert AS \
+( \
+	UPDATE " << fullQualifiedTableName << " m \
+	SET " << setNewValuesColumnNamesString << " \
+	FROM vals nvu \
+	WHERE " << whereNewValuesColumnNamesString << " \
+	RETURNING m.* \
+) \
+INSERT INTO " << fullQualifiedTableName << " (" << newValuesColumnNamesString << ") \
+SELECT " << newValuesColumnNamesString << " \
+FROM vals nvi \
+WHERE NOT EXISTS \
+( \
+	SELECT 1 \
+	FROM upsert up \
+	WHERE " << whereInsertColumnNamesString << " \
+)";
+	return ssQuery.str();
+}
+
+std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
 
 	std::stringstream ssQuery;
 
 	const TableBase* tableBase = orgStatement->GetConstTableBase();
 	const TableDefinition* tblDef = tableBase->GetConstTableDefinition();
 
-	const std::vector<TableColumn*>& cols = tableBase->GetConstColumns();
-	if(cols.size() == 0)
+	if(tableBase->GetConstColumns().size() == 0)
 		THROW_EXCEPTION(DatabaseNoColumnsException);
 
-	std::vector<std::string> colVals,colNames, setColNames, uniqueCols, uniqueNewValueCols;
-	std::vector<TableColumn*>::const_iterator iCols = cols.begin();
-	for(;iCols != cols.end();++iCols) {
+	const std::string& primaryKeyName = tblDef->GetConstPrimaryKeyColumnDefinition()->GetColumnName();
+	const TableColumn* primaryKeyCol = tableBase->GetConstColumnByName(primaryKeyName);
+	if(!primaryKeyCol) {
+		THROW_EXCEPTION(DatabaseNoPrimaryKeyException); }
 
-		TableColumn* col = (*iCols);
-		const TableColumnDefinition* colDef = col->GetConstColumnDefinition();
-		if(colDef->IsUniqueKey() || colDef->IsPrimaryKey()) {
-			if(orgStatement->IsSumColumn(col->GetColumnName())) {
-				THROW_EXCEPTION(database::PostgreSQLUniqueKeyIsSumColumnException,0,col->GetColumnName() + " is a sum column"); }
-
-			colNames.push_back(col->GetColumnName());
-			colVals.push_back(col->GetForSQL(db));
-			setColNames.push_back(col->GetColumnName() + " = nv." + col->GetColumnName());
-
-			uniqueNewValueCols.push_back(col->GetColumnName() + " = new_values." + col->GetColumnName());
-			uniqueCols.push_back(col->GetColumnName() + " = nv." + col->GetColumnName());
-		}
-
-		if(orgStatement->IsSumColumn(col->GetColumnName()))	{
-			//
-			//TODO: handle "sum" columns
-			//
-			THROW_EXCEPTION(errors::NotImplementedException,"PostgreSQLInsertOrUpdateStatement::ToSQL() for sum columns");
-		}
-		else {
-			colNames.push_back(col->GetColumnName());
-			colVals.push_back(col->GetForSQL(db));
-
-			setColNames.push_back(col->GetColumnName() + " = nv." + col->GetColumnName());
-		}
-	}
-
-	std::string colNamesString,colValuesString,setColNamesString,uniqueColNamesString,uniqueNewValueColNamesString;
-	tools::StringTools::VectorToString(colNames,colNamesString,",");
-	tools::StringTools::VectorToString(colVals,colValuesString,",");
-	tools::StringTools::VectorToString(setColNames,setColNamesString,",\n");
-	tools::StringTools::VectorToString(uniqueCols,uniqueColNamesString," OR ");
-	tools::StringTools::VectorToString(uniqueNewValueCols,uniqueNewValueColNamesString," OR ");
-
-	ssQuery << " \
-WITH new_values (" << colNamesString << ") as ( values (" << colValuesString << ") ), \
-upsert as \
-( \
-    update " << tblDef->GetFullQualifiedTableName() << " m \
-        set " << setColNamesString << " \
-    FROM new_values nv \
-    WHERE " << uniqueColNamesString << " \
-    RETURNING m.* \
-) \
-INSERT INTO " << tblDef->GetFullQualifiedTableName() << " (" << colNamesString << ") \
-SELECT " << colNamesString << " \
-FROM new_values \
-WHERE NOT EXISTS \
-( \
-  SELECT 1 \
-  FROM upsert up \
-  WHERE " << uniqueNewValueColNamesString <<
-")";
-
+	if(!primaryKeyCol->IsNull()) {
+		ssQuery << UpdateByPrimaryKey(db); }
+	else {
+		ssQuery << UpdateOrInsertByUniqueKeys(db); }
 
 	return ssQuery.str();
 }

@@ -4,6 +4,9 @@
  * @date 10.08.2012
  */
 
+#include "DatabaseTypes.h"
+#include "DatabaseConnection.h"
+
 #include "TableColumn.h"
 #include "TableColumnDefinition.h"
 #include "TableColumnValue.h"
@@ -152,8 +155,15 @@ const std::string& TableColumn::GetColumnName() const {
 
 std::string TableColumn::GetForSQL(DatabaseConnection* db) const {
 
-	if(isNull)
-		return "NULL";
+	if(isNull) {
+		switch(db->GetDatabaseType()) {
+		case DB_POSTGRESQL:
+			return "DEFAULT";
+		case DB_MYSQL:
+		default:
+			return "NULL";
+		}
+	}
 	return columnValue->GetForSQL(db);
 }
 

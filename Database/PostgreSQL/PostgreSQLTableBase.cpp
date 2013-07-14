@@ -24,6 +24,8 @@
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseInvalidColumnNameException.h"
 
+#include <NotImplementedException.h>
+
 namespace database {
 
 PostgreSQLTableBase::PostgreSQLTableBase(TableDefinition* definition)
@@ -92,6 +94,7 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 			//
 			//TODO: how to process timestamps
 			//
+			THROW_EXCEPTION(errors::NotImplementedException,"converting timestamps not implemented for PostgreSQL");
 			break;
 
 		default:

@@ -130,6 +130,19 @@ void TableColumnValue::Get(double& out) const {
 
 std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 
+	std::string stringQuotation;
+	switch(db->GetDatabaseType()) {
+	case DB_POSTGRESQL:
+		stringQuotation = "'";
+		break;
+
+	case DB_IBM_DB2:
+	case DB_MYSQL:
+	default:
+		stringQuotation = "\"";
+		break;
+	}
+
 	std::stringstream ssSQLValue;
 	switch(type)
 	{
@@ -140,7 +153,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		std::string value;
 		Get(value);
 		db->EscapeString(value);
-		ssSQLValue << "\"" << value << "\"";
+		ssSQLValue << stringQuotation << value << stringQuotation;
 	}
 		break;
 
@@ -166,12 +179,13 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		Get(rawValue);
 		std::string timeString;
 		DatabaseHelper::TmToDateTime(rawValue,timeString);
-		ssSQLValue << "\"" << timeString << "\"";
+		ssSQLValue << stringQuotation << timeString << stringQuotation;
 	}
 		break;
 
 	default:
 		THROW_EXCEPTION(DatabaseInvalidTypeException);
+		break;
 	}
 
 	return ssSQLValue.str();

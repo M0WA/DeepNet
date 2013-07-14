@@ -95,14 +95,14 @@ public:
 	 * @param columnName column name.
 	 * @return NULL if not found, column otherwise.
 	 */
-	const TableColumn* GetConstColumnByName(const std::string& columnName) const;
+	const TableColumn* GetConstColumnByName(std::string columnName) const;
 
 	/**
 	 * finds column by it's name.
 	 * @param columnName column name.
 	 * @return NULL if not found, column otherwise.
 	 */
-	TableColumn* GetColumnByName(const std::string& columnName);
+	TableColumn* GetColumnByName(std::string columnName);
 
 	/**
 	 * gets list of columns.

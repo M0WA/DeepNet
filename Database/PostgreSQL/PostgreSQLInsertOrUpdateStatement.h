@@ -32,6 +32,10 @@ public:
 	std::string ToSQL( DatabaseConnection* db ) const;
 
 private:
+	std::string UpdateByPrimaryKey( DatabaseConnection* db ) const;
+	std::string UpdateOrInsertByUniqueKeys( DatabaseConnection* db ) const;
+
+private:
 	const InsertOrUpdateStatement* orgStatement;
 };
 

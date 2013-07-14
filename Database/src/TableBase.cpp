@@ -11,15 +11,17 @@
 #include "TableColumn.h"
 #include "TableDefinition.h"
 
-#include <NotImplementedException.h>
-#include "DatabaseNotInitializedException.h"
-#include "DatabaseInvalidColumnNameException.h"
-
 #include "InsertStatement.h"
 #include "InsertOrUpdateStatement.h"
 #include "UpdateStatement.h"
 
+#include "DatabaseHelper.h"
 #include "DatabaseConnection.h"
+
+#include "DatabaseNotInitializedException.h"
+#include "DatabaseInvalidColumnNameException.h"
+
+#include <NotImplementedException.h>
 
 namespace database {
 
@@ -90,9 +92,19 @@ TableDefinition* TableBase::GetTableDefinition() {
 	return definition;
 }
 
-const TableColumn* TableBase::GetConstColumnByName(const std::string& columnName) const {
+const TableColumn* TableBase::GetConstColumnByName(std::string columnName) const {
 
 	CheckInitialization();
+
+	switch(DatabaseHelper::GetDatabaseType())
+	{
+	case DB_POSTGRESQL:
+		tools::StringTools::ToLowerIP(columnName);
+		break;
+	default:
+		break;
+	}
+
 	std::vector<TableColumn*>::const_iterator iterColumns = columns.begin();
 	for(;iterColumns != columns.end();++iterColumns) {
 		if((*iterColumns)->GetConstColumnDefinition()->GetColumnName().compare(columnName) == 0){
@@ -103,9 +115,19 @@ const TableColumn* TableBase::GetConstColumnByName(const std::string& columnName
 	return 0;
 }
 
-TableColumn* TableBase::GetColumnByName(const std::string& columnName) {
+TableColumn* TableBase::GetColumnByName(std::string columnName) {
 
 	CheckInitialization();
+
+	switch(DatabaseHelper::GetDatabaseType())
+	{
+	case DB_POSTGRESQL:
+		tools::StringTools::ToLowerIP(columnName);
+		break;
+	default:
+		break;
+	}
+
 	std::vector<TableColumn*>::iterator iterColumns = columns.begin();
 	for(;iterColumns != columns.end();++iterColumns) {
 		if((*iterColumns)->GetConstColumnDefinition()->GetColumnName().compare(columnName) == 0){

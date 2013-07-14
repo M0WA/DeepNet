@@ -140,6 +140,9 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	if(logQuery){
+		log::Logging::LogCurrentLevel("execute: " + query); }
+
 	PGresult* res = PQexec(connection, query.c_str());
 	if(!res) {
 		affectedRows = -1;
@@ -186,8 +189,8 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	default:
 		affectedRows = -1;
 		lastInsertID = -1;
-		res = 0;
 		PQclear(res);
+		res = 0;
 		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,query);
 		break;
 	}
@@ -282,6 +285,9 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	if(inEscape.empty())
+		return true;
+
 	char* pszTmp = PQescapeLiteral(connection, inEscape.c_str(), inEscape.length());
 	if(!pszTmp) {
 		log::Logging::LogError(
@@ -293,6 +299,13 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape){
 
 	inEscape = pszTmp;
 	PQfreemem(pszTmp);
+
+	//remove leading and preceding '
+	//which is added by PQescapeLiteral()
+	if(inEscape.length() && inEscape.at(0) == '\'')
+		inEscape.erase(0,1);
+	if(inEscape.length() && inEscape.at(inEscape.length()-1) == '\'')
+		inEscape.erase(inEscape.length()-1,1);
 	return true;
 }
 
@@ -305,7 +318,6 @@ void PostgreSQLConnection::SetLastInsertID(PGresult* res) {
 	lastInsertID = PQoidValue(res);
 	if(lastInsertID == InvalidOid)
 		lastInsertID = -1;
-	PQclear(res);
 }
 
 }

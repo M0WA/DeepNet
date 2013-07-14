@@ -95,7 +95,7 @@ public:
 	 * gets column definition by name.
 	 * @return column definition.
 	 */
-	const TableColumnDefinition* GetConstColumnDefinitionByName(const std::string& columnName) const;
+	const TableColumnDefinition* GetConstColumnDefinitionByName(std::string columnName) const;
 
 
 private:
