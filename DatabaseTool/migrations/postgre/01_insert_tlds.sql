@@ -1,3 +1,4 @@
+\c deepnet
 
 INSERT INTO 
   topleveldomains (tld)

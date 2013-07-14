@@ -1,4 +1,6 @@
 
+\c deepnet
+
 
 /* topleveldomains - Postgre   */
 CREATE TABLE topleveldomains

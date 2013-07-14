@@ -1,6 +1,6 @@
 \c postgres 
 
-DROP DATABASE deepnet;
+DROP DATABASE IF EXISTS deepnet;
 CREATE DATABASE deepnet
   WITH ENCODING='UTF8'
        OWNER=postgres

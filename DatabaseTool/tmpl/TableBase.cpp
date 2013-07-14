@@ -8,6 +8,7 @@
 #include "WhereConditionTableColumn.h"
 
 #include "DatabaseConnection.h"
+#include "DatabaseHelper.h"
 
 #include "SelectStatement.h"
 #include "UpdateStatement.h"

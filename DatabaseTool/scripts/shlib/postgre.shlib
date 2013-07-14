@@ -13,6 +13,6 @@ function execute_postgre()
 EXEC_FILENAME=$1
 echo "executing ${EXEC_FILENAME}"
 export PGPASSWORD=${DBPASS}
-psql -h ${DBHOST} -U ${DBUSER} -p ${DBPORT} -d ${DBNAME} -f ${EXEC_FILENAME}
+psql -h ${DBHOST} -U ${DBUSER} -p ${DBPORT} -d ${DBNAME} -f ${EXEC_FILENAME} -q
 unset PGPASSWORD
 }

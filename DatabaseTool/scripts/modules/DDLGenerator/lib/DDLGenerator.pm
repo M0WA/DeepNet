@@ -82,11 +82,7 @@ sub GenerateDDL
   my $DB2TableDDL   = "";
   my $DB2TableFkDDL = "";
 
-
-  #
-  # TODO: fill postgre ddl from here
-  #
-  my $PostgreTableDDL   = "";
+  my $PostgreTableDDL   = "\n\\c deepnet\n";
   my $PostgreTableFkDDL = "";
 
   print "\n\n=========================\n";
@@ -353,8 +349,11 @@ sub GenerateTableDDL
   "\nDROP TABLE ".$tableAttributes{'MySQL_Database'}.".".$tableAttributes{'name'}.";".
   "\nCREATE TABLE ".$tableAttributes{'MySQL_Database'}.".".$tableAttributes{'name'}."\n(";
 
-  my $DB2TableDDLPrefix      = "\n\n/* ".$tableAttributes{'name'}." - DB2   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
-  my $PostgreTableDDLPrefix .= "\n\n/* ".$tableAttributes{'name'}." - Postgre   */\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
+  my $DB2TableDDLPrefix      = "\n\n/* ".$tableAttributes{'name'}." - DB2   */".
+  "\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
+
+  my $PostgreTableDDLPrefix .= "\n\n/* ".$tableAttributes{'name'}." - Postgre   */".
+  "\nCREATE TABLE ".$tableAttributes{'name'}."\n(";
 
   #create postfix for tables  
 
@@ -381,11 +380,10 @@ sub WriteFile {
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
 =head1 NAME
 
-DDLGenerator - Perl extension for blah blah blah
+DDLGenerator - Data Definition Language Generator for MySQL/DB2/PostgreSQL
 
 =head1 SYNOPSIS
 
@@ -403,28 +401,15 @@ DDLGenerator - Perl extension for blah blah blah
 
 =head1 DESCRIPTION
 
-Stub documentation for DDLGenerator, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
+Data Definition Language Generator for MySQL/DB2/PostgreSQL.
 
 =head2 EXPORT
 
 None by default.
 
-
-
 =head1 SEE ALSO
 
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+None.
 
 =head1 AUTHOR
 
@@ -433,10 +418,6 @@ Moritz Wagner, Moritz Wagner<lt>moritz.wagner@siridia.de<gt>
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (C) 2012 by Moritz Wagner
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.10.1 or,
-at your option, any later version of Perl 5 you may have available.
 
 
 =cut
