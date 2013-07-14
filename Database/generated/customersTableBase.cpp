@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,27 +43,135 @@ TableDefinition* customersTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customersTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersTableBase::Get_login(std::string& out) const {
-    GetConstColumnByName("login")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "login";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "login";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("login");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "login";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersTableBase::Set_login(const std::string& in) {
-    GetColumnByName("login")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "login";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "login";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("login");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "login";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersTableBase::Get_password(std::string& out) const {
-    GetConstColumnByName("password")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "password";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "password";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("password");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "password";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersTableBase::Set_password(const std::string& in) {
-    GetColumnByName("password")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "password";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "password";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("password");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "password";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -262,17 +371,21 @@ void customersTableBase::GetWhereColumnsFor_password(
 TableColumnDefinition* customersTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customers";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customers";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customers";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customers");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -291,17 +404,21 @@ TableColumnDefinition* customersTableBase::GetDefinition_ID() {
 TableColumnDefinition* customersTableBase::GetDefinition_login() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "login";
-    createParam.tableName          = "customers";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "login";
+      createParam.tableName    = "customers";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "login";
+      createParam.tableName    = "customers";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("login");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customers");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -320,17 +437,21 @@ TableColumnDefinition* customersTableBase::GetDefinition_login() {
 TableColumnDefinition* customersTableBase::GetDefinition_password() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "password";
-    createParam.tableName          = "customers";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "password";
+      createParam.tableName    = "customers";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "password";
+      createParam.tableName    = "customers";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("password");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customers");
       break;
     case DB_INVALID_TYPE:
     default:

@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -44,43 +45,223 @@ TableDefinition* docmetaTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void docmetaTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void docmetaTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void docmetaTableBase::Get_DICT_ID(long long& out) const {
-    GetConstColumnByName("DICT_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void docmetaTableBase::Set_DICT_ID(const long long& in) {
-    GetColumnByName("DICT_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void docmetaTableBase::Get_URLSTAGE_ID(long long& out) const {
-    GetConstColumnByName("URLSTAGE_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void docmetaTableBase::Set_URLSTAGE_ID(const long long& in) {
-    GetColumnByName("URLSTAGE_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void docmetaTableBase::Get_occurrence(long long& out) const {
-    GetConstColumnByName("occurrence")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "occurrence";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "occurrence";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("occurrence");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "occurrence";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void docmetaTableBase::Set_occurrence(const long long& in) {
-    GetColumnByName("occurrence")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "occurrence";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "occurrence";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("occurrence");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "occurrence";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void docmetaTableBase::Get_type(long long& out) const {
-    GetConstColumnByName("type")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void docmetaTableBase::Set_type(const long long& in) {
-    GetColumnByName("type")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -494,17 +675,21 @@ void docmetaTableBase::GetWhereColumnsFor_type(
 TableColumnDefinition* docmetaTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "docmeta";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "docmeta";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "docmeta";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("docmeta");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -523,17 +708,21 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_ID() {
 TableColumnDefinition* docmetaTableBase::GetDefinition_DICT_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "DICT_ID";
-    createParam.tableName          = "docmeta";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "DICT_ID";
+      createParam.tableName    = "docmeta";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "DICT_ID";
+      createParam.tableName    = "docmeta";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("DICT_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("docmeta");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -552,17 +741,21 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_DICT_ID() {
 TableColumnDefinition* docmetaTableBase::GetDefinition_URLSTAGE_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URLSTAGE_ID";
-    createParam.tableName          = "docmeta";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "docmeta";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "docmeta";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("docmeta");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -581,17 +774,21 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_URLSTAGE_ID() {
 TableColumnDefinition* docmetaTableBase::GetDefinition_occurrence() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "occurrence";
-    createParam.tableName          = "docmeta";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "occurrence";
+      createParam.tableName    = "docmeta";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "occurrence";
+      createParam.tableName    = "docmeta";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("occurrence");
+      createParam.tableName    = tools::StringTools::ToLowerNP("docmeta");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -610,17 +807,21 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_occurrence() {
 TableColumnDefinition* docmetaTableBase::GetDefinition_type() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "type";
-    createParam.tableName          = "docmeta";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "type";
+      createParam.tableName    = "docmeta";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "type";
+      createParam.tableName    = "docmeta";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("type");
+      createParam.tableName    = tools::StringTools::ToLowerNP("docmeta");
       break;
     case DB_INVALID_TYPE:
     default:

@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,35 +44,179 @@ TableDefinition* customerdomainblacklistTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customerdomainblacklistTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainblacklistTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainblacklistTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
-    GetConstColumnByName("CUSTOMERDOMAIN_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainblacklistTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
-    GetColumnByName("CUSTOMERDOMAIN_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainblacklistTableBase::Get_path(std::string& out) const {
-    GetConstColumnByName("path")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "path";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "path";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("path");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "path";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainblacklistTableBase::Set_path(const std::string& in) {
-    GetColumnByName("path")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "path";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "path";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("path");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "path";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainblacklistTableBase::Get_isPathRegex(long long& out) const {
-    GetConstColumnByName("isPathRegex")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isPathRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isPathRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isPathRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isPathRegex";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainblacklistTableBase::Set_isPathRegex(const long long& in) {
-    GetColumnByName("isPathRegex")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isPathRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isPathRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isPathRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isPathRegex";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -378,17 +523,21 @@ void customerdomainblacklistTableBase::GetWhereColumnsFor_isPathRegex(
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customerdomainblacklist";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomainblacklist");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -407,17 +556,21 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_ID() {
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CUSTOMERDOMAIN_ID";
-    createParam.tableName          = "customerdomainblacklist";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomainblacklist");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -436,17 +589,21 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_CUSTOMERD
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_path() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "path";
-    createParam.tableName          = "customerdomainblacklist";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "path";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "path";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("path");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomainblacklist");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -465,17 +622,21 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_path() {
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_isPathRegex() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "isPathRegex";
-    createParam.tableName          = "customerdomainblacklist";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "isPathRegex";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "isPathRegex";
+      createParam.tableName    = "customerdomainblacklist";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("isPathRegex");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomainblacklist");
       break;
     case DB_INVALID_TYPE:
     default:

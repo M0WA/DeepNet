@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,27 +44,135 @@ TableDefinition* documentcodeTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void documentcodeTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void documentcodeTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void documentcodeTableBase::Get_URLSTAGE_ID(long long& out) const {
-    GetConstColumnByName("URLSTAGE_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void documentcodeTableBase::Set_URLSTAGE_ID(const long long& in) {
-    GetColumnByName("URLSTAGE_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void documentcodeTableBase::Get_code(std::string& out) const {
-    GetConstColumnByName("code")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "code";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "code";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("code");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "code";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void documentcodeTableBase::Set_code(const std::string& in) {
-    GetColumnByName("code")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "code";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "code";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("code");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "code";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -312,17 +421,21 @@ void documentcodeTableBase::GetWhereColumnsFor_code(
 TableColumnDefinition* documentcodeTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "documentcode";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "documentcode";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "documentcode";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("documentcode");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -341,17 +454,21 @@ TableColumnDefinition* documentcodeTableBase::GetDefinition_ID() {
 TableColumnDefinition* documentcodeTableBase::GetDefinition_URLSTAGE_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URLSTAGE_ID";
-    createParam.tableName          = "documentcode";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "documentcode";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "documentcode";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("documentcode");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -370,17 +487,21 @@ TableColumnDefinition* documentcodeTableBase::GetDefinition_URLSTAGE_ID() {
 TableColumnDefinition* documentcodeTableBase::GetDefinition_code() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "code";
-    createParam.tableName          = "documentcode";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "code";
+      createParam.tableName    = "documentcode";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "code";
+      createParam.tableName    = "documentcode";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("code");
+      createParam.tableName    = tools::StringTools::ToLowerNP("documentcode");
       break;
     case DB_INVALID_TYPE:
     default:

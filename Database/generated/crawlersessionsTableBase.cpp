@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,11 +43,47 @@ TableDefinition* crawlersessionsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void crawlersessionsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void crawlersessionsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -130,17 +167,21 @@ void crawlersessionsTableBase::GetWhereColumnsFor_ID(
 TableColumnDefinition* crawlersessionsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "crawlersessions";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "sync";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "crawlersessions";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "crawlersessions";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("crawlersessions");
       break;
     case DB_INVALID_TYPE:
     default:

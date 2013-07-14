@@ -4,6 +4,8 @@
 #include "crawlersessionsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 crawlersessionsTableDefinitionCreateParam::crawlersessionsTableDefinitionCreateParam()

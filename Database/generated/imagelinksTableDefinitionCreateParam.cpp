@@ -4,6 +4,8 @@
 #include "imagelinksTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 imagelinksTableDefinitionCreateParam::imagelinksTableDefinitionCreateParam()

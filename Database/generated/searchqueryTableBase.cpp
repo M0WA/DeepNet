@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,19 +43,91 @@ TableDefinition* searchqueryTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void searchqueryTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void searchqueryTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void searchqueryTableBase::Get_session(std::string& out) const {
-    GetConstColumnByName("session")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "session";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "session";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("session");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "session";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void searchqueryTableBase::Set_session(const std::string& in) {
-    GetColumnByName("session")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "session";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "session";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("session");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "session";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -196,17 +269,21 @@ void searchqueryTableBase::GetWhereColumnsFor_session(
 TableColumnDefinition* searchqueryTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "searchquery";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "searchquery";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "searchquery";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -225,17 +302,21 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_ID() {
 TableColumnDefinition* searchqueryTableBase::GetDefinition_session() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "session";
-    createParam.tableName          = "searchquery";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "session";
+      createParam.tableName    = "searchquery";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "session";
+      createParam.tableName    = "searchquery";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("session");
+      createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
       break;
     case DB_INVALID_TYPE:
     default:

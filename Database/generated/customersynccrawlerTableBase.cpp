@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,35 +44,179 @@ TableDefinition* customersynccrawlerTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customersynccrawlerTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersynccrawlerTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersynccrawlerTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
-    GetConstColumnByName("CUSTOMERDOMAIN_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersynccrawlerTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
-    GetColumnByName("CUSTOMERDOMAIN_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersynccrawlerTableBase::Get_CRAWLERSESSION_ID(long long& out) const {
-    GetConstColumnByName("CRAWLERSESSION_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersynccrawlerTableBase::Set_CRAWLERSESSION_ID(const long long& in) {
-    GetColumnByName("CRAWLERSESSION_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersynccrawlerTableBase::Get_scheduled(struct tm& out) const {
-    GetConstColumnByName("scheduled")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheduled";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheduled";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheduled");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheduled";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersynccrawlerTableBase::Set_scheduled(const struct tm& in) {
-    GetColumnByName("scheduled")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheduled";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheduled";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheduled");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheduled";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -378,17 +523,21 @@ void customersynccrawlerTableBase::GetWhereColumnsFor_scheduled(
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customersynccrawler";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersynccrawler");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -407,17 +556,21 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_ID() {
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CUSTOMERDOMAIN_ID";
-    createParam.tableName          = "customersynccrawler";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersynccrawler");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -436,17 +589,21 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CUSTOMERDOMAI
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CRAWLERSESSION_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CRAWLERSESSION_ID";
-    createParam.tableName          = "customersynccrawler";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CRAWLERSESSION_ID";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CRAWLERSESSION_ID";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersynccrawler");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -465,17 +622,21 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CRAWLERSESSIO
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_scheduled() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "scheduled";
-    createParam.tableName          = "customersynccrawler";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "scheduled";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "scheduled";
+      createParam.tableName    = "customersynccrawler";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("scheduled");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersynccrawler");
       break;
     case DB_INVALID_TYPE:
     default:

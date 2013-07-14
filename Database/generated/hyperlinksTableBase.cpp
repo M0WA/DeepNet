@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -44,35 +45,179 @@ TableDefinition* hyperlinksTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void hyperlinksTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void hyperlinksTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void hyperlinksTableBase::Get_TARGET_URL_ID(long long& out) const {
-    GetConstColumnByName("TARGET_URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "TARGET_URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void hyperlinksTableBase::Set_TARGET_URL_ID(const long long& in) {
-    GetColumnByName("TARGET_URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "TARGET_URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void hyperlinksTableBase::Get_URLSTAGE_ID(long long& out) const {
-    GetConstColumnByName("URLSTAGE_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void hyperlinksTableBase::Set_URLSTAGE_ID(const long long& in) {
-    GetColumnByName("URLSTAGE_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void hyperlinksTableBase::Get_count(long long& out) const {
-    GetConstColumnByName("count")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "count";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "count";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("count");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "count";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void hyperlinksTableBase::Set_count(const long long& in) {
-    GetColumnByName("count")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "count";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "count";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("count");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "count";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -428,17 +573,21 @@ void hyperlinksTableBase::GetWhereColumnsFor_count(
 TableColumnDefinition* hyperlinksTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "hyperlinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("hyperlinks");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -457,17 +606,21 @@ TableColumnDefinition* hyperlinksTableBase::GetDefinition_ID() {
 TableColumnDefinition* hyperlinksTableBase::GetDefinition_TARGET_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "TARGET_URL_ID";
-    createParam.tableName          = "hyperlinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "TARGET_URL_ID";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "TARGET_URL_ID";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("hyperlinks");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -486,17 +639,21 @@ TableColumnDefinition* hyperlinksTableBase::GetDefinition_TARGET_URL_ID() {
 TableColumnDefinition* hyperlinksTableBase::GetDefinition_URLSTAGE_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URLSTAGE_ID";
-    createParam.tableName          = "hyperlinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("hyperlinks");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -515,17 +672,21 @@ TableColumnDefinition* hyperlinksTableBase::GetDefinition_URLSTAGE_ID() {
 TableColumnDefinition* hyperlinksTableBase::GetDefinition_count() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "count";
-    createParam.tableName          = "hyperlinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "count";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "count";
+      createParam.tableName    = "hyperlinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("count");
+      createParam.tableName    = tools::StringTools::ToLowerNP("hyperlinks");
       break;
     case DB_INVALID_TYPE:
     default:

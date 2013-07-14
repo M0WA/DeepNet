@@ -4,6 +4,8 @@
 #include "dockeyTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 dockeyTableDefinitionCreateParam::dockeyTableDefinitionCreateParam()

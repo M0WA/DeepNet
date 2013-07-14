@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,43 +44,223 @@ TableDefinition* customermatchcriteriagrouptypeTableBase::CreateTableDefinition(
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customermatchcriteriagrouptypeTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriagrouptypeTableBase::Get_CUSTOMERMATCHCRITERIA_ID(long long& out) const {
-    GetConstColumnByName("CUSTOMERMATCHCRITERIA_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERMATCHCRITERIA_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_CUSTOMERMATCHCRITERIA_ID(const long long& in) {
-    GetColumnByName("CUSTOMERMATCHCRITERIA_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERMATCHCRITERIA_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriagrouptypeTableBase::Get_type(long long& out) const {
-    GetConstColumnByName("type")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_type(const long long& in) {
-    GetColumnByName("type")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriagrouptypeTableBase::Get_groupPosition(long long& out) const {
-    GetConstColumnByName("groupPosition")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "groupPosition";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "groupPosition";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("groupPosition");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "groupPosition";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_groupPosition(const long long& in) {
-    GetColumnByName("groupPosition")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "groupPosition";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "groupPosition";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("groupPosition");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "groupPosition";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriagrouptypeTableBase::Get_isPrimaryKey(long long& out) const {
-    GetConstColumnByName("isPrimaryKey")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isPrimaryKey";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isPrimaryKey";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isPrimaryKey");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isPrimaryKey";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_isPrimaryKey(const long long& in) {
-    GetColumnByName("isPrimaryKey")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isPrimaryKey";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isPrimaryKey";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isPrimaryKey");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isPrimaryKey";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -444,17 +625,21 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_isPrimaryKey(
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customermatchcriteriagrouptype";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteriagrouptype");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -473,17 +658,21 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_ID
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CUSTOMERMATCHCRITERIA_ID";
-    createParam.tableName          = "customermatchcriteriagrouptype";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CUSTOMERMATCHCRITERIA_ID";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CUSTOMERMATCHCRITERIA_ID";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CUSTOMERMATCHCRITERIA_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteriagrouptype");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -502,17 +691,21 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_CU
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_type() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "type";
-    createParam.tableName          = "customermatchcriteriagrouptype";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "type";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "type";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("type");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteriagrouptype");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -531,17 +724,21 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_ty
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_groupPosition() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "groupPosition";
-    createParam.tableName          = "customermatchcriteriagrouptype";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "groupPosition";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "groupPosition";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("groupPosition");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteriagrouptype");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -560,17 +757,21 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_gr
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "isPrimaryKey";
-    createParam.tableName          = "customermatchcriteriagrouptype";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "isPrimaryKey";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "isPrimaryKey";
+      createParam.tableName    = "customermatchcriteriagrouptype";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("isPrimaryKey");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteriagrouptype");
       break;
     case DB_INVALID_TYPE:
     default:

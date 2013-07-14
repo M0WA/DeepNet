@@ -4,6 +4,8 @@
 #include "cachehtmlTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 cachehtmlTableDefinitionCreateParam::cachehtmlTableDefinitionCreateParam()

@@ -4,6 +4,8 @@
 #include "searchquerykeywordsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 searchquerykeywordsTableDefinitionCreateParam::searchquerykeywordsTableDefinitionCreateParam()

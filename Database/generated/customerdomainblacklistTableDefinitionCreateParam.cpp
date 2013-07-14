@@ -4,6 +4,8 @@
 #include "customerdomainblacklistTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 customerdomainblacklistTableDefinitionCreateParam::customerdomainblacklistTableDefinitionCreateParam()

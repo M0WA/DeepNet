@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,19 +43,91 @@ TableDefinition* schemesTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void schemesTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void schemesTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void schemesTableBase::Get_scheme(std::string& out) const {
-    GetConstColumnByName("scheme")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheme";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheme";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheme");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheme";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void schemesTableBase::Set_scheme(const std::string& in) {
-    GetColumnByName("scheme")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheme";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheme";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheme");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheme";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -196,17 +269,21 @@ void schemesTableBase::GetWhereColumnsFor_scheme(
 TableColumnDefinition* schemesTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "schemes";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "schemes";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "schemes";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("schemes");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -225,17 +302,21 @@ TableColumnDefinition* schemesTableBase::GetDefinition_ID() {
 TableColumnDefinition* schemesTableBase::GetDefinition_scheme() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "scheme";
-    createParam.tableName          = "schemes";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
+      createParam.columnName   = "scheme";
+      createParam.tableName    = "schemes";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "scheme";
+      createParam.tableName    = "schemes";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("scheme");
+      createParam.tableName    = tools::StringTools::ToLowerNP("schemes");
       break;
     case DB_INVALID_TYPE:
     default:

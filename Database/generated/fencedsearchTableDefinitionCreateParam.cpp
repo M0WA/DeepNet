@@ -4,6 +4,8 @@
 #include "fencedsearchTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 fencedsearchTableDefinitionCreateParam::fencedsearchTableDefinitionCreateParam()

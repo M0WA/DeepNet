@@ -4,6 +4,8 @@
 #include "cacherobotsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 cacherobotsTableDefinitionCreateParam::cacherobotsTableDefinitionCreateParam()

@@ -4,6 +4,8 @@
 #include "customerqueriesTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 customerqueriesTableDefinitionCreateParam::customerqueriesTableDefinitionCreateParam()

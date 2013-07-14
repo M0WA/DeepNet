@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,27 +43,135 @@ TableDefinition* dataminingalertsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void dataminingalertsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dataminingalertsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dataminingalertsTableBase::Get_type(long long& out) const {
-    GetConstColumnByName("type")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dataminingalertsTableBase::Set_type(const long long& in) {
-    GetColumnByName("type")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dataminingalertsTableBase::Get_param(std::string& out) const {
-    GetConstColumnByName("param")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "param";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "param";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("param");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "param";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dataminingalertsTableBase::Set_param(const std::string& in) {
-    GetColumnByName("param")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "param";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "param";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("param");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "param";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -262,17 +371,21 @@ void dataminingalertsTableBase::GetWhereColumnsFor_param(
 TableColumnDefinition* dataminingalertsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "dataminingalerts";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "datamining";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "dataminingalerts";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "dataminingalerts";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dataminingalerts");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -291,17 +404,21 @@ TableColumnDefinition* dataminingalertsTableBase::GetDefinition_ID() {
 TableColumnDefinition* dataminingalertsTableBase::GetDefinition_type() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "type";
-    createParam.tableName          = "dataminingalerts";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "datamining";
+      createParam.columnName   = "type";
+      createParam.tableName    = "dataminingalerts";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "type";
+      createParam.tableName    = "dataminingalerts";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("type");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dataminingalerts");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -320,17 +437,21 @@ TableColumnDefinition* dataminingalertsTableBase::GetDefinition_type() {
 TableColumnDefinition* dataminingalertsTableBase::GetDefinition_param() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "param";
-    createParam.tableName          = "dataminingalerts";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "datamining";
+      createParam.columnName   = "param";
+      createParam.tableName    = "dataminingalerts";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "param";
+      createParam.tableName    = "dataminingalerts";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("param");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dataminingalerts");
       break;
     case DB_INVALID_TYPE:
     default:

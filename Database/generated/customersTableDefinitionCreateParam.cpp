@@ -4,6 +4,8 @@
 #include "customersTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 customersTableDefinitionCreateParam::customersTableDefinitionCreateParam()

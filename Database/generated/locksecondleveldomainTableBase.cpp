@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,27 +43,135 @@ TableDefinition* locksecondleveldomainTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void locksecondleveldomainTableBase::Get_SECONDLEVELDOMAIN_ID(long long& out) const {
-    GetConstColumnByName("SECONDLEVELDOMAIN_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SECONDLEVELDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void locksecondleveldomainTableBase::Set_SECONDLEVELDOMAIN_ID(const long long& in) {
-    GetColumnByName("SECONDLEVELDOMAIN_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SECONDLEVELDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void locksecondleveldomainTableBase::Get_CRAWLERSESSION_ID(long long& out) const {
-    GetConstColumnByName("CRAWLERSESSION_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void locksecondleveldomainTableBase::Set_CRAWLERSESSION_ID(const long long& in) {
-    GetColumnByName("CRAWLERSESSION_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void locksecondleveldomainTableBase::Get_schedule(struct tm& out) const {
-    GetConstColumnByName("schedule")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "schedule";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "schedule";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("schedule");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "schedule";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void locksecondleveldomainTableBase::Set_schedule(const struct tm& in) {
-    GetColumnByName("schedule")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "schedule";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "schedule";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("schedule");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "schedule";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -262,17 +371,21 @@ void locksecondleveldomainTableBase::GetWhereColumnsFor_schedule(
 TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_SECONDLEVELDOMAIN_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "SECONDLEVELDOMAIN_ID";
-    createParam.tableName          = "locksecondleveldomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "sync";
+      createParam.columnName   = "SECONDLEVELDOMAIN_ID";
+      createParam.tableName    = "locksecondleveldomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "SECONDLEVELDOMAIN_ID";
+      createParam.tableName    = "locksecondleveldomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("SECONDLEVELDOMAIN_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("locksecondleveldomain");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -291,17 +404,21 @@ TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_SECONDLEVEL
 TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_CRAWLERSESSION_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CRAWLERSESSION_ID";
-    createParam.tableName          = "locksecondleveldomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "sync";
+      createParam.columnName   = "CRAWLERSESSION_ID";
+      createParam.tableName    = "locksecondleveldomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CRAWLERSESSION_ID";
+      createParam.tableName    = "locksecondleveldomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("locksecondleveldomain");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -320,17 +437,21 @@ TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_CRAWLERSESS
 TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_schedule() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "schedule";
-    createParam.tableName          = "locksecondleveldomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "sync";
+      createParam.columnName   = "schedule";
+      createParam.tableName    = "locksecondleveldomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "schedule";
+      createParam.tableName    = "locksecondleveldomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("schedule");
+      createParam.tableName    = tools::StringTools::ToLowerNP("locksecondleveldomain");
       break;
     case DB_INVALID_TYPE:
     default:

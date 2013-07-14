@@ -4,6 +4,8 @@
 #include "dataminingcriteriaalertsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 dataminingcriteriaalertsTableDefinitionCreateParam::dataminingcriteriaalertsTableDefinitionCreateParam()

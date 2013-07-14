@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,139 +44,751 @@ TableDefinition* urlstagesTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void urlstagesTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_URL_ID(long long& out) const {
-    GetConstColumnByName("URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_URL_ID(const long long& in) {
-    GetColumnByName("URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_response_code(long long& out) const {
-    GetConstColumnByName("response_code")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "response_code";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "response_code";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("response_code");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "response_code";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_response_code(const long long& in) {
-    GetColumnByName("response_code")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "response_code";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "response_code";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("response_code");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "response_code";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_content_md5(std::string& out) const {
-    GetConstColumnByName("content_md5")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_md5";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_md5";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_md5");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_md5";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_content_md5(const std::string& in) {
-    GetColumnByName("content_md5")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_md5";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_md5";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_md5");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_md5";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_last_change(struct tm& out) const {
-    GetConstColumnByName("last_change")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "last_change";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "last_change";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("last_change");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "last_change";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_last_change(const struct tm& in) {
-    GetColumnByName("last_change")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "last_change";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "last_change";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("last_change");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "last_change";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_redirect_count(long long& out) const {
-    GetConstColumnByName("redirect_count")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "redirect_count";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "redirect_count";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("redirect_count");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "redirect_count";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_redirect_count(const long long& in) {
-    GetColumnByName("redirect_count")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "redirect_count";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "redirect_count";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("redirect_count");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "redirect_count";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_download_speed(long long& out) const {
-    GetConstColumnByName("download_speed")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "download_speed";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "download_speed";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("download_speed");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "download_speed";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_download_speed(const long long& in) {
-    GetColumnByName("download_speed")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "download_speed";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "download_speed";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("download_speed");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "download_speed";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_upload_speed(long long& out) const {
-    GetConstColumnByName("upload_speed")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "upload_speed";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "upload_speed";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("upload_speed");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "upload_speed";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_upload_speed(const long long& in) {
-    GetColumnByName("upload_speed")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "upload_speed";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "upload_speed";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("upload_speed");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "upload_speed";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_content_length(long long& out) const {
-    GetConstColumnByName("content_length")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_length";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_length";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_length");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_length";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_content_length(const long long& in) {
-    GetColumnByName("content_length")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_length";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_length";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_length");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_length";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_content_type(std::string& out) const {
-    GetConstColumnByName("content_type")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_type";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_content_type(const std::string& in) {
-    GetColumnByName("content_type")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_type";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_primary_ip(long long& out) const {
-    GetConstColumnByName("primary_ip")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "primary_ip";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "primary_ip";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("primary_ip");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "primary_ip";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_primary_ip(const long long& in) {
-    GetColumnByName("primary_ip")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "primary_ip";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "primary_ip";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("primary_ip");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "primary_ip";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_primary_port(long long& out) const {
-    GetConstColumnByName("primary_port")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "primary_port";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "primary_port";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("primary_port");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "primary_port";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_primary_port(const long long& in) {
-    GetColumnByName("primary_port")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "primary_port";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "primary_port";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("primary_port");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "primary_port";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_int_links(long long& out) const {
-    GetConstColumnByName("int_links")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "int_links";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "int_links";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("int_links");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "int_links";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_int_links(const long long& in) {
-    GetColumnByName("int_links")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "int_links";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "int_links";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("int_links");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "int_links";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_ext_links(long long& out) const {
-    GetConstColumnByName("ext_links")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ext_links";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ext_links";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ext_links");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ext_links";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_ext_links(const long long& in) {
-    GetColumnByName("ext_links")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ext_links";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ext_links";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ext_links");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ext_links";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_download_time(long long& out) const {
-    GetConstColumnByName("download_time")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "download_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "download_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("download_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "download_time";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_download_time(const long long& in) {
-    GetColumnByName("download_time")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "download_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "download_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("download_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "download_time";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_html_errors(long long& out) const {
-    GetConstColumnByName("html_errors")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "html_errors";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "html_errors";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("html_errors");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "html_errors";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_html_errors(const long long& in) {
-    GetColumnByName("html_errors")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "html_errors";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "html_errors";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("html_errors");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "html_errors";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void urlstagesTableBase::Get_found_date(struct tm& out) const {
-    GetConstColumnByName("found_date")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "found_date";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "found_date";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("found_date");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "found_date";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void urlstagesTableBase::Set_found_date(const struct tm& in) {
-    GetColumnByName("found_date")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "found_date";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "found_date";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("found_date");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "found_date";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -1236,17 +1849,21 @@ void urlstagesTableBase::GetWhereColumnsFor_found_date(
 TableColumnDefinition* urlstagesTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1265,17 +1882,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_ID() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URL_ID";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1294,17 +1915,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_URL_ID() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_response_code() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "response_code";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "response_code";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "response_code";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("response_code");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1323,17 +1948,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_response_code() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_content_md5() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "content_md5";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "content_md5";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "content_md5";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("content_md5");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1352,17 +1981,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_content_md5() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_last_change() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "last_change";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "last_change";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "last_change";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("last_change");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1381,17 +2014,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_last_change() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_redirect_count() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "redirect_count";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "redirect_count";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "redirect_count";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("redirect_count");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1410,17 +2047,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_redirect_count() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_download_speed() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "download_speed";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "download_speed";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "download_speed";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("download_speed");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1439,17 +2080,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_download_speed() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_upload_speed() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "upload_speed";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "upload_speed";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "upload_speed";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("upload_speed");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1468,17 +2113,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_upload_speed() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_content_length() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "content_length";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "content_length";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "content_length";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("content_length");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1497,17 +2146,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_content_length() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_content_type() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "content_type";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "content_type";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "content_type";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("content_type");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1526,17 +2179,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_content_type() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_ip() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "primary_ip";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "primary_ip";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "primary_ip";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("primary_ip");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1555,17 +2212,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_ip() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_port() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "primary_port";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "primary_port";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "primary_port";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("primary_port");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1584,17 +2245,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_port() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_int_links() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "int_links";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "int_links";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "int_links";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("int_links");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1613,17 +2278,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_int_links() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_ext_links() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ext_links";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "ext_links";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ext_links";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ext_links");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1642,17 +2311,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_ext_links() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_download_time() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "download_time";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "download_time";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "download_time";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("download_time");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1671,17 +2344,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_download_time() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_html_errors() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "html_errors";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "html_errors";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "html_errors";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("html_errors");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -1700,17 +2377,21 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_html_errors() {
 TableColumnDefinition* urlstagesTableBase::GetDefinition_found_date() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "found_date";
-    createParam.tableName          = "urlstages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "found_date";
+      createParam.tableName    = "urlstages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "found_date";
+      createParam.tableName    = "urlstages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("found_date");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlstages");
       break;
     case DB_INVALID_TYPE:
     default:

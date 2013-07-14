@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,43 +44,223 @@ TableDefinition* customerdomainsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customerdomainsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainsTableBase::Get_CUSTOMER_ID(long long& out) const {
-    GetConstColumnByName("CUSTOMER_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainsTableBase::Set_CUSTOMER_ID(const long long& in) {
-    GetColumnByName("CUSTOMER_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainsTableBase::Get_domain(std::string& out) const {
-    GetConstColumnByName("domain")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "domain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "domain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("domain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "domain";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainsTableBase::Set_domain(const std::string& in) {
-    GetColumnByName("domain")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "domain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "domain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("domain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "domain";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainsTableBase::Get_revisitInterval(long long& out) const {
-    GetConstColumnByName("revisitInterval")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "revisitInterval";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "revisitInterval";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("revisitInterval");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "revisitInterval";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainsTableBase::Set_revisitInterval(const long long& in) {
-    GetColumnByName("revisitInterval")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "revisitInterval";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "revisitInterval";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("revisitInterval");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "revisitInterval";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerdomainsTableBase::Get_isDomainRegex(long long& out) const {
-    GetConstColumnByName("isDomainRegex")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isDomainRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isDomainRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isDomainRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isDomainRegex";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerdomainsTableBase::Set_isDomainRegex(const long long& in) {
-    GetColumnByName("isDomainRegex")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isDomainRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isDomainRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isDomainRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isDomainRegex";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -444,17 +625,21 @@ void customerdomainsTableBase::GetWhereColumnsFor_isDomainRegex(
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customerdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomains");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -473,17 +658,21 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_ID() {
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_CUSTOMER_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CUSTOMER_ID";
-    createParam.tableName          = "customerdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CUSTOMER_ID";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CUSTOMER_ID";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomains");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -502,17 +691,21 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_CUSTOMER_ID() {
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_domain() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "domain";
-    createParam.tableName          = "customerdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "domain";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "domain";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("domain");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomains");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -531,17 +724,21 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_domain() {
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_revisitInterval() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "revisitInterval";
-    createParam.tableName          = "customerdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "revisitInterval";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "revisitInterval";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("revisitInterval");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomains");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -560,17 +757,21 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_revisitInterval()
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_isDomainRegex() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "isDomainRegex";
-    createParam.tableName          = "customerdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "isDomainRegex";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "isDomainRegex";
+      createParam.tableName    = "customerdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("isDomainRegex");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerdomains");
       break;
     case DB_INVALID_TYPE:
     default:

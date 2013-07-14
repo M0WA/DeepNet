@@ -4,6 +4,8 @@
 #include "cacheurlTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 cacheurlTableDefinitionCreateParam::cacheurlTableDefinitionCreateParam()

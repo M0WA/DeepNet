@@ -4,6 +4,8 @@
 #include "cachesecondleveldomainTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 cachesecondleveldomainTableDefinitionCreateParam::cachesecondleveldomainTableDefinitionCreateParam()

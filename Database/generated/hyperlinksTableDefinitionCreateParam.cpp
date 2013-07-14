@@ -4,6 +4,8 @@
 #include "hyperlinksTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 hyperlinksTableDefinitionCreateParam::hyperlinksTableDefinitionCreateParam()

@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,43 +44,223 @@ TableDefinition* customerkeywordsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customerkeywordsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerkeywordsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerkeywordsTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
-    GetConstColumnByName("CUSTOMERDOMAIN_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerkeywordsTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
-    GetColumnByName("CUSTOMERDOMAIN_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerkeywordsTableBase::Get_keyword(std::string& out) const {
-    GetConstColumnByName("keyword")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerkeywordsTableBase::Set_keyword(const std::string& in) {
-    GetColumnByName("keyword")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerkeywordsTableBase::Get_target(std::string& out) const {
-    GetConstColumnByName("target")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "target";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "target";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("target");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "target";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerkeywordsTableBase::Set_target(const std::string& in) {
-    GetColumnByName("target")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "target";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "target";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("target");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "target";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerkeywordsTableBase::Get_isKeywordRegex(long long& out) const {
-    GetConstColumnByName("isKeywordRegex")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isKeywordRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isKeywordRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isKeywordRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isKeywordRegex";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerkeywordsTableBase::Set_isKeywordRegex(const long long& in) {
-    GetColumnByName("isKeywordRegex")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isKeywordRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isKeywordRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isKeywordRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isKeywordRegex";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -444,17 +625,21 @@ void customerkeywordsTableBase::GetWhereColumnsFor_isKeywordRegex(
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customerkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerkeywords");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -473,17 +658,21 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_ID() {
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CUSTOMERDOMAIN_ID";
-    createParam.tableName          = "customerkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerkeywords");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -502,17 +691,21 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_I
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_keyword() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "keyword";
-    createParam.tableName          = "customerkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "keyword";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "keyword";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("keyword");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerkeywords");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -531,17 +724,21 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_keyword() {
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_target() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "target";
-    createParam.tableName          = "customerkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "target";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "target";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("target");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerkeywords");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -560,17 +757,21 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_target() {
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_isKeywordRegex() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "isKeywordRegex";
-    createParam.tableName          = "customerkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "isKeywordRegex";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "isKeywordRegex";
+      createParam.tableName    = "customerkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("isKeywordRegex");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerkeywords");
       break;
     case DB_INVALID_TYPE:
     default:

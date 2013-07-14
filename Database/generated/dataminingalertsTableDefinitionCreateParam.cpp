@@ -4,6 +4,8 @@
 #include "dataminingalertsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 dataminingalertsTableDefinitionCreateParam::dataminingalertsTableDefinitionCreateParam()

@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,19 +43,91 @@ TableDefinition* subdomainsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void subdomainsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void subdomainsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void subdomainsTableBase::Get_subdomain(std::string& out) const {
-    GetConstColumnByName("subdomain")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "subdomain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "subdomain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("subdomain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "subdomain";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void subdomainsTableBase::Set_subdomain(const std::string& in) {
-    GetColumnByName("subdomain")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "subdomain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "subdomain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("subdomain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "subdomain";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -196,17 +269,21 @@ void subdomainsTableBase::GetWhereColumnsFor_subdomain(
 TableColumnDefinition* subdomainsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "subdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "subdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "subdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("subdomains");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -225,17 +302,21 @@ TableColumnDefinition* subdomainsTableBase::GetDefinition_ID() {
 TableColumnDefinition* subdomainsTableBase::GetDefinition_subdomain() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "subdomain";
-    createParam.tableName          = "subdomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
+      createParam.columnName   = "subdomain";
+      createParam.tableName    = "subdomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "subdomain";
+      createParam.tableName    = "subdomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("subdomain");
+      createParam.tableName    = tools::StringTools::ToLowerNP("subdomains");
       break;
     case DB_INVALID_TYPE:
     default:

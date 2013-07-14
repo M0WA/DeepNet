@@ -4,6 +4,8 @@
 #include "locksecondleveldomainTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 locksecondleveldomainTableDefinitionCreateParam::locksecondleveldomainTableDefinitionCreateParam()

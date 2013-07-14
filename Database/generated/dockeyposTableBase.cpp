@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,35 +44,179 @@ TableDefinition* dockeyposTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void dockeyposTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dockeyposTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dockeyposTableBase::Get_DOCKEY_ID(long long& out) const {
-    GetConstColumnByName("DOCKEY_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DOCKEY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DOCKEY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DOCKEY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DOCKEY_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dockeyposTableBase::Set_DOCKEY_ID(const long long& in) {
-    GetColumnByName("DOCKEY_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DOCKEY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DOCKEY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DOCKEY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DOCKEY_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dockeyposTableBase::Get_paragraph(long long& out) const {
-    GetConstColumnByName("paragraph")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "paragraph";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "paragraph";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("paragraph");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "paragraph";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dockeyposTableBase::Set_paragraph(const long long& in) {
-    GetColumnByName("paragraph")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "paragraph";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "paragraph";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("paragraph");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "paragraph";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dockeyposTableBase::Get_position(long long& out) const {
-    GetConstColumnByName("position")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "position";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "position";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("position");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "position";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dockeyposTableBase::Set_position(const long long& in) {
-    GetColumnByName("position")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "position";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "position";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("position");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "position";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -378,17 +523,21 @@ void dockeyposTableBase::GetWhereColumnsFor_position(
 TableColumnDefinition* dockeyposTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "dockeypos";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dockeypos");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -407,17 +556,21 @@ TableColumnDefinition* dockeyposTableBase::GetDefinition_ID() {
 TableColumnDefinition* dockeyposTableBase::GetDefinition_DOCKEY_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "DOCKEY_ID";
-    createParam.tableName          = "dockeypos";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "DOCKEY_ID";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "DOCKEY_ID";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("DOCKEY_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dockeypos");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -436,17 +589,21 @@ TableColumnDefinition* dockeyposTableBase::GetDefinition_DOCKEY_ID() {
 TableColumnDefinition* dockeyposTableBase::GetDefinition_paragraph() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "paragraph";
-    createParam.tableName          = "dockeypos";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "paragraph";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "paragraph";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("paragraph");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dockeypos");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -465,17 +622,21 @@ TableColumnDefinition* dockeyposTableBase::GetDefinition_paragraph() {
 TableColumnDefinition* dockeyposTableBase::GetDefinition_position() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "position";
-    createParam.tableName          = "dockeypos";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "lexicon";
+      createParam.columnName   = "position";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "position";
+      createParam.tableName    = "dockeypos";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("position");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dockeypos");
       break;
     case DB_INVALID_TYPE:
     default:

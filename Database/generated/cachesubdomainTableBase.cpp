@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,43 +43,223 @@ TableDefinition* cachesubdomainTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void cachesubdomainTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cachesubdomainTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cachesubdomainTableBase::Get_size(long long& out) const {
-    GetConstColumnByName("size")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "size";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "size";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("size");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "size";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cachesubdomainTableBase::Set_size(const long long& in) {
-    GetColumnByName("size")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "size";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "size";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("size");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "size";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cachesubdomainTableBase::Get_matches(long long& out) const {
-    GetConstColumnByName("matches")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "matches";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "matches";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("matches");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "matches";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cachesubdomainTableBase::Set_matches(const long long& in) {
-    GetColumnByName("matches")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "matches";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "matches";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("matches");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "matches";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cachesubdomainTableBase::Get_misses(long long& out) const {
-    GetConstColumnByName("misses")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "misses";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "misses";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("misses");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "misses";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cachesubdomainTableBase::Set_misses(const long long& in) {
-    GetColumnByName("misses")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "misses";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "misses";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("misses");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "misses";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cachesubdomainTableBase::Get_action_time(struct tm& out) const {
-    GetConstColumnByName("action_time")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "action_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "action_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("action_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "action_time";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cachesubdomainTableBase::Set_action_time(const struct tm& in) {
-    GetColumnByName("action_time")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "action_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "action_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("action_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "action_time";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -394,17 +575,21 @@ void cachesubdomainTableBase::GetWhereColumnsFor_action_time(
 TableColumnDefinition* cachesubdomainTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "cachesubdomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cachesubdomain");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -423,17 +608,21 @@ TableColumnDefinition* cachesubdomainTableBase::GetDefinition_ID() {
 TableColumnDefinition* cachesubdomainTableBase::GetDefinition_size() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "size";
-    createParam.tableName          = "cachesubdomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "size";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "size";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("size");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cachesubdomain");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -452,17 +641,21 @@ TableColumnDefinition* cachesubdomainTableBase::GetDefinition_size() {
 TableColumnDefinition* cachesubdomainTableBase::GetDefinition_matches() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "matches";
-    createParam.tableName          = "cachesubdomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "matches";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "matches";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("matches");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cachesubdomain");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -481,17 +674,21 @@ TableColumnDefinition* cachesubdomainTableBase::GetDefinition_matches() {
 TableColumnDefinition* cachesubdomainTableBase::GetDefinition_misses() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "misses";
-    createParam.tableName          = "cachesubdomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "misses";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "misses";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("misses");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cachesubdomain");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -510,17 +707,21 @@ TableColumnDefinition* cachesubdomainTableBase::GetDefinition_misses() {
 TableColumnDefinition* cachesubdomainTableBase::GetDefinition_action_time() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "action_time";
-    createParam.tableName          = "cachesubdomain";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "action_time";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "action_time";
+      createParam.tableName    = "cachesubdomain";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("action_time");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cachesubdomain");
       break;
     case DB_INVALID_TYPE:
     default:

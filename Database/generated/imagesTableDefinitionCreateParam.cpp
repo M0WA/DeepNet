@@ -4,6 +4,8 @@
 #include "imagesTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 imagesTableDefinitionCreateParam::imagesTableDefinitionCreateParam()

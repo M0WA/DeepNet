@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,19 +43,91 @@ TableDefinition* topleveldomainsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void topleveldomainsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void topleveldomainsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void topleveldomainsTableBase::Get_tld(std::string& out) const {
-    GetConstColumnByName("tld")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "tld";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "tld";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("tld");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "tld";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void topleveldomainsTableBase::Set_tld(const std::string& in) {
-    GetColumnByName("tld")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "tld";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "tld";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("tld");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "tld";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -196,17 +269,21 @@ void topleveldomainsTableBase::GetWhereColumnsFor_tld(
 TableColumnDefinition* topleveldomainsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "topleveldomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "topleveldomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "topleveldomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("topleveldomains");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -225,17 +302,21 @@ TableColumnDefinition* topleveldomainsTableBase::GetDefinition_ID() {
 TableColumnDefinition* topleveldomainsTableBase::GetDefinition_tld() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "tld";
-    createParam.tableName          = "topleveldomains";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
+      createParam.columnName   = "tld";
+      createParam.tableName    = "topleveldomains";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "tld";
+      createParam.tableName    = "topleveldomains";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("tld");
+      createParam.tableName    = tools::StringTools::ToLowerNP("topleveldomains");
       break;
     case DB_INVALID_TYPE:
     default:

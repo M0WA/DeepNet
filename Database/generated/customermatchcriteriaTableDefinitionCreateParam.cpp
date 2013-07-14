@@ -4,6 +4,8 @@
 #include "customermatchcriteriaTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 customermatchcriteriaTableDefinitionCreateParam::customermatchcriteriaTableDefinitionCreateParam()

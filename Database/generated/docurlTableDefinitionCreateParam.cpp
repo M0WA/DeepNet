@@ -4,6 +4,8 @@
 #include "docurlTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 docurlTableDefinitionCreateParam::docurlTableDefinitionCreateParam()

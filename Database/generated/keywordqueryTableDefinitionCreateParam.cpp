@@ -4,6 +4,8 @@
 #include "keywordqueryTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 keywordqueryTableDefinitionCreateParam::keywordqueryTableDefinitionCreateParam()

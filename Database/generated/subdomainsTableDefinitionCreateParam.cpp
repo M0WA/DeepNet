@@ -4,6 +4,8 @@
 #include "subdomainsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 subdomainsTableDefinitionCreateParam::subdomainsTableDefinitionCreateParam()

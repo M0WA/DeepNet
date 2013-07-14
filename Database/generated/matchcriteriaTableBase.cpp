@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,19 +43,91 @@ TableDefinition* matchcriteriaTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void matchcriteriaTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void matchcriteriaTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void matchcriteriaTableBase::Get_regex(std::string& out) const {
-    GetConstColumnByName("regex")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "regex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "regex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("regex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "regex";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void matchcriteriaTableBase::Set_regex(const std::string& in) {
-    GetColumnByName("regex")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "regex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "regex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("regex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "regex";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -196,17 +269,21 @@ void matchcriteriaTableBase::GetWhereColumnsFor_regex(
 TableColumnDefinition* matchcriteriaTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "matchcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "matchcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "matchcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("matchcriteria");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -225,17 +302,21 @@ TableColumnDefinition* matchcriteriaTableBase::GetDefinition_ID() {
 TableColumnDefinition* matchcriteriaTableBase::GetDefinition_regex() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "regex";
-    createParam.tableName          = "matchcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "regex";
+      createParam.tableName    = "matchcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "regex";
+      createParam.tableName    = "matchcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("regex");
+      createParam.tableName    = tools::StringTools::ToLowerNP("matchcriteria");
       break;
     case DB_INVALID_TYPE:
     default:

@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -44,35 +45,179 @@ TableDefinition* customermatchcriteriaTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customermatchcriteriaTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriaTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriaTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
-    GetConstColumnByName("CUSTOMERDOMAIN_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriaTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
-    GetColumnByName("CUSTOMERDOMAIN_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriaTableBase::Get_MATCHCRITERIA_ID(long long& out) const {
-    GetConstColumnByName("MATCHCRITERIA_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "MATCHCRITERIA_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "MATCHCRITERIA_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("MATCHCRITERIA_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "MATCHCRITERIA_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriaTableBase::Set_MATCHCRITERIA_ID(const long long& in) {
-    GetColumnByName("MATCHCRITERIA_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "MATCHCRITERIA_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "MATCHCRITERIA_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("MATCHCRITERIA_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "MATCHCRITERIA_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customermatchcriteriaTableBase::Get_type(long long& out) const {
-    GetConstColumnByName("type")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customermatchcriteriaTableBase::Set_type(const long long& in) {
-    GetColumnByName("type")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -428,17 +573,21 @@ void customermatchcriteriaTableBase::GetWhereColumnsFor_type(
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customermatchcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteria");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -457,17 +606,21 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_ID() {
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "CUSTOMERDOMAIN_ID";
-    createParam.tableName          = "customermatchcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "CUSTOMERDOMAIN_ID";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteria");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -486,17 +639,21 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_CUSTOMERDOM
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_MATCHCRITERIA_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "MATCHCRITERIA_ID";
-    createParam.tableName          = "customermatchcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "MATCHCRITERIA_ID";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "MATCHCRITERIA_ID";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("MATCHCRITERIA_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteria");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -515,17 +672,21 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_MATCHCRITER
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_type() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "type";
-    createParam.tableName          = "customermatchcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "type";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "type";
+      createParam.tableName    = "customermatchcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("type");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customermatchcriteria");
       break;
     case DB_INVALID_TYPE:
     default:

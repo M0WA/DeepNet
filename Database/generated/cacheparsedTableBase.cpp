@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,43 +43,223 @@ TableDefinition* cacheparsedTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void cacheparsedTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cacheparsedTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cacheparsedTableBase::Get_size(long long& out) const {
-    GetConstColumnByName("size")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "size";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "size";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("size");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "size";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cacheparsedTableBase::Set_size(const long long& in) {
-    GetColumnByName("size")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "size";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "size";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("size");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "size";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cacheparsedTableBase::Get_matches(long long& out) const {
-    GetConstColumnByName("matches")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "matches";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "matches";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("matches");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "matches";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cacheparsedTableBase::Set_matches(const long long& in) {
-    GetColumnByName("matches")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "matches";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "matches";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("matches");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "matches";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cacheparsedTableBase::Get_misses(long long& out) const {
-    GetConstColumnByName("misses")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "misses";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "misses";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("misses");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "misses";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cacheparsedTableBase::Set_misses(const long long& in) {
-    GetColumnByName("misses")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "misses";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "misses";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("misses");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "misses";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void cacheparsedTableBase::Get_action_time(struct tm& out) const {
-    GetConstColumnByName("action_time")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "action_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "action_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("action_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "action_time";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void cacheparsedTableBase::Set_action_time(const struct tm& in) {
-    GetColumnByName("action_time")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "action_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "action_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("action_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "action_time";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -394,17 +575,21 @@ void cacheparsedTableBase::GetWhereColumnsFor_action_time(
 TableColumnDefinition* cacheparsedTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "cacheparsed";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cacheparsed");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -423,17 +608,21 @@ TableColumnDefinition* cacheparsedTableBase::GetDefinition_ID() {
 TableColumnDefinition* cacheparsedTableBase::GetDefinition_size() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "size";
-    createParam.tableName          = "cacheparsed";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "size";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "size";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("size");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cacheparsed");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -452,17 +641,21 @@ TableColumnDefinition* cacheparsedTableBase::GetDefinition_size() {
 TableColumnDefinition* cacheparsedTableBase::GetDefinition_matches() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "matches";
-    createParam.tableName          = "cacheparsed";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "matches";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "matches";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("matches");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cacheparsed");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -481,17 +674,21 @@ TableColumnDefinition* cacheparsedTableBase::GetDefinition_matches() {
 TableColumnDefinition* cacheparsedTableBase::GetDefinition_misses() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "misses";
-    createParam.tableName          = "cacheparsed";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "misses";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "misses";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("misses");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cacheparsed");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -510,17 +707,21 @@ TableColumnDefinition* cacheparsedTableBase::GetDefinition_misses() {
 TableColumnDefinition* cacheparsedTableBase::GetDefinition_action_time() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "action_time";
-    createParam.tableName          = "cacheparsed";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "action_time";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "action_time";
+      createParam.tableName    = "cacheparsed";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("action_time");
+      createParam.tableName    = tools::StringTools::ToLowerNP("cacheparsed");
       break;
     case DB_INVALID_TYPE:
     default:

@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,19 +43,91 @@ TableDefinition* keywordqueryTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void keywordqueryTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void keywordqueryTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void keywordqueryTableBase::Get_query_part(std::string& out) const {
-    GetConstColumnByName("query_part")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "query_part";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "query_part";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("query_part");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "query_part";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void keywordqueryTableBase::Set_query_part(const std::string& in) {
-    GetColumnByName("query_part")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "query_part";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "query_part";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("query_part");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "query_part";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -196,17 +269,21 @@ void keywordqueryTableBase::GetWhereColumnsFor_query_part(
 TableColumnDefinition* keywordqueryTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "keywordquery";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "keywordquery";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "keywordquery";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("keywordquery");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -225,17 +302,21 @@ TableColumnDefinition* keywordqueryTableBase::GetDefinition_ID() {
 TableColumnDefinition* keywordqueryTableBase::GetDefinition_query_part() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "query_part";
-    createParam.tableName          = "keywordquery";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "query_part";
+      createParam.tableName    = "keywordquery";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "query_part";
+      createParam.tableName    = "keywordquery";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("query_part");
+      createParam.tableName    = tools::StringTools::ToLowerNP("keywordquery");
       break;
     case DB_INVALID_TYPE:
     default:

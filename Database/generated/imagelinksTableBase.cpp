@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -45,35 +46,179 @@ TableDefinition* imagelinksTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void imagelinksTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void imagelinksTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void imagelinksTableBase::Get_TARGET_URL_ID(long long& out) const {
-    GetConstColumnByName("TARGET_URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "TARGET_URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void imagelinksTableBase::Set_TARGET_URL_ID(const long long& in) {
-    GetColumnByName("TARGET_URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "TARGET_URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void imagelinksTableBase::Get_IMAGE_URL_ID(long long& out) const {
-    GetConstColumnByName("IMAGE_URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("IMAGE_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void imagelinksTableBase::Set_IMAGE_URL_ID(const long long& in) {
-    GetColumnByName("IMAGE_URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("IMAGE_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void imagelinksTableBase::Get_URLSTAGE_ID(long long& out) const {
-    GetConstColumnByName("URLSTAGE_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void imagelinksTableBase::Set_URLSTAGE_ID(const long long& in) {
-    GetColumnByName("URLSTAGE_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -478,17 +623,21 @@ void imagelinksTableBase::GetWhereColumnsFor_URLSTAGE_ID(
 TableColumnDefinition* imagelinksTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "imagelinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("imagelinks");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -507,17 +656,21 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_ID() {
 TableColumnDefinition* imagelinksTableBase::GetDefinition_TARGET_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "TARGET_URL_ID";
-    createParam.tableName          = "imagelinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "TARGET_URL_ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "TARGET_URL_ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("imagelinks");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -536,17 +689,21 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_TARGET_URL_ID() {
 TableColumnDefinition* imagelinksTableBase::GetDefinition_IMAGE_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "IMAGE_URL_ID";
-    createParam.tableName          = "imagelinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "IMAGE_URL_ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "IMAGE_URL_ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("IMAGE_URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("imagelinks");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -565,17 +722,21 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_IMAGE_URL_ID() {
 TableColumnDefinition* imagelinksTableBase::GetDefinition_URLSTAGE_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URLSTAGE_ID";
-    createParam.tableName          = "imagelinks";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "contents";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "imagelinks";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("imagelinks");
       break;
     case DB_INVALID_TYPE:
     default:

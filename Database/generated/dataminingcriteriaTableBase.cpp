@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,27 +43,135 @@ TableDefinition* dataminingcriteriaTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void dataminingcriteriaTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dataminingcriteriaTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dataminingcriteriaTableBase::Get_keyword(std::string& out) const {
-    GetConstColumnByName("keyword")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dataminingcriteriaTableBase::Set_keyword(const std::string& in) {
-    GetColumnByName("keyword")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void dataminingcriteriaTableBase::Get_type(long long& out) const {
-    GetConstColumnByName("type")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void dataminingcriteriaTableBase::Set_type(const long long& in) {
-    GetColumnByName("type")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -262,17 +371,21 @@ void dataminingcriteriaTableBase::GetWhereColumnsFor_type(
 TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "dataminingcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "datamining";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "dataminingcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "dataminingcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dataminingcriteria");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -291,17 +404,21 @@ TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_ID() {
 TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_keyword() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "keyword";
-    createParam.tableName          = "dataminingcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "datamining";
+      createParam.columnName   = "keyword";
+      createParam.tableName    = "dataminingcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "keyword";
+      createParam.tableName    = "dataminingcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("keyword");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dataminingcriteria");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -320,17 +437,21 @@ TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_keyword() {
 TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_type() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "type";
-    createParam.tableName          = "dataminingcriteria";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "datamining";
+      createParam.columnName   = "type";
+      createParam.tableName    = "dataminingcriteria";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "type";
+      createParam.tableName    = "dataminingcriteria";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("type");
+      createParam.tableName    = tools::StringTools::ToLowerNP("dataminingcriteria");
       break;
     case DB_INVALID_TYPE:
     default:

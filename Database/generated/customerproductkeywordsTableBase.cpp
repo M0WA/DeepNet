@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -44,27 +45,135 @@ TableDefinition* customerproductkeywordsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customerproductkeywordsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerproductkeywordsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerproductkeywordsTableBase::Get_PRODUCT_ID(long long& out) const {
-    GetConstColumnByName("PRODUCT_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PRODUCT_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerproductkeywordsTableBase::Set_PRODUCT_ID(const long long& in) {
-    GetColumnByName("PRODUCT_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PRODUCT_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerproductkeywordsTableBase::Get_DICT_ID(long long& out) const {
-    GetConstColumnByName("DICT_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerproductkeywordsTableBase::Set_DICT_ID(const long long& in) {
-    GetColumnByName("DICT_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -362,17 +471,21 @@ void customerproductkeywordsTableBase::GetWhereColumnsFor_DICT_ID(
 TableColumnDefinition* customerproductkeywordsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customerproductkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerproductkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerproductkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerproductkeywords");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -391,17 +504,21 @@ TableColumnDefinition* customerproductkeywordsTableBase::GetDefinition_ID() {
 TableColumnDefinition* customerproductkeywordsTableBase::GetDefinition_PRODUCT_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "PRODUCT_ID";
-    createParam.tableName          = "customerproductkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "PRODUCT_ID";
+      createParam.tableName    = "customerproductkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "PRODUCT_ID";
+      createParam.tableName    = "customerproductkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerproductkeywords");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -420,17 +537,21 @@ TableColumnDefinition* customerproductkeywordsTableBase::GetDefinition_PRODUCT_I
 TableColumnDefinition* customerproductkeywordsTableBase::GetDefinition_DICT_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "DICT_ID";
-    createParam.tableName          = "customerproductkeywords";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "DICT_ID";
+      createParam.tableName    = "customerproductkeywords";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "DICT_ID";
+      createParam.tableName    = "customerproductkeywords";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("DICT_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerproductkeywords");
       break;
     case DB_INVALID_TYPE:
     default:

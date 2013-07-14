@@ -4,6 +4,8 @@
 #include "topleveldomainsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 topleveldomainsTableDefinitionCreateParam::topleveldomainsTableDefinitionCreateParam()

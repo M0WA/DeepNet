@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,27 +44,135 @@ TableDefinition* customersyncurlTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customersyncurlTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersyncurlTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersyncurlTableBase::Get_URL_ID(long long& out) const {
-    GetConstColumnByName("URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersyncurlTableBase::Set_URL_ID(const long long& in) {
-    GetColumnByName("URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customersyncurlTableBase::Get_scheduled(struct tm& out) const {
-    GetConstColumnByName("scheduled")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheduled";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheduled";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheduled");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheduled";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customersyncurlTableBase::Set_scheduled(const struct tm& in) {
-    GetColumnByName("scheduled")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheduled";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheduled";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheduled");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheduled";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -312,17 +421,21 @@ void customersyncurlTableBase::GetWhereColumnsFor_scheduled(
 TableColumnDefinition* customersyncurlTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customersyncurl";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customersyncurl";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customersyncurl";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersyncurl");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -341,17 +454,21 @@ TableColumnDefinition* customersyncurlTableBase::GetDefinition_ID() {
 TableColumnDefinition* customersyncurlTableBase::GetDefinition_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URL_ID";
-    createParam.tableName          = "customersyncurl";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "customersyncurl";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "customersyncurl";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersyncurl");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -370,17 +487,21 @@ TableColumnDefinition* customersyncurlTableBase::GetDefinition_URL_ID() {
 TableColumnDefinition* customersyncurlTableBase::GetDefinition_scheduled() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "scheduled";
-    createParam.tableName          = "customersyncurl";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "scheduled";
+      createParam.tableName    = "customersyncurl";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "scheduled";
+      createParam.tableName    = "customersyncurl";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("scheduled");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customersyncurl");
       break;
     case DB_INVALID_TYPE:
     default:

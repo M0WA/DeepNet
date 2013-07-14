@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -44,27 +45,135 @@ TableDefinition* customerproducturlsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void customerproducturlsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerproducturlsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerproducturlsTableBase::Get_PRODUCT_ID(long long& out) const {
-    GetConstColumnByName("PRODUCT_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PRODUCT_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerproducturlsTableBase::Set_PRODUCT_ID(const long long& in) {
-    GetColumnByName("PRODUCT_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PRODUCT_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void customerproducturlsTableBase::Get_URL_ID(long long& out) const {
-    GetConstColumnByName("URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void customerproducturlsTableBase::Set_URL_ID(const long long& in) {
-    GetColumnByName("URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -362,17 +471,21 @@ void customerproducturlsTableBase::GetWhereColumnsFor_URL_ID(
 TableColumnDefinition* customerproducturlsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "customerproducturls";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerproducturls";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "customerproducturls";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerproducturls");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -391,17 +504,21 @@ TableColumnDefinition* customerproducturlsTableBase::GetDefinition_ID() {
 TableColumnDefinition* customerproducturlsTableBase::GetDefinition_PRODUCT_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "PRODUCT_ID";
-    createParam.tableName          = "customerproducturls";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "PRODUCT_ID";
+      createParam.tableName    = "customerproducturls";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "PRODUCT_ID";
+      createParam.tableName    = "customerproducturls";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerproducturls");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -420,17 +537,21 @@ TableColumnDefinition* customerproducturlsTableBase::GetDefinition_PRODUCT_ID() 
 TableColumnDefinition* customerproducturlsTableBase::GetDefinition_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URL_ID";
-    createParam.tableName          = "customerproducturls";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "commercesearch";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "customerproducturls";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "customerproducturls";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("customerproducturls");
       break;
     case DB_INVALID_TYPE:
     default:

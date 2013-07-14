@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -42,67 +43,355 @@ TableDefinition* logmessagesTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void logmessagesTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_loglevel(long long& out) const {
-    GetConstColumnByName("loglevel")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "loglevel";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "loglevel";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("loglevel");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "loglevel";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_loglevel(const long long& in) {
-    GetColumnByName("loglevel")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "loglevel";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "loglevel";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("loglevel");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "loglevel";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_message(std::string& out) const {
-    GetConstColumnByName("message")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "message";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "message";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("message");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "message";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_message(const std::string& in) {
-    GetColumnByName("message")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "message";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "message";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("message");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "message";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_actiontime(struct tm& out) const {
-    GetConstColumnByName("actiontime")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "actiontime";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "actiontime";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("actiontime");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "actiontime";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_actiontime(const struct tm& in) {
-    GetColumnByName("actiontime")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "actiontime";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "actiontime";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("actiontime");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "actiontime";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_pid(long long& out) const {
-    GetConstColumnByName("pid")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "pid";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "pid";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("pid");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "pid";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_pid(const long long& in) {
-    GetColumnByName("pid")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "pid";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "pid";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("pid");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "pid";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_tid(long long& out) const {
-    GetConstColumnByName("tid")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "tid";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "tid";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("tid");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "tid";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_tid(const long long& in) {
-    GetColumnByName("tid")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "tid";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "tid";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("tid");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "tid";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_appName(std::string& out) const {
-    GetConstColumnByName("appName")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "appName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "appName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("appName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "appName";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_appName(const std::string& in) {
-    GetColumnByName("appName")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "appName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "appName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("appName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "appName";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void logmessagesTableBase::Get_threadName(std::string& out) const {
-    GetConstColumnByName("threadName")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "threadName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "threadName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("threadName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "threadName";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void logmessagesTableBase::Set_threadName(const std::string& in) {
-    GetColumnByName("threadName")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "threadName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "threadName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("threadName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "threadName";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -592,17 +881,21 @@ void logmessagesTableBase::GetWhereColumnsFor_threadName(
 TableColumnDefinition* logmessagesTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -621,17 +914,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_ID() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_loglevel() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "loglevel";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "loglevel";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "loglevel";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("loglevel");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -650,17 +947,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_loglevel() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_message() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "message";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "message";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "message";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("message");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -679,17 +980,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_message() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_actiontime() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "actiontime";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "actiontime";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "actiontime";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("actiontime");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -708,17 +1013,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_actiontime() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_pid() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "pid";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "pid";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "pid";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("pid");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -737,17 +1046,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_pid() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_tid() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "tid";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "tid";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "tid";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("tid");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -766,17 +1079,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_tid() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_appName() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "appName";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "appName";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "appName";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("appName");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -795,17 +1112,21 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_appName() {
 TableColumnDefinition* logmessagesTableBase::GetDefinition_threadName() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "threadName";
-    createParam.tableName          = "logmessages";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
+      createParam.columnName   = "threadName";
+      createParam.tableName    = "logmessages";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "threadName";
+      createParam.tableName    = "logmessages";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("threadName");
+      createParam.tableName    = tools::StringTools::ToLowerNP("logmessages");
       break;
     case DB_INVALID_TYPE:
     default:

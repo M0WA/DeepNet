@@ -4,6 +4,8 @@
 #include "docmetaTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 docmetaTableDefinitionCreateParam::docmetaTableDefinitionCreateParam()

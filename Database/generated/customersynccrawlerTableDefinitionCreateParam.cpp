@@ -4,6 +4,8 @@
 #include "customersynccrawlerTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 customersynccrawlerTableDefinitionCreateParam::customersynccrawlerTableDefinitionCreateParam()

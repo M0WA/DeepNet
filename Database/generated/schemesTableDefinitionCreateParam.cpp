@@ -4,6 +4,8 @@
 #include "schemesTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 schemesTableDefinitionCreateParam::schemesTableDefinitionCreateParam()

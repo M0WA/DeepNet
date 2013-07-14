@@ -4,6 +4,8 @@
 #include "syncurlsTableBase.h"
 #include "DatabaseHelper.h"
 
+#include <StringTools.h>
+
 namespace database {
 
 syncurlsTableDefinitionCreateParam::syncurlsTableDefinitionCreateParam()

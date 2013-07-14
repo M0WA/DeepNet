@@ -15,6 +15,7 @@
 
 #include "InnerJoinEntry.h"
 
+#include <StringTools.h>
 #include <NotImplementedException.h>
 
 
@@ -43,43 +44,223 @@ TableDefinition* queryresultsTableBase::CreateTableDefinition(){
 // template: TableBase_GetSetFields.inc.cpp
 //
 void queryresultsTableBase::Get_ID(long long& out) const {
-    GetConstColumnByName("ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void queryresultsTableBase::Set_ID(const long long& in) {
-    GetColumnByName("ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void queryresultsTableBase::Get_SEARCHQUERY_ID(long long& out) const {
-    GetConstColumnByName("SEARCHQUERY_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SEARCHQUERY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void queryresultsTableBase::Set_SEARCHQUERY_ID(const long long& in) {
-    GetColumnByName("SEARCHQUERY_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SEARCHQUERY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void queryresultsTableBase::Get_URL_ID(long long& out) const {
-    GetConstColumnByName("URL_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void queryresultsTableBase::Set_URL_ID(const long long& in) {
-    GetColumnByName("URL_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void queryresultsTableBase::Get_URLSTAGE_ID(long long& out) const {
-    GetConstColumnByName("URLSTAGE_ID")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void queryresultsTableBase::Set_URLSTAGE_ID(const long long& in) {
-    GetColumnByName("URLSTAGE_ID")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 void queryresultsTableBase::Get_order_position(long long& out) const {
-    GetConstColumnByName("order_position")->Get(out);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "order_position";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "order_position";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("order_position");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "order_position";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
 }
 
 void queryresultsTableBase::Set_order_position(const long long& in) {
-    GetColumnByName("order_position")->Set(in);
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "order_position";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "order_position";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("order_position");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "order_position";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
 }
 
 
@@ -444,17 +625,21 @@ void queryresultsTableBase::GetWhereColumnsFor_order_position(
 TableColumnDefinition* queryresultsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "ID";
-    createParam.tableName          = "queryresults";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -473,17 +658,21 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_ID() {
 TableColumnDefinition* queryresultsTableBase::GetDefinition_SEARCHQUERY_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "SEARCHQUERY_ID";
-    createParam.tableName          = "queryresults";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "SEARCHQUERY_ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "SEARCHQUERY_ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("SEARCHQUERY_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -502,17 +691,21 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_SEARCHQUERY_ID() {
 TableColumnDefinition* queryresultsTableBase::GetDefinition_URL_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URL_ID";
-    createParam.tableName          = "queryresults";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URL_ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URL_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -531,17 +724,21 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_URL_ID() {
 TableColumnDefinition* queryresultsTableBase::GetDefinition_URLSTAGE_ID() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "URLSTAGE_ID";
-    createParam.tableName          = "queryresults";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "URLSTAGE_ID";
+      createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -560,17 +757,21 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_URLSTAGE_ID() {
 TableColumnDefinition* queryresultsTableBase::GetDefinition_order_position() {
 
     TableColumnDefinitionCreateParam createParam;
-    createParam.columnName         = "order_position";
-    createParam.tableName          = "queryresults";
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
+      createParam.columnName   = "order_position";
+      createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
+      createParam.columnName   = "order_position";
+      createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("order_position");
+      createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:
     default:
