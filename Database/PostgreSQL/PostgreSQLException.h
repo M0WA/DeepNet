@@ -13,6 +13,9 @@
 
 namespace database {
 
+/**
+ * @brief implements an exception that is releated to PostgreSQL errors
+ */
 class PostgreSQLException: public database::DatabaseException {
 public:
 	PostgreSQLException(

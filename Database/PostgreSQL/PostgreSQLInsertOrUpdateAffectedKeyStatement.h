@@ -13,9 +13,20 @@
 namespace database {
 
 class InsertOrUpdateStatement;
+class PostgreSQLConnection;
+
+/**
+ * @brief used internally only by database::PostgreSQLConnection for database::InsertOrUpdateStatement
+ * @see database::InsertOrUpdateStatement
+ * @see database::PostgreSQLConnection
+ */
 class PostgreSQLInsertOrUpdateAffectedKeyStatement: public database::SelectStatement {
-public:
+
+	friend class PostgreSQLConnection;
+
+private:
 	PostgreSQLInsertOrUpdateAffectedKeyStatement(const InsertOrUpdateStatement& stmt);
+public:
 	virtual ~PostgreSQLInsertOrUpdateAffectedKeyStatement();
 
 private:

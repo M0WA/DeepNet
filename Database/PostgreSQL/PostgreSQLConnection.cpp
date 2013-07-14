@@ -216,39 +216,51 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	PostgreSQLInsertOrUpdateStatement pgStmt(stmt);
+	TransactionStart();
 
-	lastInsertID = -1;
-	PGresult* res = Execute_Intern(pgStmt.ToSQL(this).c_str());
-	SetLastInsertID(res);
-	PQclear(res);
+	try {
+		//insert or update entries
+		PostgreSQLInsertOrUpdateStatement pgStmt(stmt);
+		lastInsertID = -1;
+		PGresult* res = Execute_Intern(pgStmt.ToSQL(this).c_str());
+		SetLastInsertID(res);
+		PQclear(res);
 
-	if(lastInsertID == -1) {
-		long long tmpAffected = affectedRows;
-		PostgreSQLInsertOrUpdateAffectedKeyStatement selectIDStmt(stmt);
-		SelectResultContainer<TableBase> results;
-		DatabaseConnection::Select(dynamic_cast<const SelectStatement&>(selectIDStmt),results);
+		//check if we need to select the affected key by hand
+		if(lastInsertID == -1) {
 
-		if(results.Size() != 1) {
-			//
-			//TODO: rollback transaction
-			//
-			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
+			long long tmpAffected = affectedRows;
+
+			PostgreSQLInsertOrUpdateAffectedKeyStatement selectIDStmt(stmt);
+			SelectResultContainer<TableBase> results;
+			DatabaseConnection::Select(dynamic_cast<const SelectStatement&>(selectIDStmt),results);
+
+			if(results.Size() != 1) {
+				THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
+			}
+			results.ResetIter();
+			const std::vector<TableColumn*>& cols = results.GetConstIter()->GetConstColumns();
+			if(cols.size() != 1) {
+				THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
+			}
+
+			TableColumn* priKeyCol = cols.at(0);
+			priKeyCol->Get(lastInsertID);
+
+			affectedRows = tmpAffected;
 		}
-		results.ResetIter();
-		const std::vector<TableColumn*>& cols = results.GetConstIter()->GetConstColumns();
-		if(cols.size() != 1) {
-			//
-			//TODO: rollback transaction
-			//
-			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
-		}
-
-		TableColumn* priKeyCol = cols.at(0);
-		priKeyCol->Get(lastInsertID);
-
-		affectedRows = tmpAffected;
 	}
+	catch(errors::Exception& e) {
+		try {
+			TransactionRollback();
+		}
+		catch(...) {
+			log::Logging::LogError("could not rollback after error");
+		}
+		throw;
+	}
+
+	TransactionCommit();
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){

@@ -12,6 +12,9 @@
 
 namespace database {
 
+/**
+ * @brief error when an unique key is a sum column
+ */
 class PostgreSQLUniqueKeyIsSumColumnException: public database::PostgreSQLException {
 public:
 	PostgreSQLUniqueKeyIsSumColumnException(

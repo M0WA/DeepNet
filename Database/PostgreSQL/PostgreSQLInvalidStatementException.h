@@ -2,7 +2,7 @@
  *
  * @file PostgreSQLInvalidStatementException.h
  * @author Moritz Wagner
- * @date 13.06.2013
+ * @date 13.07.2013
  *
  */
 
@@ -12,6 +12,9 @@
 
 namespace database {
 
+/**
+ * @brief describes an PostgreSQL specific error in an statement
+ */
 class PostgreSQLInvalidStatementException: public database::PostgreSQLException {
 public:
 	PostgreSQLInvalidStatementException(
