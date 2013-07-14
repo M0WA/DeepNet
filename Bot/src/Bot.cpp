@@ -334,6 +334,8 @@ void Bot::InitLogging()
 
 void Bot::RegisterDatabaseConfigParams(void)
 {
+	std::string defaultDbType = "mysql";
+	Config().RegisterParam( "dbtype", "database type, one of: mysql | postgres ", true, &defaultDbType );
 	Config().RegisterParam( "dbhost", "database host"    , true, 0 );
 	Config().RegisterParam( "dbport", "database port"    , true, 0 );
 	Config().RegisterParam( "dbname", "database name"    , true, 0 );
@@ -343,10 +345,22 @@ void Bot::RegisterDatabaseConfigParams(void)
 
 bool Bot::InitDatabaseConfigs(void)
 {
-	int port;
-	std::string tmp;
-	dbConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
 	bool bSuccess = true;
+	std::string tmp;
+	if( ( bSuccess &= Config().GetValue("dbtype", tmp) ) ) {
+		if(tmp.compare("mysql") == 0) {
+			dbConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
+		}
+		else if(tmp.compare("postgres") == 0) {
+			dbConfig = dynamic_cast<database::DatabaseConfig*>(new database::PostgreSQLDatabaseConfig());
+		}
+		else {
+			log::Logging::LogError("invalid database type specified, defaulting to MySQL");
+			dbConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
+		}
+	}
+
+	int port;
 	if( ( bSuccess &= Config().GetValue("dbhost", tmp) ) ) {
 		dbConfig->SetHost(tmp);}
 	if( ( bSuccess &= Config().GetValue("dbport", port) ) ) {
