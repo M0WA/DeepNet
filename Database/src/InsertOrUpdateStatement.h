@@ -18,7 +18,7 @@ class TableColumnDefinition;
 class DatabaseConnection;
 
 /**
- * @brief implements generic sql insert or update statement.
+ * @brief implements generic sql insert or update statement (also known as upsert).
  * @see database::MySQLInsertOrUpdateStatement
  * @see database::DB2InsertOrUpdateStatement
  */
