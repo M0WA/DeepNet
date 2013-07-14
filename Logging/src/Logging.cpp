@@ -34,7 +34,7 @@ Logging::~Logging()
 
 void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std::string& msg)
 {
-	if(levelMsg>=logLevel)
+	if(levelMsg > logLevel)
 		return;
 
 	bool locked = isLocking;
@@ -55,7 +55,7 @@ void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std:
 
 void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
 
-	if(instance && levelMsg >= instance->logLevel)
+	if(instance && levelMsg > instance->logLevel)
 		return;
 
 	std::string msgOut;
@@ -99,7 +99,7 @@ void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
 
 void Logging::LogUnlimited(LogLevel levelMsg, const char* fmt,...) {
 
-	if(instance && levelMsg >= instance->logLevel)
+	if(instance && levelMsg > instance->logLevel)
 		return;
 
 	std::string msgOut;
@@ -269,7 +269,7 @@ void Logging::SetApplicationName_Intern(const std::string& applicationName) {
 
 void Logging::LogError(const char* fmt,...) {
 
-	if(instance && LOGLEVEL_ERROR >= instance->logLevel)
+	if(instance && LOGLEVEL_ERROR > instance->logLevel)
 		return;
 
 	std::string msgOut;
@@ -313,7 +313,7 @@ void Logging::LogError(const char* fmt,...) {
 
 void Logging::LogWarn(const char* fmt,...){
 
-	if(instance && LOGLEVEL_WARN >= instance->logLevel)
+	if(instance && LOGLEVEL_WARN > instance->logLevel)
 		return;
 
 	std::string msgOut;
@@ -357,7 +357,7 @@ void Logging::LogWarn(const char* fmt,...){
 
 void Logging::LogInfo(const char* fmt,...){
 
-	if(instance && LOGLEVEL_INFO >= instance->logLevel)
+	if(instance && LOGLEVEL_INFO > instance->logLevel)
 		return;
 
 	std::string msgOut;
@@ -401,7 +401,7 @@ void Logging::LogInfo(const char* fmt,...){
 
 void Logging::LogTrace(const char* fmt,...){
 
-	if(instance && LOGLEVEL_TRACE >= instance->logLevel)
+	if(instance && LOGLEVEL_TRACE > instance->logLevel)
 		return;
 
 	std::string msgOut;
