@@ -27,5 +27,10 @@ namespace database
 		 * database type for PostgreSQL databases.
 		 */
 		DB_POSTGRESQL,
+
+		/**
+		 * do not use this
+		 */
+		DB_INVALID_TYPE,
 	};
 }

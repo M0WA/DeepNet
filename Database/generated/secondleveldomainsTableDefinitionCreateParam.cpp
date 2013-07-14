@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "secondleveldomainsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 secondleveldomainsTableDefinitionCreateParam::secondleveldomainsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("documents","secondleveldomains") {
+: TableDefinitionCreateParam(GetDatabaseName(),"secondleveldomains") {
 
     CreateColumnDefinitions();
 }
@@ -26,6 +27,20 @@ void secondleveldomainsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for domain
     columnDefinitions.push_back(secondleveldomainsTableBase::GetDefinition_domain());
 
+}
+
+std::string secondleveldomainsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "documents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

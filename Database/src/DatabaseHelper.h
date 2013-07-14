@@ -11,6 +11,9 @@
 #include <string>
 
 #include <Mutex.h>
+#include <ReadWriteLock.h>
+
+#include "DatabaseTypes.h"
 
 namespace database {
 
@@ -84,6 +87,12 @@ public:
 			return strptime(in.c_str(), "%Y-%m-%d %H:%M:%S", &out) != NULL;
 		return true;
     }
+
+    static DatabaseType GetDatabaseType();
+
+  private:
+    static volatile DatabaseType dbType;
+    static threading::ReadWriteLock dbTypeMutex;
 
   private:
     DatabaseConnection* dbConnection;

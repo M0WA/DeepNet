@@ -2,6 +2,8 @@
 
 #include "TableDefinitionCreateParam.h"
 
+#include <string>
+
 namespace database {
 
 /**
@@ -15,6 +17,9 @@ public:
 
 private:
     void CreateColumnDefinitions();
+
+private:
+    static std::string GetDatabaseName();
 };
 
 }

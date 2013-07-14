@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "dictTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 dictTableDefinitionCreateParam::dictTableDefinitionCreateParam()
-: TableDefinitionCreateParam("lexicon","dict") {
+: TableDefinitionCreateParam(GetDatabaseName(),"dict") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void dictTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for occurrence
     columnDefinitions.push_back(dictTableBase::GetDefinition_occurrence());
 
+}
+
+std::string dictTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "lexicon";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

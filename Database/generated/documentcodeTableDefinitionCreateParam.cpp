@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "documentcodeTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 documentcodeTableDefinitionCreateParam::documentcodeTableDefinitionCreateParam()
-: TableDefinitionCreateParam("contents","documentcode") {
+: TableDefinitionCreateParam(GetDatabaseName(),"documentcode") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void documentcodeTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for code
     columnDefinitions.push_back(documentcodeTableBase::GetDefinition_code());
 
+}
+
+std::string documentcodeTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "contents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

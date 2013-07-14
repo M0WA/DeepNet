@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "urlstagesTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 urlstagesTableDefinitionCreateParam::urlstagesTableDefinitionCreateParam()
-: TableDefinitionCreateParam("contents","urlstages") {
+: TableDefinitionCreateParam(GetDatabaseName(),"urlstages") {
 
     CreateColumnDefinitions();
 }
@@ -71,6 +72,20 @@ void urlstagesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for found_date
     columnDefinitions.push_back(urlstagesTableBase::GetDefinition_found_date());
 
+}
+
+std::string urlstagesTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "contents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

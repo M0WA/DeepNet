@@ -21,3 +21,4 @@
 
 #include "../MySQL/MySQLDatabaseConfig.h"
 #include "../DB2/DB2DatabaseConfig.h"
+#include "../PostgreSQL/PostgreSQLDatabaseConfig.h"

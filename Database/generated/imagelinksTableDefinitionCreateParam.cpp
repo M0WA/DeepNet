@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "imagelinksTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 imagelinksTableDefinitionCreateParam::imagelinksTableDefinitionCreateParam()
-: TableDefinitionCreateParam("contents","imagelinks") {
+: TableDefinitionCreateParam(GetDatabaseName(),"imagelinks") {
 
     CreateColumnDefinitions();
 }
@@ -32,6 +33,20 @@ void imagelinksTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URLSTAGE_ID
     columnDefinitions.push_back(imagelinksTableBase::GetDefinition_URLSTAGE_ID());
 
+}
+
+std::string imagelinksTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "contents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

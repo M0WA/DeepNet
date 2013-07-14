@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "cacherobotsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 cacherobotsTableDefinitionCreateParam::cacherobotsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("logging","cacherobots") {
+: TableDefinitionCreateParam(GetDatabaseName(),"cacherobots") {
 
     CreateColumnDefinitions();
 }
@@ -35,6 +36,20 @@ void cacherobotsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for action_time
     columnDefinitions.push_back(cacherobotsTableBase::GetDefinition_action_time());
 
+}
+
+std::string cacherobotsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "logging";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

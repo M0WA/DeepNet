@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "cachehtmlTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 cachehtmlTableDefinitionCreateParam::cachehtmlTableDefinitionCreateParam()
-: TableDefinitionCreateParam("logging","cachehtml") {
+: TableDefinitionCreateParam(GetDatabaseName(),"cachehtml") {
 
     CreateColumnDefinitions();
 }
@@ -35,6 +36,20 @@ void cachehtmlTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for action_time
     columnDefinitions.push_back(cachehtmlTableBase::GetDefinition_action_time());
 
+}
+
+std::string cachehtmlTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "logging";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

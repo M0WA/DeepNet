@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "customermatchcriteriagrouptypeTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 customermatchcriteriagrouptypeTableDefinitionCreateParam::customermatchcriteriagrouptypeTableDefinitionCreateParam()
-: TableDefinitionCreateParam("commercesearch","customermatchcriteriagrouptype") {
+: TableDefinitionCreateParam(GetDatabaseName(),"customermatchcriteriagrouptype") {
 
     CreateColumnDefinitions();
 }
@@ -35,6 +36,20 @@ void customermatchcriteriagrouptypeTableDefinitionCreateParam::CreateColumnDefin
     //creating column definition for isPrimaryKey
     columnDefinitions.push_back(customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey());
 
+}
+
+std::string customermatchcriteriagrouptypeTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "commercesearch";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

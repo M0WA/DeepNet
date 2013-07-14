@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "syncurlsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 syncurlsTableDefinitionCreateParam::syncurlsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("sync","syncurls") {
+: TableDefinitionCreateParam(GetDatabaseName(),"syncurls") {
 
     CreateColumnDefinitions();
 }
@@ -35,6 +36,20 @@ void syncurlsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for schedule
     columnDefinitions.push_back(syncurlsTableBase::GetDefinition_schedule());
 
+}
+
+std::string syncurlsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "sync";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "cachesecondleveldomainTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 cachesecondleveldomainTableDefinitionCreateParam::cachesecondleveldomainTableDefinitionCreateParam()
-: TableDefinitionCreateParam("logging","cachesecondleveldomain") {
+: TableDefinitionCreateParam(GetDatabaseName(),"cachesecondleveldomain") {
 
     CreateColumnDefinitions();
 }
@@ -35,6 +36,20 @@ void cachesecondleveldomainTableDefinitionCreateParam::CreateColumnDefinitions()
     //creating column definition for action_time
     columnDefinitions.push_back(cachesecondleveldomainTableBase::GetDefinition_action_time());
 
+}
+
+std::string cachesecondleveldomainTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "logging";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

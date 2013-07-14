@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "latesturlstagesTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 latesturlstagesTableDefinitionCreateParam::latesturlstagesTableDefinitionCreateParam()
-: TableDefinitionCreateParam("contents","latesturlstages") {
+: TableDefinitionCreateParam(GetDatabaseName(),"latesturlstages") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void latesturlstagesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URLSTAGE_ID
     columnDefinitions.push_back(latesturlstagesTableBase::GetDefinition_URLSTAGE_ID());
 
+}
+
+std::string latesturlstagesTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "contents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

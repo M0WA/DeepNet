@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "dataminingcustomersessionTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 dataminingcustomersessionTableDefinitionCreateParam::dataminingcustomersessionTableDefinitionCreateParam()
-: TableDefinitionCreateParam("datamining","dataminingcustomersession") {
+: TableDefinitionCreateParam(GetDatabaseName(),"dataminingcustomersession") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void dataminingcustomersessionTableDefinitionCreateParam::CreateColumnDefinition
     //creating column definition for session
     columnDefinitions.push_back(dataminingcustomersessionTableBase::GetDefinition_session());
 
+}
+
+std::string dataminingcustomersessionTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "datamining";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

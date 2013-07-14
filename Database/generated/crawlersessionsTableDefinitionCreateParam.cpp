@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "crawlersessionsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 crawlersessionsTableDefinitionCreateParam::crawlersessionsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("sync","crawlersessions") {
+: TableDefinitionCreateParam(GetDatabaseName(),"crawlersessions") {
 
     CreateColumnDefinitions();
 }
@@ -23,6 +24,20 @@ void crawlersessionsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for ID
     columnDefinitions.push_back(crawlersessionsTableBase::GetDefinition_ID());
 
+}
+
+std::string crawlersessionsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "sync";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

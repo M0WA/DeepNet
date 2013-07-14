@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "urlsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 urlsTableDefinitionCreateParam::urlsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("documents","urls") {
+: TableDefinitionCreateParam(GetDatabaseName(),"urls") {
 
     CreateColumnDefinitions();
 }
@@ -50,6 +51,20 @@ void urlsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for found_date
     columnDefinitions.push_back(urlsTableBase::GetDefinition_found_date());
 
+}
+
+std::string urlsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "documents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

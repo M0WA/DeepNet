@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "dockeyposTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 dockeyposTableDefinitionCreateParam::dockeyposTableDefinitionCreateParam()
-: TableDefinitionCreateParam("lexicon","dockeypos") {
+: TableDefinitionCreateParam(GetDatabaseName(),"dockeypos") {
 
     CreateColumnDefinitions();
 }
@@ -32,6 +33,20 @@ void dockeyposTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for position
     columnDefinitions.push_back(dockeyposTableBase::GetDefinition_position());
 
+}
+
+std::string dockeyposTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "lexicon";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "customerdomainblacklistTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 customerdomainblacklistTableDefinitionCreateParam::customerdomainblacklistTableDefinitionCreateParam()
-: TableDefinitionCreateParam("commercesearch","customerdomainblacklist") {
+: TableDefinitionCreateParam(GetDatabaseName(),"customerdomainblacklist") {
 
     CreateColumnDefinitions();
 }
@@ -32,6 +33,20 @@ void customerdomainblacklistTableDefinitionCreateParam::CreateColumnDefinitions(
     //creating column definition for isPathRegex
     columnDefinitions.push_back(customerdomainblacklistTableBase::GetDefinition_isPathRegex());
 
+}
+
+std::string customerdomainblacklistTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "commercesearch";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

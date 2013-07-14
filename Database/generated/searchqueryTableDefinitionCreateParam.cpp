@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "searchqueryTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 searchqueryTableDefinitionCreateParam::searchqueryTableDefinitionCreateParam()
-: TableDefinitionCreateParam("queryserver","searchquery") {
+: TableDefinitionCreateParam(GetDatabaseName(),"searchquery") {
 
     CreateColumnDefinitions();
 }
@@ -26,6 +27,20 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for session
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_session());
 
+}
+
+std::string searchqueryTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "queryserver";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

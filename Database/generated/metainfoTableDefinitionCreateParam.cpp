@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "metainfoTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 metainfoTableDefinitionCreateParam::metainfoTableDefinitionCreateParam()
-: TableDefinitionCreateParam("contents","metainfo") {
+: TableDefinitionCreateParam(GetDatabaseName(),"metainfo") {
 
     CreateColumnDefinitions();
 }
@@ -32,6 +33,20 @@ void metainfoTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for value
     columnDefinitions.push_back(metainfoTableBase::GetDefinition_value());
 
+}
+
+std::string metainfoTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "contents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

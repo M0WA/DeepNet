@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "docurlTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 docurlTableDefinitionCreateParam::docurlTableDefinitionCreateParam()
-: TableDefinitionCreateParam("lexicon","docurl") {
+: TableDefinitionCreateParam(GetDatabaseName(),"docurl") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void docurlTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URL_ID
     columnDefinitions.push_back(docurlTableBase::GetDefinition_URL_ID());
 
+}
+
+std::string docurlTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "lexicon";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

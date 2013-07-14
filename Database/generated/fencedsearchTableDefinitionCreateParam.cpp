@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "fencedsearchTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 fencedsearchTableDefinitionCreateParam::fencedsearchTableDefinitionCreateParam()
-: TableDefinitionCreateParam("datamining","fencedsearch") {
+: TableDefinitionCreateParam(GetDatabaseName(),"fencedsearch") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void fencedsearchTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for SECONDLEVELDOMAIN_ID
     columnDefinitions.push_back(fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
 
+}
+
+std::string fencedsearchTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "datamining";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

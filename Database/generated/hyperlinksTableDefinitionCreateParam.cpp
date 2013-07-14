@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "hyperlinksTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 hyperlinksTableDefinitionCreateParam::hyperlinksTableDefinitionCreateParam()
-: TableDefinitionCreateParam("contents","hyperlinks") {
+: TableDefinitionCreateParam(GetDatabaseName(),"hyperlinks") {
 
     CreateColumnDefinitions();
 }
@@ -32,6 +33,20 @@ void hyperlinksTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for count
     columnDefinitions.push_back(hyperlinksTableBase::GetDefinition_count());
 
+}
+
+std::string hyperlinksTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "contents";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

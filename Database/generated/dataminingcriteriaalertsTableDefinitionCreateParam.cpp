@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "dataminingcriteriaalertsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 dataminingcriteriaalertsTableDefinitionCreateParam::dataminingcriteriaalertsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("datamining","dataminingcriteriaalerts") {
+: TableDefinitionCreateParam(GetDatabaseName(),"dataminingcriteriaalerts") {
 
     CreateColumnDefinitions();
 }
@@ -32,6 +33,20 @@ void dataminingcriteriaalertsTableDefinitionCreateParam::CreateColumnDefinitions
     //creating column definition for DATAMININGCRITERIA_ID
     columnDefinitions.push_back(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID());
 
+}
+
+std::string dataminingcriteriaalertsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "datamining";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

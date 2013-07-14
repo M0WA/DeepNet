@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "queryresultsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 queryresultsTableDefinitionCreateParam::queryresultsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("queryserver","queryresults") {
+: TableDefinitionCreateParam(GetDatabaseName(),"queryresults") {
 
     CreateColumnDefinitions();
 }
@@ -35,6 +36,20 @@ void queryresultsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for order_position
     columnDefinitions.push_back(queryresultsTableBase::GetDefinition_order_position());
 
+}
+
+std::string queryresultsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "queryserver";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

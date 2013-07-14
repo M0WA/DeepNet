@@ -35,7 +35,7 @@ PostgreSQLTableBase::~PostgreSQLTableBase() {
 
 PostgreSQLTableBase* PostgreSQLTableBase::CreateInstance(PGresult* res, const int curRow) {
 
-	std::string dbName,tblName;
+	std::string dbName("deepnet"),tblName;
 	//
 	//TODO:table and database name
 	//

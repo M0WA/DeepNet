@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "customersessionsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 customersessionsTableDefinitionCreateParam::customersessionsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("commercesearch","customersessions") {
+: TableDefinitionCreateParam(GetDatabaseName(),"customersessions") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void customersessionsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for session
     columnDefinitions.push_back(customersessionsTableBase::GetDefinition_session());
 
+}
+
+std::string customersessionsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "commercesearch";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

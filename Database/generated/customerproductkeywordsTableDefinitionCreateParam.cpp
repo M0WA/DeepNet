@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "customerproductkeywordsTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 customerproductkeywordsTableDefinitionCreateParam::customerproductkeywordsTableDefinitionCreateParam()
-: TableDefinitionCreateParam("commercesearch","customerproductkeywords") {
+: TableDefinitionCreateParam(GetDatabaseName(),"customerproductkeywords") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void customerproductkeywordsTableDefinitionCreateParam::CreateColumnDefinitions(
     //creating column definition for DICT_ID
     columnDefinitions.push_back(customerproductkeywordsTableBase::GetDefinition_DICT_ID());
 
+}
+
+std::string customerproductkeywordsTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "commercesearch";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

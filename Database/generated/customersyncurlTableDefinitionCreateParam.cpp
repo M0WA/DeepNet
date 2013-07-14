@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "customersyncurlTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 customersyncurlTableDefinitionCreateParam::customersyncurlTableDefinitionCreateParam()
-: TableDefinitionCreateParam("commercesearch","customersyncurl") {
+: TableDefinitionCreateParam(GetDatabaseName(),"customersyncurl") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void customersyncurlTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for scheduled
     columnDefinitions.push_back(customersyncurlTableBase::GetDefinition_scheduled());
 
+}
+
+std::string customersyncurlTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "commercesearch";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "logmessagesTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 logmessagesTableDefinitionCreateParam::logmessagesTableDefinitionCreateParam()
-: TableDefinitionCreateParam("logging","logmessages") {
+: TableDefinitionCreateParam(GetDatabaseName(),"logmessages") {
 
     CreateColumnDefinitions();
 }
@@ -44,6 +45,20 @@ void logmessagesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for threadName
     columnDefinitions.push_back(logmessagesTableBase::GetDefinition_threadName());
 
+}
+
+std::string logmessagesTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "logging";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }

@@ -2,11 +2,12 @@
 #include "TableColumnDefinitionCreateParam.h"
 #include "TableColumnDefinition.h"
 #include "dataminingblacklistTableBase.h"
+#include "DatabaseHelper.h"
 
 namespace database {
 
 dataminingblacklistTableDefinitionCreateParam::dataminingblacklistTableDefinitionCreateParam()
-: TableDefinitionCreateParam("datamining","dataminingblacklist") {
+: TableDefinitionCreateParam(GetDatabaseName(),"dataminingblacklist") {
 
     CreateColumnDefinitions();
 }
@@ -29,6 +30,20 @@ void dataminingblacklistTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for domain
     columnDefinitions.push_back(dataminingblacklistTableBase::GetDefinition_domain());
 
+}
+
+std::string dataminingblacklistTableDefinitionCreateParam::GetDatabaseName() {
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      return "datamining";
+    case DB_IBM_DB2:
+      return "deepnet";
+    case DB_POSTGRESQL:
+      return "deepnet.public";
+    case DB_INVALID_TYPE:
+    default:
+      return "";
+    }
 }
 
 }
