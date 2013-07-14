@@ -82,6 +82,7 @@
 									<listOptionValue builtIn="false" value="mysqlclient_r"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="magic"/>
+									<listOptionValue builtIn="false" value="pq"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1248375186" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Debug"/>
@@ -196,6 +197,7 @@
 									<listOptionValue builtIn="false" value="mysqlclient_r"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="magic"/>
+									<listOptionValue builtIn="false" value="pq"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1877082811" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Release"/>
