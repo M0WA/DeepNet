@@ -230,8 +230,7 @@ void DatabaseUrl::Store(database::DatabaseConnection* db) {
 	if(subdomainID != -1){
 		tblUrls.Set_SUBDOMAIN_ID(subdomainID); }
 	else {
-		tblUrls.GetColumnByName("SUBDOMAIN_ID")->SetNull();
-	}
+		tblUrls.GetColumnByName("SUBDOMAIN_ID")->SetNull(); }
 
 	tblUrls.Set_path_part(path_part);
 	tblUrls.Set_search_part(search_part);
@@ -241,8 +240,10 @@ void DatabaseUrl::Store(database::DatabaseConnection* db) {
 
 	if(!db->LastInsertID(urlID)) {
 		urlID = -1;
-		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
-	}
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
+
+	if(urlID == -1){
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
 }
 
 bool DatabaseUrl::DeepMatchUrl(const DatabaseUrl& rhs, const bool compareAuth) const {
