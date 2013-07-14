@@ -9,6 +9,8 @@
 
 #include <StringTools.h>
 
+namespace caching {
+
 URLInvalidSubdomainIDException::URLInvalidSubdomainIDException(
 	const std::string& file,
 	const int line,
@@ -19,4 +21,6 @@ URLInvalidSubdomainIDException::URLInvalidSubdomainIDException(
 }
 
 URLInvalidSubdomainIDException::~URLInvalidSubdomainIDException() {
+}
+
 }

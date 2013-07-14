@@ -7,6 +7,8 @@
 
 #include "URLInvalidSchemeException.h"
 
+namespace caching {
+
 URLInvalidSchemeException::URLInvalidSchemeException(
 		const std::string& file,
 		const int line,
@@ -17,4 +19,6 @@ URLInvalidSchemeException::URLInvalidSchemeException(
 }
 
 URLInvalidSchemeException::~URLInvalidSchemeException() {
+}
+
 }

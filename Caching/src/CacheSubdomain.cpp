@@ -38,6 +38,8 @@ void CacheSubdomain::GetSubdomainIDByDomain(
 		tblSub.InsertOrUpdate(db);
 
 		db->LastInsertID(subdomainID);
+		if(subdomainID == -1) {
+			THROW_EXCEPTION(URLInvalidSubdomainIDException,subdomainID,-1);}
 		cacheInstance.idSubdomain.AddItem(subdomainID,subdomain);
 	}
 }

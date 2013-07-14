@@ -9,15 +9,19 @@
 
 #include <StringTools.h>
 
+namespace caching {
+
 URLInvalidSecondLevelDomainIDException::URLInvalidSecondLevelDomainIDException(
 		const std::string& file,
 		const int line,
 		const std::string& function,
 		const long long& sndLvlID,
 		const long long& urlID)
-: errors::Exception( file,line,function,"caching","URLInvalidTopLevelDomainIDException","invalid secondleveldomain id: " + tools::StringTools::TransformString(sndLvlID) + " in url id: " + tools::StringTools::TransformString(urlID)){
+: errors::Exception( file,line,function,"caching","URLInvalidSecondLevelDomainIDException","invalid secondleveldomain id: " + tools::StringTools::TransformString(sndLvlID) + " in url id: " + tools::StringTools::TransformString(urlID)){
 
 }
 
 URLInvalidSecondLevelDomainIDException::~URLInvalidSecondLevelDomainIDException() {
+}
+
 }

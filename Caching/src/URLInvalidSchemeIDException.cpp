@@ -9,6 +9,8 @@
 
 #include <StringTools.h>
 
+namespace caching {
+
 URLInvalidSchemeIDException::URLInvalidSchemeIDException(
 		const std::string& file,
 		const int line,
@@ -19,4 +21,6 @@ URLInvalidSchemeIDException::URLInvalidSchemeIDException(
 }
 
 URLInvalidSchemeIDException::~URLInvalidSchemeIDException() {
+}
+
 }

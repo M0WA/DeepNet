@@ -9,6 +9,8 @@
 
 #include <Exception.h>
 
+namespace caching {
+
 class URLInvalidSubdomainIDException: public errors::Exception {
 public:
 	URLInvalidSubdomainIDException(
@@ -19,3 +21,5 @@ public:
 			const long long& urlID);
 	virtual ~URLInvalidSubdomainIDException();
 };
+
+}

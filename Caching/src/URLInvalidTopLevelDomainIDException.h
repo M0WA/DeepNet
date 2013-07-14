@@ -9,6 +9,8 @@
 
 #include <Exception.h>
 
+namespace caching {
+
 class URLInvalidTopLevelDomainIDException: public errors::Exception {
 public:
 	URLInvalidTopLevelDomainIDException(
@@ -20,3 +22,4 @@ public:
 	virtual ~URLInvalidTopLevelDomainIDException();
 };
 
+}

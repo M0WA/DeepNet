@@ -9,6 +9,8 @@
 
 #include <Exception.h>
 
+namespace caching {
+
 class URLInvalidUrlIDException: public errors::Exception {
 public:
 	URLInvalidUrlIDException(
@@ -19,3 +21,4 @@ public:
 	virtual ~URLInvalidUrlIDException();
 };
 
+}

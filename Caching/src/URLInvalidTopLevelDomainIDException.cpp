@@ -9,6 +9,8 @@
 
 #include <StringTools.h>
 
+namespace caching {
+
 URLInvalidTopLevelDomainIDException::URLInvalidTopLevelDomainIDException(
 	const std::string& file,
 	const int line,
@@ -20,4 +22,6 @@ URLInvalidTopLevelDomainIDException::URLInvalidTopLevelDomainIDException(
 }
 
 URLInvalidTopLevelDomainIDException::~URLInvalidTopLevelDomainIDException() {
+}
+
 }

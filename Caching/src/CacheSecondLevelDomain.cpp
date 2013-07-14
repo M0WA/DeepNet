@@ -38,6 +38,8 @@ void CacheSecondLevelDomain::GetSecondLevelIDByDomain(
 		tblSnd.InsertOrUpdate(connection);
 
 		connection->LastInsertID(secondleveldomainID);
+		if(secondleveldomainID == -1) {
+			THROW_EXCEPTION(URLInvalidSecondLevelDomainIDException,secondleveldomainID,-1);}
 		cacheInstance.idSecondLevelDomain.AddItem(secondleveldomainID,secondleveldomain);
 	}
 }

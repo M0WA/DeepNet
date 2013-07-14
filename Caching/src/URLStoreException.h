@@ -9,6 +9,8 @@
 
 #include <Exception.h>
 
+namespace caching {
+
 class URLStoreException: public errors::Exception {
 public:
 	URLStoreException(
@@ -19,3 +21,4 @@ public:
 	virtual ~URLStoreException();
 };
 
+}

@@ -9,6 +9,8 @@
 
 #include <DatabaseUrl.h>
 
+namespace caching {
+
 URLInvalidMD5ValueException::URLInvalidMD5ValueException(
 	const std::string& file,
 	const int line,
@@ -18,4 +20,6 @@ URLInvalidMD5ValueException::URLInvalidMD5ValueException(
 }
 
 URLInvalidMD5ValueException::~URLInvalidMD5ValueException() {
+}
+
 }

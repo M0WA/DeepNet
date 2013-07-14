@@ -9,6 +9,8 @@
 
 #include <DatabaseUrl.h>
 
+namespace caching {
+
 URLEmptyDomainException::URLEmptyDomainException(
 		const std::string& file,
 		const int line,
@@ -19,4 +21,6 @@ URLEmptyDomainException::URLEmptyDomainException(
 }
 
 URLEmptyDomainException::~URLEmptyDomainException() {
+}
+
 }

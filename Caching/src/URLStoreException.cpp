@@ -7,6 +7,8 @@
 
 #include "URLStoreException.h"
 
+namespace caching {
+
 URLStoreException::URLStoreException(
 	const std::string& file,
 	const int line,
@@ -16,4 +18,6 @@ URLStoreException::URLStoreException(
 }
 
 URLStoreException::~URLStoreException() {
+}
+
 }

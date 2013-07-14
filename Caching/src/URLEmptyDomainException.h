@@ -13,6 +13,8 @@ namespace htmlparser {
 	class DatabaseUrl;
 }
 
+namespace caching {
+
 class URLEmptyDomainException: public errors::Exception {
 public:
 	URLEmptyDomainException(
@@ -23,3 +25,4 @@ public:
 	virtual ~URLEmptyDomainException();
 };
 
+}

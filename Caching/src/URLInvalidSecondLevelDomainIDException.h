@@ -9,6 +9,8 @@
 
 #include <Exception.h>
 
+namespace caching {
+
 class URLInvalidSecondLevelDomainIDException: public errors::Exception {
 public:
 	URLInvalidSecondLevelDomainIDException(
@@ -20,3 +22,4 @@ public:
 	virtual ~URLInvalidSecondLevelDomainIDException();
 };
 
+}

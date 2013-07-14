@@ -15,6 +15,8 @@ namespace htmlparser {
 	class DatabaseUrl;
 }
 
+namespace caching {
+
 class URLInvalidMD5ValueException: public errors::Exception {
 public:
 	URLInvalidMD5ValueException(
@@ -25,3 +27,4 @@ public:
 	virtual ~URLInvalidMD5ValueException();
 };
 
+}
