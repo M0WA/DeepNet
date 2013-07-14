@@ -78,7 +78,7 @@ void ConfigManager::DumpConfig(std::string& dump) const {
 	for(;i != registeredParams.end(); ++i) {
 		if(i->valueSet) {
 			ssOut <<
-				( i->isFlag ? "flag" : "param" ) << ":" << i->name << " => " << i->GetValue() << std::endl;
+				( i->isFlag ? "flag " : "param" ) << ": " << i->name << " => " << i->GetValue() << std::endl;
 		}
 	}
 	dump = ssOut.str();
