@@ -86,6 +86,7 @@
 									<listOptionValue builtIn="false" value="icuuc"/>
 									<listOptionValue builtIn="false" value="icui18n"/>
 									<listOptionValue builtIn="false" value="ssl"/>
+									<listOptionValue builtIn="false" value="pq"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1897620805" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Debug"/>
@@ -203,6 +204,7 @@
 									<listOptionValue builtIn="false" value="icuuc"/>
 									<listOptionValue builtIn="false" value="icui18n"/>
 									<listOptionValue builtIn="false" value="ssl"/>
+									<listOptionValue builtIn="false" value="pq"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1259956065" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Release"/>
