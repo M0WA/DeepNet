@@ -163,6 +163,7 @@ bool DeepNetToolBot::OnPreInit() {
 	RegisterHtmlClientCURLParams();
 	RegisterHtmlDocumentFactoryParams();
 	RegisterIndexerExParams();
+	RegisterDatabaseUnitTestParams();
 
 	return true;
 }
