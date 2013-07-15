@@ -40,7 +40,7 @@ DatabaseType DatabaseHelper::GetDatabaseType() {
 	return retType;
 }
 
-DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbConfig, const bool logQuery)
+DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbConfig)
 {
 	if(dbConnection) {
 		log::Logging::LogWarn("recreating active database connection.");
@@ -65,15 +65,15 @@ DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbCon
 	switch(dbConfig->GetType())
 	{
 	case database::DB_MYSQL:
-		dbConnection = dynamic_cast<DatabaseConnection*>(new MySQLConnection(logQuery));
+		dbConnection = dynamic_cast<DatabaseConnection*>(new MySQLConnection());
 		break;
 
 	case database::DB_IBM_DB2:
-		dbConnection = dynamic_cast<DatabaseConnection*>(new DB2Connection(logQuery));
+		dbConnection = dynamic_cast<DatabaseConnection*>(new DB2Connection());
 		break;
 
 	case database::DB_POSTGRESQL:
-		dbConnection = dynamic_cast<DatabaseConnection*>(new PostgreSQLConnection(logQuery));
+		dbConnection = dynamic_cast<DatabaseConnection*>(new PostgreSQLConnection());
 		break;
 
 	default:

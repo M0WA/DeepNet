@@ -31,8 +31,8 @@
 
 namespace database {
 
-MySQLConnection::MySQLConnection(const bool logQuery)
-: DatabaseConnection(DB_MYSQL,logQuery)
+MySQLConnection::MySQLConnection()
+: DatabaseConnection(DB_MYSQL)
 , mysqlConnection(0)
 , config(0)
 {
@@ -146,7 +146,7 @@ void MySQLConnection::Query(const std::string& query, std::vector<TableBase*>& r
 
 void MySQLConnection::Execute(const std::string& query, bool doRetry)
 {
-	if(logQuery){
+	if(config->GetLogQuery()){
 		log::Logging::LogCurrentLevel("execute: " + query); }
 
 	if(!mysqlConnection) {
@@ -173,14 +173,14 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 				}
 			}
 			if(exceptionOccurred){
-				if(logQuery){
+				if(config->GetLogQuery()){
 					log::Logging::LogCurrentLevel("execute: " + query); }
 				THROW_EXCEPTION(MySQLOperationTimeoutException);
 			}
 		}
 		else {
 			std::string mySQLError = mysql_error(mysqlConnection);
-			if(logQuery){
+			if(config->GetLogQuery()){
 				log::Logging::LogCurrentLevel("execute: " + query); }
 			THROW_EXCEPTION(MySQLQueryErrorException,mySQLError,query);
 		}

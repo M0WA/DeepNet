@@ -22,7 +22,9 @@
 #include "DeleteStatement.h"
 #include "TableColumn.h"
 
+#include "PostgreSQLDatabaseConfig.h"
 #include "PostgreSQLTableBase.h"
+#include "PostgreSQLInsertStatement.h"
 #include "PostgreSQLInsertOrUpdateStatement.h"
 #include "PostgreSQLInsertOrUpdateAffectedKeyStatement.h"
 
@@ -32,8 +34,8 @@
 
 namespace database {
 
-PostgreSQLConnection::PostgreSQLConnection(const bool logQuery)
-: database::DatabaseConnection(DB_POSTGRESQL,logQuery)
+PostgreSQLConnection::PostgreSQLConnection()
+: database::DatabaseConnection(DB_POSTGRESQL)
 , config(0)
 , connection(0)
 , affectedRows(-1)
@@ -142,7 +144,7 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	if(logQuery){
+	if(config->GetLogQuery()){
 		log::Logging::LogCurrentLevel("execute: " + query); }
 
 	PGresult* res = PQexec(connection, query.c_str());
@@ -205,9 +207,14 @@ void PostgreSQLConnection::Insert(const InsertStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	PostgreSQLInsertStatement pqStmt(stmt);
+
 	lastInsertID = -1;
-	PGresult* res = Execute_Intern(stmt.ToSQL(this).c_str());
+	PGresult* res = Execute_Intern(pqStmt.ToSQL(this).c_str());
 	SetLastInsertID(res);
+	if(lastInsertID == -1) {
+
+	}
 	PQclear(res);
 }
 
@@ -216,7 +223,7 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	TransactionStart();
+//	TransactionStart();
 
 	try {
 		//insert or update entries
@@ -252,7 +259,7 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	}
 	catch(errors::Exception& e) {
 		try {
-			TransactionRollback();
+//			TransactionRollback();
 		}
 		catch(...) {
 			log::Logging::LogError("could not rollback after error");
@@ -260,7 +267,7 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		throw;
 	}
 
-	TransactionCommit();
+//	TransactionCommit();
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){

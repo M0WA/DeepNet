@@ -23,7 +23,7 @@ class DB2DatabaseConfig;
 
 class DB2Connection : public DatabaseConnection {
 public:
-	DB2Connection(const bool logQuery = false);
+	DB2Connection();
 	virtual ~DB2Connection();
 
 public:

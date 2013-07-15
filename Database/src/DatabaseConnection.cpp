@@ -8,9 +8,8 @@
 
 namespace database {
 
-DatabaseConnection::DatabaseConnection(const DatabaseType& databaseType, const bool logQuery)
+DatabaseConnection::DatabaseConnection(const DatabaseType& databaseType)
 : databaseType(databaseType)
-, logQuery(logQuery)
 {
 }
 

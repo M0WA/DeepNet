@@ -11,8 +11,8 @@
 
 namespace database {
 
-DB2Connection::DB2Connection(const bool logQuery)
-: DatabaseConnection(DB_IBM_DB2,logQuery)
+DB2Connection::DB2Connection()
+: DatabaseConnection(DB_IBM_DB2)
 , config(0)
 {
 }

@@ -40,8 +40,7 @@ public:
 	 * @return NULL on error, database connection on success.
 	 */
 	DatabaseConnection* CreateConnection(
-			const DatabaseConfig* dbConfig,
-			const bool logQuery = false);
+			const DatabaseConfig* dbConfig);
 
 	/**
 	 * destroys current database connection.

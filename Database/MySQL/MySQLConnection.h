@@ -31,7 +31,7 @@ class MySQLDatabaseConfig;
  */
 class MySQLConnection : public DatabaseConnection {
 public:
-	MySQLConnection(const bool logQuery = false);
+	MySQLConnection();
 	virtual ~MySQLConnection();
 
 public:

@@ -21,7 +21,7 @@ namespace database {
  */
 class PostgreSQLConnection: public database::DatabaseConnection {
 public:
-	PostgreSQLConnection(const bool logQuery = false);
+	PostgreSQLConnection();
 	virtual ~PostgreSQLConnection();
 
 public:

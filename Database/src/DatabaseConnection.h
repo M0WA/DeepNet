@@ -40,7 +40,7 @@ protected:
 	 * @param databaseType database type.
 	 * @param logQuery true if all queries should be logged.
 	 */
-	DatabaseConnection(const DatabaseType& databaseType, const bool logQuery);
+	DatabaseConnection(const DatabaseType& databaseType);
 
 public:
 	virtual ~DatabaseConnection();
@@ -203,9 +203,6 @@ public:
 
 private:
 	DatabaseType databaseType;
-
-protected:
-	bool logQuery;
 };
 
 }

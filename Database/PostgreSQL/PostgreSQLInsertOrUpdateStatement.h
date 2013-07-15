@@ -16,7 +16,7 @@ class InsertOrUpdateStatement;
 class DatabaseConnection;
 
 /**
- * @brief implementation of a insert or update statement for PostgreSQL servers
+ * @brief implementation of an insert or update statement for PostgreSQL servers
  */
 class PostgreSQLInsertOrUpdateStatement {
 public:
