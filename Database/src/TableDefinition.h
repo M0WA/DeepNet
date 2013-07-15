@@ -93,6 +93,14 @@ public:
 
 	/**
 	 * gets column definition by name.
+	 * @param columnName column name
+	 * @return column definition.
+	 */
+	TableColumnDefinition* GetColumnDefinitionByName(std::string columnName);
+
+	/**
+	 * gets column definition by name.
+	 * @param columnName column name
 	 * @return column definition.
 	 */
 	const TableColumnDefinition* GetConstColumnDefinitionByName(std::string columnName) const;

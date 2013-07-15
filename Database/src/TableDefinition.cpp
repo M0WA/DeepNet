@@ -67,9 +67,30 @@ const TableColumnDefinition* TableDefinition::GetConstPrimaryKeyColumnDefinition
 	return 0;
 }
 
+TableColumnDefinition* TableDefinition::GetColumnDefinitionByName(std::string columnName) {
+
+	switch(DatabaseHelper::GetDatabaseType())
+	{
+	case DB_POSTGRESQL:
+		tools::StringTools::ToLowerIP(columnName);
+		break;
+	default:
+		break;
+	}
+
+	std::vector< TableColumnDefinition* >& colDefs = GetColumnDefinitions();
+	std::vector< TableColumnDefinition* >::iterator iterColDefs = colDefs.begin();
+	for(;iterColDefs != colDefs.end();++iterColDefs) {
+
+		if( columnName.compare((*iterColDefs)->GetColumnName()) == 0 )
+			return (*iterColDefs);
+	}
+
+	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	return 0;
+}
+
 const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(std::string columnName) const {
-
-
 	switch(DatabaseHelper::GetDatabaseType())
 	{
 	case DB_POSTGRESQL:
