@@ -377,8 +377,9 @@ bool Bot::InitDatabaseConfigs(void)
 	bool logQuery = true;
 	if(!Config().GetValue("dblogquery",logQuery)){
 		logQuery = false;}
+	dbConfig->SetLogQuery(logQuery);
 
-	if(!DB().CreateConnection(dbConfig,logQuery)){
+	if(!DB().CreateConnection(dbConfig)){
 		log::Logging::LogError("could not create database connection");
 		return false; }
 
