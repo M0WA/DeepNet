@@ -105,6 +105,14 @@ public:
 	 */
 	static bool IsNumeric(const std::string& in);
 
+	/**
+	 * compares two strings case insensitively
+	 * @param str1 string to compare
+	 * @param str2 string to compare
+	 * @return true if equal, false if not equal
+	 */
+	static bool CompareCaseInsensitive(const std::string& str1,const std::string& str2);
+
 public:
 	/**
 	 * executes command saving it's output.

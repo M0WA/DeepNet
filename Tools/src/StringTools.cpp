@@ -498,4 +498,9 @@ bool StringTools::IsNumeric(const std::string& in) {
 	return true;
 }
 
+bool StringTools::CompareCaseInsensitive(const std::string& str1,const std::string& str2) {
+	std::string iStr1(ToLowerNP(str1)), iStr2(ToLowerNP(str2));
+	return (iStr1.compare(str2) == 0);
+}
+
 }
