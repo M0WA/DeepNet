@@ -17,7 +17,7 @@
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
 
-#include "URLInvalidSecondLevelDomainIDException.h"
+#include <URLInvalidSecondLevelDomainIDException.h>
 
 //TODO: put this in config file
 #define MAX_SECONDLEVEL_PER_THREAD                30 //max. 30 secondlevel domains scanned in parallel
@@ -62,7 +62,7 @@ bool GenericWebUrlFetcherThread::CheckSecondLevelDomainTimeout(database::SelectR
 		long long secondLevelDomainID = -1;
 		tblLockDomains.GetIter()->Get_SECONDLEVELDOMAIN_ID(secondLevelDomainID);
 		if(secondLevelDomainID <= 0) {
-			THROW_EXCEPTION(URLInvalidSecondLevelDomainIDException,secondLevelDomainID,-1);}
+			THROW_EXCEPTION(caching::URLInvalidSecondLevelDomainIDException,secondLevelDomainID,-1);}
 
 		if(syncSecondLevelDomains.count(secondLevelDomainID) == 0){
 			syncSecondLevelDomains[secondLevelDomainID] = time(0); }
