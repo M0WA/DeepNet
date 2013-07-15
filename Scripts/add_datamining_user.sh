@@ -15,6 +15,7 @@ if [ $# -ne 2 ]; then
   echo "please enter valid username and password:"
   echo "  i.e. ./add_datamining_user.sh \"dummy_customer@siridia.de\" \"areallyreallysecurepassword\""
   echo ""
+  exit 1
 fi
 
 USERNAME=$1

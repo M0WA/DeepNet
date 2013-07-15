@@ -186,6 +186,28 @@ class DataminingDatabaseConnection extends MySQLDatabaseConnection
         " WHERE dbl.CUSTOMER_ID=".$customerID;
     return MySQLDatabaseConnection::query($query);
   }
+
+  static public function addBlacklist($customerID,$blacklistDomain)
+  {
+    if(!DataminingDatabaseConnection::beginsWith($blacklistDomain,"http://")) {
+      $blacklistDomain = "http://".$blacklistDomain; }
+
+    $urlData = parse_url($blacklistDomain);
+    $hostname = $urlData['host'];
+    $baseDomain = explode(".", $hostname);
+    $cntDomains = count($baseDomain);
+
+    if($cntDomains < 2) {
+      return; }
+
+    $secondleveldomain = $baseDomain[$cntDomains-2];
+    $hostname = MySQLDatabaseConnection::escapeString( $secondleveldomain );
+  }
+
+  static private function beginsWith( $str, $sub )
+  {
+    return ( substr( $str, 0, strlen( $sub ) ) == $sub );
+  }
 }
 
 ?>

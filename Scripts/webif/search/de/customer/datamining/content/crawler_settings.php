@@ -13,6 +13,7 @@ $customerId = class_exists( "DataminingDatabaseConnection" ) ? DataminingDatabas
 if($customerId>0) 
 {
     if( isset($_POST["mode"]) && $_POST["mode"] == "add_blacklist" && isset($_POST["blacklist_domain"]) ) {
+      DataminingDatabaseConnection::addBlacklist($customerId,$_POST["blacklist_domain"]);
     }
     
     $blacklistDomains = DataminingDatabaseConnection::getBlacklistDomainInfoByCustomerID($customerId);

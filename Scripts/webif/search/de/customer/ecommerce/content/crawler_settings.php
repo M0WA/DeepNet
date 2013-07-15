@@ -27,6 +27,9 @@ if($customerId>0) {
       case "removeBlacklistEntry":
         CommerceSearchDatabaseConnection::deleteCrawlerBlacklistByCustomerId($customerId,$_POST["blacklist_path"]);
         break;
+      case "triggerUpdate":
+        // TODO: trigger update
+        break;
       default:
         break;
     }
@@ -77,11 +80,20 @@ if($customerId>0) {
             </table>
           </fieldset>
         </form>
+        <form method="post">
+          <input type="hidden" name="save_field" value="trigger_update">
+          <fieldset>
+            <table style="margin-bottom: 5px;">
+              <tr>
+                <td style="border-bottom: 0px"><label for="trigger_update">Index:&nbsp;&nbsp;</label></td>
+                <td style="border-bottom: 0px"><input type="submit" name="trigger_update" value="Update triggern" /></td>
+                <td style="border-bottom: 0px"></td>
+              </tr>
+            </table>
+          </fieldset>
+        </form>
         </div>
         <div>
-        <form method="post">
-          <input type="submit" value="Update triggern" />
-        </form>
       </div>
       <br style="clear:both;">
       <br>

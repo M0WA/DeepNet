@@ -4,7 +4,7 @@
       <div class="grid_7 suffix_1 alpha">
         <h2>Informationen</h2>
         <ul class="list-1">
-          <li><a href="/search/ecommerce.html"><strong>Commerce Search</strong><br>All-In-One Suchlösungen für Webshops</a></li>
+          <li><a href="/services/ecommerce.html"><strong>Commerce Search</strong><br>All-In-One Suchlösungen für Webshops</a></li>
           <li><strong>SEO Analytics</strong> <a href="#">SEO-Analysen von Webseiten</a></li>
           <li class="last"><strong>Informationsaggregation</strong> <a href="#">Kundenspezifische Lösungen für Datenanalysen im Internet</a></li>
         </ul>
