@@ -48,7 +48,7 @@ public:
 public:
 	/**
 	 * connects to a database.
-	 * @param config database config.
+	 * @param dbConfig database config.
 	 * @return false on error, true on success.
 	 */
 	virtual bool Connect(const DatabaseConfig* dbConfig)=0;

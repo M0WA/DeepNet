@@ -40,7 +40,7 @@ DatabaseType DatabaseHelper::GetDatabaseType() {
 	return retType;
 }
 
-DatabaseConnection* DatabaseHelper::CreateConnection(DatabaseConfig* dbConfig, const bool logQuery)
+DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbConfig, const bool logQuery)
 {
 	if(dbConnection) {
 		log::Logging::LogWarn("recreating active database connection.");
