@@ -35,6 +35,7 @@
 #include "UnitTestHttpClientCURL.h"
 #include "UnitTestHtmlDocumentFactory.h"
 #include "UnitTestIndexerEx.h"
+#include "UnitTestDatabase.h"
 
 namespace toolbot {
 
@@ -222,6 +223,10 @@ void DeepNetToolBot::RegisterIndexerExParams() {
 	Config().RegisterParam("indexerExUnitTestPath", "path to unit test text and dictionary xml files for indexer", false, 0);
 }
 
+void DeepNetToolBot::RegisterDatabaseUnitTestParams() {
+	Config().RegisterFlag("databaseUnitTest", "enables unit tests for database",false);
+}
+
 bool DeepNetToolBot::ProcessUnitTests() {
 
 	bool bSuccess = true;
@@ -278,6 +283,14 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	std::string indexerExUnitTestPath;
 	if( Config().GetValue("indexerExUnitTestPath",indexerExUnitTestPath) && !indexerExUnitTestPath.empty() ) {
 		unitTests.AddUnitTest(new toolbot::UnitTestIndexerEx(DB().Connection(),indexerExUnitTestPath));	}
+
+	//initiate database based unit tests
+	bool enableDatabaseUnitTest = false;
+	if( Config().GetValue("databaseUnitTest",enableDatabaseUnitTest) ) {
+		if(enableDatabaseUnitTest) {
+			unitTests.AddUnitTest(new toolbot::UnitTestDatabase(dbConfig));
+		}
+	}
 
 	//finally run all previously registered unit tests
 	bSuccess &= unitTests.Run();

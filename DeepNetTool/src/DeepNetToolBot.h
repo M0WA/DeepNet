@@ -33,6 +33,7 @@ private:
 	void RegisterHtmlClientCURLParams();
 	void RegisterHtmlDocumentFactoryParams();
 	void RegisterIndexerExParams();
+	void RegisterDatabaseUnitTestParams();
 
 private:
 	bool ProcessUnitTests();
