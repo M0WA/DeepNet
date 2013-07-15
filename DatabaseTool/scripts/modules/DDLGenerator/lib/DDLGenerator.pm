@@ -47,12 +47,12 @@ my %datatype_manufacturer = (
 # format:
 #   generic_type => [ MySQL SQL-Type, DB2 SQL-Type, Postgre SQL-Type ]
 my %datatypes = (
-  "INTEGER"    => [ "INTEGER"  , "INTEGER"  , "INTEGER"   ],
-  "CHAR"       => [ "CHAR"     , "CHAR"     , "CHAR"      ],
-  "VARCHAR"    => [ "VARCHAR"  , "VARCHAR"  , "VARCHAR"   ],
-  "LARGE_TEXT" => [ "VARCHAR"  , "CLOG"     , "VARCHAR"   ],
-  "DOUBLE"     => [ "DOUBLE"   , "DOUBLE"   , "DOUBLE"    ],
-  "TIMESTAMP"  => [ "TIMESTAMP", "TIMESTAMP", "TIMESTAMP" ]
+  "INTEGER"    => [ "INTEGER"  , "INTEGER"  , "INTEGER"          ],
+  "CHAR"       => [ "CHAR"     , "CHAR"     , "CHAR"             ],
+  "VARCHAR"    => [ "VARCHAR"  , "VARCHAR"  , "VARCHAR"          ],
+  "LARGE_TEXT" => [ "VARCHAR"  , "CLOG"     , "VARCHAR"          ],
+  "DOUBLE"     => [ "DOUBLE"   , "DOUBLE"   , "double precision" ],
+  "TIMESTAMP"  => [ "TIMESTAMP", "TIMESTAMP", "TIMESTAMP"        ]
 );
 
 my %tables;
