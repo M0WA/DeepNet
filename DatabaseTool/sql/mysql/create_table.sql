@@ -203,6 +203,20 @@ CREATE TABLE commercesearch.customermatchcriteria
 SHOW WARNINGS;
 
 
+/* unittest1 - MySQL */
+CREATE TABLE IF NOT EXISTS  logging.unittest1 (ID INTEGER);
+DROP TABLE logging.unittest1;
+CREATE TABLE logging.unittest1
+(
+ ID INTEGER AUTO_INCREMENT NOT NULL,
+ timestamp_test TIMESTAMP NOT NULL,
+ varchar_test VARCHAR(255) NOT NULL,
+ double_test DOUBLE NOT NULL,
+ CONSTRAINT PRI__UNITTEST1_ID PRIMARY KEY (ID)
+) Engine=Archive, ROW_FORMAT=COMPACT;
+SHOW WARNINGS;
+
+
 /* schemes - MySQL */
 CREATE TABLE IF NOT EXISTS  documents.schemes (ID INTEGER);
 DROP TABLE documents.schemes;
@@ -344,6 +358,21 @@ CREATE TABLE commercesearch.customerproductimages
  imageUrl VARCHAR(2048) NOT NULL,
  CONSTRAINT PRI__CUSTOMERPRODUCTIMAGES_ID PRIMARY KEY (ID)
 ) Engine=InnoDB, ROW_FORMAT=COMPACT;
+SHOW WARNINGS;
+
+
+/* unittest2 - MySQL */
+CREATE TABLE IF NOT EXISTS  logging.unittest2 (ID INTEGER);
+DROP TABLE logging.unittest2;
+CREATE TABLE logging.unittest2
+(
+ ID INTEGER AUTO_INCREMENT NOT NULL,
+ timestamp_test TIMESTAMP NOT NULL,
+ varchar_test VARCHAR(255) NOT NULL,
+ uniq_double_test DOUBLE NOT NULL,
+ CONSTRAINT PRI__UNITTEST2_ID PRIMARY KEY (ID),
+ CONSTRAINT UNIQ__UNITTEST2_UNIQ_DOUBLE_TEST UNIQUE (uniq_double_test)
+) Engine=Archive, ROW_FORMAT=COMPACT;
 SHOW WARNINGS;
 
 

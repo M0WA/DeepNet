@@ -1266,7 +1266,7 @@
 
 <!-- ======================================================================================== 
  *
- *  TABLE: cachehtml
+ *  TABLE: cacherobots
  *
  -->
 <table
@@ -1285,6 +1285,48 @@
 
 </table>
 
+
+<!-- ======================================================================================== 
+ *
+ *  TABLE: unittest1
+ *
+ -->
+<table
+  name="unittest1"
+  MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+  MySQL_Database="logging"
+>
+
+  <column name="ID"             type="INTEGER"      notnull="1" autoincrement="1" />
+  <column name="timestamp_test" type="TIMESTAMP"    notnull="1" />
+  <column name="varchar_test"   type="VARCHAR(255)" notnull="1" />
+  <column name="double_test"    type="DOUBLE"       notnull="1" />
+
+  <primary_key column="ID" />
+
+</table>
+
+
+<!-- ======================================================================================== 
+ *
+ *  TABLE: unittest2
+ *
+ -->
+<table
+  name="unittest2"
+  MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+  MySQL_Database="logging"
+>
+
+  <column name="ID"               type="INTEGER"      notnull="1" autoincrement="1" />
+  <column name="timestamp_test"   type="TIMESTAMP"    notnull="1" />
+  <column name="varchar_test"     type="VARCHAR(255)" notnull="1" />
+  <column name="uniq_double_test" type="DOUBLE"       notnull="1" />
+
+  <primary_key column="ID" />
+  <unique_key column="uniq_double_test" />
+
+</table>
 
 <!-- ======================================================================================== 
  *

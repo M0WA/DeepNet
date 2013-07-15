@@ -163,6 +163,17 @@ CREATE TABLE customermatchcriteria
 );
 
 
+/* unittest1 - Postgre   */
+CREATE TABLE unittest1
+(
+ ID BIGSERIAL NOT NULL,
+ timestamp_test TIMESTAMP NOT NULL,
+ varchar_test VARCHAR(255) NOT NULL,
+ double_test DOUBLE NOT NULL,
+ CONSTRAINT PRI__UNITTEST1_ID PRIMARY KEY (ID)
+);
+
+
 /* schemes - Postgre   */
 CREATE TABLE schemes
 (
@@ -273,6 +284,18 @@ CREATE TABLE customerproductimages
  PRODUCT_ID INTEGER NOT NULL,
  imageUrl VARCHAR(2048) NOT NULL,
  CONSTRAINT PRI__CUSTOMERPRODUCTIMAGES_ID PRIMARY KEY (ID)
+);
+
+
+/* unittest2 - Postgre   */
+CREATE TABLE unittest2
+(
+ ID BIGSERIAL NOT NULL,
+ timestamp_test TIMESTAMP NOT NULL,
+ varchar_test VARCHAR(255) NOT NULL,
+ uniq_double_test DOUBLE NOT NULL,
+ CONSTRAINT PRI__UNITTEST2_ID PRIMARY KEY (ID),
+ CONSTRAINT UNIQ__UNITTEST2_UNIQ_DOUBLE_TEST UNIQUE (uniq_double_test)
 );
 
 
