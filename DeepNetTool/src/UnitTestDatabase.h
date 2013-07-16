@@ -26,6 +26,10 @@ namespace database {
 
 namespace toolbot {
 
+/**
+ * @brief implements database independant unit tests
+ * @see toolbot::UnitTest
+ */
 class UnitTestDatabase: public toolbot::UnitTest {
 private:
 	typedef struct _UnitTestDatabaseEntry {
@@ -48,21 +52,15 @@ public:
 	virtual std::string GetName() const { return "UnitTestDatabase"; }
 
 private:
+	bool UpdateTest();
+	bool DeleteTest();
+
+private:
 	template <class T>
 	bool InsertTest(){
 		std::vector<UnitTestDatabaseEntry>::const_iterator i = entries.begin();
 		for(;i != entries.end();++i) {
 			if(!InsertEntry<T>(*i)) {
-				return false; }
-		}
-		return true;
-	}
-
-	template <class T>
-	bool SelectTest() {
-		std::vector<UnitTestDatabaseEntry>::const_iterator i = entries.begin();
-		for(;i != entries.end();++i) {
-			if(!SelectEntryByDouble<T>(*i)) {
 				return false; }
 		}
 
@@ -79,13 +77,24 @@ private:
 
 		if(results.Size() != entries.size()) {
 			log::Logging::LogError("invalid number of entries in table %lu (should be %lu)",results.Size(),entries.size());
-			return false; }
+			return false;}
 
 		return true;
 	}
 
-	bool UpdateTest();
-	bool DeleteTest();
+	template <class T>
+	bool SelectTest() {
+		std::vector<UnitTestDatabaseEntry>::const_iterator i = entries.begin();
+		for(;i != entries.end();++i) {
+			if(!SelectEntryByDouble<T>(*i)) {
+				return false; }
+			if(!SelectEntryByVarchar<T>(*i)) {
+				return false; }
+			if(!SelectEntryByTimestamp<T>(*i)) {
+				return false; }
+		}
+		return true;
+	}
 
 	template <class T>
 	bool SelectEntryByDouble(const UnitTestDatabaseEntry& entry) {
@@ -98,6 +107,46 @@ private:
 
 		if(results.Size() != 1) {
 			log::Logging::LogError("invalid size while selecting double: %lu",results.Size());
+			return false;}
+		results.ResetIter();
+
+		if(!CompareEntryTable(entry,results.GetIter())) {
+			return false; }
+
+		return true;
+	}
+
+	template <class T>
+	bool SelectEntryByVarchar(const UnitTestDatabaseEntry& entry) {
+		database::SelectResultContainer<T> results;
+		try {
+			T::GetBy_varchar_test(dbHelper.Connection(),entry.varchar_test,results);	}
+		catch(database::DatabaseException& ex) {
+			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
+			return false; }
+
+		if(results.Size() != 1) {
+			log::Logging::LogError("invalid size while selecting varchar: %lu",results.Size());
+			return false;}
+		results.ResetIter();
+
+		if(!CompareEntryTable(entry,results.GetIter())) {
+			return false; }
+
+		return true;
+	}
+
+	template <class T>
+	bool SelectEntryByTimestamp(const UnitTestDatabaseEntry& entry) {
+		database::SelectResultContainer<T> results;
+		try {
+			T::GetBy_timestamp_test(dbHelper.Connection(),entry.timestamp,results);	}
+		catch(database::DatabaseException& ex) {
+			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
+			return false; }
+
+		if(results.Size() != 1) {
+			log::Logging::LogError("invalid size while selecting timestamp: %lu",results.Size());
 			return false;}
 		results.ResetIter();
 

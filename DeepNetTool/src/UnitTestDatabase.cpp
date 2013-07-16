@@ -22,15 +22,18 @@ UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
 	static const size_t nEntriesCount = 20;
 
 	for(size_t i = 1; i <= nEntriesCount; i++) {
+
+		UnitTestDatabaseEntry entry;
+
 		std::stringstream ss;
 		ss << i;
 
-		UnitTestDatabaseEntry entry;
 		ss >> entry.dDouble;
-		ss >> entry.nInteger;
-		ss >> entry.varchar_test;
+		entry.varchar_test = ss.str();
+		entry.nInteger = i;
 
-		tools::TimeTools::NowUTCAdd(entry.timestamp,1);
+
+		tools::TimeTools::NowUTCAdd(entry.timestamp,i);
 		entries.push_back(entry);
 	}
 }
