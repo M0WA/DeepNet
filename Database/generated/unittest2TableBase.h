@@ -68,16 +68,16 @@ public:
 	 */
     void Set_varchar_test(const std::string& in);
     /**
-     * gets value of uniq_double_test.
+     * gets value of double_test.
      * @param out value.
      */
-	void Get_uniq_double_test(double& out) const;
+	void Get_double_test(double& out) const;
 
 	/**
-	 * sets value of uniq_double_test.
+	 * sets value of double_test.
 	 * @param in value.
 	 */
-    void Set_uniq_double_test(const double& in);
+    void Set_double_test(const double& in);
     /**
      * gets value of integer_test.
      * @param out value.
@@ -163,23 +163,23 @@ public:
         SelectResultContainer<unittest2TableBase>& results);
 public:
 	/**
-	 * gets rows by a value of uniq_double_test.
+	 * gets rows by a value of double_test.
 	 * @param db database connection.
-	 * @param fieldValue value of uniq_double_test.
+	 * @param fieldValue value of double_test.
 	 * @param results contains results.
 	 */
-    static void GetBy_uniq_double_test(
+    static void GetBy_double_test(
         DatabaseConnection* db,
         const double& fieldValue, 
         SelectResultContainer<unittest2TableBase>& results);
 
 	/**
-	 * gets rows by multiple values of uniq_double_test.
+	 * gets rows by multiple values of double_test.
 	 * @param db database connection.
-	 * @param fieldValue values of uniq_double_test.
+	 * @param fieldValue values of double_test.
 	 * @param results contains results.
 	 */
-    static void GetBy_uniq_double_test(
+    static void GetBy_double_test(
         DatabaseConnection* db, 
         const std::vector<double>& fieldValue, 
         SelectResultContainer<unittest2TableBase>& results);
@@ -281,23 +281,23 @@ public:
         const std::vector<std::string>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of uniq_double_test.
+     * creates where condition for a value of double_test.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_uniq_double_test(
+	static void GetWhereColumnsFor_double_test(
         const WhereConditionTableColumnCreateParam& createParam,
         const double& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of uniq_double_test.
+     * creates where condition for multiple values of double_test.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_uniq_double_test(
+    static void GetWhereColumnsFor_double_test(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<double>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
@@ -344,10 +344,10 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_varchar_test();
 	/**
-     * create a column definition for column uniq_double_test.
+     * create a column definition for column double_test.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_uniq_double_test();
+	static TableColumnDefinition* GetDefinition_double_test();
 	/**
      * create a column definition for column integer_test.
      * @return column definition.

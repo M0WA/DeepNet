@@ -32,8 +32,8 @@ void unittest2TableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for varchar_test
     columnDefinitions.push_back(unittest2TableBase::GetDefinition_varchar_test());
 
-    //creating column definition for uniq_double_test
-    columnDefinitions.push_back(unittest2TableBase::GetDefinition_uniq_double_test());
+    //creating column definition for double_test
+    columnDefinitions.push_back(unittest2TableBase::GetDefinition_double_test());
 
     //creating column definition for integer_test
     columnDefinitions.push_back(unittest2TableBase::GetDefinition_integer_test());

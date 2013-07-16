@@ -174,44 +174,44 @@ void unittest2TableBase::Set_varchar_test(const std::string& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
-void unittest2TableBase::Get_uniq_double_test(double& out) const {
+void unittest2TableBase::Get_double_test(double& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "uniq_double_test";
+      fieldName = "double_test";
       break;
     case DB_IBM_DB2:
-      fieldName = "uniq_double_test";
+      fieldName = "double_test";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("uniq_double_test");
+      fieldName = tools::StringTools::ToLowerNP("double_test");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "uniq_double_test";
+      fieldName = "double_test";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-void unittest2TableBase::Set_uniq_double_test(const double& in) {
+void unittest2TableBase::Set_double_test(const double& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "uniq_double_test";
+      fieldName = "double_test";
       break;
     case DB_IBM_DB2:
-      fieldName = "uniq_double_test";
+      fieldName = "double_test";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("uniq_double_test");
+      fieldName = tools::StringTools::ToLowerNP("double_test");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "uniq_double_test";
+      fieldName = "double_test";
       break;
     }
 
@@ -369,13 +369,13 @@ void unittest2TableBase::GetBy_varchar_test(
     db->Select(stmt,results);
 }
 
-void unittest2TableBase::GetBy_uniq_double_test(
+void unittest2TableBase::GetBy_double_test(
         DatabaseConnection* db, 
         const double& fieldValue, 
         SelectResultContainer<unittest2TableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    unittest2TableBase::GetWhereColumnsFor_uniq_double_test(
+    unittest2TableBase::GetWhereColumnsFor_double_test(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -386,13 +386,13 @@ void unittest2TableBase::GetBy_uniq_double_test(
     db->Select(stmt,results);
 }
 
-void unittest2TableBase::GetBy_uniq_double_test(
+void unittest2TableBase::GetBy_double_test(
         DatabaseConnection* db, 
         const std::vector<double>& fieldValue, 
         SelectResultContainer<unittest2TableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    unittest2TableBase::GetWhereColumnsFor_uniq_double_test(
+    unittest2TableBase::GetWhereColumnsFor_double_test(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -519,24 +519,24 @@ void unittest2TableBase::GetWhereColumnsFor_varchar_test(
     delete pTmpDef;
 }
 
-void unittest2TableBase::GetWhereColumnsFor_uniq_double_test(
+void unittest2TableBase::GetWhereColumnsFor_double_test(
     const WhereConditionTableColumnCreateParam& createParam,
     const double& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest2TableBase::GetDefinition_uniq_double_test();
+    TableColumnDefinition* pTmpDef = unittest2TableBase::GetDefinition_double_test();
     TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
 
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
     delete pTmpDef;
 }
 
-void unittest2TableBase::GetWhereColumnsFor_uniq_double_test(
+void unittest2TableBase::GetWhereColumnsFor_double_test(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::vector<double>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest2TableBase::GetDefinition_uniq_double_test();
+    TableColumnDefinition* pTmpDef = unittest2TableBase::GetDefinition_double_test();
     std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
     
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
@@ -671,23 +671,23 @@ TableColumnDefinition* unittest2TableBase::GetDefinition_varchar_test() {
     createParam.hasDefaultValue    = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* unittest2TableBase::GetDefinition_uniq_double_test() {
+TableColumnDefinition* unittest2TableBase::GetDefinition_double_test() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "logging";
-      createParam.columnName   = "uniq_double_test";
+      createParam.columnName   = "double_test";
       createParam.tableName    = "unittest2";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "uniq_double_test";
+      createParam.columnName   = "double_test";
       createParam.tableName    = "unittest2";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("uniq_double_test");
+      createParam.columnName   = tools::StringTools::ToLowerNP("double_test");
       createParam.tableName    = tools::StringTools::ToLowerNP("unittest2");
       break;
     case DB_INVALID_TYPE:
