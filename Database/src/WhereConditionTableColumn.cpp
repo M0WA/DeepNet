@@ -90,6 +90,7 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 
 			default:
 				THROW_EXCEPTION(DatabaseInvalidOperatorTypeException);
+				break;
 			}
 		}
 		columnString << columnName << " " << opString << " " << colVal->GetConstColumn()->GetForSQL(db);
@@ -110,6 +111,7 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 
 		default:
 			THROW_EXCEPTION(DatabaseInvalidOperatorTypeException);
+			break;
 		}
 
 		for(int i = 0;!columnValues.IsIterEnd();columnValues.Next(),i++) {
