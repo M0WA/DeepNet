@@ -41,7 +41,6 @@ UnitTestDatabase::~UnitTestDatabase() {
 bool UnitTestDatabase::Run() {
 
 	if(!dbHelper.CreateConnection(dbConfig)) {
-		log::Logging::LogError("could not connect to database");
 		return false;}
 
 	if(!InsertTest<database::unittest1TableBase>()) {
