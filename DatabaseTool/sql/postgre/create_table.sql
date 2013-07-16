@@ -294,10 +294,10 @@ CREATE TABLE unittest2
  ID BIGSERIAL NOT NULL,
  timestamp_test TIMESTAMP NOT NULL,
  varchar_test VARCHAR(255) NOT NULL,
- uniq_double_test double precision NOT NULL,
+ double_test double precision NOT NULL,
  integer_test INTEGER NOT NULL,
  CONSTRAINT PRI__UNITTEST2_ID PRIMARY KEY (ID),
- CONSTRAINT UNIQ__UNITTEST2_UNIQ_DOUBLE_TEST UNIQUE (uniq_double_test)
+ CONSTRAINT UNIQ__UNITTEST2_DOUBLE_TEST UNIQUE (double_test)
 );
 
 
