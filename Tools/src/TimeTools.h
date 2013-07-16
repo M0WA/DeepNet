@@ -109,13 +109,21 @@ public:
 	static bool ParseDate_AscTime (const std::string& timeString, struct tm& tmOut);
 
 	/**
-	 * parse string as PostgreSQL output.
+	 * parse string as sql output.
 	 * example: 1994-11-06 08:49:37
 	 * @param timeString string to parse.
 	 * @param tmOut result.
 	 * @return false on error, true on success.
 	 */
-	static bool ParsePostgreSQLTimestamp(const std::string timeString, struct tm& tmOut);
+	static bool ParseSQLTimestamp(const std::string timeString, struct tm& tmOut);
+
+	/**
+	 * parses a struct tm to a sql compatible from
+	 * @param in struct tm to parse
+	 * @param out result string
+	 * @return true if successful, false if error
+	 */
+	static bool ToSQLTimestamp(const struct tm& in,std::string& out );
 
 	/**
 	 * zero initialize struct tm.
@@ -177,11 +185,18 @@ public:
     static struct tm NowUTCAdd(const int nDays);
 
     /**
-     * converts struct tm to timeval
+     * converts struct tm to time_t
      * @param time struct tm to convert
      * @return converted timeval
      */
     static time_t TmToTime(const struct tm& time);
+
+    /**
+     * converts time_t to struct tm (as UTC)
+     * @param time time_t to convert
+     * @return converted struct tm
+     */
+    static struct tm TimeToTm(const time_t& time);
 
     /**
      * dumps struct tm into a string
@@ -189,6 +204,7 @@ public:
      * @return string containing date time string
      */
     static std::string DumpTm(const struct tm& time);
+
 };
 
 }

@@ -130,12 +130,22 @@ bool TimeTools::ParseDate_AscTime(const std::string& timeString, struct tm& tmOu
 	return strptime(timeString.c_str(), pszFmtAscTime, &tmOut) != 0;
 }
 
-bool TimeTools::ParsePostgreSQLTimestamp(const std::string timeString, struct tm& tmOut) {
+bool TimeTools::ParseSQLTimestamp(const std::string timeString, struct tm& tmOut) {
 
 	// 1994-11-06 08:49:37
+	InitTm(tmOut);
+	static const char* pszFmtAscTime = "%Y-%m-%d %H:%M:%S %Z";
+	return strptime((timeString + " GMT").c_str(), pszFmtAscTime, &tmOut) != 0;
+}
 
-	static const char* pszFmtAscTime = "%Y-%m-%d %H:%M:%S";
-	return strptime(timeString.c_str(), pszFmtAscTime, &tmOut) != 0;
+bool TimeTools::ToSQLTimestamp(const struct tm& in,std::string& out ) {
+	// 1994-11-06 08:49:37
+	const char* timeStringFormat = "%Y-%m-%d %H:%M:%S GMT";
+	const int timeStringLength = 40;
+	char timeString[timeStringLength];
+	strftime(timeString, timeStringLength, timeStringFormat, &in);
+	out = std::string(timeString);
+	return true;
 }
 
 void TimeTools::InitTm(struct tm& init) {
@@ -169,13 +179,14 @@ struct tm TimeTools::NowUTC(void) {
 }
 
 void TimeTools::NowUTC(struct tm& tmNow) {
-
-  time_t now = time(0);
-  gmtime_r(&now,&tmNow);
+	InitTm(tmNow);
+	time_t now = time(0);
+	gmtime_r(&now,&tmNow);
 }
 
 void TimeTools::NowUTCAdd(struct tm& tmFuture, const int nDays) {
 
+	InitTm(tmFuture);
     time_t now = time(0);
     now += (nDays * 86400); //86400 seconds/day
     gmtime_r(&now,&tmFuture);
@@ -190,6 +201,12 @@ struct tm TimeTools::NowUTCAdd(const int nDays) {
 time_t TimeTools::TmToTime(const struct tm& time) {
 	struct tm timeTmp(time);
 	return mktime(&timeTmp);
+}
+
+struct tm TimeTools::TimeToTm(const time_t& time) {
+	struct tm out;
+	gmtime_r(&time,&out);
+	return out;
 }
 
 std::string TimeTools::DumpTm(const struct tm& time) {
