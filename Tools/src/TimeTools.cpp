@@ -126,7 +126,7 @@ bool TimeTools::ParseDate_AscTime(const std::string& timeString, struct tm& tmOu
 	// ANSI C's asctime() format
 	// Sun Nov  6 08:49:37 1994
 
-	static const char* pszFmtAscTime = " %a %b  %d %H:%M:%S %Y";
+	static const char* pszFmtAscTime = "%a %b  %d %H:%M:%S %Y";
 	return strptime(timeString.c_str(), pszFmtAscTime, &tmOut) != 0;
 }
 
@@ -134,7 +134,7 @@ bool TimeTools::ParsePostgreSQLTimestamp(const std::string timeString, struct tm
 
 	// 1994-11-06 08:49:37
 
-	static const char* pszFmtAscTime = " %Y-%m-%d %H:%M:%S";
+	static const char* pszFmtAscTime = "%Y-%m-%d %H:%M:%S";
 	return strptime(timeString.c_str(), pszFmtAscTime, &tmOut) != 0;
 }
 
@@ -185,6 +185,22 @@ struct tm TimeTools::NowUTCAdd(const int nDays) {
 	struct tm tmFuture;
 	TimeTools::NowUTCAdd(tmFuture, nDays);
 	return tmFuture;
+}
+
+time_t TimeTools::TmToTime(const struct tm& time) {
+	struct tm timeTmp(time);
+	return mktime(&timeTmp);
+}
+
+std::string TimeTools::DumpTm(const struct tm& time) {
+
+	const char* timeStringFormat = "%Y-%m-%d %H:%M:%S";
+	char pszTimeString[128] = {0};
+	size_t size = strftime(pszTimeString, 128, timeStringFormat, &time);
+
+	std::string timeString;
+	timeString.append(pszTimeString,size);
+	return timeString;
 }
 
 }

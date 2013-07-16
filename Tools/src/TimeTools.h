@@ -175,6 +175,20 @@ public:
 	 * @return future UTC time.
 	 */
     static struct tm NowUTCAdd(const int nDays);
+
+    /**
+     * converts struct tm to timeval
+     * @param time struct tm to convert
+     * @return converted timeval
+     */
+    static time_t TmToTime(const struct tm& time);
+
+    /**
+     * dumps struct tm into a string
+     * @param time struct tm to dump
+     * @return string containing date time string
+     */
+    static std::string DumpTm(const struct tm& time);
 };
 
 }
