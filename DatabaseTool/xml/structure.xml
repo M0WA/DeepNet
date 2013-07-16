@@ -1293,7 +1293,7 @@
  -->
 <table
   name="unittest1"
-  MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+  MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
   MySQL_Database="logging"
 >
 
@@ -1314,7 +1314,7 @@
  -->
 <table
   name="unittest2"
-  MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+  MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
   MySQL_Database="logging"
 >
 
