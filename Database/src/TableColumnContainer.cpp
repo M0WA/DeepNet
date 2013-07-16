@@ -13,7 +13,7 @@
 namespace database {
 
 TableColumnContainer::TableColumnContainer(TableColumn* pCol)
-: pCol(pCol) {
+:  tools::Pointer<TableColumn>(pCol) {
 }
 
 TableColumnContainer::TableColumnContainer(const TableColumnContainer& container) {
@@ -23,15 +23,6 @@ TableColumnContainer::TableColumnContainer(const TableColumnContainer& container
 
 
 TableColumnContainer::~TableColumnContainer() {
-
-	CleanUp();
-}
-
-void TableColumnContainer::CleanUp() {
-
-	if(pCol) {
-		delete pCol; }
-	pCol = 0;
 }
 
 }

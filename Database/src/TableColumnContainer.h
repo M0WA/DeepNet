@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include <Pointer.h>
+
 namespace database {
 class TableColumn;
 
@@ -13,7 +15,7 @@ class TableColumn;
  * @brief container for a single TableColumn pointer.
  * manages memory of a single TableColumnContainer.
  */
-class TableColumnContainer {
+class TableColumnContainer : tools::Pointer<TableColumn> {
 private:
 	TableColumnContainer(const TableColumnContainer& container);
 
@@ -31,19 +33,13 @@ public:
 	 * gets const table column.
 	 * @return table column;
 	 */
-	const TableColumn* GetConstColumn() const { return pCol; }
+	const TableColumn* GetConstColumn() const { return this->GetConst(); }
 
 	/**
 	 * gets table column.
 	 * @return table column;
 	 */
-	TableColumn* GetColumn() { return pCol; }
-
-private:
-	void CleanUp();
-
-private:
-	TableColumn* pCol;
+	TableColumn* GetColumn() { return this->Get(); }
 };
 
 }
