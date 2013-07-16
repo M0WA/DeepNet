@@ -170,6 +170,7 @@ CREATE TABLE unittest1
  timestamp_test TIMESTAMP NOT NULL,
  varchar_test VARCHAR(255) NOT NULL,
  double_test double precision NOT NULL,
+ integer_test INTEGER NOT NULL,
  CONSTRAINT PRI__UNITTEST1_ID PRIMARY KEY (ID)
 );
 
@@ -294,6 +295,7 @@ CREATE TABLE unittest2
  timestamp_test TIMESTAMP NOT NULL,
  varchar_test VARCHAR(255) NOT NULL,
  uniq_double_test double precision NOT NULL,
+ integer_test INTEGER NOT NULL,
  CONSTRAINT PRI__UNITTEST2_ID PRIMARY KEY (ID),
  CONSTRAINT UNIQ__UNITTEST2_UNIQ_DOUBLE_TEST UNIQUE (uniq_double_test)
 );

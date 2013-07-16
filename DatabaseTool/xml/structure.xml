@@ -1301,6 +1301,7 @@
   <column name="timestamp_test" type="TIMESTAMP"    notnull="1" />
   <column name="varchar_test"   type="VARCHAR(255)" notnull="1" />
   <column name="double_test"    type="DOUBLE"       notnull="1" />
+  <column name="integer_test"   type="INTEGER"      notnull="1" />
 
   <primary_key column="ID" />
 
@@ -1322,6 +1323,7 @@
   <column name="timestamp_test"   type="TIMESTAMP"    notnull="1" />
   <column name="varchar_test"     type="VARCHAR(255)" notnull="1" />
   <column name="uniq_double_test" type="DOUBLE"       notnull="1" />
+  <column name="integer_test"     type="INTEGER"      notnull="1" />
 
   <primary_key column="ID" />
   <unique_key column="uniq_double_test" />
