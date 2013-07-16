@@ -9,6 +9,7 @@
 #include <Pointer.h>
 
 namespace database {
+
 class TableColumn;
 
 /**
@@ -33,13 +34,13 @@ public:
 	 * gets const table column.
 	 * @return table column;
 	 */
-	const TableColumn* GetConstColumn() const { return this->GetConst(); }
+	const TableColumn* GetConstColumn() const;
 
 	/**
 	 * gets table column.
 	 * @return table column;
 	 */
-	TableColumn* GetColumn() { return this->Get(); }
+	TableColumn* GetColumn();
 };
 
 }

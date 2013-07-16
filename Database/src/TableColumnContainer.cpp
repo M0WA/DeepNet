@@ -21,8 +21,15 @@ TableColumnContainer::TableColumnContainer(const TableColumnContainer& container
 	THROW_EXCEPTION(errors::NotImplementedException,"cannot copy column container");
 }
 
-
 TableColumnContainer::~TableColumnContainer() {
+}
+
+const TableColumn* TableColumnContainer::GetConstColumn() const {
+	return this->GetConst();
+}
+
+TableColumn* TableColumnContainer::GetColumn() {
+	return this->Get();
 }
 
 }
