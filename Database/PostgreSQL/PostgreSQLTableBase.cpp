@@ -12,10 +12,6 @@
 #include <libpq-fe.h>
 #include <catalog/pg_type.h>
 
-#include <TimeTools.h>
-#include <StringTools.h>
-#include <Logging.h>
-
 #include "TableColumn.h"
 #include "TableDefinition.h"
 #include "TableColumnDefinition.h"
@@ -23,8 +19,13 @@
 #include "DatabaseInvalidTypeException.h"
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseInvalidColumnNameException.h"
+#include "DatabaseInvalidTypeConversionException.h"
 
 #include <NotImplementedException.h>
+
+#include <TimeTools.h>
+#include <StringTools.h>
+#include <Logging.h>
 
 namespace database {
 
@@ -126,8 +127,23 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 			tblCol->SetNull();
 		}
 		else {
+			switch(tblCol->GetConstColumnDefinition()->GetColumnType())
+			{
+			case DB_TYPE_CHAR:
+			case DB_TYPE_LARGE_TEXT:
+			case DB_TYPE_VARCHAR:
+				tblCol->Set(PQgetvalue(res,curRow,curCol));
+				break;
 
-			switch(tblCol->GetConstColumnDefinition()->GetColumnType()) {
+			case DB_TYPE_TIMESTAMP:
+				{
+					struct tm out;
+					if(!tools::TimeTools::ParsePostgreSQLTimestamp(PQgetvalue(res,curRow,curCol),out)) {
+						THROW_EXCEPTION(database::DatabaseInvalidTypeConversionException);
+						return;	}
+					tblCol->Set(out);
+				}
+				break;
 
 			case DB_TYPE_DOUBLE:
 			{
@@ -135,6 +151,8 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 				std::stringstream ss;
 				ss << PQgetvalue(res,curRow,curCol);
 				ss >> convert;
+				if(ss.fail())
+					THROW_EXCEPTION(DatabaseInvalidTypeConversionException);
 				tblCol->Set(convert);
 			}
 				break;
@@ -145,22 +163,10 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 				std::stringstream ss;
 				ss << PQgetvalue(res,curRow,curCol);
 				ss >> convert;
+				if(ss.fail())
+					THROW_EXCEPTION(DatabaseInvalidTypeConversionException);
 				tblCol->Set(convert);
 			}
-				break;
-
-			case DB_TYPE_VARCHAR:
-				tblCol->Set(PQgetvalue(res,curRow,curCol));
-				break;
-
-			case DB_TYPE_TIMESTAMP:
-				{
-					struct tm out;
-					if(!tools::TimeTools::ParsePostgreSQLTimestamp(PQgetvalue(res,curRow,curCol),out)) {
-						THROW_EXCEPTION(database::DatabaseInvalidTypeException);
-						return;	}
-					tblCol->Set(out);
-				}
 				break;
 
 			default:
