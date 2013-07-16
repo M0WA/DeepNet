@@ -20,6 +20,7 @@
 #include "InsertOrUpdateStatement.h"
 #include "UpdateStatement.h"
 #include "DeleteStatement.h"
+
 #include "TableColumn.h"
 
 #include "PostgreSQLDatabaseConfig.h"
@@ -112,6 +113,12 @@ void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
 	PGresult* res = Execute_Intern(query);
+	ResToVec(query,res,results);
+	PQclear(res);
+}
+
+void PostgreSQLConnection::ResToVec(const std::string& query, PGresult* res,std::vector<TableBase*>& results) {
+
 	if(!res)
 		return;
 
@@ -128,8 +135,6 @@ void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase
 
 	for(int curRow = 0; curRow <  noRows;  ++curRow) {
 		results.push_back(PostgreSQLTableBase::CreateInstance(res,curRow));	}
-
-	PQclear(res);
 }
 
 void PostgreSQLConnection::Execute(const std::string& query) {
@@ -210,10 +215,45 @@ void PostgreSQLConnection::Insert(const InsertStatement& stmt){
 	PostgreSQLInsertStatement pqStmt(stmt);
 
 	lastInsertID = -1;
-	PGresult* res = Execute_Intern(pqStmt.ToSQL(this).c_str());
+	std::string query(pqStmt.ToSQL(this).c_str());
+	PGresult* res(Execute_Intern(query));
 	SetLastInsertID(res);
 	if(lastInsertID == -1) {
 
+		ExecStatusType type(PQresultStatus(res));
+		if(type!=PGRES_TUPLES_OK) {
+			PQclear(res);
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,"cannot determine inserted key for query " + query);
+			return;	}
+
+		std::vector<TableBase*> results;
+		ResToVec(query,res,results);
+
+		if(results.size() != 1) {
+			PQclear(res);
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,"invalid size while determine inserted key for query " + query);
+			std::vector<TableBase*>::iterator iDel = results.begin();
+			for(;iDel != results.end();++iDel) {
+				delete (*iDel);	}
+			return; }
+
+		TableBase* tmpTbl(results.at(0));
+		const std::vector<TableColumn*>& cols(tmpTbl->GetConstColumns());
+
+		if(cols.size() != 1) {
+			PQclear(res);
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,"invalid column size while determine inserted key for query " + query);
+			std::vector<TableBase*>::iterator iDel = results.begin();
+			for(;iDel != results.end();++iDel) {
+				delete (*iDel);	}
+			return;}
+
+		TableColumn* curCol(cols.at(0));
+		curCol->Get(lastInsertID);
+
+		std::vector<TableBase*>::iterator iDel(results.begin());
+		for(;iDel != results.end();++iDel) {
+			delete (*iDel);	}
 	}
 	PQclear(res);
 }
@@ -223,7 +263,7 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-//	TransactionStart();
+	TransactionStart();
 
 	try {
 		//insert or update entries
@@ -253,13 +293,12 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 
 			TableColumn* priKeyCol = cols.at(0);
 			priKeyCol->Get(lastInsertID);
-
 			affectedRows = tmpAffected;
 		}
 	}
 	catch(errors::Exception& e) {
 		try {
-//			TransactionRollback();
+			TransactionRollback();
 		}
 		catch(...) {
 			log::Logging::LogError("could not rollback after error");
@@ -267,7 +306,7 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		throw;
 	}
 
-//	TransactionCommit();
+	TransactionCommit();
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){

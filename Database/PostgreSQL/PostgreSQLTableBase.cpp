@@ -90,6 +90,7 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 			break;
 
 		case ABSTIMEOID:
+		case TIMESTAMPOID:
 			colCreateParam.columnType = DB_TYPE_TIMESTAMP;
 			break;
 
@@ -155,7 +156,7 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 			case DB_TYPE_TIMESTAMP:
 				{
 					struct tm out;
-					if(!tools::TimeTools::TryParseDate(PQgetvalue(res,curRow,curCol),out)) {
+					if(!tools::TimeTools::ParsePostgreSQLTimestamp(PQgetvalue(res,curRow,curCol),out)) {
 						THROW_EXCEPTION(database::DatabaseInvalidTypeException);
 						return;	}
 					tblCol->Set(out);
