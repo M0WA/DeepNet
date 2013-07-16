@@ -13,8 +13,10 @@
 #include "DatabaseConnection.h"
 #include "DatabaseHelper.h"
 
-#include <NotImplementedException.h>
 #include "DatabaseInvalidTypeException.h"
+#include <NotImplementedException.h>
+
+#include <TimeTools.h>
 
 namespace database {
 
@@ -179,7 +181,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		struct tm rawValue;
 		Get(rawValue);
 		std::string timeString;
-		DatabaseHelper::TmToDateTime(rawValue,timeString);
+		tools::TimeTools::ToSQLTimestamp(rawValue, timeString);
 		ssSQLValue << timestampPrefix << stringQuotation << timeString << stringQuotation;
 	}
 		break;

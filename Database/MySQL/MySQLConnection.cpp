@@ -200,7 +200,7 @@ void MySQLConnection::Insert(const InsertStatement& stmt) {
 
 void MySQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt) {
 
-	MySQLInsertOrUpdateStatement mysqlStmt(&stmt);
+	MySQLInsertOrUpdateStatement mysqlStmt(stmt);
 	Execute(mysqlStmt.ToSQL(this));
 }
 

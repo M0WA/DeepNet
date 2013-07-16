@@ -40,7 +40,7 @@ public:
 	const TableBase* GetConstTableBase() const { return tableBase; }
 
 protected:
-	const TableBase* tableBase;
+	TableBase* tableBase;
 };
 
 }

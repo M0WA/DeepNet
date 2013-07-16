@@ -15,18 +15,12 @@
 namespace database {
 
 InsertOrUpdateStatement::InsertOrUpdateStatement(TableBase* tableBase)
-: InsertStatement(tableBase) {
+: database::Statement(INSERT_OR_UPDATE_STMT,tableBase->GetTableDefinition())
+, tableBase(tableBase) {
 
-	typeStmt = INSERT_OR_UPDATE_STMT;
 }
 
 InsertOrUpdateStatement::~InsertOrUpdateStatement() {
-}
-
-std::string InsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
-
-	THROW_EXCEPTION(errors::NotImplementedException,"database");
-	return "";
 }
 
 void InsertOrUpdateStatement::AddSumUpColumn(TableColumnDefinition* colDef) {
@@ -48,6 +42,18 @@ bool InsertOrUpdateStatement::IsSumColumn(const std::string& columnName) const {
 	}
 
 	return false;
+}
+
+InnerJoinCondition& InsertOrUpdateStatement::InnerJoin() {
+
+	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return *static_cast<InnerJoinCondition*>(0);
+}
+
+std::string InsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
+	//insert or update statement is highly database dependent...
+	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return "";
 }
 
 }

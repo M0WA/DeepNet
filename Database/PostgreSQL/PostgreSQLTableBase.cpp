@@ -138,7 +138,7 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 			case DB_TYPE_TIMESTAMP:
 				{
 					struct tm out;
-					if(!tools::TimeTools::ParsePostgreSQLTimestamp(PQgetvalue(res,curRow,curCol),out)) {
+					if(!tools::TimeTools::ParseSQLTimestamp(PQgetvalue(res,curRow,curCol),out)) {
 						THROW_EXCEPTION(database::DatabaseInvalidTypeConversionException);
 						return;	}
 					tblCol->Set(out);

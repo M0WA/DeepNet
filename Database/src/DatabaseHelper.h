@@ -55,37 +55,6 @@ public:
 
     //mysql datetime conversion functions
   public:
-	/**
-	 * TODO: document
-	 * move this function to TimeTools.
-	 * @param in
-	 * @param out
-	 * @return
-	 */
-    inline static bool TmToDateTime(const struct tm& in, std::string& out)
-    {
-		const char* timeStringFormat = "%Y-%m-%d %H:%M:%S";
-		const int timeStringLength = 40;
-		char timeString[timeStringLength];
-		strftime(timeString, timeStringLength, timeStringFormat, &in);
-		out = std::string(timeString);
-		return true;
-    }
-
-	/**
-	 * TODO: document
-	 * move this function to TimeTools.
-	 * @param in
-	 * @param out
-	 * @return
-	 */
-    inline static bool DateTimeToTm(const std::string& in, struct tm& out )
-    {
-    	memset(&out,0,sizeof(struct tm));
-		if(!in.empty() && in.compare("0000-00-00 00:00:00") != 0)
-			return strptime(in.c_str(), "%Y-%m-%d %H:%M:%S", &out) != NULL;
-		return true;
-    }
 
     static DatabaseType GetDatabaseType();
 

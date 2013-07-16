@@ -21,6 +21,8 @@
 #include "DatabaseInvalidTypeConversionException.h"
 #include "DatabaseNoColumnsException.h"
 
+#include <TimeTools.h>
+
 namespace database {
 
 MySQLTableBase::MySQLTableBase(TableDefinition* definition)
@@ -154,7 +156,7 @@ void MySQLTableBase::SetColumnValues(
 				ssConvert << row[i];
 				{
 					struct tm out;
-					if(!DatabaseHelper::DateTimeToTm(ssConvert.str(),out))
+					if(!tools::TimeTools::ParseSQLTimestamp(ssConvert.str(),out))
 						THROW_EXCEPTION(DatabaseInvalidTypeConversionException);
 					col->Set(out);
 				}

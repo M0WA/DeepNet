@@ -24,7 +24,7 @@ class DatabaseConnection;
  * @see database::MySQLInsertOrUpdateStatement
  * @see database::DB2InsertOrUpdateStatement
  */
-class InsertOrUpdateStatement : public InsertStatement {
+class InsertOrUpdateStatement : public Statement {
 public:
 	/**
 	 * construct with existing table.
@@ -55,11 +55,17 @@ public:
 	 */
 	bool IsSumColumn(const std::string& columnName) const;
 
+	const TableBase* GetConstTableBase() const { return tableBase; }
+
 public:
+	virtual InnerJoinCondition& InnerJoin();
 	virtual std::string ToSQL( DatabaseConnection* db ) const;
 
 public:
 	tools::PointerContainer<TableColumnDefinition> sumColumns;
+
+protected:
+	TableBase* tableBase;
 };
 
 }

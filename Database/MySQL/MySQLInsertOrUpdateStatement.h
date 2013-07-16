@@ -19,7 +19,7 @@ class InsertOrUpdateStatement;
  */
 class MySQLInsertOrUpdateStatement {
 public:
-	MySQLInsertOrUpdateStatement(const InsertOrUpdateStatement* stmt);
+	MySQLInsertOrUpdateStatement(const InsertOrUpdateStatement& stmt);
 	virtual ~MySQLInsertOrUpdateStatement();
 
 public:
@@ -31,7 +31,7 @@ public:
 	std::string ToSQL( DatabaseConnection* db ) const;
 
 private:
-	const InsertOrUpdateStatement* orgStatement;
+	const InsertOrUpdateStatement& orgStatement;
 };
 
 }
