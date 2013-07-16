@@ -312,18 +312,14 @@ private:
 			log::Logging::LogError("invalid data while select integer_test: %lld (should be '%lld')",nTest,entry.nInteger);
 			return false; }
 
-		/*
-		//
-		//TODO: implement timetools to compare two struct tm's
-		//
 		struct tm tTest;
 		tbl->Get_timestamp_test(tTest);
-		if(tTest != entry.timestamp) {
-			log::Logging::LogError("invalid data while select timestamp_test: %s (should be '%s')",
-					tools::TimeTools::TimevalToString(tTest).c_str(),
-					tools::TimeTools::TimevalToString(entry.varchar_test).c_str());
+		time_t tmpTime1(tools::TimeTools::TmToTime(tTest)), tmpTime2(tools::TimeTools::TmToTime(entry.timestamp));
+		if(tmpTime1 != tmpTime2) {
+			log::Logging::LogError("invalid data while select timestamp_test: %s (should be %s)",
+					tools::TimeTools::DumpTm(tTest).c_str(),
+					tools::TimeTools::DumpTm(entry.timestamp).c_str());
 			return false;}
-		*/
 		return true;
 	}
 

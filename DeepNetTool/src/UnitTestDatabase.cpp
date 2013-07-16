@@ -58,13 +58,17 @@ bool UnitTestDatabase::Run() {
 	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 
-	//
-	//TODO: implement tests for insert-or-update (+sum columns and on duplicate key update....)
-	//
+	//do upsert tests
 	if(!InsertTest<database::unittest2TableBase>()) {
 		return false;}
 	if(!UpsertTest()) {
 		return false; }
+	if(!DeleteAllTest<database::unittest2TableBase>()) {
+		return false;}
+
+	//
+	//TODO: implement tests for sum columns/order by/group by statements
+	//
 
 	return true;
 }
