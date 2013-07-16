@@ -14,24 +14,18 @@ namespace toolbot {
 
 UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
 : dbConfig(dbConfig) {
-
+	//initialize test entries
 	static const size_t nEntriesCount(20);
-
 	for(size_t i = 1; i <= nEntriesCount; i++) {
-
-		UnitTestDatabaseEntry entry;
-
 		std::stringstream ss;
 		ss << i;
 
+		UnitTestDatabaseEntry entry;
 		ss >> entry.dDouble;
 		entry.varchar_test = ss.str();
 		entry.nInteger = i;
-
-
 		tools::TimeTools::NowUTCAdd(entry.timestamp,i);
-		entries.push_back(entry);
-	}
+		entries.push_back(entry); }
 }
 
 UnitTestDatabase::~UnitTestDatabase() {
@@ -78,7 +72,9 @@ bool UnitTestDatabase::UpsertTest() {
 	//update by duplicate key test
 	database::unittest2TableBase upsertTbl;
 	upsertTbl.Set_double_test(2.0);
+	upsertTbl.Set_integer_test(2);
 	upsertTbl.Set_varchar_test("duplicate key detected");
+	upsertTbl.Set_timestamp_test(entries.at(1).timestamp);
 
 	database::SelectResultContainer<database::unittest2TableBase> results;
 	long long affectedID(-1);

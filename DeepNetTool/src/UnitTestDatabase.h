@@ -314,12 +314,19 @@ private:
 
 		struct tm tTest;
 		tbl->Get_timestamp_test(tTest);
-		time_t tmpTime1(tools::TimeTools::TmToTime(tTest)), tmpTime2(tools::TimeTools::TmToTime(entry.timestamp));
-		if(tmpTime1 != tmpTime2) {
-			log::Logging::LogError("invalid data while select timestamp_test: %s (should be %s)",
-					tools::TimeTools::DumpTm(tTest).c_str(),
-					tools::TimeTools::DumpTm(entry.timestamp).c_str());
-			return false;}
+
+		std::string dump1(tools::TimeTools::DumpTm(tTest)),
+				    dump2(tools::TimeTools::DumpTm(entry.timestamp));
+
+		time_t tmpTime1(tools::TimeTools::TmToTime(tTest)),
+			   tmpTime2(tools::TimeTools::TmToTime(entry.timestamp));
+
+		if(dump1.compare(dump2) != 0|| tmpTime1 != tmpTime2) {
+			log::Logging::LogError("invalid data while select timestamp_test: %s (%ld) (should be %s (%ld))",
+				dump1.c_str(), tmpTime1,
+				dump2.c_str(), tmpTime2);
+			return false;
+		}
 		return true;
 	}
 
