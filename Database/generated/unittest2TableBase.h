@@ -78,6 +78,17 @@ public:
 	 * @param in value.
 	 */
     void Set_uniq_double_test(const double& in);
+    /**
+     * gets value of integer_test.
+     * @param out value.
+     */
+	void Get_integer_test(long long& out) const;
+
+	/**
+	 * sets value of integer_test.
+	 * @param in value.
+	 */
+    void Set_integer_test(const long long& in);
 
 
 public:
@@ -171,6 +182,28 @@ public:
     static void GetBy_uniq_double_test(
         DatabaseConnection* db, 
         const std::vector<double>& fieldValue, 
+        SelectResultContainer<unittest2TableBase>& results);
+public:
+	/**
+	 * gets rows by a value of integer_test.
+	 * @param db database connection.
+	 * @param fieldValue value of integer_test.
+	 * @param results contains results.
+	 */
+    static void GetBy_integer_test(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<unittest2TableBase>& results);
+
+	/**
+	 * gets rows by multiple values of integer_test.
+	 * @param db database connection.
+	 * @param fieldValue values of integer_test.
+	 * @param results contains results.
+	 */
+    static void GetBy_integer_test(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
         SelectResultContainer<unittest2TableBase>& results);
 
 
@@ -268,6 +301,27 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<double>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of integer_test.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_integer_test(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of integer_test.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_integer_test(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -294,6 +348,11 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_uniq_double_test();
+	/**
+     * create a column definition for column integer_test.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_integer_test();
 
 };
 

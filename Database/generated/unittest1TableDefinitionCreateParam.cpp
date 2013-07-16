@@ -35,6 +35,9 @@ void unittest1TableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for double_test
     columnDefinitions.push_back(unittest1TableBase::GetDefinition_double_test());
 
+    //creating column definition for integer_test
+    columnDefinitions.push_back(unittest1TableBase::GetDefinition_integer_test());
+
 }
 
 std::string unittest1TableDefinitionCreateParam::GetDatabaseName() {
