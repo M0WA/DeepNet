@@ -19,6 +19,7 @@ namespace database {
 }
 
 namespace toolbot {
+
 /**
  * @brief implements unit tests for parsing URLs
  * @see network::HttpUrl
