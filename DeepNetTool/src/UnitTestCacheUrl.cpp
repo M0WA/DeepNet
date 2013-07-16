@@ -1,8 +1,9 @@
-/*
- * UnitTestCacheUrl.cpp
+/**
  *
- *  Created on: 25.08.2012
- *      Author: Moritz Wagner
+ * @file UnitTestCacheUrl.cpp
+ * @author Moritz Wagner
+ * @date 25.08.2012
+ *
  */
 
 #include "UnitTestCacheUrl.h"

@@ -1,8 +1,9 @@
-/*
- * UnitTestPCRERegex.cpp
+/**
  *
- *  Created on: 19.09.2012
- *      Author: Moritz Wagner
+ * @file UnitTestPCRERegex.cpp
+ * @author Moritz Wagner
+ * @date 19.09.2012
+ *
  */
 
 #include "UnitTestPCRERegex.h"

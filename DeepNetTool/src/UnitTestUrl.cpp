@@ -1,8 +1,9 @@
-/*
- * UnitTestUrl.cpp
+/**
  *
- *  Created on: 25.08.2012
- *      Author: Moritz Wagner
+ * @file UnitTestUrl.cpp
+ * @author Moritz Wagner
+ * @date 25.08.2012
+ *
  */
 
 #include "UnitTestUrl.h"

@@ -1,8 +1,9 @@
-/*
- * UnitTestRobotTxt.h
+/**
  *
- *  Created on: 03.12.2012
- *      Author: Moritz Wagner
+ * @file UnitTestRobotTxt.h
+ * @author Moritz Wagner
+ * @date 03.12.2012
+ *
  */
 
 #pragma once
@@ -12,6 +13,10 @@
 
 namespace toolbot {
 
+/**
+ * @brief implements unit tests for parsing robot.txts
+ * @see caching::RobotTxt
+ */
 class UnitTestRobotTxt : public UnitTest {
 public:
 	UnitTestRobotTxt(const std::string& robotsTxt);

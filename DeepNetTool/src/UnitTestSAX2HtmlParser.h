@@ -2,7 +2,7 @@
  *
  * @file UnitTestSAX2HtmlParser.h
  * @author Moritz Wagner
- * @date Apr 20, 2013
+ * @date 20.04.2013
  *
  */
 
@@ -23,6 +23,10 @@ namespace database {
 
 namespace toolbot {
 
+/**
+ * @brief implements unit tests for libXML2 based html parser
+ * @see htmlparser::HtmlParserFactory
+ */
 class UnitTestSAX2HtmlParser: public toolbot::UnitTest {
 public:
 	UnitTestSAX2HtmlParser(database::DatabaseConnection* db, const std::string& unitBaseDir);

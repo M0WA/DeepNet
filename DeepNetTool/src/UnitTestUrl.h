@@ -1,8 +1,9 @@
-/*
- * UnitTestUrl.h
+/**
  *
- *  Created on: 25.08.2012
- *      Author: Moritz Wagner
+ * @file UnitTestUrl.h
+ * @author Moritz Wagner
+ * @date 25.08.2012
+ *
  */
 
 #pragma once
@@ -13,6 +14,11 @@
 
 namespace toolbot {
 
+/**
+ * @brief implements wrapper for network::HttpUrl for unit tests for parsing URLs
+ * @see network::HttpUrl
+ * @see toolbot::UnitTestUrlParser
+ */
 class UnitTestUrl {
 
 public:

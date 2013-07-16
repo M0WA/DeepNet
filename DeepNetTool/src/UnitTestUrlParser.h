@@ -1,8 +1,9 @@
-/*
- * UnitTestUrlParser.h
+/**
  *
- *  Created on: 24.08.2012
- *      Author: Moritz Wagner
+ * @file UnitTestUrlParser.cpp
+ * @author Moritz Wagner
+ * @date 24.08.2012
+ *
  */
 
 #pragma once
@@ -18,7 +19,10 @@ namespace database {
 }
 
 namespace toolbot {
-
+/**
+ * @brief implements unit tests for parsing URLs
+ * @see network::HttpUrl
+ */
 class UnitTestUrlParser : public UnitTest {
 public:
 	UnitTestUrlParser(database::DatabaseConnection* connection,

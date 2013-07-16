@@ -2,7 +2,7 @@
  *
  * @file UnitTestSAX2HtmlParser.cpp
  * @author Moritz Wagner
- * @date Apr 20, 2013
+ * @date 20.04.2013
  *
  */
 

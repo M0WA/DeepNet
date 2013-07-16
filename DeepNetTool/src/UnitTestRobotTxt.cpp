@@ -1,8 +1,9 @@
-/*
- * UnitTestRobotTxt.cpp
+/**
  *
- *  Created on: 03.12.2012
- *      Author: Moritz Wagner
+ * @file UnitTestRobotTxt.cpp
+ * @author Moritz Wagner
+ * @date 03.12.2012
+ *
  */
 
 #include "UnitTestRobotTxt.h"

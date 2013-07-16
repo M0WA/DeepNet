@@ -1,8 +1,9 @@
-/*
- * UnitTestUrlParser.cpp
+/**
  *
- *  Created on: 24.08.2012
- *      Author: Moritz Wagner
+ * @file UnitTestUrlParser.cpp
+ * @author Moritz Wagner
+ * @date 24.08.2012
+ *
  */
 
 #include "UnitTestUrlParser.h"

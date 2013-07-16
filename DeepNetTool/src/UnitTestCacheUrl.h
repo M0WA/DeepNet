@@ -1,8 +1,9 @@
-/*
- * UnitTestCacheUrl.h
+/**
  *
- *  Created on: 25.08.2012
- *      Author: Moritz Wagner
+ * @file UnitTestCacheUrl.h
+ * @author Moritz Wagner
+ * @date 25.08.2012
+ *
  */
 
 #pragma once
@@ -19,6 +20,10 @@ namespace database {
 
 namespace toolbot {
 
+/**
+ * @brief implements unit tests for cached urls
+ * @see caching::CacheUrl
+ */
 class UnitTestCacheUrl : public UnitTest {
 public:
 	UnitTestCacheUrl(database::DatabaseConnection* connection,const std::string& urlFileName);

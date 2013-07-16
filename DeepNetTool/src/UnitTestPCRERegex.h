@@ -1,8 +1,9 @@
-/*
- * UnitTestPCRERegex.h
+/**
  *
- *  Created on: 19.09.2012
- *      Author: Moritz Wagner
+ * @file UnitTestPCRERegex.h
+ * @author Moritz Wagner
+ * @date 19.09.2012
+ *
  */
 
 #pragma once
@@ -33,6 +34,10 @@ struct PCRERegexUnitTestEntry {
 	size_t line;
 };
 
+/**
+ * @brief implements unit tests for perl compatible regular expressions
+ * @see tools::PCRERegex
+ */
 class UnitTestPCRERegex : public UnitTest {
 public:
 	UnitTestPCRERegex(const std::string& unitTestFile);
