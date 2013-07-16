@@ -8,20 +8,31 @@
 
 #include "UnitTestDatabase.h"
 
-#include <DatabaseLayer.h>
-#include <DatabaseHelper.h>
-#include <DatabaseException.h>
+#include <sstream>
 
 #include <TableDefinition.h>
+#include <TableColumnDefinition.h>
 #include <TableColumn.h>
-
-#include <Logging.h>
-#include <TimeTools.h>
 
 namespace toolbot {
 
 UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
 : dbConfig(dbConfig) {
+
+	static const size_t nEntriesCount = 20;
+
+	for(size_t i = 1; i <= nEntriesCount; i++) {
+		std::stringstream ss;
+		ss << i;
+
+		UnitTestDatabaseEntry entry;
+		ss >> entry.dDouble;
+		ss >> entry.nInteger;
+		ss >> entry.varchar_test;
+
+		tools::TimeTools::NowUTCAdd(entry.timestamp,1);
+		entries.push_back(entry);
+	}
 }
 
 UnitTestDatabase::~UnitTestDatabase() {
@@ -33,55 +44,17 @@ bool UnitTestDatabase::Run() {
 		log::Logging::LogError("could not connect to database");
 		return false;}
 
-	if(!InsertTest()) {
+	if(!InsertTest<database::unittest1TableBase>()) {
+		return false;}
+
+	if(!SelectTest<database::unittest1TableBase>()) {
 		return false;}
 
 	if(!UpdateTest()) {
 		return false;}
 
-	if(!SelectTest()) {
-		return false;}
-
 	if(!DeleteTest()) {
 		return false;}
-
-	return true;
-}
-
-bool UnitTestDatabase::InsertTest() {
-
-	database::unittest1TableBase insertTbl;
-	insertTbl.Set_timestamp_test(tools::TimeTools::NowUTC());
-	insertTbl.Set_double_test(1.0);
-	insertTbl.Set_varchar_test("1");
-	try {
-		insertTbl.Insert(dbHelper.Connection()); }
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could not insert test data:\n%s",ex.Dump().c_str());
-		return false; }
-
-	insertTbl.Set_timestamp_test(tools::TimeTools::NowUTC());
-	insertTbl.Set_double_test(2.0);
-	insertTbl.Set_varchar_test("2");
-	try {
-		insertTbl.Insert(dbHelper.Connection()); }
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could not insert test data:\n%s",ex.Dump().c_str());
-		return false; }
-
-	long long insertID = -1,insertIDTbl = -1;
-	dbHelper.Connection()->LastInsertID(insertID);
-	insertTbl.Get_ID(insertIDTbl);
-
-	if(insertID == -1 || insertIDTbl == -1) {
-		log::Logging::LogError("could not determine last inserted id: %lld,%lld",
-			insertID,insertIDTbl);
-		return false; }
-
-	if(insertID != insertIDTbl) {
-		log::Logging::LogError("last inserted id did not match: %lld,%lld",
-			insertID,insertIDTbl);
-		return false; }
 
 	return true;
 }
@@ -112,7 +85,7 @@ bool UnitTestDatabase::UpdateTest() {
 			database::WhereCondition::Equals(),
 			database::WhereCondition::InitialComp()),
 		2.0,
-		paramTbl1.whereCols);
+		paramTbl2.whereCols);
 
 	database::unittest1TableBase updateTbl2;
 	updateTbl2.Set_double_test(4.0);
@@ -141,7 +114,12 @@ bool UnitTestDatabase::DeleteTest() {
 
 	database::TableDefinition* tblDef = database::unittest1TableBase::CreateTableDefinition();
 	database::SelectStatement selectRest(tblDef);
-	selectRest.SelectAddCountColumn(tblDef->GetColumnDefinitionByName("ID"),"pid","");
+
+	database::TableColumnDefinition* countColDef(
+		database::TableColumnDefinition::CreateInstance(
+			tblDef->GetColumnDefinitionByName("ID")->GetConstCreateParam() )
+	);
+	selectRest.SelectAddCountColumn(countColDef,"","");
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {
@@ -161,88 +139,19 @@ bool UnitTestDatabase::DeleteTest() {
 		return false;}
 
 	database::TableColumn* countCol = cols.at(0);
+
+	/*
 	const std::string& columnName = countCol->GetColumnName();
+	if(!tools::StringTools::CompareCaseInsensitive(columnName,"id")) {
+		log::Logging::LogError("invalid column name while select count(%lld) for test data: %s",countRow,columnName.c_str());
+		return false; }
+	*/
 
 	long long countRow = -1;
 	countCol->Get(countRow);
 
-	if(!tools::StringTools::CompareCaseInsensitive(columnName,"pid")) {
-		log::Logging::LogError("invalid column name while select count(%lld) for test data: %s",countRow,columnName.c_str());
-		return false; }
-
 	if(countRow != 0) {
 		log::Logging::LogError("invalid count(%lld) while select count for test data",countRow);
-		return false; }
-
-	return true;
-}
-
-bool UnitTestDatabase::SelectTest() {
-
-	database::SelectResultContainer<database::unittest1TableBase> results1;
-
-	try {
-		database::unittest1TableBase::GetBy_double_test(dbHelper.Connection(),3.0,results1);
-	}
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
-		return false; }
-
-	if(results1.Size() != 1) {
-		log::Logging::LogError("invalid size while selecting data (3.0): %llu",results1.Size());
-		return false;}
-	results1.ResetIter();
-
-	double dTest1 = 0.0;
-	results1.GetIter()->Get_double_test(dTest1);
-	if(dTest1 != 3.0) {
-		log::Logging::LogError("invalid data while select double_test: %f (should be 3.0)",dTest1);
-		return false; }
-
-	std::string sTest1;
-	results1.GetIter()->Get_varchar_test(sTest1);
-	if(sTest1.compare("3") != 0) {
-		log::Logging::LogError("invalid data while select varchar_test: %s (should be '3')",sTest1.c_str());
-		return false; }
-
-	database::SelectResultContainer<database::unittest1TableBase> results2;
-	try {
-		database::unittest1TableBase::GetBy_double_test(dbHelper.Connection(),4.0,results2); }
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
-		return false; }
-
-	if(results2.Size() != 1) {
-		log::Logging::LogError("invalid size while selecting data (4.0): %llu",results2.Size());
-		return false;}
-	results2.ResetIter();
-
-	double dTest2 = 0.0;
-	results2.GetIter()->Get_double_test(dTest2);
-	if(dTest2 != 4.0) {
-		log::Logging::LogError("invalid data while select double_test: %f (should be 4.0)",dTest2);
-		return false; }
-
-	std::string sTest2;
-	results2.GetIter()->Get_varchar_test(sTest2);
-	if(sTest2.compare("4") != 0) {
-		log::Logging::LogError("invalid data while select varchar_test: %s (should be '4')",sTest2.c_str());
-		return false; }
-
-	//////////////////////////////////////////
-	//
-	//TODO: test timestamp and integer columns
-	//
-	//////////////////////////////////////////
-
-	database::SelectStatement selectAll(database::unittest1TableBase::CreateTableDefinition());
-	selectAll.SelectAllColumns();
-
-	database::SelectResultContainer<database::unittest1TableBase> results3;
-	try {
-		dbHelper.Connection()->Select(selectAll,results3); }
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
 		return false; }
 
 	return true;
