@@ -10,10 +10,6 @@
 
 #include <sstream>
 
-#include <TableDefinition.h>
-#include <TableColumnDefinition.h>
-#include <TableColumn.h>
-
 namespace toolbot {
 
 UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
@@ -55,9 +51,12 @@ bool UnitTestDatabase::Run() {
 	if(!UpdateTest()) {
 		return false;}
 
-	if(!DeleteTest()) {
+	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 
+	//
+	//TODO: implement tests for insert-or-update (+sum columns and on duplicate key update....)
+	//
 	return true;
 }
 
@@ -101,60 +100,6 @@ bool UnitTestDatabase::UpdateTest() {
 	//
 	//TODO: test timestamp and integer columns
 	//
-
-	return true;
-}
-
-bool UnitTestDatabase::DeleteTest() {
-
-	database::DeleteStatement deleteAll(database::unittest1TableBase::CreateTableDefinition());
-	try {
-		dbHelper.Connection()->Delete(deleteAll); }
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could not delete test data:\n%s",ex.Dump().c_str());
-		return false; }
-
-	database::TableDefinition* tblDef = database::unittest1TableBase::CreateTableDefinition();
-	database::SelectStatement selectRest(tblDef);
-
-	database::TableColumnDefinition* countColDef(
-		database::TableColumnDefinition::CreateInstance(
-			tblDef->GetColumnDefinitionByName("ID")->GetConstCreateParam() )
-	);
-	selectRest.SelectAddCountColumn(countColDef,"","");
-
-	database::SelectResultContainer<database::TableBase> results;
-	try {
-		dbHelper.Connection()->Select(selectRest,results); }
-	catch(database::DatabaseException& ex) {
-		log::Logging::LogError("could select count for test data:\n%s",ex.Dump().c_str());
-		return false; }
-	results.ResetIter();
-
-	if(results.Size() != 1) {
-		log::Logging::LogError("invalid size while select count for test data: %llu",results.Size());
-		return false;}
-
-	const std::vector<database::TableColumn*>& cols(results.GetIter()->GetConstColumns());
-	if(cols.size() != 1){
-		log::Logging::LogError("invalid column size while select count for test data: %llu",cols.size());
-		return false;}
-
-	database::TableColumn* countCol = cols.at(0);
-
-	/*
-	const std::string& columnName = countCol->GetColumnName();
-	if(!tools::StringTools::CompareCaseInsensitive(columnName,"id")) {
-		log::Logging::LogError("invalid column name while select count(%lld) for test data: %s",countRow,columnName.c_str());
-		return false; }
-	*/
-
-	long long countRow = -1;
-	countCol->Get(countRow);
-
-	if(countRow != 0) {
-		log::Logging::LogError("invalid count(%lld) while select count for test data",countRow);
-		return false; }
 
 	return true;
 }

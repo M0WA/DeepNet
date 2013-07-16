@@ -20,6 +20,10 @@
 #include <DatabaseHelper.h>
 #include <DatabaseConnection.h>
 
+#include <TableColumnDefinition.h>
+#include <TableDefinition.h>
+#include <TableColumn.h>
+
 namespace database {
 	class DatabaseConfig;
 }
@@ -27,7 +31,7 @@ namespace database {
 namespace toolbot {
 
 /**
- * @brief implements database independant unit tests
+ * @brief implements database independent unit tests
  * @see toolbot::UnitTest
  */
 class UnitTestDatabase: public toolbot::UnitTest {
@@ -53,9 +57,62 @@ public:
 
 private:
 	bool UpdateTest();
-	bool DeleteTest();
 
 private:
+	template <class T>
+	bool DeleteAllTest() {
+		database::DeleteStatement deleteAll(T::CreateTableDefinition());
+		try {
+			dbHelper.Connection()->Delete(deleteAll); }
+		catch(database::DatabaseException& ex) {
+			log::Logging::LogError("could not delete test data:\n%s",ex.Dump().c_str());
+			return false; }
+
+		database::TableDefinition* tblDef = T::CreateTableDefinition();
+		database::SelectStatement selectRest(tblDef);
+
+		database::TableColumnDefinition* countColDef(
+			database::TableColumnDefinition::CreateInstance(
+				tblDef->GetColumnDefinitionByName("ID")->GetConstCreateParam() )
+		);
+		selectRest.SelectAddCountColumn(countColDef,"","");
+
+		database::SelectResultContainer<database::TableBase> results;
+		try {
+			dbHelper.Connection()->Select(selectRest,results); }
+		catch(database::DatabaseException& ex) {
+			log::Logging::LogError("could select count for test data:\n%s",ex.Dump().c_str());
+			return false; }
+		results.ResetIter();
+
+		if(results.Size() != 1) {
+			log::Logging::LogError("invalid size while select count for test data: %llu",results.Size());
+			return false;}
+
+		const std::vector<database::TableColumn*>& cols(results.GetIter()->GetConstColumns());
+		if(cols.size() != 1){
+			log::Logging::LogError("invalid column size while select count for test data: %llu",cols.size());
+			return false;}
+
+		database::TableColumn* countCol = cols.at(0);
+
+		/*
+		const std::string& columnName = countCol->GetColumnName();
+		if(!tools::StringTools::CompareCaseInsensitive(columnName,"id")) {
+			log::Logging::LogError("invalid column name while select count(%lld) for test data: %s",countRow,columnName.c_str());
+			return false; }
+		*/
+
+		long long countRow = -1;
+		countCol->Get(countRow);
+
+		if(countRow != 0) {
+			log::Logging::LogError("invalid count(%lld) while select count for test data",countRow);
+			return false; }
+
+		return true;
+	}
+
 	template <class T>
 	bool InsertTest(){
 		std::vector<UnitTestDatabaseEntry>::const_iterator i = entries.begin();
@@ -92,6 +149,9 @@ private:
 				return false; }
 			if(!SelectEntryByTimestamp<T>(*i)) {
 				return false; }
+			//
+			//TODO: implement SelectEntryByInteger()
+			//
 		}
 		return true;
 	}
