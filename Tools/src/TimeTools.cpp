@@ -123,12 +123,18 @@ bool TimeTools::ParseDate_ISO_1036(const std::string& timeString, struct tm& tmO
 
 bool TimeTools::ParseDate_AscTime(const std::string& timeString, struct tm& tmOut) {
 
-	//TODO: convert this to localtime with timezone
-
 	// ANSI C's asctime() format
 	// Sun Nov  6 08:49:37 1994
 
 	static const char* pszFmtAscTime = " %a %b  %d %H:%M:%S %Y";
+	return strptime(timeString.c_str(), pszFmtAscTime, &tmOut) != 0;
+}
+
+bool TimeTools::ParsePostgreSQLTimestamp(const std::string timeString, struct tm& tmOut) {
+
+	// 1994-11-06 08:49:37
+
+	static const char* pszFmtAscTime = " %Y-%m-%d %H:%M:%S";
 	return strptime(timeString.c_str(), pszFmtAscTime, &tmOut) != 0;
 }
 

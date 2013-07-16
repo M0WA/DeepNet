@@ -83,6 +83,7 @@ public:
 
 	/**
 	 * parse string according to ISO1123 standard.
+	 * RFC 822, updated by RFC 1123: Sun, 06 Nov 1994 08:49:37 GMT
 	 * @param timeString string to parse.
 	 * @param tmOut result.
 	 * @return false on error, true on success.
@@ -91,6 +92,7 @@ public:
 
 	/**
 	 * parse string according to ISO1036 standard.
+	 * RFC 850, obsoleted by RFC 1036: Sunday, 06-Nov-94 08:49:37 GMT
 	 * @param timeString string to parse.
 	 * @param tmOut result.
 	 * @return false on error, true on success.
@@ -99,11 +101,21 @@ public:
 
 	/**
 	 * parse string according to ASCII time format.
+	 * ANSI C's asctime() format: Sun Nov  6 08:49:37 1994
 	 * @param timeString string to parse.
 	 * @param tmOut result.
 	 * @return false on error, true on success.
 	 */
 	static bool ParseDate_AscTime (const std::string& timeString, struct tm& tmOut);
+
+	/**
+	 * parse string as PostgreSQL output.
+	 * example: 1994-11-06 08:49:37
+	 * @param timeString string to parse.
+	 * @param tmOut result.
+	 * @return false on error, true on success.
+	 */
+	static bool ParsePostgreSQLTimestamp(const std::string timeString, struct tm& tmOut);
 
 	/**
 	 * zero initialize struct tm.
