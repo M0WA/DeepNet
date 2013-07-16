@@ -23,6 +23,7 @@
 #include <TableColumnDefinition.h>
 #include <TableDefinition.h>
 #include <TableColumn.h>
+#include <WhereCondition.h>
 
 namespace database {
 	class DatabaseConfig;
@@ -57,6 +58,7 @@ public:
 
 private:
 	bool UpdateTest();
+	bool UpsertTest();
 
 private:
 	template <class T>
@@ -68,7 +70,7 @@ private:
 			log::Logging::LogError("could not delete test data:\n%s",ex.Dump().c_str());
 			return false; }
 
-		database::TableDefinition* tblDef = T::CreateTableDefinition();
+		database::TableDefinition* tblDef(T::CreateTableDefinition());
 		database::SelectStatement selectRest(tblDef);
 
 		database::TableColumnDefinition* countColDef(
@@ -94,7 +96,7 @@ private:
 			log::Logging::LogError("invalid column size while select count for test data: %llu",cols.size());
 			return false;}
 
-		database::TableColumn* countCol = cols.at(0);
+		database::TableColumn* countCol(cols.at(0));
 
 		/*
 		const std::string& columnName = countCol->GetColumnName();
@@ -103,7 +105,7 @@ private:
 			return false; }
 		*/
 
-		long long countRow = -1;
+		long long countRow(-1);
 		countCol->Get(countRow);
 
 		if(countRow != 0) {
@@ -149,9 +151,10 @@ private:
 				return false; }
 			if(!SelectEntryByTimestamp<T>(*i)) {
 				return false; }
-			//
-			//TODO: implement SelectEntryByInteger()
-			//
+			if(!SelectEntryByInteger<T>(*i)) {
+				return false; }
+			if(!SelectEntryByAll<T>(*i)) {
+				return false; }
 		}
 		return true;
 	}
@@ -217,9 +220,81 @@ private:
 	}
 
 	template <class T>
+	bool SelectEntryByInteger(const UnitTestDatabaseEntry& entry) {
+		database::SelectResultContainer<T> results;
+		try {
+			T::GetBy_integer_test(dbHelper.Connection(),entry.nInteger,results);	}
+		catch(database::DatabaseException& ex) {
+			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
+			return false; }
+
+		if(results.Size() != 1) {
+			log::Logging::LogError("invalid size while selecting integer: %lu",results.Size());
+			return false;}
+		results.ResetIter();
+
+		if(!CompareEntryTable(entry,results.GetIter())) {
+			return false; }
+		return true;
+	}
+
+	template <class T>
+	bool SelectEntryByAll(const UnitTestDatabaseEntry& entry) {
+
+		std::vector<database::WhereConditionTableColumn*> container;
+		T::GetWhereColumnsFor_double_test(
+				database::WhereConditionTableColumnCreateParam(
+					database::WhereCondition::Equals(),
+					database::WhereCondition::InitialComp()),
+		        entry.dDouble,
+		        container);
+
+		T::GetWhereColumnsFor_varchar_test(
+				database::WhereConditionTableColumnCreateParam(
+					database::WhereCondition::Equals(),
+					database::WhereCondition::And()),
+		        entry.varchar_test,
+		        container);
+
+		T::GetWhereColumnsFor_timestamp_test(
+				database::WhereConditionTableColumnCreateParam(
+					database::WhereCondition::Equals(),
+					database::WhereCondition::And()),
+		        entry.timestamp,
+		        container);
+
+		T::GetWhereColumnsFor_integer_test(
+				database::WhereConditionTableColumnCreateParam(
+					database::WhereCondition::Equals(),
+					database::WhereCondition::And()),
+		        entry.nInteger,
+		        container);
+
+		database::SelectStatement stmt(T::CreateTableDefinition());
+		stmt.SelectAllColumns();
+		stmt.Where().AddColumns(container);
+
+		database::SelectResultContainer<T> results;
+		try {
+			dbHelper.Connection()->Select(stmt,results); }
+		catch(database::DatabaseException& e) {
+			return false; }
+
+		if(results.Size() != 1) {
+			log::Logging::LogError("invalid size while selecting by all fields: %lu",results.Size());
+			return false;}
+		results.ResetIter();
+
+		if(!CompareEntryTable(entry,results.GetIter())) {
+			return false; }
+
+		return true;
+	}
+
+	template <class T>
 	bool CompareEntryTable(const UnitTestDatabaseEntry& entry,const T* tbl) const {
 
-		double dTest = 0.0;
+		double dTest(0.0);
 		tbl->Get_double_test(dTest);
 		if(dTest != entry.dDouble) {
 			log::Logging::LogError("invalid data while select double_test: %f (should be %f)",dTest,entry.dDouble);
@@ -229,6 +304,12 @@ private:
 		tbl->Get_varchar_test(sTest);
 		if(sTest.compare(entry.varchar_test) != 0) {
 			log::Logging::LogError("invalid data while select varchar_test: %s (should be '%s')",sTest.c_str(),entry.varchar_test.c_str());
+			return false; }
+
+		long long nTest(-99);
+		tbl->Get_integer_test(nTest);
+		if(nTest != entry.nInteger) {
+			log::Logging::LogError("invalid data while select integer_test: %lld (should be '%lld')",nTest,entry.nInteger);
 			return false; }
 
 		/*
@@ -252,16 +333,18 @@ private:
 		insertTbl.Set_timestamp_test(entry.timestamp);
 		insertTbl.Set_double_test(entry.dDouble);
 		insertTbl.Set_varchar_test(entry.varchar_test);
+		insertTbl.Set_integer_test(entry.nInteger);
+
 		try {
 			insertTbl.Insert(dbHelper.Connection()); }
 		catch(database::DatabaseException& ex) {
 			log::Logging::LogError("could not insert test data:\n%s",ex.Dump().c_str());
 			return false; }
 
-		long long insertID1 = -1;
-		dbHelper.Connection()->LastInsertID(insertID1);
-		if(insertID1 == -1) {
-			log::Logging::LogError("could not determine last inserted id: %lld",insertID1);
+		long long insertID(-99);
+		dbHelper.Connection()->LastInsertID(insertID);
+		if(insertID < 0) {
+			log::Logging::LogError("could not determine last inserted id: %lld",insertID);
 			return false; }
 		return true;
 	}

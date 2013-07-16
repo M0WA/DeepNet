@@ -15,7 +15,7 @@ namespace toolbot {
 UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
 : dbConfig(dbConfig) {
 
-	static const size_t nEntriesCount = 20;
+	static const size_t nEntriesCount(20);
 
 	for(size_t i = 1; i <= nEntriesCount; i++) {
 
@@ -42,21 +42,90 @@ bool UnitTestDatabase::Run() {
 	if(!dbHelper.CreateConnection(dbConfig)) {
 		return false;}
 
+	//first of all, cleanup unit test tables
+	if(!DeleteAllTest<database::unittest1TableBase>()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest2TableBase>()) {
+		return false;}
+
+	//do simple insert/update/select and delete tests
 	if(!InsertTest<database::unittest1TableBase>()) {
 		return false;}
-
 	if(!SelectTest<database::unittest1TableBase>()) {
 		return false;}
-
 	if(!UpdateTest()) {
 		return false;}
-
 	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 
 	//
 	//TODO: implement tests for insert-or-update (+sum columns and on duplicate key update....)
 	//
+	if(!InsertTest<database::unittest2TableBase>()) {
+		return false;}
+	if(!UpsertTest()) {
+		return false; }
+
+	return true;
+}
+
+bool UnitTestDatabase::UpsertTest() {
+
+	//update by duplicate key test
+	database::unittest2TableBase upsertTbl;
+	upsertTbl.Set_double_test(2.0);
+	upsertTbl.Set_varchar_test("duplicate key detected");
+
+	database::SelectResultContainer<database::unittest2TableBase> results;
+	long long affectedID(-1);
+	try {
+		upsertTbl.InsertOrUpdate(dbHelper.Connection());
+		dbHelper.Connection()->LastInsertID(affectedID);
+		if(affectedID == -1) {
+			log::Logging::LogError("invalid id while upsert test: %lld",affectedID);
+			return false; }
+
+		database::unittest2TableBase::GetBy_varchar_test(
+			dbHelper.Connection(), "duplicate key detected", results);
+	}
+	catch(database::DatabaseException& e) {
+		return false;}
+
+	if(results.Size() != 1) {
+		log::Logging::LogError("invalid size while upsert test: %llu",results.Size());
+		return false;}
+	results.ResetIter();
+
+	long long tmpID(-1);
+	results.GetConstIter()->Get_ID(tmpID);
+	if(tmpID != affectedID) {
+		log::Logging::LogError("invalid table id while upsert test: %lld (should be %lld)",tmpID,affectedID);
+		return false; }
+
+	//reset data for duplicate key
+	std::vector<database::WhereConditionTableColumn*> whereCols;
+	database::unittest2TableBase::GetWhereColumnsFor_double_test(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::InitialComp()),
+		2.0,
+		whereCols);
+	upsertTbl.Set_varchar_test("2");
+
+	long long tmp2ID(-1);
+	try {
+		upsertTbl.InsertOrUpdate(dbHelper.Connection());
+		dbHelper.Connection()->LastInsertID(tmp2ID);
+		if(tmp2ID != tmpID) {
+			log::Logging::LogError("invalid update table id while upsert test: %lld (should be %lld)",tmpID,tmp2ID);
+			return false; }
+	}
+	catch(database::DatabaseException& e) {
+		return false;}
+
+	if(!SelectTest<database::unittest2TableBase>()) {
+		return false;}
+
 	return true;
 }
 
