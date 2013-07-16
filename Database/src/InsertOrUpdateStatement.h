@@ -55,6 +55,10 @@ public:
 	 */
 	bool IsSumColumn(const std::string& columnName) const;
 
+	/**
+	 * gets table base for this statement
+	 * @return table base
+	 */
 	const TableBase* GetConstTableBase() const { return tableBase; }
 
 public:

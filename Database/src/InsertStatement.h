@@ -29,15 +29,18 @@ public:
 	 * @param tableBase existing table.
 	 */
 	InsertStatement(TableBase* tableBase);
-
 	virtual ~InsertStatement();
+
+public:
+	/**
+	 * gets table base for this statement
+	 * @return table base
+	 */
+	const TableBase* GetConstTableBase() const { return tableBase; }
 
 public:
 	virtual InnerJoinCondition& InnerJoin();
 	virtual std::string ToSQL( DatabaseConnection* db ) const;
-
-public:
-	const TableBase* GetConstTableBase() const { return tableBase; }
 
 protected:
 	TableBase* tableBase;
