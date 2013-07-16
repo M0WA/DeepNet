@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include <PointerContainer.h>
+
 #include "InsertStatement.h"
 
 namespace database {
@@ -57,7 +59,7 @@ public:
 	virtual std::string ToSQL( DatabaseConnection* db ) const;
 
 public:
-	std::vector< TableColumnDefinition* > sumColumns;
+	tools::PointerContainer<TableColumnDefinition> sumColumns;
 };
 
 }

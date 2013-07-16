@@ -42,7 +42,7 @@ DatabaseType DatabaseHelper::GetDatabaseType() {
 
 DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbConfig)
 {
-	if(dbConnection) {
+	if(!dbConnection.IsNull()) {
 		log::Logging::LogWarn("recreating active database connection.");
 		DestroyConnection(); }
 
@@ -58,22 +58,22 @@ DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbCon
 
 		if(!matchTypes) {
 			log::Logging::LogError("only one type of database connection can be used per process");
-			delete dbConnection;
+			dbConnection.Release();
 			return 0; }
 	}
 
 	switch(dbConfig->GetType())
 	{
 	case database::DB_MYSQL:
-		dbConnection = dynamic_cast<DatabaseConnection*>(new MySQLConnection());
+		dbConnection.Set(dynamic_cast<DatabaseConnection*>(new MySQLConnection()),true);
 		break;
 
 	case database::DB_IBM_DB2:
-		dbConnection = dynamic_cast<DatabaseConnection*>(new DB2Connection());
+		dbConnection.Set(dynamic_cast<DatabaseConnection*>(new DB2Connection()),true);
 		break;
 
 	case database::DB_POSTGRESQL:
-		dbConnection = dynamic_cast<DatabaseConnection*>(new PostgreSQLConnection());
+		dbConnection.Set(dynamic_cast<DatabaseConnection*>(new PostgreSQLConnection()),true);
 		break;
 
 	default:
@@ -82,13 +82,13 @@ DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbCon
 
 	mutexLibraryInit.Lock();
 	if(!isLibraryInitialized) {
-		dbConnection->Initialize();
+		dbConnection.Get()->Initialize();
 		isLibraryInitialized = true;
 	}
 	libraryRefCount++;
 	mutexLibraryInit.Unlock();
 
-	if(!dbConnection->Connect(dbConfig)) {
+	if(!dbConnection.Get()->Connect(dbConfig)) {
 		DestroyConnection();
 		return 0;}
 
@@ -99,18 +99,17 @@ void DatabaseHelper::DestroyConnection(void)
 {
 	if(dbConnection)
 	{
-		dbConnection->Disconnect();
+		dbConnection.Get()->Disconnect();
 
 		mutexLibraryInit.Lock();
 		libraryRefCount--;
 		if(libraryRefCount <= 0) {
-			dbConnection->Shutdown();
+			dbConnection.Get()->Shutdown();
 			isLibraryInitialized = false;
 		}
 		mutexLibraryInit.Unlock();
 
-		delete dbConnection;
-		dbConnection = 0;
+		dbConnection.Release();
 	}
 }
 

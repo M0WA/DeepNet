@@ -60,9 +60,10 @@ std::string MySQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const 
 		}
 	}
 
-	std::vector< TableColumnDefinition* >::const_iterator iterSum = orgStatement->sumColumns.begin();
-	for(;iterSum != orgStatement->sumColumns.end();++iterSum) {
-		const std::string& sumColumnName = (*iterSum)->GetColumnName();
+	const tools::PointerContainer<TableColumnDefinition>& sumColumnContainer = orgStatement->sumColumns;
+	sumColumnContainer.ResetIter();
+	for(;!sumColumnContainer.IsIterEnd();sumColumnContainer.Next()) {
+		const std::string& sumColumnName = sumColumnContainer.GetConstIter()->GetColumnName();
 
 		if(sumColumnName.compare(primaryKeyColumnName) == 0)
 			THROW_EXCEPTION(DatabaseInvalidColumnNameException);

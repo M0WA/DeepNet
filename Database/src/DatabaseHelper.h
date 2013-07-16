@@ -12,6 +12,7 @@
 
 #include <Mutex.h>
 #include <ReadWriteLock.h>
+#include <Pointer.h>
 
 #include "DatabaseTypes.h"
 
@@ -39,8 +40,7 @@ public:
 	 * @param logQuery true if all queries should be logged.
 	 * @return NULL on error, database connection on success.
 	 */
-	DatabaseConnection* CreateConnection(
-			const DatabaseConfig* dbConfig);
+	DatabaseConnection* CreateConnection(const DatabaseConfig* dbConfig);
 
 	/**
 	 * destroys current database connection.
@@ -51,7 +51,7 @@ public:
 	 * gets current database connection.
 	 * @return current database connection.
 	 */
-	inline DatabaseConnection* Connection(void) { return dbConnection; }
+	inline DatabaseConnection* Connection(void) { return dbConnection.Get(); }
 
     //mysql datetime conversion functions
   public:
@@ -94,7 +94,7 @@ public:
     static threading::ReadWriteLock dbTypeMutex;
 
   private:
-    DatabaseConnection* dbConnection;
+    tools::Pointer<DatabaseConnection> dbConnection;
 
   private:
   	static threading::Mutex mutexLibraryInit;

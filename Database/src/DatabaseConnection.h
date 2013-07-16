@@ -202,7 +202,7 @@ public:
 	}
 
 private:
-	DatabaseType databaseType;
+	const DatabaseType databaseType;
 };
 
 }

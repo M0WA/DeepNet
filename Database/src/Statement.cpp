@@ -13,29 +13,29 @@
 namespace database {
 
 Statement::Statement(const StatementType typeIn, TableBase* tableBase)
-: tableDefinition(tableBase->GetTableDefinition())
-, tableAlias(tableBase->GetTableAlias())
+: tableAlias(tableBase->GetTableAlias())
 , limit(0)
 , typeStmt(typeIn)
+, tableDefinition(tableBase->GetTableDefinition())
 , deleteDefinition(false)
 {
 }
 
 Statement::Statement(const StatementType typeIn, TableDefinition* tableDefinition)
-: tableDefinition(tableDefinition)
-, tableAlias("")
+: tableAlias()
 , limit(0)
 , typeStmt(typeIn)
-, deleteDefinition(true)
+, tableDefinition(tableDefinition)
+, deleteDefinition(false)
 {
 }
 
 Statement::Statement(const StatementType typeIn, TableDefinition* tableDefinition, const std::string& tableAlias)
-: tableDefinition(tableDefinition)
-, tableAlias(tableAlias)
+: tableAlias(tableAlias)
 , limit(0)
 , typeStmt(typeIn)
-, deleteDefinition(true)
+, tableDefinition(tableDefinition)
+, deleteDefinition(false)
 {
 }
 

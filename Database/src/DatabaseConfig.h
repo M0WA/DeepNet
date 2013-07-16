@@ -68,6 +68,12 @@ public:
 	inline void SetPass(const std::string& pass) { this->pass = pass; }
 
 	/**
+	 * sets log query setting.
+	 * @param logQuery true to enable, false to disable
+	 */
+	inline void SetLogQuery(const bool& logQuery) { this->logQuery = logQuery; }
+
+	/**
 	 * gets database type.
 	 * @return database type
 	 */
@@ -108,12 +114,6 @@ public:
 	 * @return true,false
 	 */
 	inline bool GetLogQuery() const { return this->logQuery; }
-
-	/**
-	 * sets log query setting.
-	 * @param logQuery true to enable, false to disable
-	 */
-	inline void SetLogQuery(const bool& logQuery) { this->logQuery = logQuery; }
 
 private:
 	DatabaseType type;

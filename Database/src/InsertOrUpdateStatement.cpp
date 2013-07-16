@@ -21,10 +21,6 @@ InsertOrUpdateStatement::InsertOrUpdateStatement(TableBase* tableBase)
 }
 
 InsertOrUpdateStatement::~InsertOrUpdateStatement() {
-	std::vector< TableColumnDefinition* >::iterator iterSum = sumColumns.begin();
-	for(;iterSum != sumColumns.end();++iterSum) {
-		delete (*iterSum);}
-	sumColumns.clear();
 }
 
 std::string InsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
@@ -35,19 +31,19 @@ std::string InsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const {
 
 void InsertOrUpdateStatement::AddSumUpColumn(TableColumnDefinition* colDef) {
 
-	sumColumns.push_back(colDef);
+	sumColumns.Add(colDef);
 }
 
 void InsertOrUpdateStatement::AddSumUpColumns(std::vector<TableColumnDefinition*> colDefs) {
 
-	sumColumns.insert(sumColumns.end(),colDefs.begin(),colDefs.end());
+	sumColumns.Add(colDefs);
 }
 
 bool InsertOrUpdateStatement::IsSumColumn(const std::string& columnName) const {
 
-	std::vector< TableColumnDefinition* >::const_iterator iterSum = sumColumns.begin();
-	for(;iterSum != sumColumns.end();++iterSum) {
-		if((*iterSum)->GetColumnName().compare(columnName) == 0)
+	sumColumns.ResetIter();
+	for(;!sumColumns.IsIterEnd();sumColumns.Next()) {
+		if(sumColumns.GetConstIter()->GetColumnName().compare(columnName) == 0)
 			return true;
 	}
 
