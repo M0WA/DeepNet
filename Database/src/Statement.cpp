@@ -75,4 +75,8 @@ const std::string& Statement::TableAlias(void) const {
 	return this->tableAlias;
 }
 
+const TableDefinition* Statement::GetConstTableDefinition() const {
+	return this->tableDefinition;
+}
+
 }

@@ -37,7 +37,7 @@ SelectStatement::~SelectStatement()
 }
 
 void SelectStatement::SelectAllColumns() {
-	const std::vector<TableColumnDefinition*>& vecCols = tableDefinition->GetConstColumnDefinitions();
+	const std::vector<TableColumnDefinition*>& vecCols = GetConstTableDefinition()->GetConstColumnDefinitions();
 	std::vector<TableColumnDefinition*>::const_iterator iterCols = vecCols.begin();
 	for(;iterCols != vecCols.end();++iterCols) {
 		SelectColumn col;

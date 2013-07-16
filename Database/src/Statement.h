@@ -134,12 +134,13 @@ protected:
 	 */
 	std::string GetFullQualifiedTableName() const;
 
-protected:
 	/**
-	 * definition of this statement's table.
+	 * gets const table definition of this statemen
+	 * @return table definition
 	 */
-	TableDefinition* tableDefinition;
+	const TableDefinition* GetConstTableDefinition() const;
 
+protected:
 	/**
 	 * table alias, empty if disabled.
 	 */
@@ -157,6 +158,11 @@ protected:
 	StatementType typeStmt;
 
 private:
+	/**
+	 * definition of this statement's table.
+	 */
+	TableDefinition* tableDefinition;
+
 	bool deleteDefinition;
 };
 
