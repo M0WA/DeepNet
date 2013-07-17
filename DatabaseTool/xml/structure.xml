@@ -1330,6 +1330,27 @@
 
 </table>
 
+
+<!-- ======================================================================================== 
+ *
+ *  TABLE: unittest3
+ *
+ -->
+<table
+  name="unittest3"
+  MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+  MySQL_Database="logging"
+>
+  <column name="ID"               type="INTEGER"      notnull="1" autoincrement="1" />
+  <column name="UNITTEST1_ID"     type="INTEGER"      notnull="1" />
+  <column name="UNITTEST2_ID"     type="INTEGER"      notnull="1" />
+
+  <primary_key column="ID" />
+	<foreign_key column="UNITTEST1_ID"  references_table="unittest1"  references_column="ID" MySQL_Database="logging" />
+	<foreign_key column="UNITTEST2_ID"  references_table="unittest2"  references_column="ID" MySQL_Database="logging" />
+
+</table>
+
 <!-- ======================================================================================== 
  *
  *	TABLE: indexperformance
