@@ -37,6 +37,8 @@ bool UnitTestDatabase::Run() {
 		return false;}
 
 	log::Logging::LogTrace("cleaning up tables used for unit tests");
+	if(!DeleteAllTest<database::unittest3TableBase>()) {
+		return false;}
 	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 	if(!DeleteAllTest<database::unittest2TableBase>()) {
@@ -67,11 +69,11 @@ bool UnitTestDatabase::Run() {
 		return false;}
 	if(!InnerJoinTest()) {
 		return false;}
+	if(!DeleteAllTest<database::unittest3TableBase>()) {
+		return false;}
 	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 	if(!DeleteAllTest<database::unittest2TableBase>()) {
-		return false;}
-	if(!DeleteAllTest<database::unittest3TableBase>()) {
 		return false;}
 
 	//
@@ -114,9 +116,10 @@ bool UnitTestDatabase::InnerJoinEntry(const UnitTestDatabaseEntry& entry) {
 		whereCols );
 
 	database::SelectStatement stmt(database::unittest3TableBase::CreateTableDefinition());
-	database::unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST1_ID(stmt);
-	database::unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST2_ID(stmt);
+	database::unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST1_ID(stmt);
+	database::unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST2_ID(stmt);
 	stmt.Where().AddColumns(whereCols);
+	stmt.SelectAllColumns();
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {
