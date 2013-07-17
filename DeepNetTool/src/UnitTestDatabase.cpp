@@ -86,7 +86,7 @@ bool UnitTestDatabase::Run() {
 		return false;}
 
 	//
-	//TODO: implement tests for sum columns/order by/group by statements
+	//TODO: implement tests for sum columns/group by statements
 	//
 
 	log::Logging::LogTrace("cleaning up unit test tables");
