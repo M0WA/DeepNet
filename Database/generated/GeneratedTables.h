@@ -17,6 +17,7 @@
 #include "schemesTableBase.h"
 #include "customersessionsTableBase.h"
 #include "customersyncurlTableBase.h"
+#include "unittest3TableBase.h"
 #include "dataminingblacklistTableBase.h"
 #include "docurlTableBase.h"
 #include "imagesTableBase.h"
