@@ -61,7 +61,8 @@ private:
 	bool UpsertTest();
 	bool InnerJoinTest();
 	bool InsertEntryFkTable(const UnitTestDatabaseEntry& entry);
-	bool InnerJoinEntry(const UnitTestDatabaseEntry& entry);
+	bool InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entry);
+	bool InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry);
 
 private:
 	template <class T>

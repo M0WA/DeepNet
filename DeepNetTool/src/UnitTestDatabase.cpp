@@ -91,16 +91,24 @@ bool UnitTestDatabase::InnerJoinTest() {
 		if(!InsertEntryFkTable(*i)) {
 			return false; }
 
-		if(!InnerJoinEntry(*i)) {
+		if(!InnerJoinRightSideEntry(*i)) {
+			return false; }
+
+		if(!InnerJoinLeftSideEntry(*i)) {
 			return false; }
 	}
 
 	return true;
 }
 
-bool UnitTestDatabase::InnerJoinEntry(const UnitTestDatabaseEntry& entry) {
+bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry) {
+	return false;
+}
+
+bool UnitTestDatabase::InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entry) {
 
 	std::vector<database::WhereConditionTableColumn*> whereCols;
+
 	database::unittest1TableBase::GetWhereColumnsFor_integer_test(
 		database::WhereConditionTableColumnCreateParam(
 			database::WhereCondition::Equals(),
