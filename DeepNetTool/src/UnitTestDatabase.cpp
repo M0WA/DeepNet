@@ -9,6 +9,7 @@
 #include "UnitTestDatabase.h"
 
 #include <sstream>
+#include <algorithm>
 
 namespace toolbot {
 
@@ -76,6 +77,14 @@ bool UnitTestDatabase::Run() {
 	if(!DeleteAllTest<database::unittest2TableBase>()) {
 		return false;}
 
+	log::Logging::LogTrace("testing order by");
+	if(!InsertTest<database::unittest1TableBase>()) {
+		return false;}
+	if(!OrderByTest()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest1TableBase>()) {
+		return false;}
+
 	//
 	//TODO: implement tests for sum columns/order by/group by statements
 	//
@@ -90,9 +99,38 @@ bool UnitTestDatabase::Run() {
 	return true;
 }
 
+bool UnitTestDatabase::OrderByTest() {
+
+	std::vector<UnitTestDatabaseEntry> entriesTmp(entries);
+	std::sort(entriesTmp.begin(),entriesTmp.end(),DoubleComparator());
+
+	database::SelectStatement stmt(database::unittest1TableBase::CreateTableDefinition());
+	stmt.SelectAllColumns();
+	stmt.OrderBy().AddColumn(database::unittest1TableBase::GetDefinition_ID(),database::DESCENDING);
+
+	database::SelectResultContainer<database::unittest1TableBase> results;
+	try {
+		dbHelper.Connection()->Select(stmt,results); }
+	catch(database::DatabaseException& ex) {
+		return false; }
+
+	if(results.Size() != entriesTmp.size()) {
+		return false; }
+
+	results.ResetIter();
+	std::vector<UnitTestDatabaseEntry>::const_iterator iEntry(entriesTmp.begin());
+	for(;!results.IsIterEnd();++iEntry,results.Next()) {
+		if(!CompareEntryTable<database::unittest1TableBase>(*iEntry,results.GetConstIter())) {
+			log::Logging::LogError("error while comparing tables in OrderByTest()");
+			return false; }
+	}
+
+	return true;
+}
+
 bool UnitTestDatabase::InnerJoinTest() {
 
-	std::vector<UnitTestDatabaseEntry>::const_iterator i = entries.begin();
+	std::vector<UnitTestDatabaseEntry>::const_iterator i(entries.begin());
 	for(;i != entries.end();++i) {
 
 		if(!InsertEntryFkTable(*i)) {
@@ -104,51 +142,6 @@ bool UnitTestDatabase::InnerJoinTest() {
 		if(!InnerJoinLeftSideEntry(*i)) {
 			return false; }
 	}
-
-	return true;
-}
-
-bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry) {
-	return false;
-}
-
-bool UnitTestDatabase::InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entry) {
-
-	std::vector<database::WhereConditionTableColumn*> whereCols;
-
-	database::unittest1TableBase::GetWhereColumnsFor_integer_test(
-		database::WhereConditionTableColumnCreateParam(
-			database::WhereCondition::Equals(),
-			database::WhereCondition::InitialComp()	),
-		entry.nInteger,
-		whereCols );
-
-	database::unittest2TableBase::GetWhereColumnsFor_integer_test(
-		database::WhereConditionTableColumnCreateParam(
-			database::WhereCondition::Equals(),
-			database::WhereCondition::And()	),
-		entry.nInteger,
-		whereCols );
-
-	database::SelectStatement stmt(database::unittest3TableBase::CreateTableDefinition());
-	database::unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST1_ID(stmt);
-	database::unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST2_ID(stmt);
-	stmt.Where().AddColumns(whereCols);
-	stmt.SelectAllColumns();
-
-	database::SelectResultContainer<database::TableBase> results;
-	try {
-		dbHelper.Connection()->Select(stmt,results); }
-	catch(database::DatabaseException& ex) {
-		return false; }
-
-	if(results.Size() != 1) {
-		log::Logging::LogError("invalid result size while InnerJoinEntry(): %llu",results.Size());
-		return false; }
-
-	//
-	//TODO: check validity of returned results
-	//
 
 	return true;
 }
@@ -318,6 +311,78 @@ bool UnitTestDatabase::UpdateTest() {
 	//TODO: test timestamp and integer columns
 	//
 
+	return true;
+}
+
+bool UnitTestDatabase::InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entry) {
+
+	std::vector<database::WhereConditionTableColumn*> whereCols;
+
+	database::unittest1TableBase::GetWhereColumnsFor_integer_test(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::InitialComp()	),
+		entry.nInteger,
+		whereCols );
+
+	database::unittest2TableBase::GetWhereColumnsFor_integer_test(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::And()	),
+		entry.nInteger,
+		whereCols );
+
+	database::SelectStatement stmt(database::unittest3TableBase::CreateTableDefinition());
+	database::unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST1_ID(stmt);
+	database::unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST2_ID(stmt);
+	stmt.Where().AddColumns(whereCols);
+	stmt.SelectAllColumns();
+
+	database::SelectResultContainer<database::TableBase> results;
+	try {
+		dbHelper.Connection()->Select(stmt,results); }
+	catch(database::DatabaseException& ex) {
+		return false; }
+
+	if(results.Size() != 1) {
+		log::Logging::LogError("invalid result size while InnerJoinRightSideEntry(): %llu",results.Size());
+		return false; }
+
+	//
+	//TODO: check validity of returned results
+	//
+	return true;
+}
+
+bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry) {
+
+	std::vector<database::WhereConditionTableColumn*> whereCols;
+
+	database::unittest1TableBase::GetWhereColumnsFor_integer_test(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::InitialComp()	),
+		entry.nInteger,
+		whereCols );
+
+	database::SelectStatement stmt(database::unittest1TableBase::CreateTableDefinition());
+	stmt.Where().AddColumns(whereCols);
+	database::unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST1_ID(stmt);
+	stmt.SelectAllColumns();
+
+	database::SelectResultContainer<database::TableBase> results;
+	try {
+		dbHelper.Connection()->Select(stmt,results); }
+	catch(database::DatabaseException& ex) {
+		return false; }
+
+	if(results.Size() != 1) {
+		log::Logging::LogError("invalid result size while InnerJoinLeftSideEntry(): %llu",results.Size());
+		return false; }
+
+	//
+	//TODO: check validity of returned results
+	//
 	return true;
 }
 

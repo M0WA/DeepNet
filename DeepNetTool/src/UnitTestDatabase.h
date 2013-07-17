@@ -48,6 +48,23 @@ private:
 
 	} UnitTestDatabaseEntry;
 
+	/*
+	typedef struct _LongLongComparator {
+	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) {
+	        return a.nInteger>b.nInteger; }
+	} LongLongComparator;
+
+	typedef struct _StringComparator {
+	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) {
+	        return a.varchar_test.compare(b.varchar_test); }
+	} StringComparator;
+	*/
+
+	typedef struct _DoubleComparator {
+	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) {
+	        return a.dDouble>b.dDouble; }
+	} DoubleComparator;
+
 public:
 	UnitTestDatabase(const database::DatabaseConfig* dbConfig);
 	virtual ~UnitTestDatabase();
@@ -60,6 +77,8 @@ private:
 	bool UpdateTest();
 	bool UpsertTest();
 	bool InnerJoinTest();
+	bool OrderByTest();
+
 	bool InsertEntryFkTable(const UnitTestDatabaseEntry& entry);
 	bool InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entry);
 	bool InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry);
