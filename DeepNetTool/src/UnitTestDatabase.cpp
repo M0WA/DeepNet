@@ -36,13 +36,13 @@ bool UnitTestDatabase::Run() {
 	if(!dbHelper.CreateConnection(dbConfig)) {
 		return false;}
 
-	//first of all, cleanup unit test tables
+	log::Logging::LogTrace("cleaning up tables used for unit tests");
 	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 	if(!DeleteAllTest<database::unittest2TableBase>()) {
 		return false;}
 
-	//do simple insert/update/select and delete tests
+	log::Logging::LogTrace("testing simple insert/update/select and delete");
 	if(!InsertTest<database::unittest1TableBase>()) {
 		return false;}
 	if(!SelectTest<database::unittest1TableBase>()) {
@@ -52,7 +52,7 @@ bool UnitTestDatabase::Run() {
 	if(!DeleteAllTest<database::unittest1TableBase>()) {
 		return false;}
 
-	//do upsert tests
+	log::Logging::LogTrace("testing upserts (insert-or-update)");
 	if(!InsertTest<database::unittest2TableBase>()) {
 		return false;}
 	if(!UpsertTest()) {
@@ -60,9 +60,139 @@ bool UnitTestDatabase::Run() {
 	if(!DeleteAllTest<database::unittest2TableBase>()) {
 		return false;}
 
+	log::Logging::LogTrace("testing inner joins");
+	if(!InsertTest<database::unittest1TableBase>()) {
+		return false;}
+	if(!InsertTest<database::unittest2TableBase>()) {
+		return false;}
+	if(!InnerJoinTest()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest1TableBase>()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest2TableBase>()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest3TableBase>()) {
+		return false;}
+
 	//
 	//TODO: implement tests for sum columns/order by/group by statements
 	//
+
+	return true;
+}
+
+bool UnitTestDatabase::InnerJoinTest() {
+
+	std::vector<UnitTestDatabaseEntry>::const_iterator i = entries.begin();
+	for(;i != entries.end();++i) {
+
+		if(!InsertEntryFkTable(*i)) {
+			return false; }
+
+		if(!InnerJoinEntry(*i)) {
+			return false; }
+	}
+
+	return true;
+}
+
+bool UnitTestDatabase::InnerJoinEntry(const UnitTestDatabaseEntry& entry) {
+
+	std::vector<database::WhereConditionTableColumn*> whereCols;
+	database::unittest1TableBase::GetWhereColumnsFor_integer_test(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::InitialComp()	),
+		entry.nInteger,
+		whereCols );
+
+	database::unittest2TableBase::GetWhereColumnsFor_integer_test(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::And()	),
+		entry.nInteger,
+		whereCols );
+
+	database::SelectStatement stmt(database::unittest3TableBase::CreateTableDefinition());
+	database::unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST1_ID(stmt);
+	database::unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST2_ID(stmt);
+	stmt.Where().AddColumns(whereCols);
+
+	database::SelectResultContainer<database::TableBase> results;
+	try {
+		dbHelper.Connection()->Select(stmt,results); }
+	catch(database::DatabaseException& ex) {
+		return false; }
+
+	if(results.Size() != 1) {
+		log::Logging::LogError("invalid result size while InnerJoinEntry(): %llu",results.Size());
+		return false; }
+
+	//
+	//TODO: check validity of returned results
+	//
+
+	return true;
+}
+
+bool UnitTestDatabase::InsertEntryFkTable(const UnitTestDatabaseEntry& entry) {
+
+	database::SelectResultContainer<database::unittest1TableBase> results1;
+	database::SelectResultContainer<database::unittest2TableBase> results2;
+	try {
+		database::unittest1TableBase::GetBy_integer_test(dbHelper.Connection(),entry.nInteger,results1);
+		database::unittest2TableBase::GetBy_integer_test(dbHelper.Connection(),entry.nInteger,results2); }
+	catch(database::DatabaseException& e) {
+		return false; }
+
+	if(results1.Size() != results2.Size() || results1.Size() != 1) {
+		log::Logging::LogError("invalid result size while InsertEntryFkTable(): %llu,%llu",results1.Size(),results2.Size());
+		return false; }
+
+	results1.ResetIter();
+	results2.ResetIter();
+
+	long long id1(-1),id2(-1);
+	results1.GetConstIter()->Get_ID(id1);
+	results2.GetConstIter()->Get_ID(id2);
+
+	double dTest1(-1.0),dTest2(-1.0);
+	results1.GetConstIter()->Get_double_test(dTest1);
+	results2.GetConstIter()->Get_double_test(dTest2);
+	if(dTest1 != dTest2 || dTest2 == -1.0) {
+		log::Logging::LogError("double test mismatch while InsertEntryFkTable() 1: %f 2: %f",dTest1,dTest2);
+		return false; }
+
+	long long nIntTest1(-1),nIntTest2(-1);
+	results1.GetConstIter()->Get_integer_test(nIntTest1);
+	results2.GetConstIter()->Get_integer_test(nIntTest2);
+	if(nIntTest1 != nIntTest2 || nIntTest2 == -1) {
+		log::Logging::LogError("integer test mismatch while InsertEntryFkTable() 1: %lld 2: %lld",nIntTest1,nIntTest2);
+		return false; }
+
+	std::string sTest1,sTest2;
+	results1.GetConstIter()->Get_varchar_test(sTest1);
+	results2.GetConstIter()->Get_varchar_test(sTest2);
+	if(sTest1.compare(sTest2) != 0 || sTest1.empty() ) {
+		log::Logging::LogError("string test mismatch while InsertEntryFkTable() 1: %s 2: %s",sTest1.c_str(),sTest2.c_str());
+		return false; }
+	//
+	//TODO: compare time fields
+	//
+/*
+	struct tm tTimeTest1,tTimeTest1;
+	tools::TimeTools::InitTm(tTimeTest1);
+	tools::TimeTools::InitTm(tTimeTest2);
+*/
+
+	database::unittest3TableBase insertFk;
+	insertFk.Set_UNITTEST1_ID(id1);
+	insertFk.Set_UNITTEST2_ID(id2);
+
+	try{
+		insertFk.Insert(dbHelper.Connection());	}
+	catch(database::DatabaseException& ex) {
+		return false; }
 
 	return true;
 }

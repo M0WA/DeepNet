@@ -59,6 +59,9 @@ public:
 private:
 	bool UpdateTest();
 	bool UpsertTest();
+	bool InnerJoinTest();
+	bool InsertEntryFkTable(const UnitTestDatabaseEntry& entry);
+	bool InnerJoinEntry(const UnitTestDatabaseEntry& entry);
 
 private:
 	template <class T>
