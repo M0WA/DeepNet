@@ -80,6 +80,13 @@ bool UnitTestDatabase::Run() {
 	//TODO: implement tests for sum columns/order by/group by statements
 	//
 
+	log::Logging::LogTrace("cleaning up unit test tables");
+	if(!DeleteAllTest<database::unittest3TableBase>()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest1TableBase>()) {
+		return false;}
+	if(!DeleteAllTest<database::unittest2TableBase>()) {
+		return false;}
 	return true;
 }
 
