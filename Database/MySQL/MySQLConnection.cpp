@@ -147,7 +147,7 @@ void MySQLConnection::Query(const std::string& query, std::vector<TableBase*>& r
 void MySQLConnection::Execute(const std::string& query, bool doRetry)
 {
 	if(config->GetLogQuery()){
-		log::Logging::LogCurrentLevel("execute: " + query); }
+		log::Logging::LogUnlimited(log::Logging::GetLogLevel(),"execute: %s",query.c_str()); }
 
 	if(!mysqlConnection) {
 		THROW_EXCEPTION(DatabaseNotConnectedException);

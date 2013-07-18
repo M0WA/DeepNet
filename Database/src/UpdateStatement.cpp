@@ -42,16 +42,16 @@ UpdateStatement::~UpdateStatement(){
 
 std::string UpdateStatement::ToSQL(database::DatabaseConnection* db) const {
 
-	const std::vector<TableColumn*> cols = tableBase->GetConstColumns();
+	const std::vector<TableColumn*>& cols(tableBase->GetConstColumns());
 	if(cols.size() == 0)
 		THROW_EXCEPTION(DatabaseNoColumnsException);
 
 	std::stringstream ssQuery;
 	ssQuery << "UPDATE " << GetFullQualifiedTableName() << " " << TableAlias() << " " << " SET ";
 
-	std::vector< TableColumn* >::const_iterator iterCols = cols.begin();
+	std::vector< TableColumn* >::const_iterator iterCols(cols.begin());
 	for(int i = 0;iterCols != cols.end();++iterCols) {
-		const TableColumn* pCol = (*iterCols);
+		const TableColumn* pCol(*iterCols);
 		if ( !onlyDirty || (onlyDirty && pCol->IsDirty()) ) {
 			if(i)
 				ssQuery << ", ";

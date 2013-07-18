@@ -22,10 +22,13 @@
 #include "DeleteStatement.h"
 
 #include "TableColumn.h"
+#include "TableDefinition.h"
+#include "TableColumnDefinition.h"
 
 #include "PostgreSQLDatabaseConfig.h"
 #include "PostgreSQLTableBase.h"
 #include "PostgreSQLInsertStatement.h"
+#include "PostgreSQLUpdateStatement.h"
 #include "PostgreSQLInsertOrUpdateStatement.h"
 #include "PostgreSQLInsertOrUpdateAffectedKeyStatement.h"
 
@@ -150,7 +153,7 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
 	if(config->GetLogQuery()){
-		log::Logging::LogCurrentLevel("execute: " + query); }
+		log::Logging::LogUnlimited(log::Logging::GetLogLevel(),"execute: %s",query.c_str()); }
 
 	PGresult* res = PQexec(connection, query.c_str());
 	if(!res) {
@@ -302,6 +305,7 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		}
 		catch(...) {
 			log::Logging::LogError("could not rollback after error");
+			throw;
 		}
 		throw;
 	}
@@ -314,7 +318,26 @@ void PostgreSQLConnection::Update(const UpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	Execute( stmt.ToSQL(this).c_str() );
+	PostgreSQLUpdateStatement pgStmt(stmt);
+	lastInsertID = -1;
+	std::string query(pgStmt.ToSQL(this).c_str());
+	PGresult* res = Execute_Intern(query);
+	SetLastInsertID(res);
+	if(lastInsertID == -1) {
+		std::vector<TableBase*> results;
+		ResToVec(query,res,results);
+
+		if(results.size() != 0) {
+			const TableBase* base(results.at(0));
+			const TableColumn* priColAffected(base->GetConstColumnByName(stmt.GetConstTableDefinition()->GetConstPrimaryKeyColumnDefinition()->GetColumnName()));
+			priColAffected->Get(lastInsertID);
+
+			std::vector<TableBase*>::iterator iTbl(results.begin());
+			for(;iTbl != results.end();++iTbl) {
+				delete (*iTbl);}
+		}
+	}
+	PQclear(res);
 }
 
 void PostgreSQLConnection::Delete(const DeleteStatement& stmt){

@@ -84,6 +84,7 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 			colCreateParam.columnType = DB_TYPE_INTEGER;
 			break;
 
+		case BPCHAROID:
 		case VARCHAROID:
 		case TEXTOID:
 		case BYTEAOID:

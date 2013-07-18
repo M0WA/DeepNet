@@ -70,6 +70,7 @@ std::string OrderByClause::ToString(database::DatabaseConnection* db) const {
 			break;
 		default:
 			THROW_EXCEPTION(DatabaseInvalidOperatorTypeException);
+			break;
 		}
 		if(i)
 			ssSQL << " , ";

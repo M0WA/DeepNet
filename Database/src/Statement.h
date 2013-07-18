@@ -122,9 +122,21 @@ public:
 
 	/**
 	 * sets the LIMIT part of the sql statement
-	 * @param limit maximum number of returned rows (0 to disable).
+	 * @param limit maximum number of returned rows (0 = not set)
 	 */
 	void SetLimit(unsigned int limit);
+
+	/**
+	 * gets the LIMIT part of the sql statement
+	 * @return limit maximum number of returned rows (0 = not set)
+	 */
+	unsigned int GetLimit() const;
+
+	/**
+	 * gets const table definition of this statemen
+	 * @return table definition
+	 */
+	const TableDefinition* GetConstTableDefinition() const;
 
 protected:
 	/**
@@ -133,12 +145,6 @@ protected:
 	 * @return fully qualified name.
 	 */
 	std::string GetFullQualifiedTableName() const;
-
-	/**
-	 * gets const table definition of this statemen
-	 * @return table definition
-	 */
-	const TableDefinition* GetConstTableDefinition() const;
 
 protected:
 	/**

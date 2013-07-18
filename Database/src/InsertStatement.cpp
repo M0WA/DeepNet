@@ -34,7 +34,9 @@ std::string InsertStatement::ToSQL(database::DatabaseConnection* db) const {
 	ssColumnNames  << " ( ";
 	ssColumnValues << " ( ";
 	std::vector<TableColumn*>::const_iterator iterCols = cols.begin();
-	for(int i = 0;iterCols != cols.end();++iterCols,i++) {
+	for(int i = 0;iterCols != cols.end();++iterCols) {
+
+		const TableColumn* pCol(*iterCols);
 
 		if(i) {
 			ssColumnNames  << ", ";
@@ -43,8 +45,9 @@ std::string InsertStatement::ToSQL(database::DatabaseConnection* db) const {
 		if(!TableAlias().empty())
 			ssColumnNames  << TableAlias() << ".";
 
-		ssColumnNames  << (*iterCols)->GetColumnName();
-		ssColumnValues << (*iterCols)->GetForSQL(db);
+		ssColumnNames  << pCol->GetColumnName();
+		ssColumnValues << pCol->GetForSQL(db);
+		i++;
 	}
 	ssColumnNames  << " ) ";
 	ssColumnValues << " ) ";

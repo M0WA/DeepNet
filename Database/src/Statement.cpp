@@ -70,6 +70,11 @@ void Statement::SetLimit(unsigned int limit) {
 	this->limit = limit;
 }
 
+unsigned int Statement::GetLimit() const {
+
+	return this->limit;
+}
+
 const std::string& Statement::TableAlias(void) const {
 
 	return this->tableAlias;

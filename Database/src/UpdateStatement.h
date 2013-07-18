@@ -18,6 +18,7 @@ namespace database {
 class TableBase;
 class TableColumn;
 class DatabaseConnection;
+class PostgreSQLUpdateStatement;
 
 /**
  * @brief implements generic sql update statement.
@@ -25,6 +26,9 @@ class DatabaseConnection;
  * @see database::DB2UpdateStatement
  */
 class UpdateStatement : public Statement {
+
+	friend class PostgreSQLUpdateStatement;
+
 public:
 	/**
 	 * construct update statement.
@@ -48,10 +52,22 @@ public:
 	WhereCondition& Where  () { return this->whereCondition; }
 
 	/**
+	 * gets const where condition.
+	 * @return where clause.
+	 */
+	const WhereCondition& ConstWhere() const { return this->whereCondition; }
+
+	/**
 	 * gets order by clause.
 	 * @return order by clause.
 	 */
 	OrderByClause&  OrderBy() { return this->orderByClause;  }
+
+	/**
+	 * gets const order by clause.
+	 * @return order by clause.
+	 */
+	const OrderByClause& ConstOrderBy() const { return this->orderByClause;  }
 
 public:
 	virtual InnerJoinCondition& InnerJoin();
