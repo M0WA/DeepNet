@@ -348,6 +348,15 @@ bool UnitTestDatabase::InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entr
 		log::Logging::LogError("invalid result size while InnerJoinRightSideEntry(): %llu",results.Size());
 		return false; }
 
+	const std::vector<database::TableColumn*>& cols(results.GetConstIter()->GetConstColumns());
+	std::vector<database::TableColumn*>::const_iterator iCol(cols.begin());
+	for(;iCol!=cols.end();++iCol) {
+
+		const database::TableColumn* col(*iCol);
+		const std::string& colName(col->GetColumnName());
+		log::Logging::LogError(colName);
+	}
+
 	//
 	//TODO: check validity of returned results
 	//
