@@ -11,6 +11,9 @@
 #define THROW_EXCEPTION(className,args...) \
 	throw className(__FILE__,__LINE__,__PRETTY_FUNCTION__, ##args);
 
+#define RETHROW_EXCEPTION(org) \
+	throw org;
+
 namespace errors {
 
 /**

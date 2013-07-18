@@ -107,6 +107,14 @@ void Exception::TerminateHandler() {
 		catch(std::exception& ex){
 			THROW_EXCEPTION(errors::StdException,ex,backtrace);
 		}
+		catch(errors::Exception& ex) {
+			throw ex;
+		}
+		/*
+		catch(...) {
+			THROW_EXCEPTION(errors::EmptyException);
+		}
+		*/
 	}
 	else {
 		tryRethrow = true;

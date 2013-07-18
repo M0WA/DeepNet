@@ -11,8 +11,6 @@
 
 namespace tools {
 
-static const struct tm zeroTm = { 0 };
-
 TimeTools::TimeTools() {
 }
 
@@ -149,7 +147,7 @@ bool TimeTools::ToSQLTimestamp(const struct tm& in,std::string& out ) {
 }
 
 void TimeTools::InitTm(struct tm& init) {
-	init = zeroTm;
+	init = TimeToTm(0);
 }
 
 void TimeTools::InitTimeval(struct timeval& init) {
