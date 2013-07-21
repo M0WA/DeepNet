@@ -21,14 +21,17 @@
 namespace log {
 
 /**
- * @brief implements generic logging functionality.
+ * @brief implements generic logging functionality which is used by all kinds of logging types.
+ * @see log::ConsoleLogging
+ * @see log::FileLogging
+ * @see log::DatabaseLogging
  */
 class Logging
 {
 public:
 	/**
 	 * @enum LogLevel
-	 * @brief log level
+	 * @brief defines all possible log levels
 	 */
     enum LogLevel
     {
