@@ -83,6 +83,8 @@ private:
 	bool InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entry);
 	bool InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry);
 
+	bool SQLInjectionTest();
+
 private:
 	template <class T>
 	bool DeleteAllTest() {

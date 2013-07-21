@@ -89,6 +89,10 @@ bool UnitTestDatabase::Run() {
 	//TODO: implement tests for sum columns/group by/update+orderby+limit statements
 	//
 
+	log::Logging::LogTrace("testing sql injection safety");
+	if(!SQLInjectionTest()) {
+		return false;}
+
 	log::Logging::LogTrace("cleaning up unit test tables");
 	if(!DeleteAllTest<database::unittest3TableBase>()) {
 		return false;}
@@ -392,6 +396,31 @@ bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry
 	//
 	//TODO: check validity of returned results
 	//
+	return true;
+}
+
+bool UnitTestDatabase::SQLInjectionTest() {
+
+	//the last element in this list has to be zero
+	static const char** injectStringValues((const char *[]){ "-- a", "' a", "'' a", "\" a", "; a", 0 });
+		//
+		//TODO: check for zeros in statement
+		//
+		// "\0 a", 0 };
+
+	for(size_t i = 0; injectStringValues[i]; i++) {
+		database::unittest1TableBase sqlInject;
+		sqlInject.Set_double_test(1.0);
+		sqlInject.Set_integer_test(1);
+		sqlInject.Set_varchar_test(injectStringValues[i]);
+		sqlInject.Set_timestamp_test(tools::TimeTools::NowUTC());
+
+		try {
+			sqlInject.Insert(dbHelper.Connection()); }
+		catch(database::DatabaseException& e) {
+			return false; }
+	}
+
 	return true;
 }
 
