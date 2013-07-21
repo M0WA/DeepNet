@@ -10,6 +10,7 @@
 
 #include <ContainerTools.h>
 #include <Logging.h>
+#include <StringTools.h>
 
 namespace bot
 {
@@ -38,10 +39,21 @@ bool ConfigManager::Init(const int argc, char** argv) {
 
 void ConfigManager::PrintUsage(void) const {
 
-	std::string compileTimeFlags("compile time flags (if any): ");
+	std::vector<std::string> compileFlags;
+
 #ifdef ENABLE_PERFORMANCE_LOG
-	compileTimeFlags += "ENABLE_PERFORMANCE_LOG ";
+	compileFlags.push_back("ENABLE_PERFORMANCE_LOG");
 #endif
+#ifdef DEBUG_DEEPNET
+	compileFlags.push_back("DEBUG_DEEPNET");
+#endif
+
+	std::string compileFlagString;
+	if(compileFlags.size()) {
+		compileFlagString = "compile time flags: ";
+		tools::StringTools::VectorToString(compileFlags, compileFlagString," ,"); }
+	else {
+		compileFlagString = "compile time flags: <none>"; }
 
 	std::cout << std::endl << std::endl;
 	std::cout << "/=========================================================\\" << std::endl;
@@ -49,7 +61,7 @@ void ConfigManager::PrintUsage(void) const {
 	std::cout << "| Copyright 2012-2013, Moritz Wagner                      |" << std::endl;
 	std::cout << "| Author: Moritz Wagner (moritz.wagner@mo-sys.de)         |" << std::endl;
 	std::cout << "\\=========================================================/" << std::endl;
-	std::cout << compileTimeFlags << std::endl << std::endl;
+	std::cout << compileFlagString << std::endl << std::endl;
 	std::cout << std::endl << "usage: ./" << cmdLine.GetApplicationName() << " [parameters]" << std::endl;
 
 	if(registeredParams.size()) {
