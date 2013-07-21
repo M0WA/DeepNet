@@ -55,7 +55,7 @@ public:
 		/**
 		* do not use this
 		*/
-		LOGLEVEL_MAX   = 10000
+		LOGLEVEL_MAX
     };
 
 protected:
