@@ -41,6 +41,7 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1328965212" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_REENTRANT"/>
+									<listOptionValue builtIn="false" value="DEBUG_DEEPNET"/>
 									<listOptionValue builtIn="false" value="ENABLE_PERFORMANCE_LOG"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.2052702573" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -rdynamic" valueType="string"/>
