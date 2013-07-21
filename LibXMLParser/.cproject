@@ -40,6 +40,7 @@
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.317181651" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_REENTRANT"/>
+									<listOptionValue builtIn="false" value="DEBUG_DEEPNET"/>
 									<listOptionValue builtIn="false" value="ENABLE_PERFORMANCE_LOG"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1817705230" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
