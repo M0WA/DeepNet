@@ -15,7 +15,7 @@
 namespace log {
 
 /**
- * @brief class for logging to console.
+ * @brief class for logging to terminal console.
  * @see logging::Log
  */
 class ConsoleLogging : public Logging
