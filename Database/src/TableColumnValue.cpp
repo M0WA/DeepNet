@@ -135,14 +135,12 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 	std::string stringQuotation, timestampPrefix;
 	switch(db->GetDatabaseType()) {
 	case DB_POSTGRESQL:
-		stringQuotation = "'";
 		timestampPrefix = " timestamp ";
 		break;
 
 	case DB_IBM_DB2:
 	case DB_MYSQL:
 	default:
-		stringQuotation = "\"";
 		break;
 	}
 
@@ -156,7 +154,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		std::string value;
 		Get(value);
 		db->EscapeString(value);
-		ssSQLValue << stringQuotation << value << stringQuotation;
+		ssSQLValue << value;
 	}
 		break;
 
@@ -182,7 +180,8 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		Get(rawValue);
 		std::string timeString;
 		tools::TimeTools::ToSQLTimestamp(rawValue, timeString);
-		ssSQLValue << timestampPrefix << stringQuotation << timeString << stringQuotation;
+		db->EscapeString(timeString);
+		ssSQLValue << timestampPrefix << timeString;
 	}
 		break;
 

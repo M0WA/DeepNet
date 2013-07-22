@@ -274,6 +274,7 @@ bool MySQLConnection::EscapeString(std::string& inEscape)
 	if(converted && pszConverted)
 		inEscape.assign(pszConverted,strlen(pszConverted));
 	delete [] pszConverted;
+	inEscape = "\"" + inEscape + "\"";
 	return (bool)converted;
 }
 

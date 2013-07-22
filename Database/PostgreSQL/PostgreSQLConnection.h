@@ -52,7 +52,6 @@ public:
 private:
 	PGresult* Execute_Intern(const std::string& query);
 	void ResToVec(const std::string& query, PGresult* res,std::vector<TableBase*>& results);
-	void SetLastInsertID(PGresult* res);
 
 private:
 	const PostgreSQLDatabaseConfig* config;
