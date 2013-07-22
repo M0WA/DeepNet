@@ -51,7 +51,7 @@ void ConfigManager::PrintUsage(void) const {
 	std::string compileFlagString;
 	if(compileFlags.size()) {
 		compileFlagString = "compile time flags: ";
-		tools::StringTools::VectorToString(compileFlags, compileFlagString," ,"); }
+		tools::StringTools::VectorToString(compileFlags, compileFlagString,", "); }
 	else {
 		compileFlagString = "compile time flags: <none>"; }
 
