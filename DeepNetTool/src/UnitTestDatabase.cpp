@@ -11,6 +11,8 @@
 #include <sstream>
 #include <algorithm>
 
+#include <FileTools.h>
+
 namespace toolbot {
 
 UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
@@ -402,7 +404,8 @@ bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry
 bool UnitTestDatabase::SQLInjectionTest() {
 
 	//the last element in this list has to be zero
-	static const char** injectStringValues((const char *[]){ "-- a", "' a", "'' a", "\" a", "; a", 0 });
+	static const char** injectStringValues((const char *[]){ "-- a", "' a", "'' a", "' ' a '", "\" a", "; a", "<!DOCTYPE html> \
+	<html><head>", 0 });
 		//
 		//TODO: check for zeros in statement
 		//
@@ -419,6 +422,30 @@ bool UnitTestDatabase::SQLInjectionTest() {
 			sqlInject.Insert(dbHelper.Connection()); }
 		catch(database::DatabaseException& e) {
 			return false; }
+	}
+
+	std::vector<std::string> files;
+	const static std::string testFileDir("../Scripts/tests/database/");
+	tools::FileTools::ListDirectory(files,testFileDir,true);
+	std::vector<std::string>::const_iterator iFiles(files.begin());
+	for(;iFiles != files.end();++iFiles) {
+
+		std::string content;
+		if(tools::FileTools::ReadFile(testFileDir + *iFiles,content)) {
+
+			database::unittest1TableBase sqlInject;
+			sqlInject.Set_double_test(1.0);
+			sqlInject.Set_integer_test(1);
+			sqlInject.Set_varchar_test(content);
+			sqlInject.Set_timestamp_test(tools::TimeTools::NowUTC());
+
+			try {
+				sqlInject.Insert(dbHelper.Connection()); }
+			catch(database::DatabaseException& e) {
+				return false; }
+		}
+		else
+			return false;
 	}
 
 	return true;
