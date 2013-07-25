@@ -50,8 +50,8 @@ my %datatypes = (
   "INTEGER"    => [ "INTEGER"  , "INTEGER"  , "INTEGER"          ],
   "CHAR"       => [ "CHAR"     , "CHAR"     , "CHAR"             ],
   "VARCHAR"    => [ "VARCHAR"  , "VARCHAR"  , "VARCHAR"          ],
-  "LARGE_TEXT" => [ "VARCHAR"  , "CLOG"     , "VARCHAR"          ],
-  "DOUBLE"     => [ "DOUBLE"   , "DOUBLE"   , "double precision" ],
+  "LARGE_TEXT" => [ "VARCHAR"  , "CLOG"     , "TEXT"             ],
+  "DOUBLE"     => [ "DOUBLE"   , "DOUBLE"   , "DOUBLE PRECISION" ],
   "TIMESTAMP"  => [ "TIMESTAMP", "TIMESTAMP", "TIMESTAMP"        ]
 );
 
@@ -291,11 +291,14 @@ sub GenerateColumnDDL
   my $MySQLDataType   = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"MySQL"}];
   my $DB2DataType     = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"DB2"}];
   my $PostgreDataType = $datatypes{$column_attributes{'typeUnsized'}}[$datatype_manufacturer{"Postgre"}];
-  
+
   if($column_attributes{'isSized'} == 1) {
     $MySQLDataType   .= $column_attributes{'typeSize'};
     $DB2DataType     .= $column_attributes{'typeSize'};
-    $PostgreDataType .= $column_attributes{'typeSize'};
+
+    if($PostgreDataType ne 'TEXT') {
+      $PostgreDataType .= $column_attributes{'typeSize'};
+    }
   }
 
   if(! $MySQLDataType || ! $DB2DataType || ! $PostgreDataType )
