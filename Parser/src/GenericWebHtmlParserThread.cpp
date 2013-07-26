@@ -190,12 +190,10 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 
 		for(int i=0; iterInsertLinks != mapUrls.end(); i++,++iterInsertLinks) {
 
-
 			if(iterInsertLinks->first.GetSecondLevelID() == secondLevelID) {
 				internLinks++;}
 			else {
 				externLinks++;}
-
 
 			if(entry.urlID <= 0 || entry.urlStageID <=0 || iterInsertLinks->second<=0){
 				log::Logging::LogError(
@@ -203,8 +201,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 						entry.urlID, entry.urlStageID, iterInsertLinks->first.GetFullUrl().c_str()
 				);
 				i--;
-				continue;
-			}
+				continue;}
 
 			std::vector<database::TableColumnDefinition*> colDefsSum;
 			colDefsSum.push_back(database::hyperlinksTableBase::GetDefinition_count());
