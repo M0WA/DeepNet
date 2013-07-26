@@ -291,14 +291,14 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		affectedRows = tmpAffected;
 	}
 	catch(errors::Exception& e) {
+		e.Log();
+		e.DisableLogging();
 		try {
 			TransactionRollback();
 		}
 		catch(...) {
 			log::Logging::LogError("could not rollback after error");
-			throw;
 		}
-		throw;
 	}
 
 	TransactionCommit();
@@ -385,8 +385,9 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	if(inEscape.empty())
-		return true;
+	if(inEscape.empty()) {
+		inEscape = "''";
+		return true; }
 
 	char* pszTmp = PQescapeLiteral(connection, inEscape.c_str(), inEscape.length());
 	if(!pszTmp) {
