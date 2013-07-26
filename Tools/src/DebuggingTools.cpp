@@ -20,6 +20,7 @@
 #include <sys/syscall.h>
 #include <ucontext.h>
 
+#include <limits.h>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -118,10 +119,16 @@ std::string DebuggingTools::GetBacktrace(void* caller)
 
 		std::string file; size_t line = 0;
 		bool isFileResolved = GetFileLineFromModuleAddress(sModuleName.c_str(), addrlist[i], file, line);
+
+		char* normFile = realpath(file.c_str(),0);
 		if(isFileResolved && file.compare("??") != 0) {
-			ssBacktrace << " at " << file << ":" << line;
-		}
+			ssBacktrace << " at " << (normFile ? normFile : file.c_str()) << ":" << line; }
+		if(normFile)
+			free(normFile);
+
 		ssBacktrace << " [" << sModuleName << "]";
+
+
 
 		ssBacktrace << std::endl;
 	}
