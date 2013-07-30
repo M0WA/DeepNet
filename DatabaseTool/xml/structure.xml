@@ -192,11 +192,11 @@
 	<column name="content_md5"          type="CHAR(32)"     default="NULL" />
 	<column name="last_change"          type="TIMESTAMP"    default="NULL" />
 	<column name="redirect_count"       type="INTEGER"      default="NULL" />
-	<column name="download_speed"       type="INTEGER"      default="NULL" />
-	<column name="upload_speed"         type="INTEGER"      default="NULL" />
-	<column name="content_length"       type="INTEGER"      default="NULL" />
+	<column name="download_speed"       type="BIGINT"       default="NULL" />
+	<column name="upload_speed"         type="BIGINT"       default="NULL" />
+	<column name="content_length"       type="BIGINT"       default="NULL" />
 	<column name="content_type"         type="VARCHAR(255)" default="NULL" />
-	<column name="primary_ip"           type="INTEGER"      default="NULL" />
+	<column name="primary_ip"           type="BIGINT"       default="NULL" />
 	<column name="primary_port"         type="INTEGER"      default="NULL" />
 	<column name="int_links"            type="INTEGER"      default="NULL" />
 	<column name="ext_links"            type="INTEGER"      default="NULL" />

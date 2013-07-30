@@ -47,6 +47,7 @@ my %datatype_manufacturer = (
 #   generic_type => CPP-Type
 my %datatypes = (
   "INTEGER"    => "long long",
+  "BIGINT"     => "long long",
   "CHAR"       => "std::string",
   "VARCHAR"    => "std::string",
   "LARGE_TEXT" => "std::string",

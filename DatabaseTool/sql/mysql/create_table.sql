@@ -117,11 +117,11 @@ CREATE TABLE contents.urlstages
  content_md5 CHAR(32),
  last_change TIMESTAMP,
  redirect_count INTEGER,
- download_speed INTEGER,
- upload_speed INTEGER,
- content_length INTEGER,
+ download_speed BIGINT,
+ upload_speed BIGINT,
+ content_length BIGINT,
  content_type VARCHAR(255),
- primary_ip INTEGER,
+ primary_ip BIGINT,
  primary_port INTEGER,
  int_links INTEGER,
  ext_links INTEGER,
@@ -140,7 +140,7 @@ CREATE TABLE contents.documentcode
 (
  ID INTEGER AUTO_INCREMENT NOT NULL,
  URLSTAGE_ID INTEGER NOT NULL,
- code VARCHAR(4096000) NOT NULL,
+ code TEXT(4096000) NOT NULL,
  CONSTRAINT PRI__DOCUMENTCODE_ID PRIMARY KEY (ID)
 ) Engine=InnoDB, ROW_FORMAT=COMPACT;
 SHOW WARNINGS;
@@ -210,7 +210,7 @@ CREATE TABLE logging.unittest1
 (
  ID INTEGER AUTO_INCREMENT NOT NULL,
  timestamp_test TIMESTAMP NOT NULL,
- varchar_test VARCHAR(4096000) NOT NULL,
+ varchar_test TEXT(4096000) NOT NULL,
  double_test DOUBLE NOT NULL,
  integer_test INTEGER NOT NULL,
  CONSTRAINT PRI__UNITTEST1_ID PRIMARY KEY (ID)
@@ -382,7 +382,7 @@ CREATE TABLE logging.unittest2
 (
  ID INTEGER AUTO_INCREMENT NOT NULL,
  timestamp_test TIMESTAMP NOT NULL,
- varchar_test VARCHAR(4096000) NOT NULL,
+ varchar_test TEXT(4096000) NOT NULL,
  double_test DOUBLE NOT NULL,
  integer_test INTEGER NOT NULL,
  CONSTRAINT PRI__UNITTEST2_ID PRIMARY KEY (ID),

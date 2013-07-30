@@ -39,6 +39,7 @@ our $VERSION = '0.01';
 
 my @datatypes = (
     "INTEGER", 
+    "BIGINT", 
     "CHAR", 
     "VARCHAR", 
     "LARGE_TEXT", 
