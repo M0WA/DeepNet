@@ -78,9 +78,10 @@ sub ParseStructureXML
     #table specific attributes
     my %table_attributes;
 
+    my $tableName             = $table->getAttribute('name');
+    $table_attributes{'name'} = $tableName;
+
     #mysql specific attributes
-    my $tableName = $table->getAttribute('name');
-    $table_attributes{'name'}           = $tableName;
     $table_attributes{'MySQL_Database'} = $table->getAttribute('MySQL_Database');
     $table_attributes{'MySQL_Engine'}   = $table->getAttribute('MySQL_Engine');
 
@@ -166,12 +167,30 @@ sub ParseStructureXML
 
     #unique keys
     my @uniqueKeys;
+    my %uniqueKeysCombined;
     foreach my $uniqueKey ($table->getElementsByTagName('unique_key'))
     {
-      my $columnName = $uniqueKey->getAttribute('column');
-      push(@uniqueKeys,$columnName);
+      my $columnAttrContent = $uniqueKey->getAttribute('column');
+
+      #unique keys can be combined keys
+      my @columnNames = split(',', $columnAttrContent);
+
+      if(@columnNames <= 1) {
+        #single column unique key
+        push(@uniqueKeys,@columnNames);
+      }
+      else {
+        #combined unique key
+        @{$uniqueKeysCombined{$columnAttrContent}} = @columnNames;
+        #push( , @columnNames );
+        #push (@($uniqueKeysCombined{$columnAttrContent}),@columnNames);
+#        $uniqueKeysCombined{$columnAttrContent} = ;
+      }
     }
     push(@{$table_attributes{'uniqueKeys'}}, @uniqueKeys);
+   # $table_attributes{'uniqueKeysCombined'} = %uniqueKeysCombined;
+    %{$table_attributes{'uniqueKeysCombined'}} = %uniqueKeysCombined;
+   # push(@{$table_attributes{'uniqueKeysCombined'}}, %uniqueKeysCombined);
 
     #indices
     my @indices;
@@ -182,7 +201,7 @@ sub ParseStructureXML
       $index_attributes{'column'} = $columnName;
 
       #sort
-      my $indexSort  = $index->getAttribute('sort');
+      my $indexSort = $index->getAttribute('sort');
       if( $indexSort ) {
         $index_attributes{'sort'} = $indexSort; }
 

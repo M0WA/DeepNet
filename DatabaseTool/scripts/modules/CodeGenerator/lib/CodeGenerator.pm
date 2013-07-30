@@ -173,7 +173,6 @@ sub GenerateTableBaseHeader {
         $tmplTableBaseInnerJoinContentTmpl =~ s/__TMPL_FIELD_NAME__/$columnName/gs;
         $tmplTableBaseInnerJoinFieldOut .= $tmplTableBaseInnerJoinContentTmpl;
       }
-
     }
 
     $tmplTableBase =~ s/__TMPL_TABLE_NAME__/$tableName/gs;
@@ -205,12 +204,13 @@ sub GenerateTableBaseCpp {
     my $tmplTableBase = $tmplTableBaseContent;
     
     #prepare table specific variables
-    my %table_attributes = %{$tables{$tableName}};
-    my @columns     = @{$table_attributes{'columns'}};
-    my @primaryKeys = @{$table_attributes{'primaryKeys'}};
-    my @foreignKeys = @{$table_attributes{'foreignKeys'}};
-    my @uniqueKeys  = @{$table_attributes{'uniqueKeys'}};
-    my @indices     = @{$table_attributes{'indices'}};
+    my %table_attributes   = %{$tables{$tableName}};
+    my @columns            = @{$table_attributes{'columns'}};
+    my @primaryKeys        = @{$table_attributes{'primaryKeys'}};
+    my @foreignKeys        = @{$table_attributes{'foreignKeys'}};
+    my @uniqueKeys         = @{$table_attributes{'uniqueKeys'}};
+    my %uniqueKeysCombined = %{$table_attributes{'uniqueKeysCombined'}};
+    my @indices            = @{$table_attributes{'indices'}};
 
     my $tmplTableBaseGetByFieldOut     = "";
     my $tmplTableBaseGetSetFieldOut    = "";
@@ -229,6 +229,7 @@ sub GenerateTableBaseCpp {
       my $isPrimaryKey = $self->IsPrimaryKey( $columnName, @primaryKeys );
       my $isForeignKey = $self->IsForeignKey( $columnName, @foreignKeys );
       my $isUniqueKey  = $self->IsUniqueKey ( $columnName, @uniqueKeys  );
+      my $isCombinedUniqueKey = $self->IsUniqueKeyCombined( $columnName, %uniqueKeysCombined );
       my $isIndex      = $self->IsIndex     ( $columnName, @indices     );
       my $isNullable   = ( $column_attributes{'notnull'} && ($column_attributes{'notnull'} == 1) ) ? "false" : "true" ;
       my $isAutoIncrement = $isPrimaryKey;
@@ -266,6 +267,7 @@ sub GenerateTableBaseCpp {
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_PRIMARY_KEY__/$isPrimaryKey/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_FOREIGN_KEY__/$isForeignKey/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_UNIQUE_KEY__/$isUniqueKey/gs;
+      $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_COMBINED_UNIQUE_KEY__/$isCombinedUniqueKey/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_INDEX__/$isIndex/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_NULLABLE__/$isNullable/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_AUTO_GENERATED__/$isAutoIncrement/gs;
@@ -338,30 +340,32 @@ sub GenerateTableDefinitionCreateParamCpp {
     foreach my $tableName ( keys %tables ) {
 
         #prepare table specific variables
-        my %table_attributes = %{$tables{$tableName}};
-        my @columns     = @{$table_attributes{'columns'}};
-        my @primaryKeys = @{$table_attributes{'primaryKeys'}};
-        my @foreignKeys = @{$table_attributes{'foreignKeys'}};
-        my @uniqueKeys  = @{$table_attributes{'uniqueKeys'}};
-        my @indices     = @{$table_attributes{'indices'}};
-        my $databaseName = $table_attributes{'MySQL_Database'};
+        my %table_attributes   = %{$tables{$tableName}};
+        my @columns            = @{$table_attributes{'columns'}};
+        my @primaryKeys        = @{$table_attributes{'primaryKeys'}};
+        my @foreignKeys        = @{$table_attributes{'foreignKeys'}};
+        my @uniqueKeys         = @{$table_attributes{'uniqueKeys'}};
+        my %uniqueKeysCombined = %{$table_attributes{'uniqueKeysCombined'}};
+        my @indices            = @{$table_attributes{'indices'}};
+        my $databaseName       = $table_attributes{'MySQL_Database'};
 
         my $tmplContentCreateOut;
         my $columnPos = 0;
         foreach my $column (@columns) {
           
-          my %column_attributes = %$column;
-          my $columnName = $column_attributes{'name'};
-          my $cppType    = $datatypes{$column_attributes{'typeUnsized'}};
-          my $enumFieldType = "DB_TYPE_".$column_attributes{'typeUnsized'};
-          my $isPrimaryKey = $self->IsPrimaryKey( $columnName, @primaryKeys );
-          my $isForeignKey = $self->IsForeignKey( $columnName, @foreignKeys );
-          my $isUniqueKey  = $self->IsUniqueKey ( $columnName, @uniqueKeys  );
-          my $isIndex      = $self->IsIndex     ( $columnName, @indices     );
-          my $isNullable   = ( $column_attributes{'notnull'} && ($column_attributes{'notnull'} == 1) ) ? "false" : "true" ;
-          my $isAutoIncrement = $isPrimaryKey;
-          my $hasDefault = "false";
-          my $databaseName = $table_attributes{'MySQL_Database'};
+          my %column_attributes   = %$column;
+          my $columnName          = $column_attributes{'name'};
+          my $cppType             = $datatypes{$column_attributes{'typeUnsized'}};
+          my $enumFieldType       = "DB_TYPE_".$column_attributes{'typeUnsized'};
+          my $isPrimaryKey        = $self->IsPrimaryKey( $columnName, @primaryKeys );
+          my $isForeignKey        = $self->IsForeignKey( $columnName, @foreignKeys );
+          my $isUniqueKey         = $self->IsUniqueKey ( $columnName, @uniqueKeys  );
+          my $isCombinedUniqueKey = $self->IsUniqueKeyCombined( $columnName, %uniqueKeysCombined );
+          my $isIndex             = $self->IsIndex     ( $columnName, @indices     );
+          my $isNullable          = ( $column_attributes{'notnull'} && ($column_attributes{'notnull'} == 1) ) ? "false" : "true" ;
+          my $isAutoIncrement     = $isPrimaryKey;
+          my $hasDefault          = "false";
+          my $databaseName        = $table_attributes{'MySQL_Database'};
 
           my $tmplContentCreateTmpl = $tmplCreateContent;
           $tmplContentCreateTmpl =~ s/__TMPL_TABLE_NAME__/$tableName/gs;
@@ -373,20 +377,32 @@ sub GenerateTableDefinitionCreateParamCpp {
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_PRIMARY_KEY__/$isPrimaryKey/gs;
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_FOREIGN_KEY__/$isForeignKey/gs;
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_UNIQUE_KEY__/$isUniqueKey/gs;
+          $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_COMBINED_UNIQUE_KEY__/$isCombinedUniqueKey/gs;
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_INDEX__/$isIndex/gs;
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_NULLABLE__/$isNullable/gs;
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_IS_AUTO_GENERATED__/$isAutoIncrement/gs;
           $tmplContentCreateTmpl =~ s/__TMPL_FIELD_HAS_DEFAULT__/$hasDefault/gs;
           $tmplContentCreateOut .= $tmplContentCreateTmpl;
 
-
           $columnPos++;
+        }
+
+        #combined unique keys need special treatment
+        my $tmplContentCreateCombinedUniqueKeyOut = "\tstd::vector<std::string> tmpCombined;\n";
+        foreach my $keyRow (keys %uniqueKeysCombined) {
+          my @tmpArray = @{$uniqueKeysCombined{$keyRow}};
+          $tmplContentCreateCombinedUniqueKeyOut .= "\ttmpCombined.clear();\n";
+          foreach my $colName ( @{$uniqueKeysCombined{$keyRow}} )  {
+            $tmplContentCreateCombinedUniqueKeyOut .= "\ttmpCombined.push_back(\"".$colName."\");\n";
+          }
+          $tmplContentCreateCombinedUniqueKeyOut .= "\tcombinedUniqueKeys.push_back(tmpCombined);\n";
         }
 
         my $tmplContentOut = $tmplContent;
         $tmplContentOut =~ s/__TMPL_TABLE_NAME__/$tableName/gs;
         $tmplContentOut =~ s/__TMPL_DATABASE_NAME__/$databaseName/gs;
         $tmplContentOut =~ s/__TMPL_TABLE_DEFINITION_CREATE_PARAM__CREATE_COLUMN_DEFINITIONS__/$tmplContentCreateOut/gs;
+        $tmplContentOut =~ s/__TMPL_TABLE_DEFINITION_CREATE_PARAM__CREATE_COMBINED_UNIQUE_KEY_DEFINITIONS__/$tmplContentCreateCombinedUniqueKeyOut/gs;
 
         # print "\n".$tableName."TableDefinitionCreateParam.cpp:\n".$tmplContentOut;
         $self->WriteFile( $srcOutDirectory.$tableName."TableDefinitionCreateParam.cpp", $tmplContentOut );
@@ -472,6 +488,20 @@ sub IsUniqueKey
   foreach my $uniqueKeyColumn (@uniqueKeys) {
     if( $columnName eq $uniqueKeyColumn ) {
       return "true";
+    }
+  }
+  return "false";
+}
+
+sub IsUniqueKeyCombined
+{
+  my ($self, $columnName, %uniqueKeysCombined) = @_;
+  foreach my $keyRow (keys %uniqueKeysCombined) {
+    my @tmpArray = @{$uniqueKeysCombined{$keyRow}};
+    foreach my $colName ( @{$uniqueKeysCombined{$keyRow}} )  {
+      if($colName eq $columnName) {
+        return "true";
+      }
     }
   }
   return "false";

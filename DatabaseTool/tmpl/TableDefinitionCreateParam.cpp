@@ -23,6 +23,8 @@ void __TMPL_TABLE_NAME__TableDefinitionCreateParam::CreateColumnDefinitions() {
     // template: TableDefinitionCreateParam_CreateColumnDefinitions.inc.cpp
     //
 __TMPL_TABLE_DEFINITION_CREATE_PARAM__CREATE_COLUMN_DEFINITIONS__
+
+__TMPL_TABLE_DEFINITION_CREATE_PARAM__CREATE_COMBINED_UNIQUE_KEY_DEFINITIONS__
 }
 
 std::string __TMPL_TABLE_NAME__TableDefinitionCreateParam::GetDatabaseName() {

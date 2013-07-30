@@ -227,6 +227,7 @@
 
 	<primary_key column="ID" />
 	<foreign_key column="URLSTAGE_ID" references_table="urlstages" references_column="ID" MySQL_Database="contents" />
+	<unique_key  column="URLSTAGE_ID" />
 	
 </table>
 
@@ -296,7 +297,7 @@
 	<column name="URLSTAGE_ID"          type="INTEGER"      notnull="1" />
 
 	<primary_key column="ID" />
-	<unique_key  column="TARGET_URL_ID,URLSTAGE_ID,IMAGE_URL_ID " />
+	<unique_key  column="TARGET_URL_ID,URLSTAGE_ID,IMAGE_URL_ID" />
 
 	<foreign_key column="TARGET_URL_ID" references_table="urls"      references_column="ID" MySQL_Database="documents" />
 	<foreign_key column="IMAGE_URL_ID"  references_table="images"    references_column="ID" MySQL_Database="documents" />
