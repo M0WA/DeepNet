@@ -56,7 +56,7 @@ void CacheSubdomain::GetDomainBySubdomainID(
 
 		if(results.Size() == 1) {
 			results.ResetIter();
-			database::subdomainsTableBase* pTbl = results.GetIter();
+			database::subdomainsTableBase* pTbl(results.GetIter());
 			pTbl->Get_subdomain(subdomain);
 			cacheInstance.idSubdomain.AddItem(subdomainID,subdomain);
 			return;

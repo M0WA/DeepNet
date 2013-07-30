@@ -41,7 +41,7 @@ bool RobotTxt::Load(const std::string& robotsTxt) {
 	tools::StringTools::RemoveEmptyLines(lines);
 
 	std::vector<std::string> groups;
-	std::vector<std::string>::iterator iterLines = lines.begin();
+	std::vector<std::string>::iterator iterLines(lines.begin());
 
 	std::string tmpUserAgent;
 	std::vector<std::string> tmpDisallow;
@@ -51,8 +51,7 @@ bool RobotTxt::Load(const std::string& robotsTxt) {
 
 		if( regexLine.Match(iterLines->c_str(), groups) && groups.size() >= 4){
 
-			std::string& key = groups.at(1),
-					   value = groups.at(3);
+			std::string& key(groups.at(1)), value(groups.at(3));
 
 			tools::StringTools::ToLowerIP(key);
 			if(key.compare("user-agent") == 0) {
@@ -108,8 +107,8 @@ bool RobotTxt::IsAllowed(const htmlparser::DatabaseUrl& url, const std::string& 
 	if(!pTmp)
 		return true;
 
-	std::string fullPath = (url.GetFullPathSearch());
-	std::vector<std::string>::const_iterator iterDisallow = pTmp->begin();
+	std::string fullPath(url.GetFullPathSearch());
+	std::vector<std::string>::const_iterator iterDisallow(pTmp->begin());
 	for(;iterDisallow != pTmp->end();++iterDisallow) {
 		if(fullPath.find(iterDisallow->c_str()) == 0) {
 			return false;
@@ -122,13 +121,13 @@ bool RobotTxt::IsAllowed(const htmlparser::DatabaseUrl& url, const std::string& 
 std::string RobotTxt::ToString() {
 
 	std::ostringstream ssRobotsTxt;
-	std::map<std::string, std::vector<std::string> >::const_iterator iterUserAgent = useragent.begin();
+	std::map<std::string, std::vector<std::string> >::const_iterator iterUserAgent(useragent.begin());
 	for(;iterUserAgent != useragent.end();++iterUserAgent) {
 
 		ssRobotsTxt << "User-Agent: " << iterUserAgent->first << std::endl;
 
-		const std::vector<std::string>& vecDisallow = iterUserAgent->second;
-		std::vector<std::string>::const_iterator iterDisallow = vecDisallow.begin();
+		const std::vector<std::string>& vecDisallow(iterUserAgent->second);
+		std::vector<std::string>::const_iterator iterDisallow(vecDisallow.begin());
 		for(;iterDisallow != vecDisallow.end();++iterDisallow) {
 
 			ssRobotsTxt << "Disallow: " << *iterDisallow << std::endl;

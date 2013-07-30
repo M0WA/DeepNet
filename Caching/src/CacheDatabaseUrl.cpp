@@ -47,7 +47,7 @@ bool CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db, const long l
 
 void CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db,const std::vector<long long>& IDs,std::map<long long,htmlparser::DatabaseUrl>& urls) {
 
-	std::vector<long long>::const_iterator iterIDs = IDs.begin();
+	std::vector<long long>::const_iterator iterIDs(IDs.begin());
 	for(;iterIDs != IDs.end();++iterIDs) {
 		tools::Pointer<htmlparser::DatabaseUrl> urlOut;
 		CacheDatabaseUrl::GetByUrlID(db,*iterIDs,urlOut);
@@ -58,7 +58,7 @@ void CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db,const std::ve
 
 bool CacheDatabaseUrl::GetByUrl(database::DatabaseConnection* db, const network::HttpUrl& url, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
 
-	long long urlID = -1;
+	long long urlID(-1);
 	if(!cacheInstance.cacheIDUrl.GetByValue(url,urlID)){
 		urlOut.Set(new htmlparser::DatabaseUrl(db,url),true);
 		cacheInstance.cacheIDUrl.AddItem(urlOut.Get()->GetUrlID(),*urlOut.Get());
@@ -109,15 +109,15 @@ void CacheDatabaseUrl::GetBySecondLevelIDSubdomainID(
 		secondlevelID,
 		container );
 
-	const database::TableDefinition* urlsTableDef = database::urlsTableBase::CreateTableDefinition();
-	const database::TableColumnDefinition* urlsSubDomDef = urlsTableDef->GetConstColumnDefinitionByName("SUBDOMAIN_ID");
-	database::TableColumn* colSubDom = database::TableColumn::CreateInstanceFromValue(urlsSubDomDef,subdomainID);
+	const database::TableDefinition* urlsTableDef(database::urlsTableBase::CreateTableDefinition());
+	const database::TableColumnDefinition* urlsSubDomDef(urlsTableDef->GetConstColumnDefinitionByName("SUBDOMAIN_ID"));
+	database::TableColumn* colSubDom(database::TableColumn::CreateInstanceFromValue(urlsSubDomDef,subdomainID));
 	if(subdomainID<=0)
 		colSubDom->SetNull();
 
-	database::WhereConditionTableColumn* pWhereCol = database::WhereConditionTableColumn::CreateInstance(
+	database::WhereConditionTableColumn* pWhereCol(database::WhereConditionTableColumn::CreateInstance(
 			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-			colSubDom );
+			colSubDom ));
 	container.push_back(pWhereCol);
 
 	stmt.Where().AddColumns(container);

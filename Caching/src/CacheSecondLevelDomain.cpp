@@ -56,7 +56,7 @@ void CacheSecondLevelDomain::GetDomainBySecondLevelID(
 
 		if(results.Size() == 1) {
 			results.ResetIter();
-			database::secondleveldomainsTableBase* pTbl = results.GetIter();
+			database::secondleveldomainsTableBase* pTbl(results.GetIter());
 			pTbl->Get_domain(secondleveldomain);
 			cacheInstance.idSecondLevelDomain.AddItem(secondleveldomainID,secondleveldomain);
 			return;

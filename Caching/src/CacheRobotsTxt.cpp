@@ -45,10 +45,10 @@ bool CacheRobotsTxt::IsUrlAllowed(database::DatabaseConnection* db,const htmlpar
 
 bool CacheRobotsTxt::DownloadRobotsTxt(database::DatabaseConnection* db,const htmlparser::DatabaseUrl& url, RobotTxt& robot) {
 
-	const std::string& scheme = url.GetScheme();
-	const std::string& subdomain = url.GetSubdomain();
-	const std::string& secondlvl = url.GetSecondLevelDomain();
-	const std::string& tld = url.GetTLD();
+	const std::string& scheme(url.GetScheme());
+	const std::string& subdomain(url.GetSubdomain());
+	const std::string& secondlvl(url.GetSecondLevelDomain());
+	const std::string& tld(url.GetTLD());
 
 	std::ostringstream robotsUrlString;
 	robotsUrlString <<

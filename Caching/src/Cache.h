@@ -77,7 +77,7 @@ public:
 		if(locking)
 			mutex.Lock();
 
-		bool success = true;
+		bool success(true);
 		if(!mapEntries.count(key))
 			success = false;
 		else
@@ -99,12 +99,12 @@ public:
 		threading::AutoMutex lock(mutex);
 
 		if(mapEntries.count(key) > 0) {
-			const V& value = mapEntries.at(key);
-			matches++;
+			const V& value(mapEntries.at(key));
+			++matches;
 			return value;
 		}
 		else {
-			misses++;
+			++misses;
 			throw std::range_error("V Cache::GetItem(const T&): invalid range");
 		}
 	}
@@ -120,7 +120,7 @@ public:
 		threading::AutoMutex lock(mutex);
 
 		if(!mapEntries.count(key)) {
-			misses++;
+			++misses;
 			return false;
 		}
 
@@ -152,8 +152,8 @@ public:
 		if(copyCount > mapEntries.size()) {
 			copyCount = mapEntries.size(); }
 
-		typename std::map<T, V>::iterator iterMap = mapEntries.begin();
-		typename std::map<T, V>::iterator iterEnd = iterMap;
+		typename std::map<T, V>::iterator iterMap(mapEntries.begin());
+		typename std::map<T, V>::iterator iterEnd(iterMap);
 		std::advance(iterEnd,copyCount);
 		list.insert(iterMap,iterEnd);
 		matches += list.size();
@@ -173,11 +173,11 @@ public:
 	{
 		threading::AutoMutex lock(mutex);
 
-		typename std::map<T, V>::iterator iterStart = mapEntries.begin();
+		typename std::map<T, V>::iterator iterStart(mapEntries.begin());
 		if(startPos)
 			std::advance(iterStart,startPos);
 
-		typename std::map<T, V>::iterator iterEnd   = mapEntries.begin();
+		typename std::map<T, V>::iterator iterEnd(mapEntries.begin());
 		std::advance(iterEnd, ( (count>0 && count<mapEntries.size()) ? count : mapEntries.size()) );
 
 		mapEntries.erase(iterStart,iterEnd);
@@ -202,7 +202,7 @@ public:
 	{
 		threading::AutoMutex lock(mutex);
 
-		typename std::map<T,V>::iterator iterCheck = check.begin();
+		typename std::map<T,V>::iterator iterCheck(check.begin());
 		for(;iterCheck != check.end();++iterCheck){
 			if(!mapEntries.count(iterCheck->first))
 				missing.push_back(iterCheck->first);
@@ -223,15 +223,15 @@ public:
 	{
 		threading::AutoMutex lock(mutex);
 
-		typename std::map<V,T> checkTmp = check;
-		typename std::map<V,T>::const_iterator iterCheckTmp = checkTmp.begin();
+		typename std::map<V,T> checkTmp(check);
+		typename std::map<V,T>::const_iterator iterCheckTmp(checkTmp.begin());
 		for(;iterCheckTmp != checkTmp.end();++iterCheckTmp) {
 			typename std::map<T,V>::const_iterator iterEntries = mapEntries.begin();
 			bool found = false;
 			for(;iterEntries != mapEntries.end();++iterEntries) {
 				if(iterEntries->second == iterCheckTmp->first) {
 					found = true;
-					matches++;
+					++matches;
 					break; }
 			}
 			if(found) {
@@ -256,14 +256,14 @@ public:
 	{
 		threading::AutoMutex lock(mutex);
 
-		typename std::map<T,V>::const_iterator iterEntries = mapEntries.begin();
+		typename std::map<T,V>::const_iterator iterEntries(mapEntries.begin());
 		for(;iterEntries != mapEntries.end();++iterEntries) {
 			if(iterEntries->second == value) {
 				key = iterEntries->first;
-				matches++;
+				++matches;
 				return true;}
 		}
-		misses++;
+		++misses;
 		return false;
 	}
 
@@ -277,7 +277,7 @@ public:
 	bool GetByValue(const X& value, T& key) const {
 
 		threading::AutoMutex lock(mutex);
-		typename std::map<T,V>::const_iterator iterEntries = mapEntries.begin();
+		typename std::map<T,V>::const_iterator iterEntries(mapEntries.begin());
 		for(;iterEntries != mapEntries.end();++iterEntries) {
 			if ( dynamic_cast<const X&>(iterEntries->second) == value ) {
 				key = iterEntries->first;
@@ -293,13 +293,13 @@ public:
 	 * get current match count of cache, clearing internal match counter.
 	 * @return number of matches.
 	 */
-	inline size_t GetMatches() const { size_t tmp = matches; matches = 0; return tmp; }
+	inline size_t GetMatches() const { size_t tmp(matches); matches = 0; return tmp; }
 
 	/**
 	 * get current miss count of cache, clearing internal miss counter.
 	 * @return number of misses.
 	 */
-	inline size_t GetMisses() const { size_t tmp = misses; misses = 0; return tmp; }
+	inline size_t GetMisses() const { size_t tmp(misses); misses = 0; return tmp; }
 
 	/**
 	 * get current limit of cache.
