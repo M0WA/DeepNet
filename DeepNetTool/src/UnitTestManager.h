@@ -10,12 +10,13 @@
 
 #include <vector>
 
-/**
- * @brief class to run multiple toolbot::UnitTest in sequence
- */
 namespace toolbot {
 
 class UnitTest;
+
+/**
+ * @brief class to run multiple toolbot::UnitTest in sequence
+ */
 class UnitTestManager {
 public:
 	UnitTestManager();

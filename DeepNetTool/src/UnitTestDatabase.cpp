@@ -404,8 +404,18 @@ bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry
 bool UnitTestDatabase::SQLInjectionTest() {
 
 	//the last element in this list has to be zero
-	static const char** injectStringValues((const char *[]){ "-- a", "' a", "'' a", "' ' a '", "\" a", "; a", "<!DOCTYPE html> \
-	<html><head>", 0 });
+	static const char** injectStringValues(	(const char *[]){
+		"; DROP DATABASE; -- ",
+		"' ; DROP DATABASE;",
+		"'' a",
+		"' ' a '",
+		"\" ; DROP DATABASE;",
+		"; DROP DATABASE;",
+		"; DROP DATABASE;/*",
+		"*/ x",
+		"; DROP DATABASE;//",
+		"<!DOCTYPE html> \n	<html><head>",
+		0 });
 		//
 		//TODO: check for zeros in statement
 		//
