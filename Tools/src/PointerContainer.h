@@ -91,6 +91,13 @@ public:
 		return container; }
 
 	/**
+	 * gets const vector of entries.
+	 * @return const vector of entries.
+	 */
+	const std::vector<T*>& GetConstVector() const {
+		return container; }
+
+	/**
 	 * gets current container size.
 	 * @return current container size.
 	 */
