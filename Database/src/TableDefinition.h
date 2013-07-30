@@ -85,11 +85,15 @@ public:
 
 	/**
 	 * gets all unqiue key columns except primary key columns.
-	 * to get primary key column(s)
-	 * @see database::TableBase::GetConstPrimaryKeyColumnDefinition
 	 * @return list of unique key columns
 	 */
 	std::vector< const TableColumnDefinition* > GetConstUniqueKeyColumnDefinitions() const;
+
+	/**
+	 * gets all combined unique key columns.
+	 * @return list of combined unique key column names
+	 */
+	std::vector< std::vector< const TableColumnDefinition* > > GetConstCombinedUniqueKeyColumnDefinitions() const;
 
 	/**
 	 * gets column definition by name.

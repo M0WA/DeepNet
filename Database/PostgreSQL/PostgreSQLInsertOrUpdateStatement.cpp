@@ -133,7 +133,10 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 		}
 	}
 
-	if(whereNewValuesColumnNames.size() == 0){
+	std::string whereCominedKeys;
+	size_t keysProcessed(ProcessCombinedUniqueKeys(whereCominedKeys));
+
+	if(whereNewValuesColumnNames.size() == 0 && keysProcessed == 0){
 		THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"statement has no unique key for insert or update"); }
 
 	std::string newValuesColumnNamesString,newValuesColumnValuesString,setNewValuesColumnNamesString,whereNewValuesColumnNamesString,whereInsertColumnNamesString;
@@ -156,7 +159,7 @@ upsert AS \
 	UPDATE " << fullQualifiedTableName << " m \
 	SET " << setNewValuesColumnNamesString << " \
 	FROM vals nvu \
-	WHERE " << whereNewValuesColumnNamesString << " \
+	WHERE " << whereNewValuesColumnNamesString << whereCominedKeys << " \
 	RETURNING m.* \
 ) \
 INSERT INTO " << fullQualifiedTableName << " (" << newValuesColumnNamesString << ") \
@@ -193,6 +196,37 @@ std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) c
 		ssQuery << UpdateOrInsertByUniqueKeys(db); }
 
 	return ssQuery.str();
+}
+
+size_t PostgreSQLInsertOrUpdateStatement::ProcessCombinedUniqueKeys(std::string& whereKeys) const {
+
+	const TableBase* tableBase(orgStatement.GetConstTableBase());
+	const TableDefinition* tblDef(tableBase->GetConstTableDefinition());
+
+	std::vector< std::vector< const TableColumnDefinition* > > combinedKeys(tblDef->GetConstCombinedUniqueKeyColumnDefinitions());
+	if(combinedKeys.size() == 0){
+		whereKeys = " AND 1 ";
+		return 0; }
+
+	std::ostringstream ss;
+	std::vector< std::vector< const TableColumnDefinition* > >::const_iterator i(combinedKeys.begin());
+	for(size_t keyNo = 0; i != combinedKeys.end(); ++i,++keyNo) {
+		if(keyNo)
+			ss << " OR ";
+		ss << " ( ";
+
+		std::vector< const TableColumnDefinition* >::const_iterator k(i->begin());
+		for(size_t colNo = 0;k!=i->end();++k,++colNo) {
+			if(colNo)
+				ss << " AND ";
+			const std::string& curColName((*k)->GetColumnName());
+			ss << "m."<<curColName<<"=nvu."<<curColName;
+		}
+		ss << " ) ";
+	}
+
+	whereKeys = ss.str();
+	return combinedKeys.size();
 }
 
 }

@@ -9,6 +9,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace database {
 
@@ -34,6 +35,7 @@ public:
 private:
 	std::string UpdateByPrimaryKey( DatabaseConnection* db ) const;
 	std::string UpdateOrInsertByUniqueKeys( DatabaseConnection* db ) const;
+	size_t ProcessCombinedUniqueKeys(std::string& whereKeys) const;
 
 private:
 	const InsertOrUpdateStatement& orgStatement;

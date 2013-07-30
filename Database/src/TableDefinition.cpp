@@ -53,6 +53,21 @@ std::vector< const TableColumnDefinition* > TableDefinition::GetConstUniqueKeyCo
 	return out;
 }
 
+std::vector<std::vector< const TableColumnDefinition* > > TableDefinition::GetConstCombinedUniqueKeyColumnDefinitions() const {
+
+	std::vector<std::vector< const TableColumnDefinition* > > defs;
+	std::vector<std::vector<std::string> >::const_iterator i(definition.combinedUniqueKeys.begin());
+	for(;i != definition.combinedUniqueKeys.end();++i) {
+		std::vector< const TableColumnDefinition* > keyDefs;
+		std::vector<std::string>::const_iterator k(i->begin());
+		for(;k != i->end(); ++k) {
+			keyDefs.push_back(GetConstColumnDefinitionByName(*k));
+		}
+		defs.push_back(keyDefs);
+	}
+	return defs;
+}
+
 const TableColumnDefinition* TableDefinition::GetConstPrimaryKeyColumnDefinition() const {
 
 	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
