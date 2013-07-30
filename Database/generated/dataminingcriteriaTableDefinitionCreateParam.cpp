@@ -32,6 +32,9 @@ void dataminingcriteriaTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for type
     columnDefinitions.push_back(dataminingcriteriaTableBase::GetDefinition_type());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dataminingcriteriaTableDefinitionCreateParam::GetDatabaseName() {

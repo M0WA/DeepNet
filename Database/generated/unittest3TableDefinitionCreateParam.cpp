@@ -32,6 +32,9 @@ void unittest3TableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for UNITTEST2_ID
     columnDefinitions.push_back(unittest3TableBase::GetDefinition_UNITTEST2_ID());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string unittest3TableDefinitionCreateParam::GetDatabaseName() {

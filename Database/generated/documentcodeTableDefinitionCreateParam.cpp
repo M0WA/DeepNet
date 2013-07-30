@@ -32,6 +32,9 @@ void documentcodeTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for code
     columnDefinitions.push_back(documentcodeTableBase::GetDefinition_code());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string documentcodeTableDefinitionCreateParam::GetDatabaseName() {

@@ -32,6 +32,9 @@ void customersTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for password
     columnDefinitions.push_back(customersTableBase::GetDefinition_password());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customersTableDefinitionCreateParam::GetDatabaseName() {

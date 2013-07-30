@@ -10,6 +10,7 @@
 
 #include <TimeTools.h>
 #include <StringTools.h>
+#include <PointerContainer.h>
 #include <Logging.h>
 
 #include "DatabaseTypes.h"
@@ -127,12 +128,12 @@ void PostgreSQLConnection::ResToVec(const std::string& query, PGresult* res,std:
 
 	int noRows = PQntuples(res);
 	if(noRows <= 0) {
-		log::Logging::LogInfo("no rows in resultset for statement: %s",query.c_str());
+		log::Logging::LogTrace("no rows in resultset for statement: %s",query.c_str());
 		return; }
 
 	int noCol = PQnfields(res);
 	if(noCol <= 0) {
-		log::Logging::LogWarn("no columns in resultset for statement: %s",query.c_str());
+		log::Logging::LogError("no columns in resultset for statement: %s",query.c_str());
 		THROW_EXCEPTION(database::DatabaseNoColumnsException);
 		return; }
 
@@ -165,7 +166,7 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	ssIn <<	PQcmdTuples(res);
 	ssIn >> affectedRows;
 
-	ExecStatusType type = PQresultStatus(res);
+	ExecStatusType type(PQresultStatus(res));
 	switch(type) {
 
 	// empty query string was executed
@@ -223,39 +224,31 @@ void PostgreSQLConnection::Insert(const InsertStatement& stmt){
 
 	ExecStatusType type(PQresultStatus(res));
 	if(type!=PGRES_TUPLES_OK) {
-		PQclear(res);
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,"cannot determine inserted key for query " + query);
-		return;	}
+		if(res) PQclear(res);
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,
+			connection,"cannot determine inserted key for query " + query);
+	}
 
-	std::vector<TableBase*> results;
-	ResToVec(query,res,results);
+	tools::PointerContainer<TableBase> results;
+	ResToVec(query,res,results.GetVector());
+	PQclear(res); res = 0;
 
-	if(results.size() != 1) {
-		PQclear(res);
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,"invalid size while determine inserted key for query " + query);
-		std::vector<TableBase*>::iterator iDel = results.begin();
-		for(;iDel != results.end();++iDel) {
-			delete (*iDel);	}
-		return; }
+	if(results.Size() != 1) {
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,
+			connection,"invalid size while determine inserted key for query" + query);
+	}
 
-	TableBase* tmpTbl(results.at(0));
+	results.ResetIter();
+	const TableBase* tmpTbl(results.GetConstIter());
 	const std::vector<TableColumn*>& cols(tmpTbl->GetConstColumns());
 
 	if(cols.size() != 1) {
-		PQclear(res);
-		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,connection,"invalid column size while determine inserted key for query " + query);
-		std::vector<TableBase*>::iterator iDel = results.begin();
-		for(;iDel != results.end();++iDel) {
-			delete (*iDel);	}
-		return;}
+		THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,
+			connection,"invalid column size while determine inserted key for query" + query);
+	}
 
-	TableColumn* curCol(cols.at(0));
+	const TableColumn* curCol(cols.at(0));
 	curCol->Get(lastInsertID);
-
-	std::vector<TableBase*>::iterator iDel(results.begin());
-	for(;iDel != results.end();++iDel) {
-		delete (*iDel);	}
-	PQclear(res);
 }
 
 void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
@@ -263,42 +256,67 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	lastInsertID = -1;
+
+	PostgreSQLInsertOrUpdateStatement pgStmt(stmt);
+	tools::PointerContainer<TableBase> results;
+	std::string query;
+	PGresult* res(0);
+
 	TransactionStart();
 
 	try {
-		//insert or update entries
-		PostgreSQLInsertOrUpdateStatement pgStmt(stmt);
-		lastInsertID = -1;
-		PGresult* res = Execute_Intern(pgStmt.ToSQL(this).c_str());
-		PQclear(res);
-
-		long long tmpAffected = affectedRows;
-		PostgreSQLInsertOrUpdateAffectedKeyStatement selectIDStmt(stmt);
-		SelectResultContainer<TableBase> results;
-		DatabaseConnection::Select(dynamic_cast<const SelectStatement&>(selectIDStmt),results);
-
-		if(results.Size() != 1) {
-			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
-		}
-		results.ResetIter();
-		const std::vector<TableColumn*>& cols = results.GetConstIter()->GetConstColumns();
-		if(cols.size() != 1) {
-			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this));
-		}
-
-		TableColumn* priKeyCol = cols.at(0);
-		priKeyCol->Get(lastInsertID);
-		affectedRows = tmpAffected;
+		query = pgStmt.ToSQL(this).c_str();
+		res = Execute_Intern(query);
+		ResToVec(query,res,results.GetVector());
 	}
 	catch(errors::Exception& e) {
 		e.Log();
 		e.DisableLogging();
-		try {
+		if(res)
+			PQclear(res);
+		TransactionRollback();
+		return;
+	}
+
+	if(res) {
+		PQclear(res);
+		res = 0; }
+
+	if(results.Size()>1) {
+		log::Logging::LogTrace("insert or update affected more than one rows, lastInsertID may be inaccurate: %s",query.c_str());}
+
+	//
+	//statement returns affected id when data is inserted,
+	//if data has been updated, we need to manually select
+	//the affected id (no results are returned in this case)
+	//
+	results.ResetIter();
+	if(results.Size() > 0) {
+		const TableBase* base(results.GetConstIter());
+		const TableColumn* priColAffected(base->GetConstColumnByName(stmt.GetConstTableDefinition()->GetConstPrimaryKeyColumnDefinition()->GetColumnName()));
+		priColAffected->Get(lastInsertID);
+		affectedRows = results.Size();
+	}
+	else {
+		long long tmpAffected(affectedRows);
+		PostgreSQLInsertOrUpdateAffectedKeyStatement selectIDStmt(stmt);
+		SelectResultContainer<TableBase> resultContainer;
+		DatabaseConnection::Select(dynamic_cast<const SelectStatement&>(selectIDStmt),resultContainer);
+
+		if(resultContainer.Size() != 1) {
 			TransactionRollback();
-		}
-		catch(...) {
-			log::Logging::LogError("could not rollback after error");
-		}
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this)); }
+
+		resultContainer.ResetIter();
+		const std::vector<TableColumn*>& cols(resultContainer.GetConstIter()->GetConstColumns());
+		if(cols.size() != 1) {
+			TransactionRollback();
+			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this)); }
+
+		const TableColumn* priKeyCol(cols.at(0));
+		priKeyCol->Get(lastInsertID);
+		affectedRows = tmpAffected;
 	}
 
 	TransactionCommit();
@@ -313,21 +331,26 @@ void PostgreSQLConnection::Update(const UpdateStatement& stmt){
 	lastInsertID = -1;
 
 	std::string query(pgStmt.ToSQL(this).c_str());
-	PGresult* res = Execute_Intern(query);
+	PGresult* res(Execute_Intern(query));
 
-	std::vector<TableBase*> results;
-	ResToVec(query,res,results);
+	tools::PointerContainer<TableBase> results;
+	ResToVec(query,res,results.GetVector());
+	PQclear(res); res = 0;
 
-	if(results.size() != 0) {
-		const TableBase* base(results.at(0));
+	affectedRows = results.Size();
+
+	if(results.Size() == 0) {
+		log::Logging::LogTrace("update affected no row: %s",query.c_str());
+		lastInsertID = -1; }
+	else if(results.Size()>1) {
+		log::Logging::LogTrace("update affected more than one rows, lastInsertID may be inaccurate: %s",query.c_str()); }
+
+	if(results.Size()>0) {
+		results.ResetIter();
+		const TableBase* base(results.GetConstIter());
 		const TableColumn* priColAffected(base->GetConstColumnByName(stmt.GetConstTableDefinition()->GetConstPrimaryKeyColumnDefinition()->GetColumnName()));
 		priColAffected->Get(lastInsertID);
-
-		std::vector<TableBase*>::iterator iTbl(results.begin());
-		for(;iTbl != results.end();++iTbl) {
-			delete (*iTbl);}
 	}
-	PQclear(res);
 }
 
 void PostgreSQLConnection::Delete(const DeleteStatement& stmt){
@@ -389,7 +412,7 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape){
 		inEscape = "''";
 		return true; }
 
-	char* pszTmp = PQescapeLiteral(connection, inEscape.c_str(), inEscape.length());
+	char* pszTmp(PQescapeLiteral(connection, inEscape.c_str(), inEscape.length()));
 	if(!pszTmp) {
 		log::Logging::LogError(
 			"could not escape string: %s",

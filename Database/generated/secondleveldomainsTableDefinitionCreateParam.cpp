@@ -29,6 +29,9 @@ void secondleveldomainsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for domain
     columnDefinitions.push_back(secondleveldomainsTableBase::GetDefinition_domain());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string secondleveldomainsTableDefinitionCreateParam::GetDatabaseName() {

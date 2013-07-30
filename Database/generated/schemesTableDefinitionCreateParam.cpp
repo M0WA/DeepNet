@@ -29,6 +29,9 @@ void schemesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for scheme
     columnDefinitions.push_back(schemesTableBase::GetDefinition_scheme());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string schemesTableDefinitionCreateParam::GetDatabaseName() {

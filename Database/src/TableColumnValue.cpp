@@ -66,6 +66,7 @@ bool TableColumnValue::IsLongLongAllowed() const {
 
 	switch(type)
 	{
+	case DB_TYPE_BIGINT:
 	case DB_TYPE_INTEGER:
 		return true;
 
@@ -158,6 +159,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 	}
 		break;
 
+	case DB_TYPE_BIGINT:
 	case DB_TYPE_INTEGER:
 	{
 		long long rawValue;

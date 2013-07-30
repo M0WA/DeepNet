@@ -81,6 +81,7 @@ void PostgreSQLTableBase::CreateTableDefinition(PGresult* res,TableDefinitionCre
 		case INT4OID:
 		case CHAROID:
 		case BOOLOID:
+		case NUMERICOID:
 			colCreateParam.columnType = DB_TYPE_INTEGER;
 			break;
 
@@ -158,6 +159,7 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 			}
 				break;
 
+			case DB_TYPE_BIGINT:
 			case DB_TYPE_INTEGER:
 			{
 				long long convert;

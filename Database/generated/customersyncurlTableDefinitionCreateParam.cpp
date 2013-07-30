@@ -32,6 +32,9 @@ void customersyncurlTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for scheduled
     columnDefinitions.push_back(customersyncurlTableBase::GetDefinition_scheduled());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customersyncurlTableDefinitionCreateParam::GetDatabaseName() {

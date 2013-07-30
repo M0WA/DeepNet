@@ -32,6 +32,13 @@ void docurlTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URL_ID
     columnDefinitions.push_back(docurlTableBase::GetDefinition_URL_ID());
 
+
+	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("URL_ID");
+	tmpCombined.push_back("DICT_ID");
+	combinedUniqueKeys.push_back(tmpCombined);
+
 }
 
 std::string docurlTableDefinitionCreateParam::GetDatabaseName() {

@@ -32,6 +32,9 @@ void dataminingalertsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for param
     columnDefinitions.push_back(dataminingalertsTableBase::GetDefinition_param());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dataminingalertsTableDefinitionCreateParam::GetDatabaseName() {

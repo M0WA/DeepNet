@@ -38,6 +38,9 @@ void cachesecondleveldomainTableDefinitionCreateParam::CreateColumnDefinitions()
     //creating column definition for action_time
     columnDefinitions.push_back(cachesecondleveldomainTableBase::GetDefinition_action_time());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string cachesecondleveldomainTableDefinitionCreateParam::GetDatabaseName() {

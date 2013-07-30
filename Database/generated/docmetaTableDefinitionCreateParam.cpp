@@ -38,6 +38,9 @@ void docmetaTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for type
     columnDefinitions.push_back(docmetaTableBase::GetDefinition_type());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string docmetaTableDefinitionCreateParam::GetDatabaseName() {

@@ -38,6 +38,9 @@ void customerdomainsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for isDomainRegex
     columnDefinitions.push_back(customerdomainsTableBase::GetDefinition_isDomainRegex());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerdomainsTableDefinitionCreateParam::GetDatabaseName() {

@@ -35,6 +35,9 @@ void customerdomainblacklistTableDefinitionCreateParam::CreateColumnDefinitions(
     //creating column definition for isPathRegex
     columnDefinitions.push_back(customerdomainblacklistTableBase::GetDefinition_isPathRegex());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerdomainblacklistTableDefinitionCreateParam::GetDatabaseName() {

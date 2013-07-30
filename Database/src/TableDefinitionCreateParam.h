@@ -49,6 +49,11 @@ public:
 	 */
 	std::vector<TableColumnDefinition*> columnDefinitions;
 
+	/**
+	 * column names of combined unique keys
+	 */
+	std::vector< std::vector<std::string> > combinedUniqueKeys;
+
 private:
 	void CopyColumns(const TableDefinitionCreateParam& copy);
 };

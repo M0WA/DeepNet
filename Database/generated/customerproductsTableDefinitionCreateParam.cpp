@@ -38,6 +38,9 @@ void customerproductsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for productBrand
     columnDefinitions.push_back(customerproductsTableBase::GetDefinition_productBrand());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerproductsTableDefinitionCreateParam::GetDatabaseName() {

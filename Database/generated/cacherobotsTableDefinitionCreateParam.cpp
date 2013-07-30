@@ -38,6 +38,9 @@ void cacherobotsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for action_time
     columnDefinitions.push_back(cacherobotsTableBase::GetDefinition_action_time());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string cacherobotsTableDefinitionCreateParam::GetDatabaseName() {

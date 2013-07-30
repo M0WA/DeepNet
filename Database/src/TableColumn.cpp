@@ -40,6 +40,7 @@ void TableColumn::CleanUp() {
 
 	switch(columnDefinition->GetColumnType())
 	{
+	case DB_TYPE_BIGINT:
 	case DB_TYPE_INTEGER:
 		delete dynamic_cast< TableColumnValueTyped<long long>* >(columnValue);
 		break;
@@ -103,7 +104,7 @@ TableColumn* TableColumn::CreateInstanceFromValue(const TableColumnDefinition* c
 
 TableColumn* TableColumn::CreateInstanceFromValue(const TableColumnDefinition* colDef, const long long& value) {
 
-	if(colDef->GetColumnType() != DB_TYPE_INTEGER) {
+	if(colDef->GetColumnType() != DB_TYPE_INTEGER && colDef->GetColumnType() != DB_TYPE_BIGINT) {
 		THROW_EXCEPTION(DatabaseInvalidTypeException);}
 
 	TableColumnDefinitionCreateParam createParam = colDef->GetConstCreateParam();
@@ -172,6 +173,7 @@ void TableColumn::InitFromDefinition() {
 	TableColumnType type = columnDefinition->GetColumnType();
 	switch(type)
 	{
+	case DB_TYPE_BIGINT:
 	case DB_TYPE_INTEGER:
 		columnValue = new TableColumnValueTyped<long long>(type);
 		break;
@@ -220,6 +222,7 @@ void TableColumn::CopyValue(const TableColumn* copyCol) {
 		isNull = false;
 		switch(columnDefinition->GetColumnType())
 		{
+		case DB_TYPE_BIGINT:
 		case DB_TYPE_INTEGER:
 			columnValue->Set(copyCol->Get<long long>());
 			break;

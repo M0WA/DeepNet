@@ -29,6 +29,9 @@ void keywordqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for query_part
     columnDefinitions.push_back(keywordqueryTableBase::GetDefinition_query_part());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string keywordqueryTableDefinitionCreateParam::GetDatabaseName() {

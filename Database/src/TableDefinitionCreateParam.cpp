@@ -13,11 +13,10 @@ TableDefinitionCreateParam::TableDefinitionCreateParam(const std::string& databa
 : databaseName(databaseName)
 , tableName(tableName) { }
 
-TableDefinitionCreateParam::TableDefinitionCreateParam(const TableDefinitionCreateParam& copy){
-
-	databaseName       = copy.databaseName;
-	tableName          = copy.tableName;
-
+TableDefinitionCreateParam::TableDefinitionCreateParam(const TableDefinitionCreateParam& copy)
+: databaseName(copy.databaseName)
+, tableName(copy.tableName)
+, combinedUniqueKeys(copy.combinedUniqueKeys){
 	CopyColumns(copy);
 }
 

@@ -32,6 +32,9 @@ void searchquerykeywordsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for SEARCHQUERY_ID
     columnDefinitions.push_back(searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string searchquerykeywordsTableDefinitionCreateParam::GetDatabaseName() {

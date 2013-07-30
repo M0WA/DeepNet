@@ -29,6 +29,9 @@ void subdomainsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for subdomain
     columnDefinitions.push_back(subdomainsTableBase::GetDefinition_subdomain());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string subdomainsTableDefinitionCreateParam::GetDatabaseName() {

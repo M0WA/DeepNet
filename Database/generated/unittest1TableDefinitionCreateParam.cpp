@@ -38,6 +38,9 @@ void unittest1TableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for integer_test
     columnDefinitions.push_back(unittest1TableBase::GetDefinition_integer_test());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string unittest1TableDefinitionCreateParam::GetDatabaseName() {

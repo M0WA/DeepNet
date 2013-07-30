@@ -35,6 +35,9 @@ void metainfoTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for value
     columnDefinitions.push_back(metainfoTableBase::GetDefinition_value());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string metainfoTableDefinitionCreateParam::GetDatabaseName() {

@@ -35,6 +35,9 @@ void dockeyposTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for position
     columnDefinitions.push_back(dockeyposTableBase::GetDefinition_position());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dockeyposTableDefinitionCreateParam::GetDatabaseName() {

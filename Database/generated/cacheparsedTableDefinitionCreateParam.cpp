@@ -38,6 +38,9 @@ void cacheparsedTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for action_time
     columnDefinitions.push_back(cacheparsedTableBase::GetDefinition_action_time());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string cacheparsedTableDefinitionCreateParam::GetDatabaseName() {

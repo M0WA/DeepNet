@@ -32,6 +32,9 @@ void dataminingcustomersessionTableDefinitionCreateParam::CreateColumnDefinition
     //creating column definition for session
     columnDefinitions.push_back(dataminingcustomersessionTableBase::GetDefinition_session());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dataminingcustomersessionTableDefinitionCreateParam::GetDatabaseName() {

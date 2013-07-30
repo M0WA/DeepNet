@@ -32,6 +32,9 @@ void latesturlstagesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URLSTAGE_ID
     columnDefinitions.push_back(latesturlstagesTableBase::GetDefinition_URLSTAGE_ID());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string latesturlstagesTableDefinitionCreateParam::GetDatabaseName() {

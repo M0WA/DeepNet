@@ -32,6 +32,9 @@ void customerqueriesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for query
     columnDefinitions.push_back(customerqueriesTableBase::GetDefinition_query());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerqueriesTableDefinitionCreateParam::GetDatabaseName() {

@@ -38,6 +38,9 @@ void queryresultsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for order_position
     columnDefinitions.push_back(queryresultsTableBase::GetDefinition_order_position());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string queryresultsTableDefinitionCreateParam::GetDatabaseName() {

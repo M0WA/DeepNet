@@ -38,6 +38,9 @@ void customermatchcriteriagrouptypeTableDefinitionCreateParam::CreateColumnDefin
     //creating column definition for isPrimaryKey
     columnDefinitions.push_back(customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customermatchcriteriagrouptypeTableDefinitionCreateParam::GetDatabaseName() {

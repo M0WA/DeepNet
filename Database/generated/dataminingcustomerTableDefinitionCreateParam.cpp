@@ -32,6 +32,9 @@ void dataminingcustomerTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for password
     columnDefinitions.push_back(dataminingcustomerTableBase::GetDefinition_password());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dataminingcustomerTableDefinitionCreateParam::GetDatabaseName() {

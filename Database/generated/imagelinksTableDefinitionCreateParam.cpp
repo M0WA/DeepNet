@@ -35,6 +35,14 @@ void imagelinksTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URLSTAGE_ID
     columnDefinitions.push_back(imagelinksTableBase::GetDefinition_URLSTAGE_ID());
 
+
+	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("TARGET_URL_ID");
+	tmpCombined.push_back("URLSTAGE_ID");
+	tmpCombined.push_back("IMAGE_URL_ID");
+	combinedUniqueKeys.push_back(tmpCombined);
+
 }
 
 std::string imagelinksTableDefinitionCreateParam::GetDatabaseName() {

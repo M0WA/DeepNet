@@ -25,6 +25,11 @@ enum TableColumnType {
 	DB_TYPE_INTEGER,
 
 	/**
+	 * big integer type.
+	 */
+	DB_TYPE_BIGINT,
+
+	/**
 	 * double (float) type.
 	 */
 	DB_TYPE_DOUBLE,

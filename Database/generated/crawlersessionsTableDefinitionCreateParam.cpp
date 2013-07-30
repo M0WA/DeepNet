@@ -26,6 +26,9 @@ void crawlersessionsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for ID
     columnDefinitions.push_back(crawlersessionsTableBase::GetDefinition_ID());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string crawlersessionsTableDefinitionCreateParam::GetDatabaseName() {

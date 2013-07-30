@@ -32,6 +32,13 @@ void fencedsearchTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for SECONDLEVELDOMAIN_ID
     columnDefinitions.push_back(fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
 
+
+	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("CUSTOMER_ID");
+	tmpCombined.push_back("SECONDLEVELDOMAIN_ID");
+	combinedUniqueKeys.push_back(tmpCombined);
+
 }
 
 std::string fencedsearchTableDefinitionCreateParam::GetDatabaseName() {

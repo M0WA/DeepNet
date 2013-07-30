@@ -32,6 +32,9 @@ void customerproductkeywordsTableDefinitionCreateParam::CreateColumnDefinitions(
     //creating column definition for DICT_ID
     columnDefinitions.push_back(customerproductkeywordsTableBase::GetDefinition_DICT_ID());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerproductkeywordsTableDefinitionCreateParam::GetDatabaseName() {

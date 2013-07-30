@@ -32,6 +32,9 @@ void customerproducturlsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URL_ID
     columnDefinitions.push_back(customerproducturlsTableBase::GetDefinition_URL_ID());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerproducturlsTableDefinitionCreateParam::GetDatabaseName() {

@@ -32,6 +32,9 @@ void dictTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for occurrence
     columnDefinitions.push_back(dictTableBase::GetDefinition_occurrence());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dictTableDefinitionCreateParam::GetDatabaseName() {

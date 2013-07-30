@@ -35,6 +35,9 @@ void customermatchcriteriaTableDefinitionCreateParam::CreateColumnDefinitions() 
     //creating column definition for type
     columnDefinitions.push_back(customermatchcriteriaTableBase::GetDefinition_type());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customermatchcriteriaTableDefinitionCreateParam::GetDatabaseName() {

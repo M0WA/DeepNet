@@ -35,6 +35,9 @@ void customersynccrawlerTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for scheduled
     columnDefinitions.push_back(customersynccrawlerTableBase::GetDefinition_scheduled());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customersynccrawlerTableDefinitionCreateParam::GetDatabaseName() {

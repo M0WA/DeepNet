@@ -100,6 +100,10 @@ void MySQLTableBase::CreateTableDefinition(
 		case MYSQL_TYPE_VAR_STRING:
 		case MYSQL_TYPE_VARCHAR:
 		case MYSQL_TYPE_STRING:
+		case MYSQL_TYPE_TINY_BLOB:
+		case MYSQL_TYPE_MEDIUM_BLOB:
+		case MYSQL_TYPE_LONG_BLOB:
+		case MYSQL_TYPE_BLOB:
 			colParam.columnType = DB_TYPE_VARCHAR;
 			break;
 
@@ -107,10 +111,6 @@ void MySQLTableBase::CreateTableDefinition(
 		case MYSQL_TYPE_NULL:
 		case MYSQL_TYPE_YEAR:
 		case MYSQL_TYPE_NEWDATE:
-		case MYSQL_TYPE_TINY_BLOB:
-		case MYSQL_TYPE_MEDIUM_BLOB:
-		case MYSQL_TYPE_LONG_BLOB:
-		case MYSQL_TYPE_BLOB:
 		case MYSQL_TYPE_GEOMETRY:
 		default:
 			THROW_EXCEPTION(DatabaseInvalidTypeException);
@@ -173,6 +173,7 @@ void MySQLTableBase::SetColumnValues(
 				}
 				break;
 
+			case DB_TYPE_BIGINT:
 			case DB_TYPE_INTEGER:
 				ssConvert << std::skipws << row[i];
 				{

@@ -38,6 +38,9 @@ void customerkeywordsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for isKeywordRegex
     columnDefinitions.push_back(customerkeywordsTableBase::GetDefinition_isKeywordRegex());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerkeywordsTableDefinitionCreateParam::GetDatabaseName() {

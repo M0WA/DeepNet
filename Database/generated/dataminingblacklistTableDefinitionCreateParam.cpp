@@ -32,6 +32,9 @@ void dataminingblacklistTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for domain
     columnDefinitions.push_back(dataminingblacklistTableBase::GetDefinition_domain());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dataminingblacklistTableDefinitionCreateParam::GetDatabaseName() {

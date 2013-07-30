@@ -74,6 +74,9 @@ void urlstagesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for found_date
     columnDefinitions.push_back(urlstagesTableBase::GetDefinition_found_date());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string urlstagesTableDefinitionCreateParam::GetDatabaseName() {

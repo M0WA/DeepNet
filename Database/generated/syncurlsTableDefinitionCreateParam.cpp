@@ -38,6 +38,9 @@ void syncurlsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for schedule
     columnDefinitions.push_back(syncurlsTableBase::GetDefinition_schedule());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string syncurlsTableDefinitionCreateParam::GetDatabaseName() {

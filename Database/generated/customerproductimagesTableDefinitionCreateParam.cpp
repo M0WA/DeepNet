@@ -32,6 +32,9 @@ void customerproductimagesTableDefinitionCreateParam::CreateColumnDefinitions() 
     //creating column definition for imageUrl
     columnDefinitions.push_back(customerproductimagesTableBase::GetDefinition_imageUrl());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string customerproductimagesTableDefinitionCreateParam::GetDatabaseName() {

@@ -47,6 +47,9 @@ void logmessagesTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for threadName
     columnDefinitions.push_back(logmessagesTableBase::GetDefinition_threadName());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string logmessagesTableDefinitionCreateParam::GetDatabaseName() {

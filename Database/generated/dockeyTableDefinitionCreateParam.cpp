@@ -35,6 +35,9 @@ void dockeyTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for occurrence
     columnDefinitions.push_back(dockeyTableBase::GetDefinition_occurrence());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string dockeyTableDefinitionCreateParam::GetDatabaseName() {

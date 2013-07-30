@@ -29,6 +29,9 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for session
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_session());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string searchqueryTableDefinitionCreateParam::GetDatabaseName() {

@@ -29,6 +29,9 @@ void matchcriteriaTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for regex
     columnDefinitions.push_back(matchcriteriaTableBase::GetDefinition_regex());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string matchcriteriaTableDefinitionCreateParam::GetDatabaseName() {

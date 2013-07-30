@@ -32,6 +32,9 @@ void locksecondleveldomainTableDefinitionCreateParam::CreateColumnDefinitions() 
     //creating column definition for schedule
     columnDefinitions.push_back(locksecondleveldomainTableBase::GetDefinition_schedule());
 
+
+	std::vector<std::string> tmpCombined;
+
 }
 
 std::string locksecondleveldomainTableDefinitionCreateParam::GetDatabaseName() {
