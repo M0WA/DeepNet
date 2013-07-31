@@ -53,19 +53,20 @@ public:
 	 */
 	inline DatabaseConnection* Connection(void) { return dbConnection.Get(); }
 
-    //mysql datetime conversion functions
-  public:
-
+public:
+	/**
+	 * gets current database type
+	 * @return database type
+	 */
     static DatabaseType GetDatabaseType();
 
-  private:
+private:
+    tools::Pointer<DatabaseConnection> dbConnection;
+
+private:
     static volatile DatabaseType dbType;
     static threading::ReadWriteLock dbTypeMutex;
 
-  private:
-    tools::Pointer<DatabaseConnection> dbConnection;
-
-  private:
   	static threading::Mutex mutexLibraryInit;
   	static volatile bool isLibraryInitialized;
   	static volatile size_t libraryRefCount;

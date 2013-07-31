@@ -136,12 +136,14 @@ public:
 
 	/**
 	 * inserts or updates this table.
+	 * @see database::UpdateOrInsertStatement
 	 * @param db database connection.
 	 */
 	void InsertOrUpdate(DatabaseConnection* db);
 
 	/**
 	 * inserts or updates this table adding SUM()-type columns.
+	 * @see database::UpdateOrInsertStatement
 	 * @param db database connection.
 	 * @param sumColumn columns to replace with sum instead of new value.
 	 */
@@ -151,6 +153,7 @@ public:
 
 	/**
 	 * inserts or updates this table adding SUM()-type columns.
+	 * @see database::UpdateOrInsertStatement
 	 * @param db database connection.
 	 * @param sumColumn columns to replace with sum instead of new value.
 	 */

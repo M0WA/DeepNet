@@ -21,6 +21,10 @@ class DatabaseConnection;
 
 /**
  * @brief implements generic sql insert or update statement (also known as upsert).
+ * To use upsert statements for a certain table, the table itself has to have at least
+ * one (combined) unique key. All values have to filled in correctly, as if you were doing
+ * a simple insert. First the row is tried to be inserted, if a unique key collision occures,
+ * the affected row is updated.
  * @see database::MySQLInsertOrUpdateStatement
  * @see database::DB2InsertOrUpdateStatement
  */
@@ -66,9 +70,15 @@ public:
 	virtual std::string ToSQL( DatabaseConnection* db ) const;
 
 public:
+	/**
+	 * sum columns
+	 */
 	tools::PointerContainer<TableColumnDefinition> sumColumns;
 
 protected:
+	/**
+	 * base table for this statement
+	 */
 	TableBase* tableBase;
 };
 
