@@ -411,7 +411,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 #endif
 	*/
 
-	const char* pszBuffer = htmlCode.GetBuffer();
+	const char* pszBuffer(htmlCode.GetBuffer());
 
 	PERFORMANCE_LOG_RESTART;
 	urlStageTbl.Insert(DB().Connection());
