@@ -23,6 +23,7 @@ public:
 
 	/**
 	 * converts complete content to charset/encoding of the current host
+	 * and zero terminates internal buffer.
 	 * @return true if successful, false if unsuccessful
 	 */
 	bool ConvertToHostCharset();

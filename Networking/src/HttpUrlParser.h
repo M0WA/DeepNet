@@ -14,7 +14,7 @@ namespace network {
 class HttpUrl;
 
 /**
- * @brief parser class for URLs
+ * @brief parser class for HTTP-URLs
  */
 class HttpUrlParser {
 

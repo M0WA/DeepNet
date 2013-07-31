@@ -2,7 +2,7 @@
  *
  * @file HttpClientFactory.h
  * @author Moritz Wagner
- * @date May 31, 2013
+ * @date 31.05.2013
  *
  */
 

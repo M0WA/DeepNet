@@ -2,7 +2,7 @@
  *
  * @file HttpClientCURL.cpp
  * @author Moritz Wagner
- * @date May 15, 2013
+ * @date 15.05.2013
  *
  */
 

@@ -2,7 +2,7 @@
  *
  * @file HttpClientCURL.h
  * @author Moritz Wagner
- * @date May 15, 2013
+ * @date 15.05.2013
  *
  */
 
@@ -14,6 +14,11 @@
 namespace network {
 
 class HttpClientFactory;
+
+/**
+ * @brief implementation of network::IHttpClient for libCURL based http client
+ * @see network::HttpClientFactory
+ */
 class HttpClientCURL: public network::IHttpClient {
 
 	friend class network::HttpClientFactory;
