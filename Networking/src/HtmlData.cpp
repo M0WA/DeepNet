@@ -72,7 +72,6 @@ bool HtmlData::ConvertToHostCharset() {
 		//is a compatible charset
 		if (log::Logging::IsLogLevelTrace())
 			log::Logging::LogTrace("compatible charset detected, no conversion needed");
-		Append(&zero,1);
 	}
 	else if (confidence > 10)
 	{
@@ -91,10 +90,10 @@ bool HtmlData::ConvertToHostCharset() {
 
 		Release();
 		Append(out.c_str(),out.length());
-		Append(&zero,1);
 
 		//TODO: set new content-type with host charset
 	}
+	Append(&zero,1);
 
 	if(isHtml) {
 		//EncodeHtml();
