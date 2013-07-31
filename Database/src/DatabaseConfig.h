@@ -14,11 +14,11 @@ namespace database {
 
 /**
  * @brief generic database configuration.
- * @see database::MySQLDatabaseConfig
- * @see database::DB2DatabaseConfig
- * generic database configuration.
  * this class serves as a base class for a specialized,
  * database-manufacturer related configuration class.
+ * @see database::MySQLDatabaseConfig
+ * @see database::DB2DatabaseConfig
+ * @see database::PostgreSQLDatabaseConfig
  */
 class DatabaseConfig {
 protected:

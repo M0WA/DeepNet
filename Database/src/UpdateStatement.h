@@ -22,8 +22,6 @@ class PostgreSQLUpdateStatement;
 
 /**
  * @brief implements generic sql update statement.
- * @see database::MySQLUpdateStatement
- * @see database::DB2UpdateStatement
  */
 class UpdateStatement : public Statement {
 

@@ -25,8 +25,6 @@ class DatabaseConnection;
  * one (combined) unique key. All values have to filled in correctly, as if you were doing
  * a simple insert. First the row is tried to be inserted, if a unique key collision occures,
  * the affected row is updated.
- * @see database::MySQLInsertOrUpdateStatement
- * @see database::DB2InsertOrUpdateStatement
  */
 class InsertOrUpdateStatement : public Statement {
 public:

@@ -58,8 +58,6 @@ public:
 
 /**
  * @brief implements generic sql select statement.
- * @see database::MySQLSelectStatement
- * @see database::DB2SelectStatement
  */
 class SelectStatement : public Statement {
 public:

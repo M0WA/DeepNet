@@ -26,11 +26,11 @@ class DatabaseConfig;
 
 /**
  * @brief generic database connection.
- * @see database::MySQLDatabaseConnection
- * @see database::DB2DatabaseConnectionx
- * generic database connection.
  * this class serves as a base class for a specialized,
  * database-manufacturer related connection class.
+ * @see database::MySQLConnection
+ * @see database::DB2Connection
+ * @see database::PostgreSQLConnection
  */
 class DatabaseConnection
 {

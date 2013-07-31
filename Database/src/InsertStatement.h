@@ -19,8 +19,6 @@ class DatabaseConnection;
 
 /**
  * @brief implements generic sql insert statement.
- * @see database::MySQLInsertStatement
- * @see database::DB2InsertStatement
  */
 class InsertStatement : public Statement {
 public:

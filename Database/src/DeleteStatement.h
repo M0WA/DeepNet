@@ -18,8 +18,6 @@ class TableBase;
 
 /**
  * @brief implements generic sql delete statement.
- * @see database::MySQLDeleteStatement
- * @see database::DB2DeleteStatement
  */
 class DeleteStatement : public Statement {
 public:
