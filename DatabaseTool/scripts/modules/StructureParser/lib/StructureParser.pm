@@ -182,15 +182,10 @@ sub ParseStructureXML
       else {
         #combined unique key
         @{$uniqueKeysCombined{$columnAttrContent}} = @columnNames;
-        #push( , @columnNames );
-        #push (@($uniqueKeysCombined{$columnAttrContent}),@columnNames);
-#        $uniqueKeysCombined{$columnAttrContent} = ;
       }
     }
     push(@{$table_attributes{'uniqueKeys'}}, @uniqueKeys);
-   # $table_attributes{'uniqueKeysCombined'} = %uniqueKeysCombined;
     %{$table_attributes{'uniqueKeysCombined'}} = %uniqueKeysCombined;
-   # push(@{$table_attributes{'uniqueKeysCombined'}}, %uniqueKeysCombined);
 
     #indices
     my @indices;

@@ -6,11 +6,11 @@
 #
 #########################################################
 
-source ../Scripts/conf/db.generator.conf
 
 function execute_mysql()
 {
-EXEC_FILENAME=$1
-echo "executing ${EXEC_FILENAME}"
-echo "source ${EXEC_FILENAME};" | mysql -p${DBPASS} -u${DBUSER}
+  source ../Scripts/conf/db.generator.mysql.conf
+  EXEC_FILENAME=$1
+  echo "executing ${EXEC_FILENAME}"
+  echo "source ${EXEC_FILENAME};" | mysql -p${DBPASS} -u${DBUSER}
 }

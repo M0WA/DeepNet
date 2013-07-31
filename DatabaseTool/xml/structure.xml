@@ -82,6 +82,49 @@
 
 <!-- ======================================================================================== 
  *
+ *	TABLE: pathparts
+ *
+ --> 
+<table
+	name="pathparts"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="documents"
+>
+
+	<column name="ID"        type="INTEGER"       notnull="1" autoincrement="1" />
+	<column name="path"      type="VARCHAR(255)"  notnull="1" />
+
+	<primary_key column="ID" />
+	<unique_key  column="path" />
+
+</table>
+
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: urlpathpart
+ *
+ --> 
+<table
+	name="urlpathparts"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="documents"
+>
+
+	<column name="ID"                   type="INTEGER"  notnull="1" autoincrement="1" />
+  <column name="PATHPART_ID"	        type="INTEGER"  notnull="1" />
+  <column name="URLPATHPART_ID_NEXT"	type="INTEGER"  notnull="0" default="NULL" />
+
+	<primary_key column="ID" />
+	<unique_key  column="PATHPART_ID,URLPATHPART_ID_NEXT" />
+	<foreign_key column="PATHPART_ID"         references_table="pathparts"    references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="URLPATHPART_ID_NEXT" references_table="urlpathparts" references_column="ID" MySQL_Database="documents" />
+
+</table>
+
+
+<!-- ======================================================================================== 
+ *
  *	TABLE: schemes
  *
  -->

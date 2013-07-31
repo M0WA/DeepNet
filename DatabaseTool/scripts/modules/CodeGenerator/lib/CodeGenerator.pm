@@ -390,7 +390,6 @@ sub GenerateTableDefinitionCreateParamCpp {
         #combined unique keys need special treatment
         my $tmplContentCreateCombinedUniqueKeyOut = "\tstd::vector<std::string> tmpCombined;\n";
         foreach my $keyRow (keys %uniqueKeysCombined) {
-          my @tmpArray = @{$uniqueKeysCombined{$keyRow}};
           $tmplContentCreateCombinedUniqueKeyOut .= "\ttmpCombined.clear();\n";
           foreach my $colName ( @{$uniqueKeysCombined{$keyRow}} )  {
             $tmplContentCreateCombinedUniqueKeyOut .= "\ttmpCombined.push_back(\"".$colName."\");\n";

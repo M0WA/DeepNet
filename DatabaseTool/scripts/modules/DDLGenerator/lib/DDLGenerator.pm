@@ -94,20 +94,22 @@ sub GenerateDDL
     my $PostgreCreateTableDDL = "";
 
     #prepare table specific variables
-    my %table_attributes = %{$tables{$tableName}};
-    my @columns          = @{$table_attributes{'columns'}};
-    my @primaryKeys      = @{$table_attributes{'primaryKeys'}};
-    my @foreignKeys      = @{$table_attributes{'foreignKeys'}};
-    my @uniqueKeys       = @{$table_attributes{'uniqueKeys'}};
-    my @indices          = @{$table_attributes{'indices'}};
+    my %table_attributes   = %{$tables{$tableName}};
+    my @columns            = @{$table_attributes{'columns'}};
+    my @primaryKeys        = @{$table_attributes{'primaryKeys'}};
+    my @foreignKeys        = @{$table_attributes{'foreignKeys'}};
+    my @uniqueKeys         = @{$table_attributes{'uniqueKeys'}};
+    my %uniqueKeysCombined = %{$table_attributes{'uniqueKeysCombined'}};
+    my @indices            = @{$table_attributes{'indices'}};
 
     #print some debug information
     print "name     : ".$tableName."\n";
     print "Database : ".$table_attributes{'MySQL_Database'}."\n";
     print "Engine   : ".$table_attributes{'MySQL_Engine'}."\n";
     print "# cols   : ".($#columns+1)."\n";
-    print "# fks    : ".($#uniqueKeys+1)."\n";
-    print "# uniq   : ".($#foreignKeys+1)."\n";
+    print "# fks    : ".($#foreignKeys+1)."\n";
+    print "# uniq   : ".($#uniqueKeys+1)."\n";
+    print "# uniqCom: ".(keys %uniqueKeysCombined)."\n";
     print "# idx    : ".($#indices+1)."\n";
     print "=========================\n";
 
@@ -157,6 +159,14 @@ sub GenerateDDL
     #generate contraint ddl for unique keys
     foreach my $uniqueKeyColumn (@uniqueKeys) {
       my $uniqCreateDDL = $self->GenerateUniqueKeyDDL($tableName, $uniqueKeyColumn);
+      $MySQLCreateTableDDL   .= ",\n ".$uniqCreateDDL;
+      $DB2CreateTableDDL     .= ",\n ".$uniqCreateDDL;
+      $PostgreCreateTableDDL .= ",\n ".$uniqCreateDDL;
+    }
+
+    #generate contraint ddl for combined unique keys
+    foreach my $keyRow (keys %uniqueKeysCombined) {
+      my $uniqCreateDDL = $self->GenerateCombinedUniqueKeyDDL($tableName, @{$uniqueKeysCombined{$keyRow}});
       $MySQLCreateTableDDL   .= ",\n ".$uniqCreateDDL;
       $DB2CreateTableDDL     .= ",\n ".$uniqCreateDDL;
       $PostgreCreateTableDDL .= ",\n ".$uniqCreateDDL;
@@ -251,6 +261,40 @@ sub GenerateUniqueKeyDDL
 
   my $ddl = "CONSTRAINT UNIQ__".uc($tableName)."_".$tmpUniqName." ";
   $ddl   .= "UNIQUE (".$uniqueColumn.")";
+  return $ddl;
+}
+
+
+#
+#
+# string GenerateCombinedUniqueKeyDDL($tableName, @combinedUniqueColumn)
+#
+# generates combined unique key sql ddl
+#
+#
+sub GenerateCombinedUniqueKeyDDL
+{
+  my ($self,$tableName, @combinedUniqueColumn) = @_;
+
+  my $uniqueName = "";
+  my $uniqueCol = "";
+  my $count = 0;
+  foreach my $colName ( @combinedUniqueColumn )  {
+    my $ucUniqName = uc($colName);
+    $ucUniqName =~ s/ //g;
+    $ucUniqName =~ s/\,/_/g;
+
+    if($count > 0) {
+      $uniqueName .= "_";
+      $uniqueCol .= ","; }
+
+    $uniqueName .= $ucUniqName;
+    $uniqueCol .= $colName;
+    $count++;
+  }      
+
+  my $ddl = "CONSTRAINT UNIQ__".uc($tableName)."_".$uniqueName." ";
+  $ddl   .= "UNIQUE (".$uniqueCol.")";
   return $ddl;
 }
 
