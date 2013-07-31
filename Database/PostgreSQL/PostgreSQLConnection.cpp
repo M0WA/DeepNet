@@ -264,7 +264,9 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	std::string query;
 	PGresult* res(0);
 
-	TransactionStart();
+	bool oldInTransaction(isInTransaction);
+	if(!isInTransaction) {
+		TransactionStart(); }
 
 	try {
 		query = pgStmt.ToSQL(this).c_str();
@@ -320,7 +322,8 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		affectedRows = tmpAffected;
 	}
 
-	TransactionCommit();
+	if(!oldInTransaction) {
+		TransactionCommit(); }
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){
