@@ -37,7 +37,6 @@ public:
 	/**
 	 * create a new database connection.
 	 * @param dbConfig database configuration.
-	 * @param logQuery true if all queries should be logged.
 	 * @return NULL on error, database connection on success.
 	 */
 	DatabaseConnection* CreateConnection(const DatabaseConfig* dbConfig);

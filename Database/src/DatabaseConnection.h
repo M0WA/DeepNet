@@ -38,7 +38,6 @@ protected:
 	/**
 	 * construct with a certain database::DatabaseType.
 	 * @param databaseType database type.
-	 * @param logQuery true if all queries should be logged.
 	 */
 	DatabaseConnection(const DatabaseType& databaseType);
 
