@@ -129,7 +129,6 @@ void PostgreSQLConnection::ResToVec(const std::string& query, PGresult* res,std:
 
 	int noRows = PQntuples(res);
 	if(noRows <= 0) {
-		log::Logging::LogTrace("no rows in resultset for statement: %s",query.c_str());
 		return; }
 
 	int noCol = PQnfields(res);
