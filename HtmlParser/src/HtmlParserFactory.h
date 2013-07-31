@@ -14,7 +14,7 @@
 namespace htmlparser {
 
 /**
- * @brief factory class for html parsers.
+ * @brief factory class for html parsers
  */
 class HtmlParserFactory {
 
