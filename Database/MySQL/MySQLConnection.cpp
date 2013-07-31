@@ -265,8 +265,10 @@ bool MySQLConnection::AffectedRows(long long& affectedRows)
 
 bool MySQLConnection::EscapeString(std::string& inEscape)
 {
-	if(inEscape.empty())
+	if(inEscape.empty()) {
+		inEscape = "\"\"";
 		return true;
+	}
 
 	int nMaxLenToString = (inEscape.length()*2)+1;
 	char* pszConverted = new char[nMaxLenToString];

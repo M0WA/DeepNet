@@ -61,6 +61,8 @@ private:
 	long long affectedRows;
 	long long lastInsertID;
 
+	bool isInTransaction;
+
 };
 
 }

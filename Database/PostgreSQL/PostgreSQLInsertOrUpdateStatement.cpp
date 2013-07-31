@@ -102,7 +102,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 		//not have been called in first place
 		if(pCurColDef->IsPrimaryKey()) {
 			if(!tableBase->GetConstColumnByName(curColName)->IsNull()) {
-				THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"primary key cannot be NULL but it is"); }
+				THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"primary key should be NULL for update or insert"); }
 			continue;}
 
 		const TableColumnDefinition* pColDef(pCurCol->GetConstColumnDefinition());
@@ -121,21 +121,20 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 			setNewValuesColumnNames.push_back(curColName+"=nvu."+curColName);
 
 			if(pCurCol->IsDirty() && pCurColDef->IsUniqueKey() ){
-				whereNewValuesColumnNames.push_back("m."+curColName+"=nvu."+curColName);}
+				whereNewValuesColumnNames.push_back("m."+curColName+"=nvu."+curColName);
+				whereInsertColumnNames.push_back(curColName+"=nvi."+curColName);
+			}
 			else if(pCurColDef->IsUniqueKey()) {
-				log::Logging::LogTrace("unset unique key in update or insert statement: %s",curColName.c_str()); }
-
-			//add unique columns to where clauses for non-sum columns matching requirements below
-			bool test  = pCurCol->IsDirty() || (pCurColDef->IsNullable() && pCurCol->IsNull());
-			bool test2 = pCurColDef->IsUniqueKey() && !pCurColDef->IsPrimaryKey();
-			if(test || test2) {
-				whereInsertColumnNames.push_back(curColName+"=nvi."+curColName);}
+				log::Logging::LogTrace("ingoring unset unique key in update or insert statement: %s",curColName.c_str());
+			}
+			else if( pCurCol->IsDirty() ) {
+				whereInsertColumnNames.push_back(curColName+"=nvi."+curColName);
+			}
 		}
 	}
 
-	std::string whereCominedKeys;
-	size_t keysProcessed(ProcessCombinedUniqueKeys(whereCominedKeys));
-
+	std::string whereNewValuesCombinedKeys;
+	size_t keysProcessed(ProcessCombinedUniqueKeys(whereNewValuesCombinedKeys,"m.","nvu."));
 	if(whereNewValuesColumnNames.size() == 0 && keysProcessed == 0){
 		THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"statement has no unique key for insert or update"); }
 
@@ -143,8 +142,12 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 	tools::StringTools::VectorToString(newValuesColumnNames,newValuesColumnNamesString,",");
 	tools::StringTools::VectorToString(newValuesColumnValues,newValuesColumnValuesString,",");
 	tools::StringTools::VectorToString(setNewValuesColumnNames,setNewValuesColumnNamesString,",");
-	tools::StringTools::VectorToString(whereNewValuesColumnNames,whereNewValuesColumnNamesString," OR ");
-	tools::StringTools::VectorToString(whereInsertColumnNames,whereInsertColumnNamesString," OR ");
+	tools::StringTools::VectorToString(whereInsertColumnNames,whereInsertColumnNamesString," AND ");
+
+	if(whereNewValuesColumnNames.size() > 0) {
+		tools::StringTools::VectorToString(whereNewValuesColumnNames,whereNewValuesColumnNamesString," OR "); }
+	else {
+		whereNewValuesColumnNamesString = " false "; }
 
 	std::string fullQualifiedTableName(tblDef->GetFullQualifiedTableName());
 	std::stringstream ssQuery;
@@ -159,7 +162,7 @@ upsert AS \
 	UPDATE " << fullQualifiedTableName << " m \
 	SET " << setNewValuesColumnNamesString << " \
 	FROM vals nvu \
-	WHERE " << whereNewValuesColumnNamesString << whereCominedKeys << " \
+	WHERE " << whereNewValuesColumnNamesString << " OR " << whereNewValuesCombinedKeys << " \
 	RETURNING m.* \
 ) \
 INSERT INTO " << fullQualifiedTableName << " (" << newValuesColumnNamesString << ") \
@@ -198,14 +201,14 @@ std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) c
 	return ssQuery.str();
 }
 
-size_t PostgreSQLInsertOrUpdateStatement::ProcessCombinedUniqueKeys(std::string& whereKeys) const {
+size_t PostgreSQLInsertOrUpdateStatement::ProcessCombinedUniqueKeys(std::string& whereKeys,const std::string& leftPrefix, const std::string& rightPrefix) const {
 
 	const TableBase* tableBase(orgStatement.GetConstTableBase());
 	const TableDefinition* tblDef(tableBase->GetConstTableDefinition());
 
 	std::vector< std::vector< const TableColumnDefinition* > > combinedKeys(tblDef->GetConstCombinedUniqueKeyColumnDefinitions());
 	if(combinedKeys.size() == 0){
-		whereKeys = " AND 1 ";
+		whereKeys = " false ";
 		return 0; }
 
 	std::ostringstream ss;
@@ -220,7 +223,7 @@ size_t PostgreSQLInsertOrUpdateStatement::ProcessCombinedUniqueKeys(std::string&
 			if(colNo)
 				ss << " AND ";
 			const std::string& curColName((*k)->GetColumnName());
-			ss << "m."<<curColName<<"=nvu."<<curColName;
+			ss << leftPrefix<<curColName<<"="<<rightPrefix<<curColName;
 		}
 		ss << " ) ";
 	}

@@ -44,7 +44,8 @@ PostgreSQLConnection::PostgreSQLConnection()
 , config(0)
 , connection(0)
 , affectedRows(-1)
-, lastInsertID(-1){
+, lastInsertID(-1)
+, isInTransaction(false){
 }
 
 PostgreSQLConnection::~PostgreSQLConnection() {
@@ -271,11 +272,11 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		ResToVec(query,res,results.GetVector());
 	}
 	catch(errors::Exception& e) {
-		e.Log();
-		e.DisableLogging();
 		if(res)
 			PQclear(res);
 		TransactionRollback();
+		e.Log();
+		e.DisableLogging();
 		return;
 	}
 
@@ -374,7 +375,12 @@ void PostgreSQLConnection::TransactionStart(void){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	if(isInTransaction) {
+		log::Logging::LogTrace("already in transaction");
+		return;}
+
 	Execute("BEGIN");
+	isInTransaction = true;
 }
 
 void PostgreSQLConnection::TransactionCommit(void){
@@ -382,7 +388,12 @@ void PostgreSQLConnection::TransactionCommit(void){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	if(!isInTransaction) {
+		log::Logging::LogTrace("no active transaction for commit");
+		return;}
+
 	Execute("COMMIT");
+	isInTransaction = false;
 }
 
 void PostgreSQLConnection::TransactionRollback(void){
@@ -390,7 +401,12 @@ void PostgreSQLConnection::TransactionRollback(void){
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
+	if(!isInTransaction) {
+		log::Logging::LogTrace("no active transaction for rollback");
+		return;}
+
 	Execute("ROLLBACK");
+	isInTransaction = false;
 }
 
 bool PostgreSQLConnection::LastInsertID(long long& lastInsertID){
