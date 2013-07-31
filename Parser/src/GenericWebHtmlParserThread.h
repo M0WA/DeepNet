@@ -55,7 +55,8 @@ private:
 			database::DatabaseConnection* db,
 			const long long internLinks,
 			const long long externLinks,
-			const long long baseURLID);
+			const long long urlID,
+			const long long urlstageID);
 
 private:
 	virtual bool ParsePage(

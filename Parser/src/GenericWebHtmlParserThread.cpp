@@ -214,7 +214,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		}
 	}
 
-	UpdateUrlstageInfos(db,internLinks,externLinks,secondLevelID);
+	UpdateUrlstageInfos(db,internLinks,externLinks,entry.urlStageID,entry.urlID);
 }
 
 void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
@@ -239,17 +239,30 @@ void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,con
 	}
 }
 
-void GenericWebHtmlParserThread::UpdateUrlstageInfos(database::DatabaseConnection* db,const long long internLinks, const long long externLinks, const long long baseURLID) {
-
-
+void GenericWebHtmlParserThread::UpdateUrlstageInfos(
+	database::DatabaseConnection* db,
+	const long long internLinks,
+	const long long externLinks,
+	const long long urlID,
+	const long long urlstageID)
+{
 	//TODO: update parameter `html_errors` here also
 
-	database::WhereConditionTableColumnCreateParam createParam(database::EQUALS,database::AND);
 	std::vector<database::WhereConditionTableColumn*> container;
+
 	database::urlstagesTableBase::GetWhereColumnsFor_URL_ID(
-		    createParam,
-		    baseURLID,
-		    container);
+		database::WhereConditionTableColumnCreateParam(
+			database::EQUALS,
+			database::INITIAL_COMPOSITE_OPERATOR_TYPE),
+		urlID,
+		container);
+
+	database::urlstagesTableBase::GetWhereColumnsFor_ID(
+		database::WhereConditionTableColumnCreateParam(
+			database::EQUALS,
+			database::AND),
+		urlstageID,
+		container );
 
 	database::TableBaseUpdateParam update;
 	update.limit = 1;
@@ -259,7 +272,7 @@ void GenericWebHtmlParserThread::UpdateUrlstageInfos(database::DatabaseConnectio
 	database::urlstagesTableBase tblUrl;
 	tblUrl.Set_int_links(internLinks);
 	tblUrl.Set_ext_links(externLinks);
-	tblUrl.Update(db,database::TableBaseUpdateParam());
+	tblUrl.Update(db,update);
 }
 
 }
