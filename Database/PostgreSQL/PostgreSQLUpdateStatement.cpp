@@ -33,7 +33,7 @@ std::string PostgreSQLUpdateStatement::ToSQL(database::DatabaseConnection* db) c
 
 	//everything is fine except we have some order by columns
 	std::string orderByPart(orgStmt.ConstOrderBy().ToString(db));
-	if(orderByPart.empty()) {
+	if(orderByPart.empty() && orgStmt.GetLimit() == 0) {
 		return (orgStmt.ToSQL(db) + " RETURNING *");}
 
 	/*
