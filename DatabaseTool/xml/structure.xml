@@ -420,6 +420,8 @@
 
 	<primary_key column="ID" />
 	<index       column="occurrence"    sort="DESC" />
+	<unique_key  column="DICT_ID,URLSTAGE_ID" />
+
 	<foreign_key column="DICT_ID"       references_table="dict"      references_column="ID" MySQL_Database="lexicon" />
 	<foreign_key column="URLSTAGE_ID"   references_table="urlstages" references_column="ID" MySQL_Database="contents" />
 
@@ -445,6 +447,8 @@
 
 	<primary_key column="ID" />
 	<index       column="occurrence"  sort="DESC" />
+	<unique_key  column="DICT_ID,URLSTAGE_ID,type" />
+
 	<foreign_key column="DICT_ID"     references_table="dict"      references_column="ID" MySQL_Database="lexicon" />
 	<foreign_key column="URLSTAGE_ID" references_table="urlstages" references_column="ID" MySQL_Database="contents" />
 
