@@ -117,7 +117,7 @@ void PostgreSQLConnection::Query(const std::string& query, std::vector<TableBase
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
-	PGresult* res = Execute_Intern(query);
+	PGresult* res(Execute_Intern(query));
 	ResToVec(query,res,results);
 	PQclear(res);
 }
@@ -127,11 +127,11 @@ void PostgreSQLConnection::ResToVec(const std::string& query, PGresult* res,std:
 	if(!res)
 		return;
 
-	int noRows = PQntuples(res);
+	int noRows(PQntuples(res));
 	if(noRows <= 0) {
 		return; }
 
-	int noCol = PQnfields(res);
+	int noCol(PQnfields(res));
 	if(noCol <= 0) {
 		log::Logging::LogError("no columns in resultset for statement: %s",query.c_str());
 		THROW_EXCEPTION(database::DatabaseNoColumnsException);
