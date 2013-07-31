@@ -40,6 +40,11 @@ void docmetaTableDefinitionCreateParam::CreateColumnDefinitions() {
 
 
 	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("DICT_ID");
+	tmpCombined.push_back("URLSTAGE_ID");
+	tmpCombined.push_back("type");
+	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 

@@ -37,6 +37,10 @@ void dockeyTableDefinitionCreateParam::CreateColumnDefinitions() {
 
 
 	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("DICT_ID");
+	tmpCombined.push_back("URLSTAGE_ID");
+	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 
