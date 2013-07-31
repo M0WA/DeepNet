@@ -462,7 +462,7 @@ bool Bot::PostInit()
 	if(log::Logging::IsLogLevelTrace()) {
 		std::string dump;
 		configManager.DumpConfig(dump);
-		log::Logging::LogTrace("config:\n" + dump);	}
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,"config:\n%s" ,dump.c_str());	}
 
 	//init database configs
 	bool bSuccessDB = InitDatabaseConfigs();

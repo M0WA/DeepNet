@@ -29,7 +29,7 @@ bool ConfigManager::Init(const int argc, char** argv) {
 	{
 		std::string dump;
 		DumpConfig(dump);
-		log::Logging::LogError("config:\n" + dump);
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,"config:\n%s",dump.c_str());
 		PrintUsage();
 		return false;
 	}
