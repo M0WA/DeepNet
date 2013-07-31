@@ -25,6 +25,7 @@ class DatabaseConnection;
  * @brief helper class for a database connection.
  * @see database::MySQLDatabaseConnection
  * @see database::DB2DatabaseConnection
+ * @see database::PostgreSQLDatabaseConnection
  * helper class for a database connection.
  * use this class for creation and destruction of a connection.
  */
