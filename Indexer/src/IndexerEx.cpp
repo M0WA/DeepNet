@@ -35,8 +35,10 @@ void IndexerEx::ParseMeta(const std::string& input, const Dictionary::MetaInform
 	std::vector<std::string> groups;
 	tools::PCRERegex regex("\\w{2,}",true,false,isUTF8);
 	if(!regex.Match(input,groups)) {
+		/*
 		if(log::Logging::IsLogLevelTrace()) {
 			log::Logging::LogTrace("did not detect any words in meta");	}
+		*/
 		return;
 	}
 	//PERFORMANCE_LOG_STOP("splitting content group to meta words");
@@ -60,8 +62,10 @@ void IndexerEx::Parse(const std::string& input, const long long paragraph)
 	std::vector<std::string> groups;
 	tools::PCRERegex regex("\\w{2,}",true,false,isUTF8);
 	if(!regex.Match(input,groups)) {
+		/*
 		if(log::Logging::IsLogLevelTrace()) {
 			log::Logging::LogTrace("did not detect any words in content: " + input);	}
+		*/
 		return;
 	}
 
