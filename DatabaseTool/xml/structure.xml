@@ -1162,6 +1162,8 @@
 	<column name="SEARCHQUERY_ID"  type="INTEGER"      notnull="1" />
 
 	<primary_key column="ID" />
+  <unique_key column="SEARCHQUERY_ID,KEYWORDQUERY_ID" />
+
 	<foreign_key column="SEARCHQUERY_ID"  references_table="searchquery"  references_column="ID" MySQL_Database="queryserver" />
 	<foreign_key column="KEYWORDQUERY_ID" references_table="keywordquery" references_column="ID" MySQL_Database="queryserver" />
 	
