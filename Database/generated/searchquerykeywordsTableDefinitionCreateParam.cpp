@@ -34,6 +34,10 @@ void searchquerykeywordsTableDefinitionCreateParam::CreateColumnDefinitions() {
 
 
 	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("SEARCHQUERY_ID");
+	tmpCombined.push_back("KEYWORDQUERY_ID");
+	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 
