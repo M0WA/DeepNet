@@ -195,6 +195,8 @@ bool FastCGIServer::InitSocketConfig()
 
 void FastCGIServer::RegisterDatabaseConfigParams(void)
 {
+	std::string defaultDbType = "mysql";
+	config.RegisterParam( "dbtype", "database type, one of: mysql | postgres ", true, &defaultDbType );
 	config.RegisterParam( "dbhost", "database host"    , true, 0 );
 	config.RegisterParam( "dbport", "database port"    , true, 0 );
 	config.RegisterParam( "dbname", "database name"    , true, 0 );
@@ -211,8 +213,21 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 {
 	int port;
 	std::string tmp;
-	databaseConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
 	bool bSuccess = true;
+
+	if( ( bSuccess &= config.GetValue("dbtype", tmp) ) ) {
+		if(tmp.compare("mysql") == 0) {
+			databaseConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
+		}
+		else if(tmp.compare("postgres") == 0) {
+			databaseConfig = dynamic_cast<database::DatabaseConfig*>(new database::PostgreSQLDatabaseConfig());
+		}
+		else {
+			log::Logging::LogError("invalid database type specified, defaulting to MySQL");
+			databaseConfig = dynamic_cast<database::DatabaseConfig*>(new database::MySQLDatabaseConfig());
+		}
+	}
+
 	if( ( bSuccess &= config.GetValue("dbhost", tmp) ) ) {
 		databaseConfig->SetHost(tmp);}
 	if( ( bSuccess &= config.GetValue("dbport", port) ) ) {
