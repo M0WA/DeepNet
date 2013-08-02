@@ -16,9 +16,22 @@
 
 namespace networking {
 
+/**
+ * @brief implements a generic file socket
+ */
 class SocketFile : public networking::Socket {
 public:
+	/**
+	 * creates file socket
+	 * @param fileName filename of this socket
+	 */
 	SocketFile(const std::string& fileName);
+
+	/**
+	 * creates file socket from an existing handle
+	 * @param socket existing file socket handle
+	 * @param fileName filename of this socket
+	 */
 	SocketFile(int socket,const std::string& fileName);
 	virtual ~SocketFile();
 
@@ -29,6 +42,9 @@ protected:
 	virtual size_t OnWrite(const unsigned char* data, const size_t& dataSize);
 
 protected:
+	/**
+	 * filename of this socket
+	 */
 	std::string fileName;
 };
 

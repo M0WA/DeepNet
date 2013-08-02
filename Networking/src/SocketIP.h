@@ -15,6 +15,9 @@
 
 namespace networking {
 
+/**
+ * @brief generic ip socket implementation
+ */
 class SocketIP: public networking::Socket {
 protected:
 	SocketIP(const struct in_addr& ip);
