@@ -56,7 +56,7 @@ void FastCGISocket::SetNonBlocking(bool isNonBlocking) {
 	if(socket <= 0)
 		return;
 
-	int flags = fcntl(socket, F_GETFL, 0);
+	int flags(fcntl(socket, F_GETFL, 0));
 
 	if(isNonBlocking)
 		fcntl(socket, F_SETFL, flags | O_NONBLOCK);
@@ -76,13 +76,11 @@ bool FastCGISocket::WaitForAccept() {
 
 	SetNonBlocking();
 
-	int err = select(socket+1,&readFD,NULL,NULL,&timeout);
-	if(err == 1 && FD_ISSET(socket,&readFD)) {
-		return true; }
-	else {
-		return false;}
+	int err(select(socket+1,&readFD,NULL,NULL,&timeout));
 
 	SetNonBlocking(false);
+
+	return (err == 1 && FD_ISSET(socket,&readFD));
 }
 
 }

@@ -46,23 +46,23 @@ FastCGIServerThread::~FastCGIServerThread()
 
 void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 {
-	FastCGIServerThread* instance = (FastCGIServerThread*)(threadParam->instance);
+	FastCGIServerThread* instance(dynamic_cast<FastCGIServerThread*>(threadParam->instance));
 
-	database::DatabaseConnection* conn = instance->DB().CreateConnection(instance->databaseConfig);
+	database::DatabaseConnection* conn(instance->DB().CreateConnection(instance->databaseConfig));
 	if(!conn) {
 		THROW_EXCEPTION(FastCGIServerException,"FastCGIServerException","could not establish database connection"); }
 
-	FastCGIRequest* fcgiRequest = NULL;
-	FastCGIResponse* fcgiResponse = NULL;
+	FastCGIRequest* fcgiRequest(0);
+	FastCGIResponse* fcgiResponse(0);
 
-	int initSuccess = FCGX_InitRequest(&instance->request, instance->fcgiSocket.Socket(), FCGI_FAIL_ACCEPT_ON_INTR);
+	int initSuccess(FCGX_InitRequest(&instance->request, instance->fcgiSocket.Socket(), FCGI_FAIL_ACCEPT_ON_INTR));
 	if(initSuccess != 0) {
 		THROW_EXCEPTION(FastCGIServerInitException,"could not initialize fastcgi request");	}
 
 	while(!instance->ShallEnd()) {
 
 		instance->acceptMutex->Lock();
-		bool isAcceptWaiting = false;
+		bool isAcceptWaiting(false);
 		while( !instance->ShallEnd() ) {
 			isAcceptWaiting = false;
 			if( (isAcceptWaiting = instance->fcgiSocket.WaitForAccept()) ) {

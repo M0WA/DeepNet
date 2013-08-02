@@ -73,22 +73,22 @@ std::string HttpHeader::ToString(const size_t contentLen)
 	}
 
 	std::stringstream ssHeader;
-	std::map<std::string,std::string>::iterator iterMapHeader = mapHeader.begin();
 	ssHeader <<
 		"HTTP/1.1 " << statusCode << " " << statusMsg << "\r\n" <<
 		"Server: " << SERVER_NAME << "\r\n";
 
+	std::map<std::string,std::string>::const_iterator iterMapHeader(mapHeader.begin());
 	for(;iterMapHeader != mapHeader.end(); ++iterMapHeader) {
-		ssHeader << iterMapHeader->first << ": " << iterMapHeader->second << "\r\n";
-	}
+		ssHeader << iterMapHeader->first << ": " << iterMapHeader->second << "\r\n"; }
 
 	ssHeader <<
 		"Content-Length: " << contentLen << "\r\n" <<
 		"Content-Type: application/xml; charset=utf-8\r\n\r\n";
 
-	log::Logging::LogTrace("header:\n" + ssHeader.str());
+	const std::string& tmpHeader(ssHeader.str());
+	log::Logging::LogTrace("header:\n%s", tmpHeader.c_str());
 
-	return ssHeader.str();
+	return tmpHeader;
 }
 
 }

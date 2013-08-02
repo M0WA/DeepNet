@@ -110,7 +110,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     //parse cookies
     ParseCookies(FastCGIRequest::SafeGetEnv("HTTP_COOKIE",request));
 
-    std::string requestMethod = FastCGIRequest::SafeGetEnv("REQUEST_METHOD",request);
+    std::string requestMethod(FastCGIRequest::SafeGetEnv("REQUEST_METHOD",request));
     tools::StringTools::ToLowerIP(requestMethod);
     if(requestMethod.compare("post") == 0)
     {
@@ -118,7 +118,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		// many http clients (browsers) don't support it (so
 		// the connection deadlocks until a timeout expires!).
 		std::string clenstr = FastCGIRequest::SafeGetEnv("CONTENT_LENGTH", request);
-		unsigned long clen = STDIN_MAX;
+		unsigned long clen(STDIN_MAX);
 
 		if (!clenstr.empty())
 		{
@@ -170,23 +170,23 @@ void FastCGIRequest::SplitArguments(char* pszArguments, std::vector< std::pair<s
 	if(pszArguments[0] != '?') {
 		return;	}
 
-	char* beginParam = pszArguments;
-	char* endParam   = pszArguments;
+	char* beginParam(pszArguments);
+	char* endParam(pszArguments);
 	if ((endParam = strstr(beginParam,"&")) != NULL)
 	{
 		while ((endParam = strstr(beginParam,"&")) != NULL)
 		{
-			char tmp = *endParam;
+			char tmp(*endParam);
 			endParam = 0;
 
 			++beginParam;
 
-			char* keyEnd = NULL;
+			char* keyEnd(0);
 			std::pair<std::string, std::string> paramPair;
 			if( (keyEnd = strstr(beginParam,"=")) != NULL) {
 
 				//is key-value parameter
-				char keyEndTmp = *keyEnd;
+				char keyEndTmp(*keyEnd);
 				keyEnd = 0;
 
 				paramPair.first  = tools::StringTools::ToLowerNP(std::string( beginParam ));
@@ -209,7 +209,7 @@ void FastCGIRequest::SplitArguments(char* pszArguments, std::vector< std::pair<s
 
 std::string FastCGIRequest::SafeGetEnv(const char* name,FCGX_Request& request)
 {
-    const char* ptr = FCGX_GetParam(name, request.envp);
+    const char* ptr(FCGX_GetParam(name, request.envp));
     if(ptr == NULL){
         return "";
     }else{
@@ -228,7 +228,7 @@ void FastCGIRequest::ParseCookies(std::string cookieString)
 	std::vector<std::string> vecRawCookie;
 	tools::StringTools::SplitBy(cookieString,";",vecRawCookie);
 
-	std::vector<std::string>::const_iterator iterCookie = vecRawCookie.begin();
+	std::vector<std::string>::const_iterator iterCookie(vecRawCookie.begin());
 	for(;iterCookie != vecRawCookie.end(); ++iterCookie) {
 		network::HttpCookie cookie;
 		if(!cookie.FromString(*iterCookie)){
@@ -245,18 +245,18 @@ bool FastCGIRequest::Validate(const std::string& xsdString, xmlDocPtr doc)
 	//TODO: write a valid xsd ;)
 
 	//validate against XSD
-	xmlDocPtr schema_doc = xmlReadMemory(xsdString.c_str(), xsdString.size(),NULL, NULL, XML_PARSE_NONET);
+	xmlDocPtr schema_doc(xmlReadMemory(xsdString.c_str(), xsdString.size(),NULL, NULL, XML_PARSE_NONET));
     if (schema_doc == NULL) {
         // the schema cannot be loaded or is not well-formed
         return false;
     }
-    xmlSchemaParserCtxtPtr parser_ctxt = xmlSchemaNewDocParserCtxt(schema_doc);
+    xmlSchemaParserCtxtPtr parser_ctxt(xmlSchemaNewDocParserCtxt(schema_doc));
     if (parser_ctxt == NULL) {
         // unable to create a parser context for the schema
         xmlFreeDoc(schema_doc);
         return false;
     }
-    xmlSchemaPtr schema = xmlSchemaParse(parser_ctxt);
+    xmlSchemaPtr schema(xmlSchemaParse(parser_ctxt));
     if (schema == NULL) {
         // the schema itself is not valid
         xmlSchemaFreeParserCtxt(parser_ctxt);
@@ -271,7 +271,7 @@ bool FastCGIRequest::Validate(const std::string& xsdString, xmlDocPtr doc)
         xmlFreeDoc(schema_doc);
         return false;
     }
-    int is_valid = (xmlSchemaValidateDoc(valid_ctxt, doc) == 0);
+    int is_valid(xmlSchemaValidateDoc(valid_ctxt, doc) == 0);
     xmlSchemaFreeValidCtxt(valid_ctxt);
     xmlSchemaFree(schema);
     xmlSchemaFreeParserCtxt(parser_ctxt);
@@ -329,9 +329,9 @@ int FastCGIRequest::register_namespaces(xmlXPathContextPtr xpathCtx, const xmlCh
 
 bool FastCGIRequest::Xpath(std::list<std::string>& queryparts, const char* xmlDocument, const xmlChar* xpathExpr, const xmlChar* nsList)
 {
-    xmlDocPtr doc;
-    xmlXPathContextPtr xpathCtx;
-    xmlXPathObjectPtr xpathObj;
+    xmlDocPtr doc(0);
+    xmlXPathContextPtr xpathCtx(0);
+    xmlXPathObjectPtr xpathObj(0);
 
     /* Load XML document */
     doc = xmlParseMemory(xmlDocument,strlen(xmlDocument));
@@ -365,8 +365,8 @@ bool FastCGIRequest::Xpath(std::list<std::string>& queryparts, const char* xmlDo
         return false;
     }
 
-    xmlNodeSetPtr nodes = xpathObj->nodesetval;
-    int size = (nodes) ? nodes->nodeNr : 0;
+    xmlNodeSetPtr nodes(xpathObj->nodesetval);
+    int size( (nodes) ? nodes->nodeNr : 0 );
 
     for(int i = 0; i < size; ++i) {
     	if(nodes->nodeTab[i]->type == XML_TEXT_NODE) {

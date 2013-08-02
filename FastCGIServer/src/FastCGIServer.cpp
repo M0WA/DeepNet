@@ -77,7 +77,7 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 
 bool FastCGIServer::StopServer()
 {
-	std::vector<FastCGIServerThread*>::iterator iterThreads = threads.begin();
+	std::vector<FastCGIServerThread*>::iterator iterThreads(threads.begin());
 	for(;iterThreads != threads.end(); ++iterThreads) {
 		(*iterThreads)->SetShallEnd();
 	}

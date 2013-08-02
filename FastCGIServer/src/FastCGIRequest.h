@@ -85,7 +85,7 @@ public:
 	 */
 	bool GetParam(FCGX_Request& request, const std::string& key, std::string& value)
 	{
-		char* pszValue = FCGX_GetParam(tools::StringTools::ToLowerNP(key).c_str(), request.envp);
+		char* pszValue(FCGX_GetParam(tools::StringTools::ToLowerNP(key).c_str(), request.envp));
 		if(!pszValue)
 			return false;
 
