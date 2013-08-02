@@ -8,8 +8,11 @@
 
 #include "SocketTCPServer.h"
 
+#include "SocketTCPClient.h"
+
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <cstring>
 
 namespace networking {
 
@@ -24,6 +27,22 @@ SocketTCPServer::SocketTCPServer(int socket,const struct sockaddr_in& endpoint, 
 }
 
 SocketTCPServer::~SocketTCPServer() {
+}
+
+bool SocketTCPServer::WaitForAccept(struct timeval& timeout) {
+	return WaitForAccept(&timeout);
+}
+
+bool SocketTCPServer::WaitForAccept() {
+	return WaitForAccept(0);
+}
+
+bool SocketTCPServer::Accept(tools::Pointer<SocketTCPClient>& newClient,struct timeval& timeout) {
+	return Accept(newClient,&timeout);
+}
+
+bool SocketTCPServer::Accept(tools::Pointer<SocketTCPClient>& newClient){
+	return Accept(newClient,0);
 }
 
 bool SocketTCPServer::OnCreate() {
@@ -42,28 +61,41 @@ bool SocketTCPServer::OnCreate() {
 	return (socket < -1);
 }
 
-bool SocketTCPServer::WaitForAccept(struct timeval& timeout) {
+bool SocketTCPServer::WaitForAccept(struct timeval* timeout) {
 
 	fd_set readFD;
 	FD_ZERO(&readFD);
 	FD_SET(this->socket, &readFD);
 
-	SetNonBlocking();
+	if(timeout)
+		SetNonBlocking();
+	else
+		SetBlocking();
 
-	int err(select(socket+1,&readFD,NULL,NULL,&timeout));
+	int err(select(socket+1,&readFD,NULL,NULL,timeout));
 
-	SetBlocking();
+	if(timeout)
+		SetBlocking();
 
 	return (err == 1 && FD_ISSET(this->socket,&readFD));
+
 }
 
-bool SocketTCPServer::WaitForAccept() {
+bool SocketTCPServer::Accept(tools::Pointer<SocketTCPClient>& newClient,struct timeval* timeout) {
 
-	struct timeval timeout;
-	timeout.tv_usec = 0;
-	timeout.tv_sec = 1;
+	if(!WaitForAccept(timeout)) {
+		return false; }
 
-	return WaitForAccept(timeout);
+	struct sockaddr_in target;
+	socklen_t len(sizeof(target));
+	memset(&target,0,len);
+	int newSocket(accept(socket,(struct sockaddr*)&target,&len));
+	if( newSocket == -1)
+		return false;
+
+	newClient.Set(new SocketTCPClient(newSocket,target),true);
+	return true;
 }
+
 
 }

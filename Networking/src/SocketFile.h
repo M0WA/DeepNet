@@ -22,7 +22,7 @@ public:
 	SocketFile(int socket,const std::string& fileName);
 	virtual ~SocketFile();
 
-private:
+protected:
 	virtual bool OnCreate();
 	virtual bool OnClose();
 	virtual size_t OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const size_t& timeoutSec);

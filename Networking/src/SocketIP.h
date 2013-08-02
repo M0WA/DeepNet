@@ -22,7 +22,7 @@ protected:
 public:
 	virtual ~SocketIP();
 
-private:
+protected:
 	virtual bool OnClose();
 
 protected:

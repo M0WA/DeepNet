@@ -21,7 +21,7 @@ namespace networking {
 /**
  * @brief implements a TCP server socket which accepts connections on specified ip and port combinations
  */
-class SocketTCPServer: protected networking::SocketTCP {
+class SocketTCPServer: public networking::SocketTCP {
 public:
 	/**
 	 * creates tcp server socket
@@ -47,6 +47,21 @@ public:
 
 public:
 	/**
+	 * accepts new client on this socket, blocks until new connection has arrived or timeout occurs.
+	 * @param newClient new client if successful
+	 * @param timeout timeout to wait for new connection
+	 * @return true if new client is available, false if no client has connected
+	 */
+	bool Accept(tools::Pointer<SocketTCPClient>& newClient,struct timeval& timeout);
+
+	/**
+	 * accepts new client on this socket, blocks until new connection has arrived
+	 * @param newClient new client if successful
+	 * @return true if new client is available, false if no client has connected
+	 */
+	bool Accept(tools::Pointer<SocketTCPClient>& newClient);
+
+	/**
 	 * waits for accept until timeout occures or a successful connection occured.
 	 * Accept() still has to be called to retrieve the new connection.
 	 * @param timeout timeout to wait for new connection
@@ -55,17 +70,18 @@ public:
 	bool WaitForAccept(struct timeval& timeout);
 
 	/**
-	 * waits max. one second for a successful connection on this
-	 * sockets before it returns. Accept() still has to be called to retrieve the new connection.
+	 * waits blocking for a successful connection on this sockets before it returns.
+	 * Accept() still has to be called to retrieve the new connection.
 	 * @return true if a new request has to handled, false if no connection was made
 	 */
 	bool WaitForAccept();
 
-	bool Accept(tools::Pointer<SocketTCPClient>& newClient,struct timeval& timeout);
-	bool Accept(tools::Pointer<SocketTCPClient>& newClient);
+protected:
+	virtual bool OnCreate();
 
 private:
-	virtual bool OnCreate();
+	bool WaitForAccept(struct timeval* timeout);
+	bool Accept(tools::Pointer<SocketTCPClient>& newClient,struct timeval* timeout);
 
 private:
 	int backlog;
