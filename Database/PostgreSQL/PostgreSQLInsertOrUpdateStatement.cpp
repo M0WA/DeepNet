@@ -127,9 +127,11 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 			else if(pCurColDef->IsUniqueKey()) {
 				log::Logging::LogTrace("ingoring unset unique key in update or insert statement: %s",curColName.c_str());
 			}
+			/*
 			else if( pCurCol->IsDirty() ) {
 				whereInsertColumnNames.push_back(curColName+"=nvi."+curColName);
 			}
+			*/
 		}
 	}
 
@@ -138,16 +140,26 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 	if(whereNewValuesColumnNames.size() == 0 && keysProcessed == 0){
 		THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"statement has no unique key for insert or update"); }
 
+	std::string whereInsertColumnCombinedKeys;
+	keysProcessed=ProcessCombinedUniqueKeys(whereInsertColumnCombinedKeys,"","nvi.");
+	if(whereInsertColumnNames.size() == 0 && keysProcessed == 0){
+		THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"statement has no unique keys for insert or update"); }
+
 	std::string newValuesColumnNamesString,newValuesColumnValuesString,setNewValuesColumnNamesString,whereNewValuesColumnNamesString,whereInsertColumnNamesString;
 	tools::StringTools::VectorToString(newValuesColumnNames,newValuesColumnNamesString,",");
 	tools::StringTools::VectorToString(newValuesColumnValues,newValuesColumnValuesString,",");
 	tools::StringTools::VectorToString(setNewValuesColumnNames,setNewValuesColumnNamesString,",");
-	tools::StringTools::VectorToString(whereInsertColumnNames,whereInsertColumnNamesString," AND ");
+	//tools::StringTools::VectorToString(whereInsertColumnNames,whereInsertColumnNamesString," AND ");
 
 	if(whereNewValuesColumnNames.size() > 0) {
 		tools::StringTools::VectorToString(whereNewValuesColumnNames,whereNewValuesColumnNamesString," OR "); }
 	else {
 		whereNewValuesColumnNamesString = " false "; }
+
+	if(whereInsertColumnNames.size() > 0) {
+		tools::StringTools::VectorToString(whereInsertColumnNames,whereInsertColumnNamesString," OR "); }
+	else {
+		whereInsertColumnNamesString = " false "; }
 
 	std::string fullQualifiedTableName(tblDef->GetFullQualifiedTableName());
 	std::stringstream ssQuery;

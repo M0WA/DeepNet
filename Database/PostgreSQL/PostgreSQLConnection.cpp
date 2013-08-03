@@ -156,7 +156,7 @@ PGresult* PostgreSQLConnection::Execute_Intern(const std::string& query){
 	if(config->GetLogQuery()){
 		log::Logging::LogUnlimited(log::Logging::GetLogLevel(),"execute: %s",query.c_str()); }
 
-	PGresult* res = PQexec(connection, query.c_str());
+	PGresult* res(PQexec(connection, query.c_str()));
 	if(!res) {
 		affectedRows = -1;
 		lastInsertID = -1;
