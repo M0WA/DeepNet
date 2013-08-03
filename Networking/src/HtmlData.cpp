@@ -6,6 +6,7 @@
 
 #include "HtmlData.h"
 
+#include <string>
 #include <cstring>
 #include <cstdlib>
 
@@ -29,15 +30,15 @@ size_t HtmlData::GetBufferSize() const {
 bool HtmlData::ConvertToHostCharset() {
 
 	if(GetCount() == 0) {
-		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("empty html/txt document cannot be converted, skipping");
+		log::Logging::LogTrace("empty html/txt document cannot be converted, skipping");
+		Release();
 		return false;}
 
 	//parse indicated content-type as mime string
 	std::string mimeType,mimeEncoding;
 	bool isHtml(false);
 	if( !contentType.empty() &&
-		tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding))	{
+		tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding)) {
 		isHtml =  mimeType.compare("text/html") == 0;
 		bool validType = isHtml || mimeType.compare("text/plain") == 0;
 		if(!validType) {
@@ -48,51 +49,54 @@ bool HtmlData::ConvertToHostCharset() {
 		}
 	}
 	else {
-		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("no content type specified, guessing charset...");
-	}
+		log::Logging::LogTrace("no content type specified, guessing charset..."); }
 
 	int confidence(0);
 	char zero(0);
 	std::string encodingHint(mimeEncoding);
+	if(!tools::CharsetEncoder::IsValidEncodingName(encodingHint)) {
+		encodingHint = ""; }
+
 	bool hintCorrect(false);
-	if(!DetectCharset(encodingHint, confidence, mimeEncoding, hintCorrect) ||
-	   !tools::CharsetEncoder::IsValidEncodingName(mimeEncoding) ) {
-		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("error while detecting charset for html");
+	bool detectCorrect(DetectCharset(encodingHint, confidence, mimeEncoding, hintCorrect));
+	detectCorrect &= tools::CharsetEncoder::IsValidEncodingName(mimeEncoding);
+	if(!detectCorrect) {
+		log::Logging::LogTrace("error while detecting charset for html");
 		Release();
-		return false;
-	}
-	else {
-		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("detected charset: " + mimeEncoding + ", hint was: " + encodingHint);
-	}
+		return false; }
 
-	if(confidence == 10) {
-		//is a compatible charset
-		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("compatible charset detected, no conversion needed");
-	}
-	else if (confidence > 10)
-	{
-		std::string out;
-		if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), mimeEncoding, out) ) {
+	log::Logging::LogTrace("detected charset: %s, hint was: %s",mimeEncoding.c_str(),encodingHint.c_str());
 
-			if (log::Logging::IsLogLevelTrace())
-				log::Logging::LogTrace("error while converting to host charset");
+	std::string hostCharsetName(tools::CharsetEncoder::GetHostCharsetName());
+	if( encodingHint.compare(hostCharsetName) != 0 &&
+		!tools::CharsetEncoder::IsCharsetAlias(mimeEncoding.c_str(),hostCharsetName.c_str()) &&
+		confidence != 10 //is a compatible charset
+	) {
+		if(confidence > 10) {
+			std::string out;
+			if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), mimeEncoding, out) ) {
+				log::Logging::LogTrace("error while converting to host charset: %s -> %s",mimeEncoding.c_str(),hostCharsetName.c_str());
+				Release();
+				return false;
+			}
+
+			log::Logging::LogTrace("conversion to host charset successful: %s -> %s",mimeEncoding.c_str(),hostCharsetName.c_str());
+
+			Release();
+			Append(out.c_str(),out.length());
+
+			//TODO: set new content-type with host charset
+		}
+		else {
+			log::Logging::LogTrace("error while converting content to host charset: %s (hint: %s, confidence: %d)",mimeEncoding.c_str(),encodingHint.c_str(),confidence);
 			Release();
 			return false;
 		}
-		else {
-			if (log::Logging::IsLogLevelTrace())
-				log::Logging::LogTrace("conversion from " + mimeEncoding + " to host charset successful" );
-		}
-
-		Release();
-		Append(out.c_str(),out.length());
-
-		//TODO: set new content-type with host charset
 	}
+	else {
+		log::Logging::LogTrace("compatible charset detected, no conversion needed");
+	}
+
 	Append(&zero,1);
 
 	if(isHtml) {
