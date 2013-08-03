@@ -27,7 +27,7 @@ void XMLQueryRequest::OnHandle(FCGX_Request& request)
 		log::Logging::LogWarn("no post data received, ommitting...");
 		return;	}
 
-	bool success(ParseQuery(rawPostData,queryRequestParam));
+	bool success(ParseQuery(std::string(rawPostData),queryRequestParam));
 	if(!success){
 		return;}
 }

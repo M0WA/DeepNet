@@ -425,6 +425,9 @@ bool XMLQueryResponse::GetPagesByContent(const std::map<long long, KeywordEntry>
 
 bool XMLQueryResponse::GetKeywordIDs(const std::vector<std::string>& vecKeywords, std::map<long long, KeywordEntry>& idKeywords)
 {
+	if(vecKeywords.size() == 0)
+		return false;
+
 	std::vector<database::WhereConditionTableColumn*> whereContainer;
 
 	database::dictTableBase::GetWhereColumnsFor_keyword(

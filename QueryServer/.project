@@ -11,6 +11,7 @@
 		<project>HtmlParser</project>
 		<project>Indexer</project>
 		<project>Logging</project>
+		<project>Networking</project>
 		<project>Parser</project>
 		<project>Threading</project>
 		<project>Tools</project>
