@@ -374,7 +374,7 @@ bool Bot::InitDatabaseConfigs(void)
 	if( ( bSuccess &= Config().GetValue("dbpass", tmp) ) ) {
 		dbConfig->SetPass(tmp);}
 
-	bool logQuery = true;
+	bool logQuery(true);
 	if(!Config().GetValue("dblogquery",logQuery)){
 		logQuery = false;}
 	dbConfig->SetLogQuery(logQuery);
