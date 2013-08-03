@@ -33,7 +33,7 @@ bool SocketTCP::OnCreate() {
 	return true;
 }
 
-size_t SocketTCP::OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const size_t& timeoutSec){
+size_t SocketTCP::OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const struct timeval* timeout){
 	return 0;
 }
 

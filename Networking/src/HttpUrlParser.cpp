@@ -98,9 +98,9 @@ void HttpUrlParser::ParseScheme(
 	std::string& scheme) {
 
 	scheme = baseUrl.scheme;
-	std::string sUrl_LC = tools::StringTools::ToLowerNP(url);
+	std::string sUrl_LC(tools::StringTools::ToLowerNP(url));
 
-	size_t schemeStart = sUrl_LC.find("http://");
+	size_t schemeStart(sUrl_LC.find("http://"));
 	if(schemeStart == 0) {
 		scheme = "http";
 		schemeEnd += 7;
@@ -142,18 +142,18 @@ void HttpUrlParser::ParseAuthentication(
 	std::string& user,
 	std::string& pass){
 
-	std::string trimUrl = url;
+	std::string trimUrl(url);
 	if(schemeEndIn_AuthEndOut>0) {
 		trimUrl = trimUrl.substr(schemeEndIn_AuthEndOut,url.length() - schemeEndIn_AuthEndOut); }
 
-	size_t posAt = trimUrl.find("@");
+	size_t posAt(trimUrl.find("@"));
 	if(posAt == std::string::npos)
 		return;
 
 	trimUrl = trimUrl.substr(0,posAt);
 	schemeEndIn_AuthEndOut += posAt+1;
 
-	size_t posColon = trimUrl.find(":");
+	size_t posColon(trimUrl.find(":"));
 	if(posColon != std::string::npos) {
 		user = trimUrl.substr(0,posColon);
 		pass = trimUrl.substr(posColon + 1,posAt - posColon - 1);
@@ -172,16 +172,16 @@ void HttpUrlParser::ParseDomain(
 	std::string& tld,
 	std::string& port){
 
-	std::string sUrl_LC = tools::StringTools::ToLowerNP(url);
-	std::string trimUrl = sUrl_LC;
+	std::string sUrl_LC(tools::StringTools::ToLowerNP(url));
+	std::string trimUrl(sUrl_LC);
 	if(authEndIn_DomainEndOut>0) {
 		trimUrl = trimUrl.substr(authEndIn_DomainEndOut,trimUrl.length() - authEndIn_DomainEndOut); }
 
 	//locate all possible end markers for domain
-	size_t posSlash    = trimUrl.find("/");
-	size_t posFragment = trimUrl.find("#");
-	size_t posQuery    = trimUrl.find("?");
-	size_t posQuery2   = trimUrl.find("&");
+	size_t posSlash    (trimUrl.find("/"));
+	size_t posFragment (trimUrl.find("#"));
+	size_t posQuery    (trimUrl.find("?"));
+	size_t posQuery2   (trimUrl.find("&"));
 	std::vector<size_t> minPos;
 	if( posSlash != std::string::npos ) {
 		minPos.push_back(posSlash); }
@@ -193,12 +193,12 @@ void HttpUrlParser::ParseDomain(
 		minPos.push_back(posQuery2);
 
 	//trim until only domain part is left
-	size_t posEnd = trimUrl.length();
+	size_t posEnd(trimUrl.length());
 	if(minPos.size() > 0) {
 		posEnd = *std::min_element(minPos.begin(),minPos.end());
 		trimUrl = trimUrl.substr(0,posEnd);	}
 
-	size_t posDot = trimUrl.find(".");
+	size_t posDot(trimUrl.find("."));
 	if( posDot == std::string::npos ) {
 		//cannot be a domain, HAS NO dot in it...
 		if(baseUrl.domain.empty() || baseUrl.tld.empty()){
@@ -215,10 +215,10 @@ void HttpUrlParser::ParseDomain(
 	//this is the real length of the domain part
 	if( trimUrl.length() == 0 ) {
 		return; }
-	int domainLen = trimUrl.length();
+	int domainLen(trimUrl.length());
 
 	//get port if available
-	size_t posPort = trimUrl.find(":");
+	size_t posPort(trimUrl.find(":"));
 	if(posPort != std::string::npos) {
 		port = trimUrl.substr(posPort+1,posEnd-posPort-1);
 
@@ -230,7 +230,7 @@ void HttpUrlParser::ParseDomain(
 	}
 
 	//check if the rest is a valid domain
-	DOMAIN_TYPE typeDomain = UNKNOWN;
+	DOMAIN_TYPE typeDomain(UNKNOWN);
 	if( !ValidateDomain(trimUrl, domain, tld, typeDomain) || typeDomain != DOMAIN) {
 
 		//relative url with empty base is not possible
@@ -260,7 +260,7 @@ void HttpUrlParser::ParsePath(
 	if(domainEndIn_PathEndOut >= url.length()) {
 		return; }
 
-	std::string trimUrl = url;
+	std::string trimUrl(url);
 	if(domainEndIn_PathEndOut>0) {
 		trimUrl = trimUrl.substr(domainEndIn_PathEndOut,url.length() - domainEndIn_PathEndOut); }
 
@@ -277,7 +277,7 @@ void HttpUrlParser::ParsePath(
 		minPos.push_back(posQuery2);
 
 	//trim until only path part is left
-	size_t posEnd = trimUrl.length();
+	size_t posEnd(trimUrl.length());
 	if(minPos.size() > 0) {
 		posEnd = *std::min_element(minPos.begin(),minPos.end());
 		trimUrl = trimUrl.substr(0,posEnd);	}
@@ -287,14 +287,14 @@ void HttpUrlParser::ParsePath(
 		return; }
 	domainEndIn_PathEndOut += trimUrl.length();
 
-	size_t posFirstSlash = trimUrl.find("/");
-	std::string basePath = "";
+	size_t posFirstSlash(trimUrl.find("/"));
+	std::string basePath;
 	if(	posFirstSlash != std::string::npos &&
 		posFirstSlash > 0 ) {
 
 		//relative path in url need to assemble basePath
 		std::string baseDoc;
-		std::string trimmedBasePath = baseUrl.path_part;
+		std::string trimmedBasePath(baseUrl.path_part);
 		HttpUrlParser::TrimSlashes(trimmedBasePath);
 		HttpUrlParser::SplitPathDocument(trimmedBasePath,basePath,baseDoc);
 
@@ -312,7 +312,7 @@ void HttpUrlParser::ParsePath(
 
 	//assemble path and normalize it
 	if(!basePath.empty())
-		pathUrl = basePath + "/" + pathUrl;
+		pathUrl.insert(0,basePath + "/");
 
 	path = "";
 	if(!pathUrl.empty()) {
@@ -330,12 +330,12 @@ void HttpUrlParser::ParseQuery(
 	if(pathEndIn_QueryEndOut >= url.length()) {
 		return; }
 
-	std::string trimUrl = url;
+	std::string trimUrl(url);
 	if(pathEndIn_QueryEndOut>0) {
 		trimUrl = trimUrl.substr(pathEndIn_QueryEndOut,url.length() - pathEndIn_QueryEndOut); }
 
 	//trim fragment part if neccessary
-	size_t posFragment = trimUrl.find("#");
+	size_t posFragment(trimUrl.find("#"));
 	if(posFragment != std::string::npos) {
 		trimUrl = trimUrl.substr(0,posFragment);}
 
@@ -343,8 +343,8 @@ void HttpUrlParser::ParseQuery(
 		return;
 	pathEndIn_QueryEndOut += trimUrl.length();
 
-	size_t posQuestion  = trimUrl.find("?");
-	size_t posAmpersand = trimUrl.find("&");
+	size_t posQuestion(trimUrl.find("?"));
+	size_t posAmpersand(trimUrl.find("&"));
 
 	if( posQuestion  == std::string::npos &&
 	    posAmpersand == std::string::npos) {
@@ -370,7 +370,7 @@ void HttpUrlParser::ParseQuery(
 		params.push_back(trimUrl);}
 
 	//remove leading "&" or "?"
-	std::vector<std::string>::iterator iterParams = params.begin();
+	std::vector<std::string>::iterator iterParams(params.begin());
 	for(;iterParams != params.end();++iterParams) {
 
 		std::string& singleParam = *iterParams;
@@ -388,11 +388,12 @@ void HttpUrlParser::ParseQuery(
 	//add "?" and "&"
 	iterParams = params.begin();
 	for(int i = 0;iterParams != params.end();++iterParams,i++) {
-		std::string& singleParam = *iterParams;
+		std::string& singleParam(*iterParams);
+
 		if(i)
-			singleParam = "&" + singleParam;
+			singleParam.insert(0,"&");
 		else
-			singleParam = "?" + singleParam;
+			singleParam.insert(0,"?");
 
 		queryParam.push_back(singleParam);
 	}
@@ -407,7 +408,7 @@ void HttpUrlParser::ParseFragment(
 	if(url.length() <= queryEndIn)
 		return;
 
-	std::string trimUrl = url;
+	std::string trimUrl(url);
 	if(queryEndIn>0) {
 		trimUrl = trimUrl.substr(queryEndIn,url.length() - queryEndIn); }
 
@@ -428,10 +429,9 @@ void HttpUrlParser::SplitPathDocument(
 	std::string& path,
 	std::string& document){
 
-	size_t posFirstSlash = pathdocument.find("/");
-	size_t posLastSlash  = (posFirstSlash != std::string::npos) ? pathdocument.rfind("/") : std::string::npos;
-
-	size_t posLastDot = pathdocument.rfind(".");
+	size_t posFirstSlash(pathdocument.find("/"));
+	size_t posLastSlash((posFirstSlash != std::string::npos) ? pathdocument.rfind("/") : std::string::npos);
+	size_t posLastDot(pathdocument.rfind("."));
 
 	//ignore dots before the last slash
 	if(	posLastDot != std::string::npos &&
@@ -439,17 +439,17 @@ void HttpUrlParser::SplitPathDocument(
 		posLastSlash > posLastDot) {
 		posLastDot = std::string::npos;	}
 
-	size_t posPathStop = pathdocument.length();
+	size_t posPathStop(pathdocument.length());
 	if(posLastDot != std::string::npos) {
 
 		//if extension is valid, pathdocument contains a document
-		std::string extension = pathdocument.substr(posLastDot+1,pathdocument.length()-posLastDot-1);
+		std::string extension(pathdocument.substr(posLastDot+1,pathdocument.length()-posLastDot-1));
 
 		if(IsValidDocumentExtension(extension)) {
 
 			//contains valid extension
-			size_t posDoc = (posLastSlash != std::string::npos) ? posLastSlash + 1 : 0;
-			std::string documentName = pathdocument.substr(posDoc, posLastDot - 1 - posLastSlash);
+			size_t posDoc((posLastSlash != std::string::npos) ? posLastSlash + 1 : 0);
+			std::string documentName(pathdocument.substr(posDoc, posLastDot - 1 - posLastSlash));
 			posPathStop = posDoc;
 
 			document = documentName + "." + extension;
@@ -483,8 +483,8 @@ void HttpUrlParser::DecodeUrl(std::string& url) {
 	url = std::string(pszDecodedUrl);
 	xmlFree(pszDecodedUrl);
 
-	CURL* curl = curl_easy_init( );
-	int decodedLen = -1;
+	CURL* curl(curl_easy_init( ));
+	int decodedLen(-1);
 
 	pszDecodedUrl = curl_easy_unescape( curl, url.c_str() , url.length() , &decodedLen );
 	if(decodedLen <= 0)	{
@@ -506,8 +506,8 @@ void HttpUrlParser::EncodeUrl(std::string& url) {
 	//decode first to prevent double escaping
 	DecodeUrl(url);
 
-	CURL* curl = curl_easy_init( );
-	char* pszEncodedUrl = curl_easy_escape( curl, url.c_str(), url.length());
+	CURL* curl(curl_easy_init( ));
+	char* pszEncodedUrl(curl_easy_escape( curl, url.c_str(), url.length()));
 	if(!pszEncodedUrl)	{
 		curl_easy_cleanup(curl);
 		THROW_EXCEPTION(HttpUrlParserEncodeException,url);
@@ -543,12 +543,12 @@ void HttpUrlParser::ParseURL(const std::string& sBaseUrl, const std::string& sUr
 bool HttpUrlParser::ValidateDomain(const std::string& domainTLD, std::string& domain, std::string& tld, DOMAIN_TYPE& typeDomain) {
 
 	typeDomain = UNKNOWN;
-	std::string domainTLD_CS = domainTLD;
-	std::string domainTLD_LC = tools::StringTools::ToLowerNP(domainTLD_CS);
+	std::string domainTLD_CS(domainTLD);
+	std::string domainTLD_LC(tools::StringTools::ToLowerNP(domainTLD_CS));
 
-	size_t posLastDotInDomain = domainTLD_LC.find_last_of('.');
-	size_t posColonInDomain   = domainTLD_LC.find_first_of(':',0);
-	size_t sizeDomainTLD      = domainTLD_LC.size();
+	size_t posLastDotInDomain(domainTLD_LC.find_last_of('.'));
+	size_t posColonInDomain(domainTLD_LC.find_first_of(':',0));
+	size_t sizeDomainTLD(domainTLD_LC.size());
 
 	// port in domain?
 	if(posColonInDomain != std::string::npos) {
@@ -565,7 +565,7 @@ bool HttpUrlParser::ValidateDomain(const std::string& domainTLD, std::string& do
 		if(tlds.size() == 0) {
 			THROW_EXCEPTION(network::HttpUrlParserTLDCacheException);
 		}
-		bool extensionIsTLD = std::find(tlds.begin(),tlds.end(),tld) != tlds.end();
+		bool extensionIsTLD(std::find(tlds.begin(),tlds.end(),tld) != tlds.end());
 		if(extensionIsTLD && domain.length() > 0)
 			typeDomain = DOMAIN;
 
@@ -602,7 +602,7 @@ void HttpUrlParser::NormalizePath(const std::string& pathIn, std::string& pathNo
 	delete [] pszPathNormalized;
 
 	//canonize path...
-	xmlChar* canonicPath = xmlCanonicPath((xmlChar*)pathNormalized.c_str());
+	xmlChar* canonicPath(xmlCanonicPath((xmlChar*)pathNormalized.c_str()));
 	if(canonicPath){
 		pathNormalized = (char*)canonicPath;
 		xmlFree(canonicPath);}

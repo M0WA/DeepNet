@@ -31,4 +31,12 @@ bool SocketFile::OnClose() {
 	return false;
 }
 
+size_t SocketFile::OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const struct timeval* timeout) {
+	return 0;
+}
+
+size_t SocketFile::OnWrite(const unsigned char* data, const size_t& dataSize) {
+	return 0;
+}
+
 }

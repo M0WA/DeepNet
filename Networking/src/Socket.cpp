@@ -31,10 +31,17 @@ bool Socket::Create()
 
 size_t Socket::Read(
 	tools::MemoryContainer<unsigned char>& data,
-	const size_t& maxRead,
-	const size_t& timeoutSec)
+	const struct timeval& timeout,
+	const size_t& maxRead)
 {
-	return OnRead(data,maxRead,timeoutSec);
+	return OnRead(data,maxRead,&timeout);
+}
+
+size_t Socket::Read(
+	tools::MemoryContainer<unsigned char>& data,
+	const size_t& read)
+{
+	return OnRead(data,read,0);
 }
 
 bool Socket::Close()

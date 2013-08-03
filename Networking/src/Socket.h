@@ -45,22 +45,32 @@ public:
 	bool Close();
 
 	/**
-	 * reads data from socket
-	 * @param data buffer to write data to
+	 * reads data from socket and returns upon success or timeout
+	 * @param data data buffer to read to
 	 * @param maxRead read maximum (0 to read all available data)
-	 * @param timeoutSec timeout in seconds to wait for data
+	 * @param timeout timeout to wait for data
 	 * @return number of bytes received
 	 */
 	size_t Read(
 		tools::MemoryContainer<unsigned char>& data,
-		const size_t& maxRead = 0,
-		const size_t& timeoutSec = 0);
+		const struct timeval& timeout,
+		const size_t& maxRead = 0);
+
+	/**
+	 * reads data blocking from socket
+	 * @param data data buffer to read to
+	 * @param read size of data to read
+	 * @return number of bytes received
+	 */
+	size_t Read(
+		tools::MemoryContainer<unsigned char>& data,
+		const size_t& read);
 
 	/**
 	 * write data to socket
 	 * @param data data to write to socket
 	 * @param dataSize size of data
-	 * @retur number of bytes written
+	 * @return number of bytes written
 	 */
 	size_t Write(
 		const unsigned char* data,
@@ -100,10 +110,10 @@ private:
 	 * called when data should be read from the socket
 	 * @param data buffer to write data to
 	 * @param maxRead read maximum (0 to read all available data)
-	 * @param timeoutSec timeout in seconds to wait for data
+	 * @param timeout timeout to wait for data
 	 * @return true if successful, false if error
 	 */
-	virtual size_t OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const size_t& timeoutSec)=0;
+	virtual size_t OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const struct timeval* timeout)=0;
 
 	/**
 	 * called when data should be written to the socket

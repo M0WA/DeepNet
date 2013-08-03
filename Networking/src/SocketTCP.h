@@ -38,8 +38,11 @@ public:
 
 protected:
 	virtual bool OnCreate();
-	virtual size_t OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const size_t& timeoutSec);
+	virtual size_t OnRead(tools::MemoryContainer<unsigned char>& data, const size_t& maxRead, const struct timeval* timeout);
 	virtual size_t OnWrite(const unsigned char* data, const size_t& dataSize);
+
+private:
+	bool WaitForRead(const size_t& timeoutSec);
 
 protected:
 	/**
