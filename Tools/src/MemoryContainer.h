@@ -59,7 +59,7 @@ public:
      */
 	T* Allocate(const size_t newElementCount, const bool zeroNewMemory) {
 
-		size_t mallocSize = sizeof(T) * (newElementCount + elementCount);
+		size_t mallocSize(sizeof(T) * (newElementCount + elementCount));
 		if(element) {
 			element = (T*)realloc(element,mallocSize );
 		}
@@ -174,7 +174,7 @@ public:
 
 	/**
 	 * ensure buffer size
-	 * @param ensureElementCount mimimum size of buffer.
+	 * @param ensureElementCount minimum size of buffer.
 	 * @param zeroNewMemory true to initialize newly allocated memory.
 	 * @return first element.
 	 */
@@ -182,7 +182,22 @@ public:
 		if(ensureElementCount > elementCount) {
 			return Allocate(ensureElementCount - elementCount,zeroNewMemory) != 0;
 		}
-		return true;
+		return (element!=0);
+	}
+
+	/**
+	 * resizes capacity to newElementCount eventually truncating allocated memory
+	 * @param newElementCount element capacity
+	 * @return true if successful, false if error
+	 */
+	bool Resize(const size_t newElementCount) {
+		size_t mallocSize(sizeof(T) * (newElementCount));
+		if(element) {
+			element = (T*)realloc(element,mallocSize );	}
+		else {
+			element = (T*)malloc(mallocSize); }
+		elementCount = mallocSize;
+		return (element!=0);
 	}
 
 	/**
