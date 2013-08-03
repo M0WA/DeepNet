@@ -86,6 +86,15 @@ public:
 	 * @param onlyFiles true if only files should be listed, if false directories are also in files lists.
 	 */
 	static void ListDirectory(std::vector<std::string>& files, const std::string& directory, const std::string& matchString, const bool onlyFiles = false);
+
+	/**
+	 * normalizes path (removes ../, ./ and so on)
+	 * works only for local existing files and directories
+	 * @param normPath path string to normalize
+	 * @param out output
+	 * @return true if successful, false on error
+	 */
+	static bool NormalizePath(const char* normPath,std::string& out);
 };
 
 }

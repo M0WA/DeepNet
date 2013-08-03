@@ -8,6 +8,7 @@
 
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 #include <dirent.h>
 
 #include "StringTools.h"
@@ -141,6 +142,17 @@ bool FileTools::CompareFiles(const std::string& file1,const std::string& file2) 
 	if(!FileTools::ReadFile(file2,content2))
 		return false;
 	return (content1.compare(content2) == 0);
+}
+
+bool FileTools::NormalizePath(const char* normPath,std::string& out) {
+
+	char* pszNormalizedPath(realpath(normPath,NULL));
+	if(!pszNormalizedPath)
+		return false;
+
+	out = pszNormalizedPath;
+	free(pszNormalizedPath);
+	return true;
 }
 
 }
