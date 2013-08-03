@@ -12,6 +12,9 @@
 
 namespace errors {
 
+/**
+ * @brief represents empty or unknown exception
+ */
 class EmptyException : public Exception{
 public:
 	EmptyException(
