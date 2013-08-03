@@ -41,7 +41,7 @@ WhereConditionTableColumn* WhereConditionTableColumn::CreateInstance(
 		const WhereConditionTableColumnCreateParam& createParam,
 		TableColumn* pCol) {
 
-	WhereConditionTableColumn* pWhereCol = new WhereConditionTableColumn(createParam);
+	WhereConditionTableColumn* pWhereCol(new WhereConditionTableColumn(createParam));
 	pWhereCol->columnValues.Add(new TableColumnContainer(pCol));
 	return pWhereCol;
 }
@@ -50,9 +50,9 @@ WhereConditionTableColumn* WhereConditionTableColumn::CreateInstance(
 		const WhereConditionTableColumnCreateParam& createParam,
 		const std::vector<TableColumn*>& cols) {
 
-	WhereConditionTableColumn* pWhereCol = new WhereConditionTableColumn(createParam);
+	WhereConditionTableColumn* pWhereCol(new WhereConditionTableColumn(createParam));
 
-	std::vector<TableColumn*>::const_iterator iterCols = cols.begin();
+	std::vector<TableColumn*>::const_iterator iterCols(cols.begin());
 	for( ;iterCols != cols.end(); ++iterCols ) {
 		pWhereCol->columnValues.Add(new TableColumnContainer((*iterCols))); }
 
@@ -69,7 +69,7 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 	if(createParam.compOp.GetType() != INITIAL_COMPOSITE_OPERATOR_TYPE)
 		columnString << " " << createParam.compOp.ToString() << " ";
 
-	const TableColumnContainer* const colVal = columnValues.GetConstIter();
+	const TableColumnContainer* const colVal(columnValues.GetConstIter());
 	std::string columnName = ( createParam.tableNameAlias.empty() ?	colVal->GetConstColumn()->GetConstColumnDefinition()->GetTableName() : createParam.tableNameAlias) +
 		"." + colVal->GetConstColumn()->GetColumnName();
 
