@@ -202,6 +202,7 @@ void FastCGIServer::RegisterDatabaseConfigParams(void)
 	config.RegisterParam( "dbname", "database name"    , true, 0 );
 	config.RegisterParam( "dbuser", "database username", true, 0 );
 	config.RegisterParam( "dbpass", "database password", true, 0 );
+	config.RegisterFlag ( "dblogquery", "logs all queries", false );
 	config.RegisterParam( "request_xsd", "xsd file for request validation", false, &requestXSD );
 	config.RegisterParam( "response_xsd", "xsd file for request validation", false, &responseXSD );
 
@@ -238,6 +239,11 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 		databaseConfig->SetUser(tmp);}
 	if( ( bSuccess &= config.GetValue("dbpass", tmp) ) ) {
 		databaseConfig->SetPass(tmp);}
+
+	bool logQuery(true);
+	if(!config.GetValue("dblogquery",logQuery)){
+		logQuery = false;}
+	databaseConfig->SetLogQuery(logQuery);
 
 	if ( !config.GetValue("request_xsd",requestXSD) )
 		requestXSD = "";
