@@ -13,6 +13,7 @@
 #include <CacheDatabaseUrl.h>
 #include <StringTools.h>
 #include <ContainerTools.h>
+
 #include <DatabaseHelper.h>
 #include <DatabaseLayer.h>
 #include <WhereConditionTableColumn.h>
@@ -49,7 +50,7 @@ bool XMLQueryResponse::Process(FCGX_Request& request)
 	std::vector<std::string> vecKeywords;
 	tools::ContainerTools::ListToVector(allKeyWords,vecKeywords);
 
-	bool isExisting = false;
+	bool isExisting(false);
 	if(!LogQuery(vecKeywords,isExisting))
 		return false;
 
@@ -62,8 +63,8 @@ bool XMLQueryResponse::Process(FCGX_Request& request)
 
 bool XMLQueryResponse::ProcessExistQuery()
 {
-	long long startResult = xmlQueryRequest->Params().PageNumber() * xmlQueryRequest->Params().MaxResults();
-	long long stopResult  = startResult + xmlQueryRequest->Params().MaxResults() -1;
+	long long startResult(xmlQueryRequest->Params().PageNumber() * xmlQueryRequest->Params().MaxResults());
+	long long stopResult(startResult + xmlQueryRequest->Params().MaxResults() -1);
 	if(stopResult<startResult)
 		stopResult=startResult+1;
 
@@ -99,9 +100,9 @@ bool XMLQueryResponse::ProcessExistQuery()
 
 	results.ResetIter();
 	for( ;!results.IsIterEnd(); results.Next()) {
-		long long urlStageID = -1, urlID = -1;
+		long long urlStageID(-1), urlID(-1);
 
-		const database::queryresultsTableBase* pRow = results.GetIter();
+		const database::queryresultsTableBase* pRow(results.GetIter());
 
 		pRow->Get_URLSTAGE_ID(urlStageID);
 		pRow->Get_URL_ID(urlID);
@@ -134,7 +135,7 @@ bool XMLQueryResponse::ProcessExistQuery()
 			xmlQueryRequest->Params().QueryID(),
 			whereContainerCount	);
 
-		database::TableColumnDefinition* countColDef = database::queryresultsTableBase::GetDefinition_ID();
+		database::TableColumnDefinition* countColDef(database::queryresultsTableBase::GetDefinition_ID());
 		database::SelectStatement selectResultTotal(database::queryresultsTableBase::CreateTableDefinition());
 		selectResultTotal.SelectAddCountColumn(countColDef,"","count_col");
 		selectResultTotal.Where().AddColumns(whereContainerCount);
@@ -183,7 +184,7 @@ bool XMLQueryResponse::GetResultsFromDatasources(
 	std::map<long long, std::vector<KeywordEntry> > idUrlStage;
 	std::map<long long, BackLinkEntry> urlStageIDBackLinks;
 
-	const unsigned long long& critFlag = xmlQueryRequest->Params().CriteriaFlag();
+	const unsigned long long& critFlag(xmlQueryRequest->Params().CriteriaFlag());
 	bool allFlags = critFlag & XMLQueryRequest::CRITERIA_ALL;
 	if( allFlags || ((critFlag & XMLQueryRequest::CRITERIA_META) ||
 		(critFlag & XMLQueryRequest::CRITERIA_TITLE) )){
@@ -204,15 +205,15 @@ bool XMLQueryResponse::GetResultsFromDatasources(
 	}
 
 	//assemble url list
-	std::map<long long,UrlStageProperties>::const_iterator iterStageProperties = mapUrlStageProperties.begin();
+	std::map<long long,UrlStageProperties>::const_iterator iterStageProperties(mapUrlStageProperties.begin());
 	for(;iterStageProperties != mapUrlStageProperties.end();++iterStageProperties){
-		const long long urlStageID = iterStageProperties->first;
+		const long long urlStageID(iterStageProperties->first);
 		if(mapUrlStageProperties.count(urlStageID) == 0) {
 			log::Logging::LogWarn("could not find urlstage properties");
 			continue; }
-		const UrlStageProperties& stageProperties = mapUrlStageProperties.at(urlStageID);
-		const std::vector<KeywordEntry>& keywords = idUrlStage[urlStageID];
-		const BackLinkEntry& backlinkEntry = urlStageIDBackLinks[urlStageID];
+		const UrlStageProperties& stageProperties(mapUrlStageProperties.at(urlStageID));
+		const std::vector<KeywordEntry>& keywords(idUrlStage[urlStageID]);
+		const BackLinkEntry& backlinkEntry(urlStageIDBackLinks[urlStageID]);
 		mapUrlStages.insert(std::pair<long long,UrlStageEntry>(urlStageID, UrlStageEntry(stageProperties,keywords,backlinkEntry)));
 	}
 
@@ -239,7 +240,7 @@ bool XMLQueryResponse::GetPagesByMeta(const std::map<long long, KeywordEntry>& i
 		idKeywordVector,
 		whereContainer);
 
-	const unsigned long long& critFlag = xmlQueryRequest->Params().CriteriaFlag();
+	const unsigned long long& critFlag(xmlQueryRequest->Params().CriteriaFlag());
 	if ((critFlag & XMLQueryRequest::CRITERIA_META) &&
 	    (critFlag & XMLQueryRequest::CRITERIA_TITLE)) {
 		//we want to select all types
@@ -282,16 +283,16 @@ bool XMLQueryResponse::GetPagesByMeta(const std::map<long long, KeywordEntry>& i
 	vecDocMeta.ResetIter();
 	for(;!vecDocMeta.IsIterEnd(); vecDocMeta.Next()) {
 		//TODO: maybe set weight
-		double weight = 1.0;
-		long long urlStageID = -1, dictID = -1, occurrence = -1;
+		double weight(1.0);
+		long long urlStageID(-1), dictID(-1), occurrence(-1);
 
-		database::docmetaTableBase* pRow = vecDocMeta.GetIter();
+		const database::docmetaTableBase* pRow(vecDocMeta.GetConstIter());
 
 		pRow->Get_URLSTAGE_ID(urlStageID);
 		pRow->Get_DICT_ID(dictID);
 		pRow->Get_occurrence(occurrence);
 
-		std::map<long long, KeywordEntry>::const_iterator posKeyword = idKeywords.find(dictID);
+		std::map<long long, KeywordEntry>::const_iterator posKeyword(idKeywords.find(dictID));
 		if(posKeyword == idKeywords.end()) {
 			log::Logging::LogError("could not find keyword matching for meta information");
 			continue; }
@@ -321,7 +322,7 @@ bool XMLQueryResponse::GetPagesByDomain(const std::map<long long, KeywordEntry>&
 	resSnd.ResetIter();
 	for(;!resSnd.IsIterEnd();resSnd.Next()) {
 		database::secondleveldomainsTableBase* pRow = resSnd.GetIter();
-		long long sndID = -1;
+		long long sndID(-1);
 		std::string domain;
 		pRow->Get_ID(sndID);
 		pRow->Get_domain(domain);
@@ -352,16 +353,15 @@ bool XMLQueryResponse::GetPagesByDomain(const std::map<long long, KeywordEntry>&
 
 	vecRows.ResetIter();
 	for(;!vecRows.IsIterEnd();vecRows.Next()) {
-		long long secondLevelDomain = -1;
-		long long urlID = -1, urlStageID = -1;
+		long long secondLevelDomain(-1), urlID(-1), urlStageID(-1);
 
-		const database::TableBase* pRow = vecRows.GetIter();
+		const database::TableBase* pRow(vecRows.GetConstIter());
 
 		pRow->GetConstColumnByName("SECONDLEVELDOMAIN_ID")->Get(secondLevelDomain);
 		pRow->GetConstColumnByName("ID")->Get(urlID);
 		pRow->GetConstColumnByName("URLSTAGE_ID")->Get(urlStageID);
 
-		std::map<long long, std::string>::const_iterator posKeyword = mapSecondLevelIDKeyword.find(secondLevelDomain);
+		std::map<long long, std::string>::const_iterator posKeyword(mapSecondLevelIDKeyword.find(secondLevelDomain));
 		if(posKeyword == mapSecondLevelIDKeyword.end()) {
 			log::Logging::LogError("could not find keyword matching for domain information");
 			continue; }
@@ -402,16 +402,16 @@ bool XMLQueryResponse::GetPagesByContent(const std::map<long long, KeywordEntry>
 	vecDocKey.ResetIter();
 	for(;!vecDocKey.IsIterEnd();vecDocKey.Next()) {
 
-		database::dockeyTableBase* pRow = vecDocKey.GetIter();
+		const database::dockeyTableBase* pRow(vecDocKey.GetConstIter());
 
 		//TODO: maybe set weight
-		double weight = 1.0;
-		long long urlStageID = -1, dictID = -1, occurrence = -1;
+		double weight(1.0);
+		long long urlStageID(-1), dictID(-1), occurrence(-1);
 		pRow->Get_URLSTAGE_ID(urlStageID);
 		pRow->Get_DICT_ID(dictID);
 		pRow->Get_occurrence(occurrence);
 
-		std::map<long long, KeywordEntry>::const_iterator posKeyword = idKeywords.find(dictID);
+		std::map<long long, KeywordEntry>::const_iterator posKeyword(idKeywords.find(dictID));
 		if(posKeyword == idKeywords.end()) {
 			log::Logging::LogError("could not find keyword matching for content information");
 			continue; }
@@ -446,12 +446,12 @@ bool XMLQueryResponse::GetKeywordIDs(const std::vector<std::string>& vecKeywords
 	results.ResetIter();
 	for(;!results.IsIterEnd(); results.Next()) {
 
-		const database::dictTableBase* pRow = results.GetIter();
+		const database::dictTableBase* pRow(results.GetConstIter());
 
 		//TODO: set relevance and weight to something with sense
-		double relevance = 1.0, weight = 1.0;
+		double relevance(1.0), weight(1.0);
 		std::string keyword;
-		long long dictID, occurrence;
+		long long dictID(-1), occurrence(-1);
 		pRow->Get_ID(dictID);
 		pRow->Get_occurrence(occurrence);
 		pRow->Get_keyword(keyword);
@@ -489,8 +489,8 @@ bool XMLQueryResponse::GetPageInfoByUrlStageID(const std::vector<long long>& vec
 	vecMetaInfoTbls.ResetIter();
 	for(;!vecMetaInfoTbls.IsIterEnd(); vecMetaInfoTbls.Next()) {
 
-		database::metainfoTableBase* pRow = vecMetaInfoTbls.GetIter();
-		long long type = -1, urlStageID = -1;
+		const database::metainfoTableBase* pRow(vecMetaInfoTbls.GetConstIter());
+		long long type(-1), urlStageID(-1);
 		pRow->Get_type(type);
 		pRow->Get_URLSTAGE_ID(urlStageID);
 
@@ -539,11 +539,10 @@ bool XMLQueryResponse::GetPageUrlStageInfo(const std::map<long long, std::vector
 	vecUrlStages.ResetIter();
 	for(;!vecUrlStages.IsIterEnd();vecUrlStages.Next()) {
 
-		database::TableBase* pRow = vecUrlStages.GetIter();
+		const database::TableBase* pRow(vecUrlStages.GetConstIter());
 
 		//TODO: do more with urlstage data
-		long long urlStageID = -1, urlID = -1, secondLevelDomainID = -1;
-		long long contentSize = -1;
+		long long urlStageID(-1), urlID(-1), secondLevelDomainID(-1), contentSize(-1);
 		struct tm lastVisited,lastChanged;
 
 		pRow->GetConstColumnByName("ID")->Get(urlStageID);
@@ -561,10 +560,10 @@ bool XMLQueryResponse::GetPageUrlStageInfo(const std::map<long long, std::vector
 
 bool XMLQueryResponse::GetPageRelevanceByBacklinks(const std::map<long long, long long>& mapUrlStageIDUrlID, std::map<long long, BackLinkEntry>& urlStageIDBackLinks )
 {
-	std::map<long long, long long>::const_iterator iterUrlStagesUrl = mapUrlStageIDUrlID.begin();
+	std::map<long long, long long>::const_iterator iterUrlStagesUrl(mapUrlStageIDUrlID.begin());
 	for(;iterUrlStagesUrl != mapUrlStageIDUrlID.end(); ++iterUrlStagesUrl) {
-		long long urlStageID = iterUrlStagesUrl->first;
-		long long urlID      = iterUrlStagesUrl->second;
+		long long urlStageID(iterUrlStagesUrl->first);
+		long long urlID(iterUrlStagesUrl->second);
 
 		std::map<long long,htmlparser::DatabaseUrl> mapIDUrls;
 		htmlparser::DatabaseUrl::GetBackLinks(dbHelper.Connection(), urlID, mapIDUrls);
@@ -578,18 +577,18 @@ bool XMLQueryResponse::GetPageRelevanceByBacklinks(const std::map<long long, lon
 
 bool XMLQueryResponse::SortResults(const std::map<long long, UrlStageEntry >& idUrlStages, const std::map<long long, BackLinkEntry>& urlStageIDBackLinks, std::vector<long long>& sortedUrlStageIDs, std::map<long long, Relevance>& urlStageRelevance )
 {
-	std::map<long long, UrlStageEntry >::const_iterator iterUrlStageEntries = idUrlStages.begin();
+	std::map<long long, UrlStageEntry >::const_iterator iterUrlStageEntries(idUrlStages.begin());
 	for(;iterUrlStageEntries != idUrlStages.end(); ++iterUrlStageEntries) {
 
-		long long urlStageID = iterUrlStageEntries->first;
-		const UrlStageEntry& urlStageEntry = iterUrlStageEntries->second;
+		long long urlStageID(iterUrlStageEntries->first);
+		const UrlStageEntry& urlStageEntry(iterUrlStageEntries->second);
 
 		std::pair<long long, Relevance> insertPair(urlStageID,urlStageEntry.GetTotalRelevance());
 		urlStageRelevance.insert(insertPair);
 
 		if(urlStageIDBackLinks.count(urlStageID) > 0 && urlStageIDBackLinks.at(urlStageID).UrlStageID() != -1) {
 
-			const BackLinkEntry& backlinks = urlStageIDBackLinks.at(urlStageID);
+			const BackLinkEntry& backlinks(urlStageIDBackLinks.at(urlStageID));
 
 			//TODO: maybe give per link relevance (i.e. based on the links relevancy/quality itself, PageRank etc.)
 			/*
@@ -605,21 +604,21 @@ bool XMLQueryResponse::SortResults(const std::map<long long, UrlStageEntry >& id
 			else{
 				Relevance totalRelevance(urlStageRelevance.at(urlStageID) + (const Relevance&)backlinks);
 				std::pair<long long, Relevance> insertPair(urlStageID,totalRelevance);
-				std::pair< std::map<long long,Relevance>::iterator, bool > ret = urlStageRelevance.insert(insertPair);
+				std::pair< std::map<long long,Relevance>::iterator, bool > ret(urlStageRelevance.insert(insertPair));
 				if(!ret.second)	{ ret.first->second = insertPair.second; }
 			}
 		}
 	}
 
 	std::map<double, std::vector<long long> > mapRelevanceUrlStageID;
-	std::map<long long, Relevance>::const_iterator iterUrlStageIDRelevance = urlStageRelevance.begin();
+	std::map<long long, Relevance>::const_iterator iterUrlStageIDRelevance(urlStageRelevance.begin());
 	for(;iterUrlStageIDRelevance != urlStageRelevance.end();++iterUrlStageIDRelevance) {
 		mapRelevanceUrlStageID[iterUrlStageIDRelevance->second.GetWeightedRelevance()].push_back(iterUrlStageIDRelevance->first); }
 
-	std::map<double, std::vector<long long> >::const_iterator sortUrlStageIDs = mapRelevanceUrlStageID.begin();
+	std::map<double, std::vector<long long> >::const_iterator sortUrlStageIDs(mapRelevanceUrlStageID.begin());
 	for(;sortUrlStageIDs != mapRelevanceUrlStageID.end();++sortUrlStageIDs) {
-		const std::vector<long long>& vecUrlStages = sortUrlStageIDs->second;
-		std::vector<long long>::const_iterator iterUrlStages = vecUrlStages.begin();
+		const std::vector<long long>& vecUrlStages(sortUrlStageIDs->second);
+		std::vector<long long>::const_iterator iterUrlStages(vecUrlStages.begin());
 		for(;iterUrlStages != vecUrlStages.end();++iterUrlStages) {
 			sortedUrlStageIDs.insert(sortedUrlStageIDs.begin(),*iterUrlStages);	}
 	}
@@ -639,9 +638,9 @@ bool XMLQueryResponse::OutputResults(
 		"<queryId>" << xmlQueryRequest->Params().QueryID() << "</queryId>"
 		"<pageNo>" << xmlQueryRequest->Params().PageNumber() << "</pageNo>"
 		"<totalResults>" << countResults << "</totalResults>";
-	std::vector<long long>::const_iterator iterSortedUrlStage = sortedUrlStageIDs.begin();
+	std::vector<long long>::const_iterator iterSortedUrlStage(sortedUrlStageIDs.begin());
 	for(int i = 1;iterSortedUrlStage != sortedUrlStageIDs.end();i++,++iterSortedUrlStage) {
-		const long long urlStageID = *iterSortedUrlStage;
+		const long long& urlStageID(*iterSortedUrlStage);
 
 		if(	mapUrlStageIDUrlID.count(urlStageID)  == 0 ||
 			mapUrlStagePageInfo.count(urlStageID) == 0 ) {
@@ -650,15 +649,15 @@ bool XMLQueryResponse::OutputResults(
 				log::Logging::LogError(ssStream.str());
 				continue; }
 
-		const long long urlID      = mapUrlStageIDUrlID.at(urlStageID);
-		const PageInfo& pageInfo                   = mapUrlStagePageInfo.at(urlStageID);
+		const long long urlID(mapUrlStageIDUrlID.at(urlStageID));
+		const PageInfo& pageInfo(mapUrlStagePageInfo.at(urlStageID));
 		if(	mapUrls.count(urlID) == 0 ){
 			std::stringstream ssStream;
 			ssStream << "could not find information for url id: " << urlID;
 			log::Logging::LogError(ssStream.str());
 			continue; }
 
-		const htmlparser::DatabaseUrl& url = mapUrls.at(urlID);
+		const htmlparser::DatabaseUrl& url(mapUrls.at(urlID));
 
 		//const UrlStageEntry& urlStageEntry         = mapUrlStageEntry.at(urlStageID);
 		//const UrlStageProperties& urlStageProperty = urlStageEntry.UrlStageProperty();
@@ -672,13 +671,13 @@ bool XMLQueryResponse::OutputResults(
 		if( lastChanged.tm_year != 0)
 			database::DatabaseHelper::TmToDateTime(lastChanged,lastChangedString);
 */
-		std::string encodedURL = url.GetFullUrl();
+		std::string encodedURL(url.GetFullUrl());
 		network::HttpUrlParser::EncodeUrl(encodedURL);
 
-		std::string encodedTitle = pageInfo.Title();
+		std::string encodedTitle(pageInfo.Title());
 		network::HttpUrlParser::EncodeUrl(encodedTitle);
 
-		std::string encodedDescription = pageInfo.Description();
+		std::string encodedDescription(pageInfo.Description());
 		network::HttpUrlParser::EncodeUrl(encodedDescription);
 
 		std::vector<std::string> encodedKeywordEntries;
@@ -746,9 +745,9 @@ bool XMLQueryResponse::GetPagesByUrlPath(const std::map<long long, KeywordEntry>
 	vecDocRows.ResetIter();
 	for(;!vecDocRows.IsIterEnd(); vecDocRows.Next()) {
 
-		database::TableBase* pRow = vecDocRows.GetIter();
+		const database::TableBase* pRow(vecDocRows.GetConstIter());
+		long long dictID(-1), urlStageID(-1);
 
-		long long dictID = -1, urlStageID = -1;
 		pRow->GetConstColumnByName("DICT_ID")->Get(dictID);
 		pRow->GetConstColumnByName("URLSTAGE_ID")->Get(urlStageID);
 
@@ -758,8 +757,8 @@ bool XMLQueryResponse::GetPagesByUrlPath(const std::map<long long, KeywordEntry>
 			continue; }
 
 		//TODO: maybe set weight
-		double weight = 1.0;
-		long long occurrence = 1;
+		double weight(1.0);
+		long long occurrence(1);
 		idUrlStage[urlStageID].push_back(
 			KeywordEntry(KeywordEntry::URL_KEYWORD_TYPE,xmlQueryRequest->Params().UrlPathRelevance(), weight, posKeyword->second.GetKeyword(), dictID, occurrence)
 		);
@@ -769,8 +768,8 @@ bool XMLQueryResponse::GetPagesByUrlPath(const std::map<long long, KeywordEntry>
 
 bool XMLQueryResponse::GroupResults(std::map<long long, UrlStageEntry >& idUrlStages, const std::vector<long long>& sortedUrlStageIDs, OrderedResults& orderedResults)
 {
-	std::vector<long long>::const_iterator iterSorted = sortedUrlStageIDs.begin();
-	const unsigned long long& groupFlag = xmlQueryRequest->Params().GroupingFlag();
+	std::vector<long long>::const_iterator iterSorted(sortedUrlStageIDs.begin());
+	const unsigned long long& groupFlag(xmlQueryRequest->Params().GroupingFlag());
 
 	if(groupFlag & XMLQueryRequest::GROUPING_DOMAIN) {
 
@@ -780,18 +779,19 @@ bool XMLQueryResponse::GroupResults(std::map<long long, UrlStageEntry >& idUrlSt
 				log::Logging::LogError("could not find urlstage id for grouping results");
 				continue;}
 
-			UrlStageEntry& urlStageEntry  = idUrlStages.find(*iterSorted)->second;
-			long long secondLevelDomainID = urlStageEntry.UrlStageProperty().SecondLevelDomainID();
-			long long urlStageID          = urlStageEntry.UrlStageProperty().UrlStageID();
+			UrlStageEntry& urlStageEntry(idUrlStages.find(*iterSorted)->second);
+			long long secondLevelDomainID(urlStageEntry.UrlStageProperty().SecondLevelDomainID());
+			long long urlStageID(urlStageEntry.UrlStageProperty().UrlStageID());
 
 			orderedResults.groupedSecondLevelDomainIDUrlStageID[secondLevelDomainID].push_back(urlStageID);
 
 			//add secondleveldomain only if it is not already there
-			std::vector<long long>::const_iterator iterFound =
+			std::vector<long long>::const_iterator iterFound(
 				std::find(
 						orderedResults.sortedSecondLevelDomainID.begin(),
 						orderedResults.sortedSecondLevelDomainID.end(),
-						secondLevelDomainID	);
+						secondLevelDomainID	)
+			);
 			if( iterFound == orderedResults.sortedSecondLevelDomainID.end()){
 				orderedResults.sortedUrlStageIDs.push_back( urlStageEntry.UrlStageProperty().UrlStageID() );
 				orderedResults.sortedSecondLevelDomainID.push_back(secondLevelDomainID); }
@@ -820,16 +820,16 @@ bool XMLQueryResponse::LogQuery(const std::vector<std::string>& vecKeywords, boo
 		if( !dbHelper.Connection()->LastInsertID( xmlQueryRequest->Params().queryID ) ) {
 			return false; }
 
-		std::vector<std::string>::const_iterator iterKeywords = vecKeywords.begin();
+		std::vector<std::string>::const_iterator iterKeywords(vecKeywords.begin());
 		for(;iterKeywords != vecKeywords.end();++iterKeywords) {
 
-			const std::string& keyword = *iterKeywords;
+			const std::string& keyword(*iterKeywords);
 
 			database::keywordqueryTableBase tblKeywordQuery;
 			tblKeywordQuery.Set_query_part(keyword);
 			tblKeywordQuery.InsertOrUpdate(dbHelper.Connection());
 
-			long long keywordQueryID = -1;
+			long long keywordQueryID(-1);
 			if( !dbHelper.Connection()->LastInsertID(keywordQueryID) || keywordQueryID == -1) {
 				log::Logging::LogError("error while inserting keyword id: " + keyword);
 				return false; }
@@ -851,7 +851,7 @@ bool XMLQueryResponse::SaveResults(
 		const std::vector<long long>& sortedUrlStageIDs,
 		const std::map<long long, long long>& mapUrlStageIDUrlID)
 {
-	bool success = true;
+	bool success(true);
 	countResults = sortedUrlStageIDs.size();
 	std::vector<long long>::const_iterator iterSortedUrlStage = sortedUrlStageIDs.begin();
 	for(int i = 0;iterSortedUrlStage != sortedUrlStageIDs.end();i++,++iterSortedUrlStage) {

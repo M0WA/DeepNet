@@ -27,7 +27,7 @@ void XMLQueryRequest::OnHandle(FCGX_Request& request)
 		log::Logging::LogWarn("no post data received, ommitting...");
 		return;	}
 
-	bool success = ParseQuery(rawPostData,queryRequestParam);
+	bool success(ParseQuery(rawPostData,queryRequestParam));
 	if(!success){
 		return;}
 }
@@ -39,10 +39,10 @@ bool XMLQueryRequest::ParseQueryGrouping(const std::string& xmlRequest, QueryReq
 	if( !Xpath(queryGrouping, xmlRequest.c_str(), (xmlChar*)"/request/query/grouping/flag/text()")) {
 		log::Logging::LogError("could not parse xml query grouping flag");
 		return false; }
-	std::list<std::string>::iterator iterGrouping = queryGrouping.begin();
+	std::list<std::string>::const_iterator iterGrouping(queryGrouping.begin());
 	out.groupFlag = 0;
 	for(;iterGrouping != queryGrouping.end();++iterGrouping){
-		unsigned long long groupTmp = 0;
+		unsigned long long groupTmp(0);
 		tools::StringTools::TransformString(*iterGrouping, groupTmp);
 		out.groupFlag |= groupTmp;
 		/*
@@ -69,15 +69,15 @@ bool XMLQueryRequest::ParseQueryCriteria(const std::string& xmlRequest, QueryReq
 	if( !Xpath(queryCriterias, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/flag/text()")) {
 		log::Logging::LogError("could not parse xml query criteria flag");
 		return false; }
-	std::list<std::string>::iterator iterCriterias = queryCriterias.begin();
+	std::list<std::string>::const_iterator iterCriterias(queryCriterias.begin());
 	out.criteriaFlag = 0;
 	std::list<std::string> tmpList;
 	for(;iterCriterias != queryCriterias.end();++iterCriterias){
-		unsigned long long critTmp = 0;
+		unsigned long long critTmp(0);
 		tools::StringTools::TransformString(*iterCriterias, critTmp);
 		out.criteriaFlag |= critTmp;
 
-		bool bDone = false;
+		bool bDone(false);
 
 		switch(critTmp)
 		{
@@ -154,11 +154,11 @@ bool XMLQueryRequest::ParseQueryLimitations(const std::string& xmlRequest, Query
 	if( !Xpath(queryLimitations, xmlRequest.c_str(), (xmlChar*)"/request/query/limitations/flag/text()")) {
 		log::Logging::LogError("could not parse xml query limitation flag");
 		return false; }
-	std::list<std::string>::iterator iterLimitations = queryLimitations.begin();
+	std::list<std::string>::const_iterator iterLimitations(queryLimitations.begin());
 	out.limitFlag = 0;
 	std::list<std::string> tmpList;
 	for(;iterLimitations != queryLimitations.end();++iterLimitations){
-		unsigned long long limitTmp = 0;
+		unsigned long long limitTmp(0);
 		tools::StringTools::TransformString(*iterLimitations, limitTmp);
 		out.limitFlag |= limitTmp;
 
