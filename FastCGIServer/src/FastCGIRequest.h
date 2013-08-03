@@ -24,6 +24,7 @@
 
 #include <StringTools.h>
 #include <HttpCookie.h>
+#include <MemoryContainer.h>
 
 namespace fastcgiserver {
 class FastCGIServerThread;
@@ -158,24 +159,19 @@ private:
 	bool ReadPostData(FCGX_Request& request);
 	void ParseCookies(std::string cookieString);
 
-	static void SplitArguments(char*, std::vector< std::pair<std::string,std::string> >&);
+	static void SplitArguments(const char*, std::vector< std::pair<std::string,std::string> >&);
 	static std::string SafeGetEnv(const char* name,FCGX_Request& request);
 
 protected:
 	/**
 	 * buffer to raw post data.
 	 */
-	char* rawPostData;
+	tools::MemoryContainer<char> rawPostData;
 
 	/**
 	 * buffer to raw get data.
 	 */
-	char* rawQueryString;
-
-	/**
-	 * parsed post parameters.
-	 */
-	std::vector<std::pair<std::string,std::string> > postParameters;
+	const char* rawQueryString;
 
 	/**
 	 * parsed get parameters.
@@ -184,7 +180,6 @@ protected:
 
 private:
 	bool completed;
-	const unsigned long STDIN_MAX;
 	FastCGIServerThread* serverThread;
 	std::vector<network::HttpCookie> cookies;
 

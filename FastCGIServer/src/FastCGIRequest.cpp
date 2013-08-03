@@ -17,38 +17,37 @@
 
 namespace fastcgiserver {
 
+static const unsigned long FCGI_MAX_POST_DATA_SIZE(4096);
+
 FastCGIRequest::FastCGIRequest(FastCGIServerThread* serverThread)
-: rawPostData(0)
-, rawQueryString(0)
-, completed(false)
-, STDIN_MAX(4096)
+: completed(false)
 , serverThread(serverThread) {
 }
 
 FastCGIRequest::~FastCGIRequest() {
-
-	delete [] rawPostData;
 }
 
 void FastCGIRequest::Handle(FCGX_Request& request) {
-
-	ReadPostData(request);
-	SplitArguments(rawPostData, postParameters);
-
-	rawQueryString = FCGX_GetParam("QUERY_STRING", request.envp);
-	SplitArguments(rawQueryString, getParameters);
 
     //save client infos
     clientIP = FastCGIRequest::SafeGetEnv("REMOTE_ADDR",request);
     clientPort = FastCGIRequest::SafeGetEnv("REMOTE_PORT",request);
     requestUri = FastCGIRequest::SafeGetEnv("REQUEST_URI",request);
+
+	rawQueryString = FCGX_GetParam("QUERY_STRING", request.envp);
+	SplitArguments(rawQueryString, getParameters);
 	GetParam(request, "user-agent", userAgent);
+
+	ReadPostData(request);
 
 	LogRequest();
 
 	completed = true;
 
 	OnHandle(request);
+
+	getParameters.clear();
+	rawPostData.Release();
 }
 
 void FastCGIRequest::LogRequest() {
@@ -63,8 +62,7 @@ void FastCGIRequest::LogRequest() {
 		ssIn << "\tGET parameters: " << std::endl;
 		DumpParameters(ssIn,getParameters);
 
-		ssIn << "\tPOST parameters: " << std::endl;
-		DumpParameters(ssIn,postParameters);
+		ssIn << "\tPOST data: " << std::endl << rawPostData;
 
 		ssIn << "\tCOOKIES: " << std::endl;
 		std::vector<network::HttpCookie>::const_iterator iterCookies = cookies.begin();
@@ -118,7 +116,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		// many http clients (browsers) don't support it (so
 		// the connection deadlocks until a timeout expires!).
 		std::string clenstr = FastCGIRequest::SafeGetEnv("CONTENT_LENGTH", request);
-		unsigned long clen(STDIN_MAX);
+		unsigned long clen(FCGI_MAX_POST_DATA_SIZE);
 
 		if (!clenstr.empty())
 		{
@@ -127,15 +125,14 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 				log::Logging::LogWarn("empty post request received, dropping");
 				return false;
 			}
-			if(clen>STDIN_MAX) {
+			if(clen>FCGI_MAX_POST_DATA_SIZE) {
 				log::Logging::LogWarn("request is too big, dropping");
 				return false;
 			}
 
-			rawPostData = new char[clen+1];
-			cin_fcgi.read(rawPostData, clen);
+			rawPostData.EnsureSize(clen,false);
+			cin_fcgi.read(rawPostData.GetElements(), clen);
 			clen = cin_fcgi.gcount();
-			rawPostData[clen] = 0;
 		}
 		else {
 			log::Logging::LogWarn("post request did not specify content length, dropping");
@@ -143,13 +140,29 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		}
     }
     else if (requestMethod.compare("get") == 0) {
-		rawPostData = 0;
+
 	}
     else {
     	//unsupported HTTP request method
     	log::Logging::LogWarn("unsupported http method received: " + requestMethod + ", dropping");
     	return false;
     }
+
+    bool isAlphaNumeric(true);
+    for (size_t i(0); i < rawPostData.GetCount(); ++i) {
+    	if(std::isalnum(*rawPostData.GetConstElementAt(i))==0) {
+    		isAlphaNumeric = false;
+    		break; }
+    }
+
+    //if post data is not alphanumeric, ignore it
+    if(!isAlphaNumeric) {
+    	rawPostData.Release();
+    	log::Logging::LogWarn("post data is not alphanumeric, ignoring it");
+    }
+
+	char zero(0);
+	rawPostData.Append(&zero,0);
 
 	// Chew up any remaining stdin - this shouldn't be necessary
 	// but is because mod_fastcgi doesn't handle it correctly.
@@ -162,7 +175,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 	return true;
 }
 
-void FastCGIRequest::SplitArguments(char* pszArguments, std::vector< std::pair<std::string,std::string> >& arguments)
+void FastCGIRequest::SplitArguments(const char* pszArguments, std::vector< std::pair<std::string,std::string> >& arguments)
 {
 	if(pszArguments == 0){
 		return;	}
@@ -170,8 +183,8 @@ void FastCGIRequest::SplitArguments(char* pszArguments, std::vector< std::pair<s
 	if(pszArguments[0] != '?') {
 		return;	}
 
-	char* beginParam(pszArguments);
-	char* endParam(pszArguments);
+	char* beginParam(const_cast<char*>(pszArguments));
+	char* endParam(const_cast<char*>(pszArguments));
 	if ((endParam = strstr(beginParam,"&")) != NULL)
 	{
 		while ((endParam = strstr(beginParam,"&")) != NULL)
