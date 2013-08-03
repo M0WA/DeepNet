@@ -62,7 +62,8 @@ void FastCGIRequest::LogRequest() {
 		ssIn << "\tGET parameters: " << std::endl;
 		DumpParameters(ssIn,getParameters);
 
-		ssIn << "\tPOST data: " << std::endl << rawPostData;
+		ssIn << "\tPOST data: " << std::endl
+			 << "\t" << rawPostData << std::endl;
 
 		ssIn << "\tCOOKIES: " << std::endl;
 		std::vector<network::HttpCookie>::const_iterator iterCookies = cookies.begin();
@@ -110,13 +111,14 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 
     std::string requestMethod(FastCGIRequest::SafeGetEnv("REQUEST_METHOD",request));
     tools::StringTools::ToLowerIP(requestMethod);
+
+	unsigned long clen(FCGI_MAX_POST_DATA_SIZE);
     if(requestMethod.compare("post") == 0)
     {
 		// Although FastCGI supports writing before reading,
 		// many http clients (browsers) don't support it (so
 		// the connection deadlocks until a timeout expires!).
 		std::string clenstr = FastCGIRequest::SafeGetEnv("CONTENT_LENGTH", request);
-		unsigned long clen(FCGI_MAX_POST_DATA_SIZE);
 
 		if (!clenstr.empty())
 		{
@@ -133,6 +135,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 			rawPostData.EnsureSize(clen,false);
 			cin_fcgi.read(rawPostData.GetElements(), clen);
 			clen = cin_fcgi.gcount();
+			rawPostData.Resize(clen);
 		}
 		else {
 			log::Logging::LogWarn("post request did not specify content length, dropping");
@@ -148,21 +151,22 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     	return false;
     }
 
-    bool isAlphaNumeric(true);
-    for (size_t i(0); i < rawPostData.GetCount(); ++i) {
-    	if(std::isalnum(*rawPostData.GetConstElementAt(i))==0) {
-    		isAlphaNumeric = false;
-    		break; }
+    bool isString(true);
+    if(isString) {
+		for (size_t i(0); i < rawPostData.GetCount(); ++i) {
+			if(std::isprint(*rawPostData.GetConstElementAt(i))==0 || std::iscntrl(*rawPostData.GetConstElementAt(i))==1) {
+				isString = false;
+				break; }
+		}
     }
 
-    //if post data is not alphanumeric, ignore it
-    if(!isAlphaNumeric) {
+    if(!isString) {
     	rawPostData.Release();
-    	log::Logging::LogWarn("post data is not alphanumeric, ignoring it");
+    	log::Logging::LogWarn("post data is not a string, ignoring it");
     }
 
 	char zero(0);
-	rawPostData.Append(&zero,0);
+	rawPostData.Append(&zero,1);
 
 	// Chew up any remaining stdin - this shouldn't be necessary
 	// but is because mod_fastcgi doesn't handle it correctly.
