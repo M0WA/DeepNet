@@ -8,6 +8,8 @@
 
 #include <sstream>
 
+#include "DatabaseHelper.h"
+
 #include "TableColumn.h"
 #include "TableColumnContainer.h"
 #include "TableColumnDefinition.h"
@@ -75,8 +77,12 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 	columnValues.ResetIter();
 	if(columnValues.Size() == 1) {
 
+		//LIKE keyword is case sensitive for PostGRESQL
+		if(database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL &&
+		   createParam.op.GetType() == LIKE){
+			columnName = "lower(" + columnName + ")"; }
 
-		std::string opString = createParam.op.ToString();
+		std::string opString(createParam.op.ToString());
 		if(colVal->GetConstColumn()->IsNull()) {
 
 			switch(createParam.op.GetType()) {
@@ -126,6 +132,11 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 	//needs to be:
 	// ...word1 LIKE "bla" OR word1 LIKE "blub"...
 	else {
+
+		//LIKE keyword is case sensitive for PostGRESQL
+		if(database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL){
+			columnName = "lower(" + columnName + ")"; }
+
 		for(int i = 0;!columnValues.IsIterEnd();columnValues.Next(),i++) {
 			if(i)
 				columnString << " OR ";
