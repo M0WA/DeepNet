@@ -25,7 +25,7 @@ class SocketTCPServer: public networking::SocketTCP {
 public:
 	/**
 	 * creates tcp server socket
-	 * @param ipendpoint bind address of server (INADDR_ANY for all IPs)
+	 * @param endpoint bind address of server (INADDR_ANY for all IPs)
 	 * @param backlog backlog for this socket
 	 */
 	SocketTCPServer(

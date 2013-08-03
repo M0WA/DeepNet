@@ -119,7 +119,7 @@ private:
 	 * called when data should be written to the socket
 	 * @param data data to write to socket
 	 * @param dataSize size of data
-	 * @retur number of bytes written
+	 * @return number of bytes written
 	 */
 	virtual size_t OnWrite(const unsigned char* data, const size_t& dataSize)=0;
 
