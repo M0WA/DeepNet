@@ -75,6 +75,7 @@ public:
 
 private:
 	static long long GetPathPartIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart);
+	static long long InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs);
 
 private:
 	static CacheUrlPathPart cacheInstance;
