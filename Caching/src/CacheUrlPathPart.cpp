@@ -10,10 +10,11 @@
 
 #include <vector>
 
-#include <DatabaseLayer.h>
 #include <StringTools.h>
+#include <ContainerTools.h>
 #include <Logging.h>
 
+#include <DatabaseLayer.h>
 #include <TableColumn.h>
 #include <WhereCondition.h>
 #include <WhereConditionTableColumn.h>
@@ -38,10 +39,6 @@ void CacheUrlPathPart::SetCapacity(const size_t capacity)
 void CacheUrlPathPart::Clear(void)
 {
 	cacheInstance.idPathPart.ClearItems();
-}
-
-std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID) {
-	return "";
 }
 
 long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
@@ -89,6 +86,11 @@ long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,
 		//
 		log::Logging::LogError("invalid path part: %s",parts.at(0).c_str());
 		return -1; }
+	else {
+		std::string dumpPath;
+		tools::ContainerTools::DumpVector(parts,dumpPath);
+		log::Logging::LogTrace("splitted path parts:\n%s",dumpPath.c_str());
+	}
 
 	database::WhereConditionTableColumnCreateParam pathPartCreateParamBegin(
 			database::WhereCondition::Equals(),
@@ -113,8 +115,8 @@ long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,
 			selectUrlPathPart );
 
 		database::WhereConditionTableColumnCreateParam createParam(
-				database::WhereCondition::Equals(),
-				database::WhereCondition::And());
+			database::WhereCondition::Equals(),
+			database::WhereCondition::And());
 		createParam.tableNameAlias = joinTableAlias;
 
 		database::urlpathpartsTableBase::GetWhereColumnsFor_PATHPART_ID(
@@ -201,6 +203,58 @@ long long CacheUrlPathPart::GetPathPartIDByPathPart(database::DatabaseConnection
 	//TODO: throw exception
 	//
 	return -1;
+}
+
+std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID) {
+
+	std::vector<std::string> pathParts;
+
+	long long nextUrlPathPartID(urlPathPartID);
+	do {
+		database::SelectResultContainer<database::urlpathpartsTableBase> urlpathpartTbl;
+		database::urlpathpartsTableBase::GetBy_ID(db,nextUrlPathPartID,urlpathpartTbl);
+
+		if(urlpathpartTbl.Size() != 1) {
+			//
+			//TODO: throw exception
+			//
+			log::Logging::LogError("");
+			return "";
+		}
+
+		urlpathpartTbl.ResetIter();
+
+		long long pathPartID(-1);
+		urlpathpartTbl.GetIter()->Get_PATHPART_ID(pathPartID);
+
+		database::SelectResultContainer<database::pathpartsTableBase> pathPartTbl;
+		database::pathpartsTableBase::GetBy_ID(db,pathPartID,pathPartTbl);
+
+		if(pathPartTbl.Size() != 1) {
+			//
+			//TODO: throw exception
+			//
+			log::Logging::LogError("");
+			return "";
+		}
+
+		std::string pathPart;
+		pathPartTbl.GetIter()->Get_path(pathPart);
+
+
+		/*
+		for(;!urlpathpartTbl.IsIterEnd();urlpathpartTbl.Next()) {
+		}
+		*/
+
+		//urlpathpartTbl.GetIter()->
+
+		nextUrlPathPartID = -1;
+	} while(nextUrlPathPartID != -1);
+
+	std::string combinedPath;
+	tools::StringTools::VectorToString(pathParts,combinedPath,"/");
+	return combinedPath;
 }
 
 }
