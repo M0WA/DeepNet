@@ -161,50 +161,26 @@ long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,
 
 long long CacheUrlPathPart::GetPathPartIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
 
-	database::SelectStatement selectPathPart(database::pathpartsTableBase::CreateTableDefinition());
-	selectPathPart.SelectAllColumns();
+	long long pathPartID(-1);
 
-	std::vector<database::WhereConditionTableColumn*> where;
-	database::pathpartsTableBase::GetWhereColumnsFor_path(
-		database::WhereConditionTableColumnCreateParam(
-			database::WhereCondition::Equals(),
-			database::WhereCondition::InitialComp()),
-		pathPart,
-		where
-	);
+	database::pathpartsTableBase pathPartTbl;
+	pathPartTbl.Set_path(pathPart);
 
-	selectPathPart.Where().AddColumns(where);
-
-	database::SelectResultContainer<database::pathpartsTableBase> results;
-	try{
-		db->Select(selectPathPart,results);
+	try {
+		pathPartTbl.InsertOrUpdate(db);
+		db->LastInsertID(pathPartID);
 	}
 	catch(database::DatabaseException& e) {
 		//
 		//TODO: throw exception
 		//
 		e.DisableLogging();
-		log::Logging::LogError("exception while getting path part: %s\n%s",pathPart.c_str(),e.Dump().c_str());
+		e.Log();
+		log::Logging::LogError("exception while getting path part: %s",pathPart.c_str());
 		return -1;
 	}
 
-	if(results.Size()!=1) {
-		//
-		//TODO: throw exception
-		//
-		log::Logging::LogError("exception while getting path part: %s",pathPart.c_str());
-		return -1; }
-	results.ResetIter();
-
-	for(;!results.IsIterEnd();results.Next()) {
-		long long id(-1);
-		results.GetIter()->Get_ID(id);
-		return id; }
-
-	//
-	//TODO: throw exception
-	//
-	return -1;
+	return pathPartID;
 }
 
 std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID) {
