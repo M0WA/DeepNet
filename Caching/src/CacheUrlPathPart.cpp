@@ -208,7 +208,6 @@ long long CacheUrlPathPart::GetPathPartIDByPathPart(database::DatabaseConnection
 std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID) {
 
 	std::vector<std::string> pathParts;
-
 	long long nextUrlPathPartID(urlPathPartID);
 	do {
 		database::SelectResultContainer<database::urlpathpartsTableBase> urlpathpartTbl;
@@ -219,8 +218,7 @@ std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* d
 			//TODO: throw exception
 			//
 			log::Logging::LogError("");
-			return "";
-		}
+			return ""; }
 
 		urlpathpartTbl.ResetIter();
 
@@ -235,21 +233,18 @@ std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* d
 			//TODO: throw exception
 			//
 			log::Logging::LogError("");
-			return "";
-		}
+			return ""; }
 
 		std::string pathPart;
 		pathPartTbl.GetIter()->Get_path(pathPart);
+		pathParts.push_back(pathPart);
 
+		const database::TableColumn* nextID(urlpathpartTbl.GetIter()->GetColumn_URLPATHPART_ID_NEXT());
+		if(nextID->IsNull())
+			nextUrlPathPartID = -1;
+		else
+			nextID->Get(nextUrlPathPartID);
 
-		/*
-		for(;!urlpathpartTbl.IsIterEnd();urlpathpartTbl.Next()) {
-		}
-		*/
-
-		//urlpathpartTbl.GetIter()->
-
-		nextUrlPathPartID = -1;
 	} while(nextUrlPathPartID != -1);
 
 	std::string combinedPath;
