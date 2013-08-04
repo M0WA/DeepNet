@@ -85,10 +85,7 @@ void StringTools::RemoveComments(std::vector<std::string>& fileContent) {
 
 		size_t pos = iterLines->find('#');
 		if(pos != std::string::npos) {
-
-			std::string::iterator posStart = iterLines->begin();
-			std::advance(posStart,pos);
-			iterLines->erase(posStart, iterLines->end());
+			iterLines->erase(pos,iterLines->length()-pos);
 		}
 	}
 	StringTools::RemoveEmptyLines(fileContent);
