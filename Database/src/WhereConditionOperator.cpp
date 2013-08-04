@@ -54,6 +54,7 @@ std::string WhereConditionOperator::OperatorToString(const WhereConditionOperato
 		return "LIKE";
 	default:
 		THROW_EXCEPTION(DatabaseInvalidOperatorTypeException);
+		return "";
 	}
 }
 
