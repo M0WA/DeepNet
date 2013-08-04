@@ -87,4 +87,4 @@ private:
 	Cache<long long,std::string> idSecondLevelDomain;
 };
 
-} /* namespace caching */
+}

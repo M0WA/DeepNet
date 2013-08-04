@@ -76,4 +76,4 @@ void CacheSecondLevelDomain::Clear(void)
 	cacheInstance.idSecondLevelDomain.ClearItems();
 }
 
-} /* namespace caching */
+}
