@@ -64,7 +64,7 @@ void pathpartsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* pathpartsTableBase::GetColumn_ID() const {
+const TableColumn* pathpartsTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* pathpartsTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* pathpartsTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void pathpartsTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void pathpartsTableBase::Get_path(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* pathpartsTableBase::GetColumn_path() const {
+const TableColumn* pathpartsTableBase::GetConstColumn_path() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* pathpartsTableBase::GetColumn_path() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* pathpartsTableBase::GetColumn_path() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "path";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "path";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("path");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "path";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void pathpartsTableBase::Set_path(const std::string& in) {

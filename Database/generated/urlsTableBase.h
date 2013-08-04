@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_SCHEME_ID(long long& out) const;
 
   /**
+   * gets const column for SCHEME_ID.
+   * @return column for SCHEME_ID.
+   */
+  const TableColumn* GetConstColumn_SCHEME_ID() const;
+
+  /**
    * gets column for SCHEME_ID.
    * @return column for SCHEME_ID.
    */
-  const TableColumn* GetColumn_SCHEME_ID() const;
+  TableColumn* GetColumn_SCHEME_ID();
 
 	/**
 	 * sets value of SCHEME_ID.
@@ -75,10 +87,16 @@ public:
   void Get_TOPLEVELDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for TOPLEVELDOMAIN_ID.
+   * @return column for TOPLEVELDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_TOPLEVELDOMAIN_ID() const;
+
+  /**
    * gets column for TOPLEVELDOMAIN_ID.
    * @return column for TOPLEVELDOMAIN_ID.
    */
-  const TableColumn* GetColumn_TOPLEVELDOMAIN_ID() const;
+  TableColumn* GetColumn_TOPLEVELDOMAIN_ID();
 
 	/**
 	 * sets value of TOPLEVELDOMAIN_ID.
@@ -92,10 +110,16 @@ public:
   void Get_SUBDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for SUBDOMAIN_ID.
+   * @return column for SUBDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_SUBDOMAIN_ID() const;
+
+  /**
    * gets column for SUBDOMAIN_ID.
    * @return column for SUBDOMAIN_ID.
    */
-  const TableColumn* GetColumn_SUBDOMAIN_ID() const;
+  TableColumn* GetColumn_SUBDOMAIN_ID();
 
 	/**
 	 * sets value of SUBDOMAIN_ID.
@@ -109,10 +133,16 @@ public:
   void Get_SECONDLEVELDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for SECONDLEVELDOMAIN_ID.
+   * @return column for SECONDLEVELDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_SECONDLEVELDOMAIN_ID() const;
+
+  /**
    * gets column for SECONDLEVELDOMAIN_ID.
    * @return column for SECONDLEVELDOMAIN_ID.
    */
-  const TableColumn* GetColumn_SECONDLEVELDOMAIN_ID() const;
+  TableColumn* GetColumn_SECONDLEVELDOMAIN_ID();
 
 	/**
 	 * sets value of SECONDLEVELDOMAIN_ID.
@@ -126,10 +156,16 @@ public:
   void Get_port(long long& out) const;
 
   /**
+   * gets const column for port.
+   * @return column for port.
+   */
+  const TableColumn* GetConstColumn_port() const;
+
+  /**
    * gets column for port.
    * @return column for port.
    */
-  const TableColumn* GetColumn_port() const;
+  TableColumn* GetColumn_port();
 
 	/**
 	 * sets value of port.
@@ -143,10 +179,16 @@ public:
   void Get_path_part(std::string& out) const;
 
   /**
+   * gets const column for path_part.
+   * @return column for path_part.
+   */
+  const TableColumn* GetConstColumn_path_part() const;
+
+  /**
    * gets column for path_part.
    * @return column for path_part.
    */
-  const TableColumn* GetColumn_path_part() const;
+  TableColumn* GetColumn_path_part();
 
 	/**
 	 * sets value of path_part.
@@ -160,10 +202,16 @@ public:
   void Get_search_part(std::string& out) const;
 
   /**
+   * gets const column for search_part.
+   * @return column for search_part.
+   */
+  const TableColumn* GetConstColumn_search_part() const;
+
+  /**
    * gets column for search_part.
    * @return column for search_part.
    */
-  const TableColumn* GetColumn_search_part() const;
+  TableColumn* GetColumn_search_part();
 
 	/**
 	 * sets value of search_part.
@@ -177,10 +225,16 @@ public:
   void Get_url_md5(std::string& out) const;
 
   /**
+   * gets const column for url_md5.
+   * @return column for url_md5.
+   */
+  const TableColumn* GetConstColumn_url_md5() const;
+
+  /**
    * gets column for url_md5.
    * @return column for url_md5.
    */
-  const TableColumn* GetColumn_url_md5() const;
+  TableColumn* GetColumn_url_md5();
 
 	/**
 	 * sets value of url_md5.
@@ -194,10 +248,16 @@ public:
   void Get_found_date(struct tm& out) const;
 
   /**
+   * gets const column for found_date.
+   * @return column for found_date.
+   */
+  const TableColumn* GetConstColumn_found_date() const;
+
+  /**
    * gets column for found_date.
    * @return column for found_date.
    */
-  const TableColumn* GetColumn_found_date() const;
+  TableColumn* GetColumn_found_date();
 
 	/**
 	 * sets value of found_date.

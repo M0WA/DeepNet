@@ -65,7 +65,7 @@ void customerdomainblacklistTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainblacklistTableBase::GetColumn_ID() const {
+const TableColumn* customerdomainblacklistTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -85,6 +85,28 @@ const TableColumn* customerdomainblacklistTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainblacklistTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainblacklistTableBase::Set_ID(const long long& in) {
@@ -131,7 +153,7 @@ void customerdomainblacklistTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) con
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainblacklistTableBase::GetColumn_CUSTOMERDOMAIN_ID() const {
+const TableColumn* customerdomainblacklistTableBase::GetConstColumn_CUSTOMERDOMAIN_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -151,6 +173,28 @@ const TableColumn* customerdomainblacklistTableBase::GetColumn_CUSTOMERDOMAIN_ID
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainblacklistTableBase::GetColumn_CUSTOMERDOMAIN_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainblacklistTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
@@ -197,7 +241,7 @@ void customerdomainblacklistTableBase::Get_path(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainblacklistTableBase::GetColumn_path() const {
+const TableColumn* customerdomainblacklistTableBase::GetConstColumn_path() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -217,6 +261,28 @@ const TableColumn* customerdomainblacklistTableBase::GetColumn_path() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainblacklistTableBase::GetColumn_path() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "path";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "path";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("path");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "path";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainblacklistTableBase::Set_path(const std::string& in) {
@@ -263,7 +329,7 @@ void customerdomainblacklistTableBase::Get_isPathRegex(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainblacklistTableBase::GetColumn_isPathRegex() const {
+const TableColumn* customerdomainblacklistTableBase::GetConstColumn_isPathRegex() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -283,6 +349,28 @@ const TableColumn* customerdomainblacklistTableBase::GetColumn_isPathRegex() con
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainblacklistTableBase::GetColumn_isPathRegex() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isPathRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isPathRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isPathRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isPathRegex";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainblacklistTableBase::Set_isPathRegex(const long long& in) {

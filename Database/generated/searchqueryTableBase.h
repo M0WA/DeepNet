@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_session(std::string& out) const;
 
   /**
+   * gets const column for session.
+   * @return column for session.
+   */
+  const TableColumn* GetConstColumn_session() const;
+
+  /**
    * gets column for session.
    * @return column for session.
    */
-  const TableColumn* GetColumn_session() const;
+  TableColumn* GetColumn_session();
 
 	/**
 	 * sets value of session.

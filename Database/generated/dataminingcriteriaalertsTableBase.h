@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMER_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMER_ID.
+   * @return column for CUSTOMER_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMER_ID() const;
+
+  /**
    * gets column for CUSTOMER_ID.
    * @return column for CUSTOMER_ID.
    */
-  const TableColumn* GetColumn_CUSTOMER_ID() const;
+  TableColumn* GetColumn_CUSTOMER_ID();
 
 	/**
 	 * sets value of CUSTOMER_ID.
@@ -75,10 +87,16 @@ public:
   void Get_DATAMININGALERT_ID(long long& out) const;
 
   /**
+   * gets const column for DATAMININGALERT_ID.
+   * @return column for DATAMININGALERT_ID.
+   */
+  const TableColumn* GetConstColumn_DATAMININGALERT_ID() const;
+
+  /**
    * gets column for DATAMININGALERT_ID.
    * @return column for DATAMININGALERT_ID.
    */
-  const TableColumn* GetColumn_DATAMININGALERT_ID() const;
+  TableColumn* GetColumn_DATAMININGALERT_ID();
 
 	/**
 	 * sets value of DATAMININGALERT_ID.
@@ -92,10 +110,16 @@ public:
   void Get_DATAMININGCRITERIA_ID(long long& out) const;
 
   /**
+   * gets const column for DATAMININGCRITERIA_ID.
+   * @return column for DATAMININGCRITERIA_ID.
+   */
+  const TableColumn* GetConstColumn_DATAMININGCRITERIA_ID() const;
+
+  /**
    * gets column for DATAMININGCRITERIA_ID.
    * @return column for DATAMININGCRITERIA_ID.
    */
-  const TableColumn* GetColumn_DATAMININGCRITERIA_ID() const;
+  TableColumn* GetColumn_DATAMININGCRITERIA_ID();
 
 	/**
 	 * sets value of DATAMININGCRITERIA_ID.

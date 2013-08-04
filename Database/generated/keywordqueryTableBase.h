@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_query_part(std::string& out) const;
 
   /**
+   * gets const column for query_part.
+   * @return column for query_part.
+   */
+  const TableColumn* GetConstColumn_query_part() const;
+
+  /**
    * gets column for query_part.
    * @return column for query_part.
    */
-  const TableColumn* GetColumn_query_part() const;
+  TableColumn* GetColumn_query_part();
 
 	/**
 	 * sets value of query_part.

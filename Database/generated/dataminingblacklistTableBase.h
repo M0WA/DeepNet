@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMER_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMER_ID.
+   * @return column for CUSTOMER_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMER_ID() const;
+
+  /**
    * gets column for CUSTOMER_ID.
    * @return column for CUSTOMER_ID.
    */
-  const TableColumn* GetColumn_CUSTOMER_ID() const;
+  TableColumn* GetColumn_CUSTOMER_ID();
 
 	/**
 	 * sets value of CUSTOMER_ID.
@@ -75,10 +87,16 @@ public:
   void Get_domain(std::string& out) const;
 
   /**
+   * gets const column for domain.
+   * @return column for domain.
+   */
+  const TableColumn* GetConstColumn_domain() const;
+
+  /**
    * gets column for domain.
    * @return column for domain.
    */
-  const TableColumn* GetColumn_domain() const;
+  TableColumn* GetColumn_domain();
 
 	/**
 	 * sets value of domain.

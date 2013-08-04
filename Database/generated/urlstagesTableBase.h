@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_URL_ID(long long& out) const;
 
   /**
+   * gets const column for URL_ID.
+   * @return column for URL_ID.
+   */
+  const TableColumn* GetConstColumn_URL_ID() const;
+
+  /**
    * gets column for URL_ID.
    * @return column for URL_ID.
    */
-  const TableColumn* GetColumn_URL_ID() const;
+  TableColumn* GetColumn_URL_ID();
 
 	/**
 	 * sets value of URL_ID.
@@ -75,10 +87,16 @@ public:
   void Get_response_code(long long& out) const;
 
   /**
+   * gets const column for response_code.
+   * @return column for response_code.
+   */
+  const TableColumn* GetConstColumn_response_code() const;
+
+  /**
    * gets column for response_code.
    * @return column for response_code.
    */
-  const TableColumn* GetColumn_response_code() const;
+  TableColumn* GetColumn_response_code();
 
 	/**
 	 * sets value of response_code.
@@ -92,10 +110,16 @@ public:
   void Get_content_md5(std::string& out) const;
 
   /**
+   * gets const column for content_md5.
+   * @return column for content_md5.
+   */
+  const TableColumn* GetConstColumn_content_md5() const;
+
+  /**
    * gets column for content_md5.
    * @return column for content_md5.
    */
-  const TableColumn* GetColumn_content_md5() const;
+  TableColumn* GetColumn_content_md5();
 
 	/**
 	 * sets value of content_md5.
@@ -109,10 +133,16 @@ public:
   void Get_last_change(struct tm& out) const;
 
   /**
+   * gets const column for last_change.
+   * @return column for last_change.
+   */
+  const TableColumn* GetConstColumn_last_change() const;
+
+  /**
    * gets column for last_change.
    * @return column for last_change.
    */
-  const TableColumn* GetColumn_last_change() const;
+  TableColumn* GetColumn_last_change();
 
 	/**
 	 * sets value of last_change.
@@ -126,10 +156,16 @@ public:
   void Get_redirect_count(long long& out) const;
 
   /**
+   * gets const column for redirect_count.
+   * @return column for redirect_count.
+   */
+  const TableColumn* GetConstColumn_redirect_count() const;
+
+  /**
    * gets column for redirect_count.
    * @return column for redirect_count.
    */
-  const TableColumn* GetColumn_redirect_count() const;
+  TableColumn* GetColumn_redirect_count();
 
 	/**
 	 * sets value of redirect_count.
@@ -143,10 +179,16 @@ public:
   void Get_download_speed(long long& out) const;
 
   /**
+   * gets const column for download_speed.
+   * @return column for download_speed.
+   */
+  const TableColumn* GetConstColumn_download_speed() const;
+
+  /**
    * gets column for download_speed.
    * @return column for download_speed.
    */
-  const TableColumn* GetColumn_download_speed() const;
+  TableColumn* GetColumn_download_speed();
 
 	/**
 	 * sets value of download_speed.
@@ -160,10 +202,16 @@ public:
   void Get_upload_speed(long long& out) const;
 
   /**
+   * gets const column for upload_speed.
+   * @return column for upload_speed.
+   */
+  const TableColumn* GetConstColumn_upload_speed() const;
+
+  /**
    * gets column for upload_speed.
    * @return column for upload_speed.
    */
-  const TableColumn* GetColumn_upload_speed() const;
+  TableColumn* GetColumn_upload_speed();
 
 	/**
 	 * sets value of upload_speed.
@@ -177,10 +225,16 @@ public:
   void Get_content_length(long long& out) const;
 
   /**
+   * gets const column for content_length.
+   * @return column for content_length.
+   */
+  const TableColumn* GetConstColumn_content_length() const;
+
+  /**
    * gets column for content_length.
    * @return column for content_length.
    */
-  const TableColumn* GetColumn_content_length() const;
+  TableColumn* GetColumn_content_length();
 
 	/**
 	 * sets value of content_length.
@@ -194,10 +248,16 @@ public:
   void Get_content_type(std::string& out) const;
 
   /**
+   * gets const column for content_type.
+   * @return column for content_type.
+   */
+  const TableColumn* GetConstColumn_content_type() const;
+
+  /**
    * gets column for content_type.
    * @return column for content_type.
    */
-  const TableColumn* GetColumn_content_type() const;
+  TableColumn* GetColumn_content_type();
 
 	/**
 	 * sets value of content_type.
@@ -211,10 +271,16 @@ public:
   void Get_primary_ip(long long& out) const;
 
   /**
+   * gets const column for primary_ip.
+   * @return column for primary_ip.
+   */
+  const TableColumn* GetConstColumn_primary_ip() const;
+
+  /**
    * gets column for primary_ip.
    * @return column for primary_ip.
    */
-  const TableColumn* GetColumn_primary_ip() const;
+  TableColumn* GetColumn_primary_ip();
 
 	/**
 	 * sets value of primary_ip.
@@ -228,10 +294,16 @@ public:
   void Get_primary_port(long long& out) const;
 
   /**
+   * gets const column for primary_port.
+   * @return column for primary_port.
+   */
+  const TableColumn* GetConstColumn_primary_port() const;
+
+  /**
    * gets column for primary_port.
    * @return column for primary_port.
    */
-  const TableColumn* GetColumn_primary_port() const;
+  TableColumn* GetColumn_primary_port();
 
 	/**
 	 * sets value of primary_port.
@@ -245,10 +317,16 @@ public:
   void Get_int_links(long long& out) const;
 
   /**
+   * gets const column for int_links.
+   * @return column for int_links.
+   */
+  const TableColumn* GetConstColumn_int_links() const;
+
+  /**
    * gets column for int_links.
    * @return column for int_links.
    */
-  const TableColumn* GetColumn_int_links() const;
+  TableColumn* GetColumn_int_links();
 
 	/**
 	 * sets value of int_links.
@@ -262,10 +340,16 @@ public:
   void Get_ext_links(long long& out) const;
 
   /**
+   * gets const column for ext_links.
+   * @return column for ext_links.
+   */
+  const TableColumn* GetConstColumn_ext_links() const;
+
+  /**
    * gets column for ext_links.
    * @return column for ext_links.
    */
-  const TableColumn* GetColumn_ext_links() const;
+  TableColumn* GetColumn_ext_links();
 
 	/**
 	 * sets value of ext_links.
@@ -279,10 +363,16 @@ public:
   void Get_download_time(long long& out) const;
 
   /**
+   * gets const column for download_time.
+   * @return column for download_time.
+   */
+  const TableColumn* GetConstColumn_download_time() const;
+
+  /**
    * gets column for download_time.
    * @return column for download_time.
    */
-  const TableColumn* GetColumn_download_time() const;
+  TableColumn* GetColumn_download_time();
 
 	/**
 	 * sets value of download_time.
@@ -296,10 +386,16 @@ public:
   void Get_html_errors(long long& out) const;
 
   /**
+   * gets const column for html_errors.
+   * @return column for html_errors.
+   */
+  const TableColumn* GetConstColumn_html_errors() const;
+
+  /**
    * gets column for html_errors.
    * @return column for html_errors.
    */
-  const TableColumn* GetColumn_html_errors() const;
+  TableColumn* GetColumn_html_errors();
 
 	/**
 	 * sets value of html_errors.
@@ -313,10 +409,16 @@ public:
   void Get_found_date(struct tm& out) const;
 
   /**
+   * gets const column for found_date.
+   * @return column for found_date.
+   */
+  const TableColumn* GetConstColumn_found_date() const;
+
+  /**
    * gets column for found_date.
    * @return column for found_date.
    */
-  const TableColumn* GetColumn_found_date() const;
+  TableColumn* GetColumn_found_date();
 
 	/**
 	 * sets value of found_date.

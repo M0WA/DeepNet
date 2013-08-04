@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_TARGET_URL_ID(long long& out) const;
 
   /**
+   * gets const column for TARGET_URL_ID.
+   * @return column for TARGET_URL_ID.
+   */
+  const TableColumn* GetConstColumn_TARGET_URL_ID() const;
+
+  /**
    * gets column for TARGET_URL_ID.
    * @return column for TARGET_URL_ID.
    */
-  const TableColumn* GetColumn_TARGET_URL_ID() const;
+  TableColumn* GetColumn_TARGET_URL_ID();
 
 	/**
 	 * sets value of TARGET_URL_ID.
@@ -75,10 +87,16 @@ public:
   void Get_URLSTAGE_ID(long long& out) const;
 
   /**
+   * gets const column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetConstColumn_URLSTAGE_ID() const;
+
+  /**
    * gets column for URLSTAGE_ID.
    * @return column for URLSTAGE_ID.
    */
-  const TableColumn* GetColumn_URLSTAGE_ID() const;
+  TableColumn* GetColumn_URLSTAGE_ID();
 
 	/**
 	 * sets value of URLSTAGE_ID.
@@ -92,10 +110,16 @@ public:
   void Get_count(long long& out) const;
 
   /**
+   * gets const column for count.
+   * @return column for count.
+   */
+  const TableColumn* GetConstColumn_count() const;
+
+  /**
    * gets column for count.
    * @return column for count.
    */
-  const TableColumn* GetColumn_count() const;
+  TableColumn* GetColumn_count();
 
 	/**
 	 * sets value of count.

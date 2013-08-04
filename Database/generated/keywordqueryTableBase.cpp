@@ -64,7 +64,7 @@ void keywordqueryTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* keywordqueryTableBase::GetColumn_ID() const {
+const TableColumn* keywordqueryTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* keywordqueryTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* keywordqueryTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void keywordqueryTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void keywordqueryTableBase::Get_query_part(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* keywordqueryTableBase::GetColumn_query_part() const {
+const TableColumn* keywordqueryTableBase::GetConstColumn_query_part() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* keywordqueryTableBase::GetColumn_query_part() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* keywordqueryTableBase::GetColumn_query_part() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "query_part";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "query_part";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("query_part");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "query_part";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void keywordqueryTableBase::Set_query_part(const std::string& in) {

@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_DICT_ID(long long& out) const;
 
   /**
+   * gets const column for DICT_ID.
+   * @return column for DICT_ID.
+   */
+  const TableColumn* GetConstColumn_DICT_ID() const;
+
+  /**
    * gets column for DICT_ID.
    * @return column for DICT_ID.
    */
-  const TableColumn* GetColumn_DICT_ID() const;
+  TableColumn* GetColumn_DICT_ID();
 
 	/**
 	 * sets value of DICT_ID.
@@ -75,10 +87,16 @@ public:
   void Get_URLSTAGE_ID(long long& out) const;
 
   /**
+   * gets const column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetConstColumn_URLSTAGE_ID() const;
+
+  /**
    * gets column for URLSTAGE_ID.
    * @return column for URLSTAGE_ID.
    */
-  const TableColumn* GetColumn_URLSTAGE_ID() const;
+  TableColumn* GetColumn_URLSTAGE_ID();
 
 	/**
 	 * sets value of URLSTAGE_ID.
@@ -92,10 +110,16 @@ public:
   void Get_occurrence(long long& out) const;
 
   /**
+   * gets const column for occurrence.
+   * @return column for occurrence.
+   */
+  const TableColumn* GetConstColumn_occurrence() const;
+
+  /**
    * gets column for occurrence.
    * @return column for occurrence.
    */
-  const TableColumn* GetColumn_occurrence() const;
+  TableColumn* GetColumn_occurrence();
 
 	/**
 	 * sets value of occurrence.

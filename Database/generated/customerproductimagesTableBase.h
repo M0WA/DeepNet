@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_PRODUCT_ID(long long& out) const;
 
   /**
+   * gets const column for PRODUCT_ID.
+   * @return column for PRODUCT_ID.
+   */
+  const TableColumn* GetConstColumn_PRODUCT_ID() const;
+
+  /**
    * gets column for PRODUCT_ID.
    * @return column for PRODUCT_ID.
    */
-  const TableColumn* GetColumn_PRODUCT_ID() const;
+  TableColumn* GetColumn_PRODUCT_ID();
 
 	/**
 	 * sets value of PRODUCT_ID.
@@ -75,10 +87,16 @@ public:
   void Get_imageUrl(std::string& out) const;
 
   /**
+   * gets const column for imageUrl.
+   * @return column for imageUrl.
+   */
+  const TableColumn* GetConstColumn_imageUrl() const;
+
+  /**
    * gets column for imageUrl.
    * @return column for imageUrl.
    */
-  const TableColumn* GetColumn_imageUrl() const;
+  TableColumn* GetColumn_imageUrl();
 
 	/**
 	 * sets value of imageUrl.

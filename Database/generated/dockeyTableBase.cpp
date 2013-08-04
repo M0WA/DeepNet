@@ -66,7 +66,7 @@ void dockeyTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dockeyTableBase::GetColumn_ID() const {
+const TableColumn* dockeyTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -86,6 +86,28 @@ const TableColumn* dockeyTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dockeyTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dockeyTableBase::Set_ID(const long long& in) {
@@ -132,7 +154,7 @@ void dockeyTableBase::Get_DICT_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dockeyTableBase::GetColumn_DICT_ID() const {
+const TableColumn* dockeyTableBase::GetConstColumn_DICT_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -152,6 +174,28 @@ const TableColumn* dockeyTableBase::GetColumn_DICT_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dockeyTableBase::GetColumn_DICT_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dockeyTableBase::Set_DICT_ID(const long long& in) {
@@ -198,7 +242,7 @@ void dockeyTableBase::Get_URLSTAGE_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dockeyTableBase::GetColumn_URLSTAGE_ID() const {
+const TableColumn* dockeyTableBase::GetConstColumn_URLSTAGE_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -218,6 +262,28 @@ const TableColumn* dockeyTableBase::GetColumn_URLSTAGE_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dockeyTableBase::GetColumn_URLSTAGE_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dockeyTableBase::Set_URLSTAGE_ID(const long long& in) {
@@ -264,7 +330,7 @@ void dockeyTableBase::Get_occurrence(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dockeyTableBase::GetColumn_occurrence() const {
+const TableColumn* dockeyTableBase::GetConstColumn_occurrence() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -284,6 +350,28 @@ const TableColumn* dockeyTableBase::GetColumn_occurrence() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dockeyTableBase::GetColumn_occurrence() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "occurrence";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "occurrence";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("occurrence");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "occurrence";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dockeyTableBase::Set_occurrence(const long long& in) {

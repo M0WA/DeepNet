@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_PATHPART_ID(long long& out) const;
 
   /**
+   * gets const column for PATHPART_ID.
+   * @return column for PATHPART_ID.
+   */
+  const TableColumn* GetConstColumn_PATHPART_ID() const;
+
+  /**
    * gets column for PATHPART_ID.
    * @return column for PATHPART_ID.
    */
-  const TableColumn* GetColumn_PATHPART_ID() const;
+  TableColumn* GetColumn_PATHPART_ID();
 
 	/**
 	 * sets value of PATHPART_ID.
@@ -75,10 +87,16 @@ public:
   void Get_URLPATHPART_ID_NEXT(long long& out) const;
 
   /**
+   * gets const column for URLPATHPART_ID_NEXT.
+   * @return column for URLPATHPART_ID_NEXT.
+   */
+  const TableColumn* GetConstColumn_URLPATHPART_ID_NEXT() const;
+
+  /**
    * gets column for URLPATHPART_ID_NEXT.
    * @return column for URLPATHPART_ID_NEXT.
    */
-  const TableColumn* GetColumn_URLPATHPART_ID_NEXT() const;
+  TableColumn* GetColumn_URLPATHPART_ID_NEXT();
 
 	/**
 	 * sets value of URLPATHPART_ID_NEXT.

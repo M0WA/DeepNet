@@ -65,7 +65,7 @@ void documentcodeTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* documentcodeTableBase::GetColumn_ID() const {
+const TableColumn* documentcodeTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -85,6 +85,28 @@ const TableColumn* documentcodeTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* documentcodeTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void documentcodeTableBase::Set_ID(const long long& in) {
@@ -131,7 +153,7 @@ void documentcodeTableBase::Get_URLSTAGE_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* documentcodeTableBase::GetColumn_URLSTAGE_ID() const {
+const TableColumn* documentcodeTableBase::GetConstColumn_URLSTAGE_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -151,6 +173,28 @@ const TableColumn* documentcodeTableBase::GetColumn_URLSTAGE_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* documentcodeTableBase::GetColumn_URLSTAGE_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void documentcodeTableBase::Set_URLSTAGE_ID(const long long& in) {
@@ -197,7 +241,7 @@ void documentcodeTableBase::Get_code(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* documentcodeTableBase::GetColumn_code() const {
+const TableColumn* documentcodeTableBase::GetConstColumn_code() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -217,6 +261,28 @@ const TableColumn* documentcodeTableBase::GetColumn_code() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* documentcodeTableBase::GetColumn_code() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "code";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "code";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("code");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "code";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void documentcodeTableBase::Set_code(const std::string& in) {

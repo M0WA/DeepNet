@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMERDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMERDOMAIN_ID() const;
+
+  /**
    * gets column for CUSTOMERDOMAIN_ID.
    * @return column for CUSTOMERDOMAIN_ID.
    */
-  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
+  TableColumn* GetColumn_CUSTOMERDOMAIN_ID();
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
@@ -75,10 +87,16 @@ public:
   void Get_keyword(std::string& out) const;
 
   /**
+   * gets const column for keyword.
+   * @return column for keyword.
+   */
+  const TableColumn* GetConstColumn_keyword() const;
+
+  /**
    * gets column for keyword.
    * @return column for keyword.
    */
-  const TableColumn* GetColumn_keyword() const;
+  TableColumn* GetColumn_keyword();
 
 	/**
 	 * sets value of keyword.
@@ -92,10 +110,16 @@ public:
   void Get_target(std::string& out) const;
 
   /**
+   * gets const column for target.
+   * @return column for target.
+   */
+  const TableColumn* GetConstColumn_target() const;
+
+  /**
    * gets column for target.
    * @return column for target.
    */
-  const TableColumn* GetColumn_target() const;
+  TableColumn* GetColumn_target();
 
 	/**
 	 * sets value of target.
@@ -109,10 +133,16 @@ public:
   void Get_isKeywordRegex(long long& out) const;
 
   /**
+   * gets const column for isKeywordRegex.
+   * @return column for isKeywordRegex.
+   */
+  const TableColumn* GetConstColumn_isKeywordRegex() const;
+
+  /**
    * gets column for isKeywordRegex.
    * @return column for isKeywordRegex.
    */
-  const TableColumn* GetColumn_isKeywordRegex() const;
+  TableColumn* GetColumn_isKeywordRegex();
 
 	/**
 	 * sets value of isKeywordRegex.

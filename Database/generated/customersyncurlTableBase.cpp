@@ -65,7 +65,7 @@ void customersyncurlTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customersyncurlTableBase::GetColumn_ID() const {
+const TableColumn* customersyncurlTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -85,6 +85,28 @@ const TableColumn* customersyncurlTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customersyncurlTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customersyncurlTableBase::Set_ID(const long long& in) {
@@ -131,7 +153,7 @@ void customersyncurlTableBase::Get_URL_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customersyncurlTableBase::GetColumn_URL_ID() const {
+const TableColumn* customersyncurlTableBase::GetConstColumn_URL_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -151,6 +173,28 @@ const TableColumn* customersyncurlTableBase::GetColumn_URL_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customersyncurlTableBase::GetColumn_URL_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customersyncurlTableBase::Set_URL_ID(const long long& in) {
@@ -197,7 +241,7 @@ void customersyncurlTableBase::Get_scheduled(struct tm& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customersyncurlTableBase::GetColumn_scheduled() const {
+const TableColumn* customersyncurlTableBase::GetConstColumn_scheduled() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -217,6 +261,28 @@ const TableColumn* customersyncurlTableBase::GetColumn_scheduled() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customersyncurlTableBase::GetColumn_scheduled() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheduled";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheduled";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheduled");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheduled";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customersyncurlTableBase::Set_scheduled(const struct tm& in) {

@@ -110,6 +110,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 		if(pCurCol->IsNull() && !allowNullColumn && !pCurCol->IsDirty()) {
 			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,curColName + " must contain value, column is not nullable and has no default value");}
 		if(pCurCol->IsNull() && pCurCol->IsDirty()) {
+			setNewValuesColumnNames.push_back(curColName+"= m."+curColName +" + "+pCurCol->GetForSQL(db));
 			continue;}
 
 		newValuesColumnNames.push_back(curColName);

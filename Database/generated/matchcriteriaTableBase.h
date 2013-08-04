@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_regex(std::string& out) const;
 
   /**
+   * gets const column for regex.
+   * @return column for regex.
+   */
+  const TableColumn* GetConstColumn_regex() const;
+
+  /**
    * gets column for regex.
    * @return column for regex.
    */
-  const TableColumn* GetColumn_regex() const;
+  TableColumn* GetColumn_regex();
 
 	/**
 	 * sets value of regex.

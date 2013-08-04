@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_tld(std::string& out) const;
 
   /**
+   * gets const column for tld.
+   * @return column for tld.
+   */
+  const TableColumn* GetConstColumn_tld() const;
+
+  /**
    * gets column for tld.
    * @return column for tld.
    */
-  const TableColumn* GetColumn_tld() const;
+  TableColumn* GetColumn_tld();
 
 	/**
 	 * sets value of tld.

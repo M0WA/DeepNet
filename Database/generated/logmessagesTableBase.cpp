@@ -64,7 +64,7 @@ void logmessagesTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_ID() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* logmessagesTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void logmessagesTableBase::Get_loglevel(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_loglevel() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_loglevel() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* logmessagesTableBase::GetColumn_loglevel() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_loglevel() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "loglevel";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "loglevel";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("loglevel");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "loglevel";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_loglevel(const long long& in) {
@@ -196,7 +240,7 @@ void logmessagesTableBase::Get_message(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_message() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_message() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -216,6 +260,28 @@ const TableColumn* logmessagesTableBase::GetColumn_message() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_message() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "message";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "message";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("message");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "message";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_message(const std::string& in) {
@@ -262,7 +328,7 @@ void logmessagesTableBase::Get_actiontime(struct tm& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_actiontime() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_actiontime() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -282,6 +348,28 @@ const TableColumn* logmessagesTableBase::GetColumn_actiontime() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_actiontime() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "actiontime";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "actiontime";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("actiontime");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "actiontime";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_actiontime(const struct tm& in) {
@@ -328,7 +416,7 @@ void logmessagesTableBase::Get_pid(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_pid() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_pid() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -348,6 +436,28 @@ const TableColumn* logmessagesTableBase::GetColumn_pid() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_pid() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "pid";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "pid";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("pid");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "pid";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_pid(const long long& in) {
@@ -394,7 +504,7 @@ void logmessagesTableBase::Get_tid(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_tid() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_tid() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -414,6 +524,28 @@ const TableColumn* logmessagesTableBase::GetColumn_tid() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_tid() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "tid";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "tid";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("tid");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "tid";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_tid(const long long& in) {
@@ -460,7 +592,7 @@ void logmessagesTableBase::Get_appName(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_appName() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_appName() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -480,6 +612,28 @@ const TableColumn* logmessagesTableBase::GetColumn_appName() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_appName() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "appName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "appName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("appName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "appName";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_appName(const std::string& in) {
@@ -526,7 +680,7 @@ void logmessagesTableBase::Get_threadName(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* logmessagesTableBase::GetColumn_threadName() const {
+const TableColumn* logmessagesTableBase::GetConstColumn_threadName() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -546,6 +700,28 @@ const TableColumn* logmessagesTableBase::GetColumn_threadName() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* logmessagesTableBase::GetColumn_threadName() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "threadName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "threadName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("threadName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "threadName";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void logmessagesTableBase::Set_threadName(const std::string& in) {

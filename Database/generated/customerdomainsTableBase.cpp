@@ -65,7 +65,7 @@ void customerdomainsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainsTableBase::GetColumn_ID() const {
+const TableColumn* customerdomainsTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -85,6 +85,28 @@ const TableColumn* customerdomainsTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainsTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainsTableBase::Set_ID(const long long& in) {
@@ -131,7 +153,7 @@ void customerdomainsTableBase::Get_CUSTOMER_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainsTableBase::GetColumn_CUSTOMER_ID() const {
+const TableColumn* customerdomainsTableBase::GetConstColumn_CUSTOMER_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -151,6 +173,28 @@ const TableColumn* customerdomainsTableBase::GetColumn_CUSTOMER_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainsTableBase::GetColumn_CUSTOMER_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainsTableBase::Set_CUSTOMER_ID(const long long& in) {
@@ -197,7 +241,7 @@ void customerdomainsTableBase::Get_domain(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainsTableBase::GetColumn_domain() const {
+const TableColumn* customerdomainsTableBase::GetConstColumn_domain() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -217,6 +261,28 @@ const TableColumn* customerdomainsTableBase::GetColumn_domain() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainsTableBase::GetColumn_domain() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "domain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "domain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("domain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "domain";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainsTableBase::Set_domain(const std::string& in) {
@@ -263,7 +329,7 @@ void customerdomainsTableBase::Get_revisitInterval(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainsTableBase::GetColumn_revisitInterval() const {
+const TableColumn* customerdomainsTableBase::GetConstColumn_revisitInterval() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -283,6 +349,28 @@ const TableColumn* customerdomainsTableBase::GetColumn_revisitInterval() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainsTableBase::GetColumn_revisitInterval() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "revisitInterval";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "revisitInterval";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("revisitInterval");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "revisitInterval";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainsTableBase::Set_revisitInterval(const long long& in) {
@@ -329,7 +417,7 @@ void customerdomainsTableBase::Get_isDomainRegex(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* customerdomainsTableBase::GetColumn_isDomainRegex() const {
+const TableColumn* customerdomainsTableBase::GetConstColumn_isDomainRegex() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -349,6 +437,28 @@ const TableColumn* customerdomainsTableBase::GetColumn_isDomainRegex() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* customerdomainsTableBase::GetColumn_isDomainRegex() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isDomainRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isDomainRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isDomainRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isDomainRegex";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void customerdomainsTableBase::Set_isDomainRegex(const long long& in) {

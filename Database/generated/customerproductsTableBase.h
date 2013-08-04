@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMERDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMERDOMAIN_ID() const;
+
+  /**
    * gets column for CUSTOMERDOMAIN_ID.
    * @return column for CUSTOMERDOMAIN_ID.
    */
-  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
+  TableColumn* GetColumn_CUSTOMERDOMAIN_ID();
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
@@ -75,10 +87,16 @@ public:
   void Get_productNo(std::string& out) const;
 
   /**
+   * gets const column for productNo.
+   * @return column for productNo.
+   */
+  const TableColumn* GetConstColumn_productNo() const;
+
+  /**
    * gets column for productNo.
    * @return column for productNo.
    */
-  const TableColumn* GetColumn_productNo() const;
+  TableColumn* GetColumn_productNo();
 
 	/**
 	 * sets value of productNo.
@@ -92,10 +110,16 @@ public:
   void Get_productName(std::string& out) const;
 
   /**
+   * gets const column for productName.
+   * @return column for productName.
+   */
+  const TableColumn* GetConstColumn_productName() const;
+
+  /**
    * gets column for productName.
    * @return column for productName.
    */
-  const TableColumn* GetColumn_productName() const;
+  TableColumn* GetColumn_productName();
 
 	/**
 	 * sets value of productName.
@@ -109,10 +133,16 @@ public:
   void Get_productBrand(std::string& out) const;
 
   /**
+   * gets const column for productBrand.
+   * @return column for productBrand.
+   */
+  const TableColumn* GetConstColumn_productBrand() const;
+
+  /**
    * gets column for productBrand.
    * @return column for productBrand.
    */
-  const TableColumn* GetColumn_productBrand() const;
+  TableColumn* GetColumn_productBrand();
 
 	/**
 	 * sets value of productBrand.

@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_login(std::string& out) const;
 
   /**
+   * gets const column for login.
+   * @return column for login.
+   */
+  const TableColumn* GetConstColumn_login() const;
+
+  /**
    * gets column for login.
    * @return column for login.
    */
-  const TableColumn* GetColumn_login() const;
+  TableColumn* GetColumn_login();
 
 	/**
 	 * sets value of login.
@@ -75,10 +87,16 @@ public:
   void Get_password(std::string& out) const;
 
   /**
+   * gets const column for password.
+   * @return column for password.
+   */
+  const TableColumn* GetConstColumn_password() const;
+
+  /**
    * gets column for password.
    * @return column for password.
    */
-  const TableColumn* GetColumn_password() const;
+  TableColumn* GetColumn_password();
 
 	/**
 	 * sets value of password.

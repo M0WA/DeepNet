@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_timestamp_test(struct tm& out) const;
 
   /**
+   * gets const column for timestamp_test.
+   * @return column for timestamp_test.
+   */
+  const TableColumn* GetConstColumn_timestamp_test() const;
+
+  /**
    * gets column for timestamp_test.
    * @return column for timestamp_test.
    */
-  const TableColumn* GetColumn_timestamp_test() const;
+  TableColumn* GetColumn_timestamp_test();
 
 	/**
 	 * sets value of timestamp_test.
@@ -75,10 +87,16 @@ public:
   void Get_varchar_test(std::string& out) const;
 
   /**
+   * gets const column for varchar_test.
+   * @return column for varchar_test.
+   */
+  const TableColumn* GetConstColumn_varchar_test() const;
+
+  /**
    * gets column for varchar_test.
    * @return column for varchar_test.
    */
-  const TableColumn* GetColumn_varchar_test() const;
+  TableColumn* GetColumn_varchar_test();
 
 	/**
 	 * sets value of varchar_test.
@@ -92,10 +110,16 @@ public:
   void Get_double_test(double& out) const;
 
   /**
+   * gets const column for double_test.
+   * @return column for double_test.
+   */
+  const TableColumn* GetConstColumn_double_test() const;
+
+  /**
    * gets column for double_test.
    * @return column for double_test.
    */
-  const TableColumn* GetColumn_double_test() const;
+  TableColumn* GetColumn_double_test();
 
 	/**
 	 * sets value of double_test.
@@ -109,10 +133,16 @@ public:
   void Get_integer_test(long long& out) const;
 
   /**
+   * gets const column for integer_test.
+   * @return column for integer_test.
+   */
+  const TableColumn* GetConstColumn_integer_test() const;
+
+  /**
    * gets column for integer_test.
    * @return column for integer_test.
    */
-  const TableColumn* GetColumn_integer_test() const;
+  TableColumn* GetColumn_integer_test();
 
 	/**
 	 * sets value of integer_test.

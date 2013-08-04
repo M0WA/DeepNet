@@ -64,7 +64,7 @@ void cachesubdomainTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* cachesubdomainTableBase::GetColumn_ID() const {
+const TableColumn* cachesubdomainTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* cachesubdomainTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* cachesubdomainTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void cachesubdomainTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void cachesubdomainTableBase::Get_size(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* cachesubdomainTableBase::GetColumn_size() const {
+const TableColumn* cachesubdomainTableBase::GetConstColumn_size() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* cachesubdomainTableBase::GetColumn_size() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* cachesubdomainTableBase::GetColumn_size() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "size";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "size";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("size");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "size";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void cachesubdomainTableBase::Set_size(const long long& in) {
@@ -196,7 +240,7 @@ void cachesubdomainTableBase::Get_matches(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* cachesubdomainTableBase::GetColumn_matches() const {
+const TableColumn* cachesubdomainTableBase::GetConstColumn_matches() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -216,6 +260,28 @@ const TableColumn* cachesubdomainTableBase::GetColumn_matches() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* cachesubdomainTableBase::GetColumn_matches() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "matches";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "matches";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("matches");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "matches";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void cachesubdomainTableBase::Set_matches(const long long& in) {
@@ -262,7 +328,7 @@ void cachesubdomainTableBase::Get_misses(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* cachesubdomainTableBase::GetColumn_misses() const {
+const TableColumn* cachesubdomainTableBase::GetConstColumn_misses() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -282,6 +348,28 @@ const TableColumn* cachesubdomainTableBase::GetColumn_misses() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* cachesubdomainTableBase::GetColumn_misses() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "misses";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "misses";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("misses");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "misses";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void cachesubdomainTableBase::Set_misses(const long long& in) {
@@ -328,7 +416,7 @@ void cachesubdomainTableBase::Get_action_time(struct tm& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* cachesubdomainTableBase::GetColumn_action_time() const {
+const TableColumn* cachesubdomainTableBase::GetConstColumn_action_time() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -348,6 +436,28 @@ const TableColumn* cachesubdomainTableBase::GetColumn_action_time() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* cachesubdomainTableBase::GetColumn_action_time() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "action_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "action_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("action_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "action_time";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void cachesubdomainTableBase::Set_action_time(const struct tm& in) {

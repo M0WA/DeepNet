@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_DOCKEY_ID(long long& out) const;
 
   /**
+   * gets const column for DOCKEY_ID.
+   * @return column for DOCKEY_ID.
+   */
+  const TableColumn* GetConstColumn_DOCKEY_ID() const;
+
+  /**
    * gets column for DOCKEY_ID.
    * @return column for DOCKEY_ID.
    */
-  const TableColumn* GetColumn_DOCKEY_ID() const;
+  TableColumn* GetColumn_DOCKEY_ID();
 
 	/**
 	 * sets value of DOCKEY_ID.
@@ -75,10 +87,16 @@ public:
   void Get_paragraph(long long& out) const;
 
   /**
+   * gets const column for paragraph.
+   * @return column for paragraph.
+   */
+  const TableColumn* GetConstColumn_paragraph() const;
+
+  /**
    * gets column for paragraph.
    * @return column for paragraph.
    */
-  const TableColumn* GetColumn_paragraph() const;
+  TableColumn* GetColumn_paragraph();
 
 	/**
 	 * sets value of paragraph.
@@ -92,10 +110,16 @@ public:
   void Get_position(long long& out) const;
 
   /**
+   * gets const column for position.
+   * @return column for position.
+   */
+  const TableColumn* GetConstColumn_position() const;
+
+  /**
    * gets column for position.
    * @return column for position.
    */
-  const TableColumn* GetColumn_position() const;
+  TableColumn* GetColumn_position();
 
 	/**
 	 * sets value of position.

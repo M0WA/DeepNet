@@ -64,7 +64,7 @@ void schemesTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* schemesTableBase::GetColumn_ID() const {
+const TableColumn* schemesTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* schemesTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* schemesTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void schemesTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void schemesTableBase::Get_scheme(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* schemesTableBase::GetColumn_scheme() const {
+const TableColumn* schemesTableBase::GetConstColumn_scheme() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* schemesTableBase::GetColumn_scheme() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* schemesTableBase::GetColumn_scheme() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheme";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheme";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheme");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheme";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void schemesTableBase::Set_scheme(const std::string& in) {

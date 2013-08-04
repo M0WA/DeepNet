@@ -64,7 +64,7 @@ void matchcriteriaTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* matchcriteriaTableBase::GetColumn_ID() const {
+const TableColumn* matchcriteriaTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* matchcriteriaTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* matchcriteriaTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void matchcriteriaTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void matchcriteriaTableBase::Get_regex(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* matchcriteriaTableBase::GetColumn_regex() const {
+const TableColumn* matchcriteriaTableBase::GetConstColumn_regex() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* matchcriteriaTableBase::GetColumn_regex() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* matchcriteriaTableBase::GetColumn_regex() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "regex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "regex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("regex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "regex";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void matchcriteriaTableBase::Set_regex(const std::string& in) {

@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_size(long long& out) const;
 
   /**
+   * gets const column for size.
+   * @return column for size.
+   */
+  const TableColumn* GetConstColumn_size() const;
+
+  /**
    * gets column for size.
    * @return column for size.
    */
-  const TableColumn* GetColumn_size() const;
+  TableColumn* GetColumn_size();
 
 	/**
 	 * sets value of size.
@@ -75,10 +87,16 @@ public:
   void Get_matches(long long& out) const;
 
   /**
+   * gets const column for matches.
+   * @return column for matches.
+   */
+  const TableColumn* GetConstColumn_matches() const;
+
+  /**
    * gets column for matches.
    * @return column for matches.
    */
-  const TableColumn* GetColumn_matches() const;
+  TableColumn* GetColumn_matches();
 
 	/**
 	 * sets value of matches.
@@ -92,10 +110,16 @@ public:
   void Get_misses(long long& out) const;
 
   /**
+   * gets const column for misses.
+   * @return column for misses.
+   */
+  const TableColumn* GetConstColumn_misses() const;
+
+  /**
    * gets column for misses.
    * @return column for misses.
    */
-  const TableColumn* GetColumn_misses() const;
+  TableColumn* GetColumn_misses();
 
 	/**
 	 * sets value of misses.
@@ -109,10 +133,16 @@ public:
   void Get_action_time(struct tm& out) const;
 
   /**
+   * gets const column for action_time.
+   * @return column for action_time.
+   */
+  const TableColumn* GetConstColumn_action_time() const;
+
+  /**
    * gets column for action_time.
    * @return column for action_time.
    */
-  const TableColumn* GetColumn_action_time() const;
+  TableColumn* GetColumn_action_time();
 
 	/**
 	 * sets value of action_time.

@@ -65,7 +65,7 @@ void dataminingcustomersessionTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dataminingcustomersessionTableBase::GetColumn_ID() const {
+const TableColumn* dataminingcustomersessionTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -85,6 +85,28 @@ const TableColumn* dataminingcustomersessionTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dataminingcustomersessionTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dataminingcustomersessionTableBase::Set_ID(const long long& in) {
@@ -131,7 +153,7 @@ void dataminingcustomersessionTableBase::Get_CUSTOMER_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dataminingcustomersessionTableBase::GetColumn_CUSTOMER_ID() const {
+const TableColumn* dataminingcustomersessionTableBase::GetConstColumn_CUSTOMER_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -151,6 +173,28 @@ const TableColumn* dataminingcustomersessionTableBase::GetColumn_CUSTOMER_ID() c
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dataminingcustomersessionTableBase::GetColumn_CUSTOMER_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dataminingcustomersessionTableBase::Set_CUSTOMER_ID(const long long& in) {
@@ -197,7 +241,7 @@ void dataminingcustomersessionTableBase::Get_session(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dataminingcustomersessionTableBase::GetColumn_session() const {
+const TableColumn* dataminingcustomersessionTableBase::GetConstColumn_session() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -217,6 +261,28 @@ const TableColumn* dataminingcustomersessionTableBase::GetColumn_session() const
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dataminingcustomersessionTableBase::GetColumn_session() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "session";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "session";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("session");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "session";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dataminingcustomersessionTableBase::Set_session(const std::string& in) {

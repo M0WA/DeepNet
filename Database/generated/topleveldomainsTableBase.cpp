@@ -64,7 +64,7 @@ void topleveldomainsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* topleveldomainsTableBase::GetColumn_ID() const {
+const TableColumn* topleveldomainsTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* topleveldomainsTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* topleveldomainsTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void topleveldomainsTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void topleveldomainsTableBase::Get_tld(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* topleveldomainsTableBase::GetColumn_tld() const {
+const TableColumn* topleveldomainsTableBase::GetConstColumn_tld() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* topleveldomainsTableBase::GetColumn_tld() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* topleveldomainsTableBase::GetColumn_tld() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "tld";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "tld";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("tld");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "tld";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void topleveldomainsTableBase::Set_tld(const std::string& in) {

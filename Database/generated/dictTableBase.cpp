@@ -64,7 +64,7 @@ void dictTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dictTableBase::GetColumn_ID() const {
+const TableColumn* dictTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* dictTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dictTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dictTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void dictTableBase::Get_keyword(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dictTableBase::GetColumn_keyword() const {
+const TableColumn* dictTableBase::GetConstColumn_keyword() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* dictTableBase::GetColumn_keyword() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dictTableBase::GetColumn_keyword() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dictTableBase::Set_keyword(const std::string& in) {
@@ -196,7 +240,7 @@ void dictTableBase::Get_occurrence(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* dictTableBase::GetColumn_occurrence() const {
+const TableColumn* dictTableBase::GetConstColumn_occurrence() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -216,6 +260,28 @@ const TableColumn* dictTableBase::GetColumn_occurrence() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* dictTableBase::GetColumn_occurrence() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "occurrence";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "occurrence";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("occurrence");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "occurrence";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void dictTableBase::Set_occurrence(const long long& in) {

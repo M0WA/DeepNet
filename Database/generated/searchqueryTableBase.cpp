@@ -64,7 +64,7 @@ void searchqueryTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* searchqueryTableBase::GetColumn_ID() const {
+const TableColumn* searchqueryTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -84,6 +84,28 @@ const TableColumn* searchqueryTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* searchqueryTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void searchqueryTableBase::Set_ID(const long long& in) {
@@ -130,7 +152,7 @@ void searchqueryTableBase::Get_session(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* searchqueryTableBase::GetColumn_session() const {
+const TableColumn* searchqueryTableBase::GetConstColumn_session() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -150,6 +172,28 @@ const TableColumn* searchqueryTableBase::GetColumn_session() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* searchqueryTableBase::GetColumn_session() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "session";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "session";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("session");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "session";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void searchqueryTableBase::Set_session(const std::string& in) {

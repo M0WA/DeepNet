@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMERDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMERDOMAIN_ID() const;
+
+  /**
    * gets column for CUSTOMERDOMAIN_ID.
    * @return column for CUSTOMERDOMAIN_ID.
    */
-  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
+  TableColumn* GetColumn_CUSTOMERDOMAIN_ID();
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
@@ -75,10 +87,16 @@ public:
   void Get_CRAWLERSESSION_ID(long long& out) const;
 
   /**
+   * gets const column for CRAWLERSESSION_ID.
+   * @return column for CRAWLERSESSION_ID.
+   */
+  const TableColumn* GetConstColumn_CRAWLERSESSION_ID() const;
+
+  /**
    * gets column for CRAWLERSESSION_ID.
    * @return column for CRAWLERSESSION_ID.
    */
-  const TableColumn* GetColumn_CRAWLERSESSION_ID() const;
+  TableColumn* GetColumn_CRAWLERSESSION_ID();
 
 	/**
 	 * sets value of CRAWLERSESSION_ID.
@@ -92,10 +110,16 @@ public:
   void Get_scheduled(struct tm& out) const;
 
   /**
+   * gets const column for scheduled.
+   * @return column for scheduled.
+   */
+  const TableColumn* GetConstColumn_scheduled() const;
+
+  /**
    * gets column for scheduled.
    * @return column for scheduled.
    */
-  const TableColumn* GetColumn_scheduled() const;
+  TableColumn* GetColumn_scheduled();
 
 	/**
 	 * sets value of scheduled.

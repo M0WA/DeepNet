@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMERDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMERDOMAIN_ID() const;
+
+  /**
    * gets column for CUSTOMERDOMAIN_ID.
    * @return column for CUSTOMERDOMAIN_ID.
    */
-  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
+  TableColumn* GetColumn_CUSTOMERDOMAIN_ID();
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
@@ -75,10 +87,16 @@ public:
   void Get_MATCHCRITERIA_ID(long long& out) const;
 
   /**
+   * gets const column for MATCHCRITERIA_ID.
+   * @return column for MATCHCRITERIA_ID.
+   */
+  const TableColumn* GetConstColumn_MATCHCRITERIA_ID() const;
+
+  /**
    * gets column for MATCHCRITERIA_ID.
    * @return column for MATCHCRITERIA_ID.
    */
-  const TableColumn* GetColumn_MATCHCRITERIA_ID() const;
+  TableColumn* GetColumn_MATCHCRITERIA_ID();
 
 	/**
 	 * sets value of MATCHCRITERIA_ID.
@@ -92,10 +110,16 @@ public:
   void Get_type(long long& out) const;
 
   /**
+   * gets const column for type.
+   * @return column for type.
+   */
+  const TableColumn* GetConstColumn_type() const;
+
+  /**
    * gets column for type.
    * @return column for type.
    */
-  const TableColumn* GetColumn_type() const;
+  TableColumn* GetColumn_type();
 
 	/**
 	 * sets value of type.

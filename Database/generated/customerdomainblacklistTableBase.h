@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_CUSTOMERDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_CUSTOMERDOMAIN_ID() const;
+
+  /**
    * gets column for CUSTOMERDOMAIN_ID.
    * @return column for CUSTOMERDOMAIN_ID.
    */
-  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
+  TableColumn* GetColumn_CUSTOMERDOMAIN_ID();
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
@@ -75,10 +87,16 @@ public:
   void Get_path(std::string& out) const;
 
   /**
+   * gets const column for path.
+   * @return column for path.
+   */
+  const TableColumn* GetConstColumn_path() const;
+
+  /**
    * gets column for path.
    * @return column for path.
    */
-  const TableColumn* GetColumn_path() const;
+  TableColumn* GetColumn_path();
 
 	/**
 	 * sets value of path.
@@ -92,10 +110,16 @@ public:
   void Get_isPathRegex(long long& out) const;
 
   /**
+   * gets const column for isPathRegex.
+   * @return column for isPathRegex.
+   */
+  const TableColumn* GetConstColumn_isPathRegex() const;
+
+  /**
    * gets column for isPathRegex.
    * @return column for isPathRegex.
    */
-  const TableColumn* GetColumn_isPathRegex() const;
+  TableColumn* GetColumn_isPathRegex();
 
 	/**
 	 * sets value of isPathRegex.

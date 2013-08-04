@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_keyword(std::string& out) const;
 
   /**
+   * gets const column for keyword.
+   * @return column for keyword.
+   */
+  const TableColumn* GetConstColumn_keyword() const;
+
+  /**
    * gets column for keyword.
    * @return column for keyword.
    */
-  const TableColumn* GetColumn_keyword() const;
+  TableColumn* GetColumn_keyword();
 
 	/**
 	 * sets value of keyword.
@@ -75,10 +87,16 @@ public:
   void Get_occurrence(long long& out) const;
 
   /**
+   * gets const column for occurrence.
+   * @return column for occurrence.
+   */
+  const TableColumn* GetConstColumn_occurrence() const;
+
+  /**
    * gets column for occurrence.
    * @return column for occurrence.
    */
-  const TableColumn* GetColumn_occurrence() const;
+  TableColumn* GetColumn_occurrence();
 
 	/**
 	 * sets value of occurrence.

@@ -66,7 +66,7 @@ void syncurlsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* syncurlsTableBase::GetColumn_ID() const {
+const TableColumn* syncurlsTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -86,6 +86,28 @@ const TableColumn* syncurlsTableBase::GetColumn_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* syncurlsTableBase::GetColumn_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void syncurlsTableBase::Set_ID(const long long& in) {
@@ -132,7 +154,7 @@ void syncurlsTableBase::Get_URL_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* syncurlsTableBase::GetColumn_URL_ID() const {
+const TableColumn* syncurlsTableBase::GetConstColumn_URL_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -152,6 +174,28 @@ const TableColumn* syncurlsTableBase::GetColumn_URL_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* syncurlsTableBase::GetColumn_URL_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void syncurlsTableBase::Set_URL_ID(const long long& in) {
@@ -198,7 +242,7 @@ void syncurlsTableBase::Get_SECONDLEVELDOMAIN_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* syncurlsTableBase::GetColumn_SECONDLEVELDOMAIN_ID() const {
+const TableColumn* syncurlsTableBase::GetConstColumn_SECONDLEVELDOMAIN_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -218,6 +262,28 @@ const TableColumn* syncurlsTableBase::GetColumn_SECONDLEVELDOMAIN_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* syncurlsTableBase::GetColumn_SECONDLEVELDOMAIN_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SECONDLEVELDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void syncurlsTableBase::Set_SECONDLEVELDOMAIN_ID(const long long& in) {
@@ -264,7 +330,7 @@ void syncurlsTableBase::Get_CRAWLERSESSION_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* syncurlsTableBase::GetColumn_CRAWLERSESSION_ID() const {
+const TableColumn* syncurlsTableBase::GetConstColumn_CRAWLERSESSION_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -284,6 +350,28 @@ const TableColumn* syncurlsTableBase::GetColumn_CRAWLERSESSION_ID() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* syncurlsTableBase::GetColumn_CRAWLERSESSION_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void syncurlsTableBase::Set_CRAWLERSESSION_ID(const long long& in) {
@@ -330,7 +418,7 @@ void syncurlsTableBase::Get_schedule(struct tm& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* syncurlsTableBase::GetColumn_schedule() const {
+const TableColumn* syncurlsTableBase::GetConstColumn_schedule() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -350,6 +438,28 @@ const TableColumn* syncurlsTableBase::GetColumn_schedule() const {
     }
 
     return GetConstColumnByName(fieldName);
+}
+
+TableColumn* syncurlsTableBase::GetColumn_schedule() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "schedule";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "schedule";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("schedule");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "schedule";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
 }
 
 void syncurlsTableBase::Set_schedule(const struct tm& in) {

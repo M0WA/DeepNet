@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_URL_ID(long long& out) const;
 
   /**
+   * gets const column for URL_ID.
+   * @return column for URL_ID.
+   */
+  const TableColumn* GetConstColumn_URL_ID() const;
+
+  /**
    * gets column for URL_ID.
    * @return column for URL_ID.
    */
-  const TableColumn* GetColumn_URL_ID() const;
+  TableColumn* GetColumn_URL_ID();
 
 	/**
 	 * sets value of URL_ID.
@@ -75,10 +87,16 @@ public:
   void Get_SECONDLEVELDOMAIN_ID(long long& out) const;
 
   /**
+   * gets const column for SECONDLEVELDOMAIN_ID.
+   * @return column for SECONDLEVELDOMAIN_ID.
+   */
+  const TableColumn* GetConstColumn_SECONDLEVELDOMAIN_ID() const;
+
+  /**
    * gets column for SECONDLEVELDOMAIN_ID.
    * @return column for SECONDLEVELDOMAIN_ID.
    */
-  const TableColumn* GetColumn_SECONDLEVELDOMAIN_ID() const;
+  TableColumn* GetColumn_SECONDLEVELDOMAIN_ID();
 
 	/**
 	 * sets value of SECONDLEVELDOMAIN_ID.
@@ -92,10 +110,16 @@ public:
   void Get_CRAWLERSESSION_ID(long long& out) const;
 
   /**
+   * gets const column for CRAWLERSESSION_ID.
+   * @return column for CRAWLERSESSION_ID.
+   */
+  const TableColumn* GetConstColumn_CRAWLERSESSION_ID() const;
+
+  /**
    * gets column for CRAWLERSESSION_ID.
    * @return column for CRAWLERSESSION_ID.
    */
-  const TableColumn* GetColumn_CRAWLERSESSION_ID() const;
+  TableColumn* GetColumn_CRAWLERSESSION_ID();
 
 	/**
 	 * sets value of CRAWLERSESSION_ID.
@@ -109,10 +133,16 @@ public:
   void Get_schedule(struct tm& out) const;
 
   /**
+   * gets const column for schedule.
+   * @return column for schedule.
+   */
+  const TableColumn* GetConstColumn_schedule() const;
+
+  /**
    * gets column for schedule.
    * @return column for schedule.
    */
-  const TableColumn* GetColumn_schedule() const;
+  TableColumn* GetColumn_schedule();
 
 	/**
 	 * sets value of schedule.

@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_SEARCHQUERY_ID(long long& out) const;
 
   /**
+   * gets const column for SEARCHQUERY_ID.
+   * @return column for SEARCHQUERY_ID.
+   */
+  const TableColumn* GetConstColumn_SEARCHQUERY_ID() const;
+
+  /**
    * gets column for SEARCHQUERY_ID.
    * @return column for SEARCHQUERY_ID.
    */
-  const TableColumn* GetColumn_SEARCHQUERY_ID() const;
+  TableColumn* GetColumn_SEARCHQUERY_ID();
 
 	/**
 	 * sets value of SEARCHQUERY_ID.
@@ -75,10 +87,16 @@ public:
   void Get_URL_ID(long long& out) const;
 
   /**
+   * gets const column for URL_ID.
+   * @return column for URL_ID.
+   */
+  const TableColumn* GetConstColumn_URL_ID() const;
+
+  /**
    * gets column for URL_ID.
    * @return column for URL_ID.
    */
-  const TableColumn* GetColumn_URL_ID() const;
+  TableColumn* GetColumn_URL_ID();
 
 	/**
 	 * sets value of URL_ID.
@@ -92,10 +110,16 @@ public:
   void Get_URLSTAGE_ID(long long& out) const;
 
   /**
+   * gets const column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetConstColumn_URLSTAGE_ID() const;
+
+  /**
    * gets column for URLSTAGE_ID.
    * @return column for URLSTAGE_ID.
    */
-  const TableColumn* GetColumn_URLSTAGE_ID() const;
+  TableColumn* GetColumn_URLSTAGE_ID();
 
 	/**
 	 * sets value of URLSTAGE_ID.
@@ -109,10 +133,16 @@ public:
   void Get_order_position(long long& out) const;
 
   /**
+   * gets const column for order_position.
+   * @return column for order_position.
+   */
+  const TableColumn* GetConstColumn_order_position() const;
+
+  /**
    * gets column for order_position.
    * @return column for order_position.
    */
-  const TableColumn* GetColumn_order_position() const;
+  TableColumn* GetColumn_order_position();
 
 	/**
 	 * sets value of order_position.

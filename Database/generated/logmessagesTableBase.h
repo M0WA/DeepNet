@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_loglevel(long long& out) const;
 
   /**
+   * gets const column for loglevel.
+   * @return column for loglevel.
+   */
+  const TableColumn* GetConstColumn_loglevel() const;
+
+  /**
    * gets column for loglevel.
    * @return column for loglevel.
    */
-  const TableColumn* GetColumn_loglevel() const;
+  TableColumn* GetColumn_loglevel();
 
 	/**
 	 * sets value of loglevel.
@@ -75,10 +87,16 @@ public:
   void Get_message(std::string& out) const;
 
   /**
+   * gets const column for message.
+   * @return column for message.
+   */
+  const TableColumn* GetConstColumn_message() const;
+
+  /**
    * gets column for message.
    * @return column for message.
    */
-  const TableColumn* GetColumn_message() const;
+  TableColumn* GetColumn_message();
 
 	/**
 	 * sets value of message.
@@ -92,10 +110,16 @@ public:
   void Get_actiontime(struct tm& out) const;
 
   /**
+   * gets const column for actiontime.
+   * @return column for actiontime.
+   */
+  const TableColumn* GetConstColumn_actiontime() const;
+
+  /**
    * gets column for actiontime.
    * @return column for actiontime.
    */
-  const TableColumn* GetColumn_actiontime() const;
+  TableColumn* GetColumn_actiontime();
 
 	/**
 	 * sets value of actiontime.
@@ -109,10 +133,16 @@ public:
   void Get_pid(long long& out) const;
 
   /**
+   * gets const column for pid.
+   * @return column for pid.
+   */
+  const TableColumn* GetConstColumn_pid() const;
+
+  /**
    * gets column for pid.
    * @return column for pid.
    */
-  const TableColumn* GetColumn_pid() const;
+  TableColumn* GetColumn_pid();
 
 	/**
 	 * sets value of pid.
@@ -126,10 +156,16 @@ public:
   void Get_tid(long long& out) const;
 
   /**
+   * gets const column for tid.
+   * @return column for tid.
+   */
+  const TableColumn* GetConstColumn_tid() const;
+
+  /**
    * gets column for tid.
    * @return column for tid.
    */
-  const TableColumn* GetColumn_tid() const;
+  TableColumn* GetColumn_tid();
 
 	/**
 	 * sets value of tid.
@@ -143,10 +179,16 @@ public:
   void Get_appName(std::string& out) const;
 
   /**
+   * gets const column for appName.
+   * @return column for appName.
+   */
+  const TableColumn* GetConstColumn_appName() const;
+
+  /**
    * gets column for appName.
    * @return column for appName.
    */
-  const TableColumn* GetColumn_appName() const;
+  TableColumn* GetColumn_appName();
 
 	/**
 	 * sets value of appName.
@@ -160,10 +202,16 @@ public:
   void Get_threadName(std::string& out) const;
 
   /**
+   * gets const column for threadName.
+   * @return column for threadName.
+   */
+  const TableColumn* GetConstColumn_threadName() const;
+
+  /**
    * gets column for threadName.
    * @return column for threadName.
    */
-  const TableColumn* GetColumn_threadName() const;
+  TableColumn* GetColumn_threadName();
 
 	/**
 	 * sets value of threadName.

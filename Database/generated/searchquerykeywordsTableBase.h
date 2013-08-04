@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_KEYWORDQUERY_ID(long long& out) const;
 
   /**
+   * gets const column for KEYWORDQUERY_ID.
+   * @return column for KEYWORDQUERY_ID.
+   */
+  const TableColumn* GetConstColumn_KEYWORDQUERY_ID() const;
+
+  /**
    * gets column for KEYWORDQUERY_ID.
    * @return column for KEYWORDQUERY_ID.
    */
-  const TableColumn* GetColumn_KEYWORDQUERY_ID() const;
+  TableColumn* GetColumn_KEYWORDQUERY_ID();
 
 	/**
 	 * sets value of KEYWORDQUERY_ID.
@@ -75,10 +87,16 @@ public:
   void Get_SEARCHQUERY_ID(long long& out) const;
 
   /**
+   * gets const column for SEARCHQUERY_ID.
+   * @return column for SEARCHQUERY_ID.
+   */
+  const TableColumn* GetConstColumn_SEARCHQUERY_ID() const;
+
+  /**
    * gets column for SEARCHQUERY_ID.
    * @return column for SEARCHQUERY_ID.
    */
-  const TableColumn* GetColumn_SEARCHQUERY_ID() const;
+  TableColumn* GetColumn_SEARCHQUERY_ID();
 
 	/**
 	 * sets value of SEARCHQUERY_ID.

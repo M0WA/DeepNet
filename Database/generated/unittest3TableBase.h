@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_UNITTEST1_ID(long long& out) const;
 
   /**
+   * gets const column for UNITTEST1_ID.
+   * @return column for UNITTEST1_ID.
+   */
+  const TableColumn* GetConstColumn_UNITTEST1_ID() const;
+
+  /**
    * gets column for UNITTEST1_ID.
    * @return column for UNITTEST1_ID.
    */
-  const TableColumn* GetColumn_UNITTEST1_ID() const;
+  TableColumn* GetColumn_UNITTEST1_ID();
 
 	/**
 	 * sets value of UNITTEST1_ID.
@@ -75,10 +87,16 @@ public:
   void Get_UNITTEST2_ID(long long& out) const;
 
   /**
+   * gets const column for UNITTEST2_ID.
+   * @return column for UNITTEST2_ID.
+   */
+  const TableColumn* GetConstColumn_UNITTEST2_ID() const;
+
+  /**
    * gets column for UNITTEST2_ID.
    * @return column for UNITTEST2_ID.
    */
-  const TableColumn* GetColumn_UNITTEST2_ID() const;
+  TableColumn* GetColumn_UNITTEST2_ID();
 
 	/**
 	 * sets value of UNITTEST2_ID.

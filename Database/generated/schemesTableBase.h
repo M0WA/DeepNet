@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_scheme(std::string& out) const;
 
   /**
+   * gets const column for scheme.
+   * @return column for scheme.
+   */
+  const TableColumn* GetConstColumn_scheme() const;
+
+  /**
    * gets column for scheme.
    * @return column for scheme.
    */
-  const TableColumn* GetColumn_scheme() const;
+  TableColumn* GetColumn_scheme();
 
 	/**
 	 * sets value of scheme.

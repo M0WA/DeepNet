@@ -41,10 +41,16 @@ public:
   void Get_ID(long long& out) const;
 
   /**
+   * gets const column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetConstColumn_ID() const;
+
+  /**
    * gets column for ID.
    * @return column for ID.
    */
-  const TableColumn* GetColumn_ID() const;
+  TableColumn* GetColumn_ID();
 
 	/**
 	 * sets value of ID.
@@ -58,10 +64,16 @@ public:
   void Get_URL_ID(long long& out) const;
 
   /**
+   * gets const column for URL_ID.
+   * @return column for URL_ID.
+   */
+  const TableColumn* GetConstColumn_URL_ID() const;
+
+  /**
    * gets column for URL_ID.
    * @return column for URL_ID.
    */
-  const TableColumn* GetColumn_URL_ID() const;
+  TableColumn* GetColumn_URL_ID();
 
 	/**
 	 * sets value of URL_ID.
@@ -75,10 +87,16 @@ public:
   void Get_scheduled(struct tm& out) const;
 
   /**
+   * gets const column for scheduled.
+   * @return column for scheduled.
+   */
+  const TableColumn* GetConstColumn_scheduled() const;
+
+  /**
    * gets column for scheduled.
    * @return column for scheduled.
    */
-  const TableColumn* GetColumn_scheduled() const;
+  TableColumn* GetColumn_scheduled();
 
 	/**
 	 * sets value of scheduled.
