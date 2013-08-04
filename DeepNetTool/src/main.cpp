@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 
 	toolbot::DeepNetToolBot bot;
 
-	bool success = false;
+	bool success(false);
 	try {
 		success = bot.Run(argc,argv);
 	}
