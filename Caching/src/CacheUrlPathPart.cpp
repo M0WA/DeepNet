@@ -24,6 +24,8 @@
 
 namespace caching {
 
+CacheUrlPathPart CacheUrlPathPart::cacheInstance;
+
 CacheUrlPathPart::CacheUrlPathPart(size_t limit)
 : idPathPart(limit, false) {
 }
