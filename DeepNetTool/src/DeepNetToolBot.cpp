@@ -36,6 +36,7 @@
 #include "UnitTestHtmlDocumentFactory.h"
 #include "UnitTestIndexerEx.h"
 #include "UnitTestDatabase.h"
+#include "UnitTestCacheUrlPathPart.h"
 
 namespace toolbot {
 
@@ -183,6 +184,8 @@ void DeepNetToolBot::RegisterUrlInserterParams() {
 
 	Config().RegisterParam("urlValidateFile", "validates urls from file", false, 0 );
 	Config().RegisterParam("urlInvalidateFile", "validates invalid urls from file", false, 0 );
+
+	Config().RegisterParam("urlPathPartValidateFile", "validates path part of an url from a file", false, 0 );
 }
 
 void DeepNetToolBot::RegisterCommerceSearchParams() {
@@ -230,7 +233,7 @@ void DeepNetToolBot::RegisterDatabaseUnitTestParams() {
 
 bool DeepNetToolBot::ProcessUnitTests() {
 
-	bool bSuccess = true;
+	bool bSuccess(true);
 	UnitTestManager unitTests;
 
 	//initiate url based unit tests
@@ -240,6 +243,10 @@ bool DeepNetToolBot::ProcessUnitTests() {
 		Config().GetValue("urlInvalidateFile", invalidUrlFileName);
 		unitTests.AddUnitTest(new UnitTestUrlParser(DB().Connection(),urlFile,invalidUrlFileName));
 		unitTests.AddUnitTest(new UnitTestCacheUrl(DB().Connection(),urlFile)); }
+
+	std::string urlPathPartValidateFile;
+	if( Config().GetValue("urlPathPartValidateFile", urlPathPartValidateFile) ) {
+		unitTests.AddUnitTest(new UnitTestCacheUrlPathPart(DB().Connection(),urlPathPartValidateFile));}
 
 	//initiate pcre regex unit test
 	std::string pcreRegexFile;
