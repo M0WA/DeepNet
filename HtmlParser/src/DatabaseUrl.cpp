@@ -158,7 +158,7 @@ void DatabaseUrl::InitByTable(database::DatabaseConnection* db,database::urlsTab
 	urlTbl->Get_SCHEME_ID(schemeID);
 	urlTbl->Get_TOPLEVELDOMAIN_ID(toplevelID);
 
-	bool hasSubdomain = !urlTbl->GetColumn_SUBDOMAIN_ID()->IsNull();
+	bool hasSubdomain = !urlTbl->GetConstColumn_SUBDOMAIN_ID()->IsNull();
 	if(hasSubdomain) {
 		urlTbl->Get_SUBDOMAIN_ID(subdomainID);
 	}
