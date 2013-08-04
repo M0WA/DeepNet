@@ -65,6 +65,28 @@ void customerproductsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerproductsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerproductsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void customerproductsTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customerproductsTableBase::GetColumn_CUSTOMERDOMAIN_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customerproductsTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
@@ -153,6 +197,28 @@ void customerproductsTableBase::Get_productNo(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerproductsTableBase::GetColumn_productNo() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "productNo";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "productNo";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("productNo");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "productNo";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerproductsTableBase::Set_productNo(const std::string& in) {
 
     std::string fieldName;
@@ -197,6 +263,28 @@ void customerproductsTableBase::Get_productName(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerproductsTableBase::GetColumn_productName() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "productName";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "productName";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("productName");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "productName";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerproductsTableBase::Set_productName(const std::string& in) {
 
     std::string fieldName;
@@ -239,6 +327,28 @@ void customerproductsTableBase::Get_productBrand(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customerproductsTableBase::GetColumn_productBrand() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "productBrand";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "productBrand";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("productBrand");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "productBrand";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customerproductsTableBase::Set_productBrand(const std::string& in) {

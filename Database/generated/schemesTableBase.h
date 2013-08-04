@@ -34,28 +34,40 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of scheme.
-     * @param out value.
-     */
-	void Get_scheme(std::string& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of scheme.
+   * @param out value.
+   */
+  void Get_scheme(std::string& out) const;
+
+  /**
+   * gets column for scheme.
+   * @return column for scheme.
+   */
+  const TableColumn* GetColumn_scheme() const;
 
 	/**
 	 * sets value of scheme.
 	 * @param in value.
 	 */
-    void Set_scheme(const std::string& in);
+  void Set_scheme(const std::string& in);
 
 
 public:

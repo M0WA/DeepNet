@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMERDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMERDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERDOMAIN_ID(const long long& in);
-    /**
-     * gets value of keyword.
-     * @param out value.
-     */
-	void Get_keyword(std::string& out) const;
+  void Set_CUSTOMERDOMAIN_ID(const long long& in);
+  /**
+   * gets value of keyword.
+   * @param out value.
+   */
+  void Get_keyword(std::string& out) const;
+
+  /**
+   * gets column for keyword.
+   * @return column for keyword.
+   */
+  const TableColumn* GetColumn_keyword() const;
 
 	/**
 	 * sets value of keyword.
 	 * @param in value.
 	 */
-    void Set_keyword(const std::string& in);
-    /**
-     * gets value of target.
-     * @param out value.
-     */
-	void Get_target(std::string& out) const;
+  void Set_keyword(const std::string& in);
+  /**
+   * gets value of target.
+   * @param out value.
+   */
+  void Get_target(std::string& out) const;
+
+  /**
+   * gets column for target.
+   * @return column for target.
+   */
+  const TableColumn* GetColumn_target() const;
 
 	/**
 	 * sets value of target.
 	 * @param in value.
 	 */
-    void Set_target(const std::string& in);
-    /**
-     * gets value of isKeywordRegex.
-     * @param out value.
-     */
-	void Get_isKeywordRegex(long long& out) const;
+  void Set_target(const std::string& in);
+  /**
+   * gets value of isKeywordRegex.
+   * @param out value.
+   */
+  void Get_isKeywordRegex(long long& out) const;
+
+  /**
+   * gets column for isKeywordRegex.
+   * @return column for isKeywordRegex.
+   */
+  const TableColumn* GetColumn_isKeywordRegex() const;
 
 	/**
 	 * sets value of isKeywordRegex.
 	 * @param in value.
 	 */
-    void Set_isKeywordRegex(const long long& in);
+  void Set_isKeywordRegex(const long long& in);
 
 
 public:

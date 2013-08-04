@@ -66,6 +66,28 @@ void docurlTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* docurlTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void docurlTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -110,6 +132,28 @@ void docurlTableBase::Get_DICT_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* docurlTableBase::GetColumn_DICT_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void docurlTableBase::Set_DICT_ID(const long long& in) {
 
     std::string fieldName;
@@ -152,6 +196,28 @@ void docurlTableBase::Get_URL_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* docurlTableBase::GetColumn_URL_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void docurlTableBase::Set_URL_ID(const long long& in) {

@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of SECONDLEVELDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_SECONDLEVELDOMAIN_ID(long long& out) const;
+  /**
+   * gets value of SECONDLEVELDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_SECONDLEVELDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for SECONDLEVELDOMAIN_ID.
+   * @return column for SECONDLEVELDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_SECONDLEVELDOMAIN_ID() const;
 
 	/**
 	 * sets value of SECONDLEVELDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_SECONDLEVELDOMAIN_ID(const long long& in);
-    /**
-     * gets value of CRAWLERSESSION_ID.
-     * @param out value.
-     */
-	void Get_CRAWLERSESSION_ID(long long& out) const;
+  void Set_SECONDLEVELDOMAIN_ID(const long long& in);
+  /**
+   * gets value of CRAWLERSESSION_ID.
+   * @param out value.
+   */
+  void Get_CRAWLERSESSION_ID(long long& out) const;
+
+  /**
+   * gets column for CRAWLERSESSION_ID.
+   * @return column for CRAWLERSESSION_ID.
+   */
+  const TableColumn* GetColumn_CRAWLERSESSION_ID() const;
 
 	/**
 	 * sets value of CRAWLERSESSION_ID.
 	 * @param in value.
 	 */
-    void Set_CRAWLERSESSION_ID(const long long& in);
-    /**
-     * gets value of schedule.
-     * @param out value.
-     */
-	void Get_schedule(struct tm& out) const;
+  void Set_CRAWLERSESSION_ID(const long long& in);
+  /**
+   * gets value of schedule.
+   * @param out value.
+   */
+  void Get_schedule(struct tm& out) const;
+
+  /**
+   * gets column for schedule.
+   * @return column for schedule.
+   */
+  const TableColumn* GetColumn_schedule() const;
 
 	/**
 	 * sets value of schedule.
 	 * @param in value.
 	 */
-    void Set_schedule(const struct tm& in);
+  void Set_schedule(const struct tm& in);
 
 
 public:

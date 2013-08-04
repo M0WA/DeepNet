@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMER_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMER_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMER_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMER_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMER_ID.
+   * @return column for CUSTOMER_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMER_ID() const;
 
 	/**
 	 * sets value of CUSTOMER_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMER_ID(const long long& in);
-    /**
-     * gets value of DATAMININGALERT_ID.
-     * @param out value.
-     */
-	void Get_DATAMININGALERT_ID(long long& out) const;
+  void Set_CUSTOMER_ID(const long long& in);
+  /**
+   * gets value of DATAMININGALERT_ID.
+   * @param out value.
+   */
+  void Get_DATAMININGALERT_ID(long long& out) const;
+
+  /**
+   * gets column for DATAMININGALERT_ID.
+   * @return column for DATAMININGALERT_ID.
+   */
+  const TableColumn* GetColumn_DATAMININGALERT_ID() const;
 
 	/**
 	 * sets value of DATAMININGALERT_ID.
 	 * @param in value.
 	 */
-    void Set_DATAMININGALERT_ID(const long long& in);
-    /**
-     * gets value of DATAMININGCRITERIA_ID.
-     * @param out value.
-     */
-	void Get_DATAMININGCRITERIA_ID(long long& out) const;
+  void Set_DATAMININGALERT_ID(const long long& in);
+  /**
+   * gets value of DATAMININGCRITERIA_ID.
+   * @param out value.
+   */
+  void Get_DATAMININGCRITERIA_ID(long long& out) const;
+
+  /**
+   * gets column for DATAMININGCRITERIA_ID.
+   * @return column for DATAMININGCRITERIA_ID.
+   */
+  const TableColumn* GetColumn_DATAMININGCRITERIA_ID() const;
 
 	/**
 	 * sets value of DATAMININGCRITERIA_ID.
 	 * @param in value.
 	 */
-    void Set_DATAMININGCRITERIA_ID(const long long& in);
+  void Set_DATAMININGCRITERIA_ID(const long long& in);
 
 
 public:

@@ -64,6 +64,28 @@ void searchqueryTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* searchqueryTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void searchqueryTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -106,6 +128,28 @@ void searchqueryTableBase::Get_session(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* searchqueryTableBase::GetColumn_session() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "session";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "session";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("session");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "session";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void searchqueryTableBase::Set_session(const std::string& in) {

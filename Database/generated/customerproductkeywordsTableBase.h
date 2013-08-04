@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of PRODUCT_ID.
-     * @param out value.
-     */
-	void Get_PRODUCT_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of PRODUCT_ID.
+   * @param out value.
+   */
+  void Get_PRODUCT_ID(long long& out) const;
+
+  /**
+   * gets column for PRODUCT_ID.
+   * @return column for PRODUCT_ID.
+   */
+  const TableColumn* GetColumn_PRODUCT_ID() const;
 
 	/**
 	 * sets value of PRODUCT_ID.
 	 * @param in value.
 	 */
-    void Set_PRODUCT_ID(const long long& in);
-    /**
-     * gets value of DICT_ID.
-     * @param out value.
-     */
-	void Get_DICT_ID(long long& out) const;
+  void Set_PRODUCT_ID(const long long& in);
+  /**
+   * gets value of DICT_ID.
+   * @param out value.
+   */
+  void Get_DICT_ID(long long& out) const;
+
+  /**
+   * gets column for DICT_ID.
+   * @return column for DICT_ID.
+   */
+  const TableColumn* GetColumn_DICT_ID() const;
 
 	/**
 	 * sets value of DICT_ID.
 	 * @param in value.
 	 */
-    void Set_DICT_ID(const long long& in);
+  void Set_DICT_ID(const long long& in);
 
 
 public:

@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of PATHPART_ID.
-     * @param out value.
-     */
-	void Get_PATHPART_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of PATHPART_ID.
+   * @param out value.
+   */
+  void Get_PATHPART_ID(long long& out) const;
+
+  /**
+   * gets column for PATHPART_ID.
+   * @return column for PATHPART_ID.
+   */
+  const TableColumn* GetColumn_PATHPART_ID() const;
 
 	/**
 	 * sets value of PATHPART_ID.
 	 * @param in value.
 	 */
-    void Set_PATHPART_ID(const long long& in);
-    /**
-     * gets value of URLPATHPART_ID_NEXT.
-     * @param out value.
-     */
-	void Get_URLPATHPART_ID_NEXT(long long& out) const;
+  void Set_PATHPART_ID(const long long& in);
+  /**
+   * gets value of URLPATHPART_ID_NEXT.
+   * @param out value.
+   */
+  void Get_URLPATHPART_ID_NEXT(long long& out) const;
+
+  /**
+   * gets column for URLPATHPART_ID_NEXT.
+   * @return column for URLPATHPART_ID_NEXT.
+   */
+  const TableColumn* GetColumn_URLPATHPART_ID_NEXT() const;
 
 	/**
 	 * sets value of URLPATHPART_ID_NEXT.
 	 * @param in value.
 	 */
-    void Set_URLPATHPART_ID_NEXT(const long long& in);
+  void Set_URLPATHPART_ID_NEXT(const long long& in);
 
 
 public:

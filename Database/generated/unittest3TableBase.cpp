@@ -66,6 +66,28 @@ void unittest3TableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* unittest3TableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void unittest3TableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -110,6 +132,28 @@ void unittest3TableBase::Get_UNITTEST1_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* unittest3TableBase::GetColumn_UNITTEST1_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "UNITTEST1_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "UNITTEST1_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("UNITTEST1_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "UNITTEST1_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void unittest3TableBase::Set_UNITTEST1_ID(const long long& in) {
 
     std::string fieldName;
@@ -152,6 +196,28 @@ void unittest3TableBase::Get_UNITTEST2_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* unittest3TableBase::GetColumn_UNITTEST2_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "UNITTEST2_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "UNITTEST2_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("UNITTEST2_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "UNITTEST2_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void unittest3TableBase::Set_UNITTEST2_ID(const long long& in) {

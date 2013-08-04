@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMERMATCHCRITERIA_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMERMATCHCRITERIA_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMERMATCHCRITERIA_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMERMATCHCRITERIA_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMERMATCHCRITERIA_ID.
+   * @return column for CUSTOMERMATCHCRITERIA_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMERMATCHCRITERIA_ID() const;
 
 	/**
 	 * sets value of CUSTOMERMATCHCRITERIA_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERMATCHCRITERIA_ID(const long long& in);
-    /**
-     * gets value of type.
-     * @param out value.
-     */
-	void Get_type(long long& out) const;
+  void Set_CUSTOMERMATCHCRITERIA_ID(const long long& in);
+  /**
+   * gets value of type.
+   * @param out value.
+   */
+  void Get_type(long long& out) const;
+
+  /**
+   * gets column for type.
+   * @return column for type.
+   */
+  const TableColumn* GetColumn_type() const;
 
 	/**
 	 * sets value of type.
 	 * @param in value.
 	 */
-    void Set_type(const long long& in);
-    /**
-     * gets value of groupPosition.
-     * @param out value.
-     */
-	void Get_groupPosition(long long& out) const;
+  void Set_type(const long long& in);
+  /**
+   * gets value of groupPosition.
+   * @param out value.
+   */
+  void Get_groupPosition(long long& out) const;
+
+  /**
+   * gets column for groupPosition.
+   * @return column for groupPosition.
+   */
+  const TableColumn* GetColumn_groupPosition() const;
 
 	/**
 	 * sets value of groupPosition.
 	 * @param in value.
 	 */
-    void Set_groupPosition(const long long& in);
-    /**
-     * gets value of isPrimaryKey.
-     * @param out value.
-     */
-	void Get_isPrimaryKey(long long& out) const;
+  void Set_groupPosition(const long long& in);
+  /**
+   * gets value of isPrimaryKey.
+   * @param out value.
+   */
+  void Get_isPrimaryKey(long long& out) const;
+
+  /**
+   * gets column for isPrimaryKey.
+   * @return column for isPrimaryKey.
+   */
+  const TableColumn* GetColumn_isPrimaryKey() const;
 
 	/**
 	 * sets value of isPrimaryKey.
 	 * @param in value.
 	 */
-    void Set_isPrimaryKey(const long long& in);
+  void Set_isPrimaryKey(const long long& in);
 
 
 public:

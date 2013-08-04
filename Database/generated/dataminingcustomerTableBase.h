@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of login.
-     * @param out value.
-     */
-	void Get_login(std::string& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of login.
+   * @param out value.
+   */
+  void Get_login(std::string& out) const;
+
+  /**
+   * gets column for login.
+   * @return column for login.
+   */
+  const TableColumn* GetColumn_login() const;
 
 	/**
 	 * sets value of login.
 	 * @param in value.
 	 */
-    void Set_login(const std::string& in);
-    /**
-     * gets value of password.
-     * @param out value.
-     */
-	void Get_password(std::string& out) const;
+  void Set_login(const std::string& in);
+  /**
+   * gets value of password.
+   * @param out value.
+   */
+  void Get_password(std::string& out) const;
+
+  /**
+   * gets column for password.
+   * @return column for password.
+   */
+  const TableColumn* GetColumn_password() const;
 
 	/**
 	 * sets value of password.
 	 * @param in value.
 	 */
-    void Set_password(const std::string& in);
+  void Set_password(const std::string& in);
 
 
 public:

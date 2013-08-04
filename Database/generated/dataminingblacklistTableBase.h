@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMER_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMER_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMER_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMER_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMER_ID.
+   * @return column for CUSTOMER_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMER_ID() const;
 
 	/**
 	 * sets value of CUSTOMER_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMER_ID(const long long& in);
-    /**
-     * gets value of domain.
-     * @param out value.
-     */
-	void Get_domain(std::string& out) const;
+  void Set_CUSTOMER_ID(const long long& in);
+  /**
+   * gets value of domain.
+   * @param out value.
+   */
+  void Get_domain(std::string& out) const;
+
+  /**
+   * gets column for domain.
+   * @return column for domain.
+   */
+  const TableColumn* GetColumn_domain() const;
 
 	/**
 	 * sets value of domain.
 	 * @param in value.
 	 */
-    void Set_domain(const std::string& in);
+  void Set_domain(const std::string& in);
 
 
 public:

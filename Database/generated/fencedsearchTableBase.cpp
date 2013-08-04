@@ -66,6 +66,28 @@ void fencedsearchTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* fencedsearchTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void fencedsearchTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -110,6 +132,28 @@ void fencedsearchTableBase::Get_CUSTOMER_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* fencedsearchTableBase::GetColumn_CUSTOMER_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void fencedsearchTableBase::Set_CUSTOMER_ID(const long long& in) {
 
     std::string fieldName;
@@ -152,6 +196,28 @@ void fencedsearchTableBase::Get_SECONDLEVELDOMAIN_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* fencedsearchTableBase::GetColumn_SECONDLEVELDOMAIN_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SECONDLEVELDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void fencedsearchTableBase::Set_SECONDLEVELDOMAIN_ID(const long long& in) {

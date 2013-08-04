@@ -65,6 +65,28 @@ void customersynccrawlerTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customersynccrawlerTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customersynccrawlerTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void customersynccrawlerTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customersynccrawlerTableBase::GetColumn_CUSTOMERDOMAIN_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customersynccrawlerTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
@@ -153,6 +197,28 @@ void customersynccrawlerTableBase::Get_CRAWLERSESSION_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customersynccrawlerTableBase::GetColumn_CRAWLERSESSION_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customersynccrawlerTableBase::Set_CRAWLERSESSION_ID(const long long& in) {
 
     std::string fieldName;
@@ -195,6 +261,28 @@ void customersynccrawlerTableBase::Get_scheduled(struct tm& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customersynccrawlerTableBase::GetColumn_scheduled() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "scheduled";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "scheduled";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("scheduled");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "scheduled";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customersynccrawlerTableBase::Set_scheduled(const struct tm& in) {

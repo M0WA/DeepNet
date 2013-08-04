@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMERDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMERDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERDOMAIN_ID(const long long& in);
-    /**
-     * gets value of MATCHCRITERIA_ID.
-     * @param out value.
-     */
-	void Get_MATCHCRITERIA_ID(long long& out) const;
+  void Set_CUSTOMERDOMAIN_ID(const long long& in);
+  /**
+   * gets value of MATCHCRITERIA_ID.
+   * @param out value.
+   */
+  void Get_MATCHCRITERIA_ID(long long& out) const;
+
+  /**
+   * gets column for MATCHCRITERIA_ID.
+   * @return column for MATCHCRITERIA_ID.
+   */
+  const TableColumn* GetColumn_MATCHCRITERIA_ID() const;
 
 	/**
 	 * sets value of MATCHCRITERIA_ID.
 	 * @param in value.
 	 */
-    void Set_MATCHCRITERIA_ID(const long long& in);
-    /**
-     * gets value of type.
-     * @param out value.
-     */
-	void Get_type(long long& out) const;
+  void Set_MATCHCRITERIA_ID(const long long& in);
+  /**
+   * gets value of type.
+   * @param out value.
+   */
+  void Get_type(long long& out) const;
+
+  /**
+   * gets column for type.
+   * @return column for type.
+   */
+  const TableColumn* GetColumn_type() const;
 
 	/**
 	 * sets value of type.
 	 * @param in value.
 	 */
-    void Set_type(const long long& in);
+  void Set_type(const long long& in);
 
 
 public:

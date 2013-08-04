@@ -34,116 +34,176 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of SCHEME_ID.
-     * @param out value.
-     */
-	void Get_SCHEME_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of SCHEME_ID.
+   * @param out value.
+   */
+  void Get_SCHEME_ID(long long& out) const;
+
+  /**
+   * gets column for SCHEME_ID.
+   * @return column for SCHEME_ID.
+   */
+  const TableColumn* GetColumn_SCHEME_ID() const;
 
 	/**
 	 * sets value of SCHEME_ID.
 	 * @param in value.
 	 */
-    void Set_SCHEME_ID(const long long& in);
-    /**
-     * gets value of TOPLEVELDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_TOPLEVELDOMAIN_ID(long long& out) const;
+  void Set_SCHEME_ID(const long long& in);
+  /**
+   * gets value of TOPLEVELDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_TOPLEVELDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for TOPLEVELDOMAIN_ID.
+   * @return column for TOPLEVELDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_TOPLEVELDOMAIN_ID() const;
 
 	/**
 	 * sets value of TOPLEVELDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_TOPLEVELDOMAIN_ID(const long long& in);
-    /**
-     * gets value of SUBDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_SUBDOMAIN_ID(long long& out) const;
+  void Set_TOPLEVELDOMAIN_ID(const long long& in);
+  /**
+   * gets value of SUBDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_SUBDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for SUBDOMAIN_ID.
+   * @return column for SUBDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_SUBDOMAIN_ID() const;
 
 	/**
 	 * sets value of SUBDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_SUBDOMAIN_ID(const long long& in);
-    /**
-     * gets value of SECONDLEVELDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_SECONDLEVELDOMAIN_ID(long long& out) const;
+  void Set_SUBDOMAIN_ID(const long long& in);
+  /**
+   * gets value of SECONDLEVELDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_SECONDLEVELDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for SECONDLEVELDOMAIN_ID.
+   * @return column for SECONDLEVELDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_SECONDLEVELDOMAIN_ID() const;
 
 	/**
 	 * sets value of SECONDLEVELDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_SECONDLEVELDOMAIN_ID(const long long& in);
-    /**
-     * gets value of port.
-     * @param out value.
-     */
-	void Get_port(long long& out) const;
+  void Set_SECONDLEVELDOMAIN_ID(const long long& in);
+  /**
+   * gets value of port.
+   * @param out value.
+   */
+  void Get_port(long long& out) const;
+
+  /**
+   * gets column for port.
+   * @return column for port.
+   */
+  const TableColumn* GetColumn_port() const;
 
 	/**
 	 * sets value of port.
 	 * @param in value.
 	 */
-    void Set_port(const long long& in);
-    /**
-     * gets value of path_part.
-     * @param out value.
-     */
-	void Get_path_part(std::string& out) const;
+  void Set_port(const long long& in);
+  /**
+   * gets value of path_part.
+   * @param out value.
+   */
+  void Get_path_part(std::string& out) const;
+
+  /**
+   * gets column for path_part.
+   * @return column for path_part.
+   */
+  const TableColumn* GetColumn_path_part() const;
 
 	/**
 	 * sets value of path_part.
 	 * @param in value.
 	 */
-    void Set_path_part(const std::string& in);
-    /**
-     * gets value of search_part.
-     * @param out value.
-     */
-	void Get_search_part(std::string& out) const;
+  void Set_path_part(const std::string& in);
+  /**
+   * gets value of search_part.
+   * @param out value.
+   */
+  void Get_search_part(std::string& out) const;
+
+  /**
+   * gets column for search_part.
+   * @return column for search_part.
+   */
+  const TableColumn* GetColumn_search_part() const;
 
 	/**
 	 * sets value of search_part.
 	 * @param in value.
 	 */
-    void Set_search_part(const std::string& in);
-    /**
-     * gets value of url_md5.
-     * @param out value.
-     */
-	void Get_url_md5(std::string& out) const;
+  void Set_search_part(const std::string& in);
+  /**
+   * gets value of url_md5.
+   * @param out value.
+   */
+  void Get_url_md5(std::string& out) const;
+
+  /**
+   * gets column for url_md5.
+   * @return column for url_md5.
+   */
+  const TableColumn* GetColumn_url_md5() const;
 
 	/**
 	 * sets value of url_md5.
 	 * @param in value.
 	 */
-    void Set_url_md5(const std::string& in);
-    /**
-     * gets value of found_date.
-     * @param out value.
-     */
-	void Get_found_date(struct tm& out) const;
+  void Set_url_md5(const std::string& in);
+  /**
+   * gets value of found_date.
+   * @param out value.
+   */
+  void Get_found_date(struct tm& out) const;
+
+  /**
+   * gets column for found_date.
+   * @return column for found_date.
+   */
+  const TableColumn* GetColumn_found_date() const;
 
 	/**
 	 * sets value of found_date.
 	 * @param in value.
 	 */
-    void Set_found_date(const struct tm& in);
+  void Set_found_date(const struct tm& in);
 
 
 public:

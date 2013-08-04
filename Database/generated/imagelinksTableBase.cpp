@@ -67,6 +67,28 @@ void imagelinksTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* imagelinksTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void imagelinksTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -109,6 +131,28 @@ void imagelinksTableBase::Get_TARGET_URL_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* imagelinksTableBase::GetColumn_TARGET_URL_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "TARGET_URL_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void imagelinksTableBase::Set_TARGET_URL_ID(const long long& in) {
@@ -155,6 +199,28 @@ void imagelinksTableBase::Get_IMAGE_URL_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* imagelinksTableBase::GetColumn_IMAGE_URL_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("IMAGE_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "IMAGE_URL_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void imagelinksTableBase::Set_IMAGE_URL_ID(const long long& in) {
 
     std::string fieldName;
@@ -197,6 +263,28 @@ void imagelinksTableBase::Get_URLSTAGE_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* imagelinksTableBase::GetColumn_URLSTAGE_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void imagelinksTableBase::Set_URLSTAGE_ID(const long long& in) {

@@ -65,6 +65,28 @@ void queryresultsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* queryresultsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void queryresultsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void queryresultsTableBase::Get_SEARCHQUERY_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* queryresultsTableBase::GetColumn_SEARCHQUERY_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SEARCHQUERY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void queryresultsTableBase::Set_SEARCHQUERY_ID(const long long& in) {
@@ -153,6 +197,28 @@ void queryresultsTableBase::Get_URL_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* queryresultsTableBase::GetColumn_URL_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void queryresultsTableBase::Set_URL_ID(const long long& in) {
 
     std::string fieldName;
@@ -197,6 +263,28 @@ void queryresultsTableBase::Get_URLSTAGE_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* queryresultsTableBase::GetColumn_URLSTAGE_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void queryresultsTableBase::Set_URLSTAGE_ID(const long long& in) {
 
     std::string fieldName;
@@ -239,6 +327,28 @@ void queryresultsTableBase::Get_order_position(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* queryresultsTableBase::GetColumn_order_position() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "order_position";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "order_position";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("order_position");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "order_position";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void queryresultsTableBase::Set_order_position(const long long& in) {

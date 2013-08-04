@@ -66,6 +66,28 @@ void searchquerykeywordsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* searchquerykeywordsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void searchquerykeywordsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -110,6 +132,28 @@ void searchquerykeywordsTableBase::Get_KEYWORDQUERY_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* searchquerykeywordsTableBase::GetColumn_KEYWORDQUERY_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "KEYWORDQUERY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "KEYWORDQUERY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("KEYWORDQUERY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "KEYWORDQUERY_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void searchquerykeywordsTableBase::Set_KEYWORDQUERY_ID(const long long& in) {
 
     std::string fieldName;
@@ -152,6 +196,28 @@ void searchquerykeywordsTableBase::Get_SEARCHQUERY_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* searchquerykeywordsTableBase::GetColumn_SEARCHQUERY_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SEARCHQUERY_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SEARCHQUERY_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void searchquerykeywordsTableBase::Set_SEARCHQUERY_ID(const long long& in) {

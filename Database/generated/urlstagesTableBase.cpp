@@ -65,6 +65,28 @@ void urlstagesTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void urlstagesTableBase::Get_URL_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_URL_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URL_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_URL_ID(const long long& in) {
@@ -153,6 +197,28 @@ void urlstagesTableBase::Get_response_code(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_response_code() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "response_code";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "response_code";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("response_code");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "response_code";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_response_code(const long long& in) {
 
     std::string fieldName;
@@ -195,6 +261,28 @@ void urlstagesTableBase::Get_content_md5(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_content_md5() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_md5";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_md5";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_md5");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_md5";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_content_md5(const std::string& in) {
@@ -241,6 +329,28 @@ void urlstagesTableBase::Get_last_change(struct tm& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_last_change() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "last_change";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "last_change";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("last_change");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "last_change";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_last_change(const struct tm& in) {
 
     std::string fieldName;
@@ -283,6 +393,28 @@ void urlstagesTableBase::Get_redirect_count(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_redirect_count() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "redirect_count";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "redirect_count";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("redirect_count");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "redirect_count";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_redirect_count(const long long& in) {
@@ -329,6 +461,28 @@ void urlstagesTableBase::Get_download_speed(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_download_speed() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "download_speed";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "download_speed";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("download_speed");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "download_speed";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_download_speed(const long long& in) {
 
     std::string fieldName;
@@ -371,6 +525,28 @@ void urlstagesTableBase::Get_upload_speed(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_upload_speed() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "upload_speed";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "upload_speed";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("upload_speed");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "upload_speed";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_upload_speed(const long long& in) {
@@ -417,6 +593,28 @@ void urlstagesTableBase::Get_content_length(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_content_length() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_length";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_length";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_length");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_length";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_content_length(const long long& in) {
 
     std::string fieldName;
@@ -459,6 +657,28 @@ void urlstagesTableBase::Get_content_type(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_content_type() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "content_type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "content_type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("content_type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "content_type";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_content_type(const std::string& in) {
@@ -505,6 +725,28 @@ void urlstagesTableBase::Get_primary_ip(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_primary_ip() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "primary_ip";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "primary_ip";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("primary_ip");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "primary_ip";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_primary_ip(const long long& in) {
 
     std::string fieldName;
@@ -547,6 +789,28 @@ void urlstagesTableBase::Get_primary_port(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_primary_port() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "primary_port";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "primary_port";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("primary_port");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "primary_port";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_primary_port(const long long& in) {
@@ -593,6 +857,28 @@ void urlstagesTableBase::Get_int_links(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_int_links() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "int_links";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "int_links";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("int_links");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "int_links";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_int_links(const long long& in) {
 
     std::string fieldName;
@@ -635,6 +921,28 @@ void urlstagesTableBase::Get_ext_links(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_ext_links() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ext_links";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ext_links";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ext_links");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ext_links";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_ext_links(const long long& in) {
@@ -681,6 +989,28 @@ void urlstagesTableBase::Get_download_time(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_download_time() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "download_time";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "download_time";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("download_time");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "download_time";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_download_time(const long long& in) {
 
     std::string fieldName;
@@ -725,6 +1055,28 @@ void urlstagesTableBase::Get_html_errors(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlstagesTableBase::GetColumn_html_errors() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "html_errors";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "html_errors";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("html_errors");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "html_errors";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlstagesTableBase::Set_html_errors(const long long& in) {
 
     std::string fieldName;
@@ -767,6 +1119,28 @@ void urlstagesTableBase::Get_found_date(struct tm& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlstagesTableBase::GetColumn_found_date() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "found_date";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "found_date";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("found_date");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "found_date";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlstagesTableBase::Set_found_date(const struct tm& in) {

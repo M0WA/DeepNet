@@ -66,6 +66,28 @@ void customerproductkeywordsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerproductkeywordsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerproductkeywordsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -110,6 +132,28 @@ void customerproductkeywordsTableBase::Get_PRODUCT_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerproductkeywordsTableBase::GetColumn_PRODUCT_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PRODUCT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PRODUCT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PRODUCT_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerproductkeywordsTableBase::Set_PRODUCT_ID(const long long& in) {
 
     std::string fieldName;
@@ -152,6 +196,28 @@ void customerproductkeywordsTableBase::Get_DICT_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customerproductkeywordsTableBase::GetColumn_DICT_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "DICT_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "DICT_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("DICT_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "DICT_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customerproductkeywordsTableBase::Set_DICT_ID(const long long& in) {

@@ -64,6 +64,28 @@ void secondleveldomainsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* secondleveldomainsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void secondleveldomainsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -106,6 +128,28 @@ void secondleveldomainsTableBase::Get_domain(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* secondleveldomainsTableBase::GetColumn_domain() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "domain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "domain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("domain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "domain";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void secondleveldomainsTableBase::Set_domain(const std::string& in) {

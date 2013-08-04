@@ -34,28 +34,40 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of query_part.
-     * @param out value.
-     */
-	void Get_query_part(std::string& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of query_part.
+   * @param out value.
+   */
+  void Get_query_part(std::string& out) const;
+
+  /**
+   * gets column for query_part.
+   * @return column for query_part.
+   */
+  const TableColumn* GetColumn_query_part() const;
 
 	/**
 	 * sets value of query_part.
 	 * @param in value.
 	 */
-    void Set_query_part(const std::string& in);
+  void Set_query_part(const std::string& in);
 
 
 public:

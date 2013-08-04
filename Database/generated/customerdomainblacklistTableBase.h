@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMERDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMERDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERDOMAIN_ID(const long long& in);
-    /**
-     * gets value of path.
-     * @param out value.
-     */
-	void Get_path(std::string& out) const;
+  void Set_CUSTOMERDOMAIN_ID(const long long& in);
+  /**
+   * gets value of path.
+   * @param out value.
+   */
+  void Get_path(std::string& out) const;
+
+  /**
+   * gets column for path.
+   * @return column for path.
+   */
+  const TableColumn* GetColumn_path() const;
 
 	/**
 	 * sets value of path.
 	 * @param in value.
 	 */
-    void Set_path(const std::string& in);
-    /**
-     * gets value of isPathRegex.
-     * @param out value.
-     */
-	void Get_isPathRegex(long long& out) const;
+  void Set_path(const std::string& in);
+  /**
+   * gets value of isPathRegex.
+   * @param out value.
+   */
+  void Get_isPathRegex(long long& out) const;
+
+  /**
+   * gets column for isPathRegex.
+   * @return column for isPathRegex.
+   */
+  const TableColumn* GetColumn_isPathRegex() const;
 
 	/**
 	 * sets value of isPathRegex.
 	 * @param in value.
 	 */
-    void Set_isPathRegex(const long long& in);
+  void Set_isPathRegex(const long long& in);
 
 
 public:

@@ -34,193 +34,295 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of URL_ID.
-     * @param out value.
-     */
-	void Get_URL_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of URL_ID.
+   * @param out value.
+   */
+  void Get_URL_ID(long long& out) const;
+
+  /**
+   * gets column for URL_ID.
+   * @return column for URL_ID.
+   */
+  const TableColumn* GetColumn_URL_ID() const;
 
 	/**
 	 * sets value of URL_ID.
 	 * @param in value.
 	 */
-    void Set_URL_ID(const long long& in);
-    /**
-     * gets value of response_code.
-     * @param out value.
-     */
-	void Get_response_code(long long& out) const;
+  void Set_URL_ID(const long long& in);
+  /**
+   * gets value of response_code.
+   * @param out value.
+   */
+  void Get_response_code(long long& out) const;
+
+  /**
+   * gets column for response_code.
+   * @return column for response_code.
+   */
+  const TableColumn* GetColumn_response_code() const;
 
 	/**
 	 * sets value of response_code.
 	 * @param in value.
 	 */
-    void Set_response_code(const long long& in);
-    /**
-     * gets value of content_md5.
-     * @param out value.
-     */
-	void Get_content_md5(std::string& out) const;
+  void Set_response_code(const long long& in);
+  /**
+   * gets value of content_md5.
+   * @param out value.
+   */
+  void Get_content_md5(std::string& out) const;
+
+  /**
+   * gets column for content_md5.
+   * @return column for content_md5.
+   */
+  const TableColumn* GetColumn_content_md5() const;
 
 	/**
 	 * sets value of content_md5.
 	 * @param in value.
 	 */
-    void Set_content_md5(const std::string& in);
-    /**
-     * gets value of last_change.
-     * @param out value.
-     */
-	void Get_last_change(struct tm& out) const;
+  void Set_content_md5(const std::string& in);
+  /**
+   * gets value of last_change.
+   * @param out value.
+   */
+  void Get_last_change(struct tm& out) const;
+
+  /**
+   * gets column for last_change.
+   * @return column for last_change.
+   */
+  const TableColumn* GetColumn_last_change() const;
 
 	/**
 	 * sets value of last_change.
 	 * @param in value.
 	 */
-    void Set_last_change(const struct tm& in);
-    /**
-     * gets value of redirect_count.
-     * @param out value.
-     */
-	void Get_redirect_count(long long& out) const;
+  void Set_last_change(const struct tm& in);
+  /**
+   * gets value of redirect_count.
+   * @param out value.
+   */
+  void Get_redirect_count(long long& out) const;
+
+  /**
+   * gets column for redirect_count.
+   * @return column for redirect_count.
+   */
+  const TableColumn* GetColumn_redirect_count() const;
 
 	/**
 	 * sets value of redirect_count.
 	 * @param in value.
 	 */
-    void Set_redirect_count(const long long& in);
-    /**
-     * gets value of download_speed.
-     * @param out value.
-     */
-	void Get_download_speed(long long& out) const;
+  void Set_redirect_count(const long long& in);
+  /**
+   * gets value of download_speed.
+   * @param out value.
+   */
+  void Get_download_speed(long long& out) const;
+
+  /**
+   * gets column for download_speed.
+   * @return column for download_speed.
+   */
+  const TableColumn* GetColumn_download_speed() const;
 
 	/**
 	 * sets value of download_speed.
 	 * @param in value.
 	 */
-    void Set_download_speed(const long long& in);
-    /**
-     * gets value of upload_speed.
-     * @param out value.
-     */
-	void Get_upload_speed(long long& out) const;
+  void Set_download_speed(const long long& in);
+  /**
+   * gets value of upload_speed.
+   * @param out value.
+   */
+  void Get_upload_speed(long long& out) const;
+
+  /**
+   * gets column for upload_speed.
+   * @return column for upload_speed.
+   */
+  const TableColumn* GetColumn_upload_speed() const;
 
 	/**
 	 * sets value of upload_speed.
 	 * @param in value.
 	 */
-    void Set_upload_speed(const long long& in);
-    /**
-     * gets value of content_length.
-     * @param out value.
-     */
-	void Get_content_length(long long& out) const;
+  void Set_upload_speed(const long long& in);
+  /**
+   * gets value of content_length.
+   * @param out value.
+   */
+  void Get_content_length(long long& out) const;
+
+  /**
+   * gets column for content_length.
+   * @return column for content_length.
+   */
+  const TableColumn* GetColumn_content_length() const;
 
 	/**
 	 * sets value of content_length.
 	 * @param in value.
 	 */
-    void Set_content_length(const long long& in);
-    /**
-     * gets value of content_type.
-     * @param out value.
-     */
-	void Get_content_type(std::string& out) const;
+  void Set_content_length(const long long& in);
+  /**
+   * gets value of content_type.
+   * @param out value.
+   */
+  void Get_content_type(std::string& out) const;
+
+  /**
+   * gets column for content_type.
+   * @return column for content_type.
+   */
+  const TableColumn* GetColumn_content_type() const;
 
 	/**
 	 * sets value of content_type.
 	 * @param in value.
 	 */
-    void Set_content_type(const std::string& in);
-    /**
-     * gets value of primary_ip.
-     * @param out value.
-     */
-	void Get_primary_ip(long long& out) const;
+  void Set_content_type(const std::string& in);
+  /**
+   * gets value of primary_ip.
+   * @param out value.
+   */
+  void Get_primary_ip(long long& out) const;
+
+  /**
+   * gets column for primary_ip.
+   * @return column for primary_ip.
+   */
+  const TableColumn* GetColumn_primary_ip() const;
 
 	/**
 	 * sets value of primary_ip.
 	 * @param in value.
 	 */
-    void Set_primary_ip(const long long& in);
-    /**
-     * gets value of primary_port.
-     * @param out value.
-     */
-	void Get_primary_port(long long& out) const;
+  void Set_primary_ip(const long long& in);
+  /**
+   * gets value of primary_port.
+   * @param out value.
+   */
+  void Get_primary_port(long long& out) const;
+
+  /**
+   * gets column for primary_port.
+   * @return column for primary_port.
+   */
+  const TableColumn* GetColumn_primary_port() const;
 
 	/**
 	 * sets value of primary_port.
 	 * @param in value.
 	 */
-    void Set_primary_port(const long long& in);
-    /**
-     * gets value of int_links.
-     * @param out value.
-     */
-	void Get_int_links(long long& out) const;
+  void Set_primary_port(const long long& in);
+  /**
+   * gets value of int_links.
+   * @param out value.
+   */
+  void Get_int_links(long long& out) const;
+
+  /**
+   * gets column for int_links.
+   * @return column for int_links.
+   */
+  const TableColumn* GetColumn_int_links() const;
 
 	/**
 	 * sets value of int_links.
 	 * @param in value.
 	 */
-    void Set_int_links(const long long& in);
-    /**
-     * gets value of ext_links.
-     * @param out value.
-     */
-	void Get_ext_links(long long& out) const;
+  void Set_int_links(const long long& in);
+  /**
+   * gets value of ext_links.
+   * @param out value.
+   */
+  void Get_ext_links(long long& out) const;
+
+  /**
+   * gets column for ext_links.
+   * @return column for ext_links.
+   */
+  const TableColumn* GetColumn_ext_links() const;
 
 	/**
 	 * sets value of ext_links.
 	 * @param in value.
 	 */
-    void Set_ext_links(const long long& in);
-    /**
-     * gets value of download_time.
-     * @param out value.
-     */
-	void Get_download_time(long long& out) const;
+  void Set_ext_links(const long long& in);
+  /**
+   * gets value of download_time.
+   * @param out value.
+   */
+  void Get_download_time(long long& out) const;
+
+  /**
+   * gets column for download_time.
+   * @return column for download_time.
+   */
+  const TableColumn* GetColumn_download_time() const;
 
 	/**
 	 * sets value of download_time.
 	 * @param in value.
 	 */
-    void Set_download_time(const long long& in);
-    /**
-     * gets value of html_errors.
-     * @param out value.
-     */
-	void Get_html_errors(long long& out) const;
+  void Set_download_time(const long long& in);
+  /**
+   * gets value of html_errors.
+   * @param out value.
+   */
+  void Get_html_errors(long long& out) const;
+
+  /**
+   * gets column for html_errors.
+   * @return column for html_errors.
+   */
+  const TableColumn* GetColumn_html_errors() const;
 
 	/**
 	 * sets value of html_errors.
 	 * @param in value.
 	 */
-    void Set_html_errors(const long long& in);
-    /**
-     * gets value of found_date.
-     * @param out value.
-     */
-	void Get_found_date(struct tm& out) const;
+  void Set_html_errors(const long long& in);
+  /**
+   * gets value of found_date.
+   * @param out value.
+   */
+  void Get_found_date(struct tm& out) const;
+
+  /**
+   * gets column for found_date.
+   * @return column for found_date.
+   */
+  const TableColumn* GetColumn_found_date() const;
 
 	/**
 	 * sets value of found_date.
 	 * @param in value.
 	 */
-    void Set_found_date(const struct tm& in);
+  void Set_found_date(const struct tm& in);
 
 
 public:

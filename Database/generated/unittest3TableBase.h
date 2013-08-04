@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of UNITTEST1_ID.
-     * @param out value.
-     */
-	void Get_UNITTEST1_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of UNITTEST1_ID.
+   * @param out value.
+   */
+  void Get_UNITTEST1_ID(long long& out) const;
+
+  /**
+   * gets column for UNITTEST1_ID.
+   * @return column for UNITTEST1_ID.
+   */
+  const TableColumn* GetColumn_UNITTEST1_ID() const;
 
 	/**
 	 * sets value of UNITTEST1_ID.
 	 * @param in value.
 	 */
-    void Set_UNITTEST1_ID(const long long& in);
-    /**
-     * gets value of UNITTEST2_ID.
-     * @param out value.
-     */
-	void Get_UNITTEST2_ID(long long& out) const;
+  void Set_UNITTEST1_ID(const long long& in);
+  /**
+   * gets value of UNITTEST2_ID.
+   * @param out value.
+   */
+  void Get_UNITTEST2_ID(long long& out) const;
+
+  /**
+   * gets column for UNITTEST2_ID.
+   * @return column for UNITTEST2_ID.
+   */
+  const TableColumn* GetColumn_UNITTEST2_ID() const;
 
 	/**
 	 * sets value of UNITTEST2_ID.
 	 * @param in value.
 	 */
-    void Set_UNITTEST2_ID(const long long& in);
+  void Set_UNITTEST2_ID(const long long& in);
 
 
 public:

@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of size.
-     * @param out value.
-     */
-	void Get_size(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of size.
+   * @param out value.
+   */
+  void Get_size(long long& out) const;
+
+  /**
+   * gets column for size.
+   * @return column for size.
+   */
+  const TableColumn* GetColumn_size() const;
 
 	/**
 	 * sets value of size.
 	 * @param in value.
 	 */
-    void Set_size(const long long& in);
-    /**
-     * gets value of matches.
-     * @param out value.
-     */
-	void Get_matches(long long& out) const;
+  void Set_size(const long long& in);
+  /**
+   * gets value of matches.
+   * @param out value.
+   */
+  void Get_matches(long long& out) const;
+
+  /**
+   * gets column for matches.
+   * @return column for matches.
+   */
+  const TableColumn* GetColumn_matches() const;
 
 	/**
 	 * sets value of matches.
 	 * @param in value.
 	 */
-    void Set_matches(const long long& in);
-    /**
-     * gets value of misses.
-     * @param out value.
-     */
-	void Get_misses(long long& out) const;
+  void Set_matches(const long long& in);
+  /**
+   * gets value of misses.
+   * @param out value.
+   */
+  void Get_misses(long long& out) const;
+
+  /**
+   * gets column for misses.
+   * @return column for misses.
+   */
+  const TableColumn* GetColumn_misses() const;
 
 	/**
 	 * sets value of misses.
 	 * @param in value.
 	 */
-    void Set_misses(const long long& in);
-    /**
-     * gets value of action_time.
-     * @param out value.
-     */
-	void Get_action_time(struct tm& out) const;
+  void Set_misses(const long long& in);
+  /**
+   * gets value of action_time.
+   * @param out value.
+   */
+  void Get_action_time(struct tm& out) const;
+
+  /**
+   * gets column for action_time.
+   * @return column for action_time.
+   */
+  const TableColumn* GetColumn_action_time() const;
 
 	/**
 	 * sets value of action_time.
 	 * @param in value.
 	 */
-    void Set_action_time(const struct tm& in);
+  void Set_action_time(const struct tm& in);
 
 
 public:

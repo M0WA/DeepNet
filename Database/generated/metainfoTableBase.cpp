@@ -65,6 +65,28 @@ void metainfoTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* metainfoTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void metainfoTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void metainfoTableBase::Get_URLSTAGE_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* metainfoTableBase::GetColumn_URLSTAGE_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void metainfoTableBase::Set_URLSTAGE_ID(const long long& in) {
@@ -153,6 +197,28 @@ void metainfoTableBase::Get_type(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* metainfoTableBase::GetColumn_type() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void metainfoTableBase::Set_type(const long long& in) {
 
     std::string fieldName;
@@ -195,6 +261,28 @@ void metainfoTableBase::Get_value(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* metainfoTableBase::GetColumn_value() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "value";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "value";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("value");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "value";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void metainfoTableBase::Set_value(const std::string& in) {

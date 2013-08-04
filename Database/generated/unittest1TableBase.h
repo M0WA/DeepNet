@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of timestamp_test.
-     * @param out value.
-     */
-	void Get_timestamp_test(struct tm& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of timestamp_test.
+   * @param out value.
+   */
+  void Get_timestamp_test(struct tm& out) const;
+
+  /**
+   * gets column for timestamp_test.
+   * @return column for timestamp_test.
+   */
+  const TableColumn* GetColumn_timestamp_test() const;
 
 	/**
 	 * sets value of timestamp_test.
 	 * @param in value.
 	 */
-    void Set_timestamp_test(const struct tm& in);
-    /**
-     * gets value of varchar_test.
-     * @param out value.
-     */
-	void Get_varchar_test(std::string& out) const;
+  void Set_timestamp_test(const struct tm& in);
+  /**
+   * gets value of varchar_test.
+   * @param out value.
+   */
+  void Get_varchar_test(std::string& out) const;
+
+  /**
+   * gets column for varchar_test.
+   * @return column for varchar_test.
+   */
+  const TableColumn* GetColumn_varchar_test() const;
 
 	/**
 	 * sets value of varchar_test.
 	 * @param in value.
 	 */
-    void Set_varchar_test(const std::string& in);
-    /**
-     * gets value of double_test.
-     * @param out value.
-     */
-	void Get_double_test(double& out) const;
+  void Set_varchar_test(const std::string& in);
+  /**
+   * gets value of double_test.
+   * @param out value.
+   */
+  void Get_double_test(double& out) const;
+
+  /**
+   * gets column for double_test.
+   * @return column for double_test.
+   */
+  const TableColumn* GetColumn_double_test() const;
 
 	/**
 	 * sets value of double_test.
 	 * @param in value.
 	 */
-    void Set_double_test(const double& in);
-    /**
-     * gets value of integer_test.
-     * @param out value.
-     */
-	void Get_integer_test(long long& out) const;
+  void Set_double_test(const double& in);
+  /**
+   * gets value of integer_test.
+   * @param out value.
+   */
+  void Get_integer_test(long long& out) const;
+
+  /**
+   * gets column for integer_test.
+   * @return column for integer_test.
+   */
+  const TableColumn* GetColumn_integer_test() const;
 
 	/**
 	 * sets value of integer_test.
 	 * @param in value.
 	 */
-    void Set_integer_test(const long long& in);
+  void Set_integer_test(const long long& in);
 
 
 public:

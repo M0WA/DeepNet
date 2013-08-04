@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of DICT_ID.
-     * @param out value.
-     */
-	void Get_DICT_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of DICT_ID.
+   * @param out value.
+   */
+  void Get_DICT_ID(long long& out) const;
+
+  /**
+   * gets column for DICT_ID.
+   * @return column for DICT_ID.
+   */
+  const TableColumn* GetColumn_DICT_ID() const;
 
 	/**
 	 * sets value of DICT_ID.
 	 * @param in value.
 	 */
-    void Set_DICT_ID(const long long& in);
-    /**
-     * gets value of URLSTAGE_ID.
-     * @param out value.
-     */
-	void Get_URLSTAGE_ID(long long& out) const;
+  void Set_DICT_ID(const long long& in);
+  /**
+   * gets value of URLSTAGE_ID.
+   * @param out value.
+   */
+  void Get_URLSTAGE_ID(long long& out) const;
+
+  /**
+   * gets column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetColumn_URLSTAGE_ID() const;
 
 	/**
 	 * sets value of URLSTAGE_ID.
 	 * @param in value.
 	 */
-    void Set_URLSTAGE_ID(const long long& in);
-    /**
-     * gets value of occurrence.
-     * @param out value.
-     */
-	void Get_occurrence(long long& out) const;
+  void Set_URLSTAGE_ID(const long long& in);
+  /**
+   * gets value of occurrence.
+   * @param out value.
+   */
+  void Get_occurrence(long long& out) const;
+
+  /**
+   * gets column for occurrence.
+   * @return column for occurrence.
+   */
+  const TableColumn* GetColumn_occurrence() const;
 
 	/**
 	 * sets value of occurrence.
 	 * @param in value.
 	 */
-    void Set_occurrence(const long long& in);
-    /**
-     * gets value of type.
-     * @param out value.
-     */
-	void Get_type(long long& out) const;
+  void Set_occurrence(const long long& in);
+  /**
+   * gets value of type.
+   * @param out value.
+   */
+  void Get_type(long long& out) const;
+
+  /**
+   * gets column for type.
+   * @return column for type.
+   */
+  const TableColumn* GetColumn_type() const;
 
 	/**
 	 * sets value of type.
 	 * @param in value.
 	 */
-    void Set_type(const long long& in);
+  void Set_type(const long long& in);
 
 
 public:

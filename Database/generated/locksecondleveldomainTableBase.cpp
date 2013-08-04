@@ -64,6 +64,28 @@ void locksecondleveldomainTableBase::Get_SECONDLEVELDOMAIN_ID(long long& out) co
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* locksecondleveldomainTableBase::GetColumn_SECONDLEVELDOMAIN_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("SECONDLEVELDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "SECONDLEVELDOMAIN_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void locksecondleveldomainTableBase::Set_SECONDLEVELDOMAIN_ID(const long long& in) {
 
     std::string fieldName;
@@ -108,6 +130,28 @@ void locksecondleveldomainTableBase::Get_CRAWLERSESSION_ID(long long& out) const
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* locksecondleveldomainTableBase::GetColumn_CRAWLERSESSION_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CRAWLERSESSION_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CRAWLERSESSION_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void locksecondleveldomainTableBase::Set_CRAWLERSESSION_ID(const long long& in) {
 
     std::string fieldName;
@@ -150,6 +194,28 @@ void locksecondleveldomainTableBase::Get_schedule(struct tm& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* locksecondleveldomainTableBase::GetColumn_schedule() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "schedule";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "schedule";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("schedule");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "schedule";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void locksecondleveldomainTableBase::Set_schedule(const struct tm& in) {

@@ -65,6 +65,28 @@ void dataminingblacklistTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* dataminingblacklistTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void dataminingblacklistTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -109,6 +131,28 @@ void dataminingblacklistTableBase::Get_CUSTOMER_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* dataminingblacklistTableBase::GetColumn_CUSTOMER_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void dataminingblacklistTableBase::Set_CUSTOMER_ID(const long long& in) {
 
     std::string fieldName;
@@ -151,6 +195,28 @@ void dataminingblacklistTableBase::Get_domain(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* dataminingblacklistTableBase::GetColumn_domain() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "domain";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "domain";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("domain");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "domain";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void dataminingblacklistTableBase::Set_domain(const std::string& in) {

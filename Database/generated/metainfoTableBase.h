@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of URLSTAGE_ID.
-     * @param out value.
-     */
-	void Get_URLSTAGE_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of URLSTAGE_ID.
+   * @param out value.
+   */
+  void Get_URLSTAGE_ID(long long& out) const;
+
+  /**
+   * gets column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetColumn_URLSTAGE_ID() const;
 
 	/**
 	 * sets value of URLSTAGE_ID.
 	 * @param in value.
 	 */
-    void Set_URLSTAGE_ID(const long long& in);
-    /**
-     * gets value of type.
-     * @param out value.
-     */
-	void Get_type(long long& out) const;
+  void Set_URLSTAGE_ID(const long long& in);
+  /**
+   * gets value of type.
+   * @param out value.
+   */
+  void Get_type(long long& out) const;
+
+  /**
+   * gets column for type.
+   * @return column for type.
+   */
+  const TableColumn* GetColumn_type() const;
 
 	/**
 	 * sets value of type.
 	 * @param in value.
 	 */
-    void Set_type(const long long& in);
-    /**
-     * gets value of value.
-     * @param out value.
-     */
-	void Get_value(std::string& out) const;
+  void Set_type(const long long& in);
+  /**
+   * gets value of value.
+   * @param out value.
+   */
+  void Get_value(std::string& out) const;
+
+  /**
+   * gets column for value.
+   * @return column for value.
+   */
+  const TableColumn* GetColumn_value() const;
 
 	/**
 	 * sets value of value.
 	 * @param in value.
 	 */
-    void Set_value(const std::string& in);
+  void Set_value(const std::string& in);
 
 
 public:

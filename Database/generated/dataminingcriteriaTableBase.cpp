@@ -64,6 +64,28 @@ void dataminingcriteriaTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* dataminingcriteriaTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void dataminingcriteriaTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -108,6 +130,28 @@ void dataminingcriteriaTableBase::Get_keyword(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* dataminingcriteriaTableBase::GetColumn_keyword() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void dataminingcriteriaTableBase::Set_keyword(const std::string& in) {
 
     std::string fieldName;
@@ -150,6 +194,28 @@ void dataminingcriteriaTableBase::Get_type(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* dataminingcriteriaTableBase::GetColumn_type() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void dataminingcriteriaTableBase::Set_type(const long long& in) {

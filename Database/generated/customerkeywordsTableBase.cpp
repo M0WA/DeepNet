@@ -65,6 +65,28 @@ void customerkeywordsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerkeywordsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerkeywordsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void customerkeywordsTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customerkeywordsTableBase::GetColumn_CUSTOMERDOMAIN_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customerkeywordsTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
@@ -153,6 +197,28 @@ void customerkeywordsTableBase::Get_keyword(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerkeywordsTableBase::GetColumn_keyword() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "keyword";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "keyword";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("keyword");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "keyword";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerkeywordsTableBase::Set_keyword(const std::string& in) {
 
     std::string fieldName;
@@ -197,6 +263,28 @@ void customerkeywordsTableBase::Get_target(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerkeywordsTableBase::GetColumn_target() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "target";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "target";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("target");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "target";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerkeywordsTableBase::Set_target(const std::string& in) {
 
     std::string fieldName;
@@ -239,6 +327,28 @@ void customerkeywordsTableBase::Get_isKeywordRegex(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customerkeywordsTableBase::GetColumn_isKeywordRegex() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isKeywordRegex";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isKeywordRegex";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isKeywordRegex");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isKeywordRegex";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customerkeywordsTableBase::Set_isKeywordRegex(const long long& in) {

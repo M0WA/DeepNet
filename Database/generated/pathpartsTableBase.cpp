@@ -64,6 +64,28 @@ void pathpartsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* pathpartsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void pathpartsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -106,6 +128,28 @@ void pathpartsTableBase::Get_path(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* pathpartsTableBase::GetColumn_path() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "path";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "path";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("path");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "path";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void pathpartsTableBase::Set_path(const std::string& in) {

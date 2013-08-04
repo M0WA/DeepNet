@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMERDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMERDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERDOMAIN_ID(const long long& in);
-    /**
-     * gets value of CRAWLERSESSION_ID.
-     * @param out value.
-     */
-	void Get_CRAWLERSESSION_ID(long long& out) const;
+  void Set_CUSTOMERDOMAIN_ID(const long long& in);
+  /**
+   * gets value of CRAWLERSESSION_ID.
+   * @param out value.
+   */
+  void Get_CRAWLERSESSION_ID(long long& out) const;
+
+  /**
+   * gets column for CRAWLERSESSION_ID.
+   * @return column for CRAWLERSESSION_ID.
+   */
+  const TableColumn* GetColumn_CRAWLERSESSION_ID() const;
 
 	/**
 	 * sets value of CRAWLERSESSION_ID.
 	 * @param in value.
 	 */
-    void Set_CRAWLERSESSION_ID(const long long& in);
-    /**
-     * gets value of scheduled.
-     * @param out value.
-     */
-	void Get_scheduled(struct tm& out) const;
+  void Set_CRAWLERSESSION_ID(const long long& in);
+  /**
+   * gets value of scheduled.
+   * @param out value.
+   */
+  void Get_scheduled(struct tm& out) const;
+
+  /**
+   * gets column for scheduled.
+   * @return column for scheduled.
+   */
+  const TableColumn* GetColumn_scheduled() const;
 
 	/**
 	 * sets value of scheduled.
 	 * @param in value.
 	 */
-    void Set_scheduled(const struct tm& in);
+  void Set_scheduled(const struct tm& in);
 
 
 public:

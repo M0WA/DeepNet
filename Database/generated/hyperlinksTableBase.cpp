@@ -66,6 +66,28 @@ void hyperlinksTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* hyperlinksTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void hyperlinksTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -108,6 +130,28 @@ void hyperlinksTableBase::Get_TARGET_URL_ID(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* hyperlinksTableBase::GetColumn_TARGET_URL_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "TARGET_URL_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("TARGET_URL_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "TARGET_URL_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void hyperlinksTableBase::Set_TARGET_URL_ID(const long long& in) {
@@ -154,6 +198,28 @@ void hyperlinksTableBase::Get_URLSTAGE_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* hyperlinksTableBase::GetColumn_URLSTAGE_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLSTAGE_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLSTAGE_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void hyperlinksTableBase::Set_URLSTAGE_ID(const long long& in) {
 
     std::string fieldName;
@@ -196,6 +262,28 @@ void hyperlinksTableBase::Get_count(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* hyperlinksTableBase::GetColumn_count() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "count";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "count";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("count");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "count";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void hyperlinksTableBase::Set_count(const long long& in) {

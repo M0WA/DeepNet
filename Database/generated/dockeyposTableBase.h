@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of DOCKEY_ID.
-     * @param out value.
-     */
-	void Get_DOCKEY_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of DOCKEY_ID.
+   * @param out value.
+   */
+  void Get_DOCKEY_ID(long long& out) const;
+
+  /**
+   * gets column for DOCKEY_ID.
+   * @return column for DOCKEY_ID.
+   */
+  const TableColumn* GetColumn_DOCKEY_ID() const;
 
 	/**
 	 * sets value of DOCKEY_ID.
 	 * @param in value.
 	 */
-    void Set_DOCKEY_ID(const long long& in);
-    /**
-     * gets value of paragraph.
-     * @param out value.
-     */
-	void Get_paragraph(long long& out) const;
+  void Set_DOCKEY_ID(const long long& in);
+  /**
+   * gets value of paragraph.
+   * @param out value.
+   */
+  void Get_paragraph(long long& out) const;
+
+  /**
+   * gets column for paragraph.
+   * @return column for paragraph.
+   */
+  const TableColumn* GetColumn_paragraph() const;
 
 	/**
 	 * sets value of paragraph.
 	 * @param in value.
 	 */
-    void Set_paragraph(const long long& in);
-    /**
-     * gets value of position.
-     * @param out value.
-     */
-	void Get_position(long long& out) const;
+  void Set_paragraph(const long long& in);
+  /**
+   * gets value of position.
+   * @param out value.
+   */
+  void Get_position(long long& out) const;
+
+  /**
+   * gets column for position.
+   * @return column for position.
+   */
+  const TableColumn* GetColumn_position() const;
 
 	/**
 	 * sets value of position.
 	 * @param in value.
 	 */
-    void Set_position(const long long& in);
+  void Set_position(const long long& in);
 
 
 public:

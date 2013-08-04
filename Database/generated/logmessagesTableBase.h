@@ -34,94 +34,142 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of loglevel.
-     * @param out value.
-     */
-	void Get_loglevel(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of loglevel.
+   * @param out value.
+   */
+  void Get_loglevel(long long& out) const;
+
+  /**
+   * gets column for loglevel.
+   * @return column for loglevel.
+   */
+  const TableColumn* GetColumn_loglevel() const;
 
 	/**
 	 * sets value of loglevel.
 	 * @param in value.
 	 */
-    void Set_loglevel(const long long& in);
-    /**
-     * gets value of message.
-     * @param out value.
-     */
-	void Get_message(std::string& out) const;
+  void Set_loglevel(const long long& in);
+  /**
+   * gets value of message.
+   * @param out value.
+   */
+  void Get_message(std::string& out) const;
+
+  /**
+   * gets column for message.
+   * @return column for message.
+   */
+  const TableColumn* GetColumn_message() const;
 
 	/**
 	 * sets value of message.
 	 * @param in value.
 	 */
-    void Set_message(const std::string& in);
-    /**
-     * gets value of actiontime.
-     * @param out value.
-     */
-	void Get_actiontime(struct tm& out) const;
+  void Set_message(const std::string& in);
+  /**
+   * gets value of actiontime.
+   * @param out value.
+   */
+  void Get_actiontime(struct tm& out) const;
+
+  /**
+   * gets column for actiontime.
+   * @return column for actiontime.
+   */
+  const TableColumn* GetColumn_actiontime() const;
 
 	/**
 	 * sets value of actiontime.
 	 * @param in value.
 	 */
-    void Set_actiontime(const struct tm& in);
-    /**
-     * gets value of pid.
-     * @param out value.
-     */
-	void Get_pid(long long& out) const;
+  void Set_actiontime(const struct tm& in);
+  /**
+   * gets value of pid.
+   * @param out value.
+   */
+  void Get_pid(long long& out) const;
+
+  /**
+   * gets column for pid.
+   * @return column for pid.
+   */
+  const TableColumn* GetColumn_pid() const;
 
 	/**
 	 * sets value of pid.
 	 * @param in value.
 	 */
-    void Set_pid(const long long& in);
-    /**
-     * gets value of tid.
-     * @param out value.
-     */
-	void Get_tid(long long& out) const;
+  void Set_pid(const long long& in);
+  /**
+   * gets value of tid.
+   * @param out value.
+   */
+  void Get_tid(long long& out) const;
+
+  /**
+   * gets column for tid.
+   * @return column for tid.
+   */
+  const TableColumn* GetColumn_tid() const;
 
 	/**
 	 * sets value of tid.
 	 * @param in value.
 	 */
-    void Set_tid(const long long& in);
-    /**
-     * gets value of appName.
-     * @param out value.
-     */
-	void Get_appName(std::string& out) const;
+  void Set_tid(const long long& in);
+  /**
+   * gets value of appName.
+   * @param out value.
+   */
+  void Get_appName(std::string& out) const;
+
+  /**
+   * gets column for appName.
+   * @return column for appName.
+   */
+  const TableColumn* GetColumn_appName() const;
 
 	/**
 	 * sets value of appName.
 	 * @param in value.
 	 */
-    void Set_appName(const std::string& in);
-    /**
-     * gets value of threadName.
-     * @param out value.
-     */
-	void Get_threadName(std::string& out) const;
+  void Set_appName(const std::string& in);
+  /**
+   * gets value of threadName.
+   * @param out value.
+   */
+  void Get_threadName(std::string& out) const;
+
+  /**
+   * gets column for threadName.
+   * @return column for threadName.
+   */
+  const TableColumn* GetColumn_threadName() const;
 
 	/**
 	 * sets value of threadName.
 	 * @param in value.
 	 */
-    void Set_threadName(const std::string& in);
+  void Set_threadName(const std::string& in);
 
 
 public:

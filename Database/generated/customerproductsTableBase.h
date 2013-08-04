@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMERDOMAIN_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMERDOMAIN_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMERDOMAIN_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMERDOMAIN_ID.
+   * @return column for CUSTOMERDOMAIN_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMERDOMAIN_ID() const;
 
 	/**
 	 * sets value of CUSTOMERDOMAIN_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMERDOMAIN_ID(const long long& in);
-    /**
-     * gets value of productNo.
-     * @param out value.
-     */
-	void Get_productNo(std::string& out) const;
+  void Set_CUSTOMERDOMAIN_ID(const long long& in);
+  /**
+   * gets value of productNo.
+   * @param out value.
+   */
+  void Get_productNo(std::string& out) const;
+
+  /**
+   * gets column for productNo.
+   * @return column for productNo.
+   */
+  const TableColumn* GetColumn_productNo() const;
 
 	/**
 	 * sets value of productNo.
 	 * @param in value.
 	 */
-    void Set_productNo(const std::string& in);
-    /**
-     * gets value of productName.
-     * @param out value.
-     */
-	void Get_productName(std::string& out) const;
+  void Set_productNo(const std::string& in);
+  /**
+   * gets value of productName.
+   * @param out value.
+   */
+  void Get_productName(std::string& out) const;
+
+  /**
+   * gets column for productName.
+   * @return column for productName.
+   */
+  const TableColumn* GetColumn_productName() const;
 
 	/**
 	 * sets value of productName.
 	 * @param in value.
 	 */
-    void Set_productName(const std::string& in);
-    /**
-     * gets value of productBrand.
-     * @param out value.
-     */
-	void Get_productBrand(std::string& out) const;
+  void Set_productName(const std::string& in);
+  /**
+   * gets value of productBrand.
+   * @param out value.
+   */
+  void Get_productBrand(std::string& out) const;
+
+  /**
+   * gets column for productBrand.
+   * @return column for productBrand.
+   */
+  const TableColumn* GetColumn_productBrand() const;
 
 	/**
 	 * sets value of productBrand.
 	 * @param in value.
 	 */
-    void Set_productBrand(const std::string& in);
+  void Set_productBrand(const std::string& in);
 
 
 public:

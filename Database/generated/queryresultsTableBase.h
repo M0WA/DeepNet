@@ -34,61 +34,91 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of SEARCHQUERY_ID.
-     * @param out value.
-     */
-	void Get_SEARCHQUERY_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of SEARCHQUERY_ID.
+   * @param out value.
+   */
+  void Get_SEARCHQUERY_ID(long long& out) const;
+
+  /**
+   * gets column for SEARCHQUERY_ID.
+   * @return column for SEARCHQUERY_ID.
+   */
+  const TableColumn* GetColumn_SEARCHQUERY_ID() const;
 
 	/**
 	 * sets value of SEARCHQUERY_ID.
 	 * @param in value.
 	 */
-    void Set_SEARCHQUERY_ID(const long long& in);
-    /**
-     * gets value of URL_ID.
-     * @param out value.
-     */
-	void Get_URL_ID(long long& out) const;
+  void Set_SEARCHQUERY_ID(const long long& in);
+  /**
+   * gets value of URL_ID.
+   * @param out value.
+   */
+  void Get_URL_ID(long long& out) const;
+
+  /**
+   * gets column for URL_ID.
+   * @return column for URL_ID.
+   */
+  const TableColumn* GetColumn_URL_ID() const;
 
 	/**
 	 * sets value of URL_ID.
 	 * @param in value.
 	 */
-    void Set_URL_ID(const long long& in);
-    /**
-     * gets value of URLSTAGE_ID.
-     * @param out value.
-     */
-	void Get_URLSTAGE_ID(long long& out) const;
+  void Set_URL_ID(const long long& in);
+  /**
+   * gets value of URLSTAGE_ID.
+   * @param out value.
+   */
+  void Get_URLSTAGE_ID(long long& out) const;
+
+  /**
+   * gets column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetColumn_URLSTAGE_ID() const;
 
 	/**
 	 * sets value of URLSTAGE_ID.
 	 * @param in value.
 	 */
-    void Set_URLSTAGE_ID(const long long& in);
-    /**
-     * gets value of order_position.
-     * @param out value.
-     */
-	void Get_order_position(long long& out) const;
+  void Set_URLSTAGE_ID(const long long& in);
+  /**
+   * gets value of order_position.
+   * @param out value.
+   */
+  void Get_order_position(long long& out) const;
+
+  /**
+   * gets column for order_position.
+   * @return column for order_position.
+   */
+  const TableColumn* GetColumn_order_position() const;
 
 	/**
 	 * sets value of order_position.
 	 * @param in value.
 	 */
-    void Set_order_position(const long long& in);
+  void Set_order_position(const long long& in);
 
 
 public:

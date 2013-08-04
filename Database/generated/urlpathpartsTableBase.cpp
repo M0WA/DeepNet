@@ -66,6 +66,28 @@ void urlpathpartsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlpathpartsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlpathpartsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -110,6 +132,28 @@ void urlpathpartsTableBase::Get_PATHPART_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* urlpathpartsTableBase::GetColumn_PATHPART_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PATHPART_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PATHPART_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PATHPART_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PATHPART_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void urlpathpartsTableBase::Set_PATHPART_ID(const long long& in) {
 
     std::string fieldName;
@@ -152,6 +196,28 @@ void urlpathpartsTableBase::Get_URLPATHPART_ID_NEXT(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* urlpathpartsTableBase::GetColumn_URLPATHPART_ID_NEXT() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "URLPATHPART_ID_NEXT";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "URLPATHPART_ID_NEXT";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("URLPATHPART_ID_NEXT");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "URLPATHPART_ID_NEXT";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void urlpathpartsTableBase::Set_URLPATHPART_ID_NEXT(const long long& in) {

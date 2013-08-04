@@ -65,6 +65,28 @@ void customermatchcriteriagrouptypeTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customermatchcriteriagrouptypeTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customermatchcriteriagrouptypeTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -107,6 +129,28 @@ void customermatchcriteriagrouptypeTableBase::Get_CUSTOMERMATCHCRITERIA_ID(long 
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customermatchcriteriagrouptypeTableBase::GetColumn_CUSTOMERMATCHCRITERIA_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERMATCHCRITERIA_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERMATCHCRITERIA_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_CUSTOMERMATCHCRITERIA_ID(const long long& in) {
@@ -153,6 +197,28 @@ void customermatchcriteriagrouptypeTableBase::Get_type(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customermatchcriteriagrouptypeTableBase::GetColumn_type() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "type";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "type";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("type");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "type";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customermatchcriteriagrouptypeTableBase::Set_type(const long long& in) {
 
     std::string fieldName;
@@ -197,6 +263,28 @@ void customermatchcriteriagrouptypeTableBase::Get_groupPosition(long long& out) 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customermatchcriteriagrouptypeTableBase::GetColumn_groupPosition() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "groupPosition";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "groupPosition";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("groupPosition");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "groupPosition";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customermatchcriteriagrouptypeTableBase::Set_groupPosition(const long long& in) {
 
     std::string fieldName;
@@ -239,6 +327,28 @@ void customermatchcriteriagrouptypeTableBase::Get_isPrimaryKey(long long& out) c
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customermatchcriteriagrouptypeTableBase::GetColumn_isPrimaryKey() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "isPrimaryKey";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "isPrimaryKey";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("isPrimaryKey");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "isPrimaryKey";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customermatchcriteriagrouptypeTableBase::Set_isPrimaryKey(const long long& in) {

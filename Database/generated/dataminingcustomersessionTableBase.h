@@ -34,39 +34,57 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of CUSTOMER_ID.
-     * @param out value.
-     */
-	void Get_CUSTOMER_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of CUSTOMER_ID.
+   * @param out value.
+   */
+  void Get_CUSTOMER_ID(long long& out) const;
+
+  /**
+   * gets column for CUSTOMER_ID.
+   * @return column for CUSTOMER_ID.
+   */
+  const TableColumn* GetColumn_CUSTOMER_ID() const;
 
 	/**
 	 * sets value of CUSTOMER_ID.
 	 * @param in value.
 	 */
-    void Set_CUSTOMER_ID(const long long& in);
-    /**
-     * gets value of session.
-     * @param out value.
-     */
-	void Get_session(std::string& out) const;
+  void Set_CUSTOMER_ID(const long long& in);
+  /**
+   * gets value of session.
+   * @param out value.
+   */
+  void Get_session(std::string& out) const;
+
+  /**
+   * gets column for session.
+   * @return column for session.
+   */
+  const TableColumn* GetColumn_session() const;
 
 	/**
 	 * sets value of session.
 	 * @param in value.
 	 */
-    void Set_session(const std::string& in);
+  void Set_session(const std::string& in);
 
 
 public:

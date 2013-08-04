@@ -65,6 +65,28 @@ void customerqueriesTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerqueriesTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerqueriesTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -109,6 +131,28 @@ void customerqueriesTableBase::Get_CUSTOMERDOMAIN_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customerqueriesTableBase::GetColumn_CUSTOMERDOMAIN_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMERDOMAIN_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMERDOMAIN_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customerqueriesTableBase::Set_CUSTOMERDOMAIN_ID(const long long& in) {
 
     std::string fieldName;
@@ -151,6 +195,28 @@ void customerqueriesTableBase::Get_query(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customerqueriesTableBase::GetColumn_query() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "query";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "query";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("query");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "query";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customerqueriesTableBase::Set_query(const std::string& in) {

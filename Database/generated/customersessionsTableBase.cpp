@@ -65,6 +65,28 @@ void customersessionsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customersessionsTableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customersessionsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -109,6 +131,28 @@ void customersessionsTableBase::Get_CUSTOMER_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* customersessionsTableBase::GetColumn_CUSTOMER_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "CUSTOMER_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("CUSTOMER_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "CUSTOMER_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void customersessionsTableBase::Set_CUSTOMER_ID(const long long& in) {
 
     std::string fieldName;
@@ -151,6 +195,28 @@ void customersessionsTableBase::Get_session(std::string& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* customersessionsTableBase::GetColumn_session() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "session";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "session";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("session");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "session";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void customersessionsTableBase::Set_session(const std::string& in) {

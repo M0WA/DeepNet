@@ -64,6 +64,28 @@ void unittest1TableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* unittest1TableBase::GetColumn_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void unittest1TableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
@@ -106,6 +128,28 @@ void unittest1TableBase::Get_timestamp_test(struct tm& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* unittest1TableBase::GetColumn_timestamp_test() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "timestamp_test";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "timestamp_test";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("timestamp_test");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "timestamp_test";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void unittest1TableBase::Set_timestamp_test(const struct tm& in) {
@@ -152,6 +196,28 @@ void unittest1TableBase::Get_varchar_test(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* unittest1TableBase::GetColumn_varchar_test() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "varchar_test";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "varchar_test";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("varchar_test");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "varchar_test";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void unittest1TableBase::Set_varchar_test(const std::string& in) {
 
     std::string fieldName;
@@ -196,6 +262,28 @@ void unittest1TableBase::Get_double_test(double& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
+const TableColumn* unittest1TableBase::GetColumn_double_test() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "double_test";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "double_test";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("double_test");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "double_test";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
 void unittest1TableBase::Set_double_test(const double& in) {
 
     std::string fieldName;
@@ -238,6 +326,28 @@ void unittest1TableBase::Get_integer_test(long long& out) const {
     }
 
     GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* unittest1TableBase::GetColumn_integer_test() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "integer_test";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "integer_test";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("integer_test");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "integer_test";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
 }
 
 void unittest1TableBase::Set_integer_test(const long long& in) {

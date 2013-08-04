@@ -34,50 +34,74 @@ public:
 //
 // template: TableBase_GetSetFields.inc.h
 //
-    /**
-     * gets value of ID.
-     * @param out value.
-     */
-	void Get_ID(long long& out) const;
+  /**
+   * gets value of ID.
+   * @param out value.
+   */
+  void Get_ID(long long& out) const;
+
+  /**
+   * gets column for ID.
+   * @return column for ID.
+   */
+  const TableColumn* GetColumn_ID() const;
 
 	/**
 	 * sets value of ID.
 	 * @param in value.
 	 */
-    void Set_ID(const long long& in);
-    /**
-     * gets value of TARGET_URL_ID.
-     * @param out value.
-     */
-	void Get_TARGET_URL_ID(long long& out) const;
+  void Set_ID(const long long& in);
+  /**
+   * gets value of TARGET_URL_ID.
+   * @param out value.
+   */
+  void Get_TARGET_URL_ID(long long& out) const;
+
+  /**
+   * gets column for TARGET_URL_ID.
+   * @return column for TARGET_URL_ID.
+   */
+  const TableColumn* GetColumn_TARGET_URL_ID() const;
 
 	/**
 	 * sets value of TARGET_URL_ID.
 	 * @param in value.
 	 */
-    void Set_TARGET_URL_ID(const long long& in);
-    /**
-     * gets value of URLSTAGE_ID.
-     * @param out value.
-     */
-	void Get_URLSTAGE_ID(long long& out) const;
+  void Set_TARGET_URL_ID(const long long& in);
+  /**
+   * gets value of URLSTAGE_ID.
+   * @param out value.
+   */
+  void Get_URLSTAGE_ID(long long& out) const;
+
+  /**
+   * gets column for URLSTAGE_ID.
+   * @return column for URLSTAGE_ID.
+   */
+  const TableColumn* GetColumn_URLSTAGE_ID() const;
 
 	/**
 	 * sets value of URLSTAGE_ID.
 	 * @param in value.
 	 */
-    void Set_URLSTAGE_ID(const long long& in);
-    /**
-     * gets value of count.
-     * @param out value.
-     */
-	void Get_count(long long& out) const;
+  void Set_URLSTAGE_ID(const long long& in);
+  /**
+   * gets value of count.
+   * @param out value.
+   */
+  void Get_count(long long& out) const;
+
+  /**
+   * gets column for count.
+   * @return column for count.
+   */
+  const TableColumn* GetColumn_count() const;
 
 	/**
 	 * sets value of count.
 	 * @param in value.
 	 */
-    void Set_count(const long long& in);
+  void Set_count(const long long& in);
 
 
 public:
