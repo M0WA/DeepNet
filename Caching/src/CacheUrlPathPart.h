@@ -32,17 +32,19 @@ public:
 	 * gets path part of an url by it's urlpathpart ID
 	 * @param db database connection
 	 * @param urlPathPartID urlPathPartID
-	 * @return path part
+	 * @param pathPart path part for given urlPathPartID
+	 * @return true if successful, false on error
 	 */
-	static std::string GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID);
+	static bool GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart);
 
 	/**
 	 * gets urlPathPartID of an url by it's path part
 	 * @param db database connection
 	 * @param urlPathPart url path part to search for
-	 * @return urlPathPartID or -1 on error
+	 * @param urlPathPartID urlPathPartID for given path part
+	 * @return true if successful, false on error
 	 */
-	static long long GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& urlPathPart);
+	static bool GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& urlPathPart, long long& urlPathPartID);
 
 	/**
 	 * removes all items from cache.

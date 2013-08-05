@@ -45,14 +45,12 @@ void CacheUrlPathPart::Clear(void)
 	cacheInstance.idUrlPathPart.ClearItems();
 }
 
-long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
+bool CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart, long long& urlPathPartID) {
 
-
-	long long urlPathPartID(-1);
 	bool isInCache(cacheInstance.idUrlPathPart.GetByValue(pathPart,urlPathPartID));
 	isInCache &= (urlPathPartID != -1);
-	if(isInCache)
-		return urlPathPartID;
+	if(isInCache) {
+		return true;}
 
 /*
  * example statement:
@@ -67,22 +65,11 @@ AND
   ( t1.pathpart_id = 2 )
 */
 
-	if(pathPart.empty()) {
-		//
-		//TODO: throw exception
-		//
-		log::Logging::LogError("empty path part received");
-		return -1; }
-
 	std::vector<std::string> parts;
 	tools::StringTools::SplitBy(pathPart, "/", parts);
 
 	if(parts.size()==0) {
-		//
-		//TODO: throw exception
-		//
-		log::Logging::LogError("empty path part received");
-		return -1; }
+		parts.push_back("/"); }
 
 	//fetch all path part ids
 	std::vector<long long> pathPartIDs;
@@ -94,7 +81,7 @@ AND
 			//TODO: throw exception
 			//
 			log::Logging::LogError("invalid path part: %s",iPathParts->c_str());
-			return -1; }
+			return false; }
 		pathPartIDs.push_back(pathPartID);
 	}
 
@@ -110,13 +97,14 @@ AND
 		//TODO: throw exception
 		//
 		log::Logging::LogError("invalid path part: %s",parts.at(0).c_str());
-		return -1; }
+		return false; }
 	else {
 		std::string dumpPath;
 		tools::ContainerTools::DumpVector(parts,dumpPath);
 		log::Logging::LogTrace("splitted path parts:\n%s",dumpPath.c_str());
 	}
 
+	std::string lastTableAlias("t0");
 	database::WhereConditionTableColumnCreateParam pathPartCreateParamBegin(
 			database::WhereCondition::Equals(),
 			database::WhereCondition::InitialComp());
@@ -133,6 +121,7 @@ AND
 		std::string joinTableAlias,referencedTableAlias, joinPathPartAlias, referencedPathPartAlias;
 		tools::StringTools::FormatString(referencedTableAlias,"t%ld",pos);
 		tools::StringTools::FormatString(joinTableAlias,"t%ld",pos-1);
+		lastTableAlias = referencedTableAlias;
 
 		database::urlpathpartsTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID_NEXT(
 			joinTableAlias,	"",
@@ -150,6 +139,20 @@ AND
 			where);
 	}
 
+	database::WhereConditionTableColumnCreateParam nextNullWhereParam(
+			database::WhereCondition::Equals(),
+			database::WhereCondition::And());
+	nextNullWhereParam.tableNameAlias = lastTableAlias;
+
+	database::TableColumn* colNextNull(
+		database::TableColumn::CreateInstance(database::urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT()) );
+	colNextNull->SetNull();
+
+	database::WhereConditionTableColumn* whereNextNull(
+		database::WhereConditionTableColumn::CreateInstance(nextNullWhereParam, colNextNull) );
+
+	where.push_back(whereNextNull);
+
 	selectUrlPathPart.Where().AddColumns(where);
 
 	database::SelectResultContainer<database::TableBase> results;
@@ -162,7 +165,7 @@ AND
 		//
 		e.DisableLogging();
 		log::Logging::LogError("exception while getting url path part: %s\n%s",pathPart.c_str(),e.Dump().c_str());
-		return -1;
+		return false;
 	}
 
 	if(results.Size()>1) {
@@ -170,7 +173,7 @@ AND
 		//TODO: throw exception
 		//
 		log::Logging::LogError("too many results while getting url path part: %s",pathPart.c_str());
-		return -1; }
+		return false; }
 
 	if(results.Size()==1) {
 		results.ResetIter();
@@ -181,7 +184,7 @@ AND
 	if(urlPathPartID != -1) {
 		cacheInstance.idUrlPathPart.AddItem(urlPathPartID,pathPart);}
 
-	return urlPathPartID;
+	return (urlPathPartID != -1);
 }
 
 long long CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs) {
@@ -218,7 +221,7 @@ long long CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, 
 	return urlPathPartID;
 }
 
-std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID) {
+bool CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart) {
 
 	std::vector<std::string> pathParts;
 	long long nextUrlPathPartID(urlPathPartID);
@@ -231,7 +234,7 @@ std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* d
 			//TODO: throw exception
 			//
 			log::Logging::LogError("");
-			return ""; }
+			return false; }
 
 		urlpathpartTbl.ResetIter();
 		long long pathPartID(-1);
@@ -248,9 +251,8 @@ std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* d
 
 	} while(nextUrlPathPartID != -1);
 
-	std::string combinedPath;
-	tools::StringTools::VectorToString(pathParts,combinedPath,"/");
-	return combinedPath;
+	tools::StringTools::VectorToString(pathParts,pathPart,"/");
+	return true;
 }
 
 }

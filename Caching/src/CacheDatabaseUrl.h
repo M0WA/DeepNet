@@ -183,10 +183,6 @@ public:
 	static size_t GetMisses();
 
 private:
-	void Insert(database::DatabaseConnection* db, network::HttpUrl& url);
-	void Add(database::DatabaseConnection* db, htmlparser::DatabaseUrl& url);
-
-private:
 	static CacheDatabaseUrl cacheInstance;
 
 private:
