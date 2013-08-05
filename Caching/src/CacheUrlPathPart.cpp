@@ -69,7 +69,7 @@ AND
 	tools::StringTools::SplitBy(pathPart, "/", parts);
 
 	if(parts.size()==0) {
-		parts.push_back("/"); }
+		parts.push_back(""); }
 
 	//fetch all path part ids
 	std::vector<long long> pathPartIDs;
