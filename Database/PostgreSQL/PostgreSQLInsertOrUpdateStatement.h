@@ -35,7 +35,7 @@ public:
 private:
 	std::string UpdateByPrimaryKey( DatabaseConnection* db ) const;
 	std::string UpdateOrInsertByUniqueKeys( DatabaseConnection* db ) const;
-	size_t ProcessCombinedUniqueKeys(std::string& whereKeys,const std::string& leftPrefix, const std::string& rightPrefix) const;
+	size_t ProcessCombinedUniqueKeys(std::string& whereKeys,const std::string& leftPrefix, const std::string& rightPrefix, const bool omitNullColumns) const;
 
 private:
 	const InsertOrUpdateStatement& orgStatement;
