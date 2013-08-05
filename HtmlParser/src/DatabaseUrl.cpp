@@ -165,15 +165,13 @@ void DatabaseUrl::InitByTable(database::DatabaseConnection* db,database::urlsTab
 
 	urlTbl->Get_ID(this->urlID);
 
-	//urlTbl->Get_path_part(path_part);
-	urlTbl->Get_URLPATHPART_ID(urlPathPartID);
-
 	urlTbl->Get_search_part(search_part);
 	//urlTbl->Get_fragment(fragment_part);
 	urlTbl->Get_url_md5(md5);
 
 	urlTbl->Get_SCHEME_ID(schemeID);
 	urlTbl->Get_TOPLEVELDOMAIN_ID(toplevelID);
+	urlTbl->Get_URLPATHPART_ID(urlPathPartID);
 
 	bool hasSubdomain = !urlTbl->GetConstColumn_SUBDOMAIN_ID()->IsNull();
 	if(hasSubdomain) {
@@ -250,14 +248,13 @@ void DatabaseUrl::Store(database::DatabaseConnection* db) {
 
 	tblUrls.Set_TOPLEVELDOMAIN_ID(toplevelID);
 	tblUrls.Set_SECONDLEVELDOMAIN_ID(secondlevelID);
+	tblUrls.Set_URLPATHPART_ID(urlPathPartID);
 
 	if(subdomainID != -1){
 		tblUrls.Set_SUBDOMAIN_ID(subdomainID); }
 	else {
 		tblUrls.GetColumnByName("SUBDOMAIN_ID")->SetNull(); }
 
-	//tblUrls.Set_path_part(path_part);
-	tblUrls.Set_URLPATHPART_ID(urlPathPartID);
 
 	tblUrls.Set_search_part(search_part);
 	tblUrls.Set_found_date(tools::TimeTools::NowUTC());
