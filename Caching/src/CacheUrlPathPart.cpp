@@ -98,11 +98,6 @@ AND
 		//
 		log::Logging::LogError("invalid path part: %s",parts.at(0).c_str());
 		return false; }
-	else {
-		std::string dumpPath;
-		tools::ContainerTools::DumpVector(parts,dumpPath);
-		log::Logging::LogTrace("splitted path parts:\n%s",dumpPath.c_str());
-	}
 
 	std::string lastTableAlias("t0");
 	database::WhereConditionTableColumnCreateParam pathPartCreateParamBegin(
