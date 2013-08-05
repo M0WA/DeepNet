@@ -117,6 +117,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 			if(pCurCol->IsNull()) {
 				THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"sum column cannot be NULL for update or insert"); }
 			setNewValuesColumnNames.push_back(curColName+"= m."+curColName +" + "+pCurCol->GetForSQL(db));
+			insertSelectColumnValues.push_back("nvi."+curColName);
 		}
 		else {
 			if(!pCurCol->IsNull()) {
