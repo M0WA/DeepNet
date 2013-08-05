@@ -41,8 +41,8 @@ void urlsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for port
     columnDefinitions.push_back(urlsTableBase::GetDefinition_port());
 
-    //creating column definition for path_part
-    columnDefinitions.push_back(urlsTableBase::GetDefinition_path_part());
+    //creating column definition for URLPATHPART_ID
+    columnDefinitions.push_back(urlsTableBase::GetDefinition_URLPATHPART_ID());
 
     //creating column definition for search_part
     columnDefinitions.push_back(urlsTableBase::GetDefinition_search_part());

@@ -173,28 +173,28 @@ public:
 	 */
   void Set_port(const long long& in);
   /**
-   * gets value of path_part.
+   * gets value of URLPATHPART_ID.
    * @param out value.
    */
-  void Get_path_part(std::string& out) const;
+  void Get_URLPATHPART_ID(long long& out) const;
 
   /**
-   * gets const column for path_part.
-   * @return column for path_part.
+   * gets const column for URLPATHPART_ID.
+   * @return column for URLPATHPART_ID.
    */
-  const TableColumn* GetConstColumn_path_part() const;
+  const TableColumn* GetConstColumn_URLPATHPART_ID() const;
 
   /**
-   * gets column for path_part.
-   * @return column for path_part.
+   * gets column for URLPATHPART_ID.
+   * @return column for URLPATHPART_ID.
    */
-  TableColumn* GetColumn_path_part();
+  TableColumn* GetColumn_URLPATHPART_ID();
 
 	/**
-	 * sets value of path_part.
+	 * sets value of URLPATHPART_ID.
 	 * @param in value.
 	 */
-  void Set_path_part(const std::string& in);
+  void Set_URLPATHPART_ID(const long long& in);
   /**
    * gets value of search_part.
    * @param out value.
@@ -404,25 +404,25 @@ public:
         SelectResultContainer<urlsTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of path_part.
+	 * gets rows by a value of URLPATHPART_ID.
 	 * @param db database connection.
-	 * @param fieldValue value of path_part.
+	 * @param fieldValue value of URLPATHPART_ID.
 	 * @param results contains results.
 	 */
-    static void GetBy_path_part(
+    static void GetBy_URLPATHPART_ID(
         DatabaseConnection* db,
-        const std::string& fieldValue, 
+        const long long& fieldValue, 
         SelectResultContainer<urlsTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of path_part.
+	 * gets rows by multiple values of URLPATHPART_ID.
 	 * @param db database connection.
-	 * @param fieldValue values of path_part.
+	 * @param fieldValue values of URLPATHPART_ID.
 	 * @param results contains results.
 	 */
-    static void GetBy_path_part(
+    static void GetBy_URLPATHPART_ID(
         DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
+        const std::vector<long long>& fieldValue, 
         SelectResultContainer<urlsTableBase>& results);
 public:
 	/**
@@ -512,6 +512,10 @@ public:
     static void AddInnerJoinLeftSideOn_SECONDLEVELDOMAIN_ID(Statement& stmt);
     static void AddInnerJoinRightSideOn_SECONDLEVELDOMAIN_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
     static void AddInnerJoinRightSideOn_SECONDLEVELDOMAIN_ID(Statement& stmt);
+    static void AddInnerJoinLeftSideOn_URLPATHPART_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinLeftSideOn_URLPATHPART_ID(Statement& stmt);
+    static void AddInnerJoinRightSideOn_URLPATHPART_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinRightSideOn_URLPATHPART_ID(Statement& stmt);
 
 
 public:
@@ -645,25 +649,25 @@ public:
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of path_part.
+     * creates where condition for a value of URLPATHPART_ID.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_path_part(
+	static void GetWhereColumnsFor_URLPATHPART_ID(
         const WhereConditionTableColumnCreateParam& createParam,
-        const std::string& fieldValue, 
+        const long long& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of path_part.
+     * creates where condition for multiple values of URLPATHPART_ID.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_path_part(
+    static void GetWhereColumnsFor_URLPATHPART_ID(
         const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<std::string>& fieldValue, 
+        const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
      * creates where condition for a value of search_part.
@@ -765,10 +769,10 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_port();
 	/**
-     * create a column definition for column path_part.
+     * create a column definition for column URLPATHPART_ID.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_path_part();
+	static TableColumnDefinition* GetDefinition_URLPATHPART_ID();
 	/**
      * create a column definition for column search_part.
      * @return column definition.

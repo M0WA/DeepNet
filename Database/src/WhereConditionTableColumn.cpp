@@ -80,7 +80,8 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 		//LIKE keyword is case sensitive for PostGRESQL
 		if(database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL &&
 		   createParam.op.GetType() == LIKE){
-			columnName = "lower(" + columnName + ")"; }
+			columnName.insert(0,"lower(");
+			columnName.append(")"); }
 
 		std::string opString(createParam.op.ToString());
 		if(colVal->GetConstColumn()->IsNull()) {
@@ -135,7 +136,8 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 
 		//LIKE keyword is case sensitive for PostGRESQL
 		if(database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL){
-			columnName = "lower(" + columnName + ")"; }
+			columnName.insert(0,"lower(");
+			columnName.append(")"); }
 
 		for(int i = 0;!columnValues.IsIterEnd();columnValues.Next(),i++) {
 			if(i)

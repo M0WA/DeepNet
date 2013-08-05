@@ -18,6 +18,8 @@
 #include "WhereConditionTableColumn.h"
 #include "WhereConditionTableColumnCreateParam.h"
 
+#include "PostgreSQLInvalidStatementException.h"
+
 namespace database {
 
 PostgreSQLInsertOrUpdateAffectedKeyStatement::PostgreSQLInsertOrUpdateAffectedKeyStatement(const InsertOrUpdateStatement& stmt)
@@ -46,8 +48,9 @@ void PostgreSQLInsertOrUpdateAffectedKeyStatement::InitWhereClause() {
 
 	const std::vector<TableColumn*>& cols(tableBase->GetConstColumns());
 	std::vector<TableColumn*>::const_iterator iCols(cols.begin());
-	for(size_t i = 0;iCols != cols.end();++iCols) {
 
+	size_t i(0);
+	for(;iCols != cols.end();++iCols) {
 		const TableColumn* pCurCol(*iCols);
 		const std::string& curColName(pCurCol->GetColumnName());
 		const TableColumnDefinition* pCurColDef(tblDef->GetConstColumnDefinitionByName(curColName));
@@ -72,6 +75,41 @@ void PostgreSQLInsertOrUpdateAffectedKeyStatement::InitWhereClause() {
 
 		Where().AddColumn(WhereConditionTableColumn::CreateInstance(createParam,pWhereCol));
 		i++;
+	}
+
+	std::vector<std::vector<const TableColumnDefinition*> > colsCombined(tblDef->GetConstCombinedUniqueKeyColumnDefinitions());
+	std::vector<std::vector<const TableColumnDefinition*> >::const_iterator iCombined(colsCombined.begin());
+	for(;iCombined!=colsCombined.end();++iCombined) {
+
+		if(iCombined->size() < 2) {
+			THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"too few columns for combined unique key"); }
+
+		WhereConditionCompositeOperator compOp(i ? WhereCondition::Or() : WhereCondition::InitialComp());
+
+		std::vector<const TableColumnDefinition*>::const_iterator iColCom(iCombined->begin());
+		for(;iColCom!=iCombined->end();++iColCom) {
+
+			const TableColumn* curCol(tableBase->GetConstColumnByName((*iColCom)->GetColumnName()));
+
+			WhereConditionTableColumnCreateParam createParam(
+				WhereCondition::Equals(), compOp );
+
+			TableColumn* pWhereCol(TableColumn::CreateInstance(
+				TableColumnDefinition::CreateInstance((*iColCom)->GetConstCreateParam())
+			));
+
+			pWhereCol->SetDirty();
+			pWhereCol->CopyValue(curCol);
+
+			WhereConditionTableColumn* whereCol(
+				WhereConditionTableColumn::CreateInstance(
+					createParam,
+					pWhereCol)
+			);
+			Where().AddColumn(whereCol);
+
+			compOp=WhereCondition::And();
+		}
 	}
 }
 

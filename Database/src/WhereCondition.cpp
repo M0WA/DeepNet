@@ -42,9 +42,9 @@ std::string WhereCondition::ToString(database::DatabaseConnection* db) const
 	for(int condCol = 0;!columns.IsIterEnd();columns.Next(), condCol++) {
 		whereCondition << columns.GetConstIter()->ToString(db); }
 
-	std::string whereCond = whereCondition.str();
+	std::string whereCond(whereCondition.str());
 	if(!whereCond.empty()){
-		whereCond = " WHERE " + whereCond; }
+		whereCond.insert(0," WHERE ");}
 	return whereCond;
 }
 

@@ -157,14 +157,7 @@ const std::string& TableColumn::GetColumnName() const {
 std::string TableColumn::GetForSQL(DatabaseConnection* db) const {
 
 	if(isNull) {
-		switch(db->GetDatabaseType()) {
-		case DB_POSTGRESQL:
-			return "DEFAULT";
-		case DB_MYSQL:
-		default:
-			return "NULL";
-		}
-	}
+		return "NULL"; }
 	return columnValue->GetForSQL(db);
 }
 

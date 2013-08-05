@@ -203,14 +203,14 @@ std::string PostgreSQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) c
 
 	std::stringstream ssQuery;
 
-	const TableBase* tableBase = orgStatement.GetConstTableBase();
-	const TableDefinition* tblDef = tableBase->GetConstTableDefinition();
+	const TableBase* tableBase(orgStatement.GetConstTableBase());
+	const TableDefinition* tblDef(tableBase->GetConstTableDefinition());
 
 	if(tableBase->GetConstColumns().size() == 0)
 		THROW_EXCEPTION(DatabaseNoColumnsException);
 
-	const std::string& primaryKeyName = tblDef->GetConstPrimaryKeyColumnDefinition()->GetColumnName();
-	const TableColumn* primaryKeyCol = tableBase->GetConstColumnByName(primaryKeyName);
+	const std::string& primaryKeyName(tblDef->GetConstPrimaryKeyColumnDefinition()->GetColumnName());
+	const TableColumn* primaryKeyCol(tableBase->GetConstColumnByName(primaryKeyName));
 	if(!primaryKeyCol) {
 		THROW_EXCEPTION(DatabaseNoPrimaryKeyException); }
 

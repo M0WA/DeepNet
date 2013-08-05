@@ -24,6 +24,7 @@
 #include "topleveldomainsTableBase.h"
 #include "subdomainsTableBase.h"
 #include "secondleveldomainsTableBase.h"
+#include "urlpathpartsTableBase.h"
 
 
 namespace database {
@@ -574,88 +575,88 @@ void urlsTableBase::Set_port(const long long& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
-void urlsTableBase::Get_path_part(std::string& out) const {
+void urlsTableBase::Get_URLPATHPART_ID(long long& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path_part");
+      fieldName = tools::StringTools::ToLowerNP("URLPATHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* urlsTableBase::GetConstColumn_path_part() const {
+const TableColumn* urlsTableBase::GetConstColumn_URLPATHPART_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path_part");
+      fieldName = tools::StringTools::ToLowerNP("URLPATHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     }
 
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* urlsTableBase::GetColumn_path_part() {
+TableColumn* urlsTableBase::GetColumn_URLPATHPART_ID() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path_part");
+      fieldName = tools::StringTools::ToLowerNP("URLPATHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     }
 
     return GetColumnByName(fieldName);
 }
 
-void urlsTableBase::Set_path_part(const std::string& in) {
+void urlsTableBase::Set_URLPATHPART_ID(const long long& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path_part");
+      fieldName = tools::StringTools::ToLowerNP("URLPATHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path_part";
+      fieldName = "URLPATHPART_ID";
       break;
     }
 
@@ -1135,13 +1136,13 @@ void urlsTableBase::GetBy_port(
     db->Select(stmt,results);
 }
 
-void urlsTableBase::GetBy_path_part(
+void urlsTableBase::GetBy_URLPATHPART_ID(
         DatabaseConnection* db, 
-        const std::string& fieldValue, 
+        const long long& fieldValue, 
         SelectResultContainer<urlsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    urlsTableBase::GetWhereColumnsFor_path_part(
+    urlsTableBase::GetWhereColumnsFor_URLPATHPART_ID(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -1152,13 +1153,13 @@ void urlsTableBase::GetBy_path_part(
     db->Select(stmt,results);
 }
 
-void urlsTableBase::GetBy_path_part(
+void urlsTableBase::GetBy_URLPATHPART_ID(
         DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
+        const std::vector<long long>& fieldValue, 
         SelectResultContainer<urlsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    urlsTableBase::GetWhereColumnsFor_path_part(
+    urlsTableBase::GetWhereColumnsFor_URLPATHPART_ID(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -1472,6 +1473,55 @@ void urlsTableBase::AddInnerJoinRightSideOn_SECONDLEVELDOMAIN_ID(Statement& stmt
 
     AddInnerJoinRightSideOn_SECONDLEVELDOMAIN_ID("","","","",stmt);
 }
+void urlsTableBase::AddInnerJoinLeftSideOn_URLPATHPART_ID(
+    const std::string& joinTableAlias,
+    const std::string& joinColumnAlias,
+    const std::string& referencedTableAlias,
+    const std::string& referencedColumnAlias,
+    Statement& stmt ) {
+
+    TableDefinition*       referencedTableDef  = urlpathpartsTableBase::CreateTableDefinition();
+    TableColumnDefinition* referencedColumnDef = urlpathpartsTableBase::GetDefinition_ID();
+    TableDefinition*       joinTableDef        = urlsTableBase::CreateTableDefinition();
+    TableColumnDefinition* joinColumnDef       = urlsTableBase::GetDefinition_URLPATHPART_ID();
+
+    InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
+    entry.joinTableAlias         = joinTableAlias;
+    entry.joinColumnAlias        = joinColumnAlias;
+    entry.referencedTableAlias   = referencedTableAlias;
+    entry.referencedColumnsAlias = referencedColumnAlias;
+    stmt.InnerJoin().AddInnerJoin(entry);
+}
+
+void urlsTableBase::AddInnerJoinLeftSideOn_URLPATHPART_ID(Statement& stmt) {
+
+    AddInnerJoinLeftSideOn_URLPATHPART_ID("","","","",stmt);
+}
+
+void urlsTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID(
+    const std::string& joinTableAlias,
+    const std::string& joinColumnAlias,
+    const std::string& referencedTableAlias,
+    const std::string& referencedColumnAlias,
+    Statement& stmt ) {
+
+    TableDefinition*       referencedTableDef  = urlsTableBase::CreateTableDefinition();
+    TableColumnDefinition* referencedColumnDef = urlsTableBase::GetDefinition_URLPATHPART_ID();
+    TableDefinition*       joinTableDef        = urlpathpartsTableBase::CreateTableDefinition();
+    TableColumnDefinition* joinColumnDef       = urlpathpartsTableBase::GetDefinition_ID();
+
+    InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
+    entry.joinTableAlias         = referencedTableAlias;
+    entry.joinColumnAlias        = referencedColumnAlias;
+    entry.referencedTableAlias   = joinTableAlias;
+    entry.referencedColumnsAlias = joinColumnAlias;
+    stmt.InnerJoin().AddInnerJoin(entry);
+}
+
+void urlsTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID(Statement& stmt) {
+
+    AddInnerJoinRightSideOn_URLPATHPART_ID("","","","",stmt);
+}
 
 
 //
@@ -1621,24 +1671,24 @@ void urlsTableBase::GetWhereColumnsFor_port(
     delete pTmpDef;
 }
 
-void urlsTableBase::GetWhereColumnsFor_path_part(
+void urlsTableBase::GetWhereColumnsFor_URLPATHPART_ID(
     const WhereConditionTableColumnCreateParam& createParam,
-    const std::string& fieldValue, 
+    const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_path_part();
+    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_URLPATHPART_ID();
     TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
 
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
     delete pTmpDef;
 }
 
-void urlsTableBase::GetWhereColumnsFor_path_part(
+void urlsTableBase::GetWhereColumnsFor_URLPATHPART_ID(
     const WhereConditionTableColumnCreateParam& createParam,
-    const std::vector<std::string>& fieldValue, 
+    const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_path_part();
+    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_URLPATHPART_ID();
     std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
     
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
@@ -1926,33 +1976,33 @@ TableColumnDefinition* urlsTableBase::GetDefinition_port() {
     createParam.hasDefaultValue     = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* urlsTableBase::GetDefinition_path_part() {
+TableColumnDefinition* urlsTableBase::GetDefinition_URLPATHPART_ID() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
-      createParam.columnName   = "path_part";
+      createParam.columnName   = "URLPATHPART_ID";
       createParam.tableName    = "urls";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "path_part";
+      createParam.columnName   = "URLPATHPART_ID";
       createParam.tableName    = "urls";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("path_part");
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLPATHPART_ID");
       createParam.tableName    = tools::StringTools::ToLowerNP("urls");
       break;
     case DB_INVALID_TYPE:
     default:
       break;
     }
-    createParam.columnType          = DB_TYPE_VARCHAR;
+    createParam.columnType          = DB_TYPE_INTEGER;
     createParam.isPrimaryKey        = false;
     createParam.isAutoGenerated     = false;
-    createParam.isForeignKey        = false;
+    createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
     createParam.isCombinedUniqueKey = false;
     createParam.isIndex             = false;
