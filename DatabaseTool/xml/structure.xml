@@ -8,6 +8,15 @@
   # Author: Moritz Wagner (moritz.wagner@siridia.de)
   #
   #########################################################
+
+  **********************************************************
+  *
+  * NOTICE: multi-column unique keys containing nullable 
+  *         columns need an additional trigger to work as 
+  *         expected. see "urlpathparts" table and it's 
+  *         associated triggers for an example.
+  *
+  **********************************************************
 -->
 
 <table_structure>
