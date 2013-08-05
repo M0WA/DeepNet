@@ -161,7 +161,11 @@
 	<column name="SECONDLEVELDOMAIN_ID" type="INTEGER"       notnull="1" />
 	
 	<column name="port"                 type="INTEGER"       notnull="1" default="80" />
+
+	<column name="URLPATHPART_ID"       type="INTEGER"       notnull="1" />
+<!--
 	<column name="path_part"            type="VARCHAR(2048)" notnull="1" />
+-->
 	<column name="search_part"          type="VARCHAR(2048)" notnull="1" />
 	<column name="url_md5"              type="CHAR(32)"      notnull="1" />
 	<column name="found_date"           type="TIMESTAMP"     notnull="1" />
@@ -173,6 +177,7 @@
 	<foreign_key column="TOPLEVELDOMAIN_ID"    references_table="topleveldomains"    references_column="ID" MySQL_Database="documents" />
 	<foreign_key column="SUBDOMAIN_ID"         references_table="subdomains"         references_column="ID" MySQL_Database="documents" />
 	<foreign_key column="SECONDLEVELDOMAIN_ID" references_table="secondleveldomains" references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="URLPATHPART_ID"       references_table="urlpathparts"       references_column="ID" MySQL_Database="documents" />
 
 </table>
 
