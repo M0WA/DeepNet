@@ -214,7 +214,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		}
 	}
 
-	UpdateUrlstageInfos(db,internLinks,externLinks,entry.urlStageID,entry.urlID);
+	UpdateUrlstageInfos(db,internLinks,externLinks,entry.urlID,entry.urlStageID);
 }
 
 void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
