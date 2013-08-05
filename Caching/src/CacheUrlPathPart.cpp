@@ -8,6 +8,8 @@
 
 #include "CacheUrlPathPart.h"
 
+#include "CachePathPart.h"
+
 #include <vector>
 
 #include <StringTools.h>
@@ -27,7 +29,7 @@ namespace caching {
 CacheUrlPathPart CacheUrlPathPart::cacheInstance;
 
 CacheUrlPathPart::CacheUrlPathPart(size_t limit)
-: idPathPart(limit, false) {
+: idUrlPathPart(limit, false) {
 }
 
 CacheUrlPathPart::~CacheUrlPathPart() {
@@ -35,15 +37,28 @@ CacheUrlPathPart::~CacheUrlPathPart() {
 
 void CacheUrlPathPart::SetCapacity(const size_t capacity)
 {
-	cacheInstance.idPathPart.SetLimit(capacity);
+	cacheInstance.idUrlPathPart.SetLimit(capacity);
 }
 
 void CacheUrlPathPart::Clear(void)
 {
-	cacheInstance.idPathPart.ClearItems();
+	cacheInstance.idUrlPathPart.ClearItems();
 }
 
 long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
+
+/*
+ * example statement:
+SELECT
+  t0.id
+FROM deepnet.public.urlpathparts t0
+INNER JOIN deepnet.public.urlpathparts t1
+  ON  t1.id=t0.urlpathpart_id_next
+WHERE
+  ( t0.pathpart_id = 1 )
+AND
+  ( t1.pathpart_id = 2 )
+*/
 
 	if(pathPart.empty()) {
 		//
@@ -62,10 +77,11 @@ long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,
 		log::Logging::LogError("empty path part received");
 		return -1; }
 
+	//fetch all path part ids
 	std::vector<long long> pathPartIDs;
 	std::vector<std::string>::const_iterator iPathParts(parts.begin());
 	for(;iPathParts!=parts.end();++iPathParts) {
-		long long pathPartID(GetPathPartIDByPathPart(db,*iPathParts));
+		long long pathPartID(CachePathPart::GetIDByPathPart(db,*iPathParts));
 		if(pathPartID == -1) {
 			//
 			//TODO: throw exception
@@ -107,9 +123,9 @@ long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,
 
 	for(size_t pos=1;i!=pathPartIDs.end();++i,++pos) {
 
-		std::string joinTableAlias,referencedTableAlias;
-		tools::StringTools::FormatString(joinTableAlias,"t%ld",pos);
-		tools::StringTools::FormatString(referencedTableAlias,"t%ld",pos-1);
+		std::string joinTableAlias,referencedTableAlias, joinPathPartAlias, referencedPathPartAlias;
+		tools::StringTools::FormatString(referencedTableAlias,"t%ld",pos);
+		tools::StringTools::FormatString(joinTableAlias,"t%ld",pos-1);
 
 		database::urlpathpartsTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID_NEXT(
 			joinTableAlias,	"",
@@ -119,7 +135,7 @@ long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,
 		database::WhereConditionTableColumnCreateParam createParam(
 			database::WhereCondition::Equals(),
 			database::WhereCondition::And());
-		createParam.tableNameAlias = joinTableAlias;
+		createParam.tableNameAlias = referencedTableAlias;
 
 		database::urlpathpartsTableBase::GetWhereColumnsFor_PATHPART_ID(
 			createParam,
@@ -165,15 +181,14 @@ long long CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, 
 	db->TransactionStart();
 
 	std::vector<long long>::const_reverse_iterator i(pathPartIDs.rbegin());
-	for(long long oldID(-1);i!=pathPartIDs.rend();++i) {
+	for(;i!=pathPartIDs.rend();++i) {
 		database::urlpathpartsTableBase urlPathPartTbl;
 
 		urlPathPartTbl.Set_PATHPART_ID(*i);
-		if(oldID==-1) {
-			oldID=0;
+		if(urlPathPartID==-1) {
 			urlPathPartTbl.GetColumn_URLPATHPART_ID_NEXT()->SetNull(); }
 		else {
-			urlPathPartTbl.Set_URLPATHPART_ID_NEXT(oldID); }
+			urlPathPartTbl.Set_URLPATHPART_ID_NEXT(urlPathPartID); }
 
 		try {
 			urlPathPartTbl.InsertOrUpdate(db);
@@ -193,30 +208,6 @@ long long CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, 
 	return urlPathPartID;
 }
 
-long long CacheUrlPathPart::GetPathPartIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
-
-	long long pathPartID(-1);
-
-	database::pathpartsTableBase pathPartTbl;
-	pathPartTbl.Set_path(pathPart);
-
-	try {
-		pathPartTbl.InsertOrUpdate(db);
-		db->LastInsertID(pathPartID);
-	}
-	catch(database::DatabaseException& e) {
-		//
-		//TODO: throw exception
-		//
-		e.DisableLogging();
-		e.Log();
-		log::Logging::LogError("exception while getting path part: %s",pathPart.c_str());
-		return -1;
-	}
-
-	return pathPartID;
-}
-
 std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID) {
 
 	std::vector<std::string> pathParts;
@@ -233,22 +224,10 @@ std::string CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* d
 			return ""; }
 
 		urlpathpartTbl.ResetIter();
-
 		long long pathPartID(-1);
 		urlpathpartTbl.GetIter()->Get_PATHPART_ID(pathPartID);
 
-		database::SelectResultContainer<database::pathpartsTableBase> pathPartTbl;
-		database::pathpartsTableBase::GetBy_ID(db,pathPartID,pathPartTbl);
-
-		if(pathPartTbl.Size() != 1) {
-			//
-			//TODO: throw exception
-			//
-			log::Logging::LogError("");
-			return ""; }
-
-		std::string pathPart;
-		pathPartTbl.GetIter()->Get_path(pathPart);
+		std::string pathPart(CachePathPart::GetPathPartByID(db,pathPartID));
 		pathParts.push_back(pathPart);
 
 		const database::TableColumn* nextID(urlpathpartTbl.GetIter()->GetConstColumn_URLPATHPART_ID_NEXT());

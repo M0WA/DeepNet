@@ -59,29 +59,28 @@ public:
 	 * gets current number of entries in cache.
 	 * @return current number of entries in cache.
 	 */
-	static size_t GetSize() { return cacheInstance.idPathPart.GetSize(); }
+	static size_t GetSize() { return cacheInstance.idUrlPathPart.GetSize(); }
 
 	/**
 	 * get current match count of cache, clearing internal match counter.
 	 * @return number of matches.
 	 */
-	static size_t GetMatches() { return cacheInstance.idPathPart.GetMatches(); }
+	static size_t GetMatches() { return cacheInstance.idUrlPathPart.GetMatches(); }
 
 	/**
 	 * get current miss count of cache, clearing internal miss counter.
 	 * @return number of misses.
 	 */
-	static size_t GetMisses() { return cacheInstance.idPathPart.GetMisses(); }
+	static size_t GetMisses() { return cacheInstance.idUrlPathPart.GetMisses(); }
 
 private:
-	static long long GetPathPartIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart);
 	static long long InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs);
 
 private:
 	static CacheUrlPathPart cacheInstance;
 
 private:
-	Cache<long long,std::string> idPathPart;
+	Cache<long long,std::string> idUrlPathPart;
 };
 
 }
