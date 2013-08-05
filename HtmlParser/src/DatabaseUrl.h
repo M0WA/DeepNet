@@ -71,6 +71,12 @@ public:
 	 */
 	const long long GetTopLevelID() const;
 
+	/**
+	 * gets url path part id.
+	 * @return url path part id.
+	 */
+	const long long GetUrlPathPartID() const;
+
 public:
 	/**
 	 * compares two urls by values not by md5 string
@@ -105,9 +111,10 @@ private:
 private:
 	long long urlID;
 	long long schemeID;
-	long long toplevelID;
-	long long secondlevelID;
 	long long subdomainID;
+	long long secondlevelID;
+	long long toplevelID;
+	long long urlPathPartID;
 };
 
 }
