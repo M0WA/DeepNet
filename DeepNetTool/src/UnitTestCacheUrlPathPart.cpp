@@ -45,12 +45,14 @@ bool UnitTestCacheUrlPathPart::Run() {
 		if(i->empty())
 			continue;
 
-		long long urlPathPartID(caching::CacheUrlPathPart::GetIDByUrlPathPart(connection,*i));
+		long long urlPathPartID(-1);
+		caching::CacheUrlPathPart::GetIDByUrlPathPart(connection,*i,urlPathPartID);
 		if(urlPathPartID == -1) {
 			log::Logging::LogError("could not insert url path part %s",i->c_str());
 			return false; }
 
-		std::string urlPathPart(caching::CacheUrlPathPart::GetUrlPathPartByID(connection,urlPathPartID));
+		std::string urlPathPart;
+		caching::CacheUrlPathPart::GetUrlPathPartByID(connection,urlPathPartID,urlPathPart);
 		if(i->compare(urlPathPart) != 0) {
 			log::Logging::LogError("url path part changed: %s -> %s",i->c_str(),urlPathPart.c_str());
 			return false; }

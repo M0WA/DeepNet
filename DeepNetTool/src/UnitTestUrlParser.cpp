@@ -29,7 +29,6 @@ UnitTestUrlParser::UnitTestUrlParser(database::DatabaseConnection* connection,
 : connection(connection)
 , validUrlFileName(validUrlFileName)
 , invalidUrlFileName(invalidUrlFileName)
-, testUrls(testUrls)
 {
 }
 

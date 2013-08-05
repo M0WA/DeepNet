@@ -83,6 +83,11 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 		return false;
 	}
 
+	log::Logging::LogTrace(
+		"matching HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
+		testUrl.url.GetFullUrl().c_str(),
+		byStringResultUrl.GetFullUrl().c_str());
+
 	//fetch result and test url from cache by HttpUrl
 	tools::Pointer<htmlparser::DatabaseUrl> dbTestUrlPtr,dbResultUrlPtr;
 	caching::CacheDatabaseUrl::GetByUrl(db,testUrl.url,dbTestUrlPtr);
