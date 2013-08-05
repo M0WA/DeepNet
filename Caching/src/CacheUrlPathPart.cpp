@@ -47,6 +47,13 @@ void CacheUrlPathPart::Clear(void)
 
 long long CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
 
+
+	long long urlPathPartID(-1);
+	bool isInCache(cacheInstance.idUrlPathPart.GetByValue(pathPart,urlPathPartID));
+	isInCache &= (urlPathPartID != -1);
+	if(isInCache)
+		return urlPathPartID;
+
 /*
  * example statement:
 SELECT
@@ -167,11 +174,14 @@ AND
 
 	if(results.Size()==1) {
 		results.ResetIter();
-		return results.GetIter()->GetConstColumnByName("ID")->Get<long long>();
-	}
+		urlPathPartID = results.GetIter()->GetConstColumnByName("ID")->Get<long long>();}
 	else {
-		return InsertUrlPathPart(db,pathPartIDs);
-	}
+		urlPathPartID = InsertUrlPathPart(db,pathPartIDs);}
+
+	if(urlPathPartID != -1) {
+		cacheInstance.idUrlPathPart.AddItem(urlPathPartID,pathPart);}
+
+	return urlPathPartID;
 }
 
 long long CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs) {
