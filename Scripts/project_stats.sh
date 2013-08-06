@@ -8,6 +8,9 @@
 #
 #########################################################
 
-sloccount --multiproject --details ..
-sloccount --multiproject ..
+
+DIRS="../Database ../DOMParser ../Tools ../DeepNetTool ../DatabaseTool ../Networking ../Indexer ../Caching ../QueryServer ../Crawler ../Bot ../FastCGIServer ../Parser ../HtmlParser ../LibXMLParser ../Logging ../WorkerBot ../InspectorServer ../Threading ../SuggestServer"
+
+sloccount --multiproject --details ${DIRS}
+sloccount --multiproject ${DIRS}
 rm -rf ../top_dir
