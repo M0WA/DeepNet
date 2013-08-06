@@ -7,7 +7,6 @@
 #include "DatabaseUrl.h"
 
 #include <TimeTools.h>
-#include <HashTools.h>
 #include <HttpUrlParser.h>
 #include <DatabaseLayer.h>
 #include <TableColumn.h>
@@ -15,6 +14,7 @@
 #include <CacheSubdomain.h>
 #include <CacheSecondLevelDomain.h>
 #include <CacheUrlPathPart.h>
+#include <CacheUrlSearchPart.h>
 
 #include <HttpUrlParserInvalidUrlException.h>
 
@@ -29,7 +29,8 @@ DatabaseUrl::DatabaseUrl(database::DatabaseConnection* db, const network::HttpUr
 , subdomainID(-1)
 , secondlevelID(-1)
 , toplevelID(-1)
-, urlPathPartID(-1) {
+, urlPathPartID(-1)
+, urlSearchPartID(-1) {
 
 	InitByHttpUrl(db);
 }
@@ -41,7 +42,8 @@ DatabaseUrl::DatabaseUrl(database::DatabaseConnection* db, const long long& urlI
 , subdomainID(-1)
 , secondlevelID(-1)
 , toplevelID(-1)
-, urlPathPartID(-1) {
+, urlPathPartID(-1)
+, urlSearchPartID(-1){
 
 	InitByUrlID(db, urlID);
 }
@@ -53,7 +55,8 @@ DatabaseUrl::DatabaseUrl(database::DatabaseConnection* db, database::urlsTableBa
 , subdomainID(-1)
 , secondlevelID(-1)
 , toplevelID(-1)
-, urlPathPartID(-1) {
+, urlPathPartID(-1)
+, urlSearchPartID(-1) {
 
 	InitByTable(db, urlTbl);
 }
@@ -98,6 +101,11 @@ const long long DatabaseUrl::GetUrlPathPartID() const {
 	return urlPathPartID;
 }
 
+const long long DatabaseUrl::GetUrlSearchPartID() const {
+
+	return urlSearchPartID;
+}
+
 void DatabaseUrl::InitByHttpUrl(database::DatabaseConnection* db) {
 
 	//scheme
@@ -133,9 +141,7 @@ void DatabaseUrl::InitByHttpUrl(database::DatabaseConnection* db) {
 	}
 
 	//path part
-	if(!caching::CacheUrlPathPart::GetIDByUrlPathPart(db,path_part,urlPathPartID) || urlPathPartID == -1) {
-		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
-	}
+	caching::CacheUrlPathPart::GetIDByUrlPathPart(db,path_part,urlPathPartID);
 
 	Store(db);
 }
@@ -163,26 +169,17 @@ void DatabaseUrl::InitByTable(database::DatabaseConnection* db,database::urlsTab
 	ssIn << tmpPort;
 	port = ssIn.str();
 
-	urlTbl->Get_ID(this->urlID);
 
-	urlTbl->Get_search_part(search_part);
 	//urlTbl->Get_fragment(fragment_part);
-	urlTbl->Get_url_md5(md5);
+	//urlTbl->Get_url_md5(md5);
 
+	urlTbl->Get_ID(this->urlID);
 	urlTbl->Get_SCHEME_ID(schemeID);
 	urlTbl->Get_TOPLEVELDOMAIN_ID(toplevelID);
-	urlTbl->Get_URLPATHPART_ID(urlPathPartID);
-
-	bool hasSubdomain = !urlTbl->GetConstColumn_SUBDOMAIN_ID()->IsNull();
-	if(hasSubdomain) {
-		urlTbl->Get_SUBDOMAIN_ID(subdomainID);
-	}
-	else {
-		subdomainID = -1;
-		subdomain   = "";
-	}
-
+	urlTbl->Get_SUBDOMAIN_ID(subdomainID);
 	urlTbl->Get_SECONDLEVELDOMAIN_ID(secondlevelID);
+	urlTbl->Get_URLPATHPART_ID(urlPathPartID);
+	urlTbl->Get_URLSEARCHPART_ID(urlSearchPartID);
 
 	InitByIDs(db);
 	CalculateFullUrl();
@@ -209,6 +206,9 @@ void DatabaseUrl::InitByIDs(database::DatabaseConnection* db) {
 	if(subdomainID > -1){
 		caching::CacheSubdomain::GetDomainBySubdomainID(db, subdomainID, subdomain);
 	}
+	else {
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
+	}
 
 	if(secondlevelID > -1) {
 		caching::CacheSecondLevelDomain::GetDomainBySecondLevelID(db, secondlevelID, secondleveldomain);
@@ -230,6 +230,13 @@ void DatabaseUrl::InitByIDs(database::DatabaseConnection* db) {
 	else {
 		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
 	}
+
+	if(urlSearchPartID > -1) {
+		caching::CacheUrlSearchPart::GetUrlSearchPartByID(db, urlPathPartID, path_part);
+	}
+	else {
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
+	}
 }
 
 void DatabaseUrl::Store(database::DatabaseConnection* db) {
@@ -238,27 +245,20 @@ void DatabaseUrl::Store(database::DatabaseConnection* db) {
 		CalculateFullUrl(db);
 
 	database::urlsTableBase tblUrls;
-	tblUrls.Set_SCHEME_ID(schemeID);
 
 	long long tmpPort = -1;
 	std::stringstream tmpSS;
 	tmpSS << port;
 	tmpSS >> tmpPort;
-	tblUrls.Set_port(tmpPort);
 
-	tblUrls.Set_TOPLEVELDOMAIN_ID(toplevelID);
+	tblUrls.Set_SCHEME_ID(schemeID);
+	tblUrls.Set_SUBDOMAIN_ID(subdomainID);
 	tblUrls.Set_SECONDLEVELDOMAIN_ID(secondlevelID);
+	tblUrls.Set_TOPLEVELDOMAIN_ID(toplevelID);
+	tblUrls.Set_port(tmpPort);
 	tblUrls.Set_URLPATHPART_ID(urlPathPartID);
-
-	if(subdomainID != -1){
-		tblUrls.Set_SUBDOMAIN_ID(subdomainID); }
-	else {
-		tblUrls.GetColumnByName("SUBDOMAIN_ID")->SetNull(); }
-
-
-	tblUrls.Set_search_part(search_part);
+	tblUrls.Set_URLSEARCHPART_ID(urlSearchPartID);
 	tblUrls.Set_found_date(tools::TimeTools::NowUTC());
-	tblUrls.Set_url_md5(tools::HashTools::GetMD5(fullUrl));
 	tblUrls.InsertOrUpdate(db);
 
 	if(!db->LastInsertID(urlID)) {
@@ -280,6 +280,7 @@ bool DatabaseUrl::DeepMatchUrl(const DatabaseUrl& rhs, const bool compareAuth) c
 		match &= GetSecondLevelID() == rhs.GetSecondLevelID();
 		match &= GetSubdomainID() == rhs.GetSubdomainID();
 		match &= GetUrlPathPartID() == rhs.GetUrlPathPartID();
+		match &= GetUrlSearchPartID() == rhs.GetUrlSearchPartID();
 	}
 	return match;
 }

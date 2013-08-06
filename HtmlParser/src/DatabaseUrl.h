@@ -77,6 +77,12 @@ public:
 	 */
 	const long long GetUrlPathPartID() const;
 
+	/**
+	 * gets url search part id.
+	 * @return url search part id.
+	 */
+	const long long GetUrlSearchPartID() const;
+
 public:
 	/**
 	 * compares two urls by values not by md5 string
@@ -115,6 +121,7 @@ private:
 	long long secondlevelID;
 	long long toplevelID;
 	long long urlPathPartID;
+	long long urlSearchPartID;
 };
 
 }
