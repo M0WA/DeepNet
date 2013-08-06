@@ -12,6 +12,8 @@
 
 #include "URLInvalidPathPartIDException.h"
 
+#include <HashTools.h>
+
 #include <DatabaseLayer.h>
 #include <DatabaseException.h>
 
@@ -36,7 +38,7 @@ void CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const std::
 
 	database::pathpartsTableBase pathPartTbl;
 	pathPartTbl.Set_path(pathPart);
-
+	pathPartTbl.Set_md5(tools::HashTools::GetMD5(pathPart));
 	try {
 		pathPartTbl.InsertOrUpdate(db);
 		db->LastInsertID(pathPartID);
