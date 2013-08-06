@@ -84,7 +84,7 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 
 	log::Logging::LogTrace(
-		"matching HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
+		"UnitTestCacheUrl:\nInputUrl : %s\nOutputUrl: %s",
 		testUrl.url.GetFullUrl().c_str(),
 		byStringResultUrl.GetFullUrl().c_str());
 
