@@ -426,10 +426,10 @@ void customersyncurlTableBase::AddInnerJoinLeftSideOn_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = customersyncurlTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customersyncurlTableBase::GetDefinition_URL_ID();
+    TableDefinition*       referencedTableDef (urlsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (customersyncurlTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customersyncurlTableBase::GetDefinition_URL_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -451,10 +451,10 @@ void customersyncurlTableBase::AddInnerJoinRightSideOn_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customersyncurlTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customersyncurlTableBase::GetDefinition_URL_ID();
-    TableDefinition*       joinTableDef        = urlsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (customersyncurlTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customersyncurlTableBase::GetDefinition_URL_ID());
+    TableDefinition*       joinTableDef       (urlsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -478,10 +478,16 @@ void customersyncurlTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customersyncurlTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customersyncurlTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -490,10 +496,16 @@ void customersyncurlTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customersyncurlTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customersyncurlTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -502,10 +514,16 @@ void customersyncurlTableBase::GetWhereColumnsFor_URL_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customersyncurlTableBase::GetDefinition_URL_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customersyncurlTableBase::GetDefinition_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -514,10 +532,16 @@ void customersyncurlTableBase::GetWhereColumnsFor_URL_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customersyncurlTableBase::GetDefinition_URL_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customersyncurlTableBase::GetDefinition_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -526,10 +550,16 @@ void customersyncurlTableBase::GetWhereColumnsFor_scheduled(
     const struct tm& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customersyncurlTableBase::GetDefinition_scheduled();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customersyncurlTableBase::GetDefinition_scheduled());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -538,10 +568,16 @@ void customersyncurlTableBase::GetWhereColumnsFor_scheduled(
     const std::vector<struct tm>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customersyncurlTableBase::GetDefinition_scheduled();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customersyncurlTableBase::GetDefinition_scheduled());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

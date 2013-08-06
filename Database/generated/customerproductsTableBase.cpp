@@ -670,10 +670,10 @@ void customerproductsTableBase::AddInnerJoinLeftSideOn_CUSTOMERDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customerdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customerdomainsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = customerproductsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
+    TableDefinition*       referencedTableDef (customerdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customerdomainsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (customerproductsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -695,10 +695,10 @@ void customerproductsTableBase::AddInnerJoinRightSideOn_CUSTOMERDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customerproductsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
-    TableDefinition*       joinTableDef        = customerdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customerdomainsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (customerproductsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
+    TableDefinition*       joinTableDef       (customerdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customerdomainsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -722,10 +722,16 @@ void customerproductsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -734,10 +740,16 @@ void customerproductsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -746,10 +758,16 @@ void customerproductsTableBase::GetWhereColumnsFor_CUSTOMERDOMAIN_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -758,10 +776,16 @@ void customerproductsTableBase::GetWhereColumnsFor_CUSTOMERDOMAIN_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -770,10 +794,16 @@ void customerproductsTableBase::GetWhereColumnsFor_productNo(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_productNo();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_productNo());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -782,10 +812,16 @@ void customerproductsTableBase::GetWhereColumnsFor_productNo(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_productNo();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_productNo());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -794,10 +830,16 @@ void customerproductsTableBase::GetWhereColumnsFor_productName(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_productName();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_productName());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -806,10 +848,16 @@ void customerproductsTableBase::GetWhereColumnsFor_productName(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_productName();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_productName());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -818,10 +866,16 @@ void customerproductsTableBase::GetWhereColumnsFor_productBrand(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_productBrand();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_productBrand());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -830,10 +884,16 @@ void customerproductsTableBase::GetWhereColumnsFor_productBrand(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerproductsTableBase::GetDefinition_productBrand();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerproductsTableBase::GetDefinition_productBrand());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

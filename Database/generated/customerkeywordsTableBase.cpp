@@ -670,10 +670,10 @@ void customerkeywordsTableBase::AddInnerJoinLeftSideOn_CUSTOMERDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customerdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customerdomainsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = customerkeywordsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
+    TableDefinition*       referencedTableDef (customerdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customerdomainsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (customerkeywordsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -695,10 +695,10 @@ void customerkeywordsTableBase::AddInnerJoinRightSideOn_CUSTOMERDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customerkeywordsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
-    TableDefinition*       joinTableDef        = customerdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customerdomainsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (customerkeywordsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
+    TableDefinition*       joinTableDef       (customerdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customerdomainsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -722,10 +722,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -734,10 +740,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -746,10 +758,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_CUSTOMERDOMAIN_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -758,10 +776,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_CUSTOMERDOMAIN_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -770,10 +794,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_keyword(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_keyword();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_keyword());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -782,10 +812,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_keyword(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_keyword();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_keyword());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -794,10 +830,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_target(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_target();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_target());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -806,10 +848,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_target(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_target();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_target());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -818,10 +866,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_isKeywordRegex(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_isKeywordRegex();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_isKeywordRegex());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -830,10 +884,16 @@ void customerkeywordsTableBase::GetWhereColumnsFor_isKeywordRegex(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerkeywordsTableBase::GetDefinition_isKeywordRegex();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerkeywordsTableBase::GetDefinition_isKeywordRegex());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

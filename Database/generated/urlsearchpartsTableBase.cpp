@@ -428,10 +428,16 @@ void urlsearchpartsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(urlsearchpartsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -440,10 +446,16 @@ void urlsearchpartsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(urlsearchpartsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -452,10 +464,16 @@ void urlsearchpartsTableBase::GetWhereColumnsFor_searchpart(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_searchpart();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(urlsearchpartsTableBase::GetDefinition_searchpart());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -464,10 +482,16 @@ void urlsearchpartsTableBase::GetWhereColumnsFor_searchpart(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_searchpart();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(urlsearchpartsTableBase::GetDefinition_searchpart());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -476,10 +500,16 @@ void urlsearchpartsTableBase::GetWhereColumnsFor_md5(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_md5();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(urlsearchpartsTableBase::GetDefinition_md5());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -488,10 +518,16 @@ void urlsearchpartsTableBase::GetWhereColumnsFor_md5(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_md5();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(urlsearchpartsTableBase::GetDefinition_md5());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

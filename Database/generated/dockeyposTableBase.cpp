@@ -548,10 +548,10 @@ void dockeyposTableBase::AddInnerJoinLeftSideOn_DOCKEY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dockeyTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dockeyTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = dockeyposTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dockeyposTableBase::GetDefinition_DOCKEY_ID();
+    TableDefinition*       referencedTableDef (dockeyTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dockeyTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (dockeyposTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dockeyposTableBase::GetDefinition_DOCKEY_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -573,10 +573,10 @@ void dockeyposTableBase::AddInnerJoinRightSideOn_DOCKEY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dockeyposTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dockeyposTableBase::GetDefinition_DOCKEY_ID();
-    TableDefinition*       joinTableDef        = dockeyTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dockeyTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (dockeyposTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dockeyposTableBase::GetDefinition_DOCKEY_ID());
+    TableDefinition*       joinTableDef       (dockeyTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dockeyTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -600,10 +600,16 @@ void dockeyposTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -612,10 +618,16 @@ void dockeyposTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -624,10 +636,16 @@ void dockeyposTableBase::GetWhereColumnsFor_DOCKEY_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_DOCKEY_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_DOCKEY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -636,10 +654,16 @@ void dockeyposTableBase::GetWhereColumnsFor_DOCKEY_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_DOCKEY_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_DOCKEY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -648,10 +672,16 @@ void dockeyposTableBase::GetWhereColumnsFor_paragraph(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_paragraph();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_paragraph());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -660,10 +690,16 @@ void dockeyposTableBase::GetWhereColumnsFor_paragraph(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_paragraph();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_paragraph());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -672,10 +708,16 @@ void dockeyposTableBase::GetWhereColumnsFor_position(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_position();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_position());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -684,10 +726,16 @@ void dockeyposTableBase::GetWhereColumnsFor_position(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dockeyposTableBase::GetDefinition_position();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dockeyposTableBase::GetDefinition_position());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

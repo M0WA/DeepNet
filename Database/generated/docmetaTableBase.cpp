@@ -671,10 +671,10 @@ void docmetaTableBase::AddInnerJoinLeftSideOn_DICT_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dictTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dictTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = docmetaTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = docmetaTableBase::GetDefinition_DICT_ID();
+    TableDefinition*       referencedTableDef (dictTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dictTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (docmetaTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (docmetaTableBase::GetDefinition_DICT_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -696,10 +696,10 @@ void docmetaTableBase::AddInnerJoinRightSideOn_DICT_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = docmetaTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = docmetaTableBase::GetDefinition_DICT_ID();
-    TableDefinition*       joinTableDef        = dictTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dictTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (docmetaTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(docmetaTableBase::GetDefinition_DICT_ID());
+    TableDefinition*       joinTableDef       (dictTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dictTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -720,10 +720,10 @@ void docmetaTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlstagesTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = docmetaTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = docmetaTableBase::GetDefinition_URLSTAGE_ID();
+    TableDefinition*       referencedTableDef (urlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlstagesTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (docmetaTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (docmetaTableBase::GetDefinition_URLSTAGE_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -745,10 +745,10 @@ void docmetaTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = docmetaTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = docmetaTableBase::GetDefinition_URLSTAGE_ID();
-    TableDefinition*       joinTableDef        = urlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlstagesTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (docmetaTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(docmetaTableBase::GetDefinition_URLSTAGE_ID());
+    TableDefinition*       joinTableDef       (urlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlstagesTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -772,10 +772,16 @@ void docmetaTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -784,10 +790,16 @@ void docmetaTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -796,10 +808,16 @@ void docmetaTableBase::GetWhereColumnsFor_DICT_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_DICT_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_DICT_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -808,10 +826,16 @@ void docmetaTableBase::GetWhereColumnsFor_DICT_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_DICT_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_DICT_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -820,10 +844,16 @@ void docmetaTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_URLSTAGE_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -832,10 +862,16 @@ void docmetaTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_URLSTAGE_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -844,10 +880,16 @@ void docmetaTableBase::GetWhereColumnsFor_occurrence(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_occurrence();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_occurrence());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -856,10 +898,16 @@ void docmetaTableBase::GetWhereColumnsFor_occurrence(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_occurrence();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_occurrence());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -868,10 +916,16 @@ void docmetaTableBase::GetWhereColumnsFor_type(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_type();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_type());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -880,10 +934,16 @@ void docmetaTableBase::GetWhereColumnsFor_type(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = docmetaTableBase::GetDefinition_type();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(docmetaTableBase::GetDefinition_type());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

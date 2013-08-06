@@ -21,21 +21,19 @@ TableDefinitionCreateParam::TableDefinitionCreateParam(const TableDefinitionCrea
 }
 
 TableDefinitionCreateParam::~TableDefinitionCreateParam() {
-
-	std::vector<TableColumnDefinition*>::iterator iter = columnDefinitions.begin();
+	std::vector<TableColumnDefinition*>::iterator iter(columnDefinitions.begin());
 	for(;iter != columnDefinitions.end();++iter) {
 		delete (*iter);	}
 	columnDefinitions.clear();
 }
 
 void TableDefinitionCreateParam::CopyColumns(const TableDefinitionCreateParam& copy) {
-
-	const std::vector<TableColumnDefinition*>& colDefs = copy.columnDefinitions;
-	std::vector<TableColumnDefinition*>::const_iterator iterCopyDef = colDefs.begin();
+	const std::vector<TableColumnDefinition*>& colDefs(copy.columnDefinitions);
+	std::vector<TableColumnDefinition*>::const_iterator iterCopyDef(colDefs.begin());
 	for(;iterCopyDef != colDefs.end();++iterCopyDef) {
-		TableColumnDefinition* copyColDef = *iterCopyDef;
-		const TableColumnDefinitionCreateParam& paramCopyCol = copyColDef->GetConstCreateParam();
-		TableColumnDefinitionCreateParam paramNewCol = paramCopyCol;
+		TableColumnDefinition* copyColDef(*iterCopyDef);
+		const TableColumnDefinitionCreateParam& paramCopyCol(copyColDef->GetConstCreateParam());
+		TableColumnDefinitionCreateParam paramNewCol(paramCopyCol);
 		columnDefinitions.push_back(TableColumnDefinition::CreateInstance(paramNewCol));
 	}
 }

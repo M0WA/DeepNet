@@ -72,20 +72,20 @@ void TableColumn::CleanUp() {
 
 TableColumn* TableColumn::CreateInstance(TableColumnDefinition* definition){
 
-	TableColumn* pColumn = new TableColumn(definition);
+	TableColumn* pColumn(new TableColumn(definition));
 	pColumn->InitFromDefinition();
 	return pColumn;
 }
 
 TableColumn* TableColumn::CreateInstanceFromValue(const TableColumnDefinition* colDef, const std::string& value) {
 
-	TableColumnType type = colDef->GetColumnType();
+	TableColumnType type(colDef->GetColumnType());
 	if( type != DB_TYPE_VARCHAR && type != DB_TYPE_CHAR && type != DB_TYPE_LARGE_TEXT) {
 		THROW_EXCEPTION(DatabaseInvalidTypeException);}
 
-	TableColumnDefinitionCreateParam createParam = colDef->GetConstCreateParam();
-	TableColumnDefinition* pNewDef = TableColumnDefinition::CreateInstance(createParam);
-	TableColumn* pNewCol           = TableColumn::CreateInstance( pNewDef );
+	const TableColumnDefinitionCreateParam& createParam(colDef->GetConstCreateParam());
+	TableColumnDefinition* pNewDef(TableColumnDefinition::CreateInstance(createParam));
+	TableColumn* pNewCol(TableColumn::CreateInstance(pNewDef));
 	pNewCol->Set(value);
 	return pNewCol;
 }
@@ -95,9 +95,9 @@ TableColumn* TableColumn::CreateInstanceFromValue(const TableColumnDefinition* c
 	if(colDef->GetColumnType() != DB_TYPE_TIMESTAMP) {
 		THROW_EXCEPTION(DatabaseInvalidTypeException);}
 
-	TableColumnDefinitionCreateParam createParam = colDef->GetConstCreateParam();
-	TableColumnDefinition* pNewDef = TableColumnDefinition::CreateInstance(createParam);
-	TableColumn* pNewCol           = TableColumn::CreateInstance( pNewDef );
+	const TableColumnDefinitionCreateParam& createParam(colDef->GetConstCreateParam());
+	TableColumnDefinition* pNewDef(TableColumnDefinition::CreateInstance(createParam));
+	TableColumn* pNewCol(TableColumn::CreateInstance(pNewDef));
 	pNewCol->Set(value);
 	return pNewCol;
 }
@@ -107,9 +107,9 @@ TableColumn* TableColumn::CreateInstanceFromValue(const TableColumnDefinition* c
 	if(colDef->GetColumnType() != DB_TYPE_INTEGER && colDef->GetColumnType() != DB_TYPE_BIGINT) {
 		THROW_EXCEPTION(DatabaseInvalidTypeException);}
 
-	TableColumnDefinitionCreateParam createParam = colDef->GetConstCreateParam();
-	TableColumnDefinition* pNewDef = TableColumnDefinition::CreateInstance(createParam);
-	TableColumn* pNewCol           = TableColumn::CreateInstance( pNewDef );
+	const TableColumnDefinitionCreateParam& createParam(colDef->GetConstCreateParam());
+	TableColumnDefinition* pNewDef(TableColumnDefinition::CreateInstance(createParam));
+	TableColumn* pNewCol(TableColumn::CreateInstance(pNewDef));
 	pNewCol->Set(value);
 	return pNewCol;
 }
@@ -119,9 +119,9 @@ TableColumn* TableColumn::CreateInstanceFromValue(const TableColumnDefinition* c
 	if(colDef->GetColumnType() != DB_TYPE_DOUBLE) {
 		THROW_EXCEPTION(DatabaseInvalidTypeException);}
 
-	TableColumnDefinitionCreateParam createParam = colDef->GetConstCreateParam();
-	TableColumnDefinition* pNewDef = TableColumnDefinition::CreateInstance(createParam);
-	TableColumn* pNewCol           = TableColumn::CreateInstance( pNewDef );
+	const TableColumnDefinitionCreateParam& createParam(colDef->GetConstCreateParam());
+	TableColumnDefinition* pNewDef(TableColumnDefinition::CreateInstance(createParam));
+	TableColumn* pNewCol(TableColumn::CreateInstance(pNewDef));
 	pNewCol->Set(value);
 	return pNewCol;
 }
@@ -163,7 +163,7 @@ std::string TableColumn::GetForSQL(DatabaseConnection* db) const {
 
 void TableColumn::InitFromDefinition() {
 
-	TableColumnType type = columnDefinition->GetColumnType();
+	const TableColumnType& type(columnDefinition->GetColumnType());
 	switch(type)
 	{
 	case DB_TYPE_BIGINT:
@@ -197,11 +197,11 @@ void TableColumn::InitFromDefinition() {
 
 void TableColumn::CopyValue(const TableColumn* copyCol) {
 
-	TableColumnType typeCopy = copyCol->columnDefinition->GetColumnType();
+	TableColumnType typeCopy(copyCol->columnDefinition->GetColumnType());
 	if(typeCopy == DB_TYPE_CHAR || typeCopy == DB_TYPE_LARGE_TEXT) {
 		typeCopy = DB_TYPE_VARCHAR;	}
 
-	TableColumnType typeNew = columnDefinition->GetColumnType();
+	TableColumnType typeNew(columnDefinition->GetColumnType());
 	if(typeNew == DB_TYPE_CHAR || typeNew == DB_TYPE_LARGE_TEXT) {
 		typeNew = DB_TYPE_VARCHAR; }
 

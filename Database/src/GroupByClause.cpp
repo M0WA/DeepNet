@@ -31,7 +31,7 @@ std::string GroupByClause::ToString(database::DatabaseConnection* db) const {
 		return "";
 
 	std::stringstream ssGroupBy;
-	std::vector< GROUPBY_CLAUSE >::const_iterator iterFields = groupByFields.begin();
+	std::vector< GROUPBY_CLAUSE >::const_iterator iterFields(groupByFields.begin());
 	for(int i = 0;iterFields != groupByFields.end();++iterFields,i++){
 		if(i)
 			ssGroupBy << ",";
@@ -40,10 +40,9 @@ std::string GroupByClause::ToString(database::DatabaseConnection* db) const {
 		ssGroupBy << iterFields->second;
 	}
 
-	std::string groupByClauseString = ssGroupBy.str();
+	std::string groupByClauseString(ssGroupBy.str());
 	if(groupByClauseString.length() > 0) {
-		groupByClauseString = " GROUP BY " + groupByClauseString;
-	}
+		groupByClauseString.insert(0," GROUP BY "); }
 	return groupByClauseString;
 }
 

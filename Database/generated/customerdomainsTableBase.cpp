@@ -670,10 +670,10 @@ void customerdomainsTableBase::AddInnerJoinLeftSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customersTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customersTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = customerdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customerdomainsTableBase::GetDefinition_CUSTOMER_ID();
+    TableDefinition*       referencedTableDef (customersTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customersTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (customerdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customerdomainsTableBase::GetDefinition_CUSTOMER_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -695,10 +695,10 @@ void customerdomainsTableBase::AddInnerJoinRightSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customerdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customerdomainsTableBase::GetDefinition_CUSTOMER_ID();
-    TableDefinition*       joinTableDef        = customersTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customersTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (customerdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customerdomainsTableBase::GetDefinition_CUSTOMER_ID());
+    TableDefinition*       joinTableDef       (customersTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customersTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -722,10 +722,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -734,10 +740,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -746,10 +758,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_CUSTOMER_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -758,10 +776,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_CUSTOMER_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -770,10 +794,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_domain(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_domain();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_domain());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -782,10 +812,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_domain(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_domain();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_domain());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -794,10 +830,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_revisitInterval(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_revisitInterval();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_revisitInterval());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -806,10 +848,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_revisitInterval(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_revisitInterval();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_revisitInterval());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -818,10 +866,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_isDomainRegex(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_isDomainRegex();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_isDomainRegex());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -830,10 +884,16 @@ void customerdomainsTableBase::GetWhereColumnsFor_isDomainRegex(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customerdomainsTableBase::GetDefinition_isDomainRegex();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customerdomainsTableBase::GetDefinition_isDomainRegex());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

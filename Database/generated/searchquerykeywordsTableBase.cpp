@@ -427,10 +427,10 @@ void searchquerykeywordsTableBase::AddInnerJoinLeftSideOn_KEYWORDQUERY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = keywordqueryTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = keywordqueryTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = searchquerykeywordsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID();
+    TableDefinition*       referencedTableDef (keywordqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(keywordqueryTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (searchquerykeywordsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -452,10 +452,10 @@ void searchquerykeywordsTableBase::AddInnerJoinRightSideOn_KEYWORDQUERY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = searchquerykeywordsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID();
-    TableDefinition*       joinTableDef        = keywordqueryTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = keywordqueryTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (searchquerykeywordsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID());
+    TableDefinition*       joinTableDef       (keywordqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (keywordqueryTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -476,10 +476,10 @@ void searchquerykeywordsTableBase::AddInnerJoinLeftSideOn_SEARCHQUERY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = searchqueryTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = searchqueryTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = searchquerykeywordsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID();
+    TableDefinition*       referencedTableDef (searchqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(searchqueryTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (searchquerykeywordsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -501,10 +501,10 @@ void searchquerykeywordsTableBase::AddInnerJoinRightSideOn_SEARCHQUERY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = searchquerykeywordsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID();
-    TableDefinition*       joinTableDef        = searchqueryTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = searchqueryTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (searchquerykeywordsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID());
+    TableDefinition*       joinTableDef       (searchqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (searchqueryTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -528,10 +528,16 @@ void searchquerykeywordsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = searchquerykeywordsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(searchquerykeywordsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -540,10 +546,16 @@ void searchquerykeywordsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = searchquerykeywordsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(searchquerykeywordsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -552,10 +564,16 @@ void searchquerykeywordsTableBase::GetWhereColumnsFor_KEYWORDQUERY_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -564,10 +582,16 @@ void searchquerykeywordsTableBase::GetWhereColumnsFor_KEYWORDQUERY_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -576,10 +600,16 @@ void searchquerykeywordsTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -588,10 +618,16 @@ void searchquerykeywordsTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

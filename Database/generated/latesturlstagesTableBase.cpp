@@ -427,10 +427,10 @@ void latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = latesturlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = latesturlstagesTableBase::GetDefinition_URL_ID();
+    TableDefinition*       referencedTableDef (urlsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (latesturlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (latesturlstagesTableBase::GetDefinition_URL_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -452,10 +452,10 @@ void latesturlstagesTableBase::AddInnerJoinRightSideOn_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = latesturlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = latesturlstagesTableBase::GetDefinition_URL_ID();
-    TableDefinition*       joinTableDef        = urlsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (latesturlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(latesturlstagesTableBase::GetDefinition_URL_ID());
+    TableDefinition*       joinTableDef       (urlsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -476,10 +476,10 @@ void latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlstagesTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = latesturlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = latesturlstagesTableBase::GetDefinition_URLSTAGE_ID();
+    TableDefinition*       referencedTableDef (urlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlstagesTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (latesturlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (latesturlstagesTableBase::GetDefinition_URLSTAGE_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -501,10 +501,10 @@ void latesturlstagesTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = latesturlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = latesturlstagesTableBase::GetDefinition_URLSTAGE_ID();
-    TableDefinition*       joinTableDef        = urlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlstagesTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (latesturlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(latesturlstagesTableBase::GetDefinition_URLSTAGE_ID());
+    TableDefinition*       joinTableDef       (urlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlstagesTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -528,10 +528,16 @@ void latesturlstagesTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = latesturlstagesTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(latesturlstagesTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -540,10 +546,16 @@ void latesturlstagesTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = latesturlstagesTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(latesturlstagesTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -552,10 +564,16 @@ void latesturlstagesTableBase::GetWhereColumnsFor_URL_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = latesturlstagesTableBase::GetDefinition_URL_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(latesturlstagesTableBase::GetDefinition_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -564,10 +582,16 @@ void latesturlstagesTableBase::GetWhereColumnsFor_URL_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = latesturlstagesTableBase::GetDefinition_URL_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(latesturlstagesTableBase::GetDefinition_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -576,10 +600,16 @@ void latesturlstagesTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = latesturlstagesTableBase::GetDefinition_URLSTAGE_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(latesturlstagesTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -588,10 +618,16 @@ void latesturlstagesTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = latesturlstagesTableBase::GetDefinition_URLSTAGE_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(latesturlstagesTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

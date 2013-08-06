@@ -1163,10 +1163,10 @@ void imagesTableBase::AddInnerJoinLeftSideOn_SCHEME_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = schemesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = schemesTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_SCHEME_ID();
+    TableDefinition*       referencedTableDef (schemesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(schemesTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_SCHEME_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -1188,10 +1188,10 @@ void imagesTableBase::AddInnerJoinRightSideOn_SCHEME_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_SCHEME_ID();
-    TableDefinition*       joinTableDef        = schemesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = schemesTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_SCHEME_ID());
+    TableDefinition*       joinTableDef       (schemesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (schemesTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -1212,10 +1212,10 @@ void imagesTableBase::AddInnerJoinLeftSideOn_TOPLEVELDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = topleveldomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = topleveldomainsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID();
+    TableDefinition*       referencedTableDef (topleveldomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(topleveldomainsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -1237,10 +1237,10 @@ void imagesTableBase::AddInnerJoinRightSideOn_TOPLEVELDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID();
-    TableDefinition*       joinTableDef        = topleveldomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = topleveldomainsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID());
+    TableDefinition*       joinTableDef       (topleveldomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (topleveldomainsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -1261,10 +1261,10 @@ void imagesTableBase::AddInnerJoinLeftSideOn_SUBDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = subdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = subdomainsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_SUBDOMAIN_ID();
+    TableDefinition*       referencedTableDef (subdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(subdomainsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_SUBDOMAIN_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -1286,10 +1286,10 @@ void imagesTableBase::AddInnerJoinRightSideOn_SUBDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_SUBDOMAIN_ID();
-    TableDefinition*       joinTableDef        = subdomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = subdomainsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_SUBDOMAIN_ID());
+    TableDefinition*       joinTableDef       (subdomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (subdomainsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -1310,10 +1310,10 @@ void imagesTableBase::AddInnerJoinLeftSideOn_SECONDLEVELDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = secondleveldomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = secondleveldomainsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
+    TableDefinition*       referencedTableDef (secondleveldomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(secondleveldomainsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -1335,10 +1335,10 @@ void imagesTableBase::AddInnerJoinRightSideOn_SECONDLEVELDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
-    TableDefinition*       joinTableDef        = secondleveldomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = secondleveldomainsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
+    TableDefinition*       joinTableDef       (secondleveldomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (secondleveldomainsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -1359,10 +1359,10 @@ void imagesTableBase::AddInnerJoinLeftSideOn_URLPATHPART_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlpathpartsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_URLPATHPART_ID();
+    TableDefinition*       referencedTableDef (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlpathpartsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_URLPATHPART_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -1384,10 +1384,10 @@ void imagesTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_URLPATHPART_ID();
-    TableDefinition*       joinTableDef        = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlpathpartsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_URLPATHPART_ID());
+    TableDefinition*       joinTableDef       (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlpathpartsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -1408,10 +1408,10 @@ void imagesTableBase::AddInnerJoinLeftSideOn_URLSEARCHPART_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlsearchpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlsearchpartsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_URLSEARCHPART_ID();
+    TableDefinition*       referencedTableDef (urlsearchpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlsearchpartsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_URLSEARCHPART_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -1433,10 +1433,10 @@ void imagesTableBase::AddInnerJoinRightSideOn_URLSEARCHPART_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_URLSEARCHPART_ID();
-    TableDefinition*       joinTableDef        = urlsearchpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlsearchpartsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_URLSEARCHPART_ID());
+    TableDefinition*       joinTableDef       (urlsearchpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlsearchpartsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -1460,10 +1460,16 @@ void imagesTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1472,10 +1478,16 @@ void imagesTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1484,10 +1496,16 @@ void imagesTableBase::GetWhereColumnsFor_SCHEME_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_SCHEME_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_SCHEME_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1496,10 +1514,16 @@ void imagesTableBase::GetWhereColumnsFor_SCHEME_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_SCHEME_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_SCHEME_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1508,10 +1532,16 @@ void imagesTableBase::GetWhereColumnsFor_TOPLEVELDOMAIN_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1520,10 +1550,16 @@ void imagesTableBase::GetWhereColumnsFor_TOPLEVELDOMAIN_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_TOPLEVELDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1532,10 +1568,16 @@ void imagesTableBase::GetWhereColumnsFor_SUBDOMAIN_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_SUBDOMAIN_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_SUBDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1544,10 +1586,16 @@ void imagesTableBase::GetWhereColumnsFor_SUBDOMAIN_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_SUBDOMAIN_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_SUBDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1556,10 +1604,16 @@ void imagesTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1568,10 +1622,16 @@ void imagesTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1580,10 +1640,16 @@ void imagesTableBase::GetWhereColumnsFor_port(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_port();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_port());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1592,10 +1658,16 @@ void imagesTableBase::GetWhereColumnsFor_port(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_port();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_port());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1604,10 +1676,16 @@ void imagesTableBase::GetWhereColumnsFor_URLPATHPART_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_URLPATHPART_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_URLPATHPART_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1616,10 +1694,16 @@ void imagesTableBase::GetWhereColumnsFor_URLPATHPART_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_URLPATHPART_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_URLPATHPART_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1628,10 +1712,16 @@ void imagesTableBase::GetWhereColumnsFor_URLSEARCHPART_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_URLSEARCHPART_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_URLSEARCHPART_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1640,10 +1730,16 @@ void imagesTableBase::GetWhereColumnsFor_URLSEARCHPART_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_URLSEARCHPART_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_URLSEARCHPART_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1652,10 +1748,16 @@ void imagesTableBase::GetWhereColumnsFor_found_date(
     const struct tm& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_found_date();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_found_date());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -1664,10 +1766,16 @@ void imagesTableBase::GetWhereColumnsFor_found_date(
     const std::vector<struct tm>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagesTableBase::GetDefinition_found_date();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagesTableBase::GetDefinition_found_date());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

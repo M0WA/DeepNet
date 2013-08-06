@@ -550,10 +550,10 @@ void imagelinksTableBase::AddInnerJoinLeftSideOn_TARGET_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagelinksTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagelinksTableBase::GetDefinition_TARGET_URL_ID();
+    TableDefinition*       referencedTableDef (urlsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagelinksTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagelinksTableBase::GetDefinition_TARGET_URL_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -575,10 +575,10 @@ void imagelinksTableBase::AddInnerJoinRightSideOn_TARGET_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagelinksTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagelinksTableBase::GetDefinition_TARGET_URL_ID();
-    TableDefinition*       joinTableDef        = urlsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagelinksTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagelinksTableBase::GetDefinition_TARGET_URL_ID());
+    TableDefinition*       joinTableDef       (urlsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -599,10 +599,10 @@ void imagelinksTableBase::AddInnerJoinLeftSideOn_IMAGE_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagesTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagelinksTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagelinksTableBase::GetDefinition_IMAGE_URL_ID();
+    TableDefinition*       referencedTableDef (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagesTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagelinksTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagelinksTableBase::GetDefinition_IMAGE_URL_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -624,10 +624,10 @@ void imagelinksTableBase::AddInnerJoinRightSideOn_IMAGE_URL_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagelinksTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagelinksTableBase::GetDefinition_IMAGE_URL_ID();
-    TableDefinition*       joinTableDef        = imagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagesTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagelinksTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagelinksTableBase::GetDefinition_IMAGE_URL_ID());
+    TableDefinition*       joinTableDef       (imagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagesTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -648,10 +648,10 @@ void imagelinksTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlstagesTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = imagelinksTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = imagelinksTableBase::GetDefinition_URLSTAGE_ID();
+    TableDefinition*       referencedTableDef (urlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlstagesTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (imagelinksTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (imagelinksTableBase::GetDefinition_URLSTAGE_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -673,10 +673,10 @@ void imagelinksTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = imagelinksTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = imagelinksTableBase::GetDefinition_URLSTAGE_ID();
-    TableDefinition*       joinTableDef        = urlstagesTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlstagesTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (imagelinksTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(imagelinksTableBase::GetDefinition_URLSTAGE_ID());
+    TableDefinition*       joinTableDef       (urlstagesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlstagesTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -700,10 +700,16 @@ void imagelinksTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -712,10 +718,16 @@ void imagelinksTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -724,10 +736,16 @@ void imagelinksTableBase::GetWhereColumnsFor_TARGET_URL_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_TARGET_URL_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_TARGET_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -736,10 +754,16 @@ void imagelinksTableBase::GetWhereColumnsFor_TARGET_URL_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_TARGET_URL_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_TARGET_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -748,10 +772,16 @@ void imagelinksTableBase::GetWhereColumnsFor_IMAGE_URL_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_IMAGE_URL_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_IMAGE_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -760,10 +790,16 @@ void imagelinksTableBase::GetWhereColumnsFor_IMAGE_URL_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_IMAGE_URL_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_IMAGE_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -772,10 +808,16 @@ void imagelinksTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_URLSTAGE_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -784,10 +826,16 @@ void imagelinksTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = imagelinksTableBase::GetDefinition_URLSTAGE_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(imagelinksTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

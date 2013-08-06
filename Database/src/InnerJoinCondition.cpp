@@ -59,7 +59,7 @@ void InnerJoinCondition::AddInnerJoin(
 std::string InnerJoinCondition::ToString(DatabaseConnection* db) const
 {
 	std::stringstream ssEntries;
-	std::vector<InnerJoinEntry>::const_iterator iterEntry = entries.begin();
+	std::vector<InnerJoinEntry>::const_iterator iterEntry(entries.begin());
 	for(;iterEntry != entries.end();++iterEntry){
 		ssEntries << " " << iterEntry->ToString() << " ";}
 	return ssEntries.str();

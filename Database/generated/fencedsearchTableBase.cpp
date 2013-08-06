@@ -427,10 +427,10 @@ void fencedsearchTableBase::AddInnerJoinLeftSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcustomerTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcustomerTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = fencedsearchTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = fencedsearchTableBase::GetDefinition_CUSTOMER_ID();
+    TableDefinition*       referencedTableDef (dataminingcustomerTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcustomerTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (fencedsearchTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (fencedsearchTableBase::GetDefinition_CUSTOMER_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -452,10 +452,10 @@ void fencedsearchTableBase::AddInnerJoinRightSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = fencedsearchTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = fencedsearchTableBase::GetDefinition_CUSTOMER_ID();
-    TableDefinition*       joinTableDef        = dataminingcustomerTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcustomerTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (fencedsearchTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(fencedsearchTableBase::GetDefinition_CUSTOMER_ID());
+    TableDefinition*       joinTableDef       (dataminingcustomerTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcustomerTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -476,10 +476,10 @@ void fencedsearchTableBase::AddInnerJoinLeftSideOn_SECONDLEVELDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = secondleveldomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = secondleveldomainsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = fencedsearchTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
+    TableDefinition*       referencedTableDef (secondleveldomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(secondleveldomainsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (fencedsearchTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -501,10 +501,10 @@ void fencedsearchTableBase::AddInnerJoinRightSideOn_SECONDLEVELDOMAIN_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = fencedsearchTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
-    TableDefinition*       joinTableDef        = secondleveldomainsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = secondleveldomainsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (fencedsearchTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
+    TableDefinition*       joinTableDef       (secondleveldomainsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (secondleveldomainsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -528,10 +528,16 @@ void fencedsearchTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = fencedsearchTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(fencedsearchTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -540,10 +546,16 @@ void fencedsearchTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = fencedsearchTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(fencedsearchTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -552,10 +564,16 @@ void fencedsearchTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = fencedsearchTableBase::GetDefinition_CUSTOMER_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(fencedsearchTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -564,10 +582,16 @@ void fencedsearchTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = fencedsearchTableBase::GetDefinition_CUSTOMER_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(fencedsearchTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -576,10 +600,16 @@ void fencedsearchTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -588,10 +618,16 @@ void fencedsearchTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

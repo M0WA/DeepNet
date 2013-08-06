@@ -44,8 +44,8 @@ std::vector< const TableColumnDefinition* > TableDefinition::GetConstUniqueKeyCo
 
 	std::vector< const TableColumnDefinition* > out;
 
-	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
-	std::vector< TableColumnDefinition* >::const_iterator iterColDefs = colDefs.begin();
+	const std::vector< TableColumnDefinition* >& colDefs(GetConstColumnDefinitions());
+	std::vector< TableColumnDefinition* >::const_iterator iterColDefs(colDefs.begin());
 	for(;iterColDefs != colDefs.end();++iterColDefs) {
 		if( (*iterColDefs)->IsUniqueKey() )
 			out.push_back(*iterColDefs);
@@ -70,8 +70,8 @@ std::vector<std::vector< const TableColumnDefinition* > > TableDefinition::GetCo
 
 const TableColumnDefinition* TableDefinition::GetConstPrimaryKeyColumnDefinition() const {
 
-	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
-	std::vector< TableColumnDefinition* >::const_iterator iterColDefs = colDefs.begin();
+	const std::vector< TableColumnDefinition* >& colDefs(GetConstColumnDefinitions());
+	std::vector< TableColumnDefinition* >::const_iterator iterColDefs(colDefs.begin());
 	for(;iterColDefs != colDefs.end();++iterColDefs) {
 
 		if( (*iterColDefs)->IsPrimaryKey() )
@@ -93,10 +93,9 @@ TableColumnDefinition* TableDefinition::GetColumnDefinitionByName(std::string co
 		break;
 	}
 
-	std::vector< TableColumnDefinition* >& colDefs = GetColumnDefinitions();
-	std::vector< TableColumnDefinition* >::iterator iterColDefs = colDefs.begin();
+	std::vector< TableColumnDefinition* >& colDefs(GetColumnDefinitions());
+	std::vector< TableColumnDefinition* >::iterator iterColDefs(colDefs.begin());
 	for(;iterColDefs != colDefs.end();++iterColDefs) {
-
 		if( columnName.compare((*iterColDefs)->GetColumnName()) == 0 )
 			return (*iterColDefs);
 	}
@@ -115,10 +114,9 @@ const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(std
 		break;
 	}
 
-	const std::vector< TableColumnDefinition* >& colDefs = GetConstColumnDefinitions();
-	std::vector< TableColumnDefinition* >::const_iterator iterColDefs = colDefs.begin();
+	const std::vector< TableColumnDefinition* >& colDefs(GetConstColumnDefinitions());
+	std::vector< TableColumnDefinition* >::const_iterator iterColDefs(colDefs.begin());
 	for(;iterColDefs != colDefs.end();++iterColDefs) {
-
 		if( columnName.compare((*iterColDefs)->GetColumnName()) == 0 )
 			return (*iterColDefs);
 	}

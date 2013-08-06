@@ -17,7 +17,7 @@ OrderByClause::OrderByClause() {
 
 OrderByClause::~OrderByClause() {
 
-	std::vector<OrderByColumn>::iterator iter = orderByFields.begin();
+	std::vector<OrderByColumn>::iterator iter(orderByFields.begin());
 	for(;iter != orderByFields.end();++iter) {
 		delete iter->colDef;}
 	orderByFields.clear();
@@ -56,8 +56,8 @@ std::string OrderByClause::ToString(database::DatabaseConnection* db) const {
 
 	std::stringstream ssSQL;
 	ssSQL << " ORDER BY ";
-	std::vector<OrderByColumn>::const_iterator iterFields = orderByFields.begin();
-	for(int i = 0;iterFields != orderByFields.end(); i++,++iterFields) {
+	std::vector<OrderByColumn>::const_iterator iterFields(orderByFields.begin());
+	for(int i(0);iterFields != orderByFields.end(); i++,++iterFields) {
 
 		std::string op;
 		switch(iterFields->dir)

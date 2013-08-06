@@ -550,10 +550,10 @@ void dataminingcriteriaalertsTableBase::AddInnerJoinLeftSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcustomerTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcustomerTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = dataminingcriteriaalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID();
+    TableDefinition*       referencedTableDef (dataminingcustomerTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcustomerTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -575,10 +575,10 @@ void dataminingcriteriaalertsTableBase::AddInnerJoinRightSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcriteriaalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID();
-    TableDefinition*       joinTableDef        = dataminingcustomerTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcustomerTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID());
+    TableDefinition*       joinTableDef       (dataminingcustomerTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcustomerTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -599,10 +599,10 @@ void dataminingcriteriaalertsTableBase::AddInnerJoinLeftSideOn_DATAMININGALERT_I
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingalertsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = dataminingcriteriaalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID();
+    TableDefinition*       referencedTableDef (dataminingalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingalertsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -624,10 +624,10 @@ void dataminingcriteriaalertsTableBase::AddInnerJoinRightSideOn_DATAMININGALERT_
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcriteriaalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID();
-    TableDefinition*       joinTableDef        = dataminingalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingalertsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID());
+    TableDefinition*       joinTableDef       (dataminingalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingalertsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -648,10 +648,10 @@ void dataminingcriteriaalertsTableBase::AddInnerJoinLeftSideOn_DATAMININGCRITERI
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcriteriaTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcriteriaTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = dataminingcriteriaalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID();
+    TableDefinition*       referencedTableDef (dataminingcriteriaTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcriteriaTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -673,10 +673,10 @@ void dataminingcriteriaalertsTableBase::AddInnerJoinRightSideOn_DATAMININGCRITER
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcriteriaalertsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID();
-    TableDefinition*       joinTableDef        = dataminingcriteriaTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcriteriaTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID());
+    TableDefinition*       joinTableDef       (dataminingcriteriaTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcriteriaTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -700,10 +700,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -712,10 +718,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -724,10 +736,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -736,10 +754,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -748,10 +772,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_DATAMININGALERT_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -760,10 +790,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_DATAMININGALERT_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -772,10 +808,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_DATAMININGCRITERIA_ID
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -784,10 +826,16 @@ void dataminingcriteriaalertsTableBase::GetWhereColumnsFor_DATAMININGCRITERIA_ID
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

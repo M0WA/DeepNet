@@ -29,11 +29,11 @@ InnerJoinEntry::~InnerJoinEntry() {
 
 std::string InnerJoinEntry::ToString(void) const
 {
-	std::string nonAliasedJoinTableName = joinTableDef->DatabaseName().empty() ? "" : joinTableDef->DatabaseName() + ".";
-	nonAliasedJoinTableName += joinTableDef->TableName();
-	std::string aliasedJoinTableName = joinTableAlias.empty() ? nonAliasedJoinTableName : joinTableAlias;
+	std::string nonAliasedJoinTableName(joinTableDef->DatabaseName().empty() ? "" : joinTableDef->DatabaseName() + ".");
+	nonAliasedJoinTableName.append(joinTableDef->TableName());
+	std::string aliasedJoinTableName(joinTableAlias.empty() ? nonAliasedJoinTableName : joinTableAlias);
 
-	std::string aliasedReferencedTableName = (referencedTableDef->DatabaseName().empty() ? "" : referencedTableDef->DatabaseName()) + "." + referencedTableDef->TableName();
+	std::string aliasedReferencedTableName((referencedTableDef->DatabaseName().empty() ? "" : referencedTableDef->DatabaseName()) + "." + referencedTableDef->TableName());
 	if(!referencedTableAlias.empty())
 		aliasedReferencedTableName = referencedTableAlias;
 

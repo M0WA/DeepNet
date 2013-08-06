@@ -670,10 +670,10 @@ void queryresultsTableBase::AddInnerJoinLeftSideOn_SEARCHQUERY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = searchqueryTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = searchqueryTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = queryresultsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = queryresultsTableBase::GetDefinition_SEARCHQUERY_ID();
+    TableDefinition*       referencedTableDef (searchqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(searchqueryTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (queryresultsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (queryresultsTableBase::GetDefinition_SEARCHQUERY_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -695,10 +695,10 @@ void queryresultsTableBase::AddInnerJoinRightSideOn_SEARCHQUERY_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = queryresultsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = queryresultsTableBase::GetDefinition_SEARCHQUERY_ID();
-    TableDefinition*       joinTableDef        = searchqueryTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = searchqueryTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (queryresultsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(queryresultsTableBase::GetDefinition_SEARCHQUERY_ID());
+    TableDefinition*       joinTableDef       (searchqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (searchqueryTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -722,10 +722,16 @@ void queryresultsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -734,10 +740,16 @@ void queryresultsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -746,10 +758,16 @@ void queryresultsTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_SEARCHQUERY_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_SEARCHQUERY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -758,10 +776,16 @@ void queryresultsTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_SEARCHQUERY_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_SEARCHQUERY_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -770,10 +794,16 @@ void queryresultsTableBase::GetWhereColumnsFor_URL_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_URL_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -782,10 +812,16 @@ void queryresultsTableBase::GetWhereColumnsFor_URL_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_URL_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URL_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -794,10 +830,16 @@ void queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_URLSTAGE_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -806,10 +848,16 @@ void queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_URLSTAGE_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URLSTAGE_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -818,10 +866,16 @@ void queryresultsTableBase::GetWhereColumnsFor_order_position(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_order_position();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_order_position());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -830,10 +884,16 @@ void queryresultsTableBase::GetWhereColumnsFor_order_position(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = queryresultsTableBase::GetDefinition_order_position();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_order_position());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

@@ -427,10 +427,10 @@ void unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST1_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = unittest1TableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = unittest1TableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = unittest3TableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = unittest3TableBase::GetDefinition_UNITTEST1_ID();
+    TableDefinition*       referencedTableDef (unittest1TableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(unittest1TableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (unittest3TableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (unittest3TableBase::GetDefinition_UNITTEST1_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -452,10 +452,10 @@ void unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST1_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = unittest3TableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = unittest3TableBase::GetDefinition_UNITTEST1_ID();
-    TableDefinition*       joinTableDef        = unittest1TableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = unittest1TableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (unittest3TableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(unittest3TableBase::GetDefinition_UNITTEST1_ID());
+    TableDefinition*       joinTableDef       (unittest1TableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (unittest1TableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -476,10 +476,10 @@ void unittest3TableBase::AddInnerJoinLeftSideOn_UNITTEST2_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = unittest2TableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = unittest2TableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = unittest3TableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = unittest3TableBase::GetDefinition_UNITTEST2_ID();
+    TableDefinition*       referencedTableDef (unittest2TableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(unittest2TableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (unittest3TableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (unittest3TableBase::GetDefinition_UNITTEST2_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -501,10 +501,10 @@ void unittest3TableBase::AddInnerJoinRightSideOn_UNITTEST2_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = unittest3TableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = unittest3TableBase::GetDefinition_UNITTEST2_ID();
-    TableDefinition*       joinTableDef        = unittest2TableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = unittest2TableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (unittest3TableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(unittest3TableBase::GetDefinition_UNITTEST2_ID());
+    TableDefinition*       joinTableDef       (unittest2TableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (unittest2TableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -528,10 +528,16 @@ void unittest3TableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest3TableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(unittest3TableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -540,10 +546,16 @@ void unittest3TableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest3TableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(unittest3TableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -552,10 +564,16 @@ void unittest3TableBase::GetWhereColumnsFor_UNITTEST1_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest3TableBase::GetDefinition_UNITTEST1_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(unittest3TableBase::GetDefinition_UNITTEST1_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -564,10 +582,16 @@ void unittest3TableBase::GetWhereColumnsFor_UNITTEST1_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest3TableBase::GetDefinition_UNITTEST1_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(unittest3TableBase::GetDefinition_UNITTEST1_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -576,10 +600,16 @@ void unittest3TableBase::GetWhereColumnsFor_UNITTEST2_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest3TableBase::GetDefinition_UNITTEST2_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(unittest3TableBase::GetDefinition_UNITTEST2_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -588,10 +618,16 @@ void unittest3TableBase::GetWhereColumnsFor_UNITTEST2_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = unittest3TableBase::GetDefinition_UNITTEST2_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(unittest3TableBase::GetDefinition_UNITTEST2_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

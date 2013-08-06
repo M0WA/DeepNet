@@ -30,7 +30,7 @@ public:
 	 * gets column type.
 	 * @return column type.
 	 */
-	TableColumnType GetColumnType(void) const { return definition.columnType; }
+	const TableColumnType& GetColumnType(void) const { return definition.columnType; }
 
 	/**
 	 * gets table name.

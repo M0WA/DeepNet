@@ -670,10 +670,10 @@ void customermatchcriteriagrouptypeTableBase::AddInnerJoinLeftSideOn_CUSTOMERMAT
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customermatchcriteriaTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customermatchcriteriaTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = customermatchcriteriagrouptypeTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID();
+    TableDefinition*       referencedTableDef (customermatchcriteriaTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customermatchcriteriaTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -695,10 +695,10 @@ void customermatchcriteriagrouptypeTableBase::AddInnerJoinRightSideOn_CUSTOMERMA
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = customermatchcriteriagrouptypeTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID();
-    TableDefinition*       joinTableDef        = customermatchcriteriaTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = customermatchcriteriaTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID());
+    TableDefinition*       joinTableDef       (customermatchcriteriaTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (customermatchcriteriaTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -722,10 +722,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -734,10 +740,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -746,10 +758,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_CUSTOMERMATCHCR
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -758,10 +776,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_CUSTOMERMATCHCR
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -770,10 +794,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_type(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_type();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_type());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -782,10 +812,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_type(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_type();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_type());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -794,10 +830,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_groupPosition(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_groupPosition();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_groupPosition());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -806,10 +848,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_groupPosition(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_groupPosition();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_groupPosition());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -818,10 +866,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_isPrimaryKey(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -830,10 +884,16 @@ void customermatchcriteriagrouptypeTableBase::GetWhereColumnsFor_isPrimaryKey(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

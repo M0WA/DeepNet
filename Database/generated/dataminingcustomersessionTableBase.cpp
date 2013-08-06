@@ -426,10 +426,10 @@ void dataminingcustomersessionTableBase::AddInnerJoinLeftSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcustomerTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcustomerTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = dataminingcustomersessionTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID();
+    TableDefinition*       referencedTableDef (dataminingcustomerTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcustomerTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (dataminingcustomersessionTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -451,10 +451,10 @@ void dataminingcustomersessionTableBase::AddInnerJoinRightSideOn_CUSTOMER_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = dataminingcustomersessionTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID();
-    TableDefinition*       joinTableDef        = dataminingcustomerTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = dataminingcustomerTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (dataminingcustomersessionTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID());
+    TableDefinition*       joinTableDef       (dataminingcustomerTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (dataminingcustomerTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -478,10 +478,16 @@ void dataminingcustomersessionTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcustomersessionTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcustomersessionTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -490,10 +496,16 @@ void dataminingcustomersessionTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcustomersessionTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcustomersessionTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -502,10 +514,16 @@ void dataminingcustomersessionTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -514,10 +532,16 @@ void dataminingcustomersessionTableBase::GetWhereColumnsFor_CUSTOMER_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcustomersessionTableBase::GetDefinition_CUSTOMER_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -526,10 +550,16 @@ void dataminingcustomersessionTableBase::GetWhereColumnsFor_session(
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcustomersessionTableBase::GetDefinition_session();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(dataminingcustomersessionTableBase::GetDefinition_session());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -538,10 +568,16 @@ void dataminingcustomersessionTableBase::GetWhereColumnsFor_session(
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = dataminingcustomersessionTableBase::GetDefinition_session();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(dataminingcustomersessionTableBase::GetDefinition_session());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 

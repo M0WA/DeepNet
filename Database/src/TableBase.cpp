@@ -44,7 +44,7 @@ TableBase::~TableBase() {
 }
 
 void TableBase::CleanUp() {
-	std::vector<TableColumn*>::iterator iterColumns = columns.begin();
+	std::vector<TableColumn*>::iterator iterColumns(columns.begin());
 	for(;iterColumns != columns.end();++iterColumns) {
 		delete (*iterColumns); }
 	columns.clear();
@@ -56,8 +56,8 @@ void TableBase::CleanUp() {
 
 void TableBase::CreateColumns() {
 
-	const std::vector<TableColumnDefinition*>& definitions = definition->GetColumnDefinitions();
-	std::vector<TableColumnDefinition*>::const_iterator iterDefs = definitions.begin();
+	const std::vector<TableColumnDefinition*>& definitions(definition->GetColumnDefinitions());
+	std::vector<TableColumnDefinition*>::const_iterator iterDefs(definitions.begin());
 	for(;iterDefs != definitions.end();++iterDefs) {
 		TableColumnDefinition* defNew = TableColumnDefinition::CreateInstance((*iterDefs)->GetConstCreateParam());
 		columns.push_back(TableColumn::CreateInstance(defNew)); }
@@ -105,7 +105,7 @@ const TableColumn* TableBase::GetConstColumnByName(std::string columnName) const
 		break;
 	}
 
-	std::vector<TableColumn*>::const_iterator iterColumns = columns.begin();
+	std::vector<TableColumn*>::const_iterator iterColumns(columns.begin());
 	for(;iterColumns != columns.end();++iterColumns) {
 		if((*iterColumns)->GetConstColumnDefinition()->GetColumnName().compare(columnName) == 0){
 			return (*iterColumns); }
@@ -128,7 +128,7 @@ TableColumn* TableBase::GetColumnByName(std::string columnName) {
 		break;
 	}
 
-	std::vector<TableColumn*>::iterator iterColumns = columns.begin();
+	std::vector<TableColumn*>::iterator iterColumns(columns.begin());
 	for(;iterColumns != columns.end();++iterColumns) {
 		if((*iterColumns)->GetConstColumnDefinition()->GetColumnName().compare(columnName) == 0){
 			return (*iterColumns); }
@@ -141,12 +141,11 @@ TableColumn* TableBase::GetColumnByName(std::string columnName) {
 void TableBase::CopyColumns(const TableBase* base) {
 
 	CheckInitialization();
-	std::vector<TableColumn*>::iterator iterColumns = columns.begin();
 
+	std::vector<TableColumn*>::const_iterator iterColumns(columns.begin());
 	for(;iterColumns != columns.end();++iterColumns) {
-
-		const std::string colName = (*iterColumns)->GetConstColumnDefinition()->GetColumnName();
-		const TableColumn* oldCol = base->GetConstColumnByName( colName );
+		const std::string& colName((*iterColumns)->GetConstColumnDefinition()->GetColumnName());
+		const TableColumn* oldCol(base->GetConstColumnByName(colName));
 		(*iterColumns)->CopyValue(oldCol);
 	}
 }
@@ -159,16 +158,6 @@ void TableBase::CheckInitialization() const {
 	if(columns.size() == 0)
 		THROW_EXCEPTION(DatabaseNotInitializedException);
 }
-
-/*
-void TableBase::SetTableDefinition(TableDefinition* definitionIn) {
-
-	if(definition && !definition->GetConstCreateParam().isStaticDefinition)
-		delete definition;
-
-	this->definition = definitionIn;
-}
-*/
 
 void TableBase::StartTransaction(DatabaseConnection* db) {
 	db->TransactionStart();

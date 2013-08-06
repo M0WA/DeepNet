@@ -427,10 +427,10 @@ void urlpathpartsTableBase::AddInnerJoinLeftSideOn_PATHPART_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = pathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = pathpartsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlpathpartsTableBase::GetDefinition_PATHPART_ID();
+    TableDefinition*       referencedTableDef (pathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(pathpartsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlpathpartsTableBase::GetDefinition_PATHPART_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -452,10 +452,10 @@ void urlpathpartsTableBase::AddInnerJoinRightSideOn_PATHPART_ID(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlpathpartsTableBase::GetDefinition_PATHPART_ID();
-    TableDefinition*       joinTableDef        = pathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = pathpartsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlpathpartsTableBase::GetDefinition_PATHPART_ID());
+    TableDefinition*       joinTableDef       (pathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (pathpartsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -476,10 +476,10 @@ void urlpathpartsTableBase::AddInnerJoinLeftSideOn_URLPATHPART_ID_NEXT(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlpathpartsTableBase::GetDefinition_ID();
-    TableDefinition*       joinTableDef        = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT();
+    TableDefinition*       referencedTableDef (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlpathpartsTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = joinTableAlias;
@@ -501,10 +501,10 @@ void urlpathpartsTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID_NEXT(
     const std::string& referencedColumnAlias,
     Statement& stmt ) {
 
-    TableDefinition*       referencedTableDef  = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* referencedColumnDef = urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT();
-    TableDefinition*       joinTableDef        = urlpathpartsTableBase::CreateTableDefinition();
-    TableColumnDefinition* joinColumnDef       = urlpathpartsTableBase::GetDefinition_ID();
+    TableDefinition*       referencedTableDef (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT());
+    TableDefinition*       joinTableDef       (urlpathpartsTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (urlpathpartsTableBase::GetDefinition_ID());
 
     InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
     entry.joinTableAlias         = referencedTableAlias;
@@ -528,10 +528,16 @@ void urlpathpartsTableBase::GetWhereColumnsFor_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlpathpartsTableBase::GetDefinition_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(urlpathpartsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -540,10 +546,16 @@ void urlpathpartsTableBase::GetWhereColumnsFor_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlpathpartsTableBase::GetDefinition_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(urlpathpartsTableBase::GetDefinition_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -552,10 +564,16 @@ void urlpathpartsTableBase::GetWhereColumnsFor_PATHPART_ID(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlpathpartsTableBase::GetDefinition_PATHPART_ID();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(urlpathpartsTableBase::GetDefinition_PATHPART_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -564,10 +582,16 @@ void urlpathpartsTableBase::GetWhereColumnsFor_PATHPART_ID(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlpathpartsTableBase::GetDefinition_PATHPART_ID();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(urlpathpartsTableBase::GetDefinition_PATHPART_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -576,10 +600,16 @@ void urlpathpartsTableBase::GetWhereColumnsFor_URLPATHPART_ID_NEXT(
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
+    TableColumnDefinition* pTmpDef(urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
@@ -588,10 +618,16 @@ void urlpathpartsTableBase::GetWhereColumnsFor_URLPATHPART_ID_NEXT(
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
+    TableColumnDefinition* pTmpDef(urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
     delete pTmpDef;
 }
 
