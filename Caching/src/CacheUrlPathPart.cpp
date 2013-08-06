@@ -30,7 +30,8 @@ namespace caching {
 CacheUrlPathPart CacheUrlPathPart::cacheInstance;
 
 CacheUrlPathPart::CacheUrlPathPart(size_t limit)
-: idUrlPathPart(limit, false) {
+: idUrlPathPart(limit, false)
+, emptyUrlPathID(-1){
 }
 
 CacheUrlPathPart::~CacheUrlPathPart() {
@@ -46,7 +47,15 @@ void CacheUrlPathPart::Clear(void)
 	cacheInstance.idUrlPathPart.ClearItems();
 }
 
+void CacheUrlPathPart::Init(database::DatabaseConnection* db) {
+	GetIDByUrlPathPart(db,"", cacheInstance.emptyUrlPathID);
+}
+
 void CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart, long long& urlPathPartID) {
+
+	if(pathPart.empty()) {
+		urlPathPartID = cacheInstance.emptyUrlPathID;
+		return;}
 
 	bool isInCache(cacheInstance.idUrlPathPart.GetByValue(pathPart,urlPathPartID));
 	isInCache &= (urlPathPartID != -1);
@@ -224,6 +233,10 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 }
 
 void CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart) {
+
+	if(urlPathPartID == cacheInstance.emptyUrlPathID) {
+		pathPart.clear();
+		return; }
 
 	std::vector<std::string> pathParts;
 	long long nextUrlPathPartID(urlPathPartID);

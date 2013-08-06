@@ -82,6 +82,12 @@ public:
 	static size_t GetMisses() {
 		return cacheInstance.idUrlPathPart.GetMisses(); }
 
+	/**
+	 * needs to be called before first use of CacheUrlPathPart class
+	 * @param db database connection
+	 */
+	static void Init(database::DatabaseConnection* db);
+
 private:
 	static void InsertUrlPathPart(
 		database::DatabaseConnection* db,
@@ -93,6 +99,7 @@ private:
 
 private:
 	Cache<long long,std::string> idUrlPathPart;
+	long long emptyUrlPathID;
 };
 
 }
