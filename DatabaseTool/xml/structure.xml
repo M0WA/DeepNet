@@ -1302,6 +1302,72 @@
 
 <!-- ======================================================================================== 
  *
+ *	TABLE: cacheurlpathparts
+ *
+ -->
+<table
+	name="cacheurlpathparts"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+	MySQL_Database="logging"
+>
+
+	<column name="ID"     	       type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="size"            type="INTEGER"      notnull="1" />
+  <column name="matches"         type="INTEGER"      notnull="1" />
+  <column name="misses"          type="INTEGER"      notnull="1" />
+	<column name="action_time"     type="TIMESTAMP"    notnull="1" />
+
+	<primary_key column="ID" />
+	
+</table>
+
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: cachepathparts
+ *
+ -->
+<table
+	name="cachepathparts"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+	MySQL_Database="logging"
+>
+
+	<column name="ID"     	       type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="size"            type="INTEGER"      notnull="1" />
+  <column name="matches"         type="INTEGER"      notnull="1" />
+  <column name="misses"          type="INTEGER"      notnull="1" />
+	<column name="action_time"     type="TIMESTAMP"    notnull="1" />
+
+	<primary_key column="ID" />
+	
+</table>
+
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: cacheurlsearchparts
+ *
+ -->
+<table
+	name="cacheurlsearchparts"
+	MySQL_Engine="Engine=Archive, ROW_FORMAT=COMPACT"
+	MySQL_Database="logging"
+>
+
+	<column name="ID"     	       type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="size"            type="INTEGER"      notnull="1" />
+  <column name="matches"         type="INTEGER"      notnull="1" />
+  <column name="misses"          type="INTEGER"      notnull="1" />
+	<column name="action_time"     type="TIMESTAMP"    notnull="1" />
+
+	<primary_key column="ID" />
+	
+</table>
+
+
+<!-- ======================================================================================== 
+ *
  *	TABLE: cacheparsed
  *
  -->

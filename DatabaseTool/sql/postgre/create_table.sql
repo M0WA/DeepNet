@@ -516,6 +516,18 @@ CREATE TABLE customerproducturls
 );
 
 
+/* cacheurlsearchparts - Postgre   */
+CREATE TABLE cacheurlsearchparts
+(
+ ID BIGSERIAL NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEURLSEARCHPARTS_ID PRIMARY KEY (ID)
+);
+
+
 /* customersynccrawler - Postgre   */
 CREATE TABLE customersynccrawler
 (
@@ -626,6 +638,18 @@ CREATE TABLE dict
 );
 
 
+/* cachepathparts - Postgre   */
+CREATE TABLE cachepathparts
+(
+ ID BIGSERIAL NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEPATHPARTS_ID PRIMARY KEY (ID)
+);
+
+
 /* customerproducts - Postgre   */
 CREATE TABLE customerproducts
 (
@@ -677,6 +701,18 @@ CREATE TABLE cacheparsed
  misses INTEGER NOT NULL,
  action_time TIMESTAMP NOT NULL,
  CONSTRAINT PRI__CACHEPARSED_ID PRIMARY KEY (ID)
+);
+
+
+/* cacheurlpathparts - Postgre   */
+CREATE TABLE cacheurlpathparts
+(
+ ID BIGSERIAL NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEURLPATHPARTS_ID PRIMARY KEY (ID)
 );
 
 

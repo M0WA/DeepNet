@@ -514,6 +514,18 @@ CREATE TABLE customerproducturls
 );
 
 
+/* cacheurlsearchparts - DB2   */
+CREATE TABLE cacheurlsearchparts
+(
+ ID INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEURLSEARCHPARTS_ID PRIMARY KEY (ID)
+);
+
+
 /* customersynccrawler - DB2   */
 CREATE TABLE customersynccrawler
 (
@@ -624,6 +636,18 @@ CREATE TABLE dict
 );
 
 
+/* cachepathparts - DB2   */
+CREATE TABLE cachepathparts
+(
+ ID INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEPATHPARTS_ID PRIMARY KEY (ID)
+);
+
+
 /* customerproducts - DB2   */
 CREATE TABLE customerproducts
 (
@@ -675,6 +699,18 @@ CREATE TABLE cacheparsed
  misses INTEGER NOT NULL,
  action_time TIMESTAMP NOT NULL,
  CONSTRAINT PRI__CACHEPARSED_ID PRIMARY KEY (ID)
+);
+
+
+/* cacheurlpathparts - DB2   */
+CREATE TABLE cacheurlpathparts
+(
+ ID INTEGER GENERATED ALWAYS AS IDENTITY NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEURLPATHPARTS_ID PRIMARY KEY (ID)
 );
 
 

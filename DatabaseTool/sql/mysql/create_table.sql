@@ -653,6 +653,21 @@ CREATE TABLE commercesearch.customerproducturls
 SHOW WARNINGS;
 
 
+/* cacheurlsearchparts - MySQL */
+CREATE TABLE IF NOT EXISTS  logging.cacheurlsearchparts (ID INTEGER);
+DROP TABLE logging.cacheurlsearchparts;
+CREATE TABLE logging.cacheurlsearchparts
+(
+ ID INTEGER AUTO_INCREMENT NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEURLSEARCHPARTS_ID PRIMARY KEY (ID)
+) Engine=Archive, ROW_FORMAT=COMPACT;
+SHOW WARNINGS;
+
+
 /* customersynccrawler - MySQL */
 CREATE TABLE IF NOT EXISTS  commercesearch.customersynccrawler (ID INTEGER);
 DROP TABLE commercesearch.customersynccrawler;
@@ -797,6 +812,21 @@ CREATE TABLE lexicon.dict
 SHOW WARNINGS;
 
 
+/* cachepathparts - MySQL */
+CREATE TABLE IF NOT EXISTS  logging.cachepathparts (ID INTEGER);
+DROP TABLE logging.cachepathparts;
+CREATE TABLE logging.cachepathparts
+(
+ ID INTEGER AUTO_INCREMENT NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEPATHPARTS_ID PRIMARY KEY (ID)
+) Engine=Archive, ROW_FORMAT=COMPACT;
+SHOW WARNINGS;
+
+
 /* customerproducts - MySQL */
 CREATE TABLE IF NOT EXISTS  commercesearch.customerproducts (ID INTEGER);
 DROP TABLE commercesearch.customerproducts;
@@ -862,6 +892,21 @@ CREATE TABLE logging.cacheparsed
  misses INTEGER NOT NULL,
  action_time TIMESTAMP NOT NULL,
  CONSTRAINT PRI__CACHEPARSED_ID PRIMARY KEY (ID)
+) Engine=Archive, ROW_FORMAT=COMPACT;
+SHOW WARNINGS;
+
+
+/* cacheurlpathparts - MySQL */
+CREATE TABLE IF NOT EXISTS  logging.cacheurlpathparts (ID INTEGER);
+DROP TABLE logging.cacheurlpathparts;
+CREATE TABLE logging.cacheurlpathparts
+(
+ ID INTEGER AUTO_INCREMENT NOT NULL,
+ size INTEGER NOT NULL,
+ matches INTEGER NOT NULL,
+ misses INTEGER NOT NULL,
+ action_time TIMESTAMP NOT NULL,
+ CONSTRAINT PRI__CACHEURLPATHPARTS_ID PRIMARY KEY (ID)
 ) Engine=Archive, ROW_FORMAT=COMPACT;
 SHOW WARNINGS;
 
