@@ -57,11 +57,13 @@
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="ssl"/>
 									<listOptionValue builtIn="false" value="fl"/>
+									<listOptionValue builtIn="false" value="Caching"/>
 									<listOptionValue builtIn="false" value="FastCGIServer"/>
 									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="Crawler"/>
 									<listOptionValue builtIn="false" value="Indexer"/>
 									<listOptionValue builtIn="false" value="Caching"/>
+									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="Bot"/>
 									<listOptionValue builtIn="false" value="Database"/>
@@ -169,11 +171,13 @@
 									<listOptionValue builtIn="false" value="pthread"/>
 									<listOptionValue builtIn="false" value="ssl"/>
 									<listOptionValue builtIn="false" value="fl"/>
+									<listOptionValue builtIn="false" value="Caching"/>
 									<listOptionValue builtIn="false" value="FastCGIServer"/>
 									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="Crawler"/>
 									<listOptionValue builtIn="false" value="Indexer"/>
 									<listOptionValue builtIn="false" value="Caching"/>
+									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="Bot"/>
 									<listOptionValue builtIn="false" value="Database"/>
