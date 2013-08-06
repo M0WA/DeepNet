@@ -18,6 +18,8 @@
 
 namespace caching {
 
+CacheUrlSearchPart CacheUrlSearchPart::cacheInstance;
+
 CacheUrlSearchPart::CacheUrlSearchPart(size_t limit)
 : idUrlSearchPart(limit, false) {
 }
