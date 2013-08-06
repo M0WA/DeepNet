@@ -34,7 +34,10 @@ public:
 	 * @param urlPathPartID urlPathPartID
 	 * @param pathPart path part for given urlPathPartID
 	 */
-	static void GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart);
+	static void GetUrlPathPartByID(
+		database::DatabaseConnection* db,
+		const long long& urlPathPartID,
+		std::string& pathPart);
 
 	/**
 	 * gets urlPathPartID of an url by it's path part
@@ -42,7 +45,10 @@ public:
 	 * @param urlPathPart url path part to search for
 	 * @param urlPathPartID urlPathPartID for given path part
 	 */
-	static void GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& urlPathPart, long long& urlPathPartID);
+	static void GetIDByUrlPathPart(
+		database::DatabaseConnection* db,
+		const std::string& urlPathPart,
+		long long& urlPathPartID);
 
 	/**
 	 * removes all items from cache.
@@ -59,22 +65,28 @@ public:
 	 * gets current number of entries in cache.
 	 * @return current number of entries in cache.
 	 */
-	static size_t GetSize() { return cacheInstance.idUrlPathPart.GetSize(); }
+	static size_t GetSize() {
+		return cacheInstance.idUrlPathPart.GetSize(); }
 
 	/**
 	 * get current match count of cache, clearing internal match counter.
 	 * @return number of matches.
 	 */
-	static size_t GetMatches() { return cacheInstance.idUrlPathPart.GetMatches(); }
+	static size_t GetMatches() {
+		return cacheInstance.idUrlPathPart.GetMatches(); }
 
 	/**
 	 * get current miss count of cache, clearing internal miss counter.
 	 * @return number of misses.
 	 */
-	static size_t GetMisses() { return cacheInstance.idUrlPathPart.GetMisses(); }
+	static size_t GetMisses() {
+		return cacheInstance.idUrlPathPart.GetMisses(); }
 
 private:
-	static void InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs,long long& urlPathPartID);
+	static void InsertUrlPathPart(
+		database::DatabaseConnection* db,
+		std::vector<long long>& pathPartIDs,
+		long long& urlPathPartID);
 
 private:
 	static CacheUrlPathPart cacheInstance;
