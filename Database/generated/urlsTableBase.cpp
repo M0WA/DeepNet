@@ -25,6 +25,7 @@
 #include "subdomainsTableBase.h"
 #include "secondleveldomainsTableBase.h"
 #include "urlpathpartsTableBase.h"
+#include "urlsearchpartsTableBase.h"
 
 
 namespace database {
@@ -663,176 +664,88 @@ void urlsTableBase::Set_URLPATHPART_ID(const long long& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
-void urlsTableBase::Get_search_part(std::string& out) const {
+void urlsTableBase::Get_URLSEARCHPART_ID(long long& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("search_part");
+      fieldName = tools::StringTools::ToLowerNP("URLSEARCHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* urlsTableBase::GetConstColumn_search_part() const {
+const TableColumn* urlsTableBase::GetConstColumn_URLSEARCHPART_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("search_part");
+      fieldName = tools::StringTools::ToLowerNP("URLSEARCHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     }
 
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* urlsTableBase::GetColumn_search_part() {
+TableColumn* urlsTableBase::GetColumn_URLSEARCHPART_ID() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("search_part");
+      fieldName = tools::StringTools::ToLowerNP("URLSEARCHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     }
 
     return GetColumnByName(fieldName);
 }
 
-void urlsTableBase::Set_search_part(const std::string& in) {
+void urlsTableBase::Set_URLSEARCHPART_ID(const long long& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_IBM_DB2:
-      fieldName = "search_part";
+      fieldName = "URLSEARCHPART_ID";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("search_part");
+      fieldName = tools::StringTools::ToLowerNP("URLSEARCHPART_ID");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "search_part";
-      break;
-    }
-
-    GetColumnByName(fieldName)->Set(in);
-}
-
-void urlsTableBase::Get_url_md5(std::string& out) const {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "url_md5";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "url_md5";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("url_md5");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "url_md5";
-      break;
-    }
-
-    GetConstColumnByName(fieldName)->Get(out);
-}
-
-const TableColumn* urlsTableBase::GetConstColumn_url_md5() const {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "url_md5";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "url_md5";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("url_md5");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "url_md5";
-      break;
-    }
-
-    return GetConstColumnByName(fieldName);
-}
-
-TableColumn* urlsTableBase::GetColumn_url_md5() {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "url_md5";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "url_md5";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("url_md5");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "url_md5";
-      break;
-    }
-
-    return GetColumnByName(fieldName);
-}
-
-void urlsTableBase::Set_url_md5(const std::string& in) {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "url_md5";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "url_md5";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("url_md5");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "url_md5";
+      fieldName = "URLSEARCHPART_ID";
       break;
     }
 
@@ -1170,13 +1083,13 @@ void urlsTableBase::GetBy_URLPATHPART_ID(
     db->Select(stmt,results);
 }
 
-void urlsTableBase::GetBy_search_part(
+void urlsTableBase::GetBy_URLSEARCHPART_ID(
         DatabaseConnection* db, 
-        const std::string& fieldValue, 
+        const long long& fieldValue, 
         SelectResultContainer<urlsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    urlsTableBase::GetWhereColumnsFor_search_part(
+    urlsTableBase::GetWhereColumnsFor_URLSEARCHPART_ID(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -1187,47 +1100,13 @@ void urlsTableBase::GetBy_search_part(
     db->Select(stmt,results);
 }
 
-void urlsTableBase::GetBy_search_part(
+void urlsTableBase::GetBy_URLSEARCHPART_ID(
         DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
+        const std::vector<long long>& fieldValue, 
         SelectResultContainer<urlsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    urlsTableBase::GetWhereColumnsFor_search_part(
-        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
-        fieldValue, 
-        container);
-
-    SelectStatement stmt(urlsTableBase::CreateTableDefinition());
-    stmt.SelectAllColumns();
-    stmt.Where().AddColumns( container );
-    db->Select(stmt,results);
-}
-
-void urlsTableBase::GetBy_url_md5(
-        DatabaseConnection* db, 
-        const std::string& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results) {
-    
-    std::vector<WhereConditionTableColumn*> container;
-    urlsTableBase::GetWhereColumnsFor_url_md5(
-        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
-        fieldValue, 
-        container);
-
-    SelectStatement stmt(urlsTableBase::CreateTableDefinition());
-    stmt.SelectAllColumns();
-    stmt.Where().AddColumns( container );
-    db->Select(stmt,results);
-}
-
-void urlsTableBase::GetBy_url_md5(
-        DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<urlsTableBase>& results) {
-    
-    std::vector<WhereConditionTableColumn*> container;
-    urlsTableBase::GetWhereColumnsFor_url_md5(
+    urlsTableBase::GetWhereColumnsFor_URLSEARCHPART_ID(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -1522,6 +1401,55 @@ void urlsTableBase::AddInnerJoinRightSideOn_URLPATHPART_ID(Statement& stmt) {
 
     AddInnerJoinRightSideOn_URLPATHPART_ID("","","","",stmt);
 }
+void urlsTableBase::AddInnerJoinLeftSideOn_URLSEARCHPART_ID(
+    const std::string& joinTableAlias,
+    const std::string& joinColumnAlias,
+    const std::string& referencedTableAlias,
+    const std::string& referencedColumnAlias,
+    Statement& stmt ) {
+
+    TableDefinition*       referencedTableDef  = urlsearchpartsTableBase::CreateTableDefinition();
+    TableColumnDefinition* referencedColumnDef = urlsearchpartsTableBase::GetDefinition_ID();
+    TableDefinition*       joinTableDef        = urlsTableBase::CreateTableDefinition();
+    TableColumnDefinition* joinColumnDef       = urlsTableBase::GetDefinition_URLSEARCHPART_ID();
+
+    InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
+    entry.joinTableAlias         = joinTableAlias;
+    entry.joinColumnAlias        = joinColumnAlias;
+    entry.referencedTableAlias   = referencedTableAlias;
+    entry.referencedColumnsAlias = referencedColumnAlias;
+    stmt.InnerJoin().AddInnerJoin(entry);
+}
+
+void urlsTableBase::AddInnerJoinLeftSideOn_URLSEARCHPART_ID(Statement& stmt) {
+
+    AddInnerJoinLeftSideOn_URLSEARCHPART_ID("","","","",stmt);
+}
+
+void urlsTableBase::AddInnerJoinRightSideOn_URLSEARCHPART_ID(
+    const std::string& joinTableAlias,
+    const std::string& joinColumnAlias,
+    const std::string& referencedTableAlias,
+    const std::string& referencedColumnAlias,
+    Statement& stmt ) {
+
+    TableDefinition*       referencedTableDef  = urlsTableBase::CreateTableDefinition();
+    TableColumnDefinition* referencedColumnDef = urlsTableBase::GetDefinition_URLSEARCHPART_ID();
+    TableDefinition*       joinTableDef        = urlsearchpartsTableBase::CreateTableDefinition();
+    TableColumnDefinition* joinColumnDef       = urlsearchpartsTableBase::GetDefinition_ID();
+
+    InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
+    entry.joinTableAlias         = referencedTableAlias;
+    entry.joinColumnAlias        = referencedColumnAlias;
+    entry.referencedTableAlias   = joinTableAlias;
+    entry.referencedColumnsAlias = joinColumnAlias;
+    stmt.InnerJoin().AddInnerJoin(entry);
+}
+
+void urlsTableBase::AddInnerJoinRightSideOn_URLSEARCHPART_ID(Statement& stmt) {
+
+    AddInnerJoinRightSideOn_URLSEARCHPART_ID("","","","",stmt);
+}
 
 
 //
@@ -1695,48 +1623,24 @@ void urlsTableBase::GetWhereColumnsFor_URLPATHPART_ID(
     delete pTmpDef;
 }
 
-void urlsTableBase::GetWhereColumnsFor_search_part(
+void urlsTableBase::GetWhereColumnsFor_URLSEARCHPART_ID(
     const WhereConditionTableColumnCreateParam& createParam,
-    const std::string& fieldValue, 
+    const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_search_part();
+    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_URLSEARCHPART_ID();
     TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
 
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
     delete pTmpDef;
 }
 
-void urlsTableBase::GetWhereColumnsFor_search_part(
+void urlsTableBase::GetWhereColumnsFor_URLSEARCHPART_ID(
     const WhereConditionTableColumnCreateParam& createParam,
-    const std::vector<std::string>& fieldValue, 
+    const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_search_part();
-    std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
-    
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
-    delete pTmpDef;
-}
-
-void urlsTableBase::GetWhereColumnsFor_url_md5(
-    const WhereConditionTableColumnCreateParam& createParam,
-    const std::string& fieldValue, 
-    std::vector<WhereConditionTableColumn*>& container) {
-
-    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_url_md5();
-    TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
-
-    container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
-    delete pTmpDef;
-}
-
-void urlsTableBase::GetWhereColumnsFor_url_md5(
-    const WhereConditionTableColumnCreateParam& createParam,
-    const std::vector<std::string>& fieldValue, 
-    std::vector<WhereConditionTableColumn*>& container) {
-
-    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_url_md5();
+    TableColumnDefinition* pTmpDef = urlsTableBase::GetDefinition_URLSEARCHPART_ID();
     std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
     
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
@@ -1834,7 +1738,7 @@ TableColumnDefinition* urlsTableBase::GetDefinition_SCHEME_ID() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
@@ -1868,7 +1772,7 @@ TableColumnDefinition* urlsTableBase::GetDefinition_TOPLEVELDOMAIN_ID() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
@@ -1902,9 +1806,9 @@ TableColumnDefinition* urlsTableBase::GetDefinition_SUBDOMAIN_ID() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
-    createParam.isNullable          = true;
+    createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
@@ -1936,7 +1840,7 @@ TableColumnDefinition* urlsTableBase::GetDefinition_SECONDLEVELDOMAIN_ID() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
@@ -1970,7 +1874,7 @@ TableColumnDefinition* urlsTableBase::GetDefinition_port() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = false;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
@@ -2004,75 +1908,41 @@ TableColumnDefinition* urlsTableBase::GetDefinition_URLPATHPART_ID() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* urlsTableBase::GetDefinition_search_part() {
+TableColumnDefinition* urlsTableBase::GetDefinition_URLSEARCHPART_ID() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
-      createParam.columnName   = "search_part";
+      createParam.columnName   = "URLSEARCHPART_ID";
       createParam.tableName    = "urls";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "search_part";
+      createParam.columnName   = "URLSEARCHPART_ID";
       createParam.tableName    = "urls";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("search_part");
+      createParam.columnName   = tools::StringTools::ToLowerNP("URLSEARCHPART_ID");
       createParam.tableName    = tools::StringTools::ToLowerNP("urls");
       break;
     case DB_INVALID_TYPE:
     default:
       break;
     }
-    createParam.columnType          = DB_TYPE_VARCHAR;
+    createParam.columnType          = DB_TYPE_INTEGER;
     createParam.isPrimaryKey        = false;
     createParam.isAutoGenerated     = false;
-    createParam.isForeignKey        = false;
+    createParam.isForeignKey        = true;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
-    createParam.isIndex             = false;
-    createParam.isNullable          = false;
-    createParam.hasDefaultValue     = false;
-    return TableColumnDefinition::CreateInstance(createParam);
-}
-TableColumnDefinition* urlsTableBase::GetDefinition_url_md5() {
-
-    TableColumnDefinitionCreateParam createParam;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      createParam.databaseName = "documents";
-      createParam.columnName   = "url_md5";
-      createParam.tableName    = "urls";
-      break;
-    case DB_IBM_DB2:
-      createParam.databaseName = "deepnet";
-      createParam.columnName   = "url_md5";
-      createParam.tableName    = "urls";
-      break;
-    case DB_POSTGRESQL:
-      createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("url_md5");
-      createParam.tableName    = tools::StringTools::ToLowerNP("urls");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      break;
-    }
-    createParam.columnType          = DB_TYPE_CHAR;
-    createParam.isPrimaryKey        = false;
-    createParam.isAutoGenerated     = false;
-    createParam.isForeignKey        = false;
-    createParam.isUniqueKey         = true;
-    createParam.isCombinedUniqueKey = false;
+    createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;

@@ -44,17 +44,23 @@ void urlsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for URLPATHPART_ID
     columnDefinitions.push_back(urlsTableBase::GetDefinition_URLPATHPART_ID());
 
-    //creating column definition for search_part
-    columnDefinitions.push_back(urlsTableBase::GetDefinition_search_part());
-
-    //creating column definition for url_md5
-    columnDefinitions.push_back(urlsTableBase::GetDefinition_url_md5());
+    //creating column definition for URLSEARCHPART_ID
+    columnDefinitions.push_back(urlsTableBase::GetDefinition_URLSEARCHPART_ID());
 
     //creating column definition for found_date
     columnDefinitions.push_back(urlsTableBase::GetDefinition_found_date());
 
 
 	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("SCHEME_ID");
+	tmpCombined.push_back("SUBDOMAIN_ID");
+	tmpCombined.push_back("SECONDLEVELDOMAIN_ID");
+	tmpCombined.push_back("TOPLEVELDOMAIN_ID");
+	tmpCombined.push_back("port");
+	tmpCombined.push_back("URLPATHPART_ID");
+	tmpCombined.push_back("URLSEARCHPART_ID");
+	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 

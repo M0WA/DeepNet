@@ -29,6 +29,9 @@ void pathpartsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for path
     columnDefinitions.push_back(pathpartsTableBase::GetDefinition_path());
 
+    //creating column definition for md5
+    columnDefinitions.push_back(pathpartsTableBase::GetDefinition_md5());
+
 
 	std::vector<std::string> tmpCombined;
 

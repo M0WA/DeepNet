@@ -35,6 +35,7 @@
 #include "secondleveldomainsTableBase.h"
 #include "dataminingcustomerTableBase.h"
 #include "dataminingcriteriaalertsTableBase.h"
+#include "urlsearchpartsTableBase.h"
 #include "customerdomainsTableBase.h"
 #include "syncurlsTableBase.h"
 #include "crawlersessionsTableBase.h"

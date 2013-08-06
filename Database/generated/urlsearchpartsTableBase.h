@@ -12,20 +12,20 @@ class TableColumnDefinition;
 class DatabaseConnection;
 
 /**
- * @brief wrapper class for database table pathparts
+ * @brief wrapper class for database table urlsearchparts
  */
-class pathpartsTableBase : public TableBase {
+class urlsearchpartsTableBase : public TableBase {
 
 private:
-    pathpartsTableBase(const TableBase& base);
+    urlsearchpartsTableBase(const TableBase& base);
 
 public:
-    pathpartsTableBase();
-    virtual ~pathpartsTableBase();
+    urlsearchpartsTableBase();
+    virtual ~urlsearchpartsTableBase();
 
 public:
     /**
-     * factory function for pathparts's table definition.
+     * factory function for urlsearchparts's table definition.
      * @return table definition.
      */
     static TableDefinition* CreateTableDefinition();
@@ -58,28 +58,28 @@ public:
 	 */
   void Set_ID(const long long& in);
   /**
-   * gets value of path.
+   * gets value of searchpart.
    * @param out value.
    */
-  void Get_path(std::string& out) const;
+  void Get_searchpart(std::string& out) const;
 
   /**
-   * gets const column for path.
-   * @return column for path.
+   * gets const column for searchpart.
+   * @return column for searchpart.
    */
-  const TableColumn* GetConstColumn_path() const;
+  const TableColumn* GetConstColumn_searchpart() const;
 
   /**
-   * gets column for path.
-   * @return column for path.
+   * gets column for searchpart.
+   * @return column for searchpart.
    */
-  TableColumn* GetColumn_path();
+  TableColumn* GetColumn_searchpart();
 
 	/**
-	 * sets value of path.
+	 * sets value of searchpart.
 	 * @param in value.
 	 */
-  void Set_path(const std::string& in);
+  void Set_searchpart(const std::string& in);
   /**
    * gets value of md5.
    * @param out value.
@@ -119,7 +119,7 @@ public:
     static void GetBy_ID(
         DatabaseConnection* db,
         const long long& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results);
+        SelectResultContainer<urlsearchpartsTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of ID.
@@ -130,29 +130,29 @@ public:
     static void GetBy_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results);
+        SelectResultContainer<urlsearchpartsTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of path.
+	 * gets rows by a value of searchpart.
 	 * @param db database connection.
-	 * @param fieldValue value of path.
+	 * @param fieldValue value of searchpart.
 	 * @param results contains results.
 	 */
-    static void GetBy_path(
+    static void GetBy_searchpart(
         DatabaseConnection* db,
         const std::string& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results);
+        SelectResultContainer<urlsearchpartsTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of path.
+	 * gets rows by multiple values of searchpart.
 	 * @param db database connection.
-	 * @param fieldValue values of path.
+	 * @param fieldValue values of searchpart.
 	 * @param results contains results.
 	 */
-    static void GetBy_path(
+    static void GetBy_searchpart(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results);
+        SelectResultContainer<urlsearchpartsTableBase>& results);
 public:
 	/**
 	 * gets rows by a value of md5.
@@ -163,7 +163,7 @@ public:
     static void GetBy_md5(
         DatabaseConnection* db,
         const std::string& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results);
+        SelectResultContainer<urlsearchpartsTableBase>& results);
 
 	/**
 	 * gets rows by multiple values of md5.
@@ -174,7 +174,7 @@ public:
     static void GetBy_md5(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results);
+        SelectResultContainer<urlsearchpartsTableBase>& results);
 
 
 public:
@@ -209,23 +209,23 @@ public:
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of path.
+     * creates where condition for a value of searchpart.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_path(
+	static void GetWhereColumnsFor_searchpart(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::string& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of path.
+     * creates where condition for multiple values of searchpart.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_path(
+    static void GetWhereColumnsFor_searchpart(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<std::string>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
@@ -262,10 +262,10 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_ID();
 	/**
-     * create a column definition for column path.
+     * create a column definition for column searchpart.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_path();
+	static TableColumnDefinition* GetDefinition_searchpart();
 	/**
      * create a column definition for column md5.
      * @return column definition.

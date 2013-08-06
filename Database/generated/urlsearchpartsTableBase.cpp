@@ -1,6 +1,6 @@
-#include "pathpartsTableBase.h"
+#include "urlsearchpartsTableBase.h"
 
-#include "pathpartsTableDefinitionCreateParam.h"
+#include "urlsearchpartsTableDefinitionCreateParam.h"
 #include "TableDefinition.h"
 #include "TableColumnDefinition.h"
 #include "TableColumn.h"
@@ -24,25 +24,25 @@
 
 namespace database {
 
-pathpartsTableBase::pathpartsTableBase()
-: TableBase(pathpartsTableBase::CreateTableDefinition()) {
+urlsearchpartsTableBase::urlsearchpartsTableBase()
+: TableBase(urlsearchpartsTableBase::CreateTableDefinition()) {
 }
 
-pathpartsTableBase::pathpartsTableBase(const TableBase& base) {
-    THROW_EXCEPTION(errors::NotImplementedException,"cannot copy pathpartsTableBase");
+urlsearchpartsTableBase::urlsearchpartsTableBase(const TableBase& base) {
+    THROW_EXCEPTION(errors::NotImplementedException,"cannot copy urlsearchpartsTableBase");
 }
 
-pathpartsTableBase::~pathpartsTableBase() {
+urlsearchpartsTableBase::~urlsearchpartsTableBase() {
 }
 
-TableDefinition* pathpartsTableBase::CreateTableDefinition(){
-    return TableDefinition::CreateInstance(pathpartsTableDefinitionCreateParam());
+TableDefinition* urlsearchpartsTableBase::CreateTableDefinition(){
+    return TableDefinition::CreateInstance(urlsearchpartsTableDefinitionCreateParam());
 }
 
 //
 // template: TableBase_GetSetFields.inc.cpp
 //
-void pathpartsTableBase::Get_ID(long long& out) const {
+void urlsearchpartsTableBase::Get_ID(long long& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -64,7 +64,7 @@ void pathpartsTableBase::Get_ID(long long& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* pathpartsTableBase::GetConstColumn_ID() const {
+const TableColumn* urlsearchpartsTableBase::GetConstColumn_ID() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -86,7 +86,7 @@ const TableColumn* pathpartsTableBase::GetConstColumn_ID() const {
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* pathpartsTableBase::GetColumn_ID() {
+TableColumn* urlsearchpartsTableBase::GetColumn_ID() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -108,7 +108,7 @@ TableColumn* pathpartsTableBase::GetColumn_ID() {
     return GetColumnByName(fieldName);
 }
 
-void pathpartsTableBase::Set_ID(const long long& in) {
+void urlsearchpartsTableBase::Set_ID(const long long& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -130,95 +130,95 @@ void pathpartsTableBase::Set_ID(const long long& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
-void pathpartsTableBase::Get_path(std::string& out) const {
+void urlsearchpartsTableBase::Get_searchpart(std::string& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_IBM_DB2:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path");
+      fieldName = tools::StringTools::ToLowerNP("searchpart");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* pathpartsTableBase::GetConstColumn_path() const {
+const TableColumn* urlsearchpartsTableBase::GetConstColumn_searchpart() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_IBM_DB2:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path");
+      fieldName = tools::StringTools::ToLowerNP("searchpart");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     }
 
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* pathpartsTableBase::GetColumn_path() {
+TableColumn* urlsearchpartsTableBase::GetColumn_searchpart() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_IBM_DB2:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path");
+      fieldName = tools::StringTools::ToLowerNP("searchpart");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     }
 
     return GetColumnByName(fieldName);
 }
 
-void pathpartsTableBase::Set_path(const std::string& in) {
+void urlsearchpartsTableBase::Set_searchpart(const std::string& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_IBM_DB2:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("path");
+      fieldName = tools::StringTools::ToLowerNP("searchpart");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "path";
+      fieldName = "searchpart";
       break;
     }
 
     GetColumnByName(fieldName)->Set(in);
 }
 
-void pathpartsTableBase::Get_md5(std::string& out) const {
+void urlsearchpartsTableBase::Get_md5(std::string& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -240,7 +240,7 @@ void pathpartsTableBase::Get_md5(std::string& out) const {
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* pathpartsTableBase::GetConstColumn_md5() const {
+const TableColumn* urlsearchpartsTableBase::GetConstColumn_md5() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -262,7 +262,7 @@ const TableColumn* pathpartsTableBase::GetConstColumn_md5() const {
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* pathpartsTableBase::GetColumn_md5() {
+TableColumn* urlsearchpartsTableBase::GetColumn_md5() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -284,7 +284,7 @@ TableColumn* pathpartsTableBase::GetColumn_md5() {
     return GetColumnByName(fieldName);
 }
 
-void pathpartsTableBase::Set_md5(const std::string& in) {
+void urlsearchpartsTableBase::Set_md5(const std::string& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
@@ -311,103 +311,103 @@ void pathpartsTableBase::Set_md5(const std::string& in) {
 //
 // template: TableBase_GetByFields.inc.cpp
 //
-void pathpartsTableBase::GetBy_ID(
+void urlsearchpartsTableBase::GetBy_ID(
         DatabaseConnection* db, 
         const long long& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results) {
+        SelectResultContainer<urlsearchpartsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    pathpartsTableBase::GetWhereColumnsFor_ID(
+    urlsearchpartsTableBase::GetWhereColumnsFor_ID(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
 }
 
-void pathpartsTableBase::GetBy_ID(
+void urlsearchpartsTableBase::GetBy_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results) {
+        SelectResultContainer<urlsearchpartsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    pathpartsTableBase::GetWhereColumnsFor_ID(
+    urlsearchpartsTableBase::GetWhereColumnsFor_ID(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
 }
 
-void pathpartsTableBase::GetBy_path(
+void urlsearchpartsTableBase::GetBy_searchpart(
         DatabaseConnection* db, 
         const std::string& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results) {
+        SelectResultContainer<urlsearchpartsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    pathpartsTableBase::GetWhereColumnsFor_path(
+    urlsearchpartsTableBase::GetWhereColumnsFor_searchpart(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
 }
 
-void pathpartsTableBase::GetBy_path(
+void urlsearchpartsTableBase::GetBy_searchpart(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results) {
+        SelectResultContainer<urlsearchpartsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    pathpartsTableBase::GetWhereColumnsFor_path(
+    urlsearchpartsTableBase::GetWhereColumnsFor_searchpart(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
 }
 
-void pathpartsTableBase::GetBy_md5(
+void urlsearchpartsTableBase::GetBy_md5(
         DatabaseConnection* db, 
         const std::string& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results) {
+        SelectResultContainer<urlsearchpartsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    pathpartsTableBase::GetWhereColumnsFor_md5(
+    urlsearchpartsTableBase::GetWhereColumnsFor_md5(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
 }
 
-void pathpartsTableBase::GetBy_md5(
+void urlsearchpartsTableBase::GetBy_md5(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<pathpartsTableBase>& results) {
+        SelectResultContainer<urlsearchpartsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    pathpartsTableBase::GetWhereColumnsFor_md5(
+    urlsearchpartsTableBase::GetWhereColumnsFor_md5(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
@@ -423,72 +423,72 @@ void pathpartsTableBase::GetBy_md5(
 //
 // template: TableBase_WhereColumns.inc.cpp
 //
-void pathpartsTableBase::GetWhereColumnsFor_ID(
+void urlsearchpartsTableBase::GetWhereColumnsFor_ID(
     const WhereConditionTableColumnCreateParam& createParam,
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = pathpartsTableBase::GetDefinition_ID();
+    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_ID();
     TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
 
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
     delete pTmpDef;
 }
 
-void pathpartsTableBase::GetWhereColumnsFor_ID(
+void urlsearchpartsTableBase::GetWhereColumnsFor_ID(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = pathpartsTableBase::GetDefinition_ID();
+    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_ID();
     std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
     
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
     delete pTmpDef;
 }
 
-void pathpartsTableBase::GetWhereColumnsFor_path(
+void urlsearchpartsTableBase::GetWhereColumnsFor_searchpart(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = pathpartsTableBase::GetDefinition_path();
+    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_searchpart();
     TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
 
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
     delete pTmpDef;
 }
 
-void pathpartsTableBase::GetWhereColumnsFor_path(
+void urlsearchpartsTableBase::GetWhereColumnsFor_searchpart(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = pathpartsTableBase::GetDefinition_path();
+    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_searchpart();
     std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
     
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
     delete pTmpDef;
 }
 
-void pathpartsTableBase::GetWhereColumnsFor_md5(
+void urlsearchpartsTableBase::GetWhereColumnsFor_md5(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = pathpartsTableBase::GetDefinition_md5();
+    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_md5();
     TableColumn* pCol = TableColumn::CreateInstanceFromValue(pTmpDef,fieldValue);
 
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, pCol));
     delete pTmpDef;
 }
 
-void pathpartsTableBase::GetWhereColumnsFor_md5(
+void urlsearchpartsTableBase::GetWhereColumnsFor_md5(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef = pathpartsTableBase::GetDefinition_md5();
+    TableColumnDefinition* pTmpDef = urlsearchpartsTableBase::GetDefinition_md5();
     std::vector<TableColumn*> cols = TableColumn::CreateInstancesFromValues(pTmpDef,fieldValue);
     
     container.push_back(WhereConditionTableColumn::CreateInstance(createParam, cols));
@@ -500,24 +500,24 @@ void pathpartsTableBase::GetWhereColumnsFor_md5(
 //
 // template: TableDefinitionCreateParam_CreateColumn.inc.cpp
 //
-TableColumnDefinition* pathpartsTableBase::GetDefinition_ID() {
+TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_ID() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
       createParam.columnName   = "ID";
-      createParam.tableName    = "pathparts";
+      createParam.tableName    = "urlsearchparts";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
       createParam.columnName   = "ID";
-      createParam.tableName    = "pathparts";
+      createParam.tableName    = "urlsearchparts";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
       createParam.columnName   = tools::StringTools::ToLowerNP("ID");
-      createParam.tableName    = tools::StringTools::ToLowerNP("pathparts");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlsearchparts");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -534,24 +534,24 @@ TableColumnDefinition* pathpartsTableBase::GetDefinition_ID() {
     createParam.hasDefaultValue     = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* pathpartsTableBase::GetDefinition_path() {
+TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_searchpart() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
-      createParam.columnName   = "path";
-      createParam.tableName    = "pathparts";
+      createParam.columnName   = "searchpart";
+      createParam.tableName    = "urlsearchparts";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "path";
-      createParam.tableName    = "pathparts";
+      createParam.columnName   = "searchpart";
+      createParam.tableName    = "urlsearchparts";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("path");
-      createParam.tableName    = tools::StringTools::ToLowerNP("pathparts");
+      createParam.columnName   = tools::StringTools::ToLowerNP("searchpart");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlsearchparts");
       break;
     case DB_INVALID_TYPE:
     default:
@@ -568,24 +568,24 @@ TableColumnDefinition* pathpartsTableBase::GetDefinition_path() {
     createParam.hasDefaultValue     = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* pathpartsTableBase::GetDefinition_md5() {
+TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_md5() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "documents";
       createParam.columnName   = "md5";
-      createParam.tableName    = "pathparts";
+      createParam.tableName    = "urlsearchparts";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
       createParam.columnName   = "md5";
-      createParam.tableName    = "pathparts";
+      createParam.tableName    = "urlsearchparts";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
       createParam.columnName   = tools::StringTools::ToLowerNP("md5");
-      createParam.tableName    = tools::StringTools::ToLowerNP("pathparts");
+      createParam.tableName    = tools::StringTools::ToLowerNP("urlsearchparts");
       break;
     case DB_INVALID_TYPE:
     default:
