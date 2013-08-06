@@ -110,38 +110,32 @@ void DatabaseUrl::InitByHttpUrl(database::DatabaseConnection* db) {
 
 	//scheme
 	if(scheme.compare("http") == 0) {
-		schemeID = 1;
-	}
+		schemeID = 1; }
 	else if(scheme.compare("https") == 0) {
-		schemeID = 2;
-	}
+		schemeID = 2; }
 	else {
-		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
-	}
-
-	//topleveldomain
-	if(!tld.empty()) {
-		toplevelID = htmlparser::TLD::GetTLDIDByTLD(tld);
-	}
-	else {
-		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
-	}
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
 
 	//subdomain
-	if(!subdomain.empty()) {
-		caching::CacheSubdomain::GetSubdomainIDByDomain(db,subdomain,subdomainID);
-	}
+	caching::CacheSubdomain::GetSubdomainIDByDomain(db,subdomain,subdomainID);
 
 	//secondleveldomain
 	if(!secondleveldomain.empty()) {
-		caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(db,secondleveldomain,secondlevelID);
-	}
+		caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(db,secondleveldomain,secondlevelID); }
 	else {
-		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
-	}
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
+
+	//topleveldomain
+	if(!tld.empty()) {
+		toplevelID = htmlparser::TLD::GetTLDIDByTLD(tld); }
+	else {
+		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
 
 	//path part
 	caching::CacheUrlPathPart::GetIDByUrlPathPart(db,path_part,urlPathPartID);
+
+	//search part
+	caching::CacheUrlSearchPart::GetIDByUrlSearchPart(db,search_part,urlSearchPartID);
 
 	Store(db);
 }
@@ -168,10 +162,6 @@ void DatabaseUrl::InitByTable(database::DatabaseConnection* db,database::urlsTab
 	std::stringstream ssIn;
 	ssIn << tmpPort;
 	port = ssIn.str();
-
-
-	//urlTbl->Get_fragment(fragment_part);
-	//urlTbl->Get_url_md5(md5);
 
 	urlTbl->Get_ID(this->urlID);
 	urlTbl->Get_SCHEME_ID(schemeID);
