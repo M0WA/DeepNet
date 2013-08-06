@@ -10,11 +10,11 @@
 #include <algorithm>
 #include <vector>
 #include <map>
-#include <Mutex.h>
+#include <stdexcept>
+
 #include <ReadWriteLock.h>
 #include <Logging.h>
 
-#include <stdexcept>
 #include <Exception.h>
 
 namespace caching
@@ -62,9 +62,9 @@ public:
 			}
 		}
 
-		rwLock.WaitForWriteLock();
+		rwLockEntries.WaitForWriteLock();
 		mapEntries.insert(typename std::pair<T,V>(key,value));
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 	}
 
 	/**
@@ -76,7 +76,7 @@ public:
 	bool DeleteItem(const T& key, const bool locking = true)
 	{
 		if(locking)
-			rwLock.WaitForWriteLock();
+			rwLockEntries.WaitForWriteLock();
 
 		bool success(true);
 		if(!mapEntries.count(key))
@@ -85,7 +85,7 @@ public:
 			mapEntries.erase(key);
 
 		if(locking)
-			rwLock.ReleaseLock();
+			rwLockEntries.ReleaseLock();
 
 		return success;
 	}
@@ -97,15 +97,15 @@ public:
 	 */
 	V GetItem(const T& key)
 	{
-		rwLock.WaitForReadLock();
+		rwLockEntries.WaitForReadLock();
 		if(mapEntries.count(key) > 0) {
 			const V& value(mapEntries.at(key));
-			rwLock.ReleaseLock();
+			rwLockEntries.ReleaseLock();
 			AddMatches(1);
 			return value;
 		}
 		else {
-			rwLock.ReleaseLock();
+			rwLockEntries.ReleaseLock();
 			AddMisses(1);
 			throw std::range_error("V Cache::GetItem(const T&): invalid range");
 		}
@@ -120,12 +120,12 @@ public:
 	bool GetItem(const T& key, V& value)
 	{
 		if(deleteOnGet)
-			rwLock.WaitForReadLock();
+			rwLockEntries.WaitForReadLock();
 		else
-			rwLock.WaitForWriteLock();
+			rwLockEntries.WaitForWriteLock();
 
 		if(!mapEntries.count(key)) {
-			rwLock.ReleaseLock();
+			rwLockEntries.ReleaseLock();
 			AddMisses(1);
 			return false; }
 
@@ -136,7 +136,7 @@ public:
 		if(deleteOnGet)
 			DeleteItem(key,false);
 
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 		return true;
 	}
 
@@ -153,9 +153,9 @@ public:
 			return false;}
 
 		if(!deleteOnGet)
-			rwLock.WaitForReadLock();
+			rwLockEntries.WaitForReadLock();
 		else
-			rwLock.WaitForWriteLock();
+			rwLockEntries.WaitForWriteLock();
 
 		size_t copyCount = (count <= 0) ? 1 : (size_t)count;
 		if(copyCount > mapEntries.size()) {
@@ -170,7 +170,7 @@ public:
 
 		if(deleteOnGet){
 			mapEntries.erase(mapEntries.begin(),iterEnd);}
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 
 		return true;
 	}
@@ -182,7 +182,7 @@ public:
 	 */
 	void RemoveItem(const size_t startPos, const size_t count)
 	{
-		rwLock.WaitForWriteLock();
+		rwLockEntries.WaitForWriteLock();
 		typename std::map<T, V>::iterator iterStart(mapEntries.begin());
 		if(startPos)
 			std::advance(iterStart,startPos);
@@ -191,7 +191,7 @@ public:
 		std::advance(iterEnd, ( (count>0 && count<mapEntries.size()) ? count : mapEntries.size()) );
 
 		mapEntries.erase(iterStart,iterEnd);
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 	}
 
 	/**
@@ -199,9 +199,9 @@ public:
 	 */
 	void ClearItems()
 	{
-		rwLock.WaitForWriteLock();
+		rwLockEntries.WaitForWriteLock();
 		mapEntries.clear();
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 	}
 
 	/**
@@ -212,7 +212,7 @@ public:
 	 */
 	void GetMissingItems(std::map<T, V>& check, std::vector<T>& missing)
 	{
-		rwLock.WaitForWriteLock();
+		rwLockEntries.WaitForWriteLock();
 		typename std::map<T,V>::iterator iterCheck(check.begin());
 		for(;iterCheck != check.end();++iterCheck){
 			if(!mapEntries.count(iterCheck->first))
@@ -220,7 +220,7 @@ public:
 			else{
 				iterCheck->second = mapEntries[iterCheck->first]; }
 		}
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 
 		AddMisses(missing.size());
 	}
@@ -233,7 +233,7 @@ public:
 	 */
 	void GetByValue(std::map<V,T>& check, std::vector<V>& missing) const
 	{
-		rwLock.WaitForReadLock();
+		rwLockEntries.WaitForReadLock();
 		typename std::map<V,T> checkTmp(check);
 		typename std::map<V,T>::const_iterator iterCheckTmp(checkTmp.begin());
 		for(;iterCheckTmp != checkTmp.end();++iterCheckTmp) {
@@ -253,7 +253,7 @@ public:
 				missing.push_back(iterCheckTmp->first);
 			}
 		}
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 
 		AddMisses(missing.size());
 	}
@@ -266,16 +266,16 @@ public:
 	 */
 	bool GetByValue(const V& value, T& key) const
 	{
-		rwLock.WaitForReadLock();
+		rwLockEntries.WaitForReadLock();
 		typename std::map<T,V>::const_iterator iterEntries(mapEntries.begin());
 		for(;iterEntries != mapEntries.end();++iterEntries) {
 			if(iterEntries->second == value) {
 				key = iterEntries->first;
-				rwLock.ReleaseLock();
+				rwLockEntries.ReleaseLock();
 				AddMatches(1);
 				return true;}
 		}
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 
 		AddMisses(1);
 		return false;
@@ -290,18 +290,18 @@ public:
 	template <class X>
 	bool GetByValue(const X& value, T& key) const {
 
-		rwLock.WaitForReadLock();
+		rwLockEntries.WaitForReadLock();
 		typename std::map<T,V>::const_iterator iterEntries(mapEntries.begin());
 		for(;iterEntries != mapEntries.end();++iterEntries) {
 			if ( dynamic_cast<const X&>(iterEntries->second) == value ) {
 				key = iterEntries->first;
-				rwLock.ReleaseLock();
+				rwLockEntries.ReleaseLock();
 
 				AddMatches(1);
 				return true;
 			}
 		}
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 
 		AddMisses(1);
 		return false;
@@ -352,9 +352,9 @@ public:
 	 * @return current number of entries in cache.
 	 */
 	size_t GetSize() const {
-		rwLock.WaitForReadLock();
+		rwLockEntries.WaitForReadLock();
 		size_t ret(mapEntries.size());
-		rwLock.ReleaseLock();
+		rwLockEntries.ReleaseLock();
 		return ret; }
 
 private:
@@ -376,10 +376,11 @@ private:
 
 	mutable size_t matches;
 	mutable threading::ReadWriteLock rwLockMatch;
+
 	mutable size_t misses;
 	mutable threading::ReadWriteLock rwLockMiss;
 
-	mutable threading::ReadWriteLock rwLock;
+	mutable threading::ReadWriteLock rwLockEntries;
 	std::map<T,V> mapEntries;
 };
 
