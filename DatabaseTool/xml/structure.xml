@@ -123,7 +123,7 @@
 
 	<column name="ID"                   type="INTEGER"  notnull="1" autoincrement="1" />
   <column name="PATHPART_ID"	        type="INTEGER"  notnull="1" />
-  <column name="URLPATHPART_ID_NEXT"	type="INTEGER"  notnull="0" default="NULL" />
+  <column name="URLPATHPART_ID_NEXT"	type="INTEGER"  notnull="1" />
 
 	<primary_key column="ID" />
 	<unique_key  column="PATHPART_ID,URLPATHPART_ID_NEXT" />
