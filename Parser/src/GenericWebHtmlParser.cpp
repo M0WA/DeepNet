@@ -21,8 +21,8 @@ bool GenericWebHtmlParser::StartParser()
 {
 	for(unsigned int i = 0; i < parserParam->parserThreadCount; i++)
 	{
-		HtmlParserParam* param = new HtmlParserParam(*parserParam);
-		HtmlParserThread* parser = dynamic_cast<HtmlParserThread*>(new GenericWebHtmlParserThread());
+		HtmlParserParam* param(new HtmlParserParam(*parserParam));
+		HtmlParserThread* parser(dynamic_cast<HtmlParserThread*>(new GenericWebHtmlParserThread()));
 		parser->StartThread(param);
 
 		htmlParserThreads[parser] = param;

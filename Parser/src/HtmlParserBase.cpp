@@ -29,12 +29,12 @@ HtmlParserBase::~HtmlParserBase() {
 void* HtmlParserBase::HtmlParserThreadFunc(Thread::THREAD_PARAM* threadParam)
 {
 	log::Logging::RegisterThreadID("HtmlParserBase");
-	parser::HtmlParserBase* instance = dynamic_cast<parser::HtmlParserBase*>(threadParam->instance);
+	parser::HtmlParserBase* instance(dynamic_cast<parser::HtmlParserBase*>(threadParam->instance));
 
 	if(!instance->StartParser())
 		return (void*)1;
 
-	bool errorOccured = false;
+	bool errorOccured(false);
 	while(!instance->ShallEnd())
 	{
 		if(instance->WatchDog()) {
@@ -50,29 +50,24 @@ void* HtmlParserBase::HtmlParserThreadFunc(Thread::THREAD_PARAM* threadParam)
 
 bool HtmlParserBase::StopParser()
 {
-	std::map<HtmlParserThread*,HtmlParserParam*>::iterator iterThreads = htmlParserThreads.begin();
-	for(; iterThreads != htmlParserThreads.end(); ++iterThreads)
-	{
-		iterThreads->first->SetShallEnd(true);
-	}
+	std::map<HtmlParserThread*,HtmlParserParam*>::iterator iterThreads(htmlParserThreads.begin());
+	for(; iterThreads != htmlParserThreads.end(); ++iterThreads) {
+		iterThreads->first->SetShallEnd(true); }
 
 	iterThreads = htmlParserThreads.begin();
-	for(; iterThreads != htmlParserThreads.end(); ++iterThreads)
-	{
+	for(; iterThreads != htmlParserThreads.end(); ++iterThreads) {
 		iterThreads->first->WaitForThread();
 		delete iterThreads->first;
-		delete iterThreads->second;
-	}
-	htmlParserThreads.clear();
+		delete iterThreads->second;}
 
+	htmlParserThreads.clear();
 	return true;
 }
 
 bool HtmlParserBase::WatchDog()
 {
-	std::map<HtmlParserThread*,HtmlParserParam*>::iterator iterThreads = htmlParserThreads.begin();
-
 	//check if at least one thread is alive
+	std::map<HtmlParserThread*,HtmlParserParam*>::const_iterator iterThreads(htmlParserThreads.begin());
 	for(; iterThreads != htmlParserThreads.end(); ++iterThreads){
 		if ( iterThreads->first->IsRunning() )
 			return false;

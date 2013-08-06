@@ -38,11 +38,11 @@ void* HtmlParserThread::HtmlParserThreadFunction(THREAD_PARAM* threadParam)
 {
 	log::Logging::RegisterThreadID("HtmlParserThread");
 
-	HtmlParserThread* instance = dynamic_cast<HtmlParserThread*>(threadParam->instance);
+	HtmlParserThread* instance(dynamic_cast<HtmlParserThread*>(threadParam->instance));
 	instance->parserParam      = (HtmlParserParam*)(threadParam->pParam);
 
 	PERFORMANCE_LOG_START;
-	bool connectedDB = instance->DB().CreateConnection(instance->parserParam->databaseConfig) != NULL ? true : false;
+	bool connectedDB(instance->DB().CreateConnection(instance->parserParam->databaseConfig) != NULL);
 	PERFORMANCE_LOG_STOP("connect to databases");
 
 	if(connectedDB) {
@@ -53,7 +53,7 @@ void* HtmlParserThread::HtmlParserThreadFunction(THREAD_PARAM* threadParam)
 		while(!instance->ShallEnd()) {
 
 			PERFORMANCE_LOG_RESTART;
-			bool bSuccess = true;
+			bool bSuccess(true);
 
 			bSuccess &= instance->GetNextPages(entries);
 			bSuccess &= instance->ParsePages(entries);
@@ -78,7 +78,7 @@ bool HtmlParserThread::GetNextPages(std::vector<HtmlParserEntry>& entries)
 	std::map<long long,caching::CacheHtmlEntry> cacheEntries;
 	caching::CacheHtml::Get(cacheEntries,parserParam->maxPerSelect);
 
-	std::map<long long, caching::CacheHtmlEntry>::iterator iterEntries = cacheEntries.begin();
+	std::map<long long, caching::CacheHtmlEntry>::const_iterator iterEntries(cacheEntries.begin());
 	for(; iterEntries != cacheEntries.end(); ++iterEntries) {
 		entries.push_back(
 			parser::HtmlParserEntry(
@@ -100,7 +100,7 @@ bool HtmlParserThread::ParsePages(const std::vector<HtmlParserEntry>& entries) {
 
 	PERFORMANCE_LOG_START;
 
-	std::vector<HtmlParserEntry>::const_iterator iterEntries = entries.begin();
+	std::vector<HtmlParserEntry>::const_iterator iterEntries(entries.begin());
 	for(; iterEntries != entries.end(); ++iterEntries) {
 
 		//parsing
