@@ -15,6 +15,9 @@
 #include <CacheDatabaseUrl.h>
 #include <CacheSecondLevelDomain.h>
 #include <CacheSubdomain.h>
+#include <CacheUrlPathPart.h>
+#include <CacheUrlSearchPart.h>
+#include <CachePathPart.h>
 #include <CacheParsed.h>
 #include <CacheHtml.h>
 #include <CacheRobotsTxt.h>
@@ -30,6 +33,17 @@ threading::Mutex bot::Bot::signalMutex;
 
 namespace bot
 {
+
+template <class Tcache,class Vtbl>
+void InsertCacheStats(database::DatabaseConnection* db, const struct tm& now)
+{
+	Vtbl tbl;
+	tbl.Set_size(Tcache::GetSize());
+	tbl.Set_matches(Tcache::GetMatches());
+	tbl.Set_misses(Tcache::GetMisses());
+	tbl.Set_action_time(now);
+	tbl.Insert(db);
+}
 
 const int catchSignals[] =
 {
@@ -156,6 +170,21 @@ void Bot::RegisterCacheConfigParams()
 	std::string defaultUrlCacheSize = "1000";
 	Config().RegisterParam("urlcache", "number of urls in cache", true, &defaultUrlCacheSize );
 
+	std::string defaultUrlSubdomainCacheSize = "1000";
+	Config().RegisterParam("subdomaincache", "number of subdomains in cache", true, &defaultUrlSubdomainCacheSize );
+
+	std::string defaultUrlSecondLevelCacheSize = "1000";
+	Config().RegisterParam("secondlevelcache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
+
+	std::string defaultUrlPathPartCacheSize = "1000";
+	Config().RegisterParam("urlpathpartcache", "number of url path parts in cache", true, &defaultUrlPathPartCacheSize );
+
+	std::string defaultUrlSearchPartCacheSize = "1000";
+	Config().RegisterParam("searchpartcache", "number of url search parts in cache", true, &defaultUrlSearchPartCacheSize );
+
+	std::string defaultPathPartCacheSize = "1000";
+	Config().RegisterParam("pathpartcache", "number of path parts in cache", true, &defaultPathPartCacheSize );
+
 	std::string defaultHtmlCacheSize = "100";
 	Config().RegisterParam("htmlcache", "number of html docs in cache", true, &defaultHtmlCacheSize );
 
@@ -176,36 +205,58 @@ bool Bot::InitCacheConfigParams()
 	htmlparser::TLD::GetTLDStrings(tldStrings);
 	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
 
-	int sizeUrlCache = -1;
-	if(!Config().GetValue("urlcache", sizeUrlCache)) {
+	int sizeUrlCache(-1);
+	if(!Config().GetValue("urlcache", sizeUrlCache) || sizeUrlCache == -1) {
 		log::Logging::LogWarn("missing urlcache parameter, using default value: 1000");
-		sizeUrlCache = 1000;
-	}
+		sizeUrlCache = 1000; }
 	caching::CacheDatabaseUrl::SetCapacity(sizeUrlCache);
 
-	//TODO: put sizes of secondlevel and subdomain caches in config file
-	caching::CacheSecondLevelDomain::SetCapacity(sizeUrlCache);
-	caching::CacheSubdomain::SetCapacity(sizeUrlCache);
+	int sizeSubdomainCache(-1);
+	if(!Config().GetValue("subdomaincache", sizeSubdomainCache) || sizeSubdomainCache == -1) {
+		log::Logging::LogWarn("missing subdomaincache parameter, using default value: 1000");
+		sizeSubdomainCache = 1000; }
+	caching::CacheSubdomain::SetCapacity(sizeSubdomainCache);
+
+	int sizeSecondLevelCache(-1);
+	if(!Config().GetValue("secondleveldomaincache", sizeSecondLevelCache )) {
+		log::Logging::LogWarn("missing secondleveldomaincache parameter, using default value: 1000");
+		sizeSecondLevelCache = 1000; }
+	caching::CacheSecondLevelDomain::SetCapacity(sizeSecondLevelCache);
+
+	int sizeUrlPathPartCache(-1);
+	if(!Config().GetValue("urlpathpartcache", sizeUrlPathPartCache )) {
+		log::Logging::LogWarn("missing urlpathpartcache parameter, using default value: 1000");
+		sizeUrlPathPartCache = 1000; }
+	caching::CacheUrlPathPart::SetCapacity(sizeUrlPathPartCache);
+
+	int sizeUrlSearchPartCache(-1);
+	if(!Config().GetValue("searchpartcache", sizeUrlSearchPartCache )) {
+		log::Logging::LogWarn("missing searchpartcache parameter, using default value: 1000");
+		sizeUrlSearchPartCache = 1000; }
+	caching::CacheUrlSearchPart::SetCapacity(sizeUrlSearchPartCache);
+
+	int sizePathPartCache(-1);
+	if(!Config().GetValue("pathpartcache", sizePathPartCache )) {
+		log::Logging::LogWarn("missing pathpartcache parameter, using default value: 1000");
+		sizePathPartCache = 1000; }
+	caching::CachePathPart::SetCapacity(sizePathPartCache);
 
 	int sizeHtmlCache = -1;
 	if(!Config().GetValue("htmlcache", sizeHtmlCache)) {
 		log::Logging::LogWarn("missing htmlcache parameter, using default value: 100");
-		sizeHtmlCache = 100;
-	}
+		sizeHtmlCache = 100; }
 	caching::CacheHtml::SetCapacity(sizeHtmlCache);
 
 	int sizeParsedCache = -1;
 	if(!Config().GetValue("parsercache", sizeParsedCache)) {
 		log::Logging::LogWarn("missing parsercache parameter, using default value: 100");
-		sizeParsedCache = 100;
-	}
+		sizeParsedCache = 100; }
 	caching::CacheParsed::SetCapacity(sizeParsedCache);
 
 	int sizeRobotsCache = -1;
 	if(!Config().GetValue("robotscache",sizeRobotsCache)) {
 		log::Logging::LogWarn("missing robotscache parameter, using default value: 500");
-		sizeRobotsCache = 500;
-	}
+		sizeRobotsCache = 500; }
 	caching::CacheRobotsTxt::SetCapacity(sizeRobotsCache);
 
 	return true;
@@ -279,7 +330,7 @@ void Bot::InitLogging()
 		delete logging;
 	logging = NULL;
 
-	std::string logType = "none";
+	std::string logType("none");
 	if ( !Config().GetValue("log",logType) )
 		logType = "none";
 
@@ -293,7 +344,7 @@ void Bot::InitLogging()
 		if ( !Config().GetValue("logfile",logFile) )
 				return;
 
-		log::FileLogging* loggingTmp = new log::FileLogging();
+		log::FileLogging* loggingTmp(new log::FileLogging());
 		loggingTmp->SetFileName(logFile);
 		loggingTmp->SetAppend(false);
 		loggingTmp->SetFlush(true);
@@ -309,7 +360,7 @@ void Bot::InitLogging()
 	{
 		log::Logging::SetApplicationName(Config().GetApplicationName());
 
-		std::string logLevel = "info";
+		std::string logLevel("info");
 		if ( !Config().GetValue("loglevel",logLevel) )
 			return;
 
@@ -334,7 +385,7 @@ void Bot::InitLogging()
 
 void Bot::RegisterDatabaseConfigParams(void)
 {
-	std::string defaultDbType = "mysql";
+	std::string defaultDbType("mysql");
 	Config().RegisterParam( "dbtype", "database type, one of: mysql | postgres ", true, &defaultDbType );
 	Config().RegisterParam( "dbhost", "database host"    , true, 0 );
 	Config().RegisterParam( "dbport", "database port"    , true, 0 );
@@ -346,8 +397,7 @@ void Bot::RegisterDatabaseConfigParams(void)
 
 bool Bot::InitDatabaseConfigs(void)
 {
-
-	bool bSuccess = true;
+	bool bSuccess(true);
 	std::string tmp;
 	if( ( bSuccess &= Config().GetValue("dbtype", tmp) ) ) {
 		if(tmp.compare("mysql") == 0) {
@@ -389,18 +439,18 @@ bool Bot::InitDatabaseConfigs(void)
 void Bot::RegisterPerformanceLoggingParams()
 {
 #ifdef ENABLE_PERFORMANCE_LOG
-	std::string defaultEnablePerformance = "1";
+	std::string defaultEnablePerformance("1");
 	Config().RegisterParam("enablePerformanceLogging", "enables performance logging", false, &defaultEnablePerformance);
 #endif
 
-	std::string defaultDumpCaches = "0";
+	std::string defaultDumpCaches("0");
 	Config().RegisterParam("dumpCaches", "log all cache stati (0: off, interval in mins) ", false, &defaultDumpCaches);
 }
 
 void Bot::InitPerformanceLoggingParams()
 {
 #ifdef ENABLE_PERFORMANCE_LOG
-	bool enablePerformanceLog = true;
+	bool enablePerformanceLog(true);
 	if(!Config().GetValue("enablePerformanceLogging",enablePerformanceLog)) {
 		enablePerformanceLog = true; }
 	tools::PerformanceCounter::EnablePerformanceLog(enablePerformanceLog);
@@ -465,24 +515,24 @@ bool Bot::PostInit()
 		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_TRACE,"config:\n%s" ,dump.c_str());	}
 
 	//init database configs
-	bool bSuccessDB = InitDatabaseConfigs();
+	bool bSuccessDB(InitDatabaseConfigs());
 	if(!bSuccessDB)
 		return false;
 
 	//init caches
-	bool bSuccessCache = InitCacheConfigParams();
+	bool bSuccessCache(InitCacheConfigParams());
 	if(!bSuccessCache)
 		return false;
 
 	//usage specified, print it and exit this process
-	bool usageFlag = false;
+	bool usageFlag(false);
 	if(Config().GetValue("h",usageFlag) && usageFlag){
 		Config().PrintUsage();
 		return false; }
 
 	//Daemonize return false, when in parent process
 	//forked successfully => exit this process
-	bool daemonize = false;
+	bool daemonize(false);
 	if(Config().GetValue("D",daemonize)){
 		if(daemonize) {
 			if(!Daemonize())
@@ -491,11 +541,11 @@ bool Bot::PostInit()
 	}
 
 	//switch user and/or group
-	bool bSwitch = false;
+	bool bSwitch(false);
 	std::string userID;
-	uid_t newUid = 0;
+	uid_t newUid(0);
 	std::string groupID;
-	gid_t newGid = 0;
+	gid_t newGid(0);
 	if ( Config().GetValue("user",userID) )
 	{
 		newUid = atoi(userID.c_str());
@@ -518,56 +568,24 @@ bool Bot::WatchDog(){
 
 		struct tm now;
 		tools::TimeTools::NowUTC(now);
-		database::DatabaseConnection* db = DB().Connection();
+		database::DatabaseConnection* db(DB().Connection());
 
-		database::cachehtmlTableBase cacheHtml;
-		cacheHtml.Set_size(caching::CacheHtml::GetSize());
-		cacheHtml.Set_matches(caching::CacheHtml::GetMatches());
-		cacheHtml.Set_misses(caching::CacheHtml::GetMisses());
-		cacheHtml.Set_action_time(now);
-		cacheHtml.Insert(db);
-
-		database::cachesubdomainTableBase cacheSubdomain;
-		cacheSubdomain.Set_size(caching::CacheSubdomain::GetSize());
-		cacheSubdomain.Set_matches(caching::CacheSubdomain::GetMatches());
-		cacheSubdomain.Set_misses(caching::CacheSubdomain::GetMisses());
-		cacheSubdomain.Set_action_time(now);
-		cacheSubdomain.Insert(db);
-
-		database::cachesecondleveldomainTableBase cacheSecondLevel;
-		cacheSecondLevel.Set_size(caching::CacheSecondLevelDomain::GetSize());
-		cacheSecondLevel.Set_matches(caching::CacheSecondLevelDomain::GetMatches());
-		cacheSecondLevel.Set_misses(caching::CacheSecondLevelDomain::GetMisses());
-		cacheSecondLevel.Set_action_time(now);
-		cacheSecondLevel.Insert(db);
-
-		database::cacheurlTableBase cacheUrl;
-		cacheUrl.Set_size(caching::CacheDatabaseUrl::GetSize());
-		cacheUrl.Set_matches(caching::CacheDatabaseUrl::GetMatches());
-		cacheUrl.Set_misses(caching::CacheDatabaseUrl::GetMisses());
-		cacheUrl.Set_action_time(now);
-		cacheUrl.Insert(db);
-
-		database::cacheparsedTableBase cacheParsed;
-		cacheParsed.Set_size(caching::CacheParsed::GetSize());
-		cacheParsed.Set_matches(caching::CacheParsed::GetMatches());
-		cacheParsed.Set_misses(caching::CacheParsed::GetMisses());
-		cacheParsed.Set_action_time(now);
-		cacheParsed.Insert(db);
-
-		database::cacherobotsTableBase cacheRobots;
-		cacheRobots.Set_size(caching::CacheRobotsTxt::GetSize());
-		cacheRobots.Set_matches(caching::CacheRobotsTxt::GetMatches());
-		cacheRobots.Set_misses(caching::CacheRobotsTxt::GetMisses());
-		cacheRobots.Set_action_time(now);
-		cacheRobots.Insert(db);
+		InsertCacheStats<caching::CacheHtml,database::cachehtmlTableBase>(db, now);
+		InsertCacheStats<caching::CacheDatabaseUrl,database::cacheurlTableBase>(db, now);
+		InsertCacheStats<caching::CacheSubdomain,database::cachesubdomainTableBase>(db, now);
+		InsertCacheStats<caching::CacheSecondLevelDomain,database::cachesecondleveldomainTableBase>(db, now);
+		InsertCacheStats<caching::CacheUrlPathPart,database::cacheurlpathpartsTableBase>(db, now);
+		InsertCacheStats<caching::CachePathPart,database::cachepathpartsTableBase>(db, now);
+		InsertCacheStats<caching::CacheUrlSearchPart,database::cacheurlsearchpartsTableBase>(db, now);
+		InsertCacheStats<caching::CacheParsed,database::cacheparsedTableBase>(db, now);
+		InsertCacheStats<caching::CacheRobotsTxt,database::cacherobotsTableBase>(db, now);
 	}
 	return OnWatchDog();
 }
 
 bool Bot::Shutdown()
 {
-	bool shutdownSuccess = OnShutdown();
+	bool shutdownSuccess(OnShutdown());
 
 	DB().DestroyConnection();
 	if(dbConfig)
