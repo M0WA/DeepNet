@@ -31,6 +31,7 @@
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.545672184" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1490207571" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../Logging/src"/>
+									<listOptionValue builtIn="false" value="../../Caching/src"/>
 									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>
@@ -102,6 +103,7 @@
 								<option id="gnu.cpp.compiler.lib.release.option.debugging.level.130063451" name="Debug Level" superClass="gnu.cpp.compiler.lib.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.333222576" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="../../Logging/src"/>
+									<listOptionValue builtIn="false" value="../../Caching/src"/>
 									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Networking/src"/>
 									<listOptionValue builtIn="false" value="/usr/include/libxml2"/>

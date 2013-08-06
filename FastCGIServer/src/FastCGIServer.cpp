@@ -14,6 +14,18 @@
 #include <cstdlib>
 #include <unistd.h>
 
+#include <HttpUrlParser.h>
+#include <CacheDatabaseUrl.h>
+#include <CacheSecondLevelDomain.h>
+#include <CacheSubdomain.h>
+#include <CacheUrlPathPart.h>
+#include <CacheUrlSearchPart.h>
+#include <CachePathPart.h>
+#include <CacheParsed.h>
+#include <CacheHtml.h>
+#include <CacheRobotsTxt.h>
+#include <TLD.h>
+
 #include <StringTools.h>
 #include <FileTools.h>
 #include <TLD.h>
@@ -47,6 +59,7 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	RegisterDatabaseConfigParams();
 	RegisterLoggingParams();
 	RegisterSocketConfig();
+	RegisterCacheConfigParams();
 
 	config.RegisterParam("configfile", "filename of config file", false, 0);
 
@@ -58,8 +71,10 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	if(FCGX_Init() != 0){
 		return false;}
 
-	if (!InitConfig() || !InitDatabaseConfigs() || !InitSocketConfig())
+	if (!InitConfig() || !InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams())
 		return false;
+
+	dbHelper.DestroyConnection();
 
 	if(basePort <= 0)
 		return false;
@@ -269,11 +284,106 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 	if(!conn) {
 		log::Logging::LogError("could not establish database connection, exiting.");
 		return false; }
-	else {
-		htmlparser::TLD::InitTLDCache(dbHelper.Connection());
-		dbHelper.DestroyConnection();
-	}
+
 	return bSuccess;
+}
+
+void FastCGIServer::RegisterCacheConfigParams()
+{
+	std::string defaultUrlCacheSize = "1000";
+	config.RegisterParam("urlcache", "number of urls in cache", true, &defaultUrlCacheSize );
+
+	std::string defaultUrlSubdomainCacheSize = "1000";
+	config.RegisterParam("subdomaincache", "number of subdomains in cache", true, &defaultUrlSubdomainCacheSize );
+
+	std::string defaultUrlSecondLevelCacheSize = "1000";
+	config.RegisterParam("secondlevelcache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
+
+	std::string defaultUrlPathPartCacheSize = "1000";
+	config.RegisterParam("urlpathpartcache", "number of url path parts in cache", true, &defaultUrlPathPartCacheSize );
+
+	std::string defaultUrlSearchPartCacheSize = "1000";
+	config.RegisterParam("searchpartcache", "number of url search parts in cache", true, &defaultUrlSearchPartCacheSize );
+
+	std::string defaultPathPartCacheSize = "1000";
+	config.RegisterParam("pathpartcache", "number of path parts in cache", true, &defaultPathPartCacheSize );
+
+	std::string defaultHtmlCacheSize = "100";
+	config.RegisterParam("htmlcache", "number of html docs in cache", true, &defaultHtmlCacheSize );
+
+	std::string defaultParsedCacheSize = "100";
+	config.RegisterParam("parsercache", "number of parsed html in cache", true, &defaultParsedCacheSize );
+
+	std::string defaultRobotsTxtCacheSize = "500";
+	config.RegisterParam("robotscache", "number of robots.txt in cache", true, &defaultRobotsTxtCacheSize);
+}
+
+bool FastCGIServer::InitCacheConfigParams()
+{
+	if(!htmlparser::TLD::InitTLDCache(dbHelper.Connection())) {
+		log::Logging::LogError("cannot initialize top level domain cache, exiting...");
+		return false;}
+
+	std::vector<std::string> tldStrings;
+	htmlparser::TLD::GetTLDStrings(tldStrings);
+	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
+
+	int sizeUrlCache(-1);
+	if(!config.GetValue("urlcache", sizeUrlCache) || sizeUrlCache == -1) {
+		log::Logging::LogWarn("missing urlcache parameter, using default value: 1000");
+		sizeUrlCache = 1000; }
+	caching::CacheDatabaseUrl::SetCapacity(sizeUrlCache);
+
+	int sizeSubdomainCache(-1);
+	if(!config.GetValue("subdomaincache", sizeSubdomainCache) || sizeSubdomainCache == -1) {
+		log::Logging::LogWarn("missing subdomaincache parameter, using default value: 1000");
+		sizeSubdomainCache = 1000; }
+	caching::CacheSubdomain::SetCapacity(sizeSubdomainCache);
+
+	int sizeSecondLevelCache(-1);
+	if(!config.GetValue("secondleveldomaincache", sizeSecondLevelCache )) {
+		log::Logging::LogWarn("missing secondleveldomaincache parameter, using default value: 1000");
+		sizeSecondLevelCache = 1000; }
+	caching::CacheSecondLevelDomain::SetCapacity(sizeSecondLevelCache);
+
+	int sizeUrlPathPartCache(-1);
+	if(!config.GetValue("urlpathpartcache", sizeUrlPathPartCache )) {
+		log::Logging::LogWarn("missing urlpathpartcache parameter, using default value: 1000");
+		sizeUrlPathPartCache = 1000; }
+	caching::CacheUrlPathPart::SetCapacity(sizeUrlPathPartCache);
+	caching::CacheUrlPathPart::Init(dbHelper.Connection());
+
+	int sizeUrlSearchPartCache(-1);
+	if(!config.GetValue("searchpartcache", sizeUrlSearchPartCache )) {
+		log::Logging::LogWarn("missing searchpartcache parameter, using default value: 1000");
+		sizeUrlSearchPartCache = 1000; }
+	caching::CacheUrlSearchPart::SetCapacity(sizeUrlSearchPartCache);
+
+	int sizePathPartCache(-1);
+	if(!config.GetValue("pathpartcache", sizePathPartCache )) {
+		log::Logging::LogWarn("missing pathpartcache parameter, using default value: 1000");
+		sizePathPartCache = 1000; }
+	caching::CachePathPart::SetCapacity(sizePathPartCache);
+
+	int sizeHtmlCache = -1;
+	if(!config.GetValue("htmlcache", sizeHtmlCache)) {
+		log::Logging::LogWarn("missing htmlcache parameter, using default value: 100");
+		sizeHtmlCache = 100; }
+	caching::CacheHtml::SetCapacity(sizeHtmlCache);
+
+	int sizeParsedCache = -1;
+	if(!config.GetValue("parsercache", sizeParsedCache)) {
+		log::Logging::LogWarn("missing parsercache parameter, using default value: 100");
+		sizeParsedCache = 100; }
+	caching::CacheParsed::SetCapacity(sizeParsedCache);
+
+	int sizeRobotsCache = -1;
+	if(!config.GetValue("robotscache",sizeRobotsCache)) {
+		log::Logging::LogWarn("missing robotscache parameter, using default value: 500");
+		sizeRobotsCache = 500; }
+	caching::CacheRobotsTxt::SetCapacity(sizeRobotsCache);
+
+	return true;
 }
 
 void FastCGIServer::OnException() {

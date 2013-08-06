@@ -77,6 +77,9 @@ private:
 	void RegisterDatabaseConfigParams(void);
 	bool InitDatabaseConfigs(void);
 
+	void RegisterCacheConfigParams();
+	bool InitCacheConfigParams();
+
 protected:
 	/**
 	 * server configuration.
