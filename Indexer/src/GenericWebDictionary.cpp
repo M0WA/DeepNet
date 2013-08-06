@@ -27,15 +27,15 @@ bool GenericWebDictionary::CommitContent(void)
 	if( testMode || !wordContent.size() )
 		return true;
 
-	std::set<Word>::iterator iterWords = wordContent.begin();
-	long long occurrences = 0;
+	std::set<Word>::const_iterator iterWords(wordContent.begin());
+	long long occurrences(0);
 
-	for(int i = 0; iterWords != wordContent.end(); i++, ++iterWords) {
+	for(int i(0); iterWords != wordContent.end(); i++, ++iterWords) {
 
-		const Word& wordRef = *iterWords;
+		const Word& wordRef(*iterWords);
 		occurrences = wordRef.GetOccurrences();
 
-		const std::string& word = wordRef.GetString();
+		const std::string& word(wordRef.GetString());
 
 		database::dictTableBase dictKeyword;
 		dictKeyword.Set_keyword(word);
@@ -46,16 +46,17 @@ bool GenericWebDictionary::CommitContent(void)
 
 		database->TransactionStart();
 
+		long long dictID(-1);
 		try {
 			dictKeyword.InsertOrUpdate(database,colDefsSum);
+			database->LastInsertID(dictID);
 		}
 		catch(...) {
 			database->TransactionRollback();
 			throw;
 		}
 
-		long long dictID = -1;
-		if(!database->LastInsertID(dictID) || dictID<0){
+		if(dictID<0){
 			log::Logging::LogWarn("error while getting ID for word in dictionary: %s",word.c_str());
 			database->TransactionRollback();
 			continue; }
@@ -68,19 +69,18 @@ bool GenericWebDictionary::CommitContent(void)
 		colDefsSum.clear();
 		colDefsSum.push_back(database::dockeyTableBase::GetDefinition_occurrence());
 
+		long long docKeyID(-1);
 		try {
 			docKey.InsertOrUpdate(database,colDefsSum);
+			database->LastInsertID(docKeyID);
 		}
 		catch(...) {
 			database->TransactionRollback();
 			throw;
 		}
 
-		long long docKeyID = -1;
-		database->LastInsertID(docKeyID);
-
-		const std::vector<std::pair<long long, long long> >& wordPositions = wordRef.GetPositions();
-		std::vector<std::pair<long long, long long> >::const_iterator iterPos = wordPositions.begin();
+		const std::vector<std::pair<long long, long long> >& wordPositions(wordRef.GetPositions());
+		std::vector<std::pair<long long, long long> >::const_iterator iterPos(wordPositions.begin());
 		for(;iterPos != wordPositions.end();++iterPos) {
 			database::dockeyposTableBase tblPos;
 			tblPos.Set_DOCKEY_ID(docKeyID);
@@ -110,15 +110,15 @@ bool GenericWebDictionary::CommitMeta(void)
 
 	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
 
-	long long occurrences = 0;
+	long long occurrences(0);
 	for(;iterTypes != wordMeta.end();++iterTypes) {
 		const std::set<Word>& refWords(iterTypes->second);
-		std::set<Word>::const_iterator iterWords = refWords.begin();
+		std::set<Word>::const_iterator iterWords(refWords.begin());
 		for(;iterWords != refWords.end(); ++iterWords) {
 
 			occurrences = iterWords->GetOccurrences();
 
-			const std::string& word = iterWords->GetString();
+			const std::string& word(iterWords->GetString());
 
 			database::dictTableBase dictKeyword;
 			dictKeyword.Set_keyword(word);
@@ -129,16 +129,17 @@ bool GenericWebDictionary::CommitMeta(void)
 
 			database->TransactionStart();
 
+			long long dictID(-1);
 			try {
 				dictKeyword.InsertOrUpdate(database,colDefsSum);
+				database->LastInsertID(dictID);
 			}
 			catch(...) {
 				database->TransactionRollback();
 				throw;
 			}
 
-			long long dictID = -1;
-			if(!database->LastInsertID(dictID) || dictID<0){
+			if(dictID<0){
 				log::Logging::LogWarn("error while getting ID for word in dictionary: %s",word.c_str());
 				database->TransactionRollback();
 				continue; }

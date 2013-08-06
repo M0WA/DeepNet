@@ -37,7 +37,7 @@ bool Dictionary::AddContent(const std::string& word, const std::pair<long long,l
 		log::Logging::LogError("dictionary url id not set");
 		return false; }
 
-	std::pair<std::set<Word>::iterator,bool> insertPair = wordContent.insert(Word(word));
+	std::pair<std::set<Word>::iterator,bool> insertPair(wordContent.insert(Word(word)));
 	if(!insertPair.second) {
 		//was already there -> increment occurrences
 		insertPair.first->IncrementOccurrences();
@@ -54,7 +54,7 @@ bool Dictionary::AddContent(const std::string& word)
 		log::Logging::LogError("dictionary url id not set");
 		return false; }
 
-	std::pair<std::set<Word>::iterator,bool> insertPair = wordContent.insert(Word(word));
+	std::pair<std::set<Word>::iterator,bool> insertPair(wordContent.insert(Word(word)));
 	if(!insertPair.second) {
 		//was already there -> increment occurrences
 		insertPair.first->IncrementOccurrences();
@@ -72,7 +72,7 @@ bool Dictionary::AddMeta(const std::string& word, const MetaInformationType& typ
 
 	std::set<Word>& typeWords(wordMeta[type]);
 
-	std::pair<std::set<Word>::iterator,bool> insertPair = typeWords.insert(Word(word));
+	std::pair<std::set<Word>::iterator,bool> insertPair(typeWords.insert(Word(word)));
 	if(!insertPair.second) {
 		//was already there -> increment occurrences
 		insertPair.first->IncrementOccurrences();
@@ -92,14 +92,14 @@ void Dictionary::SetUrlID(const long long urlID, const long long urlStageID)
 
 void Dictionary::Dump(std::string& dictDump) const
 {
-	std::set<Word>::const_iterator iterWords = wordContent.begin();
+	std::set<Word>::const_iterator iterWords(wordContent.begin());
 	std::stringstream dump;
-	for(int i = 0; iterWords != wordContent.end(); i++, ++iterWords) {
+	for(int i(0); iterWords != wordContent.end(); i++, ++iterWords) {
 		dump << iterWords->GetString() << "\t" << iterWords->GetOccurrences() << std::endl;
 	}
 
 	dump << "meta dictionary:" << std::endl;
-	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
+	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes(wordMeta.begin());
 	for(;iterTypes != wordMeta.end();++iterTypes) {
 		dump << "type " << iterTypes->first << std::endl;
 		const std::set<Word>& refWords(iterTypes->second);
@@ -114,24 +114,24 @@ void Dictionary::Dump(std::string& dictDump) const
 
 void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellChecker) const
 {
-	std::set<Word>::const_iterator iterWords = wordContent.begin();
+	std::set<Word>::const_iterator iterWords(wordContent.begin());
 	std::stringstream dump;
 
 	dump << "<content>" << std::endl;
 	for(int i = 0; iterWords != wordContent.end(); i++, ++iterWords) {
-		const char* curWord = iterWords->GetChars();
+		const char* curWord(iterWords->GetChars());
 		std::vector<std::string> proposals;
-		bool spelledCorrectly = true;
+		bool spelledCorrectly(true);
 		spellChecker.GenerateProposals(curWord,spelledCorrectly,proposals);
 
-		std::vector<std::string>::iterator iterProp = proposals.begin();
+		std::vector<std::string>::iterator iterProp(proposals.begin());
 		for(;iterProp != proposals.end();++iterProp) {
 			network::HttpUrlParser::EncodeUrl(*iterProp);}
 
 		std::string dumpVec;
 		tools::StringTools::VectorToString(proposals,"<proposal>","</proposal>",dumpVec);
 
-		std::string encodedWord = curWord;
+		std::string encodedWord(curWord);
 		network::HttpUrlParser::EncodeUrl(encodedWord);
 		dump <<
 		"<keyword id=\"" << i << "\">"
@@ -152,7 +152,7 @@ void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellCheck
 	dump << "</content>" << std::endl;
 
 	dump << "<meta>" << std::endl;
-	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
+	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes(wordMeta.begin());
 	for(;iterTypes != wordMeta.end();++iterTypes) {
 
 		dump << "<metatype = \"" << iterTypes->first << "\" >" << std::endl;
@@ -160,19 +160,19 @@ void Dictionary::DumpXML(std::string& dictDump, tools::SpellChecking& spellCheck
 		const std::set<Word>& refWords(iterTypes->second);
 		iterWords = refWords.begin();
 		for(int i = 0;iterWords != refWords.end(); ++iterWords,i++) {
-			const char* curWord = iterWords->GetChars();
+			const char* curWord(iterWords->GetChars());
 			std::vector<std::string> proposals;
-			bool spelledCorrectly = true;
+			bool spelledCorrectly(true);
 			spellChecker.GenerateProposals(curWord,spelledCorrectly,proposals);
 
-			std::vector<std::string>::iterator iterProp = proposals.begin();
+			std::vector<std::string>::iterator iterProp(proposals.begin());
 			for(;iterProp != proposals.end();++iterProp) {
 				network::HttpUrlParser::EncodeUrl(*iterProp);}
 
 			std::string dumpVec;
 			tools::StringTools::VectorToString(proposals,"<proposal>","</proposal>",dumpVec);
 
-			std::string encodedWord = curWord;
+			std::string encodedWord(curWord);
 			network::HttpUrlParser::EncodeUrl(encodedWord);
 			dump <<
 			"<keyword id=\"" << i << "\">"
