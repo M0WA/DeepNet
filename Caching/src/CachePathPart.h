@@ -38,17 +38,17 @@ public:
 	 * gets an ID for a path part
 	 * @param db database connection
 	 * @param pathPart path part to query for
-	 * @return path part ID or -1
+	 * @param pathPartID corresponding path part ID
 	 */
-	static long long GetIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart);
+	static void GetIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart, long long& pathPartID);
 
 	/**
-	 * gets path part for an id
+	 * gets path part for an ID
 	 * @param db database connection
 	 * @param pathPartID pathpart ID to query for
-	 * @return path part or empty string
+	 * @param pathPart corresponding path part
 	 */
-	static std::string GetPathPartByID(database::DatabaseConnection* db, const long long pathPartID);
+	static void GetPathPartByID(database::DatabaseConnection* db, const long long pathPartID, std::string& pathPart);
 
 	/**
 	 * set current limit of cache.

@@ -26,13 +26,13 @@ CachePathPart::CachePathPart(size_t limit)
 CachePathPart::~CachePathPart() {
 }
 
-long long CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart) {
+void CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart,long long& pathPartID) {
 
-	long long pathPartID(-1);
+	pathPartID = -1;
 	bool isInCache(cacheInstance.idPathPart.GetByValue(pathPart,pathPartID));
 	isInCache &= (pathPartID != -1);
 	if(isInCache)
-		return pathPartID;
+		return;
 
 	database::pathpartsTableBase pathPartTbl;
 	pathPartTbl.Set_path(pathPart);
@@ -46,20 +46,25 @@ long long CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const 
 		std::stringstream ss;
 		ss << "exception while getting path part: " << pathPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();
-		THROW_EXCEPTION(URLInvalidPathPartIDException, ss.str() );
-		return -1;
+		THROW_EXCEPTION(URLInvalidPathPartIDException, ss.str());
+		return;
 	}
 
 	cacheInstance.idPathPart.AddItem(pathPartID,pathPart);
-	return pathPartID;
+
+	if(pathPartID == -1) {
+		std::stringstream ss;
+		ss << "exception while getting path part: " << pathPart << std::endl;
+		THROW_EXCEPTION(URLInvalidPathPartIDException, ss.str());
+		return;
+	}
 }
 
-std::string CachePathPart::GetPathPartByID(database::DatabaseConnection* db, const long long pathPartID) {
+void CachePathPart::GetPathPartByID(database::DatabaseConnection* db, const long long pathPartID,std::string& pathPart) {
 
-	std::string pathPart;
 	bool isInCache(cacheInstance.idPathPart.GetItem(pathPartID,pathPart));
 	if(isInCache)
-		return pathPart;
+		return;
 
 	database::SelectResultContainer<database::pathpartsTableBase> pathPartTbl;
 
@@ -72,21 +77,20 @@ std::string CachePathPart::GetPathPartByID(database::DatabaseConnection* db, con
 		ss << "exception while getting path part  for pathpart ID: " << pathPartID << std::endl
 		   << "original exception:"  << std::endl << e.Dump();
 		THROW_EXCEPTION(URLInvalidPathPartIDException,ss.str());
-		return "";
+		return;
 	}
 
 	if(pathPartTbl.Size() != 1) {
 		std::stringstream ss;
 		ss << "exception while getting path part for pathpart ID: " << pathPartID;
 		THROW_EXCEPTION(URLInvalidPathPartIDException, ss.str());
-		return "";
+		return;
 	}
 
 	pathPartTbl.ResetIter();
 	pathPartTbl.GetIter()->Get_path(pathPart);
-
 	cacheInstance.idPathPart.AddItem(pathPartID,pathPart);
-	return pathPart;
+	return;
 }
 
 }

@@ -33,18 +33,16 @@ public:
 	 * @param db database connection
 	 * @param urlPathPartID urlPathPartID
 	 * @param pathPart path part for given urlPathPartID
-	 * @return true if successful, false on error
 	 */
-	static bool GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart);
+	static void GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart);
 
 	/**
 	 * gets urlPathPartID of an url by it's path part
 	 * @param db database connection
 	 * @param urlPathPart url path part to search for
 	 * @param urlPathPartID urlPathPartID for given path part
-	 * @return true if successful, false on error
 	 */
-	static bool GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& urlPathPart, long long& urlPathPartID);
+	static void GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& urlPathPart, long long& urlPathPartID);
 
 	/**
 	 * removes all items from cache.
@@ -76,7 +74,7 @@ public:
 	static size_t GetMisses() { return cacheInstance.idUrlPathPart.GetMisses(); }
 
 private:
-	static long long InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs);
+	static void InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs,long long& urlPathPartID);
 
 private:
 	static CacheUrlPathPart cacheInstance;
