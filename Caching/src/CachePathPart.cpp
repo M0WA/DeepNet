@@ -8,6 +8,10 @@
 
 #include "CachePathPart.h"
 
+#include <sstream>
+
+#include "URLInvalidPathPartIDException.h"
+
 #include <DatabaseLayer.h>
 #include <DatabaseException.h>
 
@@ -38,12 +42,11 @@ long long CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const 
 		db->LastInsertID(pathPartID);
 	}
 	catch(database::DatabaseException& e) {
-		//
-		//TODO: throw exception
-		//
 		e.DisableLogging();
-		e.Log();
-		log::Logging::LogError("exception while getting path part: %s",pathPart.c_str());
+		std::stringstream ss;
+		ss << "exception while getting path part: " << pathPart << std::endl
+		   << "original exception: " << std::endl << e.Dump();
+		THROW_EXCEPTION(URLInvalidPathPartIDException, ss.str() );
 		return -1;
 	}
 
@@ -59,14 +62,25 @@ std::string CachePathPart::GetPathPartByID(database::DatabaseConnection* db, con
 		return pathPart;
 
 	database::SelectResultContainer<database::pathpartsTableBase> pathPartTbl;
-	database::pathpartsTableBase::GetBy_ID(db,pathPartID,pathPartTbl);
+
+	try {
+		database::pathpartsTableBase::GetBy_ID(db,pathPartID,pathPartTbl);
+	}
+	catch(database::DatabaseException& e) {
+		e.DisableLogging();
+		std::stringstream ss;
+		ss << "exception while getting path part  for pathpart ID: " << pathPartID << std::endl
+		   << "original exception:"  << std::endl << e.Dump();
+		THROW_EXCEPTION(URLInvalidPathPartIDException,ss.str());
+		return "";
+	}
 
 	if(pathPartTbl.Size() != 1) {
-		//
-		//TODO: throw exception
-		//
-		log::Logging::LogError("");
-		return ""; }
+		std::stringstream ss;
+		ss << "exception while getting path part for pathpart ID: " << pathPartID;
+		THROW_EXCEPTION(URLInvalidPathPartIDException, ss.str());
+		return "";
+	}
 
 	pathPartTbl.ResetIter();
 	pathPartTbl.GetIter()->Get_path(pathPart);
