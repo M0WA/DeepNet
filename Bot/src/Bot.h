@@ -127,6 +127,17 @@ private:
 	static void SignalHandler(int signum, siginfo_t* info, void* ucontext);
 
 private:
+	template <class cacheT,class tableT>
+	void InsertCacheStats(database::DatabaseConnection* db, const struct tm& now) {
+		tableT tbl;
+		tbl.Set_size(cacheT::GetSize());
+		tbl.Set_matches(cacheT::GetMatches());
+		tbl.Set_misses(cacheT::GetMisses());
+		tbl.Set_action_time(now);
+		tbl.Insert(db);
+	}
+
+private:
 	void RegisterDefaultFlags(void);
 	void RegisterDefaultParams(void);
 

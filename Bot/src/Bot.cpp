@@ -34,17 +34,6 @@ threading::Mutex bot::Bot::signalMutex;
 namespace bot
 {
 
-template <class Tcache,class Vtbl>
-void InsertCacheStats(database::DatabaseConnection* db, const struct tm& now)
-{
-	Vtbl tbl;
-	tbl.Set_size(Tcache::GetSize());
-	tbl.Set_matches(Tcache::GetMatches());
-	tbl.Set_misses(Tcache::GetMisses());
-	tbl.Set_action_time(now);
-	tbl.Insert(db);
-}
-
 const int catchSignals[] =
 {
 		SIGINT,
