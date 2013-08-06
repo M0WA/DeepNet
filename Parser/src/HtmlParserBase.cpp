@@ -18,9 +18,7 @@ namespace parser {
 
 HtmlParserBase::HtmlParserBase(const HtmlParserParam* parserParam)
 : Thread((Thread::ThreadFunction)&(HtmlParserBase::HtmlParserThreadFunc))
-, parserParam(parserParam)
-{
-
+, parserParam(parserParam) {
 }
 
 HtmlParserBase::~HtmlParserBase() {
