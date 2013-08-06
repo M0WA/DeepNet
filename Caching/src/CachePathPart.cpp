@@ -28,6 +28,16 @@ CachePathPart::CachePathPart(size_t limit)
 CachePathPart::~CachePathPart() {
 }
 
+void CachePathPart::SetCapacity(const size_t capacity)
+{
+	cacheInstance.idPathPart.SetLimit(capacity);
+}
+
+void CachePathPart::Clear(void)
+{
+	cacheInstance.idPathPart.ClearItems();
+}
+
 void CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const std::string& pathPart,long long& pathPartID) {
 
 	pathPartID = -1;
