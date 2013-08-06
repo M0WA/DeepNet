@@ -19,6 +19,8 @@
 #include <CacheParsed.h>
 #include <CacheSubdomain.h>
 #include <CacheSecondLevelDomain.h>
+#include <CacheUrlPathPart.h>
+#include <CacheUrlSearchPart.h>
 
 #include <HtmlParserFactory.h>
 #include <IHtmlParser.h>
@@ -88,25 +90,20 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 	if(images.size() == 0)
 		return;
 
-	std::vector<network::HttpUrl>::const_iterator iterImages = images.begin();
+	std::vector<network::HttpUrl>::const_iterator iterImages(images.begin());
 	for(;iterImages != images.end(); ++iterImages) {
 
 		database::imagesTableBase imgs;
+		long long idSubdomain(-1),idSecondLevelDomain(-1),
+		          idTLD(-1), idUrlPathPart(-1),
+		          idUrlSearchPart(-1);
 		try
 		{
-			const std::string& subdomain = iterImages->GetSubdomain();
-			long long id = -1;
-			if(!subdomain.empty()){
-				caching::CacheSubdomain::GetSubdomainIDByDomain(db,subdomain,id);
-				imgs.Set_SUBDOMAIN_ID(id);
-			}
-			else {
-				imgs.GetColumnByName("SUBDOMAIN_ID")->SetNull();
-			}
-
-			id = -1;
-			caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(db,iterImages->GetSecondLevelDomain(),id);
-			imgs.Set_SECONDLEVELDOMAIN_ID(id);
+			idTLD = htmlparser::TLD::GetTLDIDByTLD(iterImages->GetTLD());
+			caching::CacheSubdomain::GetSubdomainIDByDomain(db,iterImages->GetSubdomain(),idSubdomain);
+			caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(db,iterImages->GetSecondLevelDomain(),idSecondLevelDomain);
+			caching::CacheUrlPathPart::GetIDByUrlPathPart(db,iterImages->GetPathPart(), idUrlPathPart);
+			caching::CacheUrlSearchPart::GetIDByUrlSearchPart(db,iterImages->GetSearchPart(), idUrlSearchPart);
 		}
 		catch(...)
 		{
@@ -114,13 +111,16 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 			continue;
 		}
 
-		imgs.Set_TOPLEVELDOMAIN_ID(htmlparser::TLD::GetTLDIDByTLD(iterImages->GetTLD()));
+		imgs.Set_SUBDOMAIN_ID(idSubdomain);
+		imgs.Set_SECONDLEVELDOMAIN_ID(idSecondLevelDomain);
+
+		imgs.Set_TOPLEVELDOMAIN_ID(idTLD);
 		imgs.Set_SCHEME_ID(1);
 		imgs.Set_port(80);
-		imgs.Set_path_part(iterImages->GetPathPart());
-		imgs.Set_search_part(iterImages->GetSearchPart());
+		imgs.Set_URLPATHPART_ID(idUrlPathPart);
+		imgs.Set_URLSEARCHPART_ID(idUrlSearchPart);
+
 		imgs.Set_found_date(tools::TimeTools::NowUTC());
-		imgs.Set_url_md5(iterImages->GetMD5());
 
 		try
 		{
@@ -132,8 +132,8 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 			continue;
 		}
 
-		long long imageUrlID = -1;
-		if(!db->LastInsertID(imageUrlID) || imageUrlID < 0) {
+		long long imageUrlID(-1);
+		if(!db->LastInsertID(imageUrlID) || imageUrlID == -1) {
 			log::Logging::LogInfo("could not get image url id: " + iterImages->GetFullUrl() );
 			continue;
 		}
