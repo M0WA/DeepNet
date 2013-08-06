@@ -41,11 +41,11 @@ GenericWebHtmlParserThread::~GenericWebHtmlParserThread() {
 
 bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result) {
 
-	const std::vector<network::HttpUrl> &hyperLinks = result.Get()->hyperlinks,
-			&imagesLinks = result.Get()->images,
+	const std::vector<network::HttpUrl> &hyperLinks(result.Get()->hyperlinks),
+			&imagesLinks(result.Get()->images),
 			videosLinks; //TODO: video links
 
-	const std::vector< std::pair<std::string,std::string> >& meta = result.Get()->meta;
+	const std::vector< std::pair<std::string,std::string> >& meta(result.Get()->meta);
 
 	std::vector< std::string > content;
 	tools::ContainerTools::VectorPair2ToVector(result.Get()->content,content);
@@ -162,7 +162,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 
 	//convert to URLs
 	std::map<htmlparser::DatabaseUrl,long long> mapUrls;
-	std::vector<network::HttpUrl>::const_iterator iterUrls = hyperlinks.begin();
+	std::vector<network::HttpUrl>::const_iterator iterUrls(hyperlinks.begin());
 	for(;iterUrls != hyperlinks.end();++iterUrls) {
 
 		//insert into cache and database
@@ -182,12 +182,11 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		}
 	}
 
-	long long internLinks = 0, externLinks = 0, secondLevelID = entry.url.GetSecondLevelID();
+	long long internLinks(0), externLinks(0), secondLevelID(entry.url.GetSecondLevelID());
 	if(mapUrls.size()>0)
 	{
 		std::vector<database::TableBase> vecLinks;
-		std::map<htmlparser::DatabaseUrl,long long>::iterator iterInsertLinks = mapUrls.begin();
-
+		std::map<htmlparser::DatabaseUrl,long long>::const_iterator iterInsertLinks(mapUrls.begin());
 		for(int i=0; iterInsertLinks != mapUrls.end(); i++,++iterInsertLinks) {
 
 			if(iterInsertLinks->first.GetSecondLevelID() == secondLevelID) {
@@ -219,7 +218,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 
 void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
 {
-	std::vector<std::pair<std::string,std::string> >::const_iterator iterMeta = meta.begin();
+	std::vector<std::pair<std::string,std::string> >::const_iterator iterMeta(meta.begin());
 	std::vector<database::metainfoTableBase> vecMeta;
 	for(;iterMeta!=meta.end();++iterMeta) {
 
