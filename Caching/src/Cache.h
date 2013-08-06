@@ -11,6 +11,7 @@
 #include <vector>
 #include <map>
 #include <Mutex.h>
+#include <ReadWriteLock.h>
 #include <Logging.h>
 
 #include <stdexcept>
@@ -48,22 +49,22 @@ public:
 	 */
 	void AddItem(const T& key, const V& value)
 	{
-		while(limit) {
-			if( GetSize() < limit ) {
+		const size_t tmpLimit(GetLimit());
+
+		while(tmpLimit) {
+			if( GetSize() < tmpLimit ) {
 				break; }
 			else if(deleteOnGet) {
 				usleep(250 * 1000); }
 			else {
 				//removes 25% of the cache
-				RemoveItem(0, ( limit > 4 ? limit : limit /4 ) );
+				RemoveItem(0, ( tmpLimit > 4 ? tmpLimit : tmpLimit /4 ) );
 			}
 		}
 
-		mutex.Lock();
-
+		rwLock.WaitForWriteLock();
 		mapEntries.insert(typename std::pair<T,V>(key,value));
-
-		mutex.Unlock();
+		rwLock.ReleaseLock();
 	}
 
 	/**
@@ -75,7 +76,7 @@ public:
 	bool DeleteItem(const T& key, const bool locking = true)
 	{
 		if(locking)
-			mutex.Lock();
+			rwLock.WaitForWriteLock();
 
 		bool success(true);
 		if(!mapEntries.count(key))
@@ -84,7 +85,7 @@ public:
 			mapEntries.erase(key);
 
 		if(locking)
-			mutex.Unlock();
+			rwLock.ReleaseLock();
 
 		return success;
 	}
@@ -96,15 +97,16 @@ public:
 	 */
 	V GetItem(const T& key)
 	{
-		threading::AutoMutex lock(mutex);
-
+		rwLock.WaitForReadLock();
 		if(mapEntries.count(key) > 0) {
 			const V& value(mapEntries.at(key));
-			++matches;
+			rwLock.ReleaseLock();
+			AddMatches(1);
 			return value;
 		}
 		else {
-			++misses;
+			rwLock.ReleaseLock();
+			AddMisses(1);
 			throw std::range_error("V Cache::GetItem(const T&): invalid range");
 		}
 	}
@@ -117,19 +119,24 @@ public:
 	 */
 	bool GetItem(const T& key, V& value)
 	{
-		threading::AutoMutex lock(mutex);
+		if(deleteOnGet)
+			rwLock.WaitForReadLock();
+		else
+			rwLock.WaitForWriteLock();
 
 		if(!mapEntries.count(key)) {
-			++misses;
-			return false;
-		}
+			rwLock.ReleaseLock();
+			AddMisses(1);
+			return false; }
 
 		value = mapEntries.at(key);
-		matches++;
+
+		AddMatches(1);
 
 		if(deleteOnGet)
 			DeleteItem(key,false);
 
+		rwLock.ReleaseLock();
 		return true;
 	}
 
@@ -141,12 +148,14 @@ public:
 	 */
 	bool GetItem(std::map<T, V>& list, const int count)
 	{
-		threading::AutoMutex lock(mutex);
+		if(!GetSize()) {
+			AddMisses(list.size());
+			return false;}
 
-		if(!mapEntries.size()) {
-			misses += list.size();
-			return false;
-		}
+		if(!deleteOnGet)
+			rwLock.WaitForReadLock();
+		else
+			rwLock.WaitForWriteLock();
 
 		size_t copyCount = (count <= 0) ? 1 : (size_t)count;
 		if(copyCount > mapEntries.size()) {
@@ -156,10 +165,12 @@ public:
 		typename std::map<T, V>::iterator iterEnd(iterMap);
 		std::advance(iterEnd,copyCount);
 		list.insert(iterMap,iterEnd);
-		matches += list.size();
+
+		AddMatches(list.size());
 
 		if(deleteOnGet){
 			mapEntries.erase(mapEntries.begin(),iterEnd);}
+		rwLock.ReleaseLock();
 
 		return true;
 	}
@@ -171,8 +182,7 @@ public:
 	 */
 	void RemoveItem(const size_t startPos, const size_t count)
 	{
-		threading::AutoMutex lock(mutex);
-
+		rwLock.WaitForWriteLock();
 		typename std::map<T, V>::iterator iterStart(mapEntries.begin());
 		if(startPos)
 			std::advance(iterStart,startPos);
@@ -181,6 +191,7 @@ public:
 		std::advance(iterEnd, ( (count>0 && count<mapEntries.size()) ? count : mapEntries.size()) );
 
 		mapEntries.erase(iterStart,iterEnd);
+		rwLock.ReleaseLock();
 	}
 
 	/**
@@ -188,8 +199,9 @@ public:
 	 */
 	void ClearItems()
 	{
-		threading::AutoMutex lock(mutex);
+		rwLock.WaitForWriteLock();
 		mapEntries.clear();
+		rwLock.ReleaseLock();
 	}
 
 	/**
@@ -200,8 +212,7 @@ public:
 	 */
 	void GetMissingItems(std::map<T, V>& check, std::vector<T>& missing)
 	{
-		threading::AutoMutex lock(mutex);
-
+		rwLock.WaitForWriteLock();
 		typename std::map<T,V>::iterator iterCheck(check.begin());
 		for(;iterCheck != check.end();++iterCheck){
 			if(!mapEntries.count(iterCheck->first))
@@ -209,8 +220,9 @@ public:
 			else{
 				iterCheck->second = mapEntries[iterCheck->first]; }
 		}
+		rwLock.ReleaseLock();
 
-		misses += missing.size();
+		AddMisses(missing.size());
 	}
 
 	/**
@@ -221,8 +233,7 @@ public:
 	 */
 	void GetByValue(std::map<V,T>& check, std::vector<V>& missing) const
 	{
-		threading::AutoMutex lock(mutex);
-
+		rwLock.WaitForReadLock();
 		typename std::map<V,T> checkTmp(check);
 		typename std::map<V,T>::const_iterator iterCheckTmp(checkTmp.begin());
 		for(;iterCheckTmp != checkTmp.end();++iterCheckTmp) {
@@ -231,7 +242,7 @@ public:
 			for(;iterEntries != mapEntries.end();++iterEntries) {
 				if(iterEntries->second == iterCheckTmp->first) {
 					found = true;
-					++matches;
+					AddMatches(1);
 					break; }
 			}
 			if(found) {
@@ -242,8 +253,9 @@ public:
 				missing.push_back(iterCheckTmp->first);
 			}
 		}
+		rwLock.ReleaseLock();
 
-		misses += missing.size();
+		AddMisses(missing.size());
 	}
 
 	/**
@@ -254,16 +266,18 @@ public:
 	 */
 	bool GetByValue(const V& value, T& key) const
 	{
-		threading::AutoMutex lock(mutex);
-
+		rwLock.WaitForReadLock();
 		typename std::map<T,V>::const_iterator iterEntries(mapEntries.begin());
 		for(;iterEntries != mapEntries.end();++iterEntries) {
 			if(iterEntries->second == value) {
 				key = iterEntries->first;
-				++matches;
+				rwLock.ReleaseLock();
+				AddMatches(1);
 				return true;}
 		}
-		++misses;
+		rwLock.ReleaseLock();
+
+		AddMisses(1);
 		return false;
 	}
 
@@ -276,16 +290,20 @@ public:
 	template <class X>
 	bool GetByValue(const X& value, T& key) const {
 
-		threading::AutoMutex lock(mutex);
+		rwLock.WaitForReadLock();
 		typename std::map<T,V>::const_iterator iterEntries(mapEntries.begin());
 		for(;iterEntries != mapEntries.end();++iterEntries) {
 			if ( dynamic_cast<const X&>(iterEntries->second) == value ) {
 				key = iterEntries->first;
-				matches++;
+				rwLock.ReleaseLock();
+
+				AddMatches(1);
 				return true;
 			}
 		}
-		misses++;
+		rwLock.ReleaseLock();
+
+		AddMisses(1);
 		return false;
 	}
 
@@ -293,43 +311,75 @@ public:
 	 * get current match count of cache, clearing internal match counter.
 	 * @return number of matches.
 	 */
-	inline size_t GetMatches() const { size_t tmp(matches); matches = 0; return tmp; }
+	size_t GetMatches() const {
+		rwLockMatch.WaitForWriteLock();
+		size_t tmp(matches); matches = 0;
+		rwLockMatch.ReleaseLock();
+		return tmp; }
 
 	/**
 	 * get current miss count of cache, clearing internal miss counter.
 	 * @return number of misses.
 	 */
-	inline size_t GetMisses() const { size_t tmp(misses); misses = 0; return tmp; }
+	size_t GetMisses() const {
+		rwLockMiss.WaitForWriteLock();
+		size_t tmp(misses); misses = 0;
+		rwLockMiss.ReleaseLock();
+		return tmp; }
 
 	/**
 	 * get current limit of cache.
 	 * @return maximum number of entries in cache.
 	 */
-	inline size_t GetLimit() const { return limit; }
+	size_t GetLimit() const {
+		rwLockLimit.WaitForReadLock();
+		size_t ret(limit);
+		rwLockLimit.ReleaseLock();
+		return ret;
+	}
 
 	/**
 	 * set current limit of cache.
 	 * @param capacity maximum number of entries in cache.
 	 */
-	inline void SetLimit(const size_t capacity) { limit = capacity; }
+	void SetLimit(const size_t capacity) {
+		rwLockLimit.WaitForWriteLock();
+		limit = capacity;
+		rwLockLimit.ReleaseLock();}
 
 	/**
 	 * gets current number of entries in cache.
 	 * @return current number of entries in cache.
 	 */
-	inline size_t GetSize() const {
-		threading::AutoMutex lock(mutex);
-		return mapEntries.size();
-	}
+	size_t GetSize() const {
+		rwLock.WaitForReadLock();
+		size_t ret(mapEntries.size());
+		rwLock.ReleaseLock();
+		return ret; }
+
+private:
+	void AddMisses(size_t n) const {
+		rwLockMiss.WaitForWriteLock();
+		misses += n;
+		rwLockMiss.ReleaseLock();}
+
+	void AddMatches(size_t n) const {
+		rwLockMatch.WaitForWriteLock();
+		matches += n;
+		rwLockMatch.ReleaseLock();}
 
 private:
 	volatile size_t limit;
+	mutable threading::ReadWriteLock rwLockLimit;
+
 	volatile bool deleteOnGet;
 
 	mutable size_t matches;
+	mutable threading::ReadWriteLock rwLockMatch;
 	mutable size_t misses;
+	mutable threading::ReadWriteLock rwLockMiss;
 
-	mutable threading::Mutex mutex;
+	mutable threading::ReadWriteLock rwLock;
 	std::map<T,V> mapEntries;
 };
 
