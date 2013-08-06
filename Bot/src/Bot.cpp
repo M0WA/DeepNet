@@ -217,6 +217,7 @@ bool Bot::InitCacheConfigParams()
 		log::Logging::LogWarn("missing urlpathpartcache parameter, using default value: 1000");
 		sizeUrlPathPartCache = 1000; }
 	caching::CacheUrlPathPart::SetCapacity(sizeUrlPathPartCache);
+	caching::CacheUrlPathPart::Init(DB().Connection());
 
 	int sizeUrlSearchPartCache(-1);
 	if(!Config().GetValue("searchpartcache", sizeUrlSearchPartCache )) {
