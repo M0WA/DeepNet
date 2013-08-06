@@ -293,6 +293,10 @@ sub GenerateCombinedUniqueKeyDDL
     $count++;
   }      
 
+  if(length($uniqueName) > 30) {
+    $uniqueName = substr($uniqueName,0,30);
+  }
+
   my $ddl = "CONSTRAINT UNIQ__".uc($tableName)."_".$uniqueName." ";
   $ddl   .= "UNIQUE (".$uniqueCol.")";
   return $ddl;
