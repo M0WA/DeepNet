@@ -22,12 +22,12 @@ void* Indexer::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 {
 	log::Logging::RegisterThreadID("Indexer");
 
-	Indexer* instance = (Indexer*)threadParam->instance;
+	Indexer* instance(dynamic_cast<Indexer*>(threadParam->instance));
 
 	if(!instance->StartIndexer())
 		return (void*)1;
 
-	bool errorOccured = false;
+	bool errorOccured(false);
 	while(!instance->ShallEnd())
 	{
 		if(instance->WatchDog()) {
@@ -37,20 +37,20 @@ void* Indexer::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 		sleep(1);
 	}
 
-	bool bReturn = !instance->StopIndexer() || errorOccured;
+	bool bReturn(!instance->StopIndexer() || errorOccured);
 	return (void*)bReturn;
 }
 
 bool Indexer::StartIndexer()
 {
-	for(int i = 0; i < indexerParam->threadCount; i++)
+	for(int i(0); i < indexerParam->threadCount; i++)
 	{
 		IndexerThread::IndexerThreadParam* threadParam = new IndexerThread::IndexerThreadParam(
 				indexerParam->maxPerSelect,
 				indexerParam->waitOnIdle,
 				indexerParam->databaseConfig);
 
-		indexing::IndexerThread* indexerThread = CreateIndexerThread();
+		indexing::IndexerThread* indexerThread(CreateIndexerThread());
 		indexerThread->StartThread(threadParam);
 
 		indexerThreads[indexerThread] = threadParam;
@@ -60,28 +60,24 @@ bool Indexer::StartIndexer()
 
 bool Indexer::StopIndexer()
 {
-	std::map< indexing::IndexerThread*, indexing::IndexerThread::IndexerThreadParam* >::iterator iterThreads = indexerThreads.begin();
-	for(; iterThreads != indexerThreads.end(); iterThreads++)
-	{
-		iterThreads->first->SetShallEnd(true);
-	}
+	std::map< indexing::IndexerThread*, indexing::IndexerThread::IndexerThreadParam* >::iterator iterThreads(indexerThreads.begin());
+	for(; iterThreads != indexerThreads.end(); iterThreads++) {
+		iterThreads->first->SetShallEnd(true); }
 
 	iterThreads = indexerThreads.begin();
-	for(; iterThreads != indexerThreads.end(); ++iterThreads)
-	{
+	for(; iterThreads != indexerThreads.end(); ++iterThreads) {
 		iterThreads->first->WaitForThread();
 		delete iterThreads->first;
-		delete iterThreads->second;
-	}
+		delete iterThreads->second;	}
 	indexerThreads.clear();
+
 	return true;
 }
 
 bool Indexer::WatchDog()
 {
-	std::map< indexing::IndexerThread*, indexing::IndexerThread::IndexerThreadParam* >::iterator iterThreads = indexerThreads.begin();
-
 	//check if at least one thread is alive
+	std::map< indexing::IndexerThread*, indexing::IndexerThread::IndexerThreadParam* >::const_iterator iterThreads(indexerThreads.begin());
 	for(; iterThreads != indexerThreads.end(); ++iterThreads){
 		if ( iterThreads->first->IsRunning() )
 			return false;
