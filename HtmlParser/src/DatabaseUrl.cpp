@@ -232,7 +232,7 @@ void DatabaseUrl::InitByIDs(database::DatabaseConnection* db) {
 	}
 
 	if(urlSearchPartID > -1) {
-		caching::CacheUrlSearchPart::GetUrlSearchPartByID(db, urlPathPartID, path_part);
+		caching::CacheUrlSearchPart::GetUrlSearchPartByID(db, urlSearchPartID, search_part);
 	}
 	else {
 		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), "");
