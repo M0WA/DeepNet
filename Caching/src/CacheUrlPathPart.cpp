@@ -31,7 +31,7 @@ CacheUrlPathPart CacheUrlPathPart::cacheInstance;
 
 CacheUrlPathPart::CacheUrlPathPart(size_t limit)
 : idUrlPathPart(limit, false)
-, emptyUrlPathID(-1){
+, endUrlPathID(-1){
 }
 
 CacheUrlPathPart::~CacheUrlPathPart() {
@@ -48,14 +48,33 @@ void CacheUrlPathPart::Clear(void)
 }
 
 void CacheUrlPathPart::Init(database::DatabaseConnection* db) {
-	GetIDByUrlPathPart(db,"", cacheInstance.emptyUrlPathID);
+
+	long long endMarkerID(-1);
+	CachePathPart::GetIDByPathPart(db,"__SPECIAL_DEEPNET_PATH_PART_END_MARKER__",endMarkerID);
+	if(endMarkerID==-1) {
+		THROW_EXCEPTION(URLInvalidUrlPathPartIDException, "could not find end marker for url path parts");
+		return;
+	}
+
+	database::SelectResultContainer<database::urlpathpartsTableBase> results;
+	database::urlpathpartsTableBase::GetBy_PATHPART_ID(db,endMarkerID,results);
+
+	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
+		long long tmp1(-1),tmp2(-1);
+		results.GetIter()->Get_ID(tmp1);
+		results.GetIter()->Get_URLPATHPART_ID_NEXT(tmp2);
+		if(tmp1 == tmp2 && tmp1 != -1) {
+			cacheInstance.endUrlPathID = tmp1;
+			break; }
+	}
+
+	if(cacheInstance.endUrlPathID == -1) {
+		THROW_EXCEPTION(URLInvalidUrlPathPartIDException, "could not find end url path part id for url path parts");
+		return;
+	}
 }
 
 void CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart, long long& urlPathPartID) {
-
-	if(pathPart.empty()) {
-		urlPathPartID = cacheInstance.emptyUrlPathID;
-		return;}
 
 	bool isInCache(cacheInstance.idUrlPathPart.GetByValue(pathPart,urlPathPartID));
 	isInCache &= (urlPathPartID != -1);
@@ -133,19 +152,14 @@ AND
 			where);
 	}
 
-	database::WhereConditionTableColumnCreateParam nextNullWhereParam(
+	database::WhereConditionTableColumnCreateParam nextEndWhereParam(
 			database::WhereCondition::Equals(),
 			database::WhereCondition::And());
-	nextNullWhereParam.tableNameAlias = lastTableAlias;
-
-	database::TableColumn* colNextNull(
-		database::TableColumn::CreateInstance(database::urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT()) );
-	colNextNull->SetNull();
-
-	database::WhereConditionTableColumn* whereNextNull(
-		database::WhereConditionTableColumn::CreateInstance(nextNullWhereParam, colNextNull) );
-
-	where.push_back(whereNextNull);
+	nextEndWhereParam.tableNameAlias = lastTableAlias;
+	database::urlpathpartsTableBase::GetWhereColumnsFor_URLPATHPART_ID_NEXT(
+		nextEndWhereParam,
+		cacheInstance.endUrlPathID,
+		where);
 
 	selectUrlPathPart.Where().AddColumns(where);
 
@@ -188,7 +202,7 @@ AND
 
 void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::vector<long long>& pathPartIDs,long long& urlPathPartID) {
 
-	urlPathPartID = -1;
+	urlPathPartID = cacheInstance.endUrlPathID;
 
 	db->TransactionStart();
 
@@ -197,10 +211,7 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 		database::urlpathpartsTableBase urlPathPartTbl;
 
 		urlPathPartTbl.Set_PATHPART_ID(*i);
-		if(urlPathPartID==-1) {
-			urlPathPartTbl.GetColumn_URLPATHPART_ID_NEXT()->SetNull(); }
-		else {
-			urlPathPartTbl.Set_URLPATHPART_ID_NEXT(urlPathPartID); }
+		urlPathPartTbl.Set_URLPATHPART_ID_NEXT(urlPathPartID);
 
 		try {
 			urlPathPartTbl.InsertOrUpdate(db);
@@ -233,10 +244,6 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 }
 
 void CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const long long& urlPathPartID, std::string& pathPart) {
-
-	if(urlPathPartID == cacheInstance.emptyUrlPathID) {
-		pathPart.clear();
-		return; }
 
 	std::vector<std::string> pathParts;
 	long long nextUrlPathPartID(urlPathPartID);

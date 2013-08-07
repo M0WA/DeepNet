@@ -99,7 +99,7 @@ private:
 
 private:
 	Cache<long long,std::string> idUrlPathPart;
-	long long emptyUrlPathID;
+	long long endUrlPathID;
 };
 
 }
