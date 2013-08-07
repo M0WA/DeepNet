@@ -83,7 +83,7 @@ bool IndexerThread::ParsePages(std::map<long long,caching::CacheParsed::CachePar
 		indexerContent.Get()->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
 
 		std::vector< std::string >::const_iterator iterContent(iterEntries->second.content.begin());
-		for(size_t iParagraph = 0;iterContent != iterEntries->second.content.end();++iParagraph,++iterContent) {
+		for(size_t iParagraph(0);iterContent != iterEntries->second.content.end();++iParagraph,++iterContent) {
 			indexerContent.Get()->Parse(*iterContent,iParagraph); }
 		indexerContent.Get()->GetDictionary().CommitContent();
 
