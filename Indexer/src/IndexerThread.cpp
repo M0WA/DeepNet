@@ -92,7 +92,7 @@ bool IndexerThread::ParsePages(std::map<long long,caching::CacheParsed::CachePar
 		for(;iterMeta != iterEntries->second.meta.end();++iterMeta)	{
 			std::string lowerName(tools::StringTools::ToLowerNP(iterMeta->first));
 
-			Dictionary::MetaInformationType type = Dictionary::META_UNKNOWN;
+			Dictionary::MetaInformationType type(Dictionary::META_UNKNOWN);
 			if(lowerName.compare("description") == 0) {
 				type = Dictionary::META_DESCRIPTION;}
 			else if(lowerName.compare("keywords") == 0) {
