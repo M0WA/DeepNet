@@ -13,15 +13,4 @@ CREATE TRIGGER `after_insert_urls` AFTER INSERT ON `documents`.`urls`
   END;
 |
 
-CREATE TRIGGER `before_insert_urlpath_part` BEFORE INSERT ON `documents`.`urlpathparts`
-  FOR EACH ROW
-  BEGIN
-    DECLARE TMP_ID INTEGER;
-    SET TMP_ID = (SELECT ID FROM `documents`.`urlpathparts` WHERE PATHPART_ID=NEW.PATHPART_ID AND URLPATHPART_ID_NEXT IS NULL);
-    IF NEW.URLPATHPART_ID_NEXT IS NULL AND TMP_ID > 0 THEN
-      SET NEW.ID = TMP_ID;
-    END IF;
-  END;
-|
-
 DELIMITER ;
