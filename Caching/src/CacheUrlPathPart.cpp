@@ -279,12 +279,9 @@ void CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const
 		pathParts.push_back(pathPart);
 
 		const database::TableColumn* nextID(urlpathpartTbl.GetIter()->GetConstColumn_URLPATHPART_ID_NEXT());
-		if(nextID->IsNull())
-			nextUrlPathPartID = -1;
-		else
-			nextID->Get(nextUrlPathPartID);
+		nextID->Get(nextUrlPathPartID);
 
-	} while(nextUrlPathPartID != -1);
+	} while(nextUrlPathPartID != cacheInstance.endUrlPathID);
 
 	tools::StringTools::VectorToString(pathParts,pathPart,"/");
 }
