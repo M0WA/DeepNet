@@ -35,6 +35,9 @@ worker_bot_mode=fenced
 # log all cache stati (0: off, interval in mins)
 # dumpCaches=0
 
+# log all SQL statements
+# dblogquery=1
+
 ##################################################
 #
 # cache settings
@@ -43,6 +46,21 @@ worker_bot_mode=fenced
 
 # number of urls in cache (*)
 urlcache=1000
+
+# number of subdomains in cache (*)
+subdomaincache=1000
+
+# number of second level in cache (*)
+secondlevelcache=1000
+
+# number of url path parts in cache (*)
+urlpathpartcache=1000
+
+# number of search parts in cache (*)
+searchpartcache=1000
+
+# number of path parts in cache (*)
+pathpartcache=1000
 
 # number of html docs in cache (*)
 # should be at least: crawler_threads * crawler_maxUrl
@@ -61,6 +79,9 @@ robotscache=500
 # database settings
 #
 ##################################################
+
+# database type (one of mysql | postgres )
+dbtype=mysql
 
 # settings for database (*)
 dbhost=127.0.0.1

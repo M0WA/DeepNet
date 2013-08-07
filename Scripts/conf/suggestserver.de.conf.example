@@ -24,11 +24,56 @@
 # log file, needed only for log type: file
 # logfile=/var/log/suggestserver.de.log
 
+# enables or disables performance logging at runtime (if compiled with ENABLE_PERFORMANCE_LOG)
+# enablePerformanceLogging=1
+
+# log all SQL statements
+# dblogquery=1
+
+##################################################
+#
+# cache settings
+#
+##################################################
+
+# number of urls in cache (*)
+urlcache=1000
+
+# number of subdomains in cache (*)
+subdomaincache=1000
+
+# number of second level in cache (*)
+secondlevelcache=1000
+
+# number of url path parts in cache (*)
+urlpathpartcache=1000
+
+# number of search parts in cache (*)
+searchpartcache=1000
+
+# number of path parts in cache (*)
+pathpartcache=1000
+
+# number of html docs in cache (*)
+# should be at least: crawler_threads * crawler_maxUrl
+htmlcache=100
+
+# number of parsed html docs in cache (*)
+# should be at least: parser_threads * parser_maxUrl
+# it should also be no problem if size is unlimited here (parsercache=0)
+parsercache=100
+
+# number of robots.txt in cache (*)
+robotscache=500
+
 ##################################################
 #
 # database settings
 #
 ##################################################
+
+# database type (one of mysql | postgres )
+dbtype=mysql
 
 # settings for database (*)
 dbhost=127.0.0.1
