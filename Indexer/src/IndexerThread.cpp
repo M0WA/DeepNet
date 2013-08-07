@@ -30,15 +30,15 @@ void* IndexerThread::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadPa
 {
 	log::Logging::RegisterThreadID("IndexerThread");
 
-	IndexerThread* instance = (IndexerThread*)(threadParam->instance);
+	IndexerThread* instance(dynamic_cast<IndexerThread*>(threadParam->instance));
 	instance->indexerThreadParam = *((IndexerThread::IndexerThreadParam*)threadParam->pParam);
 
 	PERFORMANCE_LOG_START;
-	bool connectedDB = instance->DB().CreateConnection(instance->indexerThreadParam.databaseConfig) ? true : false;
+	bool connectedDB(instance->DB().CreateConnection(instance->indexerThreadParam.databaseConfig) ? true : false);
 	PERFORMANCE_LOG_STOP("connect to database");
 
-	if(	connectedDB )
-	{
+	if(	connectedDB ){
+
 		instance->OnCreateIndexer(instance->indexerMeta,instance->indexerContent);
 
 		std::map<long long,caching::CacheParsed::CacheParsedEntry> entries;
@@ -66,7 +66,7 @@ void* IndexerThread::IndexerThreadFunc(threading::Thread::THREAD_PARAM* threadPa
 bool IndexerThread::GetNextPages(std::map<long long,caching::CacheParsed::CacheParsedEntry>& entries)
 {
 	PERFORMANCE_LOG_START;
-	bool success = caching::CacheParsed::Get(entries,indexerThreadParam.maxPerSelect);
+	bool success(caching::CacheParsed::Get(entries,indexerThreadParam.maxPerSelect));
 	PERFORMANCE_LOG_STOP("getting pages from cache for indexer");
 
 	if(!entries.size()) {
@@ -77,21 +77,20 @@ bool IndexerThread::GetNextPages(std::map<long long,caching::CacheParsed::CacheP
 
 bool IndexerThread::ParsePages(std::map<long long,caching::CacheParsed::CacheParsedEntry>& entries)
 {
-	std::map<long long,caching::CacheParsed::CacheParsedEntry>::iterator iterEntries = entries.begin();
+	std::map<long long,caching::CacheParsed::CacheParsedEntry>::const_iterator iterEntries(entries.begin());
 	for( ; iterEntries != entries.end(); ++iterEntries ) {
 
 		indexerContent.Get()->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
 
-		std::vector< std::string >::iterator iterContent = iterEntries->second.content.begin();
+		std::vector< std::string >::const_iterator iterContent(iterEntries->second.content.begin());
 		for(size_t iParagraph = 0;iterContent != iterEntries->second.content.end();++iParagraph,++iterContent) {
 			indexerContent.Get()->Parse(*iterContent,iParagraph); }
 		indexerContent.Get()->GetDictionary().CommitContent();
 
 		indexerMeta.Get()->GetDictionary().SetUrlID(iterEntries->second.urlID, iterEntries->second.urlStageID);
-		std::vector< std::pair<std::string,std::string> >::iterator iterMeta = iterEntries->second.meta.begin();
-		for(;iterMeta != iterEntries->second.meta.end();++iterMeta)
-		{
-			std::string lowerName = tools::StringTools::ToLowerNP(iterMeta->first);
+		std::vector< std::pair<std::string,std::string> >::const_iterator iterMeta(iterEntries->second.meta.begin());
+		for(;iterMeta != iterEntries->second.meta.end();++iterMeta)	{
+			std::string lowerName(tools::StringTools::ToLowerNP(iterMeta->first));
 
 			Dictionary::MetaInformationType type = Dictionary::META_UNKNOWN;
 			if(lowerName.compare("description") == 0) {
