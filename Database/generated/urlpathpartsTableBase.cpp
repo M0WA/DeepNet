@@ -734,7 +734,7 @@ TableColumnDefinition* urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT(
     createParam.isUniqueKey         = false;
     createParam.isCombinedUniqueKey = true;
     createParam.isIndex             = false;
-    createParam.isNullable          = true;
+    createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
     return TableColumnDefinition::CreateInstance(createParam);
 }
