@@ -234,10 +234,12 @@ void secondleveldomainsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(secondleveldomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(secondleveldomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void secondleveldomainsTableBase::GetBy_ID(
@@ -251,10 +253,12 @@ void secondleveldomainsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(secondleveldomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(secondleveldomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void secondleveldomainsTableBase::GetBy_domain(
@@ -268,10 +272,12 @@ void secondleveldomainsTableBase::GetBy_domain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(secondleveldomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(secondleveldomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void secondleveldomainsTableBase::GetBy_domain(
@@ -285,10 +291,12 @@ void secondleveldomainsTableBase::GetBy_domain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(secondleveldomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(secondleveldomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

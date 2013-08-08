@@ -322,10 +322,12 @@ void locksecondleveldomainTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(locksecondleveldomainTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(locksecondleveldomainTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void locksecondleveldomainTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -339,10 +341,12 @@ void locksecondleveldomainTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(locksecondleveldomainTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(locksecondleveldomainTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(
@@ -356,10 +360,12 @@ void locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(locksecondleveldomainTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(locksecondleveldomainTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(
@@ -373,10 +379,12 @@ void locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(locksecondleveldomainTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(locksecondleveldomainTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void locksecondleveldomainTableBase::GetBy_schedule(
@@ -390,10 +398,12 @@ void locksecondleveldomainTableBase::GetBy_schedule(
         fieldValue, 
         container);
 
-    SelectStatement stmt(locksecondleveldomainTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(locksecondleveldomainTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void locksecondleveldomainTableBase::GetBy_schedule(
@@ -407,10 +417,12 @@ void locksecondleveldomainTableBase::GetBy_schedule(
         fieldValue, 
         container);
 
-    SelectStatement stmt(locksecondleveldomainTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(locksecondleveldomainTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

@@ -14,8 +14,8 @@
 
 namespace database {
 
-InsertOrUpdateStatement::InsertOrUpdateStatement(TableBase* tableBase)
-: database::Statement(INSERT_OR_UPDATE_STMT,tableBase->GetTableDefinition())
+InsertOrUpdateStatement::InsertOrUpdateStatement(const TableBase* tableBase)
+: database::Statement(INSERT_OR_UPDATE_STMT,tableBase->GetConstTableDefinition())
 , tableBase(tableBase) {
 
 }

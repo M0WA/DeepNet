@@ -412,10 +412,12 @@ void customermatchcriteriaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_ID(
@@ -429,10 +431,12 @@ void customermatchcriteriaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -446,10 +450,12 @@ void customermatchcriteriaTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -463,10 +469,12 @@ void customermatchcriteriaTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_MATCHCRITERIA_ID(
@@ -480,10 +488,12 @@ void customermatchcriteriaTableBase::GetBy_MATCHCRITERIA_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_MATCHCRITERIA_ID(
@@ -497,10 +507,12 @@ void customermatchcriteriaTableBase::GetBy_MATCHCRITERIA_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_type(
@@ -514,10 +526,12 @@ void customermatchcriteriaTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriaTableBase::GetBy_type(
@@ -531,10 +545,12 @@ void customermatchcriteriaTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

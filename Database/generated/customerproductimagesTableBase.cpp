@@ -323,10 +323,12 @@ void customerproductimagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductimagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductimagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductimagesTableBase::GetBy_ID(
@@ -340,10 +342,12 @@ void customerproductimagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductimagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductimagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductimagesTableBase::GetBy_PRODUCT_ID(
@@ -357,10 +361,12 @@ void customerproductimagesTableBase::GetBy_PRODUCT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductimagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductimagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductimagesTableBase::GetBy_PRODUCT_ID(
@@ -374,10 +380,12 @@ void customerproductimagesTableBase::GetBy_PRODUCT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductimagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductimagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductimagesTableBase::GetBy_imageUrl(
@@ -391,10 +399,12 @@ void customerproductimagesTableBase::GetBy_imageUrl(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductimagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductimagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductimagesTableBase::GetBy_imageUrl(
@@ -408,10 +418,12 @@ void customerproductimagesTableBase::GetBy_imageUrl(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductimagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductimagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

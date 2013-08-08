@@ -323,10 +323,12 @@ void dataminingblacklistTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingblacklistTableBase::GetBy_ID(
@@ -340,10 +342,12 @@ void dataminingblacklistTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingblacklistTableBase::GetBy_CUSTOMER_ID(
@@ -357,10 +361,12 @@ void dataminingblacklistTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingblacklistTableBase::GetBy_CUSTOMER_ID(
@@ -374,10 +380,12 @@ void dataminingblacklistTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingblacklistTableBase::GetBy_domain(
@@ -391,10 +399,12 @@ void dataminingblacklistTableBase::GetBy_domain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingblacklistTableBase::GetBy_domain(
@@ -408,10 +418,12 @@ void dataminingblacklistTableBase::GetBy_domain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

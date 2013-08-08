@@ -234,10 +234,12 @@ void matchcriteriaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(matchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(matchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void matchcriteriaTableBase::GetBy_ID(
@@ -251,10 +253,12 @@ void matchcriteriaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(matchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(matchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void matchcriteriaTableBase::GetBy_regex(
@@ -268,10 +272,12 @@ void matchcriteriaTableBase::GetBy_regex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(matchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(matchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void matchcriteriaTableBase::GetBy_regex(
@@ -285,10 +291,12 @@ void matchcriteriaTableBase::GetBy_regex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(matchcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(matchcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

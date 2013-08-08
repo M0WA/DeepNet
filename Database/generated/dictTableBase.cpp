@@ -322,10 +322,12 @@ void dictTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dictTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dictTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dictTableBase::GetBy_ID(
@@ -339,10 +341,12 @@ void dictTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dictTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dictTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dictTableBase::GetBy_keyword(
@@ -356,10 +360,12 @@ void dictTableBase::GetBy_keyword(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dictTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dictTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dictTableBase::GetBy_keyword(
@@ -373,10 +379,12 @@ void dictTableBase::GetBy_keyword(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dictTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dictTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dictTableBase::GetBy_occurrence(
@@ -390,10 +398,12 @@ void dictTableBase::GetBy_occurrence(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dictTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dictTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dictTableBase::GetBy_occurrence(
@@ -407,10 +417,12 @@ void dictTableBase::GetBy_occurrence(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dictTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dictTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

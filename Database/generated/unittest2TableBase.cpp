@@ -498,10 +498,12 @@ void unittest2TableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_ID(
@@ -515,10 +517,12 @@ void unittest2TableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_timestamp_test(
@@ -532,10 +536,12 @@ void unittest2TableBase::GetBy_timestamp_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_timestamp_test(
@@ -549,10 +555,12 @@ void unittest2TableBase::GetBy_timestamp_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_varchar_test(
@@ -566,10 +574,12 @@ void unittest2TableBase::GetBy_varchar_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_varchar_test(
@@ -583,10 +593,12 @@ void unittest2TableBase::GetBy_varchar_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_double_test(
@@ -600,10 +612,12 @@ void unittest2TableBase::GetBy_double_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_double_test(
@@ -617,10 +631,12 @@ void unittest2TableBase::GetBy_double_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_integer_test(
@@ -634,10 +650,12 @@ void unittest2TableBase::GetBy_integer_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void unittest2TableBase::GetBy_integer_test(
@@ -651,10 +669,12 @@ void unittest2TableBase::GetBy_integer_test(
         fieldValue, 
         container);
 
-    SelectStatement stmt(unittest2TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(unittest2TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

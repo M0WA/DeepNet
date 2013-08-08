@@ -413,10 +413,12 @@ void dataminingcriteriaalertsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_ID(
@@ -430,10 +432,12 @@ void dataminingcriteriaalertsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_CUSTOMER_ID(
@@ -447,10 +451,12 @@ void dataminingcriteriaalertsTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_CUSTOMER_ID(
@@ -464,10 +470,12 @@ void dataminingcriteriaalertsTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_DATAMININGALERT_ID(
@@ -481,10 +489,12 @@ void dataminingcriteriaalertsTableBase::GetBy_DATAMININGALERT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_DATAMININGALERT_ID(
@@ -498,10 +508,12 @@ void dataminingcriteriaalertsTableBase::GetBy_DATAMININGALERT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_DATAMININGCRITERIA_ID(
@@ -515,10 +527,12 @@ void dataminingcriteriaalertsTableBase::GetBy_DATAMININGCRITERIA_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaalertsTableBase::GetBy_DATAMININGCRITERIA_ID(
@@ -532,10 +546,12 @@ void dataminingcriteriaalertsTableBase::GetBy_DATAMININGCRITERIA_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

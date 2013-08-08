@@ -499,10 +499,12 @@ void customerdomainsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_ID(
@@ -516,10 +518,12 @@ void customerdomainsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_CUSTOMER_ID(
@@ -533,10 +537,12 @@ void customerdomainsTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_CUSTOMER_ID(
@@ -550,10 +556,12 @@ void customerdomainsTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_domain(
@@ -567,10 +575,12 @@ void customerdomainsTableBase::GetBy_domain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_domain(
@@ -584,10 +594,12 @@ void customerdomainsTableBase::GetBy_domain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_revisitInterval(
@@ -601,10 +613,12 @@ void customerdomainsTableBase::GetBy_revisitInterval(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_revisitInterval(
@@ -618,10 +632,12 @@ void customerdomainsTableBase::GetBy_revisitInterval(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_isDomainRegex(
@@ -635,10 +651,12 @@ void customerdomainsTableBase::GetBy_isDomainRegex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainsTableBase::GetBy_isDomainRegex(
@@ -652,10 +670,12 @@ void customerdomainsTableBase::GetBy_isDomainRegex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

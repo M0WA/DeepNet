@@ -17,19 +17,19 @@
 
 namespace database {
 
-SelectStatement::SelectStatement(TableDefinition* definition)
+SelectStatement::SelectStatement(const TableDefinition* definition)
 : Statement(Statement::SELECT_STMT, definition)
 {
 }
 
-SelectStatement::SelectStatement(TableDefinition* definition, const std::string& tableAlias)
+SelectStatement::SelectStatement(const TableDefinition* definition, const std::string& tableAlias)
 : Statement(Statement::SELECT_STMT, definition, tableAlias)
 {
 }
 
 SelectStatement::~SelectStatement()
 {
-	std::vector<SelectColumn>::iterator iterCols = selectColumns.begin();
+	std::vector<SelectColumn>::iterator iterCols(selectColumns.begin());
 	for(int i = 0;iterCols != selectColumns.end();++iterCols,i++) {
 		if(iterCols->doDelete) {
 			delete iterCols->colDef; }
@@ -37,8 +37,8 @@ SelectStatement::~SelectStatement()
 }
 
 void SelectStatement::SelectAllColumns() {
-	const std::vector<TableColumnDefinition*>& vecCols = GetConstTableDefinition()->GetConstColumnDefinitions();
-	std::vector<TableColumnDefinition*>::const_iterator iterCols = vecCols.begin();
+	const std::vector<TableColumnDefinition*>& vecCols(GetConstTableDefinition()->GetConstColumnDefinitions());
+	std::vector<TableColumnDefinition*>::const_iterator iterCols(vecCols.begin());
 	for(;iterCols != vecCols.end();++iterCols) {
 		SelectColumn col;
 		col.colDef = *iterCols;
@@ -81,14 +81,14 @@ std::string SelectStatement::CreateSelectColumnString() const {
 
 	std::stringstream ssSelectCol;
 
-	std::vector<SelectColumn>::const_iterator iterCols = selectColumns.begin();
+	std::vector<SelectColumn>::const_iterator iterCols(selectColumns.begin());
 	for(int i = 0;iterCols != selectColumns.end();++iterCols,i++) {
 		if(i)
 			ssSelectCol << ", ";
 
-		std::string aliasString = iterCols->columnAlias.empty() ? " " : (" " + GetColumnAliasString(iterCols->columnAlias) + " ");
+		std::string aliasString((iterCols->columnAlias.empty() ? " " : (" " + GetColumnAliasString(iterCols->columnAlias) + " ")));
 
-		std::string tableName = iterCols->colDef->GetTableName();
+		std::string tableName(iterCols->colDef->GetTableName());
 		if(!iterCols->tableAlias.empty()){
 			tableName = iterCols->tableAlias;}
 

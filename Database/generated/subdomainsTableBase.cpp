@@ -234,10 +234,12 @@ void subdomainsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(subdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(subdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void subdomainsTableBase::GetBy_ID(
@@ -251,10 +253,12 @@ void subdomainsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(subdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(subdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void subdomainsTableBase::GetBy_subdomain(
@@ -268,10 +272,12 @@ void subdomainsTableBase::GetBy_subdomain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(subdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(subdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void subdomainsTableBase::GetBy_subdomain(
@@ -285,10 +291,12 @@ void subdomainsTableBase::GetBy_subdomain(
         fieldValue, 
         container);
 
-    SelectStatement stmt(subdomainsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(subdomainsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

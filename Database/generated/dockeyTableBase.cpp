@@ -412,10 +412,12 @@ void dockeyTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_ID(
@@ -429,10 +431,12 @@ void dockeyTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_DICT_ID(
@@ -446,10 +450,12 @@ void dockeyTableBase::GetBy_DICT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_DICT_ID(
@@ -463,10 +469,12 @@ void dockeyTableBase::GetBy_DICT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_URLSTAGE_ID(
@@ -480,10 +488,12 @@ void dockeyTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_URLSTAGE_ID(
@@ -497,10 +507,12 @@ void dockeyTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_occurrence(
@@ -514,10 +526,12 @@ void dockeyTableBase::GetBy_occurrence(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyTableBase::GetBy_occurrence(
@@ -531,10 +545,12 @@ void dockeyTableBase::GetBy_occurrence(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

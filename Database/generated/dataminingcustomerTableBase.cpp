@@ -322,10 +322,12 @@ void dataminingcustomerTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcustomerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcustomerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcustomerTableBase::GetBy_ID(
@@ -339,10 +341,12 @@ void dataminingcustomerTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcustomerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcustomerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcustomerTableBase::GetBy_login(
@@ -356,10 +360,12 @@ void dataminingcustomerTableBase::GetBy_login(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcustomerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcustomerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcustomerTableBase::GetBy_login(
@@ -373,10 +379,12 @@ void dataminingcustomerTableBase::GetBy_login(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcustomerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcustomerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcustomerTableBase::GetBy_password(
@@ -390,10 +398,12 @@ void dataminingcustomerTableBase::GetBy_password(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcustomerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcustomerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcustomerTableBase::GetBy_password(
@@ -407,10 +417,12 @@ void dataminingcustomerTableBase::GetBy_password(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcustomerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcustomerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

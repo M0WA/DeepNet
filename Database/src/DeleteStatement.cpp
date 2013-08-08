@@ -12,7 +12,7 @@
 
 namespace database {
 
-DeleteStatement::DeleteStatement(TableDefinition* tableDefinition)
+DeleteStatement::DeleteStatement(const TableDefinition* tableDefinition)
 : Statement(Statement::DELETE_STMT, tableDefinition)
 {
 }

@@ -411,10 +411,12 @@ void customersynccrawlerTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_ID(
@@ -428,10 +430,12 @@ void customersynccrawlerTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -445,10 +449,12 @@ void customersynccrawlerTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -462,10 +468,12 @@ void customersynccrawlerTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_CRAWLERSESSION_ID(
@@ -479,10 +487,12 @@ void customersynccrawlerTableBase::GetBy_CRAWLERSESSION_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_CRAWLERSESSION_ID(
@@ -496,10 +506,12 @@ void customersynccrawlerTableBase::GetBy_CRAWLERSESSION_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_scheduled(
@@ -513,10 +525,12 @@ void customersynccrawlerTableBase::GetBy_scheduled(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersynccrawlerTableBase::GetBy_scheduled(
@@ -530,10 +544,12 @@ void customersynccrawlerTableBase::GetBy_scheduled(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersynccrawlerTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersynccrawlerTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

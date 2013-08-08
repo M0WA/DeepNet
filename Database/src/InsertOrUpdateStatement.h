@@ -33,7 +33,7 @@ public:
 	 * values of existing table are inserted or replaced replaced.
 	 * @param tableBase existing table.
 	 */
-	InsertOrUpdateStatement(TableBase* tableBase);
+	InsertOrUpdateStatement(const TableBase* tableBase);
 
 	virtual ~InsertOrUpdateStatement();
 
@@ -77,7 +77,7 @@ protected:
 	/**
 	 * base table for this statement
 	 */
-	TableBase* tableBase;
+	const TableBase* tableBase;
 };
 
 }

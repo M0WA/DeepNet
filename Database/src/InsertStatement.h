@@ -26,7 +26,7 @@ public:
 	 * construct with existing table filled with values to insert.
 	 * @param tableBase existing table.
 	 */
-	InsertStatement(TableBase* tableBase);
+	InsertStatement(const TableBase* tableBase);
 	virtual ~InsertStatement();
 
 public:
@@ -41,7 +41,7 @@ public:
 	virtual std::string ToSQL( DatabaseConnection* db ) const;
 
 protected:
-	TableBase* tableBase;
+	const TableBase* tableBase;
 };
 
 }

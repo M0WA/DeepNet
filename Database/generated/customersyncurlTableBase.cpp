@@ -323,10 +323,12 @@ void customersyncurlTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersyncurlTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersyncurlTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersyncurlTableBase::GetBy_ID(
@@ -340,10 +342,12 @@ void customersyncurlTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersyncurlTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersyncurlTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersyncurlTableBase::GetBy_URL_ID(
@@ -357,10 +361,12 @@ void customersyncurlTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersyncurlTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersyncurlTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersyncurlTableBase::GetBy_URL_ID(
@@ -374,10 +380,12 @@ void customersyncurlTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersyncurlTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersyncurlTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersyncurlTableBase::GetBy_scheduled(
@@ -391,10 +399,12 @@ void customersyncurlTableBase::GetBy_scheduled(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersyncurlTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersyncurlTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersyncurlTableBase::GetBy_scheduled(
@@ -408,10 +418,12 @@ void customersyncurlTableBase::GetBy_scheduled(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersyncurlTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersyncurlTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

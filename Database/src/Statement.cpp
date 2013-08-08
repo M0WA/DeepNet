@@ -12,30 +12,27 @@
 
 namespace database {
 
-Statement::Statement(const StatementType typeIn, TableBase* tableBase)
+Statement::Statement(const StatementType typeIn, const TableBase* tableBase)
 : tableAlias(tableBase->GetTableAlias())
 , limit(0)
 , typeStmt(typeIn)
-, tableDefinition(tableBase->GetTableDefinition())
-, deleteDefinition(false)
+, tableDefinition(tableBase->GetConstTableDefinition())
 {
 }
 
-Statement::Statement(const StatementType typeIn, TableDefinition* tableDefinition)
+Statement::Statement(const StatementType typeIn, const TableDefinition* tableDefinition)
 : tableAlias()
 , limit(0)
 , typeStmt(typeIn)
 , tableDefinition(tableDefinition)
-, deleteDefinition(false)
 {
 }
 
-Statement::Statement(const StatementType typeIn, TableDefinition* tableDefinition, const std::string& tableAlias)
+Statement::Statement(const StatementType typeIn, const TableDefinition* tableDefinition, const std::string& tableAlias)
 : tableAlias(tableAlias)
 , limit(0)
 , typeStmt(typeIn)
 , tableDefinition(tableDefinition)
-, deleteDefinition(false)
 {
 }
 
@@ -46,8 +43,6 @@ Statement::Statement(const Statement& copyStmt) {
 
 Statement::~Statement()
 {
-	if(deleteDefinition && tableDefinition)
-		delete tableDefinition;
 }
 
 const std::string& Statement::TableName(void) const {

@@ -322,10 +322,12 @@ void pathpartsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void pathpartsTableBase::GetBy_ID(
@@ -339,10 +341,12 @@ void pathpartsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void pathpartsTableBase::GetBy_path(
@@ -356,10 +360,12 @@ void pathpartsTableBase::GetBy_path(
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void pathpartsTableBase::GetBy_path(
@@ -373,10 +379,12 @@ void pathpartsTableBase::GetBy_path(
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void pathpartsTableBase::GetBy_md5(
@@ -390,10 +398,12 @@ void pathpartsTableBase::GetBy_md5(
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void pathpartsTableBase::GetBy_md5(
@@ -407,10 +417,12 @@ void pathpartsTableBase::GetBy_md5(
         fieldValue, 
         container);
 
-    SelectStatement stmt(pathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(pathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

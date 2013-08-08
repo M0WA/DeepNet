@@ -27,7 +27,7 @@ public:
 	 * part of the statement.
 	 * @param tableDefinition table definition.
 	 */
-	DeleteStatement(TableDefinition* tableDefinition);
+	DeleteStatement(const TableDefinition* tableDefinition);
 
 	virtual ~DeleteStatement();
 

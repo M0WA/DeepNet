@@ -234,10 +234,12 @@ void searchqueryTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchqueryTableBase::GetBy_ID(
@@ -251,10 +253,12 @@ void searchqueryTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchqueryTableBase::GetBy_session(
@@ -268,10 +272,12 @@ void searchqueryTableBase::GetBy_session(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchqueryTableBase::GetBy_session(
@@ -285,10 +291,12 @@ void searchqueryTableBase::GetBy_session(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

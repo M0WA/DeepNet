@@ -20,7 +20,7 @@
 
 namespace database {
 
-InsertStatement::InsertStatement(TableBase* tableBase)
+InsertStatement::InsertStatement(const TableBase* tableBase)
 : Statement(Statement::INSERT_STMT, tableBase)
 , tableBase(tableBase) {
 }

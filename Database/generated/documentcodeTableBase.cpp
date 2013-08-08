@@ -323,10 +323,12 @@ void documentcodeTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(documentcodeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(documentcodeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void documentcodeTableBase::GetBy_ID(
@@ -340,10 +342,12 @@ void documentcodeTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(documentcodeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(documentcodeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void documentcodeTableBase::GetBy_URLSTAGE_ID(
@@ -357,10 +361,12 @@ void documentcodeTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(documentcodeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(documentcodeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void documentcodeTableBase::GetBy_URLSTAGE_ID(
@@ -374,10 +380,12 @@ void documentcodeTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(documentcodeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(documentcodeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void documentcodeTableBase::GetBy_code(
@@ -391,10 +399,12 @@ void documentcodeTableBase::GetBy_code(
         fieldValue, 
         container);
 
-    SelectStatement stmt(documentcodeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(documentcodeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void documentcodeTableBase::GetBy_code(
@@ -408,10 +418,12 @@ void documentcodeTableBase::GetBy_code(
         fieldValue, 
         container);
 
-    SelectStatement stmt(documentcodeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(documentcodeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

@@ -324,10 +324,12 @@ void fencedsearchTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(fencedsearchTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(fencedsearchTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void fencedsearchTableBase::GetBy_ID(
@@ -341,10 +343,12 @@ void fencedsearchTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(fencedsearchTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(fencedsearchTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void fencedsearchTableBase::GetBy_CUSTOMER_ID(
@@ -358,10 +362,12 @@ void fencedsearchTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(fencedsearchTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(fencedsearchTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void fencedsearchTableBase::GetBy_CUSTOMER_ID(
@@ -375,10 +381,12 @@ void fencedsearchTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(fencedsearchTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(fencedsearchTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void fencedsearchTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -392,10 +400,12 @@ void fencedsearchTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(fencedsearchTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(fencedsearchTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void fencedsearchTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -409,10 +419,12 @@ void fencedsearchTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(fencedsearchTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(fencedsearchTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

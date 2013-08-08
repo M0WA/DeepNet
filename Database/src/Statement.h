@@ -66,7 +66,7 @@ protected:
 	 * @param typeIn statement type.
 	 * @param tableDefinition table definition.
 	 */
-	Statement(const StatementType typeIn, TableDefinition* tableDefinition);
+	Statement(const StatementType typeIn, const TableDefinition* tableDefinition);
 
 	/**
 	 * construct by type and table definition using an alias name for the table.
@@ -74,14 +74,14 @@ protected:
 	 * @param tableDefinition table definition.
 	 * @param tableAlias alias name.
 	 */
-	Statement(const StatementType typeIn, TableDefinition* tableDefinition, const std::string& tableAlias);
+	Statement(const StatementType typeIn, const TableDefinition* tableDefinition, const std::string& tableAlias);
 
 	/**
 	 * construct by type and using an existing table's table definition.
 	 * @param typeIn statement type.
 	 * @param tableBase existing table.
 	 */
-	Statement(const StatementType typeIn, TableBase* tableBase);
+	Statement(const StatementType typeIn, const TableBase* tableBase);
 
 public:
 	virtual ~Statement();
@@ -167,9 +167,7 @@ private:
 	/**
 	 * definition of this statement's table.
 	 */
-	TableDefinition* tableDefinition;
-
-	bool deleteDefinition;
+	const TableDefinition* tableDefinition;
 };
 
 }

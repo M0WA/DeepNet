@@ -411,10 +411,12 @@ void dockeyposTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_ID(
@@ -428,10 +430,12 @@ void dockeyposTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_DOCKEY_ID(
@@ -445,10 +449,12 @@ void dockeyposTableBase::GetBy_DOCKEY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_DOCKEY_ID(
@@ -462,10 +468,12 @@ void dockeyposTableBase::GetBy_DOCKEY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_paragraph(
@@ -479,10 +487,12 @@ void dockeyposTableBase::GetBy_paragraph(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_paragraph(
@@ -496,10 +506,12 @@ void dockeyposTableBase::GetBy_paragraph(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_position(
@@ -513,10 +525,12 @@ void dockeyposTableBase::GetBy_position(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dockeyposTableBase::GetBy_position(
@@ -530,10 +544,12 @@ void dockeyposTableBase::GetBy_position(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dockeyposTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dockeyposTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

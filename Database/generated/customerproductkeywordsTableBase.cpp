@@ -324,10 +324,12 @@ void customerproductkeywordsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductkeywordsTableBase::GetBy_ID(
@@ -341,10 +343,12 @@ void customerproductkeywordsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductkeywordsTableBase::GetBy_PRODUCT_ID(
@@ -358,10 +362,12 @@ void customerproductkeywordsTableBase::GetBy_PRODUCT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductkeywordsTableBase::GetBy_PRODUCT_ID(
@@ -375,10 +381,12 @@ void customerproductkeywordsTableBase::GetBy_PRODUCT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductkeywordsTableBase::GetBy_DICT_ID(
@@ -392,10 +400,12 @@ void customerproductkeywordsTableBase::GetBy_DICT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductkeywordsTableBase::GetBy_DICT_ID(
@@ -409,10 +419,12 @@ void customerproductkeywordsTableBase::GetBy_DICT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

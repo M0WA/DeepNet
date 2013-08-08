@@ -413,10 +413,12 @@ void imagelinksTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_ID(
@@ -430,10 +432,12 @@ void imagelinksTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_TARGET_URL_ID(
@@ -447,10 +451,12 @@ void imagelinksTableBase::GetBy_TARGET_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_TARGET_URL_ID(
@@ -464,10 +470,12 @@ void imagelinksTableBase::GetBy_TARGET_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_IMAGE_URL_ID(
@@ -481,10 +489,12 @@ void imagelinksTableBase::GetBy_IMAGE_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_IMAGE_URL_ID(
@@ -498,10 +508,12 @@ void imagelinksTableBase::GetBy_IMAGE_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_URLSTAGE_ID(
@@ -515,10 +527,12 @@ void imagelinksTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagelinksTableBase::GetBy_URLSTAGE_ID(
@@ -532,10 +546,12 @@ void imagelinksTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagelinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagelinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

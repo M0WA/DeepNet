@@ -499,10 +499,12 @@ void queryresultsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_ID(
@@ -516,10 +518,12 @@ void queryresultsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_SEARCHQUERY_ID(
@@ -533,10 +537,12 @@ void queryresultsTableBase::GetBy_SEARCHQUERY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_SEARCHQUERY_ID(
@@ -550,10 +556,12 @@ void queryresultsTableBase::GetBy_SEARCHQUERY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_URL_ID(
@@ -567,10 +575,12 @@ void queryresultsTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_URL_ID(
@@ -584,10 +594,12 @@ void queryresultsTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_URLSTAGE_ID(
@@ -601,10 +613,12 @@ void queryresultsTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_URLSTAGE_ID(
@@ -618,10 +632,12 @@ void queryresultsTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_order_position(
@@ -635,10 +651,12 @@ void queryresultsTableBase::GetBy_order_position(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void queryresultsTableBase::GetBy_order_position(
@@ -652,10 +670,12 @@ void queryresultsTableBase::GetBy_order_position(
         fieldValue, 
         container);
 
-    SelectStatement stmt(queryresultsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

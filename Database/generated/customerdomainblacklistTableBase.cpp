@@ -411,10 +411,12 @@ void customerdomainblacklistTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_ID(
@@ -428,10 +430,12 @@ void customerdomainblacklistTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -445,10 +449,12 @@ void customerdomainblacklistTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -462,10 +468,12 @@ void customerdomainblacklistTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_path(
@@ -479,10 +487,12 @@ void customerdomainblacklistTableBase::GetBy_path(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_path(
@@ -496,10 +506,12 @@ void customerdomainblacklistTableBase::GetBy_path(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_isPathRegex(
@@ -513,10 +525,12 @@ void customerdomainblacklistTableBase::GetBy_isPathRegex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerdomainblacklistTableBase::GetBy_isPathRegex(
@@ -530,10 +544,12 @@ void customerdomainblacklistTableBase::GetBy_isPathRegex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerdomainblacklistTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerdomainblacklistTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

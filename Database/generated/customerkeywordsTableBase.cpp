@@ -499,10 +499,12 @@ void customerkeywordsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_ID(
@@ -516,10 +518,12 @@ void customerkeywordsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -533,10 +537,12 @@ void customerkeywordsTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -550,10 +556,12 @@ void customerkeywordsTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_keyword(
@@ -567,10 +575,12 @@ void customerkeywordsTableBase::GetBy_keyword(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_keyword(
@@ -584,10 +594,12 @@ void customerkeywordsTableBase::GetBy_keyword(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_target(
@@ -601,10 +613,12 @@ void customerkeywordsTableBase::GetBy_target(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_target(
@@ -618,10 +632,12 @@ void customerkeywordsTableBase::GetBy_target(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_isKeywordRegex(
@@ -635,10 +651,12 @@ void customerkeywordsTableBase::GetBy_isKeywordRegex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerkeywordsTableBase::GetBy_isKeywordRegex(
@@ -652,10 +670,12 @@ void customerkeywordsTableBase::GetBy_isKeywordRegex(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerkeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerkeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

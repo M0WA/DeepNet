@@ -146,10 +146,12 @@ void crawlersessionsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(crawlersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(crawlersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void crawlersessionsTableBase::GetBy_ID(
@@ -163,10 +165,12 @@ void crawlersessionsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(crawlersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(crawlersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

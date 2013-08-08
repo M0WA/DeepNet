@@ -322,10 +322,12 @@ void dataminingcriteriaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaTableBase::GetBy_ID(
@@ -339,10 +341,12 @@ void dataminingcriteriaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaTableBase::GetBy_keyword(
@@ -356,10 +360,12 @@ void dataminingcriteriaTableBase::GetBy_keyword(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaTableBase::GetBy_keyword(
@@ -373,10 +379,12 @@ void dataminingcriteriaTableBase::GetBy_keyword(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaTableBase::GetBy_type(
@@ -390,10 +398,12 @@ void dataminingcriteriaTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingcriteriaTableBase::GetBy_type(
@@ -407,10 +417,12 @@ void dataminingcriteriaTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingcriteriaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingcriteriaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

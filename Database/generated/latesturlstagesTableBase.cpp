@@ -324,10 +324,12 @@ void latesturlstagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(latesturlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(latesturlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void latesturlstagesTableBase::GetBy_ID(
@@ -341,10 +343,12 @@ void latesturlstagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(latesturlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(latesturlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void latesturlstagesTableBase::GetBy_URL_ID(
@@ -358,10 +362,12 @@ void latesturlstagesTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(latesturlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(latesturlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void latesturlstagesTableBase::GetBy_URL_ID(
@@ -375,10 +381,12 @@ void latesturlstagesTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(latesturlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(latesturlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void latesturlstagesTableBase::GetBy_URLSTAGE_ID(
@@ -392,10 +400,12 @@ void latesturlstagesTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(latesturlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(latesturlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void latesturlstagesTableBase::GetBy_URLSTAGE_ID(
@@ -409,10 +419,12 @@ void latesturlstagesTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(latesturlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(latesturlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

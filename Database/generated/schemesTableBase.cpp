@@ -234,10 +234,12 @@ void schemesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(schemesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(schemesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void schemesTableBase::GetBy_ID(
@@ -251,10 +253,12 @@ void schemesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(schemesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(schemesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void schemesTableBase::GetBy_scheme(
@@ -268,10 +272,12 @@ void schemesTableBase::GetBy_scheme(
         fieldValue, 
         container);
 
-    SelectStatement stmt(schemesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(schemesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void schemesTableBase::GetBy_scheme(
@@ -285,10 +291,12 @@ void schemesTableBase::GetBy_scheme(
         fieldValue, 
         container);
 
-    SelectStatement stmt(schemesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(schemesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

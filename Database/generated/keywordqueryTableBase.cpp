@@ -234,10 +234,12 @@ void keywordqueryTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(keywordqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(keywordqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void keywordqueryTableBase::GetBy_ID(
@@ -251,10 +253,12 @@ void keywordqueryTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(keywordqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(keywordqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void keywordqueryTableBase::GetBy_query_part(
@@ -268,10 +272,12 @@ void keywordqueryTableBase::GetBy_query_part(
         fieldValue, 
         container);
 
-    SelectStatement stmt(keywordqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(keywordqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void keywordqueryTableBase::GetBy_query_part(
@@ -285,10 +291,12 @@ void keywordqueryTableBase::GetBy_query_part(
         fieldValue, 
         container);
 
-    SelectStatement stmt(keywordqueryTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(keywordqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

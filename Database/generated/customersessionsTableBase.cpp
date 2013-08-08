@@ -323,10 +323,12 @@ void customersessionsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersessionsTableBase::GetBy_ID(
@@ -340,10 +342,12 @@ void customersessionsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersessionsTableBase::GetBy_CUSTOMER_ID(
@@ -357,10 +361,12 @@ void customersessionsTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersessionsTableBase::GetBy_CUSTOMER_ID(
@@ -374,10 +380,12 @@ void customersessionsTableBase::GetBy_CUSTOMER_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersessionsTableBase::GetBy_session(
@@ -391,10 +399,12 @@ void customersessionsTableBase::GetBy_session(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customersessionsTableBase::GetBy_session(
@@ -408,10 +418,12 @@ void customersessionsTableBase::GetBy_session(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customersessionsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customersessionsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

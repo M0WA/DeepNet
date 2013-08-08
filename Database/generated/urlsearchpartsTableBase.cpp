@@ -322,10 +322,12 @@ void urlsearchpartsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlsearchpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlsearchpartsTableBase::GetBy_ID(
@@ -339,10 +341,12 @@ void urlsearchpartsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlsearchpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlsearchpartsTableBase::GetBy_searchpart(
@@ -356,10 +360,12 @@ void urlsearchpartsTableBase::GetBy_searchpart(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlsearchpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlsearchpartsTableBase::GetBy_searchpart(
@@ -373,10 +379,12 @@ void urlsearchpartsTableBase::GetBy_searchpart(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlsearchpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlsearchpartsTableBase::GetBy_md5(
@@ -390,10 +398,12 @@ void urlsearchpartsTableBase::GetBy_md5(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlsearchpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlsearchpartsTableBase::GetBy_md5(
@@ -407,10 +417,12 @@ void urlsearchpartsTableBase::GetBy_md5(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlsearchpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlsearchpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

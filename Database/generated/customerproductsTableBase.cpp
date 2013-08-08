@@ -499,10 +499,12 @@ void customerproductsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_ID(
@@ -516,10 +518,12 @@ void customerproductsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -533,10 +537,12 @@ void customerproductsTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_CUSTOMERDOMAIN_ID(
@@ -550,10 +556,12 @@ void customerproductsTableBase::GetBy_CUSTOMERDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_productNo(
@@ -567,10 +575,12 @@ void customerproductsTableBase::GetBy_productNo(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_productNo(
@@ -584,10 +594,12 @@ void customerproductsTableBase::GetBy_productNo(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_productName(
@@ -601,10 +613,12 @@ void customerproductsTableBase::GetBy_productName(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_productName(
@@ -618,10 +632,12 @@ void customerproductsTableBase::GetBy_productName(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_productBrand(
@@ -635,10 +651,12 @@ void customerproductsTableBase::GetBy_productBrand(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customerproductsTableBase::GetBy_productBrand(
@@ -652,10 +670,12 @@ void customerproductsTableBase::GetBy_productBrand(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customerproductsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customerproductsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

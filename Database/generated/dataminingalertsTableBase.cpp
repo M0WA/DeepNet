@@ -322,10 +322,12 @@ void dataminingalertsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingalertsTableBase::GetBy_ID(
@@ -339,10 +341,12 @@ void dataminingalertsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingalertsTableBase::GetBy_type(
@@ -356,10 +360,12 @@ void dataminingalertsTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingalertsTableBase::GetBy_type(
@@ -373,10 +379,12 @@ void dataminingalertsTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingalertsTableBase::GetBy_param(
@@ -390,10 +398,12 @@ void dataminingalertsTableBase::GetBy_param(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void dataminingalertsTableBase::GetBy_param(
@@ -407,10 +417,12 @@ void dataminingalertsTableBase::GetBy_param(
         fieldValue, 
         container);
 
-    SelectStatement stmt(dataminingalertsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(dataminingalertsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

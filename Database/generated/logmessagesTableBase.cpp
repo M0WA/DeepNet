@@ -762,10 +762,12 @@ void logmessagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_ID(
@@ -779,10 +781,12 @@ void logmessagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_loglevel(
@@ -796,10 +800,12 @@ void logmessagesTableBase::GetBy_loglevel(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_loglevel(
@@ -813,10 +819,12 @@ void logmessagesTableBase::GetBy_loglevel(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_message(
@@ -830,10 +838,12 @@ void logmessagesTableBase::GetBy_message(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_message(
@@ -847,10 +857,12 @@ void logmessagesTableBase::GetBy_message(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_actiontime(
@@ -864,10 +876,12 @@ void logmessagesTableBase::GetBy_actiontime(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_actiontime(
@@ -881,10 +895,12 @@ void logmessagesTableBase::GetBy_actiontime(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_pid(
@@ -898,10 +914,12 @@ void logmessagesTableBase::GetBy_pid(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_pid(
@@ -915,10 +933,12 @@ void logmessagesTableBase::GetBy_pid(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_tid(
@@ -932,10 +952,12 @@ void logmessagesTableBase::GetBy_tid(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_tid(
@@ -949,10 +971,12 @@ void logmessagesTableBase::GetBy_tid(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_appName(
@@ -966,10 +990,12 @@ void logmessagesTableBase::GetBy_appName(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_appName(
@@ -983,10 +1009,12 @@ void logmessagesTableBase::GetBy_appName(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_threadName(
@@ -1000,10 +1028,12 @@ void logmessagesTableBase::GetBy_threadName(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void logmessagesTableBase::GetBy_threadName(
@@ -1017,10 +1047,12 @@ void logmessagesTableBase::GetBy_threadName(
         fieldValue, 
         container);
 
-    SelectStatement stmt(logmessagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(logmessagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

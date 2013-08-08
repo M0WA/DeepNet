@@ -324,10 +324,12 @@ void searchquerykeywordsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchquerykeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchquerykeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchquerykeywordsTableBase::GetBy_ID(
@@ -341,10 +343,12 @@ void searchquerykeywordsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchquerykeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchquerykeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchquerykeywordsTableBase::GetBy_KEYWORDQUERY_ID(
@@ -358,10 +362,12 @@ void searchquerykeywordsTableBase::GetBy_KEYWORDQUERY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchquerykeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchquerykeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchquerykeywordsTableBase::GetBy_KEYWORDQUERY_ID(
@@ -375,10 +381,12 @@ void searchquerykeywordsTableBase::GetBy_KEYWORDQUERY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchquerykeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchquerykeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchquerykeywordsTableBase::GetBy_SEARCHQUERY_ID(
@@ -392,10 +400,12 @@ void searchquerykeywordsTableBase::GetBy_SEARCHQUERY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchquerykeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchquerykeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void searchquerykeywordsTableBase::GetBy_SEARCHQUERY_ID(
@@ -409,10 +419,12 @@ void searchquerykeywordsTableBase::GetBy_SEARCHQUERY_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(searchquerykeywordsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(searchquerykeywordsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

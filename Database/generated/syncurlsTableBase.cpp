@@ -500,10 +500,12 @@ void syncurlsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_ID(
@@ -517,10 +519,12 @@ void syncurlsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_URL_ID(
@@ -534,10 +538,12 @@ void syncurlsTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_URL_ID(
@@ -551,10 +557,12 @@ void syncurlsTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -568,10 +576,12 @@ void syncurlsTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -585,10 +595,12 @@ void syncurlsTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_CRAWLERSESSION_ID(
@@ -602,10 +614,12 @@ void syncurlsTableBase::GetBy_CRAWLERSESSION_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_CRAWLERSESSION_ID(
@@ -619,10 +633,12 @@ void syncurlsTableBase::GetBy_CRAWLERSESSION_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_schedule(
@@ -636,10 +652,12 @@ void syncurlsTableBase::GetBy_schedule(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void syncurlsTableBase::GetBy_schedule(
@@ -653,10 +671,12 @@ void syncurlsTableBase::GetBy_schedule(
         fieldValue, 
         container);
 
-    SelectStatement stmt(syncurlsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(syncurlsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

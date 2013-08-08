@@ -68,7 +68,7 @@ public:
 	 * @param definition table definition.
 	 * @param tableAlias table name alias.
 	 */
-	SelectStatement(TableDefinition* definition, const std::string& tableAlias);
+	SelectStatement(const TableDefinition* definition, const std::string& tableAlias);
 
 	/**
 	 * construct with a table definition.
@@ -76,7 +76,7 @@ public:
 	 * part of the statement.
 	 * @param definition table definition.
 	 */
-	SelectStatement(TableDefinition* definition);
+	SelectStatement(const TableDefinition* definition);
 
 	virtual ~SelectStatement();
 

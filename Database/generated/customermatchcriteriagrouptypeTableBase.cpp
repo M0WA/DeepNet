@@ -499,10 +499,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_ID(
@@ -516,10 +518,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_CUSTOMERMATCHCRITERIA_ID(
@@ -533,10 +537,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_CUSTOMERMATCHCRITERIA_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_CUSTOMERMATCHCRITERIA_ID(
@@ -550,10 +556,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_CUSTOMERMATCHCRITERIA_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_type(
@@ -567,10 +575,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_type(
@@ -584,10 +594,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_groupPosition(
@@ -601,10 +613,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_groupPosition(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_groupPosition(
@@ -618,10 +632,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_groupPosition(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_isPrimaryKey(
@@ -635,10 +651,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_isPrimaryKey(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void customermatchcriteriagrouptypeTableBase::GetBy_isPrimaryKey(
@@ -652,10 +670,12 @@ void customermatchcriteriagrouptypeTableBase::GetBy_isPrimaryKey(
         fieldValue, 
         container);
 
-    SelectStatement stmt(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(customermatchcriteriagrouptypeTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

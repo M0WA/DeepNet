@@ -498,10 +498,12 @@ void cacheparsedTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_ID(
@@ -515,10 +517,12 @@ void cacheparsedTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_size(
@@ -532,10 +536,12 @@ void cacheparsedTableBase::GetBy_size(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_size(
@@ -549,10 +555,12 @@ void cacheparsedTableBase::GetBy_size(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_matches(
@@ -566,10 +574,12 @@ void cacheparsedTableBase::GetBy_matches(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_matches(
@@ -583,10 +593,12 @@ void cacheparsedTableBase::GetBy_matches(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_misses(
@@ -600,10 +612,12 @@ void cacheparsedTableBase::GetBy_misses(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_misses(
@@ -617,10 +631,12 @@ void cacheparsedTableBase::GetBy_misses(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_action_time(
@@ -634,10 +650,12 @@ void cacheparsedTableBase::GetBy_action_time(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void cacheparsedTableBase::GetBy_action_time(
@@ -651,10 +669,12 @@ void cacheparsedTableBase::GetBy_action_time(
         fieldValue, 
         container);
 
-    SelectStatement stmt(cacheparsedTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(cacheparsedTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

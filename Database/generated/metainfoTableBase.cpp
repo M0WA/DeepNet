@@ -411,10 +411,12 @@ void metainfoTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_ID(
@@ -428,10 +430,12 @@ void metainfoTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_URLSTAGE_ID(
@@ -445,10 +449,12 @@ void metainfoTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_URLSTAGE_ID(
@@ -462,10 +468,12 @@ void metainfoTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_type(
@@ -479,10 +487,12 @@ void metainfoTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_type(
@@ -496,10 +506,12 @@ void metainfoTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_value(
@@ -513,10 +525,12 @@ void metainfoTableBase::GetBy_value(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void metainfoTableBase::GetBy_value(
@@ -530,10 +544,12 @@ void metainfoTableBase::GetBy_value(
         fieldValue, 
         container);
 
-    SelectStatement stmt(metainfoTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(metainfoTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

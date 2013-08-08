@@ -500,10 +500,12 @@ void docmetaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_ID(
@@ -517,10 +519,12 @@ void docmetaTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_DICT_ID(
@@ -534,10 +538,12 @@ void docmetaTableBase::GetBy_DICT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_DICT_ID(
@@ -551,10 +557,12 @@ void docmetaTableBase::GetBy_DICT_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_URLSTAGE_ID(
@@ -568,10 +576,12 @@ void docmetaTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_URLSTAGE_ID(
@@ -585,10 +595,12 @@ void docmetaTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_occurrence(
@@ -602,10 +614,12 @@ void docmetaTableBase::GetBy_occurrence(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_occurrence(
@@ -619,10 +633,12 @@ void docmetaTableBase::GetBy_occurrence(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_type(
@@ -636,10 +652,12 @@ void docmetaTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void docmetaTableBase::GetBy_type(
@@ -653,10 +671,12 @@ void docmetaTableBase::GetBy_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(docmetaTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(docmetaTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

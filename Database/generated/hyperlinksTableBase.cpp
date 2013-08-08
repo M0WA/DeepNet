@@ -412,10 +412,12 @@ void hyperlinksTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_ID(
@@ -429,10 +431,12 @@ void hyperlinksTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_TARGET_URL_ID(
@@ -446,10 +450,12 @@ void hyperlinksTableBase::GetBy_TARGET_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_TARGET_URL_ID(
@@ -463,10 +469,12 @@ void hyperlinksTableBase::GetBy_TARGET_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_URLSTAGE_ID(
@@ -480,10 +488,12 @@ void hyperlinksTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_URLSTAGE_ID(
@@ -497,10 +507,12 @@ void hyperlinksTableBase::GetBy_URLSTAGE_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_count(
@@ -514,10 +526,12 @@ void hyperlinksTableBase::GetBy_count(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void hyperlinksTableBase::GetBy_count(
@@ -531,10 +545,12 @@ void hyperlinksTableBase::GetBy_count(
         fieldValue, 
         container);
 
-    SelectStatement stmt(hyperlinksTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(hyperlinksTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

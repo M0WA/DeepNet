@@ -1555,10 +1555,12 @@ void urlstagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_ID(
@@ -1572,10 +1574,12 @@ void urlstagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_URL_ID(
@@ -1589,10 +1593,12 @@ void urlstagesTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_URL_ID(
@@ -1606,10 +1612,12 @@ void urlstagesTableBase::GetBy_URL_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_response_code(
@@ -1623,10 +1631,12 @@ void urlstagesTableBase::GetBy_response_code(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_response_code(
@@ -1640,10 +1650,12 @@ void urlstagesTableBase::GetBy_response_code(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_content_md5(
@@ -1657,10 +1669,12 @@ void urlstagesTableBase::GetBy_content_md5(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_content_md5(
@@ -1674,10 +1688,12 @@ void urlstagesTableBase::GetBy_content_md5(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_last_change(
@@ -1691,10 +1707,12 @@ void urlstagesTableBase::GetBy_last_change(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_last_change(
@@ -1708,10 +1726,12 @@ void urlstagesTableBase::GetBy_last_change(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_redirect_count(
@@ -1725,10 +1745,12 @@ void urlstagesTableBase::GetBy_redirect_count(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_redirect_count(
@@ -1742,10 +1764,12 @@ void urlstagesTableBase::GetBy_redirect_count(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_download_speed(
@@ -1759,10 +1783,12 @@ void urlstagesTableBase::GetBy_download_speed(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_download_speed(
@@ -1776,10 +1802,12 @@ void urlstagesTableBase::GetBy_download_speed(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_upload_speed(
@@ -1793,10 +1821,12 @@ void urlstagesTableBase::GetBy_upload_speed(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_upload_speed(
@@ -1810,10 +1840,12 @@ void urlstagesTableBase::GetBy_upload_speed(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_content_length(
@@ -1827,10 +1859,12 @@ void urlstagesTableBase::GetBy_content_length(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_content_length(
@@ -1844,10 +1878,12 @@ void urlstagesTableBase::GetBy_content_length(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_content_type(
@@ -1861,10 +1897,12 @@ void urlstagesTableBase::GetBy_content_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_content_type(
@@ -1878,10 +1916,12 @@ void urlstagesTableBase::GetBy_content_type(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_primary_ip(
@@ -1895,10 +1935,12 @@ void urlstagesTableBase::GetBy_primary_ip(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_primary_ip(
@@ -1912,10 +1954,12 @@ void urlstagesTableBase::GetBy_primary_ip(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_primary_port(
@@ -1929,10 +1973,12 @@ void urlstagesTableBase::GetBy_primary_port(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_primary_port(
@@ -1946,10 +1992,12 @@ void urlstagesTableBase::GetBy_primary_port(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_int_links(
@@ -1963,10 +2011,12 @@ void urlstagesTableBase::GetBy_int_links(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_int_links(
@@ -1980,10 +2030,12 @@ void urlstagesTableBase::GetBy_int_links(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_ext_links(
@@ -1997,10 +2049,12 @@ void urlstagesTableBase::GetBy_ext_links(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_ext_links(
@@ -2014,10 +2068,12 @@ void urlstagesTableBase::GetBy_ext_links(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_download_time(
@@ -2031,10 +2087,12 @@ void urlstagesTableBase::GetBy_download_time(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_download_time(
@@ -2048,10 +2106,12 @@ void urlstagesTableBase::GetBy_download_time(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_html_errors(
@@ -2065,10 +2125,12 @@ void urlstagesTableBase::GetBy_html_errors(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_html_errors(
@@ -2082,10 +2144,12 @@ void urlstagesTableBase::GetBy_html_errors(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_found_date(
@@ -2099,10 +2163,12 @@ void urlstagesTableBase::GetBy_found_date(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlstagesTableBase::GetBy_found_date(
@@ -2116,10 +2182,12 @@ void urlstagesTableBase::GetBy_found_date(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlstagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlstagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

@@ -324,10 +324,12 @@ void urlpathpartsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlpathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlpathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlpathpartsTableBase::GetBy_ID(
@@ -341,10 +343,12 @@ void urlpathpartsTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlpathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlpathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlpathpartsTableBase::GetBy_PATHPART_ID(
@@ -358,10 +362,12 @@ void urlpathpartsTableBase::GetBy_PATHPART_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlpathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlpathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlpathpartsTableBase::GetBy_PATHPART_ID(
@@ -375,10 +381,12 @@ void urlpathpartsTableBase::GetBy_PATHPART_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlpathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlpathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlpathpartsTableBase::GetBy_URLPATHPART_ID_NEXT(
@@ -392,10 +400,12 @@ void urlpathpartsTableBase::GetBy_URLPATHPART_ID_NEXT(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlpathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlpathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void urlpathpartsTableBase::GetBy_URLPATHPART_ID_NEXT(
@@ -409,10 +419,12 @@ void urlpathpartsTableBase::GetBy_URLPATHPART_ID_NEXT(
         fieldValue, 
         container);
 
-    SelectStatement stmt(urlpathpartsTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(urlpathpartsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 

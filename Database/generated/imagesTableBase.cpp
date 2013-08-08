@@ -856,10 +856,12 @@ void imagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_ID(
@@ -873,10 +875,12 @@ void imagesTableBase::GetBy_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_SCHEME_ID(
@@ -890,10 +894,12 @@ void imagesTableBase::GetBy_SCHEME_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_SCHEME_ID(
@@ -907,10 +913,12 @@ void imagesTableBase::GetBy_SCHEME_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_TOPLEVELDOMAIN_ID(
@@ -924,10 +932,12 @@ void imagesTableBase::GetBy_TOPLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_TOPLEVELDOMAIN_ID(
@@ -941,10 +951,12 @@ void imagesTableBase::GetBy_TOPLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_SUBDOMAIN_ID(
@@ -958,10 +970,12 @@ void imagesTableBase::GetBy_SUBDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_SUBDOMAIN_ID(
@@ -975,10 +989,12 @@ void imagesTableBase::GetBy_SUBDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -992,10 +1008,12 @@ void imagesTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_SECONDLEVELDOMAIN_ID(
@@ -1009,10 +1027,12 @@ void imagesTableBase::GetBy_SECONDLEVELDOMAIN_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_port(
@@ -1026,10 +1046,12 @@ void imagesTableBase::GetBy_port(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_port(
@@ -1043,10 +1065,12 @@ void imagesTableBase::GetBy_port(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_URLPATHPART_ID(
@@ -1060,10 +1084,12 @@ void imagesTableBase::GetBy_URLPATHPART_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_URLPATHPART_ID(
@@ -1077,10 +1103,12 @@ void imagesTableBase::GetBy_URLPATHPART_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_URLSEARCHPART_ID(
@@ -1094,10 +1122,12 @@ void imagesTableBase::GetBy_URLSEARCHPART_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_URLSEARCHPART_ID(
@@ -1111,10 +1141,12 @@ void imagesTableBase::GetBy_URLSEARCHPART_ID(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_found_date(
@@ -1128,10 +1160,12 @@ void imagesTableBase::GetBy_found_date(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void imagesTableBase::GetBy_found_date(
@@ -1145,10 +1179,12 @@ void imagesTableBase::GetBy_found_date(
         fieldValue, 
         container);
 
-    SelectStatement stmt(imagesTableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(imagesTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 
