@@ -114,6 +114,10 @@ crawler_cntTimeout=10
 # timeout for connection, overall in sec (*)
 crawler_connectionTimeout=60
 
+# maximum download size when crawling websites in bytes (0: unlimited) (*)
+# 3145728 bytes <==> 3MB
+crawler_maxDownloadSize=3145728
+
 #enable the use of ipv6
 #	crawler_ipv6=0
 
