@@ -22,22 +22,47 @@ private:
 public:
 	/**
 	 * gets salted md5 string from buffer.
-	 * @param pszInput input buffer.
-	 * @param salt salt.
+	 * @param input input buffer.
+	 * @param size size of buffer.
+	 * @param pszSalt salt string.
 	 * @return salted md5 string.
 	 */
-	static std::string GetSaltedMD5(const char* pszInput, const char* salt);
+	static std::string GetSaltedMD5(const char* input, const size_t& size, const char* pszSalt);
+
+	/**
+	 * gets salted md5 string from string.
+	 * @param input input string.
+	 * @param pszSalt salt string.
+	 * @return salted md5 string.
+	 */
+	static std::string GetSaltedMD5(const std::string& input, const char* pszSalt);
 
 	/**
 	 * gets salted md5 string from buffer with a predefined salt.
-	 * @param pszInput input buffer.
+	 * @param input input buffer.
+	 * @param size size of buffer.
 	 * @return salted md5 string.
 	 */
-	static std::string GetSaltedMD5(const char* pszInput);
+	static std::string GetSaltedMD5(const char* input, const size_t& size);
+
+	/**
+	 * gets salted md5 string from string with a predefined salt.
+	 * @param input input string.
+	 * @return salted md5 string.
+	 */
+	static std::string GetSaltedMD5(const std::string& input);
 
 	/**
 	 * gets md5 string from buffer.
 	 * @param input input buffer.
+	 * @param size size of buffer.
+	 * @return md5 string.
+	 */
+	static std::string GetMD5(const char* input, const size_t& size);
+
+	/**
+	 * gets md5 string from string.
+	 * @param input input string.
 	 * @return md5 string.
 	 */
 	static std::string GetMD5(const std::string& input);
@@ -45,12 +70,20 @@ public:
 	/**
 	 * gets sha512 string from buffer.
 	 * @param input input buffer.
+	 * @param size size of buffer.
+	 * @return sha512 string.
+	 */
+	static std::string GetSHA512(const char* input, const size_t& size);
+
+	/**
+	 * gets sha512 string from string.
+	 * @param input input string.
 	 * @return sha512 string.
 	 */
 	static std::string GetSHA512(const std::string& input);
 
 private:
-	static const char salt[];
+	static const char defaultSalt[];
 };
 
 }

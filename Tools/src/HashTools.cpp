@@ -18,7 +18,7 @@
 
 namespace tools {
 
-const char HashTools::salt[] = "$1$6buND7vK";
+const char HashTools::defaultSalt[] = "$1$6buND7vK";
 
 HashTools::HashTools() {
 }
@@ -26,25 +26,32 @@ HashTools::HashTools() {
 HashTools::~HashTools() {
 }
 
-std::string HashTools::GetSaltedMD5(const char* pszInput, const char* saltIn) {
+std::string HashTools::GetSaltedMD5(const char* input, const size_t& size, const char* pszSalt) {
 	struct crypt_data data;
 	data.initialized = 0;
 
 	//crypt_r returns md5 in <salt(11)>$<md5sum>
-	size_t saltSizeIn = strlen(saltIn) + 1;
-	return std::string(crypt_r(pszInput, saltIn,&data)).substr(saltSizeIn,strlen(pszInput)-saltSizeIn);
+	size_t saltSize(strlen(pszSalt) + 1);
+	return std::string(crypt_r(input, pszSalt, &data)).substr(saltSize,size-saltSize);
 }
 
-std::string HashTools::GetSaltedMD5(const char* pszInput) {
-
-	return GetSaltedMD5(pszInput, salt);
+std::string HashTools::GetSaltedMD5(const char* pszInput, const size_t& size) {
+	return GetSaltedMD5(pszInput, size, defaultSalt);
 }
 
-std::string HashTools::GetMD5(const std::string& input)
+std::string HashTools::GetSaltedMD5(const std::string& input) {
+	return GetSaltedMD5(input.c_str(), input.size(), defaultSalt);
+}
+
+std::string HashTools::GetSaltedMD5(const std::string& input, const char* pszSalt) {
+	return GetSaltedMD5(input.c_str(),input.size(), pszSalt);
+}
+
+std::string HashTools::GetMD5(const char* input, const size_t& size)
 {
 	unsigned char out[MD5_DIGEST_LENGTH];
 	memset(out,0,MD5_DIGEST_LENGTH);
-	MD5((const unsigned char*)input.c_str(),input.size(),out);
+	MD5(reinterpret_cast<const unsigned char*>(input),size,out);
 
 	std::ostringstream ssHex;
 	ssHex << std::hex << std::setfill('0');
@@ -54,11 +61,15 @@ std::string HashTools::GetMD5(const std::string& input)
 	return ssHex.str();
 }
 
-std::string HashTools::GetSHA512(const std::string& input)
+std::string HashTools::GetMD5(const std::string& input) {
+	return GetMD5(input.c_str(), input.size());
+}
+
+std::string HashTools::GetSHA512(const char* input, const size_t& size)
 {
 	unsigned char out[EVP_MAX_MD_SIZE];
 	memset(out,0,EVP_MAX_MD_SIZE);
-	SHA512((const unsigned char*)input.c_str(),input.size(),out);
+	SHA512(reinterpret_cast<const unsigned char*>(input),size,out);
 
 	std::ostringstream ssHex;
 	ssHex << std::hex << std::setfill('0');
@@ -66,6 +77,10 @@ std::string HashTools::GetSHA512(const std::string& input)
 		ssHex << std::setw(2) << std::hex << static_cast<int>(out[i]);	}
 
 	return ssHex.str();
+}
+
+std::string HashTools::GetSHA512(const std::string& input) {
+	return GetSHA512(input.c_str(), input.size());
 }
 
 }
