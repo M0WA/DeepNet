@@ -11,6 +11,7 @@
 #include "HttpResponse.h"
 
 #include <Logging.h>
+#include <TimeTools.h>
 
 #include <curl/curl.h>
 
@@ -38,7 +39,7 @@ HttpClientCURL::~HttpClientCURL()
 
 bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 {
-	CURLWriterParam param(url,response);
+	CURLWriterParam param(url,response, Settings().maxSize);
 
 	curl_easy_setopt(curlPtr, CURLOPT_WRITEDATA, &param);
 	curl_easy_setopt(curlPtr, CURLOPT_URL, url.GetFullUrl().c_str());
@@ -58,23 +59,26 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 		curl_off_t bytesDownloadLimit = Settings().downloadLimitKB * 1024;
 		curl_easy_setopt(curlPtr, CURLOPT_MAX_RECV_SPEED_LARGE, bytesDownloadLimit);}
 
-	CURLcode res = curl_easy_perform(curlPtr);
+	CURLcode res(curl_easy_perform(curlPtr));
 	if(res != CURLE_OK) {
 		response.html.Release();//not needed but nice;)
 		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("libcurl error while fetching url " + url.GetFullUrl() + ": " + errorBuffer);
+			log::Logging::LogTrace("libcurl error while fetching url %s: %s",url.GetFullUrl().c_str(), errorBuffer);
 		return false;
 	}
 
-	char* redirUrl = 0;
+	char* redirUrl(0);
 	if( curl_easy_getinfo(curlPtr, CURLINFO_RESPONSE_CODE, &response.httpResponseCode) != CURLE_OK ) response.httpResponseCode=-1;
-	if( curl_easy_getinfo(curlPtr, CURLINFO_FILETIME, &response.fileTimestamp)         != CURLE_OK ) response.fileTimestamp=0;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_REDIRECT_URL, &redirUrl) == CURLE_OK  && redirUrl != 0 ) response.redirectUrls.push_back(redirUrl);
 	if( curl_easy_getinfo(curlPtr, CURLINFO_SPEED_DOWNLOAD, &response.downloadSpeed )  != CURLE_OK ) response.downloadSpeed=0.0;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_SPEED_UPLOAD, &response.uploadSpeed )      != CURLE_OK ) response.uploadSpeed=0.0;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_TOTAL_TIME, &response.totalTime )          != CURLE_OK ) response.totalTime=0.0;
 	response.primaryPort=80; //if( curl_easy_getinfo(curlPtr, CURLINFO_PRIMARY_PORT, &out.primaryPort )      != CURLE_OK ) out.primaryPort=80;
 	if( curl_easy_getinfo(curlPtr, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &response.contentLength ) != CURLE_OK ) response.contentLength=response.html.GetCount();
+
+	long tmpFileTime(-1);
+	if( curl_easy_getinfo(curlPtr, CURLINFO_FILETIME, &tmpFileTime) == CURLE_OK  && tmpFileTime > 0)
+		response.fileTimestamp=tools::TimeTools::TimeToTm(tmpFileTime);
 
 	char* primaryIP = 0;
 	curl_easy_getinfo(curlPtr, CURLINFO_PRIMARY_IP, &primaryIP );
@@ -85,7 +89,7 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 	curl_easy_getinfo(curlPtr, CURLINFO_CONTENT_TYPE, &contentType );
 	if(contentType) {
 		response.html.SetContentType(contentType);
-		bool conversionSuccess = response.html.ConvertToHostCharset();
+		bool conversionSuccess(response.html.ConvertToHostCharset());
 
 		/*
 		if(log::Logging::IsLogLevelTrace()) {
@@ -105,10 +109,25 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 
 int HttpClientCURL::WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* instance)
 {
-	size_t totalSize = size * nmemb;
-	if(size<=0 || nmemb<=0 || data == 0)
+	if(!size || !nmemb)
+		return 0;
+
+	size_t totalSize(size * nmemb);
+	if(instance->maxSize) {
+		if((instance->response.html.GetBufferSize() + totalSize) > instance->maxSize) {
+			instance->response.html.Release();
+			instance->omitRest = true;
+		}
+	}
+	if(totalSize && !data){
+		//
+		//TODO: throw exception
+		//
 		return totalSize;
-	instance->response.html.Append(data, totalSize);
+	}
+
+	if(!instance->omitRest){
+		instance->response.html.Append(data, totalSize); }
 	return totalSize;
 }
 

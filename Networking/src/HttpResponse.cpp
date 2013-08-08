@@ -7,10 +7,13 @@
  */
 
 #include "HttpResponse.h"
+#include <TimeTools.h>
 
 namespace network {
 
-HttpResponse::HttpResponse() {
+HttpResponse::HttpResponse()
+{
+	tools::TimeTools::InitTm(fileTimestamp);
 }
 
 HttpResponse::~HttpResponse() {

@@ -16,7 +16,8 @@ HttpClientSettings::HttpClientSettings()
 , secondsTimeoutConnection(15)
 , allowIPv6(false)
 , uploadLimitKB(300)
-, downloadLimitKB(300) {
+, downloadLimitKB(300)
+, maxSize(0){
 }
 
 HttpClientSettings::~HttpClientSettings() {

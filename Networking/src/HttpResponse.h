@@ -55,7 +55,7 @@ public:
 	/**
 	 * timestamp
 	 */
-	long fileTimestamp;
+	struct tm fileTimestamp;
 
 	/**
 	 * download speed

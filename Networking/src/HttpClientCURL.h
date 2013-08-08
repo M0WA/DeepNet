@@ -26,13 +26,15 @@ class HttpClientCURL: public network::IHttpClient {
 private:
 	typedef struct _CURLWriterParam{
 	public:
-		_CURLWriterParam(const HttpUrl& url, HttpResponse& response)
-		: url(url), response(response)
+		_CURLWriterParam(const HttpUrl& url, HttpResponse& response, const size_t& maxSize)
+		: url(url), response(response), maxSize(maxSize), omitRest(false)
 		{}
 
 	public:
 		const HttpUrl& url;
 		HttpResponse& response;
+		size_t maxSize;
+		bool omitRest;
 	} CURLWriterParam;
 
 private:

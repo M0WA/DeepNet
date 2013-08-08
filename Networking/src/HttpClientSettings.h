@@ -51,6 +51,11 @@ public:
 	 * download limit in KB/sec
 	 */
 	int downloadLimitKB;
+
+	/**
+	 * maximum download size (in bytes, 0 for unlimited)
+	 */
+	size_t maxSize;
 };
 
 }
