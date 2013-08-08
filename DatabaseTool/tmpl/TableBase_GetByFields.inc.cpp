@@ -9,10 +9,12 @@ void __TMPL_TABLE_NAME__TableBase::GetBy___TMPL_FIELD_NAME__(
         fieldValue, 
         container);
 
-    SelectStatement stmt(__TMPL_TABLE_NAME__TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(__TMPL_TABLE_NAME__TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
 
 void __TMPL_TABLE_NAME__TableBase::GetBy___TMPL_FIELD_NAME__(
@@ -26,8 +28,10 @@ void __TMPL_TABLE_NAME__TableBase::GetBy___TMPL_FIELD_NAME__(
         fieldValue, 
         container);
 
-    SelectStatement stmt(__TMPL_TABLE_NAME__TableBase::CreateTableDefinition());
+    TableDefinition* pTblDef(__TMPL_TABLE_NAME__TableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
     stmt.SelectAllColumns();
     stmt.Where().AddColumns( container );
     db->Select(stmt,results);
+    delete pTblDef;
 }
