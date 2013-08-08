@@ -18,7 +18,13 @@ namespace threading
 class Thread
 {
 protected:
-	struct THREAD_PARAM;
+	struct _THREAD_PARAM;
+
+	/**
+	 * @struct THREAD_PARAM
+	 * container for thread's parameters.
+	 */
+	typedef struct _THREAD_PARAM THREAD_PARAM;
 
 	/**
 	 * type for user defined thread function.
@@ -27,10 +33,11 @@ protected:
 	typedef void* (*ThreadFunction)(THREAD_PARAM*);
 
 	/**
-	 * @struct THREAD_PARAM
-	 * container for thread's parameters.
+	 * @struct _THREAD_PARAM
+	 * declaration for internal use
+	 * @see threading::Thread::THREAD_PARAM
 	 */
-	struct THREAD_PARAM {
+	struct _THREAD_PARAM{
 
 		/**
 		 * user defined parameters.
