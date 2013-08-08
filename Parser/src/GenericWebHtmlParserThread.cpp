@@ -218,13 +218,20 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 
 void GenericWebHtmlParserThread::InsertMeta(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<std::pair<std::string,std::string> >& meta)
 {
+	std::string tmpMeta;
 	std::vector<std::pair<std::string,std::string> >::const_iterator iterMeta(meta.begin());
 	std::vector<database::metainfoTableBase> vecMeta;
 	for(;iterMeta!=meta.end();++iterMeta) {
 
+		const std::string* metaValue(&iterMeta->second);
+		if(metaValue->length() > 512) {
+			tmpMeta.clear();
+			tmpMeta.append(iterMeta->second.c_str(),512);
+			metaValue = &tmpMeta; }
+
 		database::metainfoTableBase tblMeta;
 		tblMeta.Set_URLSTAGE_ID(entry.urlStageID);
-		tblMeta.Set_value(iterMeta->second);
+		tblMeta.Set_value(*metaValue);
 
 		if(iterMeta->first.compare("keywords") == 0) {
 			tblMeta.Set_type(1);
