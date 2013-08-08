@@ -36,14 +36,13 @@
 #include <IHttpClient.h>
 #include <HttpClientFactory.h>
 
-using namespace threading;
 using namespace database;
 
 namespace crawler
 {
 
 UrlFetcherThread::UrlFetcherThread()
-: Thread((Thread::ThreadFunction)&(UrlFetcherThread::UrlFetcherThreadFunction))
+: threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(UrlFetcherThread::UrlFetcherThreadFunction)))
 , crawlerSessionID(-1)
 , oldCrawlerSessionID(-1)
 {
@@ -57,15 +56,15 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 {
 	log::Logging::RegisterThreadID("UrlFetcherThread");
 
-	UrlFetcherThread* instance = (UrlFetcherThread*)(threadParam->instance);
-	instance->fetcherThreadParam = (UrlFetcherThreadParam*)threadParam->pParam;
+	UrlFetcherThread* instance(dynamic_cast<UrlFetcherThread*>(threadParam->instance));
+	instance->fetcherThreadParam = reinterpret_cast<UrlFetcherThreadParam*>(threadParam->pParam);
 
 	if(instance->fetcherThreadParam->minAge < 10) {
 		log::Logging::LogWarn("setting crawler_minAge to 10 days for crawling");
 		instance->fetcherThreadParam->minAge = 10; }
 
 	PERFORMANCE_LOG_START;
-	bool connectedDB = instance->DB().CreateConnection(instance->fetcherThreadParam->databaseConfig) ? true : false;
+	bool connectedDB(instance->DB().CreateConnection(instance->fetcherThreadParam->databaseConfig)!= 0);
 	PERFORMANCE_LOG_STOP("crawler: connect to database");
 
 	if(	connectedDB )
@@ -106,7 +105,7 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 
 bool UrlFetcherThread::FetchUrls(std::map<long long,htmlparser::DatabaseUrl>& urls)
 {
-	bool bSuccess = true;
+	bool bSuccess(true);
 	std::vector<long long> urlIDs;
 	if(bSuccess && !ReserveNextUrls(urlIDs))
 		bSuccess = false;
@@ -119,7 +118,7 @@ bool UrlFetcherThread::FetchUrls(std::map<long long,htmlparser::DatabaseUrl>& ur
 
 bool UrlFetcherThread::FetchHtmlCode(const std::map<long long,htmlparser::DatabaseUrl>& urls, std::vector<UrlFetchParam>& fetchParameters)
 {
-	std::map<long long,htmlparser::DatabaseUrl>::const_iterator iterUrls = urls.begin();
+	std::map<long long,htmlparser::DatabaseUrl>::const_iterator iterUrls(urls.begin());
 	for(; iterUrls != urls.end(); ++iterUrls){
 
 		UrlFetchParam fetchParameter(iterUrls->second);
@@ -140,7 +139,7 @@ bool UrlFetcherThread::FetchHtmlCode(const std::map<long long,htmlparser::Databa
 
 bool UrlFetcherThread::CommitPages(const std::vector<UrlFetchParam>& fetchParameters)
 {
-	std::vector<UrlFetchParam>::const_iterator iterParam = fetchParameters.begin();
+	std::vector<UrlFetchParam>::const_iterator iterParam(fetchParameters.begin());
 	for(;iterParam != fetchParameters.end();++iterParam) {
 
 		switch(iterParam->responseCode)
@@ -233,7 +232,7 @@ void UrlFetcherThread::RemoveCrawlerSessionID()
 
 void UrlFetcherThread::OnIdle()
 {
-	for(int i = 0; i < fetcherThreadParam->waitOnIdle && !ShallEnd(); i++){
+	for(int i(0); i < fetcherThreadParam->waitOnIdle && !ShallEnd(); i++){
 		sleep(1);}
 }
 
@@ -252,10 +251,11 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	settings.secondsTimeoutConnection = fetcherThreadParam->connectionTimeout;
 	settings.allowIPv6 = fetcherThreadParam->useIPv6;
 	settings.downloadLimitKB = settings.uploadLimitKB = fetcherThreadParam->speedLimitKB;
+	settings.maxSize = fetcherThreadParam->maxDownloadSize;
 
 	network::HttpResponse result;
 	PERFORMANCE_LOG_RESTART;
-	bool success = client.Get()->Get(url,result);
+	bool success(client.Get()->Get(url,result));
 	PERFORMANCE_LOG_STOP("downloaded " + url.GetFullUrl());
 
 	httpCode = result.httpResponseCode;
@@ -268,30 +268,24 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 		htmlCode.Swap(result.html);
 	}
 
-	struct tm lastchange;
-	tools::TimeTools::InitTm(lastchange);
-	//localtime_r( &result.lastchange, &lastchange);
-
 	database::urlstagesTableBase urlStageTbl;
 	urlStageTbl.Set_URL_ID(urlID);
 	urlStageTbl.Set_response_code(httpCode);
-
-	if(htmlCode.GetBuffer()) { urlStageTbl.Set_content_md5(tools::HashTools::GetMD5(htmlCode.GetBuffer())); }
-	else                     { urlStageTbl.Set_content_md5(""); }
-
-
 	urlStageTbl.Set_redirect_count(result.redirectUrls.size());
 	urlStageTbl.Set_download_time( (result.totalTime > 0.0 ? static_cast<long long>(result.totalTime * 1000.0) : -1) );
 	urlStageTbl.Set_download_speed( (result.downloadSpeed > 0.0 ? static_cast<long long>(result.downloadSpeed * 1024) : -1) );
 	urlStageTbl.Set_upload_speed( (result.uploadSpeed > 0.0 ? static_cast<long long>(result.uploadSpeed * 1024) : -1) );
 	urlStageTbl.Set_content_length((result.contentLength > 0.0 ? static_cast<long long>(result.contentLength) : -1));
 	urlStageTbl.Set_content_type(result.html.GetContentType());
-	urlStageTbl.Set_last_change(lastchange);
-
+	urlStageTbl.Set_last_change(result.fileTimestamp);
 	urlStageTbl.Set_primary_ip(inet_addr(result.primaryIP.c_str()));
 	urlStageTbl.Set_primary_port(result.primaryPort);
-
 	urlStageTbl.Set_found_date(tools::TimeTools::NowUTC());
+
+	if(htmlCode.GetBuffer()) {
+		urlStageTbl.Set_content_md5(tools::HashTools::GetMD5(htmlCode.GetBuffer(),htmlCode.GetBufferSize())); }
+	else {
+		urlStageTbl.Set_content_md5(""); }
 
 	/*
 #ifdef _USE_HTTPCLIENT_EX

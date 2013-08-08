@@ -62,7 +62,12 @@ public:
 	int connectionTimeout;
 
 	/**
-	 * TODO: document
+	 * maximum download size when crawling websites
+	 */
+	size_t maxDownloadSize;
+
+	/**
+	 * true when IPv6 is used
 	 */
 	bool useIPv6;
 

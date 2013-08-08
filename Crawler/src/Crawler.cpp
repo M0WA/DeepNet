@@ -12,13 +12,11 @@
 
 #include <Logging.h>
 
-using namespace threading;
-
 namespace crawler
 {
 
 Crawler::Crawler(const CrawlerParam* crawlerParam)
-: Thread((Thread::ThreadFunction)&(Crawler::CrawlerThreadFunc))
+: threading::Thread((Thread::ThreadFunction)&(Crawler::CrawlerThreadFunc))
 , crawlerParam(crawlerParam)
 {
 }
@@ -26,17 +24,17 @@ Crawler::Crawler(const CrawlerParam* crawlerParam)
 Crawler::~Crawler() {
 }
 
-void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
+void* Crawler::CrawlerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 {
 	log::Logging::RegisterThreadID("Crawler");
 
-	Crawler* instance = (Crawler*)threadParam->instance;
+	Crawler* instance(reinterpret_cast<Crawler*>(threadParam->instance));
 	instance->oldCrawlerSessionIDs.clear();
 
 	if(!instance->StartCrawler())
 		return (void*)1;
 
-	bool errorOccured = false;
+	bool errorOccured(false);
 	while(!instance->ShallEnd())
 	{
 		if(instance->WatchDog()) {
@@ -46,14 +44,14 @@ void* Crawler::CrawlerThreadFunc(Thread::THREAD_PARAM* threadParam)
 		sleep(1);
 	}
 
-	bool bReturn = !instance->StopCrawler() || errorOccured;
+	bool bReturn(!instance->StopCrawler() || errorOccured);
 	instance->crawlerParam = NULL;
 	return (void*)bReturn;
 }
 
 bool Crawler::StopCrawler()
 {
-	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
+	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::iterator iterThreads(urlFetcherThreads.begin());
 
 	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads) {
 		iterThreads->first->SetShallEnd(true);
@@ -74,7 +72,7 @@ bool Crawler::StopCrawler()
 
 bool Crawler::WatchDog()
 {
-	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::iterator iterThreads = urlFetcherThreads.begin();
+	std::map<UrlFetcherThread*,UrlFetcherThreadParam*>::const_iterator iterThreads(urlFetcherThreads.begin());
 
 	//check if at least one thread is alive
 	for(; iterThreads != urlFetcherThreads.end(); ++iterThreads){

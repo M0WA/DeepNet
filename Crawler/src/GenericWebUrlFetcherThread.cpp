@@ -59,7 +59,7 @@ bool GenericWebUrlFetcherThread::CheckSecondLevelDomainTimeout(database::SelectR
 	tblLockDomains.ResetIter();
 	for(;!tblLockDomains.IsIterEnd(); tblLockDomains.Next()){
 
-		long long secondLevelDomainID = -1;
+		long long secondLevelDomainID(-1);
 		tblLockDomains.GetIter()->Get_SECONDLEVELDOMAIN_ID(secondLevelDomainID);
 		if(secondLevelDomainID <= 0) {
 			THROW_EXCEPTION(caching::URLInvalidSecondLevelDomainIDException,secondLevelDomainID,-1);}
@@ -168,7 +168,7 @@ bool GenericWebUrlFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs)
 
 	syncUrlTbls.ResetIter();
 	for(;!syncUrlTbls.IsIterEnd(); syncUrlTbls.Next()) {
-		long long urlID = -1;
+		long long urlID(-1);
 		syncUrlTbls.GetIter()->Get_URL_ID(urlID);
 		urlIDs.push_back(urlID);
 	}
@@ -225,10 +225,11 @@ void GenericWebUrlFetcherThread::OnExit()
 {
 	//remove all reservations
 	std::vector<long long> vecResSndLvl;
-	std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
+	std::map<long long,time_t>::const_iterator iterSecondLevel(syncSecondLevelDomains.begin());
 	for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
 		vecResSndLvl.push_back(iterSecondLevel->first); }
-	std::vector<long long>::iterator iterResSndLvl = vecResSndLvl.begin();
+
+	std::vector<long long>::const_iterator iterResSndLvl(vecResSndLvl.begin());
 	for(;iterResSndLvl != vecResSndLvl.end();++iterResSndLvl) {
 		RemoveSecondLevelReservation(*iterResSndLvl,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN); }
 	syncSecondLevelDomains.clear();
@@ -236,9 +237,9 @@ void GenericWebUrlFetcherThread::OnExit()
 
 void GenericWebUrlFetcherThread::CheckMaxSecondLevelDomain() {
 	if(syncSecondLevelDomains.size() >= MAX_SECONDLEVEL_PER_THREAD ) {
-		long long minID = -1;
-		time_t tmpMin = time(0);
-		std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
+		long long minID(-1);
+		time_t tmpMin(time(0));
+		std::map<long long,time_t>::const_iterator iterSecondLevel(syncSecondLevelDomains.begin());
 		//remove oldest entries first
 		for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
 			if(tmpMin > iterSecondLevel->second) {
@@ -253,16 +254,16 @@ void GenericWebUrlFetcherThread::CheckMaxSecondLevelDomain() {
 	if( MAX_AGE_MINUTES_SECONDLEVELDOMAIN > 0 &&
 	    syncSecondLevelDomains.size() > 0 )
 	{
-		time_t tmpMin = time(0);
+		time_t tmpMin(time(0));
 		std::vector<long long> removeDomains;
-		std::map<long long,time_t>::iterator iterSecondLevel = syncSecondLevelDomains.begin();
+		std::map<long long,time_t>::const_iterator iterSecondLevel(syncSecondLevelDomains.begin());
 		for(;iterSecondLevel != syncSecondLevelDomains.end();++iterSecondLevel) {
 			if(tmpMin > (iterSecondLevel->second + (60*MAX_AGE_MINUTES_SECONDLEVELDOMAIN) ) ) {
 				removeDomains.push_back(iterSecondLevel->first); }
 		}
 
 		if(removeDomains.size()>0){
-			std::vector<long long>::iterator iterRemoveDomain = removeDomains.begin();
+			std::vector<long long>::const_iterator iterRemoveDomain(removeDomains.begin());
 			for(;iterRemoveDomain != removeDomains.end(); ++iterRemoveDomain) {
 				RemoveSecondLevelReservation(*iterRemoveDomain,RESCHEDULE_MAX_AGE_DAYS_SECONDLEVELDOMAIN);
 			}
