@@ -14,10 +14,12 @@
 
 #include <StringTools.h>
 #include <ContainerTools.h>
+#include <Pointer.h>
 #include <Logging.h>
 
 #include <DatabaseLayer.h>
 #include <TableColumn.h>
+#include <TableDefinition.h>
 #include <WhereCondition.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
@@ -109,8 +111,8 @@ AND
 		pathPartIDs.push_back(pathPartID);
 	}
 
-	database::SelectStatement selectUrlPathPart(
-		database::urlpathpartsTableBase::CreateTableDefinition(),"t0" );
+	tools::Pointer<database::TableDefinition> tblDef(database::urlpathpartsTableBase::CreateTableDefinition());
+	database::SelectStatement selectUrlPathPart(tblDef.Get(),"t0" );
 
 	std::vector<database::WhereConditionTableColumn*> where;
 	selectUrlPathPart.SelectAddColumn(database::urlpathpartsTableBase::GetDefinition_ID(),"t0","");
