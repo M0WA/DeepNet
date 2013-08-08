@@ -36,6 +36,7 @@ std::string DeleteStatement::ToSQL(database::DatabaseConnection* db) const
 InnerJoinCondition& DeleteStatement::InnerJoin() {
 
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
+	return *static_cast<InnerJoinCondition*>( 0 );
 }
 
 }

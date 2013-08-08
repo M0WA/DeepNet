@@ -17,7 +17,7 @@
 namespace database {
 
 UpdateStatement::UpdateStatement(
-	TableBase* tableBase,
+	const TableBase* tableBase,
 	const std::vector<WhereConditionTableColumn*>& whereCols,
 	const std::vector<OrderByColumn>& orderCols,
 	const bool onlyDirty)
@@ -27,7 +27,7 @@ UpdateStatement::UpdateStatement(
 
 	Where().AddColumns(whereCols);
 
-	std::vector<OrderByColumn>::const_iterator iterOrder = orderCols.begin();
+	std::vector<OrderByColumn>::const_iterator iterOrder(orderCols.begin());
 	for(;iterOrder != orderCols.end();++iterOrder) {
 		OrderBy().AddColumn(
 			iterOrder->colDef,

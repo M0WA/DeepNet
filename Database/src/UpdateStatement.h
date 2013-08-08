@@ -36,7 +36,7 @@ public:
 	 * @param onlyDirty update dirty values only
 	 */
 	UpdateStatement(
-		TableBase* tableBase,
+		const TableBase* tableBase,
 		const std::vector<WhereConditionTableColumn*>& whereCols,
 		const std::vector<OrderByColumn>& orderCols,
 		const bool onlyDirty);
