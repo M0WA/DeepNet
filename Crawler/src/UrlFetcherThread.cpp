@@ -220,7 +220,8 @@ void UrlFetcherThread::RemoveCrawlerSessionID()
 		where
 	);
 
-	database::DeleteStatement deleteSession(database::crawlersessionsTableBase::CreateTableDefinition());
+	tools::Pointer<database::TableDefinition> crwlSessTblDef(database::crawlersessionsTableBase::CreateTableDefinition());
+	database::DeleteStatement deleteSession(crwlSessTblDef.GetConst());
 	deleteSession.Where().AddColumns(where);
 
 	PERFORMANCE_LOG_START;
