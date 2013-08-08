@@ -7,7 +7,10 @@
 #include "TLD.h"
 
 #include <DatabaseLayer.h>
+#include <TableDefinition.h>
+
 #include <ContainerTools.h>
+#include <Pointer.h>
 
 namespace htmlparser {
 
@@ -21,19 +24,20 @@ bool TLD::isInitialized = false;
 
 bool TLD::InitTLDCache(database::DatabaseConnection* db)
 {
-	threading::AutoMutex autoMutex(initMutex);
+	initMutex.Lock();
+	if(isInitialized) {
+		initMutex.Unlock();
+		return true; }//already initialized
 
-	if(isInitialized)
-		return true; //already initialized
-
-	return tld.Init(db);
+	bool success(tld.Init(db));
+	initMutex.Unlock();
+	return success;
 }
 
 const std::string TLD::GetTLDByID(const long long tldID)
 {
 	if(mapIdTld.count(tldID) == 0)
 		return "";
-
 	return mapIdTld[tldID];
 }
 
@@ -49,7 +53,8 @@ bool TLD::Init(database::DatabaseConnection* db)
 {
 	isInitialized = true;
 
-	database::SelectStatement selectTLD(database::topleveldomainsTableBase::CreateTableDefinition());
+	tools::Pointer<database::TableDefinition> tldTblDef(database::topleveldomainsTableBase::CreateTableDefinition());
+	database::SelectStatement selectTLD(tldTblDef.GetConst());
 	selectTLD.SelectAllColumns();
 
 	database::SelectResultContainer<database::topleveldomainsTableBase> selectTLDResult;
