@@ -35,6 +35,8 @@ HttpClientCURL::~HttpClientCURL()
 	if(curlPtr) {
 		curl_easy_cleanup(curlPtr);
 		curlPtr = 0; }
+
+	delete [] errorBuffer;
 }
 
 bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
