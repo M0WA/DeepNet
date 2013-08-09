@@ -387,7 +387,7 @@
 	<column name="URLSTAGE_ID"          type="INTEGER"      notnull="1" />
 	
 	<column name="type"                 type="INTEGER"      notnull="1" />
-	<column name="value"                type="VARCHAR(255)" notnull="1" />
+	<column name="value"                type="VARCHAR(512)" notnull="1" />
 
 	<primary_key column="ID" />
 	<foreign_key column="URLSTAGE_ID"   references_table="urlstages" references_column="ID" MySQL_Database="contents" />

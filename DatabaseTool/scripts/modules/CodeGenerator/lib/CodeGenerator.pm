@@ -235,6 +235,7 @@ sub GenerateTableBaseCpp {
       my $isAutoIncrement = $isPrimaryKey;
       my $hasDefault = "false";
       my $databaseName = $table_attributes{'MySQL_Database'};
+      my $dataSize = $column_attributes{'typeSize'};
 
       #get/set functions
       my $tmplTableBaseGetSetFieldTmpl = $tmplTableBaseGetSetContent;
@@ -272,6 +273,7 @@ sub GenerateTableBaseCpp {
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_NULLABLE__/$isNullable/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_IS_AUTO_GENERATED__/$isAutoIncrement/gs;
       $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_HAS_DEFAULT__/$hasDefault/gs;
+      $tmplCreateColumnTmpl =~ s/__TMPL_FIELD_DATA_SIZE__/$dataSize/gs;
       $tmplCreateColumnOut .= $tmplCreateColumnTmpl;
 
       #functions generated for keys only

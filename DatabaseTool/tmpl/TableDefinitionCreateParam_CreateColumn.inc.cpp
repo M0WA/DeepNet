@@ -30,5 +30,6 @@ TableColumnDefinition* __TMPL_TABLE_NAME__TableBase::GetDefinition___TMPL_FIELD_
     createParam.isIndex             = __TMPL_FIELD_IS_INDEX__;
     createParam.isNullable          = __TMPL_FIELD_IS_NULLABLE__;
     createParam.hasDefaultValue     = __TMPL_FIELD_HAS_DEFAULT__;
+    createParam.dataSize            = __TMPL_FIELD_DATA_SIZE__;
     return TableColumnDefinition::CreateInstance(createParam);
 }
