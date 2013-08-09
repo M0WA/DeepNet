@@ -37,6 +37,7 @@
 #include "UnitTestIndexerEx.h"
 #include "UnitTestDatabase.h"
 #include "UnitTestCacheUrlPathPart.h"
+#include "UnitTestExceptions.h"
 
 namespace toolbot {
 
