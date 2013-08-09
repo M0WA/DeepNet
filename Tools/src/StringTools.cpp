@@ -459,16 +459,15 @@ int StringTools::SoundEx(char *SoundEx, char *WordString, int LengthOption, int 
 
 int StringTools::ExecuteCommand( const std::string& cmd, std::string& output, const int maxOutputSize)
 {
-    FILE* fp;
-    bool once = true;
-    int nBufferSize = maxOutputSize;
+    bool once(true);
+    int nBufferSize(maxOutputSize);
     if(maxOutputSize <= 0){
     	once = false;
     	nBufferSize = 255;}
-    char* result = new char[nBufferSize];
+    char* result(new char[nBufferSize]);
 
-    fp = popen(cmd.c_str(),"r");
-    size_t outputSize = 0;
+    FILE* fp(popen(cmd.c_str(),"r"));
+    size_t outputSize(0);
     std::stringstream ssOutput;
     do {
     	 outputSize = fread(result,1,nBufferSize-1,fp);
@@ -486,7 +485,7 @@ int StringTools::ExecuteCommand( const std::string& cmd, std::string& output, co
 
 bool StringTools::IsNumeric(const std::string& in) {
 
-	std::string::const_iterator iter = in.begin();
+	std::string::const_iterator iter(in.begin());
 	for(;iter != in.end();++iter) {
 		if(!isdigit(*iter))
 			return false;
