@@ -13,6 +13,8 @@
 #include <TableDefinition.h>
 #include <TableColumnDefinition.h>
 
+#include <DatabaseColumnDatasizeExceededException.h>
+
 namespace indexing {
 
 GenericWebDictionary::GenericWebDictionary(database::DatabaseConnection* database)
@@ -38,7 +40,14 @@ bool GenericWebDictionary::CommitContent(void)
 		const std::string& word(wordRef.GetString());
 
 		database::dictTableBase dictKeyword;
-		dictKeyword.Set_keyword(word);
+		try {
+			dictKeyword.Set_keyword(word);
+		}
+		catch(database::DatabaseColumnDatasizeExceededException& ex) {
+			ex.DisableLogging();
+			log::Logging::LogWarn("omitting keyword exceeding which is exceeding max size");
+			continue; }
+
 		dictKeyword.Set_occurrence(occurrences);
 
 		std::vector<database::TableColumnDefinition*> colDefsSum;
@@ -121,7 +130,14 @@ bool GenericWebDictionary::CommitMeta(void)
 			const std::string& word(iterWords->GetString());
 
 			database::dictTableBase dictKeyword;
-			dictKeyword.Set_keyword(word);
+			try {
+				dictKeyword.Set_keyword(word);
+			}
+			catch(database::DatabaseColumnDatasizeExceededException& ex) {
+				ex.DisableLogging();
+				log::Logging::LogWarn("omitting meta keyword exceeding which is exceeding max size");
+				continue; }
+
 			dictKeyword.Set_occurrence(occurrences);
 
 			std::vector<database::TableColumnDefinition*> colDefsSum;
