@@ -8,7 +8,6 @@
 
 #include <cstdio>
 #include <cstdlib>
-#include <cstdarg>
 #include <cstring>
 #include <iostream>
 
@@ -53,30 +52,26 @@ void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std:
 		Logging::mutex.Unlock();
 }
 
-void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
+void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& ap) {
 
-	if(instance && levelMsg > instance->logLevel)
-		return;
+	outString.clear();
 
-	std::string msgOut;
-	int n, size = 100;
-	char *p = 0, *np = 0;
-	va_list ap;
+	int n, size(100);
+	char *p(0), *np(0);
 
 	if ((p = (char*)malloc (size)) == NULL)
 		return;
 
 	while (1) {
-		va_start(ap, fmt);
 		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
 		if (n > -1 && n < size) {
-			msgOut = p;
 		    break; }
-		if (n > -1)    // glibc 2.1
-		   size = n+1;
+
+		if (n > -1) {  // glibc 2.1
+		   size = n+1; }
 		else           // glibc 2.0
 		   size *= 2;
+
 		if ((np = (char*)realloc(p, size)) == NULL) {
 		   free(p);
 		   p = 0;
@@ -85,11 +80,24 @@ void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
 		   p = np;
 		}
 	}
+
 	if(p) {
-		msgOut = p;
+		outString = p;
 		free(p); }
 	else
 		return;
+}
+
+void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
+
+	if(instance && levelMsg > instance->logLevel)
+		return;
+
+	std::string msgOut;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
 
     if(instance)
     	instance->Log_Intern(levelMsg,instance->maxLogMsgLength,msgOut);
@@ -103,37 +111,10 @@ void Logging::LogUnlimited(LogLevel levelMsg, const char* fmt,...) {
 		return;
 
 	std::string msgOut;
-	int n, size = 100;
-	char *p = 0, *np = 0;
-	va_list ap;
-
-	if ((p = (char*)malloc (size)) == NULL)
-		return;
-
-	while (1) {
-		va_start(ap, fmt);
-		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
-		if (n > -1 && n < size) {
-			msgOut = p;
-		    break; }
-		if (n > -1)    // glibc 2.1
-		   size = n+1;
-		else           // glibc 2.0
-		   size *= 2;
-		if ((np = (char*)realloc(p, size)) == NULL) {
-		   free(p);
-		   p = 0;
-		   break;
-		} else {
-		   p = np;
-		}
-	}
-	if(p) {
-		msgOut = p;
-		free(p); }
-	else
-		return;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
 
     if(instance)
     	instance->Log_Intern(levelMsg,0,msgOut);
@@ -197,11 +178,11 @@ bool Logging::IsLogLevelTrace() {
 
 void Logging::GetTimeString(std::string& timeString){
 
-    time_t now = time(0);
+    time_t now(time(0));
     struct tm tmNow;
     gmtime_r(&now,&tmNow);
 
-	const char* timeStringFormat = "%Y-%m-%d %H:%M:%S";
+	const char* timeStringFormat("%Y-%m-%d %H:%M:%S");
 	char pszTimeString[80] = {0};
 	strftime(pszTimeString, 80, timeStringFormat, &tmNow);
 	timeString = pszTimeString;
@@ -232,11 +213,11 @@ void Logging::GetLogLevelString(const LogLevel logLevel, std::string& logLevelSt
 void Logging::GetPIDTIDString(const std::string& applicationName,std::string& pidTIDString) {
 
 	std::stringstream ssOut;
-	__pid_t pid = getpid();
+	__pid_t pid(getpid());
 	ssOut << "[" << (!applicationName.empty() ? (applicationName + "-") : "") << getpid();
 
 	std::string threadName;
-	long int tid = syscall(SYS_gettid);
+	long int tid(syscall(SYS_gettid));
 	if(GetThreadNameByTID(tid, threadName)) {
 		ssOut << "-" << threadName;}
 
@@ -273,37 +254,10 @@ void Logging::LogError(const char* fmt,...) {
 		return;
 
 	std::string msgOut;
-	int n, size = 100;
-	char *p = 0, *np = 0;
-	va_list ap;
-
-	if ((p = (char*)malloc (size)) == NULL)
-		return;
-
-	while (1) {
-		va_start(ap, fmt);
-		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
-		if (n > -1 && n < size) {
-			msgOut = p;
-		    break; }
-		if (n > -1)    // glibc 2.1
-		   size = n+1;
-		else           // glibc 2.0
-		   size *= 2;
-		if ((np = (char*)realloc(p, size)) == NULL) {
-		   free(p);
-		   p = 0;
-		   break;
-		} else {
-		   p = np;
-		}
-	}
-	if(p) {
-		msgOut = p;
-		free(p); }
-	else
-		return;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
 
     if(instance)
     	instance->Log_Intern(LOGLEVEL_ERROR,0,msgOut);
@@ -317,37 +271,10 @@ void Logging::LogWarn(const char* fmt,...){
 		return;
 
 	std::string msgOut;
-	int n, size = 100;
-	char *p = 0, *np = 0;
-	va_list ap;
-
-	if ((p = (char*)malloc (size)) == NULL)
-		return;
-
-	while (1) {
-		va_start(ap, fmt);
-		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
-		if (n > -1 && n < size) {
-			msgOut = p;
-		    break; }
-		if (n > -1)    // glibc 2.1
-		   size = n+1;
-		else           // glibc 2.0
-		   size *= 2;
-		if ((np = (char*)realloc(p, size)) == NULL) {
-		   free(p);
-		   p = 0;
-		   break;
-		} else {
-		   p = np;
-		}
-	}
-	if(p) {
-		msgOut = p;
-		free(p); }
-	else
-		return;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
 
     if(instance)
     	instance->Log_Intern(LOGLEVEL_WARN,0,msgOut);
@@ -361,37 +288,10 @@ void Logging::LogInfo(const char* fmt,...){
 		return;
 
 	std::string msgOut;
-	int n, size = 100;
-	char *p = 0, *np = 0;
-	va_list ap;
-
-	if ((p = (char*)malloc (size)) == NULL)
-		return;
-
-	while (1) {
-		va_start(ap, fmt);
-		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
-		if (n > -1 && n < size) {
-			msgOut = p;
-		    break; }
-		if (n > -1)    // glibc 2.1
-		   size = n+1;
-		else           // glibc 2.0
-		   size *= 2;
-		if ((np = (char*)realloc(p, size)) == NULL) {
-		   free(p);
-		   p = 0;
-		   break;
-		} else {
-		   p = np;
-		}
-	}
-	if(p) {
-		msgOut = p;
-		free(p); }
-	else
-		return;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
 
     if(instance)
     	instance->Log_Intern(LOGLEVEL_INFO,0,msgOut);
@@ -405,37 +305,10 @@ void Logging::LogTrace(const char* fmt,...){
 		return;
 
 	std::string msgOut;
-	int n, size = 100;
-	char *p = 0, *np = 0;
-	va_list ap;
-
-	if ((p = (char*)malloc (size)) == NULL)
-		return;
-
-	while (1) {
-		va_start(ap, fmt);
-		n = vsnprintf (p, size, fmt, ap);
-		va_end(ap);
-		if (n > -1 && n < size) {
-			msgOut = p;
-		    break; }
-		if (n > -1)    // glibc 2.1
-		   size = n+1;
-		else           // glibc 2.0
-		   size *= 2;
-		if ((np = (char*)realloc(p, size)) == NULL) {
-		   free(p);
-		   p = 0;
-		   break;
-		} else {
-		   p = np;
-		}
-	}
-	if(p) {
-		msgOut = p;
-		free(p); }
-	else
-		return;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
 
     if(instance)
     	instance->Log_Intern(LOGLEVEL_TRACE,0,msgOut);

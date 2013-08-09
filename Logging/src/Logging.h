@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <cstdarg>
 #include <sys/syscall.h>
 
 #include <Mutex.h>
@@ -231,6 +232,9 @@ protected:
 	 * application name.
 	 */
 	std::string applicationName;
+
+private:
+	static void FormatVAString(std::string& outString, const char* fmt, va_list& ap);
 
 private:
 	virtual void OnLog(const LogLevel levelMsg,const std::string& msg)=0;
