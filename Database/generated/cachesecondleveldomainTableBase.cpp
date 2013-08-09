@@ -904,6 +904,7 @@ TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_size() {
@@ -938,6 +939,7 @@ TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_size() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_matches() {
@@ -972,6 +974,7 @@ TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_matches() 
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_misses() {
@@ -1006,6 +1009,7 @@ TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_misses() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_action_time() {
@@ -1040,6 +1044,7 @@ TableColumnDefinition* cachesecondleveldomainTableBase::GetDefinition_action_tim
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

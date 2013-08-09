@@ -680,6 +680,7 @@ TableColumnDefinition* unittest3TableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* unittest3TableBase::GetDefinition_UNITTEST1_ID() {
@@ -714,6 +715,7 @@ TableColumnDefinition* unittest3TableBase::GetDefinition_UNITTEST1_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* unittest3TableBase::GetDefinition_UNITTEST2_ID() {
@@ -748,6 +750,7 @@ TableColumnDefinition* unittest3TableBase::GetDefinition_UNITTEST2_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

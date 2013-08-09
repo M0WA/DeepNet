@@ -580,6 +580,7 @@ TableColumnDefinition* dictTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dictTableBase::GetDefinition_keyword() {
@@ -614,6 +615,7 @@ TableColumnDefinition* dictTableBase::GetDefinition_keyword() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dictTableBase::GetDefinition_occurrence() {
@@ -648,6 +650,7 @@ TableColumnDefinition* dictTableBase::GetDefinition_occurrence() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

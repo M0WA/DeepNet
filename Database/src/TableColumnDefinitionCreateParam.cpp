@@ -19,6 +19,7 @@ TableColumnDefinitionCreateParam::TableColumnDefinitionCreateParam()
 , isIndex(false)
 , isNullable(false)
 , hasDefaultValue(false)
+, dataSize(0)
 {
 }
 

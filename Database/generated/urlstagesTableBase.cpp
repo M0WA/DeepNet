@@ -2898,6 +2898,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_URL_ID() {
@@ -2932,6 +2933,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_response_code() {
@@ -2966,6 +2968,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_response_code() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_content_md5() {
@@ -3000,6 +3003,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_content_md5() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (32);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_last_change() {
@@ -3034,6 +3038,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_last_change() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_redirect_count() {
@@ -3068,6 +3073,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_redirect_count() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_download_speed() {
@@ -3102,6 +3108,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_download_speed() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_upload_speed() {
@@ -3136,6 +3143,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_upload_speed() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_content_length() {
@@ -3170,6 +3178,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_content_length() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_content_type() {
@@ -3204,6 +3213,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_content_type() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_ip() {
@@ -3238,6 +3248,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_ip() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_port() {
@@ -3272,6 +3283,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_primary_port() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_int_links() {
@@ -3306,6 +3318,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_int_links() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_ext_links() {
@@ -3340,6 +3353,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_ext_links() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_download_time() {
@@ -3374,6 +3388,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_download_time() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_html_errors() {
@@ -3408,6 +3423,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_html_errors() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlstagesTableBase::GetDefinition_found_date() {
@@ -3442,6 +3458,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_found_date() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

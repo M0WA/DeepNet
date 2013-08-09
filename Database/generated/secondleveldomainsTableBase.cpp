@@ -418,6 +418,7 @@ TableColumnDefinition* secondleveldomainsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* secondleveldomainsTableBase::GetDefinition_domain() {
@@ -452,6 +453,7 @@ TableColumnDefinition* secondleveldomainsTableBase::GetDefinition_domain() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

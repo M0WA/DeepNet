@@ -792,6 +792,7 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
@@ -826,6 +827,7 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_CUSTOMERD
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_path() {
@@ -860,6 +862,7 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_path() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_isPathRegex() {
@@ -894,6 +897,7 @@ TableColumnDefinition* customerdomainblacklistTableBase::GetDefinition_isPathReg
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

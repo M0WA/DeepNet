@@ -842,6 +842,7 @@ TableColumnDefinition* dockeyTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dockeyTableBase::GetDefinition_DICT_ID() {
@@ -876,6 +877,7 @@ TableColumnDefinition* dockeyTableBase::GetDefinition_DICT_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dockeyTableBase::GetDefinition_URLSTAGE_ID() {
@@ -910,6 +912,7 @@ TableColumnDefinition* dockeyTableBase::GetDefinition_URLSTAGE_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dockeyTableBase::GetDefinition_occurrence() {
@@ -944,6 +947,7 @@ TableColumnDefinition* dockeyTableBase::GetDefinition_occurrence() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

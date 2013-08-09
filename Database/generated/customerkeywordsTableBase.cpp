@@ -954,6 +954,7 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
@@ -988,6 +989,7 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_CUSTOMERDOMAIN_I
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_keyword() {
@@ -1022,6 +1024,7 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_keyword() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_target() {
@@ -1056,6 +1059,7 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_target() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerkeywordsTableBase::GetDefinition_isKeywordRegex() {
@@ -1090,6 +1094,7 @@ TableColumnDefinition* customerkeywordsTableBase::GetDefinition_isKeywordRegex()
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

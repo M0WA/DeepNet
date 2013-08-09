@@ -168,21 +168,21 @@ void TableColumn::InitFromDefinition() {
 	{
 	case DB_TYPE_BIGINT:
 	case DB_TYPE_INTEGER:
-		columnValue = new TableColumnValueTyped<long long>(type);
+		columnValue = new TableColumnValueTyped<long long>(type,columnDefinition->DataSizeLimit());
 		break;
 
 	case DB_TYPE_DOUBLE:
-		columnValue = new TableColumnValueTyped<double>(type);
+		columnValue = new TableColumnValueTyped<double>(type,columnDefinition->DataSizeLimit());
 		break;
 
 	case DB_TYPE_VARCHAR:
 	case DB_TYPE_CHAR:
 	case DB_TYPE_LARGE_TEXT:
-		columnValue = new TableColumnValueTyped<std::string>(type);
+		columnValue = new TableColumnValueTyped<std::string>(type,columnDefinition->DataSizeLimit());
 		break;
 
 	case DB_TYPE_TIMESTAMP:
-		columnValue = new TableColumnValueTyped<struct tm>(type);
+		columnValue = new TableColumnValueTyped<struct tm>(type,columnDefinition->DataSizeLimit());
 		break;
 
 	default:

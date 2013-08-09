@@ -580,6 +580,7 @@ TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_keyword() {
@@ -614,6 +615,7 @@ TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_keyword() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_type() {
@@ -648,6 +650,7 @@ TableColumnDefinition* dataminingcriteriaTableBase::GetDefinition_type() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

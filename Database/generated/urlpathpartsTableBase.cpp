@@ -680,6 +680,7 @@ TableColumnDefinition* urlpathpartsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlpathpartsTableBase::GetDefinition_PATHPART_ID() {
@@ -714,6 +715,7 @@ TableColumnDefinition* urlpathpartsTableBase::GetDefinition_PATHPART_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT() {
@@ -748,6 +750,7 @@ TableColumnDefinition* urlpathpartsTableBase::GetDefinition_URLPATHPART_ID_NEXT(
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

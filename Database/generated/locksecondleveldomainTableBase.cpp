@@ -580,6 +580,7 @@ TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_SECONDLEVEL
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_CRAWLERSESSION_ID() {
@@ -614,6 +615,7 @@ TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_CRAWLERSESS
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_schedule() {
@@ -648,6 +650,7 @@ TableColumnDefinition* locksecondleveldomainTableBase::GetDefinition_schedule() 
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

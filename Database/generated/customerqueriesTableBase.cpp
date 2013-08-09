@@ -630,6 +630,7 @@ TableColumnDefinition* customerqueriesTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerqueriesTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
@@ -664,6 +665,7 @@ TableColumnDefinition* customerqueriesTableBase::GetDefinition_CUSTOMERDOMAIN_ID
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerqueriesTableBase::GetDefinition_query() {
@@ -698,6 +700,7 @@ TableColumnDefinition* customerqueriesTableBase::GetDefinition_query() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

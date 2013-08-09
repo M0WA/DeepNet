@@ -580,6 +580,7 @@ TableColumnDefinition* dataminingcustomerTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcustomerTableBase::GetDefinition_login() {
@@ -614,6 +615,7 @@ TableColumnDefinition* dataminingcustomerTableBase::GetDefinition_login() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcustomerTableBase::GetDefinition_password() {
@@ -648,6 +650,7 @@ TableColumnDefinition* dataminingcustomerTableBase::GetDefinition_password() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

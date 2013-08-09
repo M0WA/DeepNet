@@ -680,6 +680,7 @@ TableColumnDefinition* docurlTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* docurlTableBase::GetDefinition_DICT_ID() {
@@ -714,6 +715,7 @@ TableColumnDefinition* docurlTableBase::GetDefinition_DICT_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* docurlTableBase::GetDefinition_URL_ID() {
@@ -748,6 +750,7 @@ TableColumnDefinition* docurlTableBase::GetDefinition_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

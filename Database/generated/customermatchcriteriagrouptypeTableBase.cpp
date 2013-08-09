@@ -954,6 +954,7 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_ID
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_CUSTOMERMATCHCRITERIA_ID() {
@@ -988,6 +989,7 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_CU
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_type() {
@@ -1022,6 +1024,7 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_ty
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_groupPosition() {
@@ -1056,6 +1059,7 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_gr
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_isPrimaryKey() {
@@ -1090,6 +1094,7 @@ TableColumnDefinition* customermatchcriteriagrouptypeTableBase::GetDefinition_is
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

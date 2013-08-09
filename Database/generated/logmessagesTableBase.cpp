@@ -1390,6 +1390,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_loglevel() {
@@ -1424,6 +1425,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_loglevel() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_message() {
@@ -1458,6 +1460,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_message() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_actiontime() {
@@ -1492,6 +1495,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_actiontime() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_pid() {
@@ -1526,6 +1530,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_pid() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_tid() {
@@ -1560,6 +1565,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_tid() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_appName() {
@@ -1594,6 +1600,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_appName() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* logmessagesTableBase::GetDefinition_threadName() {
@@ -1628,6 +1635,7 @@ TableColumnDefinition* logmessagesTableBase::GetDefinition_threadName() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

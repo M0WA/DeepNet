@@ -792,6 +792,7 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
@@ -826,6 +827,7 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CUSTOMERDOMAI
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CRAWLERSESSION_ID() {
@@ -860,6 +862,7 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_CRAWLERSESSIO
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_scheduled() {
@@ -894,6 +897,7 @@ TableColumnDefinition* customersynccrawlerTableBase::GetDefinition_scheduled() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

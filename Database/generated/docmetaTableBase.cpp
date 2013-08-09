@@ -1004,6 +1004,7 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* docmetaTableBase::GetDefinition_DICT_ID() {
@@ -1038,6 +1039,7 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_DICT_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* docmetaTableBase::GetDefinition_URLSTAGE_ID() {
@@ -1072,6 +1074,7 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_URLSTAGE_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* docmetaTableBase::GetDefinition_occurrence() {
@@ -1106,6 +1109,7 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_occurrence() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* docmetaTableBase::GetDefinition_type() {
@@ -1140,6 +1144,7 @@ TableColumnDefinition* docmetaTableBase::GetDefinition_type() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

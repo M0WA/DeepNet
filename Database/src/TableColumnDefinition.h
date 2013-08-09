@@ -94,6 +94,12 @@ public:
 	bool HasDefaultValue(void) const { return definition.hasDefaultValue; }
 
 	/**
+	 * gets size limit for data value of this column
+	 * @return data size limit or 0 (unlimited)
+	 */
+	size_t DataSizeLimit(void) const { return definition.dataSize; }
+
+	/**
 	 * gets const create parameters for this column.
 	 * @return create parameters for this column.
 	 */

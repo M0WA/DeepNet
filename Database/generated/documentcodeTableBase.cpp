@@ -630,6 +630,7 @@ TableColumnDefinition* documentcodeTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* documentcodeTableBase::GetDefinition_URLSTAGE_ID() {
@@ -664,6 +665,7 @@ TableColumnDefinition* documentcodeTableBase::GetDefinition_URLSTAGE_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* documentcodeTableBase::GetDefinition_code() {
@@ -698,6 +700,7 @@ TableColumnDefinition* documentcodeTableBase::GetDefinition_code() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (4096000);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

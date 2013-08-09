@@ -630,6 +630,7 @@ TableColumnDefinition* customersyncurlTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersyncurlTableBase::GetDefinition_URL_ID() {
@@ -664,6 +665,7 @@ TableColumnDefinition* customersyncurlTableBase::GetDefinition_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersyncurlTableBase::GetDefinition_scheduled() {
@@ -698,6 +700,7 @@ TableColumnDefinition* customersyncurlTableBase::GetDefinition_scheduled() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

@@ -1004,6 +1004,7 @@ TableColumnDefinition* syncurlsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* syncurlsTableBase::GetDefinition_URL_ID() {
@@ -1038,6 +1039,7 @@ TableColumnDefinition* syncurlsTableBase::GetDefinition_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* syncurlsTableBase::GetDefinition_SECONDLEVELDOMAIN_ID() {
@@ -1072,6 +1074,7 @@ TableColumnDefinition* syncurlsTableBase::GetDefinition_SECONDLEVELDOMAIN_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* syncurlsTableBase::GetDefinition_CRAWLERSESSION_ID() {
@@ -1106,6 +1109,7 @@ TableColumnDefinition* syncurlsTableBase::GetDefinition_CRAWLERSESSION_ID() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* syncurlsTableBase::GetDefinition_schedule() {
@@ -1140,6 +1144,7 @@ TableColumnDefinition* syncurlsTableBase::GetDefinition_schedule() {
     createParam.isIndex             = true;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

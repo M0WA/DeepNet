@@ -904,6 +904,7 @@ TableColumnDefinition* unittest2TableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* unittest2TableBase::GetDefinition_timestamp_test() {
@@ -938,6 +939,7 @@ TableColumnDefinition* unittest2TableBase::GetDefinition_timestamp_test() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* unittest2TableBase::GetDefinition_varchar_test() {
@@ -972,6 +974,7 @@ TableColumnDefinition* unittest2TableBase::GetDefinition_varchar_test() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (4096000);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* unittest2TableBase::GetDefinition_double_test() {
@@ -1006,6 +1009,7 @@ TableColumnDefinition* unittest2TableBase::GetDefinition_double_test() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* unittest2TableBase::GetDefinition_integer_test() {
@@ -1040,6 +1044,7 @@ TableColumnDefinition* unittest2TableBase::GetDefinition_integer_test() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

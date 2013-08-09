@@ -892,6 +892,7 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* imagelinksTableBase::GetDefinition_TARGET_URL_ID() {
@@ -926,6 +927,7 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_TARGET_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* imagelinksTableBase::GetDefinition_IMAGE_URL_ID() {
@@ -960,6 +962,7 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_IMAGE_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* imagelinksTableBase::GetDefinition_URLSTAGE_ID() {
@@ -994,6 +997,7 @@ TableColumnDefinition* imagelinksTableBase::GetDefinition_URLSTAGE_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

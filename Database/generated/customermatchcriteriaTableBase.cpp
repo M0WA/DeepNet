@@ -842,6 +842,7 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
@@ -876,6 +877,7 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_CUSTOMERDOM
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_MATCHCRITERIA_ID() {
@@ -910,6 +912,7 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_MATCHCRITER
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_type() {
@@ -944,6 +947,7 @@ TableColumnDefinition* customermatchcriteriaTableBase::GetDefinition_type() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

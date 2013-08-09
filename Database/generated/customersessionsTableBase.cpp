@@ -630,6 +630,7 @@ TableColumnDefinition* customersessionsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersessionsTableBase::GetDefinition_CUSTOMER_ID() {
@@ -664,6 +665,7 @@ TableColumnDefinition* customersessionsTableBase::GetDefinition_CUSTOMER_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customersessionsTableBase::GetDefinition_session() {
@@ -698,6 +700,7 @@ TableColumnDefinition* customersessionsTableBase::GetDefinition_session() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

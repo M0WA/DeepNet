@@ -263,14 +263,13 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 	std::string query;
 	PGresult* res(0);
 
-	bool oldInTransaction(isInTransaction);
-	if(!isInTransaction) {
-		TransactionStart(); }
+	BeginTransactionForUpsert(stmt.GetConstTableDefinition()->TableName());
 
 	try {
 		query = pgStmt.ToSQL(this).c_str();
 		res = Execute_Intern(query);
 		ResToVec(query,res,results.GetVector());
+		TransactionCommit();
 	}
 	catch(errors::Exception& e) {
 		if(res)
@@ -307,13 +306,11 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		DatabaseConnection::Select(dynamic_cast<const SelectStatement&>(selectIDStmt),resultContainer);
 
 		if(resultContainer.Size() != 1) {
-			TransactionRollback();
 			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this)); }
 
 		resultContainer.ResetIter();
 		const std::vector<TableColumn*>& cols(resultContainer.GetConstIter()->GetConstColumns());
 		if(cols.size() != 1) {
-			TransactionRollback();
 			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,selectIDStmt.ToSQL(this)); }
 
 		const TableColumn* priKeyCol(cols.at(0));
@@ -321,8 +318,6 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		affectedRows = tmpAffected;
 	}
 
-	if(!oldInTransaction) {
-		TransactionCommit(); }
 }
 
 void PostgreSQLConnection::Update(const UpdateStatement& stmt){
@@ -443,5 +438,17 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape){
 	PQfreemem(pszTmp);
 	return true;
 }
+
+void PostgreSQLConnection::BeginTransactionForUpsert(const std::string& tableName) {
+
+	if(isInTransaction) {
+		log::Logging::LogWarn("PostgreSQL does not support multi statement support for upserts in transactions, committing previous transaction");
+		TransactionCommit(); }
+	isInTransaction = false;
+
+	TransactionStart();
+	Execute("LOCK TABLE " + tableName + " IN SHARE ROW EXCLUSIVE MODE");
+}
+
 
 }

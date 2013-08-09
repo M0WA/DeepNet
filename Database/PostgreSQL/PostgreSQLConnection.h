@@ -53,6 +53,8 @@ private:
 	PGresult* Execute_Intern(const std::string& query);
 	void ResToVec(const std::string& query, PGresult* res,std::vector<TableBase*>& results);
 
+	void BeginTransactionForUpsert(const std::string& tableName);
+
 private:
 	const PostgreSQLDatabaseConfig* config;
 	PGconn* connection;
@@ -62,7 +64,6 @@ private:
 	long long lastInsertID;
 
 	bool isInTransaction;
-
 };
 
 }

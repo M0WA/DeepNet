@@ -680,6 +680,7 @@ TableColumnDefinition* searchquerykeywordsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_ID() {
@@ -714,6 +715,7 @@ TableColumnDefinition* searchquerykeywordsTableBase::GetDefinition_KEYWORDQUERY_
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_ID() {
@@ -748,6 +750,7 @@ TableColumnDefinition* searchquerykeywordsTableBase::GetDefinition_SEARCHQUERY_I
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

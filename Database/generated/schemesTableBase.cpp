@@ -418,6 +418,7 @@ TableColumnDefinition* schemesTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* schemesTableBase::GetDefinition_scheme() {
@@ -452,6 +453,7 @@ TableColumnDefinition* schemesTableBase::GetDefinition_scheme() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

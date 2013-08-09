@@ -21,7 +21,7 @@ namespace database {
 template <class T>
 class TableColumnValueTyped : public TableColumnValue {
 private:
-	TableColumnValueTyped(const TableColumnValueTyped& type) {
+	TableColumnValueTyped(const TableColumnValueTyped& type){
 		THROW_EXCEPTION(errors::NotImplementedException,"cannot copy TableColumnValueTyped");
 	}
 
@@ -29,9 +29,10 @@ public:
 	/**
 	 * construct by column type.
 	 * @param type column type.
+	 * @param maxSize maximum data size
 	 */
-	TableColumnValueTyped(const TableColumnType& type)
-	: TableColumnValue(type){}
+	TableColumnValueTyped(const TableColumnType& type, const size_t& maxSize)
+	: TableColumnValue(type,maxSize){}
 
 	virtual ~TableColumnValueTyped() {}
 

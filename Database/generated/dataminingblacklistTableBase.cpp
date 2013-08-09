@@ -630,6 +630,7 @@ TableColumnDefinition* dataminingblacklistTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingblacklistTableBase::GetDefinition_CUSTOMER_ID() {
@@ -664,6 +665,7 @@ TableColumnDefinition* dataminingblacklistTableBase::GetDefinition_CUSTOMER_ID()
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingblacklistTableBase::GetDefinition_domain() {
@@ -698,6 +700,7 @@ TableColumnDefinition* dataminingblacklistTableBase::GetDefinition_domain() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

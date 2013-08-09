@@ -24,9 +24,11 @@ public:
 	/**
 	 * create using column type.
 	 * @param type column type.
+	 * @param maxSize maximum data size
 	 */
-	TableColumnValue(const TableColumnType& type)
-	: type(type) {}
+	TableColumnValue(const TableColumnType& type, const size_t& maxSize)
+	: type(type)
+	, maxSize(maxSize){}
 
 	virtual ~TableColumnValue(){}
 
@@ -113,7 +115,8 @@ protected:
 	/**
 	 * column type.
 	 */
-	TableColumnType type;
+	const TableColumnType type;
+	const size_t maxSize;
 };
 
 }

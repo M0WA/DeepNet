@@ -954,6 +954,7 @@ TableColumnDefinition* customerproductsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_ID() {
@@ -988,6 +989,7 @@ TableColumnDefinition* customerproductsTableBase::GetDefinition_CUSTOMERDOMAIN_I
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerproductsTableBase::GetDefinition_productNo() {
@@ -1022,6 +1024,7 @@ TableColumnDefinition* customerproductsTableBase::GetDefinition_productNo() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (1024);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerproductsTableBase::GetDefinition_productName() {
@@ -1056,6 +1059,7 @@ TableColumnDefinition* customerproductsTableBase::GetDefinition_productName() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (1024);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerproductsTableBase::GetDefinition_productBrand() {
@@ -1090,6 +1094,7 @@ TableColumnDefinition* customerproductsTableBase::GetDefinition_productBrand() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (1024);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

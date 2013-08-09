@@ -14,14 +14,16 @@
 #include "DatabaseHelper.h"
 
 #include "DatabaseInvalidTypeException.h"
-#include <NotImplementedException.h>
+#include "DatabaseColumnDatasizeExceededException.h"
 
+#include <NotImplementedException.h>
 #include <TimeTools.h>
 
 namespace database {
 
-TableColumnValue::TableColumnValue(const TableColumnValue& copy){
-
+TableColumnValue::TableColumnValue(const TableColumnValue& copy)
+: type(DB_TYPE_UNKNOWN)
+, maxSize(0){
 	THROW_EXCEPTION(errors::NotImplementedException,"cannot copy TableColumnValue");
 }
 
@@ -79,6 +81,10 @@ void TableColumnValue::Set(const std::string& in) {
 
 	if(!IsStringAllowed())
 		THROW_EXCEPTION(DatabaseInvalidTypeException);
+
+	if(maxSize && in.length() > maxSize)
+		THROW_EXCEPTION(DatabaseColumnDatasizeExceededException);
+
 	dynamic_cast< TableColumnValueTyped<std::string>* >(this)->Set(in);
 }
 
@@ -86,6 +92,7 @@ void TableColumnValue::Get(std::string& out) const {
 
 	if(!IsStringAllowed())
 		THROW_EXCEPTION(DatabaseInvalidTypeException);
+
 	dynamic_cast< const TableColumnValueTyped<std::string>* >(this)->Get(out);
 }
 

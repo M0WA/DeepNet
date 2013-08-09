@@ -680,6 +680,7 @@ TableColumnDefinition* latesturlstagesTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* latesturlstagesTableBase::GetDefinition_URL_ID() {
@@ -714,6 +715,7 @@ TableColumnDefinition* latesturlstagesTableBase::GetDefinition_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* latesturlstagesTableBase::GetDefinition_URLSTAGE_ID() {
@@ -748,6 +750,7 @@ TableColumnDefinition* latesturlstagesTableBase::GetDefinition_URLSTAGE_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

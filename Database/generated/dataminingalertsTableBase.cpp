@@ -580,6 +580,7 @@ TableColumnDefinition* dataminingalertsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingalertsTableBase::GetDefinition_type() {
@@ -614,6 +615,7 @@ TableColumnDefinition* dataminingalertsTableBase::GetDefinition_type() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingalertsTableBase::GetDefinition_param() {
@@ -648,6 +650,7 @@ TableColumnDefinition* dataminingalertsTableBase::GetDefinition_param() {
     createParam.isIndex             = false;
     createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

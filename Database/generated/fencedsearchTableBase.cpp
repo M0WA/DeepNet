@@ -680,6 +680,7 @@ TableColumnDefinition* fencedsearchTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* fencedsearchTableBase::GetDefinition_CUSTOMER_ID() {
@@ -714,6 +715,7 @@ TableColumnDefinition* fencedsearchTableBase::GetDefinition_CUSTOMER_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID() {
@@ -748,6 +750,7 @@ TableColumnDefinition* fencedsearchTableBase::GetDefinition_SECONDLEVELDOMAIN_ID
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

@@ -892,6 +892,7 @@ TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER_ID() {
@@ -926,6 +927,7 @@ TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_CUSTOMER
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGALERT_ID() {
@@ -960,6 +962,7 @@ TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_DATAMINI
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_DATAMININGCRITERIA_ID() {
@@ -994,6 +997,7 @@ TableColumnDefinition* dataminingcriteriaalertsTableBase::GetDefinition_DATAMINI
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

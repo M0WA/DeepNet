@@ -630,6 +630,7 @@ TableColumnDefinition* customerproductimagesTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerproductimagesTableBase::GetDefinition_PRODUCT_ID() {
@@ -664,6 +665,7 @@ TableColumnDefinition* customerproductimagesTableBase::GetDefinition_PRODUCT_ID(
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerproductimagesTableBase::GetDefinition_imageUrl() {
@@ -698,6 +700,7 @@ TableColumnDefinition* customerproductimagesTableBase::GetDefinition_imageUrl() 
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

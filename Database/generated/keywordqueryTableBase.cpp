@@ -418,6 +418,7 @@ TableColumnDefinition* keywordqueryTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* keywordqueryTableBase::GetDefinition_query_part() {
@@ -452,6 +453,7 @@ TableColumnDefinition* keywordqueryTableBase::GetDefinition_query_part() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

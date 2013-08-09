@@ -580,6 +580,7 @@ TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_searchpart() {
@@ -614,6 +615,7 @@ TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_searchpart() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (4096);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_md5() {
@@ -648,6 +650,7 @@ TableColumnDefinition* urlsearchpartsTableBase::GetDefinition_md5() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (32);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 

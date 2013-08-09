@@ -954,6 +954,7 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_CUSTOMER_ID() {
@@ -988,6 +989,7 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_CUSTOMER_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_domain() {
@@ -1022,6 +1024,7 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_domain() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (2048);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_revisitInterval() {
@@ -1056,6 +1059,7 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_revisitInterval()
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* customerdomainsTableBase::GetDefinition_isDomainRegex() {
@@ -1090,6 +1094,7 @@ TableColumnDefinition* customerdomainsTableBase::GetDefinition_isDomainRegex() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
 
