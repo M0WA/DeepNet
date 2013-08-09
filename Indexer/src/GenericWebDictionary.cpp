@@ -117,7 +117,7 @@ bool GenericWebDictionary::CommitMeta(void)
 	if( testMode || !wordMeta.size() )
 		return true;
 
-	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes = wordMeta.begin();
+	std::map<Dictionary::MetaInformationType,std::set<Word> >::const_iterator iterTypes(wordMeta.begin());
 
 	long long occurrences(0);
 	for(;iterTypes != wordMeta.end();++iterTypes) {
