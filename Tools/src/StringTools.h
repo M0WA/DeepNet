@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <stdarg.h>
+#include <cstdarg>
 
 namespace tools
 {
