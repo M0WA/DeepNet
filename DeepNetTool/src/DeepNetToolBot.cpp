@@ -161,6 +161,7 @@ bool DeepNetToolBot::OnPreInit() {
 	//unit tests
 	RegisterHtmlTestParams();
 	RegisterPCRERegexTestParams();
+	RegisterExceptionTestParams();
 	RegisterRobotTxtParams();
 	RegisterHtmlClientCURLParams();
 	RegisterHtmlDocumentFactoryParams();
@@ -211,6 +212,10 @@ void DeepNetToolBot::RegisterPCRERegexTestParams() {
 	Config().RegisterParam("pcreRegexFile", "validates pcre regexes from file", false, 0 );
 }
 
+void DeepNetToolBot::RegisterExceptionTestParams() {
+	Config().RegisterParam("exceptionTest", "set to 1 to enable UnitTests for exceptions", false, 0 );
+}
+
 void DeepNetToolBot::RegisterRobotTxtParams() {
 	Config().RegisterParam("robotsTxtFile", "validates robots.txt from file", false, 0 );
 }
@@ -253,6 +258,11 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	std::string pcreRegexFile;
 	if( Config().GetValue("pcreRegexFile",pcreRegexFile) ){
 		unitTests.AddUnitTest(new UnitTestPCRERegex(pcreRegexFile)); }
+
+	//initiate exceptions
+	long long test(-1);
+	if( Config().GetValue("exceptionTest",test) && test > 0) {
+		unitTests.AddUnitTest(new UnitTestExceptions()); }
 
 	//initiate robots.txt unit test
 	std::string robotsTxtFile;

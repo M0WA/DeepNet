@@ -30,6 +30,7 @@ private:
 	void RegisterCommerceSearchParams();
 	void RegisterDataminingParams();
 	void RegisterPCRERegexTestParams();
+	void RegisterExceptionTestParams();
 	void RegisterHtmlClientCURLParams();
 	void RegisterHtmlDocumentFactoryParams();
 	void RegisterIndexerExParams();
