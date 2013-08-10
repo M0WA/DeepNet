@@ -65,13 +65,31 @@ private:
 }
 
 #ifdef ENABLE_PERFORMANCE_LOG
+	/**
+	 * macro to start performance measurement.
+	 * this macro needs to be used exactly once on
+	 * first time use in a scope. To reuse it
+	 * in the same scope, see PERFORMANCE_LOG_RESTART.
+	 * To work it also needs ENABLE_PERFORMANCE_LOG
+	 * defined.
+	 * @see PERFORMANCE_LOG_RESTART
+	 * @see PERFORMANCE_LOG_STOP
+	 */
 	#define PERFORMANCE_LOG_START  \
 		tools::PerformanceCounter loggingPerformanceCounter;\
 		loggingPerformanceCounter.Start(); \
 
+	/**
+	 * restarts performance measurement
+	 * @see PERFORMANCE_LOG_START
+	 */
 	#define PERFORMANCE_LOG_RESTART \
 		loggingPerformanceCounter.Start(); \
 
+	/**
+	 * stop performance measurement and immediately logs results
+	 * with a specified log message ( logMsg )
+	 */
 	#define PERFORMANCE_LOG_STOP(logMsg){ \
 		double dDurationPerformanceCounter(loggingPerformanceCounter.Stop()); \
 		if(tools::PerformanceCounter::IsPerformanceLogEnabled()) { \

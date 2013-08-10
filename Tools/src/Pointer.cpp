@@ -8,6 +8,6 @@
 
 #include "Pointer.h"
 
-namespace htmlparser {
+namespace tools {
 
 }
