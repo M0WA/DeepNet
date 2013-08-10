@@ -43,7 +43,7 @@ public:
 	template <class T>
 	static inline void MakeUniqueVector(const std::vector<T>& in, std::vector<T>& unique, bool sort = false) {
 
-		std::vector<T> tmpUnique = in;
+		std::vector<T> tmpUnique(in);
 		std::sort(tmpUnique.begin(),tmpUnique.end());
 
 		if(sort)
@@ -55,7 +55,7 @@ public:
 			//TODO: this could be done much more performant...
 			std::unique(tmpUnique.begin(),tmpUnique.end());
 			std::map<T,bool> mapInserted;
-			typename std::vector<T>::const_iterator iterUnique = tmpUnique.begin();
+			typename std::vector<T>::const_iterator iterUnique(tmpUnique.begin());
 			for(;iterUnique != tmpUnique.end(); ++iterUnique) {
 				mapInserted[*iterUnique] = false; }
 
@@ -130,7 +130,7 @@ public:
 	 */
 	template <class T>
 	static void ToConstVector(const std::vector<T>& vecIn, std::vector<const T>& vecOut) {
-		typename std::vector<T>::const_iterator iterIn = vecIn.begin();
+		typename std::vector<T>::const_iterator iterIn(vecIn.begin());
 		for(;iterIn != vecIn.end();++iterIn) {
 			vecOut.push_back(const_cast<const T>(*iterIn)); }
 	}
@@ -142,7 +142,7 @@ public:
 	 */
 	template <class T>
 	static void ToConstVector(const std::vector<T*>& vecIn, std::vector<const T*>& vecOut) {
-		typename std::vector<T*>::const_iterator iterIn = vecIn.begin();
+		typename std::vector<T*>::const_iterator iterIn(vecIn.begin());
 		for(;iterIn != vecIn.end();++iterIn) {
 			vecOut.push_back(const_cast<const T*>(*iterIn)); }
 	}
@@ -154,7 +154,7 @@ public:
 	 */
 	template <class T>
 	static void ToNonConstVector(const std::vector<const T>& vecIn, std::vector<T>& vecOut) {
-		typename std::vector<const T>::const_iterator iterIn = vecIn.begin();
+		typename std::vector<const T>::const_iterator iterIn(vecIn.begin());
 		for(;iterIn != vecIn.end();++iterIn) {
 			vecOut.push_back(const_cast<T>(*iterIn)); }
 	}
@@ -166,7 +166,7 @@ public:
 	 */
 	template <class T>
 	static void ToNonConstVector(const std::vector<const T*>& vecIn,std::vector<T*>& vecOut) {
-		typename std::vector<const T*>::const_iterator iterIn = vecIn.begin();
+		typename std::vector<const T*>::const_iterator iterIn(vecIn.begin());
 		for(;iterIn != vecIn.end();++iterIn) {
 			vecOut.push_back(const_cast<T*>(*iterIn)); }
 	}

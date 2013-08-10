@@ -30,13 +30,13 @@ bool CharsetEncoder::Detect( const char* pszBuffer, const int lenBuffer, DetectM
 	match.encodingHintCorrect = false;
 	match.encodingConfidence = 0;
 
-	UErrorCode status = U_ZERO_ERROR;
-	UCharsetDetector* detector = ucsdet_open(&status);
+	UErrorCode status(U_ZERO_ERROR);
+	UCharsetDetector* detector(ucsdet_open(&status));
 	if( U_FAILURE(status) ) {
 		return false; }
 	status = U_ZERO_ERROR;
 
-	UBool filterOn = 1;
+	UBool filterOn(1);
 	ucsdet_enableInputFilter(detector,filterOn);
 
 	if( !match.encodingHint.empty() ) {
@@ -54,24 +54,24 @@ bool CharsetEncoder::Detect( const char* pszBuffer, const int lenBuffer, DetectM
 		ucsdet_close(detector);
 		return false; }
 
-	int32_t matchesFound = -1;
-	const UCharsetMatch** charsetMatches = ucsdet_detectAll(detector, &matchesFound, &status);
+	int32_t matchesFound(-1);
+	const UCharsetMatch** charsetMatches(ucsdet_detectAll(detector, &matchesFound, &status));
 	if( U_FAILURE(status) || matchesFound <= 0 ) {
 		ucsdet_close(detector);
 		return false; }
 
-	const UCharsetMatch* charsetMatch = 0;
-	long  tmpMaxConfidence = -1;
-	UErrorCode tmpStatus = U_ZERO_ERROR;
+	const UCharsetMatch* charsetMatch(0);
+	long  tmpMaxConfidence(-1);
+	UErrorCode tmpStatus(U_ZERO_ERROR);
 	for( int32_t i = 0; i < matchesFound; i++) {
 
 		tmpStatus = U_ZERO_ERROR;
-		long tmpConfidence = ucsdet_getConfidence( charsetMatches[i], &tmpStatus );
+		long tmpConfidence(ucsdet_getConfidence( charsetMatches[i], &tmpStatus ));
 		if( U_FAILURE( tmpStatus ) ) {
 			continue; }
 
 		tmpStatus = U_ZERO_ERROR;
-		const char* encodingNameCharTmp = ucsdet_getName( charsetMatches[i], &tmpStatus );
+		const char* encodingNameCharTmp(ucsdet_getName( charsetMatches[i], &tmpStatus ));
 		if( U_FAILURE( tmpStatus ) ) {
 			continue; }
 
@@ -90,7 +90,7 @@ bool CharsetEncoder::Detect( const char* pszBuffer, const int lenBuffer, DetectM
 		return false;
 	}
 
-	const char* encodingNameChar = ucsdet_getName(charsetMatch, &status);
+	const char* encodingNameChar(ucsdet_getName(charsetMatch, &status));
 	if( U_FAILURE(status) || !encodingNameChar ) {
 		match.encodingName = "";
 		ucsdet_close(detector);
@@ -102,7 +102,7 @@ bool CharsetEncoder::Detect( const char* pszBuffer, const int lenBuffer, DetectM
 		ucsdet_close(detector);
 		return false; }
 
-	const char* lang = ucsdet_getLanguage(charsetMatch,&status);
+	const char* lang(ucsdet_getLanguage(charsetMatch,&status));
 	if( !U_FAILURE(status) && lang ) {
 		match.language = lang; }
 

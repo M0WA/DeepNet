@@ -41,7 +41,7 @@ bool PCRERegex::Compile(
 		int** subStringPos,
 		int* subStringCount) {
 
-	int options = 0;
+	int options(0);
 	if(caseInsensitive)
 		options |= PCRE_CASELESS;
 	if(multiLine)

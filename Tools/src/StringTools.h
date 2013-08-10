@@ -135,7 +135,7 @@ public:
 		if(vecIn.size() == 0)
 			return;
 		std::ostringstream ssIn;
-		typename std::vector<T>::const_iterator iterType = vecIn.begin();
+		typename std::vector<T>::const_iterator iterType(vecIn.begin());
 		for(size_t i = 0; iterType != vecIn.end(); i++,++iterType) {
 			if(separator != 0 && i )
 				ssIn << separator;
@@ -155,7 +155,7 @@ public:
 		if(vecIn.size() == 0)
 			return;
 		std::ostringstream ssIn;
-		typename std::vector<T>::const_iterator iterType = vecIn.begin();
+		typename std::vector<T>::const_iterator iterType(vecIn.begin());
 		for(; iterType != vecIn.end(); ++iterType) {
 			ssIn << prefix << *iterType << postfix;	}
 		out = ssIn.str();
@@ -242,7 +242,7 @@ public:
 	 */
 	template <class T>
 	static std::string TransformHexString(const T& in) {
-		unsigned int x = reinterpret_cast<unsigned int>(in);
+		unsigned int x(reinterpret_cast<unsigned int>(in));
 		std::ostringstream ssConvert;
 		ssConvert << std::hex << in;
 		if(ssConvert.fail()) {
@@ -260,7 +260,7 @@ public:
 	 */
 	static bool IsOneOf(const std::string& comp, const char** choice) {
 
-		for(size_t i = 0; choice[i] != 0; i++) {
+		for(size_t i(0); choice[i] != 0; i++) {
 			if(comp.compare(choice[i]) == 0)
 				return true;
 		}
@@ -284,13 +284,13 @@ public:
 	 */
 	template<class T>
 	static unsigned int LevenshteinDistance(const T &s1, const T & s2) {
-		const size_t len1 = s1.size(), len2 = s2.size();
+		const size_t len1(s1.size()), len2(s2.size());
 		std::vector<unsigned int> col(len2+1), prevCol(len2+1);
-		for (unsigned int i = 0; i < prevCol.size(); i++)
+		for (unsigned int i(0); i < prevCol.size(); i++)
 			prevCol[i] = i;
-		for (unsigned int i = 0; i < len1; i++) {
+		for (unsigned int i(0); i < len1; i++) {
 			col[0] = i+1;
-			for (unsigned int j = 0; j < len2; j++)
+			for (unsigned int j(0); j < len2; j++)
 				col[j+1] = std::min( std::min( 1 + col[j], 1 + prevCol[1 + j]), prevCol[j] + (s1[i]==s2[j] ? 0 : 1) );
 			col.swap(prevCol);
 		}

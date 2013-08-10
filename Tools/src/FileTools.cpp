@@ -23,8 +23,8 @@ FileTools::~FileTools() {
 }
 
 bool FileTools::FileExists(const std::string& fileName) {
-	bool success = false;
-	FILE *fp = fopen(fileName.c_str(), "r");
+	bool success(false);
+	FILE *fp(fopen(fileName.c_str(), "r"));
 	if (fp != NULL) {
 		success = true;
 		fclose(fp);}
@@ -37,7 +37,7 @@ bool FileTools::ReadFile(const std::string& fileName, std::string& fileContents)
 	if(!ReadFile(fileName, lines))
 		return false;
 
-	std::vector<std::string>::iterator iterLines = lines.begin();
+	std::vector<std::string>::const_iterator iterLines(lines.begin());
 	for(;iterLines != lines.end();++iterLines) {
 		fileContents.append(*iterLines + '\n');	}
 	return true;
@@ -45,12 +45,11 @@ bool FileTools::ReadFile(const std::string& fileName, std::string& fileContents)
 
 bool FileTools::ReadFile(const std::string& fileName,std::vector<std::string>& lines) {
 
-	FILE *fp;
-	char *line = NULL;
-	size_t len = 0;
+	char *line(NULL);
+	size_t len(0);
 	ssize_t read;
 
-	fp = fopen(fileName.c_str(), "r");
+	FILE * fp(fopen(fileName.c_str(), "r"));
 	if (fp == NULL)
 		return false;
 
@@ -72,8 +71,7 @@ bool FileTools::ReadFile(const std::string& fileName,std::vector<std::string>& l
 
 bool FileTools::WriteFile(const std::string& fileName, const std::string& fileContents, const bool append) {
 
-	FILE *fp;
-	fp = fopen(fileName.c_str(), ( append ? "w" : "a") );
+	FILE *fp(fopen(fileName.c_str(), ( append ? "w" : "a") ));
 	if (fp == NULL)
 		return false;
 
@@ -89,12 +87,12 @@ void FileTools::ListDirectory(std::vector<std::string>& files, const std::string
 
 void FileTools::ListDirectory(std::vector<std::string>& files, const std::string& directory, const std::string& matchString, const bool onlyFiles)
 {
-	DIR* dirHandle = opendir(directory.c_str());
+	DIR* dirHandle(opendir(directory.c_str()));
 	if (dirHandle) {
 
 		tools::PCRERegex regexFileName(matchString,true);
 
-		struct dirent * dirEntry = 0;
+		struct dirent * dirEntry(0);
 		while ( (dirEntry = readdir(dirHandle)) != 0 ) {
 
 			//only normal files, not dots (. and ..)
@@ -150,7 +148,8 @@ bool FileTools::NormalizePath(const char* normPath,std::string& out) {
 	if(!pszNormalizedPath)
 		return false;
 
-	out = pszNormalizedPath;
+	out.clear();
+	out.append(pszNormalizedPath);
 	free(pszNormalizedPath);
 	return true;
 }

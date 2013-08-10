@@ -25,7 +25,7 @@ StringTools::~StringTools()
 
 void StringTools::ReplaceString(const std::string& oldstr, const std::string& newstr, std::string& target)
 {
-   size_t x = 0;
+   size_t x(0);
    while((x = target.find(oldstr,x)) != std::string::npos) {
 	   target.replace(x,oldstr.length(),newstr);
 	   x += newstr.length();}
@@ -33,18 +33,18 @@ void StringTools::ReplaceString(const std::string& oldstr, const std::string& ne
 
 void StringTools::RemoveEmptyLines(std::vector<std::string>& fileContent)
 {
-	std::vector<std::string> tmpLines;
-	std::vector<std::string>::iterator iterLines = fileContent.begin();
+	std::vector<std::string>::iterator iterLines(fileContent.begin());
 	for(; iterLines != fileContent.end(); ++iterLines) {
-		std::string tmpLine = *iterLines;
+		std::string tmpLine(*iterLines);
+		ReplaceString(" ", "", tmpLine);
 		ReplaceString("\n", "", tmpLine);
 		ReplaceString("\r", "", tmpLine);
 		ReplaceString("\t", "", tmpLine);
-		if( !tmpLine.empty() ) {
-			tmpLines.push_back(tmpLine);
-		}
+		if( tmpLine.empty() ) {
+			std::vector<std::string>::iterator eraseLine(iterLines);
+			iterLines--;
+			fileContent.erase(eraseLine); }
 	}
-	fileContent = tmpLines;
 }
 
 void StringTools::Trim (std::string &s)
@@ -72,20 +72,18 @@ std::string& StringTools::ToLowerIP(std::string& s)
 
 std::string StringTools::ToLowerNP(const std::string& s)
 {
-	std::string sOut = s;
+	std::string sOut(s);
 	std::transform(sOut.begin(), sOut.end(), sOut.begin(), tolower);
 	return sOut;
 }
 
 void StringTools::RemoveComments(std::vector<std::string>& fileContent) {
 
-	std::vector<std::string>::iterator iterLines = fileContent.begin();
+	std::vector<std::string>::iterator iterLines(fileContent.begin());
 	for(;iterLines != fileContent.end(); ++iterLines){
-
-		size_t pos = iterLines->find('#');
+		size_t pos(iterLines->find('#'));
 		if(pos != std::string::npos) {
-			iterLines->erase(pos,iterLines->length()-pos);
-		}
+			iterLines->erase(pos,iterLines->length()-pos); }
 	}
 	StringTools::RemoveEmptyLines(fileContent);
 }

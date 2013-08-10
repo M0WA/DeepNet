@@ -33,7 +33,7 @@ MimeType::~MimeType()
 std::string MimeType::GetMimeType(const void* pszBuffer, const size_t len)
 {
 	magic_setflags(magicCookie,MAGIC_MIME_TYPE);
-	const char* pszMimeType = magic_buffer(magicCookie,pszBuffer,len);
+	const char* pszMimeType(magic_buffer(magicCookie,pszBuffer,len));
 	if(pszMimeType)
 		return pszMimeType;
 	return "";
@@ -42,7 +42,7 @@ std::string MimeType::GetMimeType(const void* pszBuffer, const size_t len)
 std::string MimeType::GetMimeEncoding(const void* pszBuffer, const size_t len)
 {
 	magic_setflags(magicCookie,MAGIC_MIME_ENCODING);
-	const char* pszMimeEncoding = magic_buffer(magicCookie,pszBuffer,len);
+	const char* pszMimeEncoding(magic_buffer(magicCookie,pszBuffer,len));
 	if(pszMimeEncoding)
 		return pszMimeEncoding;
 	return "";
@@ -53,15 +53,16 @@ bool MimeType::ParseMimeString(const std::string& mimeString, std::string& mimeT
 	if(mimeString.empty())
 		return false;
 
-	std::string mimeStringLC = tools::StringTools::ToLowerNP(mimeString);
+	std::string mimeStringLC(tools::StringTools::ToLowerNP(mimeString));
 	if(!GetCharsetFromMimeString(mimeStringLC, mimeEncoding)) {
 		mimeEncoding = ""; }
 
-	size_t posEnd = mimeStringLC.find(";");
+	size_t posEnd(mimeStringLC.find(";"));
 	if(posEnd == std::string::npos)
 		posEnd = mimeStringLC.size();
 
-	mimeType = mimeStringLC.substr(0,posEnd);
+	mimeType.clear();
+	mimeType.append(mimeStringLC.c_str(),posEnd);
 	StringTools::Trim(mimeType);
 	return !mimeType.empty();
 }
