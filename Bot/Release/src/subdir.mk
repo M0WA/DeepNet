@@ -6,20 +6,26 @@
 CPP_SRCS += \
 ../src/Bot.cpp \
 ../src/CommandLine.cpp \
+../src/ConfigEntry.cpp \
 ../src/ConfigFile.cpp \
-../src/ConfigManager.cpp 
+../src/ConfigManager.cpp \
+../src/DatabaseRepair.cpp 
 
 OBJS += \
 ./src/Bot.o \
 ./src/CommandLine.o \
+./src/ConfigEntry.o \
 ./src/ConfigFile.o \
-./src/ConfigManager.o 
+./src/ConfigManager.o \
+./src/DatabaseRepair.o 
 
 CPP_DEPS += \
 ./src/Bot.d \
 ./src/CommandLine.d \
+./src/ConfigEntry.d \
 ./src/ConfigFile.d \
-./src/ConfigManager.d 
+./src/ConfigManager.d \
+./src/DatabaseRepair.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
