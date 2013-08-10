@@ -34,8 +34,6 @@ CPP_SRCS += \
 ../src/ProcessingInstruction.cpp \
 ../src/Range.cpp \
 ../src/Text.cpp \
-../src/Token.cpp \
-../src/Tokeniser.cpp \
 ../src/Traverser.cpp \
 ../src/TreeWalker.cpp 
 
@@ -70,8 +68,6 @@ OBJS += \
 ./src/ProcessingInstruction.o \
 ./src/Range.o \
 ./src/Text.o \
-./src/Token.o \
-./src/Tokeniser.o \
 ./src/Traverser.o \
 ./src/TreeWalker.o 
 
@@ -106,8 +102,6 @@ CPP_DEPS += \
 ./src/ProcessingInstruction.d \
 ./src/Range.d \
 ./src/Text.d \
-./src/Token.d \
-./src/Tokeniser.d \
 ./src/Traverser.d \
 ./src/TreeWalker.d 
 
