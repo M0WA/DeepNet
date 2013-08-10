@@ -18,7 +18,13 @@ CPP_SRCS += \
 ../src/HttpUrlParserInvalidSchemeException.cpp \
 ../src/HttpUrlParserInvalidUrlException.cpp \
 ../src/HttpUrlParserTLDCacheException.cpp \
-../src/IPv4Tools.cpp 
+../src/IPv4Tools.cpp \
+../src/Socket.cpp \
+../src/SocketFile.cpp \
+../src/SocketIP.cpp \
+../src/SocketTCP.cpp \
+../src/SocketTCPClient.cpp \
+../src/SocketTCPServer.cpp 
 
 OBJS += \
 ./src/HtmlData.o \
@@ -35,7 +41,13 @@ OBJS += \
 ./src/HttpUrlParserInvalidSchemeException.o \
 ./src/HttpUrlParserInvalidUrlException.o \
 ./src/HttpUrlParserTLDCacheException.o \
-./src/IPv4Tools.o 
+./src/IPv4Tools.o \
+./src/Socket.o \
+./src/SocketFile.o \
+./src/SocketIP.o \
+./src/SocketTCP.o \
+./src/SocketTCPClient.o \
+./src/SocketTCPServer.o 
 
 CPP_DEPS += \
 ./src/HtmlData.d \
@@ -52,7 +64,13 @@ CPP_DEPS += \
 ./src/HttpUrlParserInvalidSchemeException.d \
 ./src/HttpUrlParserInvalidUrlException.d \
 ./src/HttpUrlParserTLDCacheException.d \
-./src/IPv4Tools.d 
+./src/IPv4Tools.d \
+./src/Socket.d \
+./src/SocketFile.d \
+./src/SocketIP.d \
+./src/SocketTCP.d \
+./src/SocketTCPClient.d \
+./src/SocketTCPServer.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
