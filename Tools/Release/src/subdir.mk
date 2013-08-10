@@ -27,6 +27,7 @@ CPP_SRCS += \
 ../src/Stack.cpp \
 ../src/StdException.cpp \
 ../src/StringTools.cpp \
+../src/SynchronizedIDArray.cpp \
 ../src/TimeTools.cpp \
 ../src/TokenBucket.cpp 
 
@@ -54,6 +55,7 @@ OBJS += \
 ./src/Stack.o \
 ./src/StdException.o \
 ./src/StringTools.o \
+./src/SynchronizedIDArray.o \
 ./src/TimeTools.o \
 ./src/TokenBucket.o 
 
@@ -81,6 +83,7 @@ CPP_DEPS += \
 ./src/Stack.d \
 ./src/StdException.d \
 ./src/StringTools.d \
+./src/SynchronizedIDArray.d \
 ./src/TimeTools.d \
 ./src/TokenBucket.d 
 
