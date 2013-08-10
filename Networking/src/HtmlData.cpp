@@ -69,10 +69,9 @@ bool HtmlData::ConvertToHostCharset() {
 
 	std::string hostCharsetName(tools::CharsetEncoder::GetHostCharsetName());
 	if( encodingHint.compare(hostCharsetName) != 0 &&
-		!tools::CharsetEncoder::IsCharsetAlias(mimeEncoding.c_str(),hostCharsetName.c_str()) &&
-		confidence != 10 //is a compatible charset
+		!tools::CharsetEncoder::IsCharsetAlias(mimeEncoding.c_str(),hostCharsetName.c_str())
 	) {
-		if(confidence > 10) {
+		if(confidence >= 10) {
 			std::string out;
 			if( !tools::CharsetEncoder::Convert(GetBuffer(), GetBufferSize(), mimeEncoding, out) ) {
 				log::Logging::LogTrace("error while converting to host charset: %s -> %s",mimeEncoding.c_str(),hostCharsetName.c_str());
@@ -100,7 +99,16 @@ bool HtmlData::ConvertToHostCharset() {
 	Append(&zero,1);
 
 	if(isHtml) {
-		//EncodeHtml();
+		std::string encodedTmp;
+		if(!tools::CharsetEncoder::EncodeHtmlEntities(reinterpret_cast<const unsigned char*>(GetBuffer()),GetBufferSize(),encodedTmp)) {
+			Release();
+			log::Logging::LogTrace("error while html encoding special characters");
+			return false; }
+		else {
+			Append(encodedTmp.c_str(),encodedTmp.length());
+			Append(&zero,1);
+		}
+
 	}
 
 	return GetBufferSize() > 1;
