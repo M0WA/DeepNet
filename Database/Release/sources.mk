@@ -25,6 +25,7 @@ C_UPPER_DEPS :=
 SUBDIRS := \
 src \
 generated \
+PostgreSQL \
 MySQL \
 DB2 \
 

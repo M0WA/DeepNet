@@ -8,6 +8,8 @@ CPP_SRCS += \
 ../generated/cachehtmlTableDefinitionCreateParam.cpp \
 ../generated/cacheparsedTableBase.cpp \
 ../generated/cacheparsedTableDefinitionCreateParam.cpp \
+../generated/cachepathpartsTableBase.cpp \
+../generated/cachepathpartsTableDefinitionCreateParam.cpp \
 ../generated/cacherobotsTableBase.cpp \
 ../generated/cacherobotsTableDefinitionCreateParam.cpp \
 ../generated/cachesecondleveldomainTableBase.cpp \
@@ -16,6 +18,10 @@ CPP_SRCS += \
 ../generated/cachesubdomainTableDefinitionCreateParam.cpp \
 ../generated/cacheurlTableBase.cpp \
 ../generated/cacheurlTableDefinitionCreateParam.cpp \
+../generated/cacheurlpathpartsTableBase.cpp \
+../generated/cacheurlpathpartsTableDefinitionCreateParam.cpp \
+../generated/cacheurlsearchpartsTableBase.cpp \
+../generated/cacheurlsearchpartsTableDefinitionCreateParam.cpp \
 ../generated/crawlersessionsTableBase.cpp \
 ../generated/crawlersessionsTableDefinitionCreateParam.cpp \
 ../generated/customerdomainblacklistTableBase.cpp \
@@ -70,6 +76,8 @@ CPP_SRCS += \
 ../generated/documentcodeTableDefinitionCreateParam.cpp \
 ../generated/docurlTableBase.cpp \
 ../generated/docurlTableDefinitionCreateParam.cpp \
+../generated/fencedsearchTableBase.cpp \
+../generated/fencedsearchTableDefinitionCreateParam.cpp \
 ../generated/hyperlinksTableBase.cpp \
 ../generated/hyperlinksTableDefinitionCreateParam.cpp \
 ../generated/imagelinksTableBase.cpp \
@@ -88,6 +96,8 @@ CPP_SRCS += \
 ../generated/matchcriteriaTableDefinitionCreateParam.cpp \
 ../generated/metainfoTableBase.cpp \
 ../generated/metainfoTableDefinitionCreateParam.cpp \
+../generated/pathpartsTableBase.cpp \
+../generated/pathpartsTableDefinitionCreateParam.cpp \
 ../generated/queryresultsTableBase.cpp \
 ../generated/queryresultsTableDefinitionCreateParam.cpp \
 ../generated/schemesTableBase.cpp \
@@ -104,8 +114,18 @@ CPP_SRCS += \
 ../generated/syncurlsTableDefinitionCreateParam.cpp \
 ../generated/topleveldomainsTableBase.cpp \
 ../generated/topleveldomainsTableDefinitionCreateParam.cpp \
+../generated/unittest1TableBase.cpp \
+../generated/unittest1TableDefinitionCreateParam.cpp \
+../generated/unittest2TableBase.cpp \
+../generated/unittest2TableDefinitionCreateParam.cpp \
+../generated/unittest3TableBase.cpp \
+../generated/unittest3TableDefinitionCreateParam.cpp \
+../generated/urlpathpartsTableBase.cpp \
+../generated/urlpathpartsTableDefinitionCreateParam.cpp \
 ../generated/urlsTableBase.cpp \
 ../generated/urlsTableDefinitionCreateParam.cpp \
+../generated/urlsearchpartsTableBase.cpp \
+../generated/urlsearchpartsTableDefinitionCreateParam.cpp \
 ../generated/urlstagesTableBase.cpp \
 ../generated/urlstagesTableDefinitionCreateParam.cpp 
 
@@ -114,6 +134,8 @@ OBJS += \
 ./generated/cachehtmlTableDefinitionCreateParam.o \
 ./generated/cacheparsedTableBase.o \
 ./generated/cacheparsedTableDefinitionCreateParam.o \
+./generated/cachepathpartsTableBase.o \
+./generated/cachepathpartsTableDefinitionCreateParam.o \
 ./generated/cacherobotsTableBase.o \
 ./generated/cacherobotsTableDefinitionCreateParam.o \
 ./generated/cachesecondleveldomainTableBase.o \
@@ -122,6 +144,10 @@ OBJS += \
 ./generated/cachesubdomainTableDefinitionCreateParam.o \
 ./generated/cacheurlTableBase.o \
 ./generated/cacheurlTableDefinitionCreateParam.o \
+./generated/cacheurlpathpartsTableBase.o \
+./generated/cacheurlpathpartsTableDefinitionCreateParam.o \
+./generated/cacheurlsearchpartsTableBase.o \
+./generated/cacheurlsearchpartsTableDefinitionCreateParam.o \
 ./generated/crawlersessionsTableBase.o \
 ./generated/crawlersessionsTableDefinitionCreateParam.o \
 ./generated/customerdomainblacklistTableBase.o \
@@ -176,6 +202,8 @@ OBJS += \
 ./generated/documentcodeTableDefinitionCreateParam.o \
 ./generated/docurlTableBase.o \
 ./generated/docurlTableDefinitionCreateParam.o \
+./generated/fencedsearchTableBase.o \
+./generated/fencedsearchTableDefinitionCreateParam.o \
 ./generated/hyperlinksTableBase.o \
 ./generated/hyperlinksTableDefinitionCreateParam.o \
 ./generated/imagelinksTableBase.o \
@@ -194,6 +222,8 @@ OBJS += \
 ./generated/matchcriteriaTableDefinitionCreateParam.o \
 ./generated/metainfoTableBase.o \
 ./generated/metainfoTableDefinitionCreateParam.o \
+./generated/pathpartsTableBase.o \
+./generated/pathpartsTableDefinitionCreateParam.o \
 ./generated/queryresultsTableBase.o \
 ./generated/queryresultsTableDefinitionCreateParam.o \
 ./generated/schemesTableBase.o \
@@ -210,8 +240,18 @@ OBJS += \
 ./generated/syncurlsTableDefinitionCreateParam.o \
 ./generated/topleveldomainsTableBase.o \
 ./generated/topleveldomainsTableDefinitionCreateParam.o \
+./generated/unittest1TableBase.o \
+./generated/unittest1TableDefinitionCreateParam.o \
+./generated/unittest2TableBase.o \
+./generated/unittest2TableDefinitionCreateParam.o \
+./generated/unittest3TableBase.o \
+./generated/unittest3TableDefinitionCreateParam.o \
+./generated/urlpathpartsTableBase.o \
+./generated/urlpathpartsTableDefinitionCreateParam.o \
 ./generated/urlsTableBase.o \
 ./generated/urlsTableDefinitionCreateParam.o \
+./generated/urlsearchpartsTableBase.o \
+./generated/urlsearchpartsTableDefinitionCreateParam.o \
 ./generated/urlstagesTableBase.o \
 ./generated/urlstagesTableDefinitionCreateParam.o 
 
@@ -220,6 +260,8 @@ CPP_DEPS += \
 ./generated/cachehtmlTableDefinitionCreateParam.d \
 ./generated/cacheparsedTableBase.d \
 ./generated/cacheparsedTableDefinitionCreateParam.d \
+./generated/cachepathpartsTableBase.d \
+./generated/cachepathpartsTableDefinitionCreateParam.d \
 ./generated/cacherobotsTableBase.d \
 ./generated/cacherobotsTableDefinitionCreateParam.d \
 ./generated/cachesecondleveldomainTableBase.d \
@@ -228,6 +270,10 @@ CPP_DEPS += \
 ./generated/cachesubdomainTableDefinitionCreateParam.d \
 ./generated/cacheurlTableBase.d \
 ./generated/cacheurlTableDefinitionCreateParam.d \
+./generated/cacheurlpathpartsTableBase.d \
+./generated/cacheurlpathpartsTableDefinitionCreateParam.d \
+./generated/cacheurlsearchpartsTableBase.d \
+./generated/cacheurlsearchpartsTableDefinitionCreateParam.d \
 ./generated/crawlersessionsTableBase.d \
 ./generated/crawlersessionsTableDefinitionCreateParam.d \
 ./generated/customerdomainblacklistTableBase.d \
@@ -282,6 +328,8 @@ CPP_DEPS += \
 ./generated/documentcodeTableDefinitionCreateParam.d \
 ./generated/docurlTableBase.d \
 ./generated/docurlTableDefinitionCreateParam.d \
+./generated/fencedsearchTableBase.d \
+./generated/fencedsearchTableDefinitionCreateParam.d \
 ./generated/hyperlinksTableBase.d \
 ./generated/hyperlinksTableDefinitionCreateParam.d \
 ./generated/imagelinksTableBase.d \
@@ -300,6 +348,8 @@ CPP_DEPS += \
 ./generated/matchcriteriaTableDefinitionCreateParam.d \
 ./generated/metainfoTableBase.d \
 ./generated/metainfoTableDefinitionCreateParam.d \
+./generated/pathpartsTableBase.d \
+./generated/pathpartsTableDefinitionCreateParam.d \
 ./generated/queryresultsTableBase.d \
 ./generated/queryresultsTableDefinitionCreateParam.d \
 ./generated/schemesTableBase.d \
@@ -316,8 +366,18 @@ CPP_DEPS += \
 ./generated/syncurlsTableDefinitionCreateParam.d \
 ./generated/topleveldomainsTableBase.d \
 ./generated/topleveldomainsTableDefinitionCreateParam.d \
+./generated/unittest1TableBase.d \
+./generated/unittest1TableDefinitionCreateParam.d \
+./generated/unittest2TableBase.d \
+./generated/unittest2TableDefinitionCreateParam.d \
+./generated/unittest3TableBase.d \
+./generated/unittest3TableDefinitionCreateParam.d \
+./generated/urlpathpartsTableBase.d \
+./generated/urlpathpartsTableDefinitionCreateParam.d \
 ./generated/urlsTableBase.d \
 ./generated/urlsTableDefinitionCreateParam.d \
+./generated/urlsearchpartsTableBase.d \
+./generated/urlsearchpartsTableDefinitionCreateParam.d \
 ./generated/urlstagesTableBase.d \
 ./generated/urlstagesTableDefinitionCreateParam.d 
 
@@ -326,7 +386,7 @@ CPP_DEPS += \
 generated/%.o: ../generated/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I../src -I../../Bot/src -I../generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -O3 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -D_REENTRANT -I/home/momo/deepnet/Database/src -I/home/momo/deepnet/Bot/src -I/home/momo/deepnet/Database/generated -I/home/momo/deepnet/Logging/src -I/home/momo/deepnet/Tools/src -I/home/momo/deepnet/Threading/src -I/usr/include/postgresql/ -O3 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

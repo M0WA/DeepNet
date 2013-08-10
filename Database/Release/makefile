@@ -10,6 +10,7 @@ RM := rm -rf
 -include sources.mk
 -include src/subdir.mk
 -include generated/subdir.mk
+-include PostgreSQL/subdir.mk
 -include MySQL/subdir.mk
 -include DB2/subdir.mk
 -include subdir.mk
