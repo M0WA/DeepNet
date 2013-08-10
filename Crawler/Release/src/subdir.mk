@@ -7,34 +7,52 @@ CPP_SRCS += \
 ../src/CommerceSearchCrawler.cpp \
 ../src/CommerceSearchFetcherThread.cpp \
 ../src/Crawler.cpp \
+../src/CrawlerFactory.cpp \
+../src/CrawlerParam.cpp \
 ../src/DataminingCrawler.cpp \
 ../src/DataminingUrlFetcherThread.cpp \
+../src/FencedCrawler.cpp \
+../src/FencedUrlFetcherThread.cpp \
 ../src/GenericWebCrawler.cpp \
 ../src/GenericWebUrlFetcherThread.cpp \
+../src/GenericWebUrlFetcherThreadParam.cpp \
 ../src/UrlFetchParam.cpp \
-../src/UrlFetcherThread.cpp 
+../src/UrlFetcherThread.cpp \
+../src/UrlFetcherThreadParam.cpp 
 
 OBJS += \
 ./src/CommerceSearchCrawler.o \
 ./src/CommerceSearchFetcherThread.o \
 ./src/Crawler.o \
+./src/CrawlerFactory.o \
+./src/CrawlerParam.o \
 ./src/DataminingCrawler.o \
 ./src/DataminingUrlFetcherThread.o \
+./src/FencedCrawler.o \
+./src/FencedUrlFetcherThread.o \
 ./src/GenericWebCrawler.o \
 ./src/GenericWebUrlFetcherThread.o \
+./src/GenericWebUrlFetcherThreadParam.o \
 ./src/UrlFetchParam.o \
-./src/UrlFetcherThread.o 
+./src/UrlFetcherThread.o \
+./src/UrlFetcherThreadParam.o 
 
 CPP_DEPS += \
 ./src/CommerceSearchCrawler.d \
 ./src/CommerceSearchFetcherThread.d \
 ./src/Crawler.d \
+./src/CrawlerFactory.d \
+./src/CrawlerParam.d \
 ./src/DataminingCrawler.d \
 ./src/DataminingUrlFetcherThread.d \
+./src/FencedCrawler.d \
+./src/FencedUrlFetcherThread.d \
 ./src/GenericWebCrawler.d \
 ./src/GenericWebUrlFetcherThread.d \
+./src/GenericWebUrlFetcherThreadParam.d \
 ./src/UrlFetchParam.d \
-./src/UrlFetcherThread.d 
+./src/UrlFetcherThread.d \
+./src/UrlFetcherThreadParam.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
