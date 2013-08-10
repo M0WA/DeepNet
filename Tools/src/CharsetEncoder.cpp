@@ -122,23 +122,23 @@ bool CharsetEncoder::Detect( const char* pszBuffer, const int lenBuffer, DetectM
 
 bool CharsetEncoder::IsValidEncodingName(std::string& encodingName)
 {
-	UErrorCode status = U_ZERO_ERROR;
-	UCharsetDetector* detector = ucsdet_open(&status);
+	UErrorCode status(U_ZERO_ERROR);
+	UCharsetDetector* detector(ucsdet_open(&status));
 	if( U_FAILURE(status) ) {
 		if(detector)
 			ucsdet_close(detector);
 		return false; }
 
-	UEnumeration* enumValid = ucsdet_getAllDetectableCharsets(detector,&status);
+	UEnumeration* enumValid(ucsdet_getAllDetectableCharsets(detector,&status));
 	if( U_FAILURE(status) ) {
 		if(enumValid)
 			uenum_close(enumValid);
 		ucsdet_close(detector);
 		return false; }
 
-	int32_t len = 0;
+	int32_t len(0);
 	while( 1 ) {
-		const char* validName = uenum_next(enumValid,&len,&status);
+		const char* validName(uenum_next(enumValid,&len,&status));
 		if(validName == 0)
 			break;
 		if( status == U_INVARIANT_CONVERSION_ERROR )
@@ -171,30 +171,32 @@ bool CharsetEncoder::Convert(const char* pInput, const int len, const std::strin
 {
 	//TODO: use pivot buffer (ucnv_convertEx)
 
-	const char* charDefaultConverter = ucnv_getDefaultName();
+	sOutput.clear();
+
+	const char* charDefaultConverter(ucnv_getDefaultName());
 	if ( CharsetEncoder::IsCharsetAlias(charDefaultConverter, inEnc.c_str()) ){
 		sOutput.append(pInput,len);
 		return true; }
 
-	UErrorCode status = U_ZERO_ERROR;
-	UConverter *convIn = ucnv_open(charDefaultConverter, &status);
+	UErrorCode status(U_ZERO_ERROR);
+	UConverter *convIn(ucnv_open(charDefaultConverter, &status));
 	if( U_FAILURE(status) ) {
 		if(convIn)
 			ucnv_close(convIn);
 		return false; }
 
 	status = U_ZERO_ERROR;
-	UConverter *convOut = ucnv_open(inEnc.c_str(), &status);
+	UConverter *convOut(ucnv_open(inEnc.c_str(), &status));
 	if( U_FAILURE(status) ) {
 		ucnv_close(convIn);
 		if(convOut)
 			ucnv_close(convOut);
 		return false; }
 
-	int32_t capacity = len + 1;
-	char* targetStart = (char*)malloc(capacity);
-	char* targetPos   = targetStart;
-	const char* source = pInput;
+	int32_t capacity(len + 1);
+	char* targetStart((char*)malloc(capacity));
+	char* targetPos(targetStart);
+	const char* source(pInput);
 	status = U_ZERO_ERROR;
 
 	ucnv_convertEx( convOut, convIn,
@@ -210,13 +212,12 @@ bool CharsetEncoder::Convert(const char* pInput, const int len, const std::strin
 		ucnv_close(convIn);
 		return false; }
 
-	int timesRealloc = 1;
-	while(status == U_BUFFER_OVERFLOW_ERROR)
-	{
+	int timesRealloc(1);
+	while(status == U_BUFFER_OVERFLOW_ERROR) {
 		status = U_ZERO_ERROR;
 		timesRealloc++;
 
-		int advanced = targetStart - targetPos;
+		int advanced(targetStart - targetPos);
 		capacity     = len*timesRealloc;
 		targetStart  = (char*)realloc(targetStart,capacity);
 		targetPos    = targetStart + advanced;
@@ -228,26 +229,25 @@ bool CharsetEncoder::Convert(const char* pInput, const int len, const std::strin
 						TRUE, TRUE,
 						&status);
 	}
-	if(U_STRING_NOT_TERMINATED_WARNING == status)
-	{
+
+	if(U_STRING_NOT_TERMINATED_WARNING == status) {
 		//ihre dreckigen arschgeigen...
 		capacity += 2;
 		targetStart = (char*)realloc(targetStart,capacity);
 		targetStart[capacity-1] = 0;
 		targetStart[capacity-2] = 0;
 	}
-	if( U_FAILURE(status) ) {
-		free(targetStart);
-		ucnv_close(convOut);
-		ucnv_close(convIn);
-		return false; }
 
-	sOutput = std::string(targetStart);
+	bool success(U_SUCCESS(status));
+	if( success ) {
+		sOutput.append(targetStart); }
 
-	free(targetStart);
+	if(targetStart) {
+		free(targetStart); }
+
 	ucnv_close(convOut);
 	ucnv_close(convIn);
-	return true;
+	return success;
 }
 
 bool CharsetEncoder::EncodeHtmlEntities(const std::string& in, std::string& out) {
@@ -256,17 +256,17 @@ bool CharsetEncoder::EncodeHtmlEntities(const std::string& in, std::string& out)
 
 bool CharsetEncoder::EncodeHtmlEntities(const unsigned char* pszIn, const int inSize, std::string& out) {
 
-	int bufSize  = (inSize*4)+1;
-	unsigned char* buf = new unsigned char[bufSize];
+	int bufSize((inSize*4)+1);
+	unsigned char* buf(new unsigned char[bufSize]);
 
-	int outlen = bufSize;
-	int inlen = inSize;
-	int ret = UTF8ToHtml(buf,&outlen,pszIn,&inlen);
+	int outlen(bufSize);
+	int inlen(inSize);
+	int ret(UTF8ToHtml(buf,&outlen,pszIn,&inlen));
 
 	if(ret != 0) {
-		int pos = (outlen <= 20) ? 0 : outlen - 20;
-		int end = ((inSize-1) < (outlen + 20) ) ? inSize-1 : outlen + 20;
-		unsigned char tmp = buf[end];
+		int pos( (outlen <= 20) ? 0 : outlen - 20);
+		int end( ((inSize-1) < (outlen + 20) ) ? inSize-1 : outlen + 20);
+		unsigned char tmp(buf[end]);
 		buf[end] = 0;
 		log::Logging::LogError("an error occured while transforming to html entities: %s",&buf[pos]);
 		buf[end] = tmp;
@@ -274,7 +274,10 @@ bool CharsetEncoder::EncodeHtmlEntities(const unsigned char* pszIn, const int in
 		return false;}
 
 	buf[outlen] = 0;
-	out = std::string(reinterpret_cast<const char*>(buf));
+
+	out.clear();
+	out.append(reinterpret_cast<const char*>(buf));
+
 	delete [] buf;
 	return true;
 }
