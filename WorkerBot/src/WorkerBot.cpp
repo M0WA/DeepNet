@@ -88,6 +88,7 @@ bool WorkerBot::OnShutdown() {
 #ifdef ENABLE_PERFORMANCE_LOG
 	tmp.Start();
 #endif
+
 	crawler.Get()->SetShallEnd(true);
 	crawler.Get()->WaitForThread();
 
