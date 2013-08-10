@@ -428,7 +428,13 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	documentCodeTbl.Set_code(pszBuffer);
 
 	PERFORMANCE_LOG_RESTART;
-	documentCodeTbl.Insert(DB().Connection());
+	try {
+		documentCodeTbl.Insert(DB().Connection());
+	}
+	catch(database::DatabaseException& e) {
+		e.DisableLogging();
+		log::Logging::LogTrace("invalid encoding from %s",url.GetFullUrl().c_str());
+	}
 	PERFORMANCE_LOG_STOP("inserting html code into database");
 
 	return success;
