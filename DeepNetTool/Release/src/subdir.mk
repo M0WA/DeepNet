@@ -6,10 +6,12 @@
 CPP_SRCS += \
 ../src/CommerceSearchTools.cpp \
 ../src/DataMiningTools.cpp \
-../src/DatabaseRepair.cpp \
 ../src/DeepNetToolBot.cpp \
 ../src/UnitTest.cpp \
 ../src/UnitTestCacheUrl.cpp \
+../src/UnitTestCacheUrlPathPart.cpp \
+../src/UnitTestDatabase.cpp \
+../src/UnitTestExceptions.cpp \
 ../src/UnitTestHtmlDocumentFactory.cpp \
 ../src/UnitTestHtmlTokeniser.cpp \
 ../src/UnitTestHttpClientCURL.cpp \
@@ -25,10 +27,12 @@ CPP_SRCS += \
 OBJS += \
 ./src/CommerceSearchTools.o \
 ./src/DataMiningTools.o \
-./src/DatabaseRepair.o \
 ./src/DeepNetToolBot.o \
 ./src/UnitTest.o \
 ./src/UnitTestCacheUrl.o \
+./src/UnitTestCacheUrlPathPart.o \
+./src/UnitTestDatabase.o \
+./src/UnitTestExceptions.o \
 ./src/UnitTestHtmlDocumentFactory.o \
 ./src/UnitTestHtmlTokeniser.o \
 ./src/UnitTestHttpClientCURL.o \
@@ -44,10 +48,12 @@ OBJS += \
 CPP_DEPS += \
 ./src/CommerceSearchTools.d \
 ./src/DataMiningTools.d \
-./src/DatabaseRepair.d \
 ./src/DeepNetToolBot.d \
 ./src/UnitTest.d \
 ./src/UnitTestCacheUrl.d \
+./src/UnitTestCacheUrlPathPart.d \
+./src/UnitTestDatabase.d \
+./src/UnitTestExceptions.d \
 ./src/UnitTestHtmlDocumentFactory.d \
 ./src/UnitTestHtmlTokeniser.d \
 ./src/UnitTestHttpClientCURL.d \
