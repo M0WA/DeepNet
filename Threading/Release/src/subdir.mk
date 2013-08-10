@@ -5,14 +5,20 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/Mutex.cpp \
+../src/ReadWriteLock.cpp \
+../src/Semaphore.cpp \
 ../src/Thread.cpp 
 
 OBJS += \
 ./src/Mutex.o \
+./src/ReadWriteLock.o \
+./src/Semaphore.o \
 ./src/Thread.o 
 
 CPP_DEPS += \
 ./src/Mutex.d \
+./src/ReadWriteLock.d \
+./src/Semaphore.d \
 ./src/Thread.d 
 
 
