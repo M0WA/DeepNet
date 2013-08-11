@@ -165,7 +165,7 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
 		results.GetConstIter()->Get_keyword(tmpInsensitiveKey);
 
-		std::vector<std::string>::const_iterator +(
+		std::vector<std::string>::const_iterator iKeyInsensitiveFind(
 			std::find(lowerKeywords.begin(),lowerKeywords.end(),tools::StringTools::ToLowerIP(tmpInsensitiveKey)) );
 		if(iKeyInsensitiveFind == lowerKeywords.end()) {
 			log::Logging::LogTrace("could not find keyword %s, skipping it",iKeyInsensitiveFind->c_str());
