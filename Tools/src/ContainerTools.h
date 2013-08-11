@@ -25,7 +25,8 @@ private:
 
 public:
 	/**
-	 * removes duplicate entries from toUnique.
+	 * removes duplicate entries from toUnique. if you enable sorting
+	 * performance of this function will increase.
 	 * @param toUnique vector to make unique.
 	 * @param sort true if output should be sorted, false if not.
 	 */
@@ -110,6 +111,18 @@ public:
 	static void VectorPair1ToVector(const std::vector< std::pair<T,V> >& vecIn, std::vector< T >& vecOut) {
 		VectorPair1ToVectorFunc<T,V> convFunc(vecOut);
 		std::for_each(vecIn.begin(),vecIn.end(),convFunc);
+	}
+
+
+	/**
+	 * flattens a vector of vectors and appends to a vector
+	 * @param flatten vector of vectors to flatten
+	 * @param out flattened vector
+	 */
+	template <class T>
+	static void AppendFlattenedVector(const std::vector< std::vector<T> >& flatten, std::vector<T>& out) {
+		AppendFlattenVectorFunc<T> appendFlatFunc(out);
+		std::for_each(flatten.begin(),flatten.end(),appendFlatFunc);
 	}
 
 	/**
@@ -219,6 +232,17 @@ public:
 	}
 
 private:
+	template <class T>
+	struct AppendFlattenVectorFunc : public std::unary_function< std::vector< std::vector<T> >,bool> {
+		AppendFlattenVectorFunc(std::vector<T>& out) : out(out) { }
+
+		bool operator() (const std::vector<T>& item) {
+			return true;
+		}
+
+		std::vector<T>& out;
+	};
+
 	template <class T>
 	struct DumpVecFunc : public std::unary_function<T,bool> {
 		DumpVecFunc(std::ostringstream& dump) : itemNo(0), dump(dump) {}
