@@ -113,6 +113,12 @@ public:
 	 */
 	static bool CompareCaseInsensitive(const std::string& str1,const std::string& str2);
 
+	/**
+	 * lowers all strings in given vector of strings
+	 * @param lowerVec vector of strings to lower
+	 */
+	static void LowerStringsInVector(std::vector<std::string>& lowerVec);
+
 public:
 	/**
 	 * executes command saving it's output.
@@ -296,6 +302,13 @@ public:
 		}
 		return prevCol[len2];
 	}
+
+
+private:
+	struct ToLowerVecFunc : public std::unary_function<std::string,bool> {
+		ToLowerVecFunc() {}
+		bool operator() (std::string& item);
+	};
 };
 
 }

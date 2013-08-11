@@ -145,6 +145,16 @@ void StringTools::FormatVAString(std::string& outString, const char* fmt, va_lis
 		return;
 }
 
+bool StringTools::ToLowerVecFunc::operator() (std::string& item) {
+	tools::StringTools::ToLowerIP(item);
+	return true;
+}
+
+void StringTools::LowerStringsInVector(std::vector<std::string>& lowerVec) {
+	ToLowerVecFunc toLowerVecFunc;
+	std::for_each(lowerVec.begin(),lowerVec.end(),toLowerVecFunc);
+}
+
 //
 //http://creativyst.com/Doc/Articles/SoundEx1/SoundEx1.htm
 //
