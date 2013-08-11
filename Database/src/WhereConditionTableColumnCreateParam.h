@@ -26,6 +26,14 @@ public:
 	 */
 	WhereConditionTableColumnCreateParam(const WhereConditionOperator& op, const WhereConditionCompositeOperator& compOp);
 
+	/**
+	 * construct using operator, composite operator and table alias.
+	 * @param op operator.
+	 * @param compOp composite operator.
+	 * @param tableAlias table alias
+	 */
+	WhereConditionTableColumnCreateParam(const WhereConditionOperator& op, const WhereConditionCompositeOperator& compOp, const std::string& tableAlias);
+
 	virtual ~WhereConditionTableColumnCreateParam();
 
 public:

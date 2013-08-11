@@ -15,6 +15,12 @@ WhereConditionTableColumnCreateParam::WhereConditionTableColumnCreateParam(
 , compOp(compOp){
 }
 
+WhereConditionTableColumnCreateParam::WhereConditionTableColumnCreateParam(const WhereConditionOperator& op, const WhereConditionCompositeOperator& compOp, const std::string& tableAlias)
+: op(op)
+, compOp(compOp)
+, tableNameAlias(tableAlias){
+}
+
 WhereConditionTableColumnCreateParam::~WhereConditionTableColumnCreateParam() {
 }
 
