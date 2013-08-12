@@ -15,13 +15,14 @@
 #include <DatabaseHelper.h>
 #include <SelectResultContainer.h>
 
-#include "Query.h"
 
 namespace database {
 	class TableBase;
 }
 
 namespace queryserver {
+
+	class Query;
 
 /**
  * @brief queries content for matching search results
@@ -34,7 +35,7 @@ public:
 		, query(query) {}
 
 		const database::DatabaseConfig* config;
-		Query query;
+		const Query& query;
 	} QueryContentThreadParam;
 
 	typedef struct _QueryContentResultEntry {

@@ -8,6 +8,8 @@
 
 #include "QueryContentThread.h"
 
+#include "Query.h"
+
 #include <iterator>
 
 #include <DatabaseLayer.h>
@@ -123,7 +125,7 @@ bool QueryContentThread::GetIDsForKeywords() {
 
 		results.GetConstIter()->Get_keyword(tmpKey);
 
-		std::vector<std::string>::iterator iKeyFind(std::find(params->query.keywords.begin(),params->query.keywords.end(),tmpKey));
+		std::vector<std::string>::const_iterator iKeyFind(std::find(params->query.keywords.begin(),params->query.keywords.end(),tmpKey));
 		if(iKeyFind == params->query.keywords.end()) {
 			log::Logging::LogTrace("could not find keyword %s, skipping it",iKeyFind->c_str());
 			continue; }
