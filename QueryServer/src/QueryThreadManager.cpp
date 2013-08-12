@@ -24,7 +24,7 @@ void QueryThreadManager::AddQuery(const database::DatabaseConfig* dbConfig,const
 	if(query.properties.queryContent) {
 		AddThread(
 			new QueryContentThread(),
-			new QueryContentThread::QueryContentThreadParam(dbConfig, query));
+			new QueryThreadParam(dbConfig, query));
 	}
 
 	if(query.properties.queryMeta) {

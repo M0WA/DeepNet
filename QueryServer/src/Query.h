@@ -21,6 +21,7 @@ public:
 	virtual ~Query();
 
 	std::vector<std::string> keywords;
+
 	QueryProperties properties;
 };
 
