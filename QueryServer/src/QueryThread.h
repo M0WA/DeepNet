@@ -21,6 +21,17 @@ namespace queryserver {
 
 class Query;
 
+typedef struct _QueryThreadParam {
+
+	_QueryThreadParam(const database::DatabaseConfig* config, const Query& query)
+	: config(config)
+	, query(query) {}
+
+	const database::DatabaseConfig* config;
+	const Query& query;
+
+} QueryThreadParam;
+
 typedef struct _QueryThreadResultEntry {
 
 	_QueryThreadResultEntry(const long long& urlID, const long long& urlStageID)
@@ -30,18 +41,15 @@ typedef struct _QueryThreadResultEntry {
 
 	long long urlID;
 	long long urlStageID;
+	std::vector<long long> detectedKeywords;
+
 } QueryThreadResultEntry;
 
-typedef struct _QueryThreadParam {
-	_QueryThreadParam(const database::DatabaseConfig* config, const Query& query)
-	: config(config)
-	, query(query) {}
-
-	const database::DatabaseConfig* config;
-	const Query& query;
-} QueryThreadParam;
-
-class QueryThread: public threading::Thread {
+/**
+ * @brief base class for all query threads
+ * @see queryserver::QueryThreadManager
+ */
+class QueryThread : public threading::Thread {
 public:
 	QueryThread();
 	virtual ~QueryThread();

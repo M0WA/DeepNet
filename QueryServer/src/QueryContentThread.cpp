@@ -30,8 +30,7 @@
 namespace queryserver {
 
 QueryContentThread::QueryContentThread()
-: queryserver::QueryThread()
-{
+: queryserver::QueryThread() {
 }
 
 QueryContentThread::~QueryContentThread() {
