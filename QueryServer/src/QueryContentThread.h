@@ -15,6 +15,8 @@
 #include <DatabaseHelper.h>
 #include <SelectResultContainer.h>
 
+#include "Query.h"
+
 namespace database {
 	class TableBase;
 }
@@ -27,14 +29,12 @@ namespace queryserver {
 class QueryContentThread : public threading::Thread {
 public:
 	typedef struct _QueryContentThreadParam {
-		_QueryContentThreadParam(const database::DatabaseConfig* config, const std::vector<std::string>& keywords, const bool caseInsensitive = true)
+		_QueryContentThreadParam(const database::DatabaseConfig* config, const Query& query)
 		: config(config)
-		, keywords(keywords)
-		, caseInsensitive(caseInsensitive) {}
+		, query(query) {}
 
 		const database::DatabaseConfig* config;
-		const std::vector<std::string> keywords;
-		const bool caseInsensitive;
+		Query query;
 	} QueryContentThreadParam;
 
 	typedef struct _QueryContentResultEntry {
