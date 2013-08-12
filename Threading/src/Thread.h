@@ -60,6 +60,9 @@ protected:
 		ThreadFunction threadFunction;
 	};
 
+public:
+	typedef unsigned long long ThreadID;
+
 protected:
 	/**
 	 * construct an instance using user defined thread function.
@@ -79,9 +82,9 @@ public:
 	/**
 	 * starts the thread.
 	 * @param pParam user defined parameters.
-	 * @return false on error, true on success.
+	 * @return 0 on error, new threadID on success.
 	 */
-	bool StartThread(void* pParam = NULL);
+	Thread::ThreadID StartThread(void* pParam = NULL);
 
 	/**
 	 * blocks till thread has ended.

@@ -23,33 +23,29 @@ Thread::~Thread()
 	WaitForThread();
 }
 
-bool Thread::StartThread(void* pParam)
+Thread::ThreadID Thread::StartThread(void* pParam)
 {
-	if(IsRunning())
-	{
+	if(IsRunning())	{
 		SetShallEnd(true);
-		WaitForThread();
-	}
+		WaitForThread(); }
 	SetShallEnd(false);
 
-	threadParam.pParam     = pParam;
-	threadParam.instance   = this;
+	threadParam.pParam   = pParam;
+	threadParam.instance = this;
 
 	pthread_attr_init(&threadAttr);
 	pthread_attr_setdetachstate(&threadAttr, PTHREAD_CREATE_JOINABLE);
 
 	typedef void* (*PThreadFunction)(void*);
-	if ( pthread_create( &thread, &threadAttr, (PThreadFunction)threadParam.threadFunction, &threadParam ) == -1 )
-	{
+	int errThread(pthread_create( &thread, &threadAttr, (PThreadFunction)threadParam.threadFunction, &threadParam ));
+	if ( errThread != 0 ) {
 		thread = 0;
 		if(autoDelete)
 			delete this;
-		return false;
+		return 0;
 	}
-	else
-	{
-		return true;
-	}
+
+	return reinterpret_cast<unsigned long long&>(thread);
 }
 
 bool Thread::SetShallEnd(bool shallEnd)
