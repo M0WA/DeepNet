@@ -37,9 +37,29 @@ public:
 		const bool caseInsensitive;
 	} QueryContentThreadParam;
 
+	typedef struct _QueryContentResultEntry {
+
+		_QueryContentResultEntry(const long long& urlID, const long long& urlStageID)
+		: urlID(urlID)
+		, urlStageID(urlStageID)
+		{}
+
+		long long urlID;
+		long long urlStageID;
+	} QueryContentResultEntry;
+
 public:
 	QueryContentThread();
 	virtual ~QueryContentThread();
+
+public:
+	/**
+	 * returns results of quering by the contents of webpages.
+	 * use only when thread has ended.
+	 * @return results
+	 */
+	const std::vector<QueryContentThread::QueryContentResultEntry>& GetResults() const {
+		return resultEntries; }
 
 private:
 	static void* QueryContentThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
@@ -60,6 +80,8 @@ private:
 	std::vector< std::vector<long long> > caseInsensitiveKeywordIDs;
 
 	database::DatabaseHelper dbHelper;
+
+	std::vector<QueryContentThread::QueryContentResultEntry> resultEntries;
 };
 
 }

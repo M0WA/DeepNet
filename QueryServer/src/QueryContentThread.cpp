@@ -13,6 +13,8 @@
 #include <DatabaseLayer.h>
 #include <DatabaseHelper.h>
 #include <TableDefinition.h>
+#include <TableColumnDefinition.h>
+#include <TableColumn.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
 
@@ -36,6 +38,8 @@ QueryContentThread::~QueryContentThread() {
 
 bool QueryContentThread::InitThreadInstance() {
 
+	log::Logging::RegisterThreadID("QueryContentThread");
+
 	if(!params) {
 		return false; }
 
@@ -47,8 +51,8 @@ bool QueryContentThread::InitThreadInstance() {
 	if(params->caseInsensitive) {
 		lowerKeywords.assign(params->keywords.begin(),params->keywords.end());
 		tools::StringTools::LowerStringsInVector(lowerKeywords);
-		caseInsensitiveKeywordIDs.resize(params->keywords.size(),std::vector<long long>());
-	}
+		caseInsensitiveKeywordIDs.resize(params->keywords.size(),std::vector<long long>()); }
+
 	return true;
 }
 
@@ -91,7 +95,9 @@ void* QueryContentThread::QueryContentThreadFunction(threading::Thread::THREAD_P
 			return 0; }
 	}
 	catch(...) {
-
+		//
+		//TODO: log this error
+		//
 	}
 
 	instance->DestroyThreadInstance();
@@ -165,17 +171,18 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
 		results.GetConstIter()->Get_keyword(tmpInsensitiveKey);
 
-		std::vector<std::string>::const_iterator iKeyInsensitiveFind(
+		std::vector<std::string>::iterator iKeyInsensitiveFind(
 			std::find(lowerKeywords.begin(),lowerKeywords.end(),tools::StringTools::ToLowerIP(tmpInsensitiveKey)) );
 		if(iKeyInsensitiveFind == lowerKeywords.end()) {
 			log::Logging::LogTrace("could not find keyword %s, skipping it",iKeyInsensitiveFind->c_str());
 			continue; }
 
-		size_t pos(std::distance(lowerKeywords.begin(), iKeyInsensitiveFind));
+		std::vector< std::vector<long long> >::iterator iKeyWordID(caseInsensitiveKeywordIDs.begin());
+		std::advance(iKeyWordID,std::distance(lowerKeywords.begin(), iKeyInsensitiveFind));
 
-		long long keyID(-1);
-		results.GetConstIter()->Get_ID(keyID);
-		caseInsensitiveKeywordIDs.at(pos).push_back(keyID);
+		long long keywordID(-1);
+		results.GetConstIter()->Get_ID(keywordID);
+		iKeyWordID->push_back(keywordID);
 	}
 
 	return true;
@@ -234,11 +241,37 @@ bool QueryContentThread::GetUrlsForKeywords() {
 
 bool QueryContentThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
+	tools::Pointer<database::TableColumnDefinition>
+		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
+		colDefDictIDPtr(database::dockeyTableBase::GetDefinition_DICT_ID());
+
+	const database::TableColumnDefinition
+		*colDefUrlID(colDefUrlIDPtr.GetConst()),
+		*colDefDictID(colDefDictIDPtr.GetConst());
+
 	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
 
+		const database::TableBase* curTbl(results.GetConstIter());
+
+		const database::TableColumn
+			*colUrlID(curTbl->GetConstColumnByName(colDefUrlID->GetColumnName())),
+			*colUrlstageID(curTbl->GetConstColumnByName(colDefDictID->GetColumnName()));
+
+		if(!colUrlID || !colUrlstageID) {
+			//
+			//TODO: throw exception, invalid result row
+			//
+			continue;
+		}
+
+		long long urlID(-1),urlStageID(-1);
+		colUrlID->Get(urlID);
+		colUrlstageID->Get(urlStageID);
+
+		resultEntries.push_back(QueryContentResultEntry(urlID,urlStageID));
 	}
 
-	return false;
+	return true;
 }
 
 }
