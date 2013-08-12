@@ -39,11 +39,6 @@ QueryContentThread::~QueryContentThread() {
 
 bool QueryContentThread::OnInitThreadInstance() {
 
-	/*
-	QueryContentThread* instance(dynamic_cast<QueryContentThread*>(threadParam->instance));
-	instance->params = reinterpret_cast<QueryContentThreadParam*>(threadParam->pParam);
-	 */
-
 	keywordIDs.resize(queryThreadParam->query.keywords.size(),-1);
 
 	if(!queryThreadParam->query.properties.caseSensitive) {

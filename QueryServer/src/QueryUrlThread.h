@@ -8,12 +8,20 @@
 
 #pragma once
 
+#include "QueryThread.h"
+
 namespace queryserver {
 
-class QueryUrlThread {
+class QueryUrlThread : public queryserver::QueryThread {
 public:
 	QueryUrlThread();
 	virtual ~QueryUrlThread();
+
+private:
+	virtual bool OnInitThreadInstance();
+	virtual bool OnDestroyThreadInstance();
+	virtual void* Run();
+	virtual const char* GetThreadName() const { return "QueryUrlThread"; }
 };
 
 }

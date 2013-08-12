@@ -16,4 +16,16 @@ QueryUrlThread::QueryUrlThread() {
 QueryUrlThread::~QueryUrlThread() {
 }
 
+bool QueryUrlThread::OnInitThreadInstance(){
+	return false;
+}
+
+bool QueryUrlThread::OnDestroyThreadInstance(){
+	return false;
+}
+
+void* QueryUrlThread::Run(){
+	return 0;
+}
+
 }

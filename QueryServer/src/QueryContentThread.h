@@ -34,9 +34,6 @@ public:
 	virtual ~QueryContentThread();
 
 private:
-	static void* QueryContentThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
-
-private:
 	virtual bool OnInitThreadInstance();
 	virtual bool OnDestroyThreadInstance();
 	virtual void* Run();
