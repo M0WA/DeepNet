@@ -17,14 +17,17 @@ namespace threading {
 /**
  * @brief class to manage multiple threads
  */
+template <class T>
 class ThreadManager {
 
 private:
-	typedef std::pair<threading::Thread*,void*> ThreadInfos;
+	typedef std::pair<T*,void*> ThreadInfos;
 
 public:
-	ThreadManager();
-	virtual ~ThreadManager();
+	ThreadManager() {}
+	virtual ~ThreadManager(){
+		ReleaseAll();
+	}
 
 public:
 	/**
@@ -33,22 +36,53 @@ public:
 	 * @param params parameters to thread
 	 * @return thread id on success, 0 on error
 	 */
-	Thread::ThreadID AddThread(threading::Thread* thread, void* params = NULL);
+	Thread::ThreadID AddThread(T* thread, void* params = NULL){
+
+		Thread::ThreadID tid(thread->StartThread(params));
+		if(tid == 0)
+			return 0;
+
+		if(threads.count(tid)>0) {
+			//
+			//TODO: this should never happen
+			//
+			return 0;
+		}
+
+		threads.insert(std::pair<Thread::ThreadID,ThreadManager::ThreadInfos>(tid,ThreadManager::ThreadInfos(thread, params)));
+		return tid;
+	}
 
 	/**
 	 * sets shutdown flag for all threads
 	 */
-	void SetShallEndForAll();
+	void SetShallEndForAll(){
+		typename std::map<Thread::ThreadID, ThreadManager::ThreadInfos >::iterator i(threads.begin());
+		for(;i != threads.end();++i) {
+			i->second.first->SetShallEnd(true);	}
+	}
 
 	/**
 	 * waits for all threads to end
 	 */
-	void WaitForAll() const;
+	void WaitForAll() const {
+		typename std::map<Thread::ThreadID, ThreadManager::ThreadInfos >::const_iterator i(threads.begin());
+		for(;i != threads.end();++i) {
+			i->second.first->WaitForThread();	}
+	}
 
 	/**
 	 * terminates all threads if neccessary and releases their memory
 	 */
-	void ReleaseAll();
+	void ReleaseAll(){
+
+		SetShallEndForAll();
+		WaitForAll();
+
+		typename std::map<Thread::ThreadID, ThreadManager::ThreadInfos >::iterator i(threads.begin());
+		for(;i != threads.end();++i) {
+			delete i->second.first;	}
+	}
 
 public:
 	/**
