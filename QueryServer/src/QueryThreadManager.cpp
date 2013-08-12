@@ -11,7 +11,9 @@
 #include "Query.h"
 #include "QueryContentThread.h"
 #include "QueryMetaThread.h"
-#include "QueryUrlThread.h"
+#include "QuerySecondLevelDomainThread.h"
+#include "QuerySubdomainThread.h"
+#include "QueryUrlPathThread.h"
 
 namespace queryserver {
 
@@ -35,11 +37,21 @@ void QueryThreadManager::AddQuery(const database::DatabaseConfig* dbConfig,const
 			new QueryThreadParam(dbConfig, query));
 	}
 
-	if(query.properties.querySecondLevelDomain ||
-	   query.properties.querySubdomain ||
-	   query.properties.queryUrlPath) {
+	if(query.properties.querySecondLevelDomain) {
 		AddThread(
-			new QueryUrlThread(),
+			new QuerySecondLevelDomainThread(),
+			new QueryThreadParam(dbConfig, query));
+	}
+
+	if(query.properties.querySubdomain) {
+		AddThread(
+			new QuerySubdomainThread(),
+			new QueryThreadParam(dbConfig, query));
+	}
+
+	if(query.properties.queryUrlPath) {
+		AddThread(
+			new QueryUrlPathThread(),
 			new QueryThreadParam(dbConfig, query));
 	}
 }

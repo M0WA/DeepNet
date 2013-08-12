@@ -51,7 +51,7 @@ bool QueryThread::DestroyThreadInstance() {
 void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadParam) {
 
 	QueryThread* instance(dynamic_cast<QueryThread*>(threadParam->instance));
-	log::Logging::RegisterThreadID(GetThreadName());
+	log::Logging::RegisterThreadID(instance->GetThreadName());
 
 	void* ret(0);
 	try {
