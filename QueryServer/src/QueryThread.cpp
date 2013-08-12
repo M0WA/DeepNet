@@ -21,9 +21,10 @@ QueryThread::QueryThread()
 QueryThread::~QueryThread() {
 }
 
-bool QueryThread::InitThreadInstance() {
+bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam) {
 
-	log::Logging::RegisterThreadID(GetThreadName());
+	threadParam = threadParam;
+	queryThreadParam = reinterpret_cast<QueryThreadParam*>(threadParam->pParam);
 
 	if(!queryThreadParam) {
 		return false; }
@@ -50,12 +51,11 @@ bool QueryThread::DestroyThreadInstance() {
 void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadParam) {
 
 	QueryThread* instance(dynamic_cast<QueryThread*>(threadParam->instance));
-	instance->threadParam = threadParam;
-	instance->queryThreadParam = reinterpret_cast<QueryThreadParam*>(threadParam->pParam);
+	log::Logging::RegisterThreadID(GetThreadName());
 
 	void* ret(0);
 	try {
-		if(!instance->InitThreadInstance()) {
+		if(!instance->InitThreadInstance(threadParam)) {
 			instance->DestroyThreadInstance();
 			return 0; }
 

@@ -70,7 +70,7 @@ protected:
 	bool DestroyThreadInstance();
 
 private:
-	bool InitThreadInstance();
+	bool InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam);
 
 private:
 	virtual bool OnInitThreadInstance()=0;
