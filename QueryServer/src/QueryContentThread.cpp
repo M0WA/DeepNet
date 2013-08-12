@@ -30,7 +30,7 @@
 namespace queryserver {
 
 QueryContentThread::QueryContentThread()
-: threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(QueryContentThread::QueryContentThreadFunction)), false)
+: queryserver::QueryThread(reinterpret_cast<threading::Thread::ThreadFunction>(&(QueryContentThread::QueryContentThreadFunction)))
 , params(0)
 {
 }

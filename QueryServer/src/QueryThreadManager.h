@@ -10,6 +10,8 @@
 
 #include <ThreadManager.h>
 
+#include "QueryThread.h"
+
 namespace database {
 	class DatabaseConfig;
 }
@@ -18,7 +20,7 @@ namespace queryserver {
 
 	class Query;
 
-class QueryThreadManager : private threading::ThreadManager {
+class QueryThreadManager : private threading::ThreadManager<queryserver::QueryThread> {
 public:
 	QueryThreadManager();
 	virtual ~QueryThreadManager();

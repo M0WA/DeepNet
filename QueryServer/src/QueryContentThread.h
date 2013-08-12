@@ -8,10 +8,11 @@
 
 #pragma once
 
+#include "QueryThread.h"
+
 #include <vector>
 #include <string>
 
-#include <Thread.h>
 #include <DatabaseHelper.h>
 #include <SelectResultContainer.h>
 
@@ -27,7 +28,7 @@ namespace queryserver {
 /**
  * @brief queries content for matching search results
  */
-class QueryContentThread : public threading::Thread {
+class QueryContentThread : public queryserver::QueryThread {
 public:
 	typedef struct _QueryContentThreadParam {
 		_QueryContentThreadParam(const database::DatabaseConfig* config, const Query& query)
