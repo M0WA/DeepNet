@@ -18,7 +18,8 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 	const long long& urlStageID,
 	const long long& keywordID,
 	const long long& occurences)
-: type(type)
+: queryserver::Relevance()
+, type(type)
 , urlID(urlID)
 , urlStageID(urlStageID)
 , keywordID(keywordID)
@@ -33,7 +34,8 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 	const long long& keywordID,
 	const long long& occurences,
 	const struct tm& found)
-: type(type)
+: queryserver::Relevance()
+, type(type)
 , urlID(urlID)
 , urlStageID(urlStageID)
 , keywordID(keywordID)

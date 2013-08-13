@@ -11,6 +11,8 @@
 #include <ctime>
 #include <string>
 
+#include "Relevance.h"
+
 namespace queryserver {
 
 typedef enum {
@@ -27,7 +29,7 @@ typedef enum {
 
 } QueryThreadResultType;
 
-class QueryThreadResultEntry {
+class QueryThreadResultEntry : public queryserver::Relevance {
 public:
 	QueryThreadResultEntry(
 			const QueryThreadResultType& type,

@@ -17,6 +17,17 @@ namespace queryserver {
 class Relevance
 {
 public:
+	typedef struct _RelevancePointerComparator {
+	  bool operator() (const Relevance* i,const Relevance* j) {
+		  return ((*i)<(*j));
+	  }
+	} RelevancePointerComparator;
+
+public:
+	Relevance()
+	: relevance(1.0)
+	, weight(1.0) { }
+
 	Relevance(const Relevance& rhs)
 	: relevance(rhs.relevance)
 	, weight(rhs.weight) { }
@@ -28,11 +39,6 @@ public:
 	Relevance(const double& relevance, const double& weight)
 	: relevance(relevance)
 	, weight(weight) { }
-
-private:
-	Relevance()
-	: relevance(0.0)
-	, weight(1.0) { }
 
 public:
 	bool operator==(const Relevance& rhs)     const { return (GetWeightedRelevance() == rhs.GetWeightedRelevance());      }
