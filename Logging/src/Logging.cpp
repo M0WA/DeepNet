@@ -316,4 +316,19 @@ void Logging::LogTrace(const char* fmt,...){
     	Logging::LogUnlimited(LOGLEVEL_TRACE,msgOut);}
 }
 
+void Logging::LogTraceUnlimited(const char* fmt,...){
+
+	if(instance && LOGLEVEL_TRACE > instance->logLevel)
+		return;
+
+	std::string msgOut;
+	va_list args;
+	va_start(args, fmt);
+	FormatVAString(msgOut,fmt,args);
+	va_end(args);
+
+	Logging::LogUnlimited(LOGLEVEL_TRACE,msgOut);
+}
+
+
 }

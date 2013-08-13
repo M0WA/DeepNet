@@ -118,9 +118,15 @@ public:
 
 	/**
 	 * log a debug information not respecting max log length.
-	 * @param msg log message.
+	 * @param fmt format string.
 	 */
 	static void LogTraceUnlimited(const std::string& msg) { LogUnlimited(LOGLEVEL_TRACE,msg); }
+
+	/**
+	 * log a debug information not respecting max log length.
+	 * @param msg log message.
+	 */
+	static void LogTraceUnlimited(const char* fmt,...);
 
 	/**
 	 * register a current thread assigning it a name.
