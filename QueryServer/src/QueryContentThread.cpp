@@ -195,15 +195,14 @@ bool QueryContentThread::GetUrlsForKeywords() {
 
 	select.Where().AddColumns(where);
 
-	//
-	//TODO: 1. add reasonable limit to number of results
-	//      as it might be huge a number.
-	//
-	//		2. therefore we might also order results, to
-	//      make sure they are based on relevancy, and
-	//      not random by database order as it is now.
-	//
-	select.SetLimit(10000);
+	if(queryThreadParam.GetConst()->query.properties.maxResults != 0)
+		select.SetLimit(queryThreadParam.GetConst()->query.properties.maxResults);
+	else {
+		//
+		//TODO: do not hardcode this limit here
+		//
+		select.SetLimit(10000);	}
+
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {
