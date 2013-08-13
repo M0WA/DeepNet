@@ -2,7 +2,7 @@
  *
  * @file QueryProperties.h
  * @author Moritz Wagner
- * @date Aug 12, 2013
+ * @date 12.08.2013
  *
  */
 
@@ -12,23 +12,63 @@
 
 namespace queryserver {
 
+/**
+ * @brief encapsulates all properties of a query
+ * @see queryserver::Query
+ */
 class QueryProperties {
 public:
 	QueryProperties();
 	virtual ~QueryProperties();
 
+	/**
+	 * true if case sensitive keywords
+	 */
 	bool caseSensitive;
 
+	/**
+	 * min age of webpage
+	 */
 	struct tm minAge;
+
+	/**
+	 * max age of webpage
+	 */
 	struct tm maxAge;
 
+	/**
+	 * limit search to a certain secondlevel domain id (-1 to disable)
+	 */
 	long long limitSecondLevelDomainID;
+
+	/**
+	 * limit search to a certain subdomain id (-1 to disable)
+	 */
 	long long limitSubDomainID;
 
+	/**
+	 * relevance factor for content matches (0.0 to disable)
+	 */
 	double relevanceContent;
+
+	/**
+	 * relevance factor for meta content matches (0.0 to disable)
+	 */
 	double relevanceMeta;
+
+	/**
+	 * relevance factor for subdomain matches (0.0 to disable)
+	 */
 	double relevanceSubdomain;
+
+	/**
+	 * relevance factor for secondlevel domain matches (0.0 to disable)
+	 */
 	double relevanceSecondLevelDomain;
+
+	/**
+	 * relevance factor for matches in path part of the url (0.0 to disable)
+	 */
 	double relevanceUrlPath;
 };
 

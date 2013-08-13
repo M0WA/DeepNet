@@ -2,7 +2,7 @@
  *
  * @file QueryProperties.cpp
  * @author Moritz Wagner
- * @date Aug 12, 2013
+ * @date 12.08.2013
  *
  */
 

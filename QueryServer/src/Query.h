@@ -15,12 +15,22 @@
 
 namespace queryserver {
 
+/**
+ * @brief encapsulates query keywords and their properties
+ */
 class Query {
 public:
 	Query();
 	virtual ~Query();
 
+	/**
+	 * query's keywords
+	 */
 	std::vector<std::string> keywords;
+
+	/**
+	 * query's properties
+	 */
 	QueryProperties properties;
 };
 
