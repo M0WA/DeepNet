@@ -12,6 +12,9 @@
 
 namespace queryserver {
 
+/**
+ * @brief queries for search results matching in the subdomain part of an URL
+ */
 class QuerySubdomainThread: public queryserver::QueryThread {
 public:
 	QuerySubdomainThread();

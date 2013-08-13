@@ -12,6 +12,9 @@
 
 namespace queryserver {
 
+/**
+ * @brief queries for search results matching in the secondlevel domain of an URL
+ */
 class QuerySecondLevelDomainThread: public queryserver::QueryThread {
 public:
 	QuerySecondLevelDomainThread();

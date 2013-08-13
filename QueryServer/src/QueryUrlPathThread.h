@@ -12,6 +12,9 @@
 
 namespace queryserver {
 
+/**
+ * @brief queries for search results matching in the path part of an URL
+ */
 class QueryUrlPathThread: public queryserver::QueryThread {
 public:
 	QueryUrlPathThread();

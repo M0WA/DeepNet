@@ -24,14 +24,14 @@ namespace queryserver {
 QueryThreadManager::QueryThreadManager(const database::DatabaseConfig* dbConfig)
 : releaseSeen(true){
 
-	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE; i++) {
+	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_SIZE; i++) {
 		dbHelpers[i].CreateConnection(dbConfig); }
 }
 
 QueryThreadManager::~QueryThreadManager() {
 	ReleaseQuery();
 
-	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE; i++) {
+	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_SIZE; i++) {
 		dbHelpers[i].DestroyConnection(); }
 }
 

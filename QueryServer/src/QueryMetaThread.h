@@ -12,6 +12,9 @@
 
 namespace queryserver {
 
+/**
+ * @brief queries for search results matching in the meta content of a webpage
+ */
 class QueryMetaThread : public queryserver::QueryThread {
 public:
 	QueryMetaThread();

@@ -20,7 +20,10 @@ namespace database {
 
 namespace queryserver {
 
-	static const long long QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE(5);
+	/**
+	 * this variable is used internally by queryserver::QueryThreadManager
+	 */
+	static const long long QUERY_THREAD_MANAGER_DB_HELPERS_SIZE(5);
 
 	class Query;
 	class QueryThreadResultEntry;
@@ -31,7 +34,13 @@ namespace queryserver {
  */
 class QueryThreadManager : private threading::ThreadManager<queryserver::QueryThread> {
 public:
+	/**
+	 * creates query thread manager from a database config and
+	 * establishes all needed database connections.
+	 * @param dbConfig database config
+	 */
 	QueryThreadManager(const database::DatabaseConfig* dbConfig);
+
 	virtual ~QueryThreadManager();
 
 public:
@@ -39,7 +48,6 @@ public:
 	 * adds a single query and start processing it.
 	 * call ReleaseQuery when finished with this query.
 	 * @see queryserver::QueryThreadManager::ReleaseQuery
-	 * @param dbConfig database config
 	 * @param query query to process
 	 */
 	void BeginQuery(const Query& query);
@@ -71,7 +79,7 @@ private:
 private:
 	std::vector<threading::Thread::ThreadID> queryThreadIDs;
 	bool releaseSeen;
-	database::DatabaseHelper dbHelpers[QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE];
+	database::DatabaseHelper dbHelpers[QUERY_THREAD_MANAGER_DB_HELPERS_SIZE];
 };
 
 }
