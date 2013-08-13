@@ -49,7 +49,7 @@ public:
 			return 0;
 		}
 
-		threads.insert(std::pair<Thread::ThreadID,ThreadManager::ThreadInfos>(tid,ThreadManager::ThreadInfos(thread, params)));
+		threads.insert(std::pair<Thread::ThreadID,ThreadManager<T>::ThreadInfos>(tid,ThreadManager<T>::ThreadInfos(thread, params)));
 		return tid;
 	}
 
@@ -57,7 +57,7 @@ public:
 	 * sets shutdown flag for all threads
 	 */
 	void SetShallEndForAll(){
-		typename std::map<Thread::ThreadID, ThreadManager::ThreadInfos >::iterator i(threads.begin());
+		typename std::map<Thread::ThreadID, ThreadManager<T>::ThreadInfos >::iterator i(threads.begin());
 		for(;i != threads.end();++i) {
 			i->second.first->SetShallEnd(true);	}
 	}
@@ -66,7 +66,7 @@ public:
 	 * waits for all threads to end
 	 */
 	void WaitForAll() const {
-		typename std::map<Thread::ThreadID, ThreadManager::ThreadInfos >::const_iterator i(threads.begin());
+		typename std::map<Thread::ThreadID, ThreadManager<T>::ThreadInfos >::const_iterator i(threads.begin());
 		for(;i != threads.end();++i) {
 			i->second.first->WaitForThread();	}
 	}
@@ -79,7 +79,7 @@ public:
 		SetShallEndForAll();
 		WaitForAll();
 
-		typename std::map<Thread::ThreadID, ThreadManager::ThreadInfos >::iterator i(threads.begin());
+		typename std::map<Thread::ThreadID, ThreadManager<T>::ThreadInfos >::iterator i(threads.begin());
 		for(;i != threads.end();++i) {
 			delete i->second.first;	}
 	}
@@ -90,11 +90,11 @@ public:
 	 * @param threadID thread ID
 	 * @return thread's info
 	 */
-	const ThreadManager::ThreadInfos& GetThreadInfosByID(const Thread::ThreadID& threadID) const {
+	const ThreadManager<T>::ThreadInfos& GetThreadInfosByID(const Thread::ThreadID& threadID) const {
 		return threads.at(threadID); }
 
 private:
-	std::map<Thread::ThreadID, ThreadManager::ThreadInfos > threads;
+	std::map<Thread::ThreadID, ThreadManager<T>::ThreadInfos > threads;
 };
 
 }
