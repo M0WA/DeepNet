@@ -27,7 +27,9 @@ QueryThread::~QueryThread() {
 }
 
 const tools::PointerContainer<QueryThreadResultEntry>& QueryThread::GetResults() const {
-	return resultEntries; }
+
+	return resultEntries;
+}
 
 bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam) {
 
