@@ -20,7 +20,7 @@ namespace threading {
 template <class T>
 class ThreadManager {
 
-private:
+public:
 	typedef std::pair<T*,void*> ThreadInfos;
 
 public:
