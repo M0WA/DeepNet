@@ -9,6 +9,7 @@
 #pragma once
 
 #include <ctime>
+#include <string>
 
 namespace queryserver {
 
@@ -75,6 +76,11 @@ public:
 	 * maximum number of results (0 to set to maximum)
 	 */
 	size_t maxResults;
+
+	/**
+	 * webpage language (empty to allow all)
+	 */
+	std::string language;
 };
 
 }

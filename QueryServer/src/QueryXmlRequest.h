@@ -27,13 +27,25 @@ namespace queryserver {
 
 	class QueryThreadManager;
 
+/**
+ * @brief encapsulates a xml query request
+ */
 class QueryXmlRequest: public fastcgiserver::FastCGIRequest {
 
 public:
+	/**
+	 * creates from QueryThreadManager and FastCGIServerThread
+	 * @param queryManager query thread manager
+	 * @param serverThread server thread
+	 */
 	QueryXmlRequest(QueryThreadManager& queryManager,fastcgiserver::FastCGIServerThread* serverThread);
 	virtual ~QueryXmlRequest();
 
 public:
+	/**
+	 * gets query associated with this request
+	 * @return query
+	 */
 	const Query& GetQuery(void) const { return query; }
 
 private:
