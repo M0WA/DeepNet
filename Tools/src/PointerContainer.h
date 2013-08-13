@@ -51,7 +51,7 @@ public:
 	/**
 	 * appends all pointers from other container
 	 * and takes their ownership
-	 * @param swap PointerContainer to swapFrom
+	 * @param appendFrom PointerContainer to append from
 	 */
 	void AppendFrom(PointerContainer<T>& appendFrom) {
 		appendFrom.deleteOnDestruct = false;
