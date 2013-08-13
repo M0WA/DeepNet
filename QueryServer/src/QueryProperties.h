@@ -70,6 +70,11 @@ public:
 	 * relevance factor for matches in path part of the url (0.0 to disable)
 	 */
 	double relevanceUrlPath;
+
+	/**
+	 * maximum number of results (0 to set to maximum)
+	 */
+	size_t maxResults;
 };
 
 }

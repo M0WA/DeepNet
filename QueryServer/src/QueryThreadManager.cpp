@@ -9,7 +9,6 @@
 #include "QueryThreadManager.h"
 
 #include "Query.h"
-#include "QueryThread.h"
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
 
@@ -62,7 +61,7 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 }
 
-void QueryThreadManager::WaitForResults(std::vector<QueryThreadResultEntry*>& results) {
+void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry*>& results) {
 
 	if(releaseSeen) {
 		//

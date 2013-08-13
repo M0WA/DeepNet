@@ -20,7 +20,8 @@ QueryProperties::QueryProperties()
 , relevanceMeta(0.0)
 , relevanceSubdomain(0.0)
 , relevanceSecondLevelDomain(0.0)
-, relevanceUrlPath(0.0) {
+, relevanceUrlPath(0.0)
+, maxResults(0){
 	tools::TimeTools::InitTm(minAge);
 	tools::TimeTools::NowUTCAdd(maxAge,10);
 }

@@ -21,6 +21,7 @@ namespace queryserver {
 class Query {
 public:
 	Query();
+	Query(const std::vector<std::string>& keywords);
 	virtual ~Query();
 
 	/**

@@ -13,6 +13,10 @@ namespace queryserver {
 Query::Query() {
 }
 
+Query::Query(const std::vector<std::string>& keywords)
+: keywords(keywords) {
+}
+
 Query::~Query() {
 }
 

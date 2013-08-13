@@ -10,6 +10,8 @@
 
 #include <vector>
 
+#include "QueryThread.h"
+
 #include <DatabaseHelper.h>
 #include <ThreadManager.h>
 
@@ -27,7 +29,6 @@ namespace queryserver {
 
 	class Query;
 	class QueryThreadResultEntry;
-	class QueryThread;
 
 /**
  * @brief manages several information gathering threads for a single queryserver::Query at a time
@@ -58,7 +59,7 @@ public:
 	 * @see queryserver::QueryThreadManager::ReleaseQuery
 	 * @param results results of current query
 	 */
-	void WaitForResults(std::vector<QueryThreadResultEntry*>& results);
+	void WaitForResults(std::vector<const QueryThreadResultEntry*>& results);
 
 	/**
 	 * releases all resources allocated with current query (including
