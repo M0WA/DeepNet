@@ -22,8 +22,8 @@ private:
 	PointerContainer<T>(const PointerContainer<T>& copy){ ResetIter(); }
 
 public:
-	PointerContainer<T>() : container(std::vector<T*>()){}
-	PointerContainer<T>(const std::vector<T*>& container) : container(container){
+	PointerContainer<T>() : container(std::vector<T*>()), deleteOnDestruct(true) {}
+	PointerContainer<T>(const std::vector<T*>& container) : container(container), deleteOnDestruct(true) {
 		ResetIter();}
 
 	/**
@@ -46,6 +46,16 @@ public:
 	 */
 	void Add(const std::vector<T*>& entries ) {
 		container.insert(container.end(), entries.begin(), entries.end());
+		ResetIter(); }
+
+	/**
+	 * appends all pointers from other container
+	 * and takes their ownership
+	 * @param swap PointerContainer to swapFrom
+	 */
+	void AppendFrom(PointerContainer<T>& appendFrom) {
+		appendFrom.deleteOnDestruct = false;
+		container.insert(container.end(), appendFrom.container.begin(), appendFrom.container.end());
 		ResetIter(); }
 
 	/**
@@ -106,13 +116,18 @@ public:
 
 private:
 	void CleanUp(){
-		for(iterContainer = container.begin(); iterContainer != container.end(); ++iterContainer)
-			delete (*iterContainer);
+
+		if(deleteOnDestruct)
+			for(iterContainer = container.begin(); iterContainer != container.end(); ++iterContainer)
+				delete (*iterContainer);
+
+		container.clear();
 	}
 
 private:
 	std::vector<T*> container;
 	mutable typename std::vector<T*>::const_iterator iterContainer;
+	bool deleteOnDestruct;
 };
 
 }
