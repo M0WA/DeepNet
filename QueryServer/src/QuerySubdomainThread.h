@@ -18,9 +18,9 @@ public:
 	virtual ~QuerySubdomainThread();
 
 private:
-	virtual bool OnInitThreadInstance();
-	virtual bool OnDestroyThreadInstance();
-	virtual void* Run();
+	virtual void OnInitThreadInstance();
+	virtual void OnDestroyThreadInstance();
+	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QuerySubdomainThread"; }
 };
 

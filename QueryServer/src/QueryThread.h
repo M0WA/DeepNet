@@ -42,15 +42,13 @@ public:
 private:
 	/**
 	 * called when a new query has arrived
-	 * @return true on success, false on error
 	 */
-	virtual bool OnInitThreadInstance()=0;
+	virtual void OnInitThreadInstance()=0;
 
 	/**
 	 * called when query is released
-	 * @return true on success, false on error
 	 */
-	virtual bool OnDestroyThreadInstance()=0;
+	virtual void OnDestroyThreadInstance()=0;
 
 	/**
 	 * returns specific name of the thread used for logging purposes
@@ -62,13 +60,14 @@ private:
 	 * called when initialization is done and the query is ready
 	 * to be processed
 	 */
-	virtual void* Run()=0;
+	virtual void* OnRun()=0;
 
 private:
 	static void* QueryThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
 
 protected:
 	bool DestroyThreadInstance();
+	void* Run();
 
 private:
 	bool InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam);

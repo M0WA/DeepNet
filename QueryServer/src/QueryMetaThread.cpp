@@ -16,15 +16,13 @@ QueryMetaThread::QueryMetaThread() {
 QueryMetaThread::~QueryMetaThread() {
 }
 
-bool QueryMetaThread::OnInitThreadInstance(){
-	return false;
+void QueryMetaThread::OnInitThreadInstance(){
 }
 
-bool QueryMetaThread::OnDestroyThreadInstance(){
-	return false;
+void QueryMetaThread::OnDestroyThreadInstance(){
 }
 
-void* QueryMetaThread::Run(){
+void* QueryMetaThread::OnRun(){
 	return 0;
 }
 

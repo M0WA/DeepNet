@@ -16,15 +16,13 @@ QuerySubdomainThread::QuerySubdomainThread() {
 QuerySubdomainThread::~QuerySubdomainThread() {
 }
 
-bool QuerySubdomainThread::OnInitThreadInstance(){
-	return false;
+void QuerySubdomainThread::OnInitThreadInstance(){
 }
 
-bool QuerySubdomainThread::OnDestroyThreadInstance(){
-	return false;
+void QuerySubdomainThread::OnDestroyThreadInstance(){
 }
 
-void* QuerySubdomainThread::Run(){
+void* QuerySubdomainThread::OnRun(){
 	return 0;
 }
 

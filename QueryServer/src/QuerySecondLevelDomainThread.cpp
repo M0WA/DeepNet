@@ -16,15 +16,13 @@ QuerySecondLevelDomainThread::QuerySecondLevelDomainThread() {
 QuerySecondLevelDomainThread::~QuerySecondLevelDomainThread() {
 }
 
-bool QuerySecondLevelDomainThread::OnInitThreadInstance(){
-	return false;
+void QuerySecondLevelDomainThread::OnInitThreadInstance(){
 }
 
-bool QuerySecondLevelDomainThread::OnDestroyThreadInstance(){
-	return false;
+void QuerySecondLevelDomainThread::OnDestroyThreadInstance(){
 }
 
-void* QuerySecondLevelDomainThread::Run(){
+void* QuerySecondLevelDomainThread::OnRun(){
 	return 0;
 }
 

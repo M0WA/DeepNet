@@ -16,15 +16,13 @@ QueryUrlPathThread::QueryUrlPathThread() {
 QueryUrlPathThread::~QueryUrlPathThread() {
 }
 
-bool QueryUrlPathThread::OnInitThreadInstance(){
-	return false;
+void QueryUrlPathThread::OnInitThreadInstance(){
 }
 
-bool QueryUrlPathThread::OnDestroyThreadInstance(){
-	return false;
+void QueryUrlPathThread::OnDestroyThreadInstance(){
 }
 
-void* QueryUrlPathThread::Run(){
+void* QueryUrlPathThread::OnRun(){
 	return 0;
 }
 

@@ -13,6 +13,7 @@
 
 #include <DatabaseLayer.h>
 #include <Logging.h>
+#include <PerformanceCounter.h>
 
 namespace queryserver {
 
@@ -32,13 +33,20 @@ bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadPara
 
 	queryThreadParam.Set(reinterpret_cast<QueryThreadParam*>(threadParam->pParam),true);
 	if(queryThreadParam.IsNull()) {
+		//
+		//TODO: throw exception
+		//
 		return false; }
 
 	dbConn = queryThreadParam.GetConst()->dbConn;
 	if(!dbConn) {
+		//
+		//TODO: throw exception
+		//
 		return false; }
 
-	return OnInitThreadInstance();
+	OnInitThreadInstance();
+	return true;
 }
 
 bool QueryThread::DestroyThreadInstance() {
@@ -58,7 +66,7 @@ void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadPa
 	try {
 		if(!instance->InitThreadInstance(threadParam)) {
 			instance->DestroyThreadInstance();
-			return 0; }
+			return (void*)1; }
 
 		ret = instance->Run();
 		instance->DestroyThreadInstance();
@@ -69,6 +77,15 @@ void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadPa
 		//
 		ret = (void*)1;
 	}
+
+	return ret;
+}
+
+void* QueryThread::Run() {
+
+	PERFORMANCE_LOG_START
+	void* ret(OnRun());
+	PERFORMANCE_LOG_STOP(GetThreadName());
 
 	return ret;
 }

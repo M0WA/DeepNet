@@ -38,7 +38,7 @@ QueryContentThread::QueryContentThread()
 QueryContentThread::~QueryContentThread() {
 }
 
-bool QueryContentThread::OnInitThreadInstance() {
+void QueryContentThread::OnInitThreadInstance() {
 
 	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
 	const std::vector<std::string>& vecKey(queryparam->query.keywords);
@@ -48,21 +48,17 @@ bool QueryContentThread::OnInitThreadInstance() {
 		lowerKeywords.assign(vecKey.begin(),vecKey.end());
 		tools::StringTools::LowerStringsInVector(lowerKeywords);
 		caseInsensitiveKeywordIDs.resize(vecKey.size(),std::vector<long long>()); }
-
-	return true;
 }
 
-bool QueryContentThread::OnDestroyThreadInstance(){
+void QueryContentThread::OnDestroyThreadInstance(){
 
 	keywordIDs.clear();
 	caseInsensitiveKeywordIDs.clear();
 
 	lowerKeywords.clear();
-
-	return true;
 }
 
-void* QueryContentThread::Run() {
+void* QueryContentThread::OnRun() {
 
 	if(!GetIDsForKeywords()) {
 		DestroyThreadInstance();
