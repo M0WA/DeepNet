@@ -8,6 +8,8 @@
 
 #include "QueryThread.h"
 
+#include "QueryThreadParam.h"
+
 #include <Logging.h>
 
 namespace queryserver {

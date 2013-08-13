@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <map>
+
 #include <ThreadManager.h>
 
 #include "QueryThread.h"
@@ -27,7 +29,20 @@ public:
 
 public:
 	void AddQuery(const database::DatabaseConfig* dbConfig,const Query& query);
-	void GetResult();
+	void WaitForResult();
+
+private:
+	template <class threadT, class paramT>
+	void AddQueryTyped(const database::DatabaseConfig* dbConfig,const Query& query)	{
+		queryThreadIDs.push_back(
+			AddThread(
+				new threadT(),
+				new paramT(dbConfig, query))
+		);
+	}
+
+private:
+	std::vector<threading::Thread::ThreadID> queryThreadIDs;
 };
 
 }

@@ -17,18 +17,19 @@ public:
 	QueryProperties();
 	virtual ~QueryProperties();
 
-	bool queryContent;
-	bool queryMeta;
-	bool querySecondLevelDomain;
-	bool querySubdomain;
-	bool queryUrlPath;
-
 	bool caseSensitive;
+
 	struct tm minAge;
 	struct tm maxAge;
 
 	long long limitSecondLevelDomainID;
 	long long limitSubDomainID;
+
+	double relevanceContent;
+	double relevanceMeta;
+	double relevanceSubdomain;
+	double relevanceSecondLevelDomain;
+	double relevanceUrlPath;
 };
 
 }

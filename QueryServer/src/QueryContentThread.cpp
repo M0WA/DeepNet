@@ -9,6 +9,8 @@
 #include "QueryContentThread.h"
 
 #include "Query.h"
+#include "QueryThreadParam.h"
+#include "QueryThreadResultEntry.h"
 
 #include <iterator>
 
@@ -173,11 +175,14 @@ bool QueryContentThread::GetUrlsForKeywords() {
 	database::SelectStatement select(tblDefPtr.GetConst());
 
 	select.SelectAddColumn(database::dockeyTableBase::GetDefinition_DICT_ID());
+	select.SelectAddColumn(database::dockeyTableBase::GetDefinition_occurrence());
 	select.SelectAddColumn(database::latesturlstagesTableBase::GetDefinition_URL_ID());
+	select.SelectAddColumn(database::urlstagesTableBase::GetDefinition_found_date());
 
 	database::dockeyTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(select);
+	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(select);
 
 	std::vector<database::WhereConditionTableColumn*> where;
 	database::dockeyTableBase::GetWhereColumnsFor_DICT_ID(
@@ -214,11 +219,17 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
-		colDefDictIDPtr(database::dockeyTableBase::GetDefinition_DICT_ID());
+		colDefUrlStageIDPtr(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
+		colDefOccurencePtr(database::dockeyTableBase::GetDefinition_occurrence()),
+		colDefDictIDPtr(database::dockeyTableBase::GetDefinition_DICT_ID()),
+		colDefFoundPtr(database::urlstagesTableBase::GetDefinition_found_date());
 
 	const database::TableColumnDefinition
 		*colDefUrlID(colDefUrlIDPtr.GetConst()),
-		*colDefDictID(colDefDictIDPtr.GetConst());
+		*colDefUrlStageID(colDefUrlStageIDPtr.GetConst()),
+		*colDefOccurence(colDefOccurencePtr.GetConst()),
+		*colDefDictID(colDefDictIDPtr.GetConst()),
+		*colDefFound(colDefFoundPtr.GetConst());
 
 	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
 
@@ -226,20 +237,27 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 
 		const database::TableColumn
 			*colUrlID(curTbl->GetConstColumnByName(colDefUrlID->GetColumnName())),
-			*colUrlstageID(curTbl->GetConstColumnByName(colDefDictID->GetColumnName()));
+			*colUrlStageID(curTbl->GetConstColumnByName(colDefUrlStageID->GetColumnName())),
+			*colOccurence(curTbl->GetConstColumnByName(colDefOccurence->GetColumnName())),
+			*colDictID(curTbl->GetConstColumnByName(colDefDictID->GetColumnName())),
+			*colFound(curTbl->GetConstColumnByName(colDefFound->GetColumnName()));
 
-		if(!colUrlID || !colUrlstageID) {
+		if(!colUrlID || !colDictID || !colOccurence || !colFound) {
 			//
 			//TODO: throw exception, invalid result row
 			//
 			continue;
 		}
 
-		long long urlID(-1),urlStageID(-1);
+		long long urlID(-1),urlStageID(-1), dictID(-1), occurence(-1);
+		struct tm found;
 		colUrlID->Get(urlID);
-		colUrlstageID->Get(urlStageID);
+		colUrlStageID->Get(urlStageID);
+		colDictID->Get(dictID);
+		colOccurence->Get(occurence);
+		colFound->Get(found);
 
-		resultEntries.Add(new QueryThreadResultEntry(urlID,urlStageID));
+		resultEntries.Add(new QueryThreadResultEntry(CONTENT_RESULT,urlID,urlStageID,dictID,occurence,found));
 	}
 
 	return true;

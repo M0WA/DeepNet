@@ -13,37 +13,16 @@
 
 #include <DatabaseHelper.h>
 
+#include "QueryThreadResultEntry.h"
+
 namespace database {
 	class DatabaseConfig;
 }
 
 namespace queryserver {
 
-class Query;
-
-typedef struct _QueryThreadParam {
-
-	_QueryThreadParam(const database::DatabaseConfig* config, const Query& query)
-	: config(config)
-	, query(query) {}
-
-	const database::DatabaseConfig* config;
-	const Query& query;
-
-} QueryThreadParam;
-
-typedef struct _QueryThreadResultEntry {
-
-	_QueryThreadResultEntry(const long long& urlID, const long long& urlStageID)
-	: urlID(urlID)
-	, urlStageID(urlStageID)
-	{}
-
-	long long urlID;
-	long long urlStageID;
-	std::vector<long long> detectedKeywords;
-
-} QueryThreadResultEntry;
+	class Query;
+	class QueryThreadParam;
 
 /**
  * @brief base class for all query threads

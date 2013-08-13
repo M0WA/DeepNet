@@ -13,14 +13,14 @@
 namespace queryserver {
 
 QueryProperties::QueryProperties()
-: queryContent(true)
-, queryMeta(true)
-, querySecondLevelDomain(true)
-, querySubdomain(true)
-, queryUrlPath(true)
-, caseSensitive(false)
+: caseSensitive(false)
 , limitSecondLevelDomainID(-1)
-, limitSubDomainID(-1) {
+, limitSubDomainID(-1)
+, relevanceContent(0.0)
+, relevanceMeta(0.0)
+, relevanceSubdomain(0.0)
+, relevanceSecondLevelDomain(0.0)
+, relevanceUrlPath(0.0) {
 	tools::TimeTools::InitTm(minAge);
 	tools::TimeTools::NowUTCAdd(maxAge,10);
 }
