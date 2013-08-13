@@ -10,8 +10,8 @@
 
 namespace queryserver {
 
-QueryThreadParam::QueryThreadParam(const database::DatabaseConfig* config, const Query& query)
-: config(config)
+QueryThreadParam::QueryThreadParam(database::DatabaseConnection* dbConn, const Query& query)
+: dbConn(dbConn)
 , query(query){
 }
 

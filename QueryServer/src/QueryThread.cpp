@@ -9,7 +9,9 @@
 #include "QueryThread.h"
 
 #include "QueryThreadParam.h"
+#include "QueryThreadResultEntry.h"
 
+#include <DatabaseLayer.h>
 #include <Logging.h>
 
 namespace queryserver {
@@ -17,21 +19,23 @@ namespace queryserver {
 QueryThread::QueryThread()
 : threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(QueryThread::QueryThreadFunction)),false)
 , queryThreadParam(0)
-, threadParam(0){
+, dbConn(0){
 }
 
 QueryThread::~QueryThread() {
 }
 
+const tools::PointerContainer<QueryThreadResultEntry>& QueryThread::GetResults() const {
+	return resultEntries; }
+
 bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam) {
 
-	threadParam = threadParam;
-	queryThreadParam = reinterpret_cast<QueryThreadParam*>(threadParam->pParam);
-
-	if(!queryThreadParam) {
+	queryThreadParam.Set(reinterpret_cast<QueryThreadParam*>(threadParam->pParam),true);
+	if(queryThreadParam.IsNull()) {
 		return false; }
 
-	if(dbHelper.CreateConnection(queryThreadParam->config)) {
+	dbConn = queryThreadParam.GetConst()->dbConn;
+	if(!dbConn) {
 		return false; }
 
 	return OnInitThreadInstance();
@@ -40,13 +44,8 @@ bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadPara
 bool QueryThread::DestroyThreadInstance() {
 
 	OnDestroyThreadInstance();
-
-	dbHelper.DestroyConnection();
-
-	if(queryThreadParam)
-		delete queryThreadParam;
-	queryThreadParam = 0;
-
+	queryThreadParam.Release();
+	dbConn = 0;
 	return true;
 }
 

@@ -9,20 +9,18 @@
 #pragma once
 
 #include <Thread.h>
+
 #include <PointerContainer.h>
-
-#include <DatabaseHelper.h>
-
-#include "QueryThreadResultEntry.h"
+#include <Pointer.h>
 
 namespace database {
-	class DatabaseConfig;
+	class DatabaseConnection;
 }
 
 namespace queryserver {
 
-	class Query;
 	class QueryThreadParam;
+	class QueryThreadResultEntry;
 
 /**
  * @brief base class for all query threads
@@ -39,8 +37,32 @@ public:
 	 * use only when thread has ended.
 	 * @return results
 	 */
-	const tools::PointerContainer<QueryThreadResultEntry>& GetResults() const {
-		return resultEntries; }
+	const tools::PointerContainer<QueryThreadResultEntry>& GetResults() const;
+
+private:
+	/**
+	 * called when a new query has arrived
+	 * @return true on success, false on error
+	 */
+	virtual bool OnInitThreadInstance()=0;
+
+	/**
+	 * called when query is released
+	 * @return true on success, false on error
+	 */
+	virtual bool OnDestroyThreadInstance()=0;
+
+	/**
+	 * returns specific name of the thread used for logging purposes
+	 * @return specific thread name
+	 */
+	virtual const char* GetThreadName() const=0;
+
+	/**
+	 * called when initialization is done and the query is ready
+	 * to be processed
+	 */
+	virtual void* Run()=0;
 
 private:
 	static void* QueryThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
@@ -51,18 +73,17 @@ protected:
 private:
 	bool InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam);
 
-private:
-	virtual bool OnInitThreadInstance()=0;
-	virtual bool OnDestroyThreadInstance()=0;
-	virtual const char* GetThreadName() const=0;
-	virtual void* Run()=0;
-
 protected:
+	/**
+	 * contains results for this query thread
+	 */
 	tools::PointerContainer<QueryThreadResultEntry> resultEntries;
-	database::DatabaseHelper dbHelper;
 
-	QueryThreadParam* queryThreadParam;
-	const threading::Thread::THREAD_PARAM* threadParam;
+	/**
+	 * contains query thread params
+	 */
+	tools::Pointer<QueryThreadParam> queryThreadParam;
+	database::DatabaseConnection* dbConn;
 };
 
 }

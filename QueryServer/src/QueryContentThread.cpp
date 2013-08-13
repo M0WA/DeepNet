@@ -40,12 +40,14 @@ QueryContentThread::~QueryContentThread() {
 
 bool QueryContentThread::OnInitThreadInstance() {
 
-	keywordIDs.resize(queryThreadParam->query.keywords.size(),-1);
+	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
+	const std::vector<std::string>& vecKey(queryparam->query.keywords);
 
-	if(!queryThreadParam->query.properties.caseSensitive) {
-		lowerKeywords.assign(queryThreadParam->query.keywords.begin(),queryThreadParam->query.keywords.end());
+	keywordIDs.resize(vecKey.size(),-1);
+	if(!queryparam->query.properties.caseSensitive) {
+		lowerKeywords.assign(vecKey.begin(),vecKey.end());
 		tools::StringTools::LowerStringsInVector(lowerKeywords);
-		caseInsensitiveKeywordIDs.resize(queryThreadParam->query.keywords.size(),std::vector<long long>()); }
+		caseInsensitiveKeywordIDs.resize(vecKey.size(),std::vector<long long>()); }
 
 	return true;
 }
@@ -79,14 +81,17 @@ void* QueryContentThread::Run() {
 
 bool QueryContentThread::GetIDsForKeywords() {
 
+	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
+	const std::vector<std::string>& vecKey(queryparam->query.keywords);
+
 	database::SelectResultContainer<database::dictTableBase> results;
 
 	try {
-		database::dictTableBase::GetBy_keyword(dbHelper.Connection(),queryThreadParam->query.keywords,results);
+		database::dictTableBase::GetBy_keyword(dbConn,vecKey,results);
 	}
 	catch(database::DatabaseException& e) {
 		std::string keywordsDump;
-		tools::ContainerTools::DumpVector(queryThreadParam->query.keywords,keywordsDump);
+		tools::ContainerTools::DumpVector(vecKey,keywordsDump);
 		log::Logging::LogTrace("error while selecting keywords\n%s",keywordsDump.c_str());
 		return false;
 	}
@@ -96,13 +101,13 @@ bool QueryContentThread::GetIDsForKeywords() {
 
 		results.GetConstIter()->Get_keyword(tmpKey);
 
-		std::vector<std::string>::const_iterator iKeyFind(std::find(queryThreadParam->query.keywords.begin(),queryThreadParam->query.keywords.end(),tmpKey));
-		if(iKeyFind == queryThreadParam->query.keywords.end()) {
+		std::vector<std::string>::const_iterator iKeyFind(std::find(vecKey.begin(),vecKey.end(),tmpKey));
+		if(iKeyFind == vecKey.end()) {
 			log::Logging::LogTrace("could not find keyword %s, skipping it",iKeyFind->c_str());
 			continue; }
 
 		std::vector<long long>::iterator iKeyID(keywordIDs.begin());
-		std::advance(iKeyID,std::distance(queryThreadParam->query.keywords.begin(), iKeyFind));
+		std::advance(iKeyID,std::distance(vecKey.begin(), iKeyFind));
 
 		results.GetConstIter()->Get_ID(*iKeyID);
 	}
@@ -112,7 +117,7 @@ bool QueryContentThread::GetIDsForKeywords() {
 
 bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
-	if(queryThreadParam->query.properties.caseSensitive)
+	if(queryThreadParam.GetConst()->query.properties.caseSensitive)
 		return true;
 
 	std::vector<database::WhereConditionTableColumn*> where;
@@ -133,7 +138,7 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
 	database::SelectResultContainer<database::dictTableBase> results;
 	try {
-		dbHelper.Connection()->Select(selectCaseInsensitive,results);
+		dbConn->Select(selectCaseInsensitive,results);
 	}
 	catch(database::DatabaseException& e) {
 		return false;
@@ -166,7 +171,7 @@ bool QueryContentThread::GetUrlsForKeywords() {
 	std::vector<long long> allKeywordIDs;
 	allKeywordIDs.insert(allKeywordIDs.end(),keywordIDs.begin(),keywordIDs.end());
 
-	if(!queryThreadParam->query.properties.caseSensitive) {
+	if(!queryThreadParam.GetConst()->query.properties.caseSensitive) {
 		tools::ContainerTools::AppendFlattenedVector(caseInsensitiveKeywordIDs,allKeywordIDs);	}
 
 	tools::ContainerTools::MakeUniqueVector(allKeywordIDs,true);
@@ -206,7 +211,7 @@ bool QueryContentThread::GetUrlsForKeywords() {
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {
-		dbHelper.Connection()->Select(select,results);
+		dbConn->Select(select,results);
 	}
 	catch(database::DatabaseException& e) {
 		return false;

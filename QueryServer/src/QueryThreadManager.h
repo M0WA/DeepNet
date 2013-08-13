@@ -8,41 +8,70 @@
 
 #pragma once
 
-#include <map>
+#include <vector>
 
+#include <DatabaseHelper.h>
 #include <ThreadManager.h>
-
-#include "QueryThread.h"
 
 namespace database {
 	class DatabaseConfig;
+	class DatabaseConnection;
 }
 
 namespace queryserver {
 
-	class Query;
+	static const long long QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE(5);
 
+	class Query;
+	class QueryThreadResultEntry;
+	class QueryThread;
+
+/**
+ * @brief manages several information gathering threads for a single queryserver::Query at a time
+ */
 class QueryThreadManager : private threading::ThreadManager<queryserver::QueryThread> {
 public:
-	QueryThreadManager();
+	QueryThreadManager(const database::DatabaseConfig* dbConfig);
 	virtual ~QueryThreadManager();
 
 public:
-	void AddQuery(const database::DatabaseConfig* dbConfig,const Query& query);
-	void WaitForResult();
+	/**
+	 * adds a single query and start processing it.
+	 * call ReleaseQuery when finished with this query.
+	 * @see queryserver::QueryThreadManager::ReleaseQuery
+	 * @param dbConfig database config
+	 * @param query query to process
+	 */
+	void BeginQuery(const Query& query);
+
+	/**
+	 * waits for all querying threads to end and gives results.
+	 * results are available till the current query is released
+	 * @see queryserver::QueryThreadManager::ReleaseQuery
+	 * @param results results of current query
+	 */
+	void WaitForResults(std::vector<QueryThreadResultEntry*>& results);
+
+	/**
+	 * releases all resources allocated with current query (including
+	 * results)
+	 */
+	void ReleaseQuery();
 
 private:
 	template <class threadT, class paramT>
-	void AddQueryTyped(const database::DatabaseConfig* dbConfig,const Query& query)	{
+	void AddQueryTyped(database::DatabaseConnection* dbConn,const Query& query)	{
 		queryThreadIDs.push_back(
 			AddThread(
 				new threadT(),
-				new paramT(dbConfig, query))
+				new paramT(dbConn, query))
 		);
 	}
 
 private:
 	std::vector<threading::Thread::ThreadID> queryThreadIDs;
+	bool releaseSeen;
+	database::DatabaseHelper dbHelpers[QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE];
 };
 
 }

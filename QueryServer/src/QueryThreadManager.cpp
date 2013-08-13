@@ -9,6 +9,7 @@
 #include "QueryThreadManager.h"
 
 #include "Query.h"
+#include "QueryThread.h"
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
 
@@ -20,44 +21,69 @@
 
 namespace queryserver {
 
-QueryThreadManager::QueryThreadManager() {
+QueryThreadManager::QueryThreadManager(const database::DatabaseConfig* dbConfig)
+: releaseSeen(true){
+
+	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE; i++) {
+		dbHelpers[i].CreateConnection(dbConfig); }
 }
 
 QueryThreadManager::~QueryThreadManager() {
+	ReleaseQuery();
+
+	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_MAX_SIZE; i++) {
+		dbHelpers[i].DestroyConnection(); }
 }
 
-void QueryThreadManager::AddQuery(const database::DatabaseConfig* dbConfig,const Query& query) {
+void QueryThreadManager::BeginQuery(const Query& query) {
+
+	if(!releaseSeen) {
+		//
+		//TODO: throw exception and/or log this error
+		//
+		ReleaseQuery();
+	}
+
+	releaseSeen = false;
 
 	if(query.properties.relevanceContent > 0.0) {
-		AddQueryTyped<QueryContentThread,QueryThreadParam>(dbConfig,query); }
+		AddQueryTyped<QueryContentThread,QueryThreadParam>(dbHelpers[0].Connection(),query); }
 
 	if(query.properties.relevanceMeta > 0.0) {
-		AddQueryTyped<QueryMetaThread,QueryThreadParam>(dbConfig,query); }
+		AddQueryTyped<QueryMetaThread,QueryThreadParam>(dbHelpers[1].Connection(),query); }
 
 	if(query.properties.relevanceSecondLevelDomain > 0.0) {
-		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbConfig,query); }
+		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
 
 	if(query.properties.relevanceSubdomain > 0.0) {
-		AddQueryTyped<QuerySubdomainThread,QueryThreadParam>(dbConfig,query); }
+		AddQueryTyped<QuerySubdomainThread,QueryThreadParam>(dbHelpers[3].Connection(),query); }
 
 	if(query.properties.relevanceUrlPath > 0.0) {
-		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbConfig,query); }
+		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 }
 
-void QueryThreadManager::WaitForResult() {
+void QueryThreadManager::WaitForResults(std::vector<QueryThreadResultEntry*>& results) {
+
+	if(releaseSeen) {
+		//
+		//TODO: throw exception and/or log this error
+		//
+		return;
+	}
 
 	WaitForAll();
 
-	std::vector<QueryThreadResultEntry*> allResults;
 	std::vector<threading::Thread::ThreadID>::const_iterator i(queryThreadIDs.begin());
 	for(;i != queryThreadIDs.end();++i) {
 		const std::vector<QueryThreadResultEntry*>& threadResults(GetThreadInfosByID(*i).first->GetResults().GetConstVector());
-		allResults.insert(allResults.end(),threadResults.begin(),threadResults.end()); }
+		results.insert(results.end(),threadResults.begin(),threadResults.end()); }
+}
 
-	//this invalidates allResults...
+void QueryThreadManager::ReleaseQuery() {
+
+	queryThreadIDs.clear();
 	ReleaseAll();
-	allResults.clear();
-
+	releaseSeen = true;
 }
 
 }

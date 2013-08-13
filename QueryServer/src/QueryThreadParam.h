@@ -9,7 +9,7 @@
 #pragma once
 
 namespace database {
-	class DatabaseConfig;
+	class DatabaseConnection;
 }
 
 namespace queryserver {
@@ -18,10 +18,10 @@ namespace queryserver {
 
 class QueryThreadParam {
 public:
-	QueryThreadParam(const database::DatabaseConfig* config, const Query& query);
+	QueryThreadParam(database::DatabaseConnection* dbConn, const Query& query);
 	virtual ~QueryThreadParam();
 
-	const database::DatabaseConfig* config;
+	database::DatabaseConnection* dbConn;
 	const Query& query;
 };
 
