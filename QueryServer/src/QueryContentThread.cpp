@@ -258,7 +258,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 		colOccurence->Get(occurence);
 		colFound->Get(found);
 
-		resultEntries.Add(new QueryThreadResultEntry(CONTENT_RESULT,urlID,urlStageID,dictID,occurence,found));
+		resultEntries.Add(new QueryThreadResultEntry(CONTENT_RESULT,urlID,urlStageID,dictID,occurence,queryThreadParam.GetConst()->query.properties.relevanceContent,found));
 	}
 
 	return true;

@@ -36,7 +36,8 @@ public:
 			const long long& urlID,
 			const long long& urlStageID,
 			const long long& keywordID,
-			const long long& occurences);
+			const long long& occurences,
+			const double&    relevance);
 
 	QueryThreadResultEntry(
 			const QueryThreadResultType& type,
@@ -44,6 +45,7 @@ public:
 			const long long& urlStageID,
 			const long long& keywordID,
 			const long long& occurences,
+			const double&    relevance,
 			const struct tm& found);
 
 	virtual ~QueryThreadResultEntry();
