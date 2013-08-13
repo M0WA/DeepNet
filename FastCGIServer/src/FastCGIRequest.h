@@ -178,9 +178,13 @@ protected:
 	 */
 	std::vector<std::pair<std::string,std::string> > getParameters;
 
+	/**
+	 * server thread
+	 */
+	FastCGIServerThread* serverThread;
+
 private:
 	bool completed;
-	FastCGIServerThread* serverThread;
 	std::vector<network::HttpCookie> cookies;
 
 	std::string clientIP;
