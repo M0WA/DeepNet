@@ -16,14 +16,14 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 	const QueryThreadResultType& type,
 	const long long& urlID,
 	const long long& urlStageID,
-	const long long& keywordID,
+	const size_t&    keywordPos,
 	const long long& occurences,
 	const double&    relevance)
 : queryserver::Relevance(relevance)
 , type(type)
 , urlID(urlID)
 , urlStageID(urlStageID)
-, keywordID(keywordID)
+, keywordPos(keywordPos)
 , occurences(occurences){
 	tools::TimeTools::InitTm(found);
 }
@@ -32,7 +32,7 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 	const QueryThreadResultType& type,
 	const long long& urlID,
 	const long long& urlStageID,
-	const long long& keywordID,
+	const size_t&    keywordPos,
 	const long long& occurences,
 	const double&    relevance,
 	const struct tm& found)
@@ -40,7 +40,7 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 , type(type)
 , urlID(urlID)
 , urlStageID(urlStageID)
-, keywordID(keywordID)
+, keywordPos(keywordPos)
 , occurences(occurences)
 , found(found){
 }

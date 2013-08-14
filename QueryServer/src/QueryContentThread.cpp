@@ -44,19 +44,15 @@ void QueryContentThread::OnInitThreadInstance() {
 	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
 	const std::vector<std::string>& vecKey(queryparam->query.keywords);
 
-	keywordIDs.resize(vecKey.size(),-1);
+	dictIDs.resize(vecKey.size(),-1);
 	if(!queryparam->query.properties.caseSensitive) {
-		lowerKeywords.assign(vecKey.begin(),vecKey.end());
-		tools::StringTools::LowerStringsInVector(lowerKeywords);
-		caseInsensitiveKeywordIDs.resize(vecKey.size(),std::vector<long long>()); }
+		caseInsensitiveDictIDs.resize(vecKey.size(),std::vector<long long>()); }
 }
 
 void QueryContentThread::OnDestroyThreadInstance(){
 
-	keywordIDs.clear();
-	caseInsensitiveKeywordIDs.clear();
-
-	lowerKeywords.clear();
+	dictIDs.clear();
+	caseInsensitiveDictIDs.clear();
 }
 
 void* QueryContentThread::OnRun() {
@@ -90,20 +86,17 @@ bool QueryContentThread::GetIDsForKeywords() {
 		return false;
 	}
 
-	std::string tmpKey;
 	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
 
+		std::string tmpKey;
 		results.GetConstIter()->Get_keyword(tmpKey);
 
-		std::vector<std::string>::const_iterator iKeyFind(std::find(vecKey.begin(),vecKey.end(),tmpKey));
-		if(iKeyFind == vecKey.end()) {
-			log::Logging::LogTrace("could not find keyword %s, skipping it",iKeyFind->c_str());
-			continue; }
+		size_t keywordPos(queryparam->query.GetPositionByKeyword(tmpKey));
+		std::vector<long long>::iterator iDictID(dictIDs.begin());
+		std::advance(iDictID,keywordPos);
 
-		std::vector<long long>::iterator iKeyID(keywordIDs.begin());
-		std::advance(iKeyID,std::distance(vecKey.begin(), iKeyFind));
-
-		results.GetConstIter()->Get_ID(*iKeyID);
+		results.GetConstIter()->Get_ID(*iDictID);
+		dictIDPosition.insert(std::pair<long long,size_t>(*iDictID,keywordPos));
 	}
 
 	return true;
@@ -113,6 +106,7 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
 	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
 	const QueryProperties& queryprop(queryparam->query.properties);
+	const std::vector<std::string>& vecLower(queryparam->query.lowerKeywords);
 
 	if(queryprop.caseSensitive)
 		return true;
@@ -120,12 +114,12 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 	std::vector<database::WhereConditionTableColumn*> where;
 	database::dictTableBase::GetWhereColumnsFor_keyword(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp()),
-		lowerKeywords,
+		vecLower,
 		where );
 
 	database::dictTableBase::GetWhereColumnsFor_ID(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
-		keywordIDs,
+		dictIDs,
 		where );
 
 	tools::Pointer<database::TableDefinition> defDictPtr(database::dictTableBase::CreateTableDefinition());
@@ -141,23 +135,20 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 		return false;
 	}
 
-	std::string tmpInsensitiveKey;
 	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
 
-		results.GetConstIter()->Get_keyword(tmpInsensitiveKey);
+		std::string tmpKey;
+		results.GetConstIter()->Get_keyword(tmpKey);
 
-		std::vector<std::string>::iterator iKeyInsensitiveFind(
-			std::find(lowerKeywords.begin(),lowerKeywords.end(),tools::StringTools::ToLowerIP(tmpInsensitiveKey)) );
-		if(iKeyInsensitiveFind == lowerKeywords.end()) {
-			log::Logging::LogTrace("could not find keyword %s, skipping it",iKeyInsensitiveFind->c_str());
-			continue; }
+		size_t keywordPos(queryparam->query.GetPositionByKeyword(tmpKey));
+		std::vector< std::vector<long long> >::iterator iDictID(caseInsensitiveDictIDs.begin());
+		std::advance(iDictID,keywordPos);
 
-		std::vector< std::vector<long long> >::iterator iKeyWordID(caseInsensitiveKeywordIDs.begin());
-		std::advance(iKeyWordID,std::distance(lowerKeywords.begin(), iKeyInsensitiveFind));
+		long long dictID(-1);
+		results.GetConstIter()->Get_ID(dictID);
 
-		long long keywordID(-1);
-		results.GetConstIter()->Get_ID(keywordID);
-		iKeyWordID->push_back(keywordID);
+		dictIDPosition.insert(std::pair<long long,size_t>(dictID,keywordPos));
+		caseInsensitiveDictIDs.at(keywordPos).push_back(dictID);
 	}
 
 	return true;
@@ -165,14 +156,14 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
 bool QueryContentThread::GetUrlsForKeywords() {
 
-	std::vector<long long> allKeywordIDs;
-	allKeywordIDs.insert(allKeywordIDs.end(),keywordIDs.begin(),keywordIDs.end());
+	std::vector<long long> allDictIDs;
+	allDictIDs.insert(allDictIDs.end(),dictIDs.begin(),dictIDs.end());
 	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
 
 	if(!queryProperties.caseSensitive) {
-		tools::ContainerTools::AppendFlattenedVector(caseInsensitiveKeywordIDs,allKeywordIDs);	}
+		tools::ContainerTools::AppendFlattenedVector(caseInsensitiveDictIDs,allDictIDs);	}
 
-	tools::ContainerTools::MakeUniqueVector(allKeywordIDs,true);
+	tools::ContainerTools::MakeUniqueVector(allDictIDs,true);
 
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::dockeyTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());
@@ -198,7 +189,7 @@ bool QueryContentThread::GetUrlsForKeywords() {
 		database::WhereConditionTableColumnCreateParam(
 			database::WhereCondition::Equals(),
 			database::WhereCondition::InitialComp()),
-		allKeywordIDs,
+		allDictIDs,
 		where);
 
 	if(queryProperties.limitSecondLevelDomainID > 0) {
@@ -279,7 +270,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 			*colDictID(curTbl->GetConstColumnByName(colDefDictID->GetColumnName())),
 			*colFound(curTbl->GetConstColumnByName(colDefFound->GetColumnName()));
 
-		if(!colUrlID || !colDictID || !colOccurence || !colFound) {
+		if(!colUrlID || !colDictID || !colOccurence || !colFound || !colUrlStageID) {
 			log::Logging::LogWarn("invalid result row received for search query content result, ommitting entry");
 			continue; }
 
@@ -296,7 +287,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 				CONTENT_RESULT,
 				urlID,
 				urlStageID,
-				dictID,
+				dictIDPosition[dictID],
 				occurence,
 				queryProperties.relevanceContent,
 				found));

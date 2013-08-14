@@ -39,7 +39,8 @@ QueryXmlRequest::~QueryXmlRequest() {
 bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 
 	//parsing query keywords
-	if(!QueryXml(query.keywords, xmlRequest.c_str(), xmlRequest.length(), "querypart")) {
+	std::vector<std::string> strKeywords;
+	if(!QueryXml(strKeywords, xmlRequest.c_str(), xmlRequest.length(), "querypart")) {
 		log::Logging::LogWarn("could not find keywords in query request");
 		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 		return false; }
@@ -47,6 +48,11 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 	//parsing case sensivity
 	if(!QueryXmlFirstElement(query.properties.caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "caseSensivity")) {
 		query.properties.caseSensitive = false; }
+
+	std::vector<std::string>::const_iterator iStrs(strKeywords.begin());
+	for(size_t pos(0);iStrs!=strKeywords.end();++iStrs,++pos) {
+		query.keywords.push_back(QueryKeyword(pos,*iStrs,query.properties.caseSensitive)); }
+
 
 #if 0
 	//TODO:

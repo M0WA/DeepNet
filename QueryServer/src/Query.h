@@ -12,6 +12,7 @@
 #include <string>
 
 #include "QueryProperties.h"
+#include "QueryKeyword.h"
 
 namespace queryserver {
 
@@ -21,13 +22,26 @@ namespace queryserver {
 class Query {
 public:
 	Query();
-	Query(const std::vector<std::string>& keywords);
 	virtual ~Query();
 
+public:
+	size_t GetPositionByKeyword(const std::string& keyword) const;
+
+public:
 	/**
 	 * query's keywords
 	 */
+	std::vector<QueryKeyword> queryKeywords;
+
+	/**
+	 * raw keyword strings
+	 */
 	std::vector<std::string> keywords;
+
+	/**
+	 * lowered keyword strings
+	 */
+	std::vector<std::string> lowerKeywords;
 
 	/**
 	 * query's properties

@@ -36,7 +36,7 @@ public:
 			const QueryThreadResultType& type,
 			const long long& urlID,
 			const long long& urlStageID,
-			const long long& keywordID,
+			const size_t&    keywordPos,
 			const long long& occurences,
 			const double&    relevance);
 
@@ -44,7 +44,7 @@ public:
 			const QueryThreadResultType& type,
 			const long long& urlID,
 			const long long& urlStageID,
-			const long long& keywordID,
+			const size_t&    keywordPos,
 			const long long& occurences,
 			const double&    relevance,
 			const struct tm& found);
@@ -58,7 +58,7 @@ public:
 	QueryThreadResultType type;
 	long long urlID;
 	long long urlStageID;
-	long long keywordID;
+	size_t    keywordPos;
 	long long occurences;
 
 	std::string urlDescription;

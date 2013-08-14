@@ -12,6 +12,7 @@
 
 #include <vector>
 #include <string>
+#include <map>
 
 #include <DatabaseHelper.h>
 #include <SelectResultContainer.h>
@@ -46,9 +47,10 @@ private:
 	bool ProcessResults(database::SelectResultContainer<database::TableBase>& results);
 
 private:
-	std::vector<long long> keywordIDs;
-	std::vector< std::vector<long long> > caseInsensitiveKeywordIDs;
-	std::vector<std::string> lowerKeywords;
+	std::map<long long,size_t> dictIDPosition;
+
+	std::vector<long long> dictIDs;
+	std::vector< std::vector<long long> > caseInsensitiveDictIDs;
 };
 
 }
