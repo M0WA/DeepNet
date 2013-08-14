@@ -34,9 +34,8 @@ void QuerySecondLevelDomainThread::OnInitThreadInstance(){
 	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
 	const std::vector<std::string>& vecKey(queryparam->query.keywords);
 
-	if(!queryparam->query.properties.caseSensitive) {
-		lowerKeywords.assign(vecKey.begin(),vecKey.end());
-		tools::StringTools::LowerStringsInVector(lowerKeywords);}
+	lowerKeywords.assign(vecKey.begin(),vecKey.end());
+	tools::StringTools::LowerStringsInVector(lowerKeywords);
 }
 
 void QuerySecondLevelDomainThread::OnDestroyThreadInstance(){

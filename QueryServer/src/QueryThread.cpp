@@ -24,6 +24,7 @@ QueryThread::QueryThread()
 }
 
 QueryThread::~QueryThread() {
+	DestroyThreadInstance();
 }
 
 const tools::PointerContainer<QueryThreadResultEntry>& QueryThread::GetResults() const {
