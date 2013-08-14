@@ -24,6 +24,7 @@
 
 #include <ContainerTools.h>
 #include <StringTools.h>
+#include <TimeTools.h>
 #include <Pointer.h>
 #include <Logging.h>
 
@@ -61,15 +62,12 @@ void QueryContentThread::OnDestroyThreadInstance(){
 void* QueryContentThread::OnRun() {
 
 	if(!GetIDsForKeywords()) {
-		DestroyThreadInstance();
 		return (void*)1; }
 
 	if(!GetIDsForCaseInsensitiveKeywords()) {
-		DestroyThreadInstance();
 		return (void*)1; }
 
 	if(!GetUrlsForKeywords()) {
-		DestroyThreadInstance();
 		return (void*)1; }
 
 	return 0;
@@ -166,8 +164,9 @@ bool QueryContentThread::GetUrlsForKeywords() {
 
 	std::vector<long long> allKeywordIDs;
 	allKeywordIDs.insert(allKeywordIDs.end(),keywordIDs.begin(),keywordIDs.end());
+	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
 
-	if(!queryThreadParam.GetConst()->query.properties.caseSensitive) {
+	if(!queryProperties.caseSensitive) {
 		tools::ContainerTools::AppendFlattenedVector(caseInsensitiveKeywordIDs,allKeywordIDs);	}
 
 	tools::ContainerTools::MakeUniqueVector(allKeywordIDs,true);
@@ -181,7 +180,6 @@ bool QueryContentThread::GetUrlsForKeywords() {
 	select.SelectAddColumn(database::urlstagesTableBase::GetDefinition_found_date());
 
 	database::dockeyTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
-	database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(select);
 
@@ -193,10 +191,37 @@ bool QueryContentThread::GetUrlsForKeywords() {
 		allKeywordIDs,
 		where);
 
+	if(queryProperties.limitSecondLevelDomainID > 0) {
+		database::urlsTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::And()),
+			queryProperties.limitSecondLevelDomainID,
+			where);
+	}
+
+	if(queryProperties.limitSubDomainID > 0) {
+		database::urlsTableBase::GetWhereColumnsFor_SUBDOMAIN_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::And()),
+			queryProperties.limitSubDomainID,
+			where);
+	}
+
+	if(!tools::TimeTools::IsZero(queryProperties.maxAge)) {
+		database::urlstagesTableBase::GetWhereColumnsFor_found_date(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::And()),
+			queryProperties.maxAge,
+			where);
+	}
+
 	select.Where().AddColumns(where);
 
-	if(queryThreadParam.GetConst()->query.properties.maxResults != 0)
-		select.SetLimit(queryThreadParam.GetConst()->query.properties.maxResults);
+	if(queryProperties.maxResults != 0)
+		select.SetLimit(queryProperties.maxResults);
 	else {
 		//
 		//TODO: do not hardcode this limit here

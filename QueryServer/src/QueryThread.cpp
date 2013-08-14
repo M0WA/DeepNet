@@ -67,16 +67,21 @@ void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadPa
 	void* ret(0);
 	try {
 		if(!instance->InitThreadInstance(threadParam)) {
-			instance->DestroyThreadInstance();
-			return (void*)1; }
-
-		ret = instance->Run();
+			//
+			//TODO: log this error
+			//
+			ret = (void*)1;
+		}
+		else {
+			ret = instance->Run();
+		}
 		instance->DestroyThreadInstance();
 	}
 	catch(...) {
 		//
 		//TODO: log this error
 		//
+
 		ret = (void*)1;
 	}
 

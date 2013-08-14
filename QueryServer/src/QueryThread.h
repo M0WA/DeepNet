@@ -65,12 +65,10 @@ private:
 private:
 	static void* QueryThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
 
-protected:
-	bool DestroyThreadInstance();
-	void* Run();
-
 private:
 	bool InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam);
+	bool DestroyThreadInstance();
+	void* Run();
 
 protected:
 	/**

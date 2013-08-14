@@ -8,6 +8,9 @@
 
 #pragma once
 
+#include <vector>
+#include <string>
+
 #include "QueryThread.h"
 
 namespace queryserver {
@@ -25,6 +28,9 @@ private:
 	virtual void OnDestroyThreadInstance();
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QuerySecondLevelDomainThread"; }
+
+private:
+	std::vector<std::string> lowerKeywords;
 };
 
 }

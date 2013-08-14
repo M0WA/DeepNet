@@ -10,6 +10,7 @@
 
 #include <ctime>
 #include <string>
+#include <sstream>
 
 #include "Relevance.h"
 
@@ -50,6 +51,10 @@ public:
 
 	virtual ~QueryThreadResultEntry();
 
+public:
+	void AppendToXML(std::ostringstream& xml) const;
+
+public:
 	QueryThreadResultType type;
 	long long urlID;
 	long long urlStageID;

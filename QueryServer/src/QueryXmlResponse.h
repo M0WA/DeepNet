@@ -8,12 +8,15 @@
 
 #pragma once
 
+#include <vector>
+
 #include <FastCGIResponse.h>
 
 namespace queryserver {
 
 	class QueryThreadManager;
 	class QueryXmlRequest;
+	class QueryThreadResultEntry;
 
 class QueryXmlResponse: public fastcgiserver::FastCGIResponse {
 public:
@@ -21,6 +24,9 @@ public:
 	virtual ~QueryXmlResponse();
 
 	virtual bool Process(FCGX_Request& request);
+
+private:
+	void AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results);
 
 private:
 	QueryThreadManager& queryManager;

@@ -9,6 +9,7 @@
 #include "QueryXmlResponse.h"
 
 #include <algorithm>
+#include <sstream>
 
 #include "QueryXmlRequest.h"
 #include "QueryThreadResultEntry.h"
@@ -38,9 +39,8 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	Relevance::RelevancePointerComparator comp;
 	std::sort(results.begin(),results.end(), comp);
 
-	//
-	//TODO: do something with "results"
-	//
+	//assemble xml response string
+	AssembleXMLResult(results);
 
 	//releasing the query invalidates
 	//all pointers to it's results
@@ -49,5 +49,27 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	return true;
 }
 
+void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results) {
+
+	//assemble xml entries from results
+	std::ostringstream xmlResultEntries;
+	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
+	for(;i!=results.end();++i) {
+		(*i)->AppendToXML(xmlResultEntries); }
+
+	//assemble complete xml response including header etc.
+	std::ostringstream xmlResult;
+	xmlResult <<
+		"<?xml version=\"1.0\"?>\n"
+		"<response>"
+		// "<queryId>" << xmlQueryRequest->Params().QueryID() << "</queryId>"
+		// "<pageNo>" << xmlQueryRequest->Params().PageNumber() << "</pageNo>"
+		"<totalResults>" << results.size() << "</totalResults>" <<
+		xmlResultEntries.str() <<
+		"</response>\n";
+
+	//set xml string as response's content
+	content = xmlResult.str();
+}
 
 }
