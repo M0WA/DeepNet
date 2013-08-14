@@ -64,8 +64,8 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResu
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
 		"<response>"
-		// "<queryId>" << xmlQueryRequest->Params().QueryID() << "</queryId>"
-		// "<pageNo>" << xmlQueryRequest->Params().PageNumber() << "</pageNo>"
+		"<queryId>" << xmlQueryRequest->GetQuery().queryId << "</queryId>"
+		"<pageNo>" << xmlQueryRequest->GetQuery().pageNo << "</pageNo>"
 		"<totalResults>" << results.size() << "</totalResults>" <<
 		xmlResultEntries.str() <<
 		"</response>\n";

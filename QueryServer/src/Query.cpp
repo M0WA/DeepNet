@@ -13,6 +13,8 @@
 namespace queryserver {
 
 Query::Query()
+: queryId(-1)
+, pageNo(0)
 {
 }
 

@@ -38,7 +38,7 @@ QueryXmlRequest::~QueryXmlRequest() {
 
 bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 
-	//parsing query keywords
+	//parsing keywords for query
 	std::vector<std::string> strKeywords;
 	if(!QueryXml(strKeywords, xmlRequest.c_str(), xmlRequest.length(), "querypart")) {
 		log::Logging::LogWarn("could not find keywords in query request");
@@ -50,34 +50,22 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 	if(!QueryXmlFirstElement(caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "caseSensivity")) {
 		caseSensitive = false; }
 
+	//append all keywords to query
 	std::vector<std::string>::const_iterator iStrs(strKeywords.begin());
 	for(size_t pos(0);iStrs!=strKeywords.end();++iStrs,++pos) {
-		query.AppendKeyword(pos,*iStrs,caseSensitive);
-	}
+		query.AppendKeyword(pos,*iStrs,caseSensitive); }
 
-#if 0
-	//TODO:
-	out.pageNo = 0;
-	std::list<std::string> tmpPageNo;
-	if( Xpath(tmpPageNo, xmlRequest.c_str(), (xmlChar*)"/request/query/pageNo/text()")) {
+	//parsing page number
+	if(!QueryXmlFirstElement(query.pageNo, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
+		log::Logging::LogWarn("could not find page number in query request");
+		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+		return false; }
 
-		if(tmpPageNo.size()>0){
-			std::stringstream tmpPageNoConv;
-			tmpPageNoConv << tmpPageNo.front();
-			tmpPageNoConv >> out.pageNo; }
-	}
-
-	out.queryID = -1;
-	std::list<std::string> tmpQueryId;
-	if( Xpath(tmpQueryId, xmlRequest.c_str(), (xmlChar*)"/request/query/queryId/text()")) {
-
-		if(tmpQueryId.size()>0){
-			std::stringstream tmpSSQueryId;
-			tmpSSQueryId << tmpQueryId.front();
-			tmpSSQueryId >> out.queryID; }
-	}
-
-#endif
+	//parsing query id
+	if(!QueryXmlFirstElement(query.queryId, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
+		log::Logging::LogWarn("could not find query id in query request");
+		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+		return false; }
 
 	if(!ParseQueryCriteria(xmlRequest))
 		return false;
@@ -331,18 +319,12 @@ void QueryXmlRequest::OnHandle(FCGX_Request& request) {
 
 	if(rawPostData==0) {
 		log::Logging::LogWarn("no post data received, ommitting...");
-		//
-		//TODO: throw exception or leave an error
-		//
 		return;	}
 
 	//
 	//TODO: need to make this better => buffer overflow ???
 	//
 	if(!ParseQuery(std::string(rawPostData))) {
-		//
-		//TODO: throw exception or leave an error
-		//
 		return; }
 
 	queryManager.BeginQuery(query);

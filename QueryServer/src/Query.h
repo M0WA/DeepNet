@@ -44,6 +44,16 @@ public:
 	 */
 	QueryProperties properties;
 
+	/**
+	 * query id
+	 */
+	long long queryId;
+
+	/**
+	 * page number for this request
+	 */
+	size_t pageNo;
+
 private:
 	/**
 	 * query's keywords
