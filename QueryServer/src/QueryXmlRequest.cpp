@@ -309,9 +309,24 @@ bool QueryXmlRequest::ParseQueryCriteria(const std::string& xmlRequest) {
 
 bool QueryXmlRequest::ParseQueryGrouping(const std::string& xmlRequest) {
 
-	//
-	//TODO: parse grouping
-	//
+	//parsing query grouping flag
+	std::vector<unsigned long long> queryGrouping;
+	if( !QueryXml(queryGrouping, xmlRequest.c_str(), xmlRequest.length(), "grouping/flag") ) {
+		log::Logging::LogWarn("could not find grouping flag in query request");
+		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+		return false; }
+
+	std::vector<unsigned long long>::const_iterator iterGrouping(queryGrouping.begin());
+	for(;iterGrouping != queryGrouping.end();++iterGrouping) {
+		switch(*iterGrouping) {
+		case GROUPING_DOMAIN:
+			query.properties.groupBySecondLevelDomain = true;
+			break;
+		default:
+			break;
+		};
+	}
+
 	return true;
 }
 

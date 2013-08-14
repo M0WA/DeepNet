@@ -145,8 +145,6 @@ private:
 		GROUPING_UNKNOWN = 0,
 
 		GROUPING_DOMAIN  = 1,
-		GROUPING_PATH    = 2,
-		GROUPING_FILE    = 4,
 
 		GROUPING_MAX     = 0xFF,
 	};

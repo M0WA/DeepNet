@@ -68,6 +68,11 @@ public:
 	double relevanceUrlPath;
 
 	/**
+	 * group by secondlevel domain
+	 */
+	bool groupBySecondLevelDomain;
+
+	/**
 	 * maximum number of results (0 to set to maximum)
 	 */
 	size_t maxResults;

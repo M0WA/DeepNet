@@ -9,8 +9,13 @@
 #pragma once
 
 #include <vector>
+#include <map>
 
 #include <FastCGIResponse.h>
+
+namespace database {
+	class DatabaseConnection;
+}
 
 namespace queryserver {
 
@@ -27,6 +32,27 @@ public:
 
 private:
 	void AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results);
+
+private:
+	struct SecondLevelDomainGroupByFunc : public std::unary_function<const QueryThreadResultEntry*,bool> {
+
+		SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<const QueryThreadResultEntry*> >& groupedResults);
+
+		bool operator() (const QueryThreadResultEntry*& entry);
+
+		database::DatabaseConnection* db;
+		std::vector< std::vector<const QueryThreadResultEntry*> >& groupedResults;
+		std::map<long long,size_t> mapSecondlevelDomainPos;
+	};
+
+	struct SelectFirstGroupedResults : public std::unary_function< const std::vector<const QueryThreadResultEntry*>& ,bool> {
+
+		SelectFirstGroupedResults(std::vector<const QueryThreadResultEntry*>& results);
+
+		bool operator() (const std::vector<const QueryThreadResultEntry*>& entry);
+
+		std::vector<const QueryThreadResultEntry*> results;
+	};
 
 private:
 	QueryThreadManager& queryManager;

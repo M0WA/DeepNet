@@ -20,6 +20,7 @@ QueryProperties::QueryProperties()
 , relevanceSubdomain(0.0)
 , relevanceSecondLevelDomain(0.0)
 , relevanceUrlPath(0.0)
+, groupBySecondLevelDomain(false)
 , maxResults(0){
 	tools::TimeTools::InitTm(minAge);
 	tools::TimeTools::InitTm(maxAge);
