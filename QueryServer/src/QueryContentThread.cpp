@@ -252,6 +252,8 @@ bool QueryContentThread::GetUrlsForKeywords() {
 
 bool QueryContentThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
+	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
+
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
 		colDefUrlStageIDPtr(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
@@ -278,11 +280,8 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 			*colFound(curTbl->GetConstColumnByName(colDefFound->GetColumnName()));
 
 		if(!colUrlID || !colDictID || !colOccurence || !colFound) {
-			//
-			//TODO: throw exception, invalid result row
-			//
-			continue;
-		}
+			log::Logging::LogWarn("invalid result row received for search query content result, ommitting entry");
+			continue; }
 
 		long long urlID(-1),urlStageID(-1), dictID(-1), occurence(-1);
 		struct tm found;
@@ -292,7 +291,15 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 		colOccurence->Get(occurence);
 		colFound->Get(found);
 
-		resultEntries.Add(new QueryThreadResultEntry(CONTENT_RESULT,urlID,urlStageID,dictID,occurence,queryThreadParam.GetConst()->query.properties.relevanceContent,found));
+		resultEntries.Add(
+			new QueryThreadResultEntry(
+				CONTENT_RESULT,
+				urlID,
+				urlStageID,
+				dictID,
+				occurence,
+				queryProperties.relevanceContent,
+				found));
 	}
 
 	return true;
