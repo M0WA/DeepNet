@@ -24,6 +24,7 @@ public:
 private:
 	virtual fastcgiserver::FastCGIRequest*  CreateRequest() { return new XMLQueryRequest(this); }
 	virtual fastcgiserver::FastCGIResponse* CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request) { return new XMLQueryResponse(dbHelper, static_cast<XMLQueryRequest*>(request)); }
+	virtual const char* GetThreadName() const { return "XMLQueryServerThread"; }
 
 	std::string requestXSD;
 	std::string responseXSD;

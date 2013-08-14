@@ -6,7 +6,13 @@
  */
 
 #include "QueryServer.h"
-#include <sstream>
+
+#define QUERY_SERVER_THREAD_NEW
+#ifndef QUERY_SERVER_THREAD_NEW
+	#include "XMLQueryServerThread.h"
+#else
+	#include "QueryServerThread.h"
+#endif
 
 namespace queryserver {
 
@@ -21,12 +27,26 @@ QueryServer::~QueryServer()
 
 fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog)
 {
-	return new XMLQueryServerThread( databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, port, backlog);
+#ifndef QUERY_SERVER_THREAD_NEW
+	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
+			new XMLQueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, port, backlog));
+#else
+	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
+			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, port, backlog));
+#endif
+
 }
 
 fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadSocket(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
 {
-	return new XMLQueryServerThread( databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, filename, backlog);
+#ifndef QUERY_SERVER_THREAD_NEW
+	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
+			new XMLQueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, filename, backlog));
+#else
+	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
+			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, filename, backlog));
+#endif
+
 }
 
 bool QueryServer::StartServer(int argc, char** argv)

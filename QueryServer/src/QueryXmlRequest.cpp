@@ -313,7 +313,11 @@ bool QueryXmlRequest::ParseQueryCriteria(const std::string& xmlRequest) {
 }
 
 bool QueryXmlRequest::ParseQueryGrouping(const std::string& xmlRequest) {
-	return false;
+
+	//
+	//TODO: parse grouping
+	//
+	return true;
 }
 
 void QueryXmlRequest::OnHandle(FCGX_Request& request) {

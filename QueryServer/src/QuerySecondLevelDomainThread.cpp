@@ -49,7 +49,7 @@ void* QuerySecondLevelDomainThread::OnRun(){
 	tools::Pointer<database::TableDefinition> ptrTblDef(database::secondleveldomainsTableBase::CreateTableDefinition());
 	database::SelectStatement select(ptrTblDef.GetConst());
 
-	//select.SelectAllColumns();
+	select.SelectAllColumns();
 
 	std::vector<database::WhereConditionTableColumn*> where;
 	database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(

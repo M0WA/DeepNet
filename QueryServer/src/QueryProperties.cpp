@@ -23,7 +23,7 @@ QueryProperties::QueryProperties()
 , relevanceUrlPath(0.0)
 , maxResults(0){
 	tools::TimeTools::InitTm(minAge);
-	tools::TimeTools::NowUTCAdd(maxAge,10);
+	tools::TimeTools::InitTm(maxAge);
 }
 
 QueryProperties::~QueryProperties() {

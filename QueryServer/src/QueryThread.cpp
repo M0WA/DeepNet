@@ -15,6 +15,8 @@
 #include <Logging.h>
 #include <PerformanceCounter.h>
 
+#include <Exception.h>
+
 namespace queryserver {
 
 QueryThread::QueryThread()
@@ -24,7 +26,8 @@ QueryThread::QueryThread()
 }
 
 QueryThread::~QueryThread() {
-	DestroyThreadInstance();
+	queryThreadParam.Release();
+	dbConn = 0;
 }
 
 const tools::PointerContainer<QueryThreadResultEntry>& QueryThread::GetResults() const {
@@ -36,16 +39,12 @@ bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadPara
 
 	queryThreadParam.Set(reinterpret_cast<QueryThreadParam*>(threadParam->pParam),true);
 	if(queryThreadParam.IsNull()) {
-		//
-		//TODO: throw exception
-		//
+		log::Logging::LogError("invalid query thread parameters received, omitting search query");
 		return false; }
 
 	dbConn = queryThreadParam.GetConst()->dbConn;
 	if(!dbConn) {
-		//
-		//TODO: throw exception
-		//
+		log::Logging::LogError("invalid database connection received, omitting search query");
 		return false; }
 
 	OnInitThreadInstance();
@@ -68,21 +67,16 @@ void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadPa
 	void* ret(0);
 	try {
 		if(!instance->InitThreadInstance(threadParam)) {
-			//
-			//TODO: log this error
-			//
-			ret = (void*)1;
-		}
+			ret = (void*)1; }
 		else {
-			ret = instance->Run();
-		}
+			ret = instance->Run(); }
 		instance->DestroyThreadInstance();
 	}
+	catch(errors::Exception& e) {
+		ret = (void*)1;
+	}
 	catch(...) {
-		//
-		//TODO: log this error
-		//
-
+		log::Logging::LogError("unknown exception occurred, omitting search query");
 		ret = (void*)1;
 	}
 

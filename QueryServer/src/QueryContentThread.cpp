@@ -111,7 +111,10 @@ bool QueryContentThread::GetIDsForKeywords() {
 
 bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 
-	if(queryThreadParam.GetConst()->query.properties.caseSensitive)
+	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
+	const QueryProperties& queryprop(queryparam->query.properties);
+
+	if(queryprop.caseSensitive)
 		return true;
 
 	std::vector<database::WhereConditionTableColumn*> where;
@@ -120,9 +123,9 @@ bool QueryContentThread::GetIDsForCaseInsensitiveKeywords() {
 		lowerKeywords,
 		where );
 
-	database::dictTableBase::GetWhereColumnsFor_keyword(
+	database::dictTableBase::GetWhereColumnsFor_ID(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
-		lowerKeywords,
+		keywordIDs,
 		where );
 
 	tools::Pointer<database::TableDefinition> defDictPtr(database::dictTableBase::CreateTableDefinition());
@@ -174,13 +177,20 @@ bool QueryContentThread::GetUrlsForKeywords() {
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::dockeyTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());
 
-	select.SelectAddColumn(database::dockeyTableBase::GetDefinition_DICT_ID());
-	select.SelectAddColumn(database::dockeyTableBase::GetDefinition_occurrence());
-	select.SelectAddColumn(database::latesturlstagesTableBase::GetDefinition_URL_ID());
-	select.SelectAddColumn(database::urlstagesTableBase::GetDefinition_found_date());
+	database::TableColumnDefinition
+		*colDefDictID(database::dockeyTableBase::GetDefinition_DICT_ID()),
+		*colDefOccurrence(database::dockeyTableBase::GetDefinition_occurrence()),
+		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
+		*colDefUrlID(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
+		*colDefFound(database::urlstagesTableBase::GetDefinition_found_date());
+
+	select.SelectAddColumnAlias(colDefDictID,colDefDictID->GetColumnName());
+	select.SelectAddColumnAlias(colDefOccurrence,colDefOccurrence->GetColumnName());
+	select.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
+	select.SelectAddColumnAlias(colDefUrlID,colDefUrlID->GetColumnName());
+	select.SelectAddColumnAlias(colDefFound,colDefFound->GetColumnName());
 
 	database::dockeyTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
-	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(select);
 
 	std::vector<database::WhereConditionTableColumn*> where;
@@ -212,7 +222,7 @@ bool QueryContentThread::GetUrlsForKeywords() {
 	if(!tools::TimeTools::IsZero(queryProperties.maxAge)) {
 		database::urlstagesTableBase::GetWhereColumnsFor_found_date(
 			database::WhereConditionTableColumnCreateParam(
-				database::WhereCondition::Equals(),
+				database::WhereCondition::GreaterOrEqual(),
 				database::WhereCondition::And()),
 			queryProperties.maxAge,
 			where);

@@ -7,8 +7,20 @@
 
 #pragma once
 
-#include "XMLQueryServerThread.h"
+#include <string>
 #include <FastCGIServer.h>
+
+namespace fastcgiserver {
+	class FastCGIServerThread;
+}
+
+namespace database {
+	class DatabaseConfig;
+}
+
+namespace threading {
+	class Mutex;
+}
 
 namespace queryserver {
 
@@ -18,6 +30,7 @@ public:
 	QueryServer();
 	virtual ~QueryServer();
 
+public:
 	virtual bool StartServer(int argc, char** argv);
 
 private:

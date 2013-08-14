@@ -40,6 +40,7 @@ public:
 private:
 	virtual fastcgiserver::FastCGIRequest*  CreateRequest();
 	virtual fastcgiserver::FastCGIResponse* CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request);
+	virtual const char* GetThreadName() const { return "QueryServerThread"; }
 
 	std::string requestXSD;
 	std::string responseXSD;
