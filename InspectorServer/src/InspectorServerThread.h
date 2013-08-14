@@ -22,6 +22,7 @@ public:
 private:
 	virtual fastcgiserver::FastCGIRequest*  CreateRequest() { return new InspectorServerRequest(this); }
 	virtual fastcgiserver::FastCGIResponse* CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request) { return new InspectorServerResponse(dbHelper, static_cast<InspectorServerRequest*>(request)); }
+	virtual const char* GetThreadName() const { return "InspectorServerThread"; }
 };
 
 }
