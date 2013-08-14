@@ -10,7 +10,15 @@
 
 #include "QueryDictionaryThread.h"
 
+#include <SelectResultContainer.h>
+
+namespace database {
+	class TableBase;
+}
+
 namespace queryserver {
+
+	class Query;
 
 /**
  * @brief queries for search results matching in the meta content of a webpage
@@ -23,6 +31,10 @@ public:
 private:
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryMetaThread"; }
+
+private:
+	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results);
+	bool ProcessResults(database::SelectResultContainer<database::TableBase>& results);
 };
 
 }
