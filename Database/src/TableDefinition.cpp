@@ -100,7 +100,7 @@ TableColumnDefinition* TableDefinition::GetColumnDefinitionByName(std::string co
 			return (*iterColDefs);
 	}
 
-	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	THROW_EXCEPTION(DatabaseInvalidColumnNameException,columnName);
 	return 0;
 }
 
@@ -121,7 +121,7 @@ const TableColumnDefinition* TableDefinition::GetConstColumnDefinitionByName(std
 			return (*iterColDefs);
 	}
 
-	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	THROW_EXCEPTION(DatabaseInvalidColumnNameException,columnName);
 	return 0;
 }
 

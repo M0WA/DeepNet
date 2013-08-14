@@ -111,7 +111,7 @@ const TableColumn* TableBase::GetConstColumnByName(std::string columnName) const
 			return (*iterColumns); }
 	}
 
-	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	THROW_EXCEPTION(DatabaseInvalidColumnNameException,columnName);
 	return 0;
 }
 
@@ -134,7 +134,7 @@ TableColumn* TableBase::GetColumnByName(std::string columnName) {
 			return (*iterColumns); }
 	}
 
-	THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+	THROW_EXCEPTION(DatabaseInvalidColumnNameException,columnName);
 	return 0;
 }
 

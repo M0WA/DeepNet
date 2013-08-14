@@ -12,8 +12,9 @@ namespace database {
 DatabaseInvalidColumnNameException::DatabaseInvalidColumnNameException(
 		const std::string& file,
 		const int line,
-		const std::string& function)
-: DatabaseException(file,line,function,"DatabaseInvalidColumnNameException", "an invalid column name was specified") {
+		const std::string& function,
+		const std::string& columnName)
+: DatabaseException(file,line,function,"DatabaseInvalidColumnNameException", "an invalid column name was specified: "+ columnName) {
 }
 
 DatabaseInvalidColumnNameException::~DatabaseInvalidColumnNameException() {

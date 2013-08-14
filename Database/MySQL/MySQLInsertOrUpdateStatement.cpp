@@ -98,7 +98,7 @@ std::string MySQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const 
 		const std::string& sumColumnName = sumColumnContainer.GetConstIter()->GetColumnName();
 
 		if(sumColumnName.compare(primaryKeyColumnName) == 0)
-			THROW_EXCEPTION(DatabaseInvalidColumnNameException);
+			THROW_EXCEPTION(DatabaseInvalidColumnNameException,primaryKeyColumnName);
 
 		ssQuery << ", " << sumColumnName << " = " << sumColumnName << " + VALUES( " << sumColumnName << " ) ";
 	}

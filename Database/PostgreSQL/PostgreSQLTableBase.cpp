@@ -122,7 +122,7 @@ void PostgreSQLTableBase::SetColumnValues(PGresult* res, const int curRow) {
 		char* colName = PQfname(res, curCol);
 		TableColumn* tblCol = GetColumnByName(colName);
 		if(!tblCol) {
-			THROW_EXCEPTION(database::DatabaseInvalidColumnNameException);
+			THROW_EXCEPTION(database::DatabaseInvalidColumnNameException,colName);
 			return; }
 
 		if(PQgetisnull(res,curRow,curCol)) {
