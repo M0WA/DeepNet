@@ -156,12 +156,12 @@ struct timeval TimeTools::InitTimeval() {
 }
 
 bool TimeTools::IsZero(const struct timeval& test) {
-	return timerisset(&test) > 0;
+	return timerisset(&test) == 0;
 }
 
 bool TimeTools::IsZero(struct tm test) {
 	time_t timeT(mktime(&test));
-	return timeT == 0;
+	return timeT <= 0;
 }
 
 struct tm TimeTools::NowUTC(void) {
