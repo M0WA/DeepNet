@@ -13,6 +13,8 @@
 #include "../DB2/DB2Connection.h"
 #include "../PostgreSQL/PostgreSQLConnection.h"
 
+#include "DatabaseNotConnectedException.h"
+
 namespace database {
 
 threading::Mutex DatabaseHelper::mutexLibraryInit;
@@ -97,7 +99,7 @@ DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbCon
 
 void DatabaseHelper::DestroyConnection(void)
 {
-	if(dbConnection)
+	if(!dbConnection.IsNull())
 	{
 		dbConnection.Get()->Disconnect();
 
@@ -111,6 +113,14 @@ void DatabaseHelper::DestroyConnection(void)
 
 		dbConnection.Release();
 	}
+}
+
+database::DatabaseConnection* DatabaseHelper::Connection(void)
+{
+	if(dbConnection.IsNull()) {
+		THROW_EXCEPTION(database::DatabaseNotConnectedException);
+	}
+	return dbConnection.Get();
 }
 
 }

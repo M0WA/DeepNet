@@ -51,7 +51,7 @@ public:
 	 * gets current database connection.
 	 * @return current database connection.
 	 */
-	inline DatabaseConnection* Connection(void) { return dbConnection.Get(); }
+	DatabaseConnection* Connection(void);
 
 public:
 	/**
