@@ -41,7 +41,7 @@ public:
 			const long long& urlID,
 			const long long& urlStageID,
 			const size_t&    keywordPos,
-			const long long& occurences,
+			const long long& occurrences,
 			const double&    relevance);
 
 	QueryThreadResultEntry(
@@ -49,7 +49,7 @@ public:
 			const long long& urlID,
 			const long long& urlStageID,
 			const size_t&    keywordPos,
-			const long long& occurences,
+			const long long& occurrences,
 			const double&    relevance,
 			const struct tm& found);
 
@@ -63,7 +63,7 @@ public:
 	long long urlID;
 	long long urlStageID;
 	size_t    keywordPos;
-	long long occurences;
+	long long occurrences;
 
 	std::string urlDescription;
 	std::string urlSummary;
