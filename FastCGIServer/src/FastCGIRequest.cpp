@@ -20,8 +20,8 @@ namespace fastcgiserver {
 static const unsigned long FCGI_MAX_POST_DATA_SIZE(4096);
 
 FastCGIRequest::FastCGIRequest(FastCGIServerThread* serverThread)
-: completed(false)
-, serverThread(serverThread) {
+: serverThread(serverThread)
+, completed(false) {
 }
 
 FastCGIRequest::~FastCGIRequest() {

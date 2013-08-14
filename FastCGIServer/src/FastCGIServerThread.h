@@ -33,6 +33,9 @@ public:
 private:
 	virtual FastCGIRequest*  CreateRequest()=0;
 	virtual FastCGIResponse* CreateResponse(database::DatabaseHelper& dbHelper,FastCGIRequest* request)=0;
+	virtual const char*      GetThreadName() const =0;
+
+private:
 	static void* FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* param);
 
 private:

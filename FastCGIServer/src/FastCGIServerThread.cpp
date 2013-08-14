@@ -47,6 +47,7 @@ FastCGIServerThread::~FastCGIServerThread()
 void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
 {
 	FastCGIServerThread* instance(dynamic_cast<FastCGIServerThread*>(threadParam->instance));
+	log::Logging::RegisterThreadID(instance->GetThreadName());
 
 	database::DatabaseConnection* conn(instance->DB().CreateConnection(instance->databaseConfig));
 	if(!conn) {
