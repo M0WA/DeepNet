@@ -8,21 +8,19 @@
 
 #pragma once
 
-#include "QueryThread.h"
+#include "QueryDictionaryThread.h"
 
 namespace queryserver {
 
 /**
  * @brief queries for search results matching in the meta content of a webpage
  */
-class QueryMetaThread : public queryserver::QueryThread {
+class QueryMetaThread : public queryserver::QueryDictionaryThread {
 public:
 	QueryMetaThread();
 	virtual ~QueryMetaThread();
 
 private:
-	virtual void OnInitThreadInstance();
-	virtual void OnDestroyThreadInstance();
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryMetaThread"; }
 };

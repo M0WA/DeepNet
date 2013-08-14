@@ -26,13 +26,9 @@ public:
 
 public:
 	size_t GetPositionByKeyword(const std::string& keyword) const;
+	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
 
 public:
-	/**
-	 * query's keywords
-	 */
-	std::vector<QueryKeyword> queryKeywords;
-
 	/**
 	 * raw keyword strings
 	 */
@@ -47,6 +43,12 @@ public:
 	 * query's properties
 	 */
 	QueryProperties properties;
+
+private:
+	/**
+	 * query's keywords
+	 */
+	std::vector<QueryKeyword> queryKeywords;
 };
 
 }

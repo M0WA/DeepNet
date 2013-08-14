@@ -13,8 +13,7 @@
 namespace queryserver {
 
 QueryProperties::QueryProperties()
-: caseSensitive(false)
-, limitSecondLevelDomainID(-1)
+: limitSecondLevelDomainID(-1)
 , limitSubDomainID(-1)
 , relevanceContent(0.0)
 , relevanceMeta(0.0)

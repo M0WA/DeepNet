@@ -46,13 +46,14 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 		return false; }
 
 	//parsing case sensivity
-	if(!QueryXmlFirstElement(query.properties.caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "caseSensivity")) {
-		query.properties.caseSensitive = false; }
+	bool caseSensitive(false);
+	if(!QueryXmlFirstElement(caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "caseSensivity")) {
+		caseSensitive = false; }
 
 	std::vector<std::string>::const_iterator iStrs(strKeywords.begin());
 	for(size_t pos(0);iStrs!=strKeywords.end();++iStrs,++pos) {
-		query.keywords.push_back(QueryKeyword(pos,*iStrs,query.properties.caseSensitive)); }
-
+		query.AppendKeyword(pos,*iStrs,caseSensitive);
+	}
 
 #if 0
 	//TODO:

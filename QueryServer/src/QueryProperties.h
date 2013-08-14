@@ -23,11 +23,6 @@ public:
 	virtual ~QueryProperties();
 
 	/**
-	 * true if case sensitive keywords
-	 */
-	bool caseSensitive;
-
-	/**
 	 * min age of webpage
 	 */
 	struct tm minAge;

@@ -35,21 +35,16 @@ QuerySecondLevelDomainThread::~QuerySecondLevelDomainThread() {
 }
 
 void QuerySecondLevelDomainThread::OnInitThreadInstance(){
-	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
-	const std::vector<std::string>& vecKey(queryparam->query.keywords);
-
-	lowerKeywords.assign(vecKey.begin(),vecKey.end());
-	tools::StringTools::LowerStringsInVector(lowerKeywords);
 }
 
 void QuerySecondLevelDomainThread::OnDestroyThreadInstance(){
-	lowerKeywords.clear();
 }
 
 void* QuerySecondLevelDomainThread::OnRun(){
 
 	const Query& query(queryThreadParam.GetConst()->query);
 	const QueryProperties& queryProperties(query.properties);
+	const std::vector<std::string>& lowerKeywords(query.lowerKeywords);
 
 	tools::Pointer<database::TableDefinition> ptrTblDef(database::secondleveldomainsTableBase::CreateTableDefinition());
 	database::SelectStatement select(ptrTblDef.GetConst());
@@ -67,15 +62,19 @@ void* QuerySecondLevelDomainThread::OnRun(){
 
 	database::urlsTableBase::AddInnerJoinLeftSideOn_SECONDLEVELDOMAIN_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(select);
-	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(select);
+	database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 
 	std::vector<database::WhereConditionTableColumn*> where;
-	database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp()),
-		lowerKeywords,
-		where );
 
-	select.Where().AddColumns(where);
+	if(lowerKeywords.size()) {
+		database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp()),
+			lowerKeywords,
+			where );
+	}
+
+	if(where.size())
+		select.Where().AddColumns(where);
 
 	if(queryProperties.maxResults != 0)
 		select.SetLimit(queryProperties.maxResults);

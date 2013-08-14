@@ -7,6 +7,8 @@
 
 #include "QueryServer.h"
 
+#include <Logging.h>
+
 #define QUERY_SERVER_THREAD_NEW
 #ifndef QUERY_SERVER_THREAD_NEW
 	#include "XMLQueryServerThread.h"
@@ -51,7 +53,8 @@ fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadSocket(database::Da
 
 bool QueryServer::StartServer(int argc, char** argv)
 {
-	return fastcgiserver::FastCGIServer::StartServer(argc, argv);
+	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
+	return success;
 }
 
 void QueryServer::RegisterConfig()
@@ -60,6 +63,7 @@ void QueryServer::RegisterConfig()
 
 bool QueryServer::InitConfig()
 {
+	log::Logging::SetApplicationName("QueryServer");
 	return true;
 }
 

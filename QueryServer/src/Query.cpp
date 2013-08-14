@@ -19,6 +19,15 @@ Query::Query()
 Query::~Query() {
 }
 
+void Query::AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive) {
+
+	queryKeywords.insert(queryKeywords.end(),QueryKeyword(position,keyword,caseSensitive));
+	keywords.insert(keywords.end(),keyword);
+
+	if(caseSensitive) {
+		lowerKeywords.insert(lowerKeywords.end(),tools::StringTools::ToLowerNP(keyword)); }
+}
+
 size_t Query::GetPositionByKeyword(const std::string& keyword) const {
 
 	std::vector<std::string>::const_iterator i(keywords.begin());

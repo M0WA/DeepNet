@@ -10,19 +10,17 @@
 
 namespace queryserver {
 
-QueryMetaThread::QueryMetaThread() {
+QueryMetaThread::QueryMetaThread()
+: queryserver::QueryDictionaryThread() {
 }
 
 QueryMetaThread::~QueryMetaThread() {
 }
 
-void QueryMetaThread::OnInitThreadInstance(){
-}
-
-void QueryMetaThread::OnDestroyThreadInstance(){
-}
-
 void* QueryMetaThread::OnRun(){
+
+	QueryDictionaryThread::OnRun();
+
 	return 0;
 }
 
