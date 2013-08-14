@@ -17,6 +17,7 @@
 #include "Relevance.h"
 
 #include <FastCGIRequest.h>
+#include <FastCGIServerThread.h>
 
 namespace queryserver {
 
@@ -46,7 +47,8 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	//all pointers to it's results
 	results.clear();
 	queryManager.ReleaseQuery();
-	return true;
+
+	return FastCGIResponse::Process(request);
 }
 
 void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results) {
@@ -54,8 +56,8 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResu
 	//assemble xml entries from results
 	std::ostringstream xmlResultEntries;
 	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
-	for(;i!=results.end();++i) {
-		(*i)->AppendToXML(xmlResultEntries); }
+	for(size_t resultID(0);i!=results.end();++i,++resultID) {
+		(*i)->AppendToXML(xmlQueryRequest->ServerThread()->DB().Connection(),resultID,xmlResultEntries); }
 
 	//assemble complete xml response including header etc.
 	std::ostringstream xmlResult;

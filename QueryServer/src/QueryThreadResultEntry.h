@@ -14,6 +14,10 @@
 
 #include "Relevance.h"
 
+namespace database {
+	class DatabaseConnection;
+}
+
 namespace queryserver {
 
 typedef enum {
@@ -52,7 +56,7 @@ public:
 	virtual ~QueryThreadResultEntry();
 
 public:
-	void AppendToXML(std::ostringstream& xml) const;
+	void AppendToXML(database::DatabaseConnection* db,const size_t resultID,std::ostringstream& xml) const;
 
 public:
 	QueryThreadResultType type;

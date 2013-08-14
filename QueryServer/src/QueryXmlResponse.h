@@ -30,7 +30,7 @@ private:
 
 private:
 	QueryThreadManager& queryManager;
-	const QueryXmlRequest* xmlQueryRequest;
+	QueryXmlRequest* xmlQueryRequest;
 };
 
 }
