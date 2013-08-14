@@ -27,8 +27,9 @@ namespace queryserver {
  * @see queryserver::QueryThreadManager
  */
 class QueryThread : public threading::Thread {
-public:
+protected:
 	QueryThread();
+public:
 	virtual ~QueryThread();
 
 public:
