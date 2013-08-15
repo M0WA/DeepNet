@@ -42,9 +42,12 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	std::vector<const QueryThreadResultEntry*> results;
 	queryManager.WaitForResults(results);
 
-	//merging duplicates and sorts by relevance
-	MergeSortDuplicateResultsFunc mergeSort(results);
-	std::for_each(results.begin(),results.end(), mergeSort);
+	//sorting all results by relevance
+	Relevance::RelevancePointerComparator relevanceComp;
+	std::sort(results.begin(),results.end(), relevanceComp);
+
+	//merging duplicates
+	MergeDuplicates(results);
 
 	//group results
 	if(query.properties.groupBySecondLevelDomain) {
@@ -93,6 +96,30 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResu
 	content = xmlResult.str();
 }
 
+void QueryXmlResponse::MergeDuplicates(std::vector<const QueryThreadResultEntry*>& results) {
+
+	std::map<long long,size_t> urlIDPos;
+	std::vector<const QueryThreadResultEntry*>::iterator i(results.begin());
+	for(size_t pos(0);i!=results.end();++i,++pos) {
+
+		const long long& urlID((*i)->urlID);
+		if(urlIDPos.count(urlID) > 0) {
+			size_t pos(urlIDPos[urlID]);
+			const QueryThreadResultEntry* entryAtPos(results.at(pos));
+			const Relevance
+				*rLeft(dynamic_cast<const Relevance*>(entryAtPos)),
+				*rRight(dynamic_cast<const Relevance*>(*i));
+			(*rLeft) += (*rRight);
+			results.erase(i);
+			i--;
+			pos--;
+		}
+		else {
+			urlIDPos[urlID]=pos;
+		}
+	}
+}
+
 QueryXmlResponse::SecondLevelDomainGroupByFunc::SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<const QueryThreadResultEntry*> >& groupedResults)
 : db(db)
 , groupedResults(groupedResults) {
@@ -123,38 +150,6 @@ QueryXmlResponse::SelectFirstGroupedResultsFunc::SelectFirstGroupedResultsFunc(s
 bool QueryXmlResponse::SelectFirstGroupedResultsFunc::operator() (const std::vector<const QueryThreadResultEntry*>& entry) {
 	if(entry.size()) {
 		results.push_back(entry.at(0));
-	}
-	return true;
-}
-
-QueryXmlResponse::MergeSortDuplicateResultsFunc::MergeSortDuplicateResultsFunc(std::vector<const QueryThreadResultEntry*>& results)
-: results(results) {
-}
-
-bool QueryXmlResponse::MergeSortDuplicateResultsFunc::operator() (const QueryThreadResultEntry*& entry) {
-
-	Relevance::RelevancePointerComparator relevanceComp;
-	std::sort(results.begin(),results.end(), relevanceComp);
-
-	std::map<long long,size_t> urlIDPos;
-	std::vector<const QueryThreadResultEntry*>::iterator i(results.begin());
-	for(size_t pos(0);i!=results.end();++i,++pos) {
-
-		const long long& urlID((*i)->urlID);
-		if(urlIDPos.count(urlID) > 0) {
-			size_t pos(urlIDPos[urlID]);
-			const QueryThreadResultEntry* entryAtPos(results.at(pos));
-			const Relevance
-				*rLeft(dynamic_cast<const Relevance*>(entryAtPos)),
-				*rRight(dynamic_cast<const Relevance*>(*i));
-			(*rLeft) += (*rRight);
-			results.erase(i);
-			i--;
-			pos--;
-		}
-		else {
-			urlIDPos[urlID]=pos;
-		}
 	}
 	return true;
 }

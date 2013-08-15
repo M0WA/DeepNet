@@ -83,10 +83,10 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	selectMeta.Where().AddColumns(where);
 
 	std::string
-			lastVisitedString(tools::TimeTools::DumpTm(found)),
-			encodedTitle,
-			encodedDescription,
-			dumpEncoded;
+		lastVisitedString(tools::TimeTools::DumpTm(found)),
+		encodedTitle,
+		encodedDescription,
+		dumpEncoded;
 
 	database::SelectResultContainer<database::metainfoTableBase> results;
 	db->Select(selectMeta,results);
@@ -122,9 +122,9 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	"<lastVisited>" << lastVisitedString << "</lastVisited>"
 	"<lastChanged></lastChanged>"
 	"<keywords>" << dumpEncoded << "</keywords>"
-	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>\n"
-	"<relevancy>" << GetRelevance() << "</relevancy>\n"
-	"<weight>" << GetWeight() << "</weight>\n"
+	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
+	"<relevancy>" << GetRelevance() << "</relevancy>"
+	"<weight>" << GetWeight() << "</weight>"
 	"</result>";
 }
 

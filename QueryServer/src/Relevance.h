@@ -42,14 +42,18 @@ private:
 	, weight(1.0) { }
 
 public:
-	bool operator==(const Relevance& rhs)      const { return (GetWeightedRelevance() == rhs.GetWeightedRelevance());      }
+	bool operator==(const Relevance& rhs)      const { return (this->GetWeightedRelevance() == rhs.GetWeightedRelevance());      }
 	bool operator<(const Relevance& rhs)       const { return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
+	const Relevance& operator+=(const Relevance& rhs)const {
+		this->relevance += rhs.relevance;
+		this->weight += rhs.weight;
+		return *this; }
+
+	//
+	//TODO: deprecated, will be removed soon
+	//
 	Relevance  operator+(const Relevance& rhs) const { return Relevance(this->GetWeightedRelevance() + rhs.GetWeightedRelevance(), this->weight + rhs.weight); }
 	Relevance  operator*(const Relevance& rhs) const { return Relevance(this->relevance * rhs.relevance, this->weight * rhs.weight); }
-	const Relevance& operator+=(const Relevance& rhs)const {
-		relevance += rhs.relevance;
-		weight += rhs.weight;
-		return *this; }
 
 public:
 	double GetWeightedRelevance(void) const { return GetRelevance() * GetWeight(); }

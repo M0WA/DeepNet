@@ -32,6 +32,7 @@ public:
 
 private:
 	void AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results);
+	void MergeDuplicates(std::vector<const QueryThreadResultEntry*>& results);
 
 private:
 	struct SecondLevelDomainGroupByFunc : public std::unary_function<const QueryThreadResultEntry*,bool> {
@@ -50,15 +51,6 @@ private:
 		SelectFirstGroupedResultsFunc(std::vector<const QueryThreadResultEntry*>& results);
 
 		bool operator() (const std::vector<const QueryThreadResultEntry*>& entry);
-
-		std::vector<const QueryThreadResultEntry*>& results;
-	};
-
-	struct MergeSortDuplicateResultsFunc : public std::unary_function< const std::vector<const QueryThreadResultEntry*>&,bool> {
-
-		MergeSortDuplicateResultsFunc(std::vector<const QueryThreadResultEntry*>& results);
-
-		bool operator() (const QueryThreadResultEntry*& entry);
 
 		std::vector<const QueryThreadResultEntry*>& results;
 	};
