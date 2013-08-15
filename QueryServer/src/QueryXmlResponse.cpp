@@ -57,8 +57,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 		std::for_each(results.begin(),results.end(), groupBy);
 
 		SelectFirstGroupedResultsFunc firstGroup(results);
-		std::for_each(groupedResults.begin(),groupedResults.end(), firstGroup);
-	}
+		std::for_each(groupedResults.begin(),groupedResults.end(), firstGroup);	}
 
 	//assemble xml response string
 	AssembleXMLResult(results);
@@ -74,12 +73,13 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryThreadResultEntry*>& results) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	//assemble xml entries from results
 	std::ostringstream xmlResultEntries;
 	std::vector<QueryThreadResultEntry*>::const_iterator i(results.begin());
 	for(size_t resultID(0);i!=results.end();++i,++resultID) {
-		(*i)->AppendToXML(xmlQueryRequest->ServerThread()->DB().Connection(),resultID,xmlResultEntries); }
+		(*i)->AppendToXML(db,resultID,xmlResultEntries); }
 
 	//assemble complete xml response including header etc.
 	std::ostringstream xmlResult;
@@ -101,19 +101,16 @@ void QueryXmlResponse::MergeDuplicates(std::vector<QueryThreadResultEntry*>& res
 	std::map<long long,size_t> urlIDPos;
 	std::vector<QueryThreadResultEntry*>::iterator i(results.begin());
 	for(size_t pos(0);i!=results.end();++i,++pos) {
-
 		const long long& urlID((*i)->urlID);
 		if(urlIDPos.count(urlID) > 0) {
 			size_t pos(urlIDPos[urlID]);
-			QueryThreadResultEntry* entryAtPos(results.at(pos));
-			dynamic_cast<Relevance&>(*entryAtPos) += dynamic_cast<const Relevance&>(*(*i));
+			Relevance& entryAtPos(dynamic_cast<Relevance&>(*(results.at(pos))));
+			entryAtPos += dynamic_cast<const Relevance&>(*(*i));
 			results.erase(i);
 			i--;
-			pos--;
-		}
+			pos--; }
 		else {
-			urlIDPos[urlID]=pos;
-		}
+			urlIDPos[urlID]=pos; }
 	}
 }
 
@@ -133,7 +130,7 @@ bool QueryXmlResponse::SecondLevelDomainGroupByFunc::operator() (QueryThreadResu
 		pos = mapSecondlevelDomainPos[secondLevelID]; }
 	else {
 		pos = mapSecondlevelDomainPos[secondLevelID] = groupedResults.size();
-		groupedResults.push_back(std::vector<QueryThreadResultEntry*>());	}
+		groupedResults.push_back(std::vector<QueryThreadResultEntry*>()); }
 
 	groupedResults.at(pos).push_back(entry);
 	return true;
@@ -146,8 +143,7 @@ QueryXmlResponse::SelectFirstGroupedResultsFunc::SelectFirstGroupedResultsFunc(s
 
 bool QueryXmlResponse::SelectFirstGroupedResultsFunc::operator() (const std::vector<QueryThreadResultEntry*>& entry) {
 	if(entry.size()) {
-		results.push_back(entry.at(0));
-	}
+		results.push_back(entry.at(0));	}
 	return true;
 }
 
