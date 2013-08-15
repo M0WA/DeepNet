@@ -74,7 +74,7 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	metaTypes.push_back(indexing::Dictionary::META_DESCRIPTION);
 	database::metainfoTableBase::GetWhereColumnsFor_type(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-		urlStageID,
+		metaTypes,
 		where);
 
 	tools::Pointer<database::TableDefinition> ptrMetaDef(database::metainfoTableBase::CreateTableDefinition());

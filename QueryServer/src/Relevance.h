@@ -42,10 +42,14 @@ private:
 	, weight(1.0) { }
 
 public:
-	bool operator==(const Relevance& rhs)     const { return (GetWeightedRelevance() == rhs.GetWeightedRelevance());      }
-	bool operator<(const Relevance& rhs)      const { return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
-	Relevance operator+(const Relevance& rhs) const { return Relevance(this->GetWeightedRelevance() + rhs.GetWeightedRelevance(), this->weight * rhs.weight); }
-	Relevance operator*(const Relevance& rhs) const { return Relevance(this->relevance * rhs.relevance, this->weight * rhs.weight); }
+	bool operator==(const Relevance& rhs)      const { return (GetWeightedRelevance() == rhs.GetWeightedRelevance());      }
+	bool operator<(const Relevance& rhs)       const { return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
+	Relevance  operator+(const Relevance& rhs) const { return Relevance(this->GetWeightedRelevance() + rhs.GetWeightedRelevance(), this->weight + rhs.weight); }
+	Relevance  operator*(const Relevance& rhs) const { return Relevance(this->relevance * rhs.relevance, this->weight * rhs.weight); }
+	const Relevance& operator+=(const Relevance& rhs)const {
+		relevance += rhs.relevance;
+		weight += rhs.weight;
+		return *this; }
 
 public:
 	double GetWeightedRelevance(void) const { return GetRelevance() * GetWeight(); }
@@ -54,12 +58,12 @@ public:
 	const double& GetRelevance(void) const { return relevance; }
 	const double& GetWeight(void)    const { return weight;    }
 
-	void SetRelevance(const double& in) { relevance = in; }
-	void SetWeight(const double& in)    { weight    = in; }
+	void SetRelevance(const double& in) const { relevance = in; }
+	void SetWeight(const double& in)    const { weight    = in; }
 
 private:
-	double relevance;
-	double weight;
+	mutable double relevance;
+	mutable double weight;
 };
 
 }

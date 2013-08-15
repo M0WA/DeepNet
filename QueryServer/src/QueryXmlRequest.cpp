@@ -57,15 +57,11 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 
 	//parsing page number
 	if(!QueryXmlFirstElement(query.pageNo, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
-		log::Logging::LogWarn("could not find page number in query request");
-		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-		return false; }
+		query.pageNo = 0; }
 
 	//parsing query id
 	if(!QueryXmlFirstElement(query.queryId, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
-		log::Logging::LogWarn("could not find query id in query request");
-		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-		return false; }
+		query.queryId = 0; }
 
 	if(!ParseQueryCriteria(xmlRequest))
 		return false;

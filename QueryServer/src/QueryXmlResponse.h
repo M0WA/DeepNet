@@ -45,13 +45,22 @@ private:
 		std::map<long long,size_t> mapSecondlevelDomainPos;
 	};
 
-	struct SelectFirstGroupedResults : public std::unary_function< const std::vector<const QueryThreadResultEntry*>& ,bool> {
+	struct SelectFirstGroupedResultsFunc : public std::unary_function< const std::vector<const QueryThreadResultEntry*>& ,bool> {
 
-		SelectFirstGroupedResults(std::vector<const QueryThreadResultEntry*>& results);
+		SelectFirstGroupedResultsFunc(std::vector<const QueryThreadResultEntry*>& results);
 
 		bool operator() (const std::vector<const QueryThreadResultEntry*>& entry);
 
-		std::vector<const QueryThreadResultEntry*> results;
+		std::vector<const QueryThreadResultEntry*>& results;
+	};
+
+	struct MergeSortDuplicateResultsFunc : public std::unary_function< const std::vector<const QueryThreadResultEntry*>&,bool> {
+
+		MergeSortDuplicateResultsFunc(std::vector<const QueryThreadResultEntry*>& results);
+
+		bool operator() (const QueryThreadResultEntry*& entry);
+
+		std::vector<const QueryThreadResultEntry*>& results;
 	};
 
 private:
