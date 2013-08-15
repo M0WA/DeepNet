@@ -39,15 +39,8 @@ public:
 	Thread::ThreadID AddThread(T* thread, void* params = NULL){
 
 		Thread::ThreadID tid(thread->StartThread(params));
-		if(tid == 0)
-			return 0;
-
-		if(threads.count(tid)>0) {
-			//
-			//TODO: this should never happen
-			//
-			return 0;
-		}
+		if(tid == 0) {
+			return 0; }
 
 		threads.insert(std::pair<Thread::ThreadID,ThreadManager<T>::ThreadInfos>(tid,ThreadManager<T>::ThreadInfos(thread, params)));
 		return tid;
