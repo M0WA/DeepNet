@@ -23,11 +23,15 @@ namespace queryserver {
 	class QueryXmlRequest;
 	class QueryThreadResultEntry;
 
+/**
+ * @brief encapsulates a xml query request
+ */
 class QueryXmlResponse: public fastcgiserver::FastCGIResponse {
 public:
 	QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequest* xmlQueryRequest);
 	virtual ~QueryXmlResponse();
 
+private:
 	virtual bool Process(FCGX_Request& request);
 
 private:
@@ -35,6 +39,9 @@ private:
 	void MergeDuplicates(std::vector<QueryThreadResultEntry*>& results);
 
 private:
+	/**
+	 * @brief functor to group results vector by secondlevel domain id
+	 */
 	struct SecondLevelDomainGroupByFunc : public std::unary_function<QueryThreadResultEntry*,bool> {
 
 		SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults);
@@ -46,6 +53,9 @@ private:
 		std::map<long long,size_t> mapSecondlevelDomainPos;
 	};
 
+	/**
+	 * @brief functor to select the first item of a result vector and put it into another vector
+	 */
 	struct SelectFirstGroupedResultsFunc : public std::unary_function< const std::vector<QueryThreadResultEntry*>& ,bool> {
 
 		SelectFirstGroupedResultsFunc(std::vector<QueryThreadResultEntry*>& results);

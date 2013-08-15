@@ -30,6 +30,9 @@ namespace fastcgiserver {
 
 namespace queryserver {
 
+/**
+ * @brief encapsulates fastcgiserver::FastCGIServerThread for queryserver::QueryServer
+ */
 class QueryServerThread : public fastcgiserver::FastCGIServerThread
 {
 public:

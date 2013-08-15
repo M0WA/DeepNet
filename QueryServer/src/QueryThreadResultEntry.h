@@ -34,8 +34,20 @@ typedef enum {
 
 } QueryThreadResultType;
 
+/**
+ * @brief encapsulates one result entry from a QueryThread
+ */
 class QueryThreadResultEntry : public queryserver::Relevance {
 public:
+	/**
+	 * creates a result entry with unknown found date
+	 * @param type origin type of this result
+	 * @param urlID url id
+	 * @param urlStageID url stage id
+	 * @param keywordPos position of this keyword in query
+	 * @param occurrences position of this keyword in query
+	 * @param relevance relevance of this entry
+	 */
 	QueryThreadResultEntry(
 			const QueryThreadResultType& type,
 			const long long& urlID,
@@ -44,6 +56,16 @@ public:
 			const long long& occurrences,
 			const double&    relevance);
 
+	/**
+	 * creates a result entry
+	 * @param type origin type of this result
+	 * @param urlID url id
+	 * @param urlStageID url stage id
+	 * @param keywordPos position of this keyword in query
+	 * @param occurrences position of this keyword in query
+	 * @param relevance relevance of this entry
+	 * @param found found date of URL
+	 */
 	QueryThreadResultEntry(
 			const QueryThreadResultType& type,
 			const long long& urlID,
@@ -56,18 +78,53 @@ public:
 	virtual ~QueryThreadResultEntry();
 
 public:
+	/**
+	 * appends entry to output xml
+	 * @param db database connection
+	 * @param resultID result id
+	 * @param xml stream to append to
+	 */
 	void AppendToXML(database::DatabaseConnection* db,const size_t resultID,std::ostringstream& xml) const;
 
 public:
+	/**
+	 * origin type of this result
+	 */
 	QueryThreadResultType type;
+
+	/**
+	 * url id
+	 */
 	long long urlID;
+
+	/**
+	 * url stage id
+	 */
 	long long urlStageID;
-	size_t    keywordPos;
+
+	/**
+	 * position of this keyword in query
+	 */
+	size_t keywordPos;
+
+	/**
+	 * occurrences of this keyword in url
+	 */
 	long long occurrences;
 
+	/**
+	 * description
+	 */
 	std::string urlDescription;
+
+	/**
+	 * summary
+	 */
 	std::string urlSummary;
 
+	/**
+	 * found date of URL
+	 */
 	struct tm found;
 };
 
