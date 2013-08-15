@@ -61,7 +61,7 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 }
 
-void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry*>& results) {
+void QueryThreadManager::WaitForResults(std::vector<QueryThreadResultEntry*>& results) {
 
 	if(releaseSeen) {
 		//

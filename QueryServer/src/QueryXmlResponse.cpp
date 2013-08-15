@@ -39,7 +39,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	//waiting for all results to arrive
-	std::vector<const QueryThreadResultEntry*> results;
+	std::vector<QueryThreadResultEntry*> results;
 	queryManager.WaitForResults(results);
 
 	//sorting all results by relevance
@@ -51,7 +51,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 
 	//group results
 	if(query.properties.groupBySecondLevelDomain) {
-		std::vector< std::vector<const QueryThreadResultEntry*> > groupedResults;
+		std::vector< std::vector<QueryThreadResultEntry*> > groupedResults;
 
 		SecondLevelDomainGroupByFunc groupBy(db,groupedResults);
 		std::for_each(results.begin(),results.end(), groupBy);
@@ -71,13 +71,13 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	return FastCGIResponse::Process(request);
 }
 
-void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results) {
+void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryThreadResultEntry*>& results) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 
 	//assemble xml entries from results
 	std::ostringstream xmlResultEntries;
-	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
+	std::vector<QueryThreadResultEntry*>::const_iterator i(results.begin());
 	for(size_t resultID(0);i!=results.end();++i,++resultID) {
 		(*i)->AppendToXML(xmlQueryRequest->ServerThread()->DB().Connection(),resultID,xmlResultEntries); }
 
@@ -96,20 +96,17 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<const QueryThreadResu
 	content = xmlResult.str();
 }
 
-void QueryXmlResponse::MergeDuplicates(std::vector<const QueryThreadResultEntry*>& results) {
+void QueryXmlResponse::MergeDuplicates(std::vector<QueryThreadResultEntry*>& results) {
 
 	std::map<long long,size_t> urlIDPos;
-	std::vector<const QueryThreadResultEntry*>::iterator i(results.begin());
+	std::vector<QueryThreadResultEntry*>::iterator i(results.begin());
 	for(size_t pos(0);i!=results.end();++i,++pos) {
 
 		const long long& urlID((*i)->urlID);
 		if(urlIDPos.count(urlID) > 0) {
 			size_t pos(urlIDPos[urlID]);
-			const QueryThreadResultEntry* entryAtPos(results.at(pos));
-			const Relevance
-				*rLeft(dynamic_cast<const Relevance*>(entryAtPos)),
-				*rRight(dynamic_cast<const Relevance*>(*i));
-			(*rLeft) += (*rRight);
+			QueryThreadResultEntry* entryAtPos(results.at(pos));
+			dynamic_cast<Relevance&>(*entryAtPos) += dynamic_cast<const Relevance&>(*(*i));
 			results.erase(i);
 			i--;
 			pos--;
@@ -120,12 +117,12 @@ void QueryXmlResponse::MergeDuplicates(std::vector<const QueryThreadResultEntry*
 	}
 }
 
-QueryXmlResponse::SecondLevelDomainGroupByFunc::SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<const QueryThreadResultEntry*> >& groupedResults)
+QueryXmlResponse::SecondLevelDomainGroupByFunc::SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults)
 : db(db)
 , groupedResults(groupedResults) {
 }
 
-bool QueryXmlResponse::SecondLevelDomainGroupByFunc::operator() (const QueryThreadResultEntry*& entry) {
+bool QueryXmlResponse::SecondLevelDomainGroupByFunc::operator() (QueryThreadResultEntry*& entry) {
 
 	tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,entry->urlID,ptrUrl);
@@ -136,18 +133,18 @@ bool QueryXmlResponse::SecondLevelDomainGroupByFunc::operator() (const QueryThre
 		pos = mapSecondlevelDomainPos[secondLevelID]; }
 	else {
 		pos = mapSecondlevelDomainPos[secondLevelID] = groupedResults.size();
-		groupedResults.push_back(std::vector<const QueryThreadResultEntry*>());	}
+		groupedResults.push_back(std::vector<QueryThreadResultEntry*>());	}
 
 	groupedResults.at(pos).push_back(entry);
 	return true;
 }
 
-QueryXmlResponse::SelectFirstGroupedResultsFunc::SelectFirstGroupedResultsFunc(std::vector<const QueryThreadResultEntry*>& results)
+QueryXmlResponse::SelectFirstGroupedResultsFunc::SelectFirstGroupedResultsFunc(std::vector<QueryThreadResultEntry*>& results)
 : results(results) {
 	results.clear();
 }
 
-bool QueryXmlResponse::SelectFirstGroupedResultsFunc::operator() (const std::vector<const QueryThreadResultEntry*>& entry) {
+bool QueryXmlResponse::SelectFirstGroupedResultsFunc::operator() (const std::vector<QueryThreadResultEntry*>& entry) {
 	if(entry.size()) {
 		results.push_back(entry.at(0));
 	}

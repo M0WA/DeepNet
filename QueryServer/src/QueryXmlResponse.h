@@ -31,28 +31,28 @@ public:
 	virtual bool Process(FCGX_Request& request);
 
 private:
-	void AssembleXMLResult(const std::vector<const QueryThreadResultEntry*>& results);
-	void MergeDuplicates(std::vector<const QueryThreadResultEntry*>& results);
+	void AssembleXMLResult(const std::vector<QueryThreadResultEntry*>& results);
+	void MergeDuplicates(std::vector<QueryThreadResultEntry*>& results);
 
 private:
-	struct SecondLevelDomainGroupByFunc : public std::unary_function<const QueryThreadResultEntry*,bool> {
+	struct SecondLevelDomainGroupByFunc : public std::unary_function<QueryThreadResultEntry*,bool> {
 
-		SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<const QueryThreadResultEntry*> >& groupedResults);
+		SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults);
 
-		bool operator() (const QueryThreadResultEntry*& entry);
+		bool operator() (QueryThreadResultEntry*& entry);
 
 		database::DatabaseConnection* db;
-		std::vector< std::vector<const QueryThreadResultEntry*> >& groupedResults;
+		std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults;
 		std::map<long long,size_t> mapSecondlevelDomainPos;
 	};
 
-	struct SelectFirstGroupedResultsFunc : public std::unary_function< const std::vector<const QueryThreadResultEntry*>& ,bool> {
+	struct SelectFirstGroupedResultsFunc : public std::unary_function< const std::vector<QueryThreadResultEntry*>& ,bool> {
 
-		SelectFirstGroupedResultsFunc(std::vector<const QueryThreadResultEntry*>& results);
+		SelectFirstGroupedResultsFunc(std::vector<QueryThreadResultEntry*>& results);
 
-		bool operator() (const std::vector<const QueryThreadResultEntry*>& entry);
+		bool operator() (const std::vector<QueryThreadResultEntry*>& entry);
 
-		std::vector<const QueryThreadResultEntry*>& results;
+		std::vector<QueryThreadResultEntry*>& results;
 	};
 
 private:
