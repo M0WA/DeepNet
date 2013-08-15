@@ -82,6 +82,7 @@ public:
 		typename std::map<Thread::ThreadID, ThreadManager<T>::ThreadInfos >::iterator i(threads.begin());
 		for(;i != threads.end();++i) {
 			delete i->second.first;	}
+		threads.clear();
 	}
 
 public:
