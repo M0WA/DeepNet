@@ -25,9 +25,7 @@ void Query::AppendKeyword(const long long& position,const std::string& keyword,c
 
 	queryKeywords.insert(queryKeywords.end(),QueryKeyword(position,keyword,caseSensitive));
 	keywords.insert(keywords.end(),keyword);
-
-	if(caseSensitive) {
-		lowerKeywords.insert(lowerKeywords.end(),tools::StringTools::ToLowerNP(keyword)); }
+	lowerKeywords.insert(lowerKeywords.end(),tools::StringTools::ToLowerNP(keyword));
 }
 
 size_t Query::GetPositionByKeyword(const std::string& keyword) const {
