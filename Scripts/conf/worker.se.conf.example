@@ -45,7 +45,7 @@ worker_bot_mode=searchengine
 ##################################################
 
 # number of urls in cache (*)
-urlcache=1000
+urlcache=5000
 
 # number of subdomains in cache (*)
 subdomaincache=1000
@@ -64,12 +64,12 @@ pathpartcache=1000
 
 # number of html docs in cache (*)
 # should be at least: crawler_threads * crawler_maxUrl
-htmlcache=100
+htmlcache=10
 
 # number of parsed html docs in cache (*)
 # should be at least: parser_threads * parser_maxUrl
 # it should also be no problem if size is unlimited here (parsercache=0)
-parsercache=100
+parsercache=10
 
 # number of robots.txt in cache (*)
 robotscache=500
@@ -103,7 +103,7 @@ crawler_threads=8
 crawler_minAge=30
 
 # maximum size of selected urls per turn (*)
-crawler_maxUrl=100
+crawler_maxUrl=3
 
 # user agent string (*)
 crawler_userAgent=SIRIDIA Crawler v1.0
@@ -125,7 +125,7 @@ crawler_maxDownloadSize=3145728
 crawler_limit=300
 
 # how long to wait for recheck if idle in seconds (*)
-crawler_waitIdle=30
+crawler_waitIdle=3
 
 # should the crawler respect robots.txt ( 0 | 1 ) (*)
 crawler_respectRobotsTxt=1
@@ -143,10 +143,10 @@ crawler_client=curl
 parser_threads=8
 
 # maximum size of selected urls per turn (*)
-parser_maxUrl=100
+parser_maxUrl=1
 
 # how long to wait for recheck if idle in seconds (*)
-parser_waitIdle=30
+parser_waitIdle=3
 
 # type of parser: (libxml | domparser)
 parser_type=libxml
@@ -161,8 +161,8 @@ parser_type=libxml
 indexer_threads=8
 
 # how long to wait for recheck if idle in seconds (*)
-indexer_waitIdle=30
+indexer_waitIdle=3
 
 # maximum size of selected urls per turn (*)
-indexer_maxUrl=100
+indexer_maxUrl=3
 
