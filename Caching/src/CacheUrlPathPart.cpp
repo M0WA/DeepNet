@@ -206,8 +206,6 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 
 	urlPathPartID = cacheInstance.endUrlPathID;
 
-	db->TransactionStart();
-
 	std::vector<long long>::const_reverse_iterator i(pathPartIDs.rbegin());
 	for(;i!=pathPartIDs.rend();++i) {
 		database::urlpathpartsTableBase urlPathPartTbl;
@@ -220,7 +218,6 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 			db->LastInsertID(urlPathPartID);
 		}
 		catch(database::DatabaseException& e) {
-			db->TransactionRollback();
 
 			e.DisableLogging();
 			std::stringstream ss;
@@ -231,7 +228,6 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 		}
 
 		if(urlPathPartID == -1) {
-			db->TransactionRollback();
 			std::stringstream ss;
 			ss << "invalid id while inserting url path part: "<< std::endl
 			   << "path part id: " << *i << std::endl
@@ -241,7 +237,6 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 		}
 	}
 
-	db->TransactionCommit();
 	return;
 }
 
