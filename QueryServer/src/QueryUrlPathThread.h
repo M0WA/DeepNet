@@ -10,6 +10,8 @@
 
 #include "QueryThread.h"
 
+#include <vector>
+
 namespace queryserver {
 
 /**
@@ -25,6 +27,9 @@ private:
 	virtual void OnDestroyThreadInstance();
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryUrlPathThread"; }
+
+private:
+	std::vector<long long> pathPartIDs;
 };
 
 }
