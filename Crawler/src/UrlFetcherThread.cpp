@@ -425,7 +425,14 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 
 	database::documentcodeTableBase documentCodeTbl;
 	documentCodeTbl.Set_URLSTAGE_ID(urlStageID);
-	documentCodeTbl.Set_code(pszBuffer);
+
+	try {
+		documentCodeTbl.Set_code(pszBuffer);
+	}
+	catch(database::DatabaseException& e) {
+		e.DisableLogging();
+		log::Logging::LogTrace("document source code too big from %s\nexception was:%s",url.GetFullUrl().c_str(),e.Dump().c_str());
+	}
 
 	PERFORMANCE_LOG_RESTART;
 	try {
