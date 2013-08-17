@@ -53,7 +53,6 @@ bool GenericWebDictionary::CommitContent(void)
 		std::vector<database::TableColumnDefinition*> colDefsSum;
 		colDefsSum.push_back(database::dictTableBase::GetDefinition_occurrence());
 
-		database->TransactionStart();
 
 		long long dictID(-1);
 		try {
@@ -61,13 +60,11 @@ bool GenericWebDictionary::CommitContent(void)
 			database->LastInsertID(dictID);
 		}
 		catch(...) {
-			database->TransactionRollback();
 			throw;
 		}
 
 		if(dictID<0){
 			log::Logging::LogWarn("error while getting ID for word in dictionary: %s",word.c_str());
-			database->TransactionRollback();
 			continue; }
 
 		database::dockeyTableBase docKey;
@@ -84,7 +81,6 @@ bool GenericWebDictionary::CommitContent(void)
 			database->LastInsertID(docKeyID);
 		}
 		catch(...) {
-			database->TransactionRollback();
 			throw;
 		}
 
@@ -100,12 +96,9 @@ bool GenericWebDictionary::CommitContent(void)
 				tblPos.Insert(database);
 			}
 			catch(...) {
-				database->TransactionRollback();
 				throw;
 			}
 		}
-
-		database->TransactionCommit();
 	}
 
 	wordContent.clear();
@@ -143,21 +136,17 @@ bool GenericWebDictionary::CommitMeta(void)
 			std::vector<database::TableColumnDefinition*> colDefsSum;
 			colDefsSum.push_back(database::dictTableBase::GetDefinition_occurrence());
 
-			database->TransactionStart();
-
 			long long dictID(-1);
 			try {
 				dictKeyword.InsertOrUpdate(database,colDefsSum);
 				database->LastInsertID(dictID);
 			}
 			catch(...) {
-				database->TransactionRollback();
-				throw;
+				continue;
 			}
 
 			if(dictID<0){
 				log::Logging::LogWarn("error while getting ID for word in dictionary: %s",word.c_str());
-				database->TransactionRollback();
 				continue; }
 
 			database::docmetaTableBase docMeta;
@@ -173,11 +162,8 @@ bool GenericWebDictionary::CommitMeta(void)
 				docMeta.InsertOrUpdate(database,colDefsSum);
 			}
 			catch(...) {
-				database->TransactionRollback();
-				throw;
+				continue;
 			}
-
-			database->TransactionCommit();
 		}
 	}
 
