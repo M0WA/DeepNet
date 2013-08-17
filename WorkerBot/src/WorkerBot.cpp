@@ -30,11 +30,11 @@
 #include <Logging.h>
 #include <PerformanceCounter.h>
 #include <StringTools.h>
+
 #include <NotImplementedException.h>
 
-#include <DatabaseLayer.h>
-
 #include <DatabaseRepair.h>
+#include <DatabaseLayer.h>
 
 namespace workerbot {
 
@@ -66,13 +66,14 @@ bool WorkerBot::OnRun() {
 	parserParam.Get() ->databaseConfig =
 	indexerParam.Get()->databaseConfig = dbConfig;
 
-	bool bSuccess(true);
+	if(crawler.Get()->StartThread() == 0)
+		return false;
+	if(parser.Get() ->StartThread() == 0)
+		return false;
+	if(indexer.Get()->StartThread() == 0)
+		return false;
 
-	bSuccess &= crawler.Get()->StartThread();
-	bSuccess &= parser.Get() ->StartThread();
-	bSuccess &= indexer.Get()->StartThread();
-
-	return bSuccess;
+	return true;
 }
 
 bool WorkerBot::OnShutdown() {
