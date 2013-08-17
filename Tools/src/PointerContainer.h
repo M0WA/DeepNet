@@ -114,6 +114,12 @@ public:
 	size_t Size() const {
 		return container.size(); }
 
+	/**
+	 * releases all resources in this container.
+	 */
+	void ReleaseAll() {
+		CleanUp(); }
+
 private:
 	void CleanUp(){
 
