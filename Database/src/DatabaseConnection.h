@@ -174,7 +174,7 @@ public:
 		std::vector<TableBase*> resultRows;
 		Select(stmt, resultRows);
 
-		std::vector<TableBase*>::iterator iterTableRows = resultRows.begin();
+		std::vector<TableBase*>::const_iterator iterTableRows(resultRows.begin());
 		for(;iterTableRows != resultRows.end();++iterTableRows) {
 			results.Add(*iterTableRows);}
 	}
@@ -191,10 +191,10 @@ public:
 		std::vector<TableBase*> resultRows;
 		Select(stmt, resultRows);
 
-		std::vector<TableBase*>::iterator iterTableRows = resultRows.begin();
+		std::vector<TableBase*>::const_iterator iterTableRows(resultRows.begin());
 		for(;iterTableRows != resultRows.end();++iterTableRows) {
-			TableBase* pResultBase = *iterTableRows;
-			T* pResult = new T();
+			const TableBase* pResultBase(*iterTableRows);
+			T* pResult(new T());
 			pResult->CopyColumns(pResultBase);
 			results.Add(pResult);
 			delete (*iterTableRows);}

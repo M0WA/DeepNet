@@ -78,10 +78,13 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 	if(columnValues.Size() == 1) {
 
 		//LIKE keyword is case sensitive for PostGRESQL
-		if(database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL &&
-		   createParam.op.GetType() == LIKE){
+		bool lowerVal(false);
+		if(	database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL &&
+			createParam.op.GetType() == LIKE
+		){
 			columnName.insert(0,"lower(");
-			columnName.append(")"); }
+			columnName.append(")");
+			lowerVal = true; }
 
 		std::string opString(createParam.op.ToString());
 		if(colVal->GetConstColumn()->IsNull()) {
@@ -100,7 +103,7 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 				break;
 			}
 		}
-		columnString << columnName << " " << opString << " " << colVal->GetConstColumn()->GetForSQL(db);
+		columnString << columnName << " " << opString << " " << GetColumnValue(db,colVal->GetConstColumn(),lowerVal);
 	}
 	else if (createParam.op.GetType() != LIKE) {
 
@@ -124,7 +127,7 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 		for(int i = 0;!columnValues.IsIterEnd();columnValues.Next(),i++) {
 			if(i)
 				columnString << ", ";
-			columnString << " " << columnValues.GetConstIter()->GetConstColumn()->GetForSQL(db) << " ";
+			columnString << " " << GetColumnValue(db,columnValues.GetConstIter()->GetConstColumn(),false) << " ";
 		}
 
 		columnString << " ) ";
@@ -135,19 +138,40 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 	else {
 
 		//LIKE keyword is case sensitive for PostGRESQL
+		bool lowerVal(false);
 		if(database::DatabaseHelper::GetDatabaseType() == database::DB_POSTGRESQL){
 			columnName.insert(0,"lower(");
-			columnName.append(")"); }
+			columnName.append(")");
+			lowerVal = true; }
 
 		for(int i = 0;!columnValues.IsIterEnd();columnValues.Next(),i++) {
 			if(i)
 				columnString << " OR ";
-			columnString << " " << columnName << " LIKE " << columnValues.GetConstIter()->GetConstColumn()->GetForSQL(db) << " ";
+			columnString << " " << columnName << " LIKE " << GetColumnValue(db,columnValues.GetConstIter()->GetConstColumn(),lowerVal) << " ";
 		}
 	}
 
 	columnString << " ) ";
 	return columnString.str();
+}
+
+std::string WhereConditionTableColumn::GetColumnValue(DatabaseConnection* db,const TableColumn* col,const bool lowerVal) const {
+
+	std::string tmp(col->GetForSQL(db));
+
+	if(lowerVal) {
+		tools::StringTools::ToLowerIP(tmp); }
+
+	bool
+		left (createParam.wildcardFlag & WILDCARD_LEFT),
+		right(createParam.wildcardFlag & WILDCARD_RIGHT);
+
+	if(left)
+		tmp.insert(0,"%");
+	if(right)
+		tmp.append("%");
+
+	return tmp;
 }
 
 }

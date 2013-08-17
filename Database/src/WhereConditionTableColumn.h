@@ -13,7 +13,9 @@
 #include "WhereConditionTableColumnCreateParam.h"
 
 namespace database {
-class DatabaseConnection;
+
+	class DatabaseConnection;
+	class TableColumn;
 
 /**
  * @brief wrapper for a column in a WhereCondition
@@ -80,6 +82,9 @@ public:
 	 * @return alias table name.
 	 */
 	const std::string& TableAlias() const { return createParam.tableNameAlias;  }
+
+private:
+	std::string GetColumnValue(DatabaseConnection* db,const TableColumn* col,const bool lowerVal) const;
 
 private:
 	TableColumnArrayContainer columnValues;
