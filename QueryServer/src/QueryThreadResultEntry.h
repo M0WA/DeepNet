@@ -20,6 +20,8 @@ namespace database {
 
 namespace queryserver {
 
+	class Query;
+
 typedef enum {
 
 	UNKNOWN_RESULT_TYPE = 0,
@@ -81,10 +83,11 @@ public:
 	/**
 	 * appends entry to output xml
 	 * @param db database connection
+	 * @param query original query
 	 * @param resultID result id
 	 * @param xml stream to append to
 	 */
-	void AppendToXML(database::DatabaseConnection* db,const size_t resultID,std::ostringstream& xml) const;
+	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
 
 public:
 	/**

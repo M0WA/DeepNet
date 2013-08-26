@@ -142,7 +142,8 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 
 bool QueryContentThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
+	const Query query(queryThreadParam.GetConst()->query);
+	const QueryProperties& queryProperties(query.properties);
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),

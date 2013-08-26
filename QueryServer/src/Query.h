@@ -33,6 +33,13 @@ public:
 	size_t GetPositionByKeyword(const std::string& keyword) const;
 
 	/**
+	 * gets a keyword by it's position
+	 * @param position position of keyword to find
+	 * @return keyword
+	 */
+	const std::string& GetKeywordByPosition(const size_t& position) const;
+
+	/**
 	 * appends a keyword at a given position
 	 * @param position position of keyword to append
 	 * @param keyword keyword to append

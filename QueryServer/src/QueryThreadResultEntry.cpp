@@ -20,6 +20,8 @@
 #include <HttpUrlParser.h>
 #include <Dictionary.h>
 
+#include "Query.h"
+
 namespace queryserver {
 
 QueryThreadResultEntry::QueryThreadResultEntry(
@@ -58,7 +60,7 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 QueryThreadResultEntry::~QueryThreadResultEntry() {
 }
 
-void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const size_t resultID,std::ostringstream& xml) const {
+void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
 
 	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
@@ -82,12 +84,7 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	selectMeta.SelectAllColumns();
 	selectMeta.Where().AddColumns(where);
 
-	std::string
-		lastVisitedString(tools::TimeTools::DumpTm(found)),
-		encodedTitle,
-		encodedDescription,
-		dumpEncoded;
-
+	std::string	encodedTitle, encodedDescription;
 	database::SelectResultContainer<database::metainfoTableBase> results;
 	db->Select(selectMeta,results);
 	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
@@ -111,8 +108,13 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 		}
 	}
 
+	std::string	lastVisitedString(tools::TimeTools::DumpTm(found));
+
 	std::string encodedURL(dbUrl.GetConst()->GetFullUrl());
 	network::HttpUrlParser::EncodeUrl(encodedURL);
+
+	std::string encodedKeyword(query.GetKeywordByPosition(keywordPos));
+	network::HttpUrlParser::EncodeUrl(encodedKeyword);
 
 	xml <<
 	"<result id=\"" << resultID << "\">"
@@ -121,7 +123,7 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	"<description>" << encodedDescription << "</description>"
 	"<lastVisited>" << lastVisitedString << "</lastVisited>"
 	"<lastChanged></lastChanged>"
-	"<keywords>" << dumpEncoded << "</keywords>"
+	"<keywords><keyword>" << encodedKeyword << "</keyword></keywords>"
 	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
 	"<relevancy>" << GetRelevance() << "</relevancy>"
 	"<weight>" << GetWeight() << "</weight>"

@@ -48,4 +48,8 @@ size_t Query::GetPositionByKeyword(const std::string& keyword) const {
 	return 0;
 }
 
+const std::string& Query::GetKeywordByPosition(const size_t& position) const {
+	return keywords.at(position);
+}
+
 }

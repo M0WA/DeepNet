@@ -79,7 +79,7 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryThreadResultEntr
 	std::ostringstream xmlResultEntries;
 	std::vector<QueryThreadResultEntry*>::const_iterator i(results.begin());
 	for(size_t resultID(0);i!=results.end();++i,++resultID) {
-		(*i)->AppendToXML(db,resultID,xmlResultEntries); }
+		(*i)->AppendToXML(db,query,resultID,xmlResultEntries); }
 
 	//assemble complete xml response including header etc.
 	std::ostringstream xmlResult;
