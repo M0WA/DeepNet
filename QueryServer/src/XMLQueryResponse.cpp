@@ -729,15 +729,23 @@ bool XMLQueryResponse::GetPagesByUrlPath(const std::map<long long, KeywordEntry>
 
 	std::vector<long long> idKeywordVector;
 	tools::ContainerTools::Map1ToVector(idKeywords,idKeywordVector);
-	database::docurlTableBase::GetWhereColumnsFor_DICT_ID(
+	database::dockeyTableBase::GetWhereColumnsFor_DICT_ID(
 		whereDictParam,
 		idKeywordVector,
 		whereContainer );
 
-	database::SelectStatement dockeyInfo(database::docurlTableBase::CreateTableDefinition(),"doc");
+	database::SelectStatement dockeyInfo(database::dockeyTableBase::CreateTableDefinition(),"doc");
 	dockeyInfo.SelectAllColumns();
 	dockeyInfo.Where().AddColumns(whereContainer);
-	database::docurlTableBase::AddInnerJoinRightSideOn_URL_ID("doc", "URL_ID","theUrl","ID",dockeyInfo);
+
+
+	//
+	//TODO:
+	//
+	//database::dockeyTableBase::AddInnerJoinRightSideOn_URL_ID("doc", "URL_ID","theUrl","ID",dockeyInfo);
+
+
+
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID("latest", "URL_ID", "theUrl","ID", dockeyInfo);
 
 	database::SelectResultContainer<database::TableBase> vecDocRows;
