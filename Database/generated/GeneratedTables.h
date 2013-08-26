@@ -20,7 +20,6 @@
 #include "unittest3TableBase.h"
 #include "dataminingblacklistTableBase.h"
 #include "imagesTableBase.h"
-#include "docurlTableBase.h"
 #include "dataminingcustomersessionTableBase.h"
 #include "latesturlstagesTableBase.h"
 #include "urlpathpartsTableBase.h"
