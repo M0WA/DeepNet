@@ -101,20 +101,19 @@ font.url_font
   color: green;
 }
 
-.result_table
+.single_result_table
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
   margin-bottom: 20px;
 }
 
-.result_table th
+.result_table tr
 {
+  background-color: transparent;
 }
 
-.result_table td
+.result_table tr:hover
 {
+  background-color: #99CCFF;
 }
 
-.result_table tr:hover td
-{
-}
