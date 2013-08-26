@@ -104,7 +104,9 @@ font.url_font
 .single_result_table
 {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-  margin-bottom: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 75%;
 }
 
 .result_table tr
