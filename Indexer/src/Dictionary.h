@@ -51,7 +51,7 @@ public:
 
 public:
 	bool AddContent(const std::string& word, const std::pair<long long,long long>& paragraphPosition);
-	bool AddContent(const std::string& word);
+	//bool AddContent(const std::string& word);
 
 	bool AddMeta(const std::string& word, const MetaInformationType& type);
 

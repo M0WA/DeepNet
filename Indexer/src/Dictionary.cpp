@@ -47,7 +47,7 @@ bool Dictionary::AddContent(const std::string& word, const std::pair<long long,l
 	//only return true when a new word was inserted
 	return insertPair.second;
 }
-
+/*
 bool Dictionary::AddContent(const std::string& word)
 {
 	if(!testMode && urlID < 0) {
@@ -63,6 +63,7 @@ bool Dictionary::AddContent(const std::string& word)
 	//only return true when a new word was inserted
 	return insertPair.second;
 }
+*/
 
 bool Dictionary::AddMeta(const std::string& word, const MetaInformationType& type) {
 

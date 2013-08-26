@@ -44,7 +44,7 @@ void IndexerEx::ParseMeta(const std::string& input, const Dictionary::MetaInform
 	//PERFORMANCE_LOG_STOP("splitting content group to meta words");
 
 	//PERFORMANCE_LOG_RESTART;
-	std::vector<std::string>::const_iterator i = groups.begin();
+	std::vector<std::string>::const_iterator i(groups.begin());
 	for(; i != groups.end();++i) {
 		dictionary.AddMeta(*i,type); }
 	//PERFORMANCE_LOG_STOP("adding meta words to dictionary");
@@ -81,9 +81,9 @@ void IndexerEx::Parse(const std::string& input, const long long paragraph)
 
 	//PERFORMANCE_LOG_RESTART;
 
-	std::vector<std::string>::const_iterator i = groups.begin();
-	for(; i != groups.end();++i) {
-		dictionary.AddContent(*i);	}
+	std::vector<std::string>::const_iterator i(groups.begin());
+	for(long long pos(0); i != groups.end();++i,++pos) {
+		dictionary.AddContent(*i,std::pair<long long, long long>(paragraph,pos));	}
 
 	//PERFORMANCE_LOG_STOP("adding words to dictionary");
 }

@@ -53,7 +53,6 @@ bool GenericWebDictionary::CommitContent(void)
 		std::vector<database::TableColumnDefinition*> colDefsSum;
 		colDefsSum.push_back(database::dictTableBase::GetDefinition_occurrence());
 
-
 		long long dictID(-1);
 		try {
 			dictKeyword.InsertOrUpdate(database,colDefsSum);
