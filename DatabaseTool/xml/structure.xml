@@ -287,9 +287,9 @@
 	MySQL_Database="contents"
 >
 
-	<column name="ID"                   type="INTEGER"      notnull="1" autoincrement="1" />
-	<column name="URLSTAGE_ID"          type="INTEGER"      notnull="1" />
-	<column name="code"                 type="LARGE_TEXT(4096000)"   notnull="1" />
+	<column name="ID"                   type="INTEGER"              notnull="1" autoincrement="1" />
+	<column name="URLSTAGE_ID"          type="INTEGER"              notnull="1" />
+	<column name="code"                 type="LARGE_TEXT(4096000)"  notnull="1" />
 
 	<primary_key column="ID" />
 	<foreign_key column="URLSTAGE_ID" references_table="urlstages" references_column="ID" MySQL_Database="contents" />
@@ -474,30 +474,6 @@
 
 	<foreign_key column="DICT_ID"     references_table="dict"      references_column="ID" MySQL_Database="lexicon" />
 	<foreign_key column="URLSTAGE_ID" references_table="urlstages" references_column="ID" MySQL_Database="contents" />
-
-</table>
-
-
-<!-- ======================================================================================== 
- *
- *	TABLE: docurl
- *
- -->
-<table
-	name="docurl"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
-	MySQL_Database="lexicon"
->
-
-	<column name="ID"           type="INTEGER"      notnull="1" autoincrement="1" />
-	<column name="DICT_ID"      type="INTEGER"      notnull="1" />
-	<column name="URL_ID"       type="INTEGER"      notnull="1" />
-
-	<primary_key column="ID" />
-	<foreign_key column="DICT_ID" references_table="dict" references_column="ID" MySQL_Database="lexicon" />
-	<foreign_key column="URL_ID"  references_table="urls" references_column="ID" MySQL_Database="documents" />
-
-	<unique_key  column="URL_ID,DICT_ID" />
 
 </table>
 
