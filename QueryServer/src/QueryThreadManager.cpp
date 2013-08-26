@@ -18,6 +18,8 @@
 #include "QuerySubdomainThread.h"
 #include "QueryUrlPathThread.h"
 
+#include <Logging.h>
+
 namespace queryserver {
 
 QueryThreadManager::QueryThreadManager(const database::DatabaseConfig* dbConfig)
@@ -37,11 +39,8 @@ QueryThreadManager::~QueryThreadManager() {
 void QueryThreadManager::BeginQuery(const Query& query) {
 
 	if(!releaseSeen) {
-		//
-		//TODO: throw exception and/or log this error
-		//
-		ReleaseQuery();
-	}
+		log::Logging::LogWarn("canceling running query, this should no be happening");
+		ReleaseQuery();	}
 
 	releaseSeen = false;
 
@@ -64,11 +63,8 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 void QueryThreadManager::WaitForResults(std::vector<QueryThreadResultEntry*>& results) {
 
 	if(releaseSeen) {
-		//
-		//TODO: throw exception and/or log this error
-		//
-		return;
-	}
+		log::Logging::LogError("waiting for invalid query, skipping");
+		return; }
 
 	WaitForAll();
 

@@ -25,7 +25,19 @@ public:
 	virtual ~Query();
 
 public:
+	/**
+	 * gets position of a certain keyword in a query
+	 * @param keyword keyword to get position for
+	 * @return keyword position
+	 */
 	size_t GetPositionByKeyword(const std::string& keyword) const;
+
+	/**
+	 * appends a keyword at a given position
+	 * @param position position of keyword to append
+	 * @param keyword keyword to append
+	 * @param caseSensitive true if keyword is case sensitive
+	 */
 	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
 
 public:
