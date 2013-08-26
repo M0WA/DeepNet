@@ -435,7 +435,7 @@ __END__
 
 =head1 NAME
 
-DDLGenerator - Data Definition Language Generator for MySQL/DB2/PostgreSQL
+DDLGenerator - Data Definition Language Generator (SQL) for MySQL/DB2/PostgreSQL
 
 =head1 SYNOPSIS
 
@@ -465,7 +465,7 @@ None.
 
 =head1 AUTHOR
 
-Moritz Wagner, Moritz Wagner<lt>moritz.wagner@siridia.de<gt>
+Moritz Wagner <lt>moritz.wagner@siridia.de<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
