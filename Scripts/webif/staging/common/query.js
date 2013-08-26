@@ -21,130 +21,26 @@ function QueryHelper()
     if (this.ajaxQuery.readyState==4 && this.ajaxQuery.status==200)
     {
 	    var xmlDoc=this.ajaxQuery.responseXML.documentElement;
-	    var x = xmlDoc.getElementsByTagName("result");
 
-      RemoveAllChildren(document.getElementById('results_space'));
-      RemoveAllChildren(document.getElementById('result_header'));
+      var resultTable = this.InitQueryResponse(xmlDoc);
 
-      var queryString = document.getElementById("search_query_id").value;
-      var totalResults = GetTextElementContentRaw(xmlDoc.getElementsByTagName("totalResults")[0]);
-      document.getElementById('result_header').appendChild(document.createTextNode(totalResults + ' results for: "' + queryString + '"'));
-      document.getElementById('results_container').style.visibility = 'visible';
-
-      document.getElementById('results_container_pending').style.height = '0';
-      document.getElementById('results_container_pending').style.visibility = 'hidden';
-
-      var resultTable = document.createElement("table");
-      resultTable.setAttribute('class', 'result_table');
-      document.getElementById('results_space').appendChild(resultTable);
-
-	    if ( x != null && x.length > 0) 
-	    {
-        var i=0;
-		    for (i=0;i<x.length;i++)
-		    {
-
-          var lastChangedElement = (x[i].getElementsByTagName("lastChanged")[0]);
-          var lastChanged = GetTextElementContent(lastChangedElement);
-
-          var lastVisitedElement = (x[i].getElementsByTagName("lastVisited")[0]);
-          var lastVisited = GetTextElementContent(lastVisitedElement);
-
-          var urlElement = (x[i].getElementsByTagName("url")[0]);
-          var urlText = GetTextElementContent(urlElement);
-          var urlTextDecoded = urlText;
-          var urlTextHtmlEnc = urlText;
-          try {
-            urlTextHtmlEnc = encodeUrlHtml(urlTextDecoded);
-          }
-          catch(e2) {
-            urlTextHtmlEnc = urlText;
-            //alert("invalid url: " + urlText);
-          }
-
-          var singleResultTable = document.createElement("table");
-          singleResultTable.setAttribute('class', 'single_result_table');
-
-          var singleResultTableRowTitle        = document.createElement("tr");
-          var singleResultTableRowDescription  = document.createElement("tr");
-
-          var singleResultTableCellTitle       = document.createElement("td");
-          var singleResultTableCellDescription = document.createElement("td");
-
-	        try
-	        {
-            var titleElement       = (x[i].getElementsByTagName("title")[0]);
-				    var title              = GetTextElementContent(titleElement);
-            var descriptionElement = (x[i].getElementsByTagName("description")[0]);
-				    var description        = GetTextElementContent(descriptionElement);
-
-            var singleUrlLink              = document.createElement("a");
-            singleUrlLink.className        = 'undecorated_link';
-            singleUrlLink.href             = urlTextDecoded;
-            singleUrlLink.target           = '_blank';
-            singleUrlLink.style.cssFloat   = 'left';
-            singleUrlLink.style.styleFloat = 'left';
-
-            if( title === "") {
-              singleUrlLink.appendChild(document.createTextNode(htmlDecode(urlTextHtmlEnc))); }
-            else {
-               singleUrlLink.appendChild(document.createTextNode(htmlDecode(title))); }
-
-            singleResultTableCellTitle.appendChild(singleUrlLink);
-            var keywordElements = (x[i].getElementsByTagName("keywords")[0]).getElementsByTagName("keyword");
-            this.CreateInfoBox(keywordElements, singleResultTableCellTitle);
-
-            singleResultTableRowTitle.appendChild(singleResultTableCellTitle);
-
-            singleResultTableCellDescription.appendChild(document.createTextNode(htmlDecode(description)));
-            singleResultTableRowDescription.appendChild(singleResultTableCellDescription);
-		      }
-			    catch(e1) 
-			    {
-             singleResultTableCellTitle.appendChild(document.createTextNode('N/A'));
-             singleResultTableCellDescription.appendChild(document.createTextNode('N/A'));
-			    }          
-          singleResultTable.appendChild(singleResultTableRowTitle);
-          singleResultTable.appendChild(singleResultTableRowDescription);
-
-          var singleResultTableRowLastChanged  = document.createElement("tr");
-          var singleResultTableRowLastVisited  = document.createElement("tr");
-          var singleResultTableCellLastChanged = document.createElement("td");
-          var singleResultTableCellLastVisited = document.createElement("td");
-
-          singleResultTableCellLastChanged.appendChild(document.createTextNode(lastChanged));
-          singleResultTableRowLastChanged.appendChild(singleResultTableCellLastChanged);
-          singleResultTable.appendChild(singleResultTableRowLastChanged);
-
-          singleResultTableCellLastVisited.appendChild(document.createTextNode(lastVisited));
-          singleResultTableRowLastVisited.appendChild(singleResultTableCellLastVisited);
-          singleResultTable.appendChild(singleResultTableRowLastVisited);
-
-          var singleResultTableRowURL  = document.createElement("tr");
-          var singleResultTableCellURL = document.createElement("td");
-          var singleResultFontURL      = document.createElement("font");
-          singleResultFontURL.setAttribute('class','url_font');
-          singleResultFontURL.appendChild(document.createTextNode(urlTextHtmlEnc));
-          singleResultTableCellURL.appendChild(singleResultFontURL);
-
-          singleResultTableRowURL.appendChild(singleResultTableCellURL);
-          singleResultTable.appendChild(singleResultTableRowURL);
-
-          var resultTableCell = document.createElement("td");
-          resultTableCell.appendChild(singleResultTable);
-
-          var resultTableRow  = document.createElement("tr");
-          resultTableRow.appendChild(resultTableCell);
-
-          resultTable.appendChild(resultTableRow);
-		    }
-
-        this.printPaging(xmlDoc,x.length,document.getElementById('results_space'));
-	    }
-	    else
+	    var allResultElements = xmlDoc.getElementsByTagName("result");
+	    if ( allResultElements == null || allResultElements.length <= 0) 
 	    {
         document.getElementById('results_space').appendChild(document.createTextNode('no results'));
+        delete this.ajaxQuery;
+        return;
 	    }
+
+      var i=0;
+	    for (i=0;i<allResultElements.length;i++)
+	    {
+        var resultElement = allResultElements[i];
+        var resultRow = this.ProcessSingleResult(resultElement);
+        resultTable.appendChild(resultRow);
+	    }
+
+      this.printPaging(xmlDoc,allResultElements.length,document.getElementById('results_space'));
       delete this.ajaxQuery;     
     }
     else if(this.ajaxQuery.readyState==4 && this.ajaxQuery.status!=200)
@@ -289,10 +185,141 @@ function QueryHelper()
     }
   };
 
-  this.CreateInfoBox = function(keywordElements, tableCell)
+  this.InitQueryResponse = function(xmlDoc)
+  {
+      RemoveAllChildren(document.getElementById('results_space'));
+      RemoveAllChildren(document.getElementById('result_header'));
+
+      var queryString = document.getElementById("search_query_id").value;
+      var totalResults = GetTextElementContentRaw(xmlDoc.getElementsByTagName("totalResults")[0]);
+      document.getElementById('result_header').appendChild(document.createTextNode(totalResults + ' results for: "' + queryString + '"'));
+      document.getElementById('results_container').style.visibility = 'visible';
+
+      document.getElementById('results_container_pending').style.height = '0';
+      document.getElementById('results_container_pending').style.visibility = 'hidden';
+
+      var resultTable = document.createElement("table");
+      resultTable.setAttribute('class', 'result_table');
+      document.getElementById('results_space').appendChild(resultTable);
+      return resultTable;
+  };
+
+  this.ProcessSingleResult = function(resultElement,resultTable)
+  {
+    //assembling result from XML response
+    var lastChangedElement = (resultElement.getElementsByTagName("lastChanged")[0]);
+    var lastChanged = GetTextElementContent(lastChangedElement);
+
+    var lastVisitedElement = (resultElement.getElementsByTagName("lastVisited")[0]);
+    var lastVisited = GetTextElementContent(lastVisitedElement);
+
+    var urlElement = (resultElement.getElementsByTagName("url")[0]);
+    var urlText = GetTextElementContent(urlElement);
+    var urlTextDecoded = urlText;
+    var urlTextHtmlEnc = urlText;
+    try {
+      urlTextHtmlEnc = encodeUrlHtml(urlTextDecoded);
+    }
+    catch(e2) {
+      urlTextHtmlEnc = urlText;
+      //alert("invalid url: " + urlText);
+    }
+
+    //create 'single_result_table' containing per-result information
+    var singleResultTable = document.createElement("table");
+    singleResultTable.setAttribute('class', 'single_result_table');
+
+    //creating table rows for description and title
+    var singleResultTableRowTitle        = document.createElement("tr");
+    var singleResultTableRowDescription  = document.createElement("tr");
+    singleResultTable.appendChild(singleResultTableRowTitle);
+    singleResultTable.appendChild(singleResultTableRowDescription);
+
+    var singleResultTableCellTitle       = document.createElement("td");
+    var singleResultTableCellDescription = document.createElement("td");
+    singleResultTableRowTitle.appendChild(singleResultTableCellTitle);
+    singleResultTableRowDescription.appendChild(singleResultTableCellDescription);
+
+    //assembling title and description for a single result
+    try
+    {
+      var titleElement       = (resultElement.getElementsByTagName("title")[0]);
+	    var title              = GetTextElementContent(titleElement);
+      var descriptionElement = (resultElement.getElementsByTagName("description")[0]);
+	    var description        = GetTextElementContent(descriptionElement);
+
+      var singleUrlLink              = document.createElement("a");
+      singleUrlLink.className        = 'undecorated_link';
+      singleUrlLink.href             = urlTextDecoded;
+      singleUrlLink.target           = '_blank';
+      singleUrlLink.style.cssFloat   = 'left';
+      singleUrlLink.style.styleFloat = 'left';
+
+      if( title === "") {
+        singleUrlLink.appendChild(document.createTextNode(htmlDecode(urlTextHtmlEnc))); }
+      else {
+         singleUrlLink.appendChild(document.createTextNode(htmlDecode(title))); }
+
+      singleResultTableCellTitle.appendChild(singleUrlLink);
+      singleResultTableCellDescription.appendChild(document.createTextNode(htmlDecode(description)));
+
+    }
+    catch(e1) 
+    {
+       singleResultTableCellTitle.appendChild(document.createTextNode('N/A'));
+       singleResultTableCellDescription.appendChild(document.createTextNode('N/A'));
+    } 
+
+    var singleResultAgeRow = document.createElement("tr");
+    var singleResultAgeCell = document.createElement("td");
+    singleResultAgeRow.appendChild(singleResultAgeCell);
+
+    //add last-changed information if available
+    if(lastChanged)
+    {
+      singleResultAgeCell.appendChild(document.createTextNode(lastChanged));
+      singleResultAgeRow.appendChild(singleResultAgeCell);
+      singleResultTable.appendChild(singleResultAgeRow);
+    }
+    else if(lastVisited)
+    {
+      //add last-visited information if available and no last-changed info is available
+      singleResultAgeCell.appendChild(document.createTextNode(lastVisited));
+      singleResultAgeRow.appendChild(singleResultAgeCell);
+      singleResultTable.appendChild(singleResultAgeRow);
+    }
+
+    //add url as text
+    var singleResultTableRowURL  = document.createElement("tr");
+    var singleResultTableCellURL = document.createElement("td");
+    var singleResultFontURL      = document.createElement("font");
+    singleResultFontURL.setAttribute('class','url_font');
+    singleResultFontURL.appendChild(document.createTextNode(urlTextHtmlEnc));
+    singleResultTableCellURL.appendChild(singleResultFontURL);
+    singleResultTableRowURL.appendChild(singleResultTableCellURL);
+    singleResultTable.appendChild(singleResultTableRowURL);
+
+    //create advanced info box for this results
+    var keywordElements = (resultElement.getElementsByTagName("keywords")[0]).getElementsByTagName("keyword");
+    var advancedInfoRow = this.CreateInfoBox(keywordElements);
+    singleResultTable.appendChild(advancedInfoRow);
+
+    //prepare result row for 'result_table' holding all results
+    var resultTableCell = document.createElement("td");
+    resultTableCell.appendChild(singleResultTable);
+    var resultTableRow  = document.createElement("tr");
+    resultTableRow.appendChild(resultTableCell);
+    return resultTableRow;
+  }
+
+  this.CreateInfoBox = function(keywordElements)
   {
     if(keywordElements.length <= 0) {
       return; }
+
+    var advancedInfoRow = document.createElement('tr');
+    var tableCell = document.createElement('td');
+    advancedInfoRow.appendChild(tableCell);
 
     var infoBoxForm        = document.createElement("form");
     var buttonToggle       = document.createElement("input");
@@ -330,7 +357,8 @@ function QueryHelper()
 
     infoBoxForm.appendChild(buttonToggle);
     infoBoxForm.appendChild(contentElement);
-    tableCell.appendChild(infoBoxForm);  
+    tableCell.appendChild(infoBoxForm);
+    return advancedInfoRow;
   };
 
   this.toggleInfoBox = function(contentElement)
