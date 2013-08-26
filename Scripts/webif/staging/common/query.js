@@ -20,31 +20,37 @@ function QueryHelper()
 
     if (this.ajaxQuery.readyState==4 && this.ajaxQuery.status==200)
     {
-	    var xmlDoc=this.ajaxQuery.responseXML.documentElement;
+      //a valid response has been received
 
+	    var xmlDoc=this.ajaxQuery.responseXML.documentElement;
       var resultTable = this.InitQueryResponse(xmlDoc);
 
 	    var allResultElements = xmlDoc.getElementsByTagName("result");
 	    if ( allResultElements == null || allResultElements.length <= 0) 
 	    {
+        // response has no results
         document.getElementById('results_space').appendChild(document.createTextNode('no results'));
         delete this.ajaxQuery;
         return;
 	    }
 
-      var i=0;
-	    for (i=0;i<allResultElements.length;i++)
+      //process each single result for query
+	    for (var i=0;i<allResultElements.length;i++)
 	    {
         var resultElement = allResultElements[i];
-        var resultRow = this.ProcessSingleResult(resultElement);
+        var resultRow = this.processSingleResult(resultElement);
         resultTable.appendChild(resultRow);
 	    }
 
+      //print paging for result navigation
       this.printPaging(xmlDoc,allResultElements.length,document.getElementById('results_space'));
+
       delete this.ajaxQuery;     
     }
     else if(this.ajaxQuery.readyState==4 && this.ajaxQuery.status!=200)
     {
+      //an valid response has been received, show the error...
+
       document.getElementById('results_container_pending').style.visibility = 'hidden';
       document.getElementById('results_container').style.visibility = 'visible';
 
@@ -93,9 +99,7 @@ function QueryHelper()
 
   this.onQuery = function(pageNo,queryID)
   {
-    /*
-      preparing criteria
-    */
+    // preparing criteria
     var metaRelevance     = document.getElementById("criteria_meta_relevance_id").value;
     var titleRelevance    = document.getElementById("criteria_title_relevance_id").value;
     var domainRelevance   = document.getElementById("criteria_domain_relevance_id").value;
@@ -103,25 +107,20 @@ function QueryHelper()
     var backlinkRelevance = document.getElementById("criteria_backlinks_relevance_id").value;
     var urlPathRelevance  = document.getElementById("criteria_url_path_relevance_id").value;
 
-    /*
-      preparing grouping
-    */
+    // preparing grouping
 
-    /*
-      preparing limitations
-    */
+    // preparing limitations
     var limitationsFlag = 0;
     var maxResults      = document.getElementById("limit_result_count_id").value;
     var domainLimit     = document.getElementById("limit_domain_id").value;
     var ageLimit        = document.getElementById("limit_age_id").value;
     var langLimit       = document.getElementById("limit_lang_id").value;
 
-    /*
-      create xml request
-    */
-    if( !(typeof document.getElementById("search_query_id").value === 'undefined')  && document.getElementById("search_query_id").value != '' )
+    // create xml request
+    var searchQueryIdElement = document.getElementById("search_query_id");
+    if( !(typeof searchQueryIdElement.value === 'undefined') && searchQueryIdElement.value != '' )
     {
-      var queryString = document.getElementById("search_query_id").value;
+      var queryString = searchQueryIdElement.value;
       var words = queryString.split(/\W+/);
 
       var xml = "<request id=\"1\"><query id=\"1\">";
@@ -135,9 +134,11 @@ function QueryHelper()
       for(var i = 0; i < words.length; i++) {
         xml += "<querypart id=\""+i+"\">" + words[i] + "</querypart>"; }
       xml += "<criteria>";
-      for (var i = 0; i < (document.getElementsByName("criteria[]").length); i++) {
-        if (document.getElementsByName("criteria[]")[i].checked) {
-          xml +=  "<flag>"+document.getElementsByName("criteria[]")[i].value+"</flag>";
+
+      var criteriaElements = document.getElementsByName("criteria[]");
+      for (var i = 0; i < criteriaElements.length; i++) {
+        if (criteriaElements[i].checked) {
+          xml +=  "<flag>"+criteriaElements[i].value+"</flag>";
         }
       }
       xml +=
@@ -149,17 +150,21 @@ function QueryHelper()
               "<relevanceUrlPath>"+ urlPathRelevance +"</relevanceUrlPath>" +
             "</criteria>" +
             "<grouping>";
-      for (var i = 0; i < (document.getElementsByName("grouping[]").length); i++) {
-        if (document.getElementsByName("grouping[]")[i].checked) {
-          xml +=  "<flag>"+document.getElementsByName("grouping[]")[i].value+"</flag>";
+
+      var groupingElements = document.getElementsByName("grouping[]");
+      for (var i = 0; i < groupingElements.length; i++) {
+        if (groupingElements[i].checked) {
+          xml +=  "<flag>"+groupingElements[i].value+"</flag>";
         }
       }
       xml +=
             "</grouping>" +
             "<limitations>";
-      for (var i = 0; i < (document.getElementsByName("limit[]").length); i++) {
-        if (document.getElementsByName("limit[]")[i].checked) {
-          xml +=  "<flag>"+document.getElementsByName("limit[]")[i].value+"</flag>";
+
+      var limitElements = document.getElementsByName("limit[]");
+      for (var i = 0; i < limitElements.length; i++) {
+        if (limitElements[i].checked) {
+          xml +=  "<flag>"+limitElements[i].value+"</flag>";
         }
       }
       xml +=
@@ -204,7 +209,7 @@ function QueryHelper()
       return resultTable;
   };
 
-  this.ProcessSingleResult = function(resultElement,resultTable)
+  this.processSingleResult = function(resultElement,resultTable)
   {
     //assembling result from XML response
     var lastChangedElement = (resultElement.getElementsByTagName("lastChanged")[0]);
@@ -301,7 +306,7 @@ function QueryHelper()
 
     //create advanced info box for this results
     var keywordElements = (resultElement.getElementsByTagName("keywords")[0]).getElementsByTagName("keyword");
-    var advancedInfoRow = this.CreateInfoBox(keywordElements);
+    var advancedInfoRow = this.createInfoBox(keywordElements);
     singleResultTable.appendChild(advancedInfoRow);
 
     //prepare result row for 'result_table' holding all results
@@ -312,7 +317,7 @@ function QueryHelper()
     return resultTableRow;
   }
 
-  this.CreateInfoBox = function(keywordElements)
+  this.createInfoBox = function(keywordElements)
   {
     if(keywordElements.length <= 0) {
       return; }
