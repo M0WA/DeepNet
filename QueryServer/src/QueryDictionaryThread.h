@@ -30,6 +30,7 @@ protected:
 private:
 	bool GetIDsForKeywords();
 	bool GetIDsForCaseInsensitiveKeywords();
+	bool GetIDsForSimilarKeywords();
 
 protected:
 	/**
@@ -46,6 +47,11 @@ protected:
 	 * contains all case insensitve matches except the exact matches
 	 */
 	std::vector< std::vector<long long> > caseInsensitiveDictIDs;
+
+	/**
+	 * contains all similar matches except above
+	 */
+	std::vector<long long> similarDictIDs;
 };
 
 }

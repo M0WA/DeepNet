@@ -53,6 +53,7 @@ void QueryDictionaryThread::OnDestroyThreadInstance(){
 
 	dictIDs.clear();
 	caseInsensitiveDictIDs.clear();
+	similarDictIDs.clear();
 }
 
 void* QueryDictionaryThread::OnRun() {
@@ -61,6 +62,9 @@ void* QueryDictionaryThread::OnRun() {
 		return (void*)1; }
 
 	if(!GetIDsForCaseInsensitiveKeywords()) {
+		return (void*)1; }
+
+	if(!GetIDsForSimilarKeywords()) {
 		return (void*)1; }
 
 	return 0;
@@ -145,6 +149,64 @@ bool QueryDictionaryThread::GetIDsForCaseInsensitiveKeywords() {
 
 		dictIDPosition.insert(std::pair<long long,size_t>(dictID,keywordPos));
 		caseInsensitiveDictIDs.at(keywordPos).push_back(dictID);
+	}
+
+	return true;
+}
+
+bool QueryDictionaryThread::GetIDsForSimilarKeywords() {
+
+	const QueryThreadParam* queryparam(queryThreadParam.GetConst());
+	const std::vector<std::string>& vecLower(queryparam->query.lowerKeywords);
+
+	if(queryparam->query.lowerKeywords.size() == 0)
+		return true;
+
+	std::vector<database::WhereConditionTableColumn*> where;
+	database::dictTableBase::GetWhereColumnsFor_keyword(
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Like(),
+			database::WhereCondition::InitialComp(),
+			database::WILDCARD_BOTH),
+		vecLower,
+		where );
+
+	if(dictIDs.size()) {
+		database::dictTableBase::GetWhereColumnsFor_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
+			dictIDs,
+			where );
+	}
+
+	if(caseInsensitiveDictIDs.size()) {
+		std::vector< std::vector<long long> >::const_iterator iCSDict(caseInsensitiveDictIDs.begin());
+		for(;iCSDict!=caseInsensitiveDictIDs.end();++iCSDict) {
+			if(iCSDict->size()) {
+				database::dictTableBase::GetWhereColumnsFor_ID(
+					database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
+					*iCSDict,
+					where );
+			}
+		}
+	}
+
+	tools::Pointer<database::TableDefinition> defDictPtr(database::dictTableBase::CreateTableDefinition());
+	database::SelectStatement select(defDictPtr.GetConst());
+	select.SelectAllColumns();
+	select.Where().AddColumns(where);
+
+	database::SelectResultContainer<database::dictTableBase> results;
+	try {
+		dbConn->Select(select,results);
+	}
+	catch(database::DatabaseException& e) {
+		return false;
+	}
+
+	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
+		long long dictID(-1);
+		results.GetConstIter()->Get_ID(dictID);
+		similarDictIDs.push_back(dictID);
 	}
 
 	return true;

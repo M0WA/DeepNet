@@ -38,15 +38,18 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
-	//container for final results
-	std::vector<QueryXmlResponseResultEntry> responseEntries;
-
 	//waiting for all results to arrive
 	std::vector<const QueryThreadResultEntry*> results;
 	queryManager.WaitForResults(results);
 
+	//container for final results
+	std::vector<QueryXmlResponseResultEntry> responseEntries;
+	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(results.begin());
+	for(;iRes != results.end(); ++iRes) {
+		responseEntries.push_back(QueryXmlResponseResultEntry(*iRes)); }
+
 	//group results by url id
-	MergeDuplicateURLs(results,responseEntries);
+	MergeDuplicateURLs(responseEntries);
 
 	//group results by secondlevel domain if requested
 	if(query.properties.groupBySecondLevelDomain) {
@@ -126,19 +129,19 @@ void QueryXmlResponse::MergeDuplicateSecondLevel(database::DatabaseConnection* d
 	}
 }
 
-void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadResultEntry*>& results,std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+void QueryXmlResponse::MergeDuplicateURLs(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
 	std::map<long long,size_t> urlIDPos;
-	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
+	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
 
-	for(size_t pos(0);i!=results.end();++i) {
-
-		const long long& urlID((*i)->urlID);
+	for(size_t pos(0);i!=responseEntries.end();++i) {
+		const long long& urlID(i->GetMostRelevantResult()->urlID);
 		if(urlIDPos.count(urlID) > 0) {
 			responseEntries.at(urlIDPos[urlID]).AddResult(*i);
+			responseEntries.erase(i);
+			--i;
 		}
 		else {
-			responseEntries.push_back(QueryXmlResponseResultEntry(*i));
 			urlIDPos[urlID]=pos;
 			++pos;
 		}

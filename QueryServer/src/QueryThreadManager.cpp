@@ -45,6 +45,14 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 
 	releaseSeen = false;
 
+	bool dictionaryThreadNeeded(
+		(query.properties.relevanceContent > 0.0) ||
+		(query.properties.relevanceMeta > 0.0)
+	);
+	if(dictionaryThreadNeeded) {
+
+	}
+
 	if(query.properties.relevanceContent > 0.0) {
 		AddQueryTyped<QueryContentThread,QueryThreadParam>(dbHelpers[0].Connection(),query); }
 

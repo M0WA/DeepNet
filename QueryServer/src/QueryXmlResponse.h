@@ -38,7 +38,7 @@ private:
 
 private:
 	void AssembleXMLResult(const std::vector<QueryXmlResponseResultEntry>& results);
-	void MergeDuplicateURLs(const std::vector<const QueryThreadResultEntry*>& results, std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	void MergeDuplicateURLs(std::vector<QueryXmlResponseResultEntry>& responseEntries);
 	void MergeDuplicateSecondLevel(database::DatabaseConnection* db, std::vector<QueryXmlResponseResultEntry>& responseEntries);
 	void SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
