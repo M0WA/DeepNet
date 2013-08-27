@@ -444,7 +444,7 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape, const WildcardTyp
 	if(wildcard == WILDCARD_BOTH||wildcard ==WILDCARD_LEFT) {
 		inEscape.insert(1,"%");	}
 	if(wildcard == WILDCARD_BOTH||wildcard ==WILDCARD_RIGHT) {
-		inEscape.insert(inEscape.length()-2,"%"); }
+		inEscape.insert(inEscape.length()-1,"%"); }
 
 	return true;
 }
