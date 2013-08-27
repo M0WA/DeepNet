@@ -33,7 +33,7 @@ public:
 	 * construct using operator, composite operator and a wildcarded value.
 	 * @param op operator.
 	 * @param compOp composite operator.
-	 * @param wildcard wildcard type.
+	 * @param wildcardFlag wildcard type.
 	 */
 	WhereConditionTableColumnCreateParam(
 		const WhereConditionOperator& op,
@@ -44,7 +44,7 @@ public:
 	 * construct using operator, composite operator, a wildcarded value and a table alias.
 	 * @param op operator.
 	 * @param compOp composite operator.
-	 * @param wildcard wildcard type.
+	 * @param wildcardFlag wildcard type.
 	 * @param tableAlias table alias.
 	 */
 	WhereConditionTableColumnCreateParam(

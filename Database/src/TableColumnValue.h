@@ -86,6 +86,7 @@ public:
 	/**
 	 * gets escaped column value as string.
 	 * @param db database connection.
+	 * @param wildCard optional wildcard that surround the value.
 	 * @return escaped column value.
 	 */
 	std::string GetForSQL(DatabaseConnection* db,const WildcardType& wildCard) const;

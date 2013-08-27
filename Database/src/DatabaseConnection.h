@@ -143,6 +143,7 @@ public:
 	/**
 	 * escapes a sql string in place.
 	 * @param inEscape string to be escaped.
+	 * @param wildcard optional wildcard that surround the value.
 	 * @return false on error, true on success.
 	 */
 	virtual bool EscapeString(std::string& inEscape, const WildcardType& wildcard)=0;
