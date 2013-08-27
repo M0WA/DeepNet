@@ -266,7 +266,10 @@ bool MySQLConnection::AffectedRows(long long& affectedRows)
 bool MySQLConnection::EscapeString(std::string& inEscape, const WildcardType& wildcard)
 {
 	if(inEscape.empty()) {
-		inEscape = "\"\"";
+		if(wildcard != WILDCARD_NONE) {
+			inEscape = "\"%\""; }
+		else {
+			inEscape = "\"\""; }
 		return true;
 	}
 
@@ -276,7 +279,15 @@ bool MySQLConnection::EscapeString(std::string& inEscape, const WildcardType& wi
 	if(converted && pszConverted)
 		inEscape.assign(pszConverted,strlen(pszConverted));
 	delete [] pszConverted;
-	inEscape = "\"" + inEscape + "\"";
+
+	if(wildcard == WILDCARD_BOTH||wildcard ==WILDCARD_LEFT) {
+		inEscape.insert(0,"%");	}
+	if(wildcard == WILDCARD_BOTH||wildcard ==WILDCARD_RIGHT) {
+		inEscape.append("%"); }
+
+	inEscape.insert(0,"\"");
+	inEscape.append("\"");
+
 	return (bool)converted;
 }
 

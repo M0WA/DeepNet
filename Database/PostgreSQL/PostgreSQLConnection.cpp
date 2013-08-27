@@ -422,8 +422,12 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape, const WildcardTyp
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}
 
 	if(inEscape.empty()) {
-		inEscape = "''";
-		return true; }
+		if(wildcard != WILDCARD_NONE) {
+			inEscape = "'%'"; }
+		else {
+			inEscape = "''"; }
+		return true;
+	}
 
 	char* pszTmp(PQescapeLiteral(connection, inEscape.c_str(), inEscape.length()));
 	if(!pszTmp) {
@@ -436,6 +440,12 @@ bool PostgreSQLConnection::EscapeString(std::string& inEscape, const WildcardTyp
 
 	inEscape = pszTmp;
 	PQfreemem(pszTmp);
+
+	if(wildcard == WILDCARD_BOTH||wildcard ==WILDCARD_LEFT) {
+		inEscape.insert(1,"%");	}
+	if(wildcard == WILDCARD_BOTH||wildcard ==WILDCARD_RIGHT) {
+		inEscape.insert(inEscape.length()-2,"%"); }
+
 	return true;
 }
 
