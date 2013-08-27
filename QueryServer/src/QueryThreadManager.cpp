@@ -18,6 +18,8 @@
 #include "QuerySubdomainThread.h"
 #include "QueryUrlPathThread.h"
 
+#include "DictionaryInfoThread.h"
+
 #include <Logging.h>
 #include <ContainerTools.h>
 
@@ -47,17 +49,15 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 
 	bool dictionaryThreadNeeded(
 		(query.properties.relevanceContent > 0.0) ||
-		(query.properties.relevanceMeta > 0.0)
-	);
+		(query.properties.relevanceMeta > 0.0) );
+
+	//DictionaryInfoThread* dictionary(0);
 	if(dictionaryThreadNeeded) {
-
+		/*
+		dictionary = new DictionaryInfoThread(dbHelpers[0].Connection(),query);
+		dictionary->StartThread();
+		*/
 	}
-
-	if(query.properties.relevanceContent > 0.0) {
-		AddQueryTyped<QueryContentThread,QueryThreadParam>(dbHelpers[0].Connection(),query); }
-
-	if(query.properties.relevanceMeta > 0.0) {
-		AddQueryTyped<QueryMetaThread,QueryThreadParam>(dbHelpers[1].Connection(),query); }
 
 	if(query.properties.relevanceSecondLevelDomain > 0.0) {
 		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
@@ -67,6 +67,19 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 
 	if(query.properties.relevanceUrlPath > 0.0) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
+
+	if(dictionaryThreadNeeded) {
+		//dictionary->WaitForThread();
+
+		if(query.properties.relevanceContent > 0.0) {
+			AddQueryTyped<QueryContentThread,QueryThreadParam>(dbHelpers[0].Connection(),query); }
+
+		if(query.properties.relevanceMeta > 0.0) {
+			AddQueryTyped<QueryMetaThread,QueryThreadParam>(dbHelpers[1].Connection(),query);
+		}
+
+		//delete dictionary;
+	}
 }
 
 void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry*>& results) {

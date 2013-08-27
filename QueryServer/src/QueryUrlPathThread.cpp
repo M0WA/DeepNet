@@ -47,6 +47,7 @@ void* QueryUrlPathThread::OnRun(){
 
 	tools::Pointer<database::TableDefinition> pathPartDef(database::pathpartsTableBase::CreateTableDefinition());
 	database::SelectStatement selectPathParts(pathPartDef.GetConst());
+	selectPathParts.SelectAllColumns();
 	selectPathParts.Where().AddColumns(where);
 
 	//
