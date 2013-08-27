@@ -23,7 +23,7 @@ function QueryHelper()
       //a valid response has been received
 
 	    var xmlDoc=this.ajaxQuery.responseXML.documentElement;
-      var resultTable = this.InitQueryResponse(xmlDoc);
+      var resultTable = this.initQueryResponse(xmlDoc);
 
 	    var allResultElements = xmlDoc.getElementsByTagName("result");
 	    if ( allResultElements == null || allResultElements.length <= 0) 
@@ -190,7 +190,7 @@ function QueryHelper()
     }
   };
 
-  this.InitQueryResponse = function(xmlDoc)
+  this.initQueryResponse = function(xmlDoc)
   {
       RemoveAllChildren(document.getElementById('results_space'));
       RemoveAllChildren(document.getElementById('result_header'));
@@ -305,8 +305,7 @@ function QueryHelper()
     singleResultTable.appendChild(singleResultTableRowURL);
 
     //create advanced info box for this results
-    var keywordElements = (resultElement.getElementsByTagName("keywords")[0]).getElementsByTagName("keyword");
-    var advancedInfoRow = this.createInfoBox(keywordElements);
+    var advancedInfoRow = this.createInfoBox(resultElement);
     singleResultTable.appendChild(advancedInfoRow);
 
     //prepare result row for 'result_table' holding all results
@@ -317,52 +316,114 @@ function QueryHelper()
     return resultTableRow;
   }
 
-  this.createInfoBox = function(keywordElements)
+  this.createRelevancyInfo = function(resultElement)
   {
-    if(keywordElements.length <= 0) {
-      return; }
+    var weightedRelevance = resultElement.getElementsByTagName('relevancyWeighted')[0];
+    var relevancy = resultElement.getElementsByTagName('relevancy')[0];
+    var weight = resultElement.getElementsByTagName('weight')[0];
 
-    var advancedInfoRow = document.createElement('tr');
-    var tableCell = document.createElement('td');
-    advancedInfoRow.appendChild(tableCell);
+    var relevancyCell = document.createElement('td');
+    var weightCell = document.createElement('td');
+    var weightedRelevanceCell = document.createElement('td');
 
-    var infoBoxForm        = document.createElement("form");
-    var buttonToggle       = document.createElement("input");
-    buttonToggle.type      = "submit";
-    buttonToggle.value     = "advanced";
-    buttonToggle.className = "infoBoxButton";
+    var relevanceHeaderWeighted = document.createElement('th');
+    var relevanceHeaderRelevance = document.createElement('th');
+    var relevanceHeaderWeight = document.createElement('th');
+    relevanceHeaderWeighted.appendChild(document.createTextNode('Quality'));
+    relevanceHeaderRelevance.appendChild(document.createTextNode('Relevance'));
+    relevanceHeaderWeight.appendChild(document.createTextNode('Weight'));
 
-    var contentElement = document.createElement("div");
-    contentElement.style.visibility = "hidden";
-    contentElement.className = "infoBoxContent";
+    var relevanceHeaderRow = document.createElement('tr');
+    relevanceHeaderRow.appendChild(relevanceHeaderWeighted);
+    relevanceHeaderRow.appendChild(relevanceHeaderRelevance);
+    relevanceHeaderRow.appendChild(relevanceHeaderWeight);
 
+    var relevanceWeightedCell = document.createElement('td');
+    var relevanceRelevanceCell = document.createElement('td');
+    var relevanceWeightCell = document.createElement('td');
+    relevanceWeightedCell.appendChild(document.createTextNode(GetTextElementContent(weightedRelevance)));
+    relevanceRelevanceCell.appendChild(document.createTextNode(GetTextElementContent(relevancy)));
+    relevanceWeightCell.appendChild(document.createTextNode(GetTextElementContent(weight)));
+
+    var relevanceRow = document.createElement('tr');
+    relevanceRow.appendChild(relevanceWeightedCell);
+    relevanceRow.appendChild(relevanceRelevanceCell);
+    relevanceRow.appendChild(relevanceWeightCell);
+
+    var relevanceTable = document.createElement('table');
+    relevanceTable.appendChild(relevanceHeaderRow);
+    relevanceTable.appendChild(relevanceRow);
+    return relevanceTable;
+  }
+
+  this.createResultTypeInfo = function(resultElement)
+  {
+    var resultTypeTable = document.createElement('table');
+
+    var headerCellType = document.createElement('th');
+    var headerCellCount = document.createElement('th');
+    headerCellType.appendChild(document.createTextNode('Type'));
+    headerCellCount.appendChild(document.createTextNode('Count'));
+
+    var headerRow = document.createElement('tr');
+    headerRow.appendChild(headerCellType);
+    headerRow.appendChild(headerCellCount);
+
+    resultTypeTable.appendChild(headerRow);
+
+    var typesElement = resultElement.getElementsByTagName('types')[0];
+    var typeElements = typesElement.getElementsByTagName('type');
+    for(var i=0; i < typeElements.length; i++)
+    {
+      var typeCell = document.createElement('td');
+      var countCell = document.createElement('td');
+
+      var typeRow = document.createElement('tr');
+      typeRow.appendChild(typeCell);
+      typeRow.appendChild(countCell);
+      
+      resultTypeTable.appendChild(typeRow);
+
+      var typeElement = typeElements[i];
+      var countAttribute = typeElement.getAttributeNode('count');
+      typeCell.appendChild(document.createTextNode(GetTextElementContent(typeElement)));
+      countCell.appendChild(document.createTextNode(GetTextElementContent(countAttribute)));
+    }
+
+    return resultTypeTable;
+  }
+
+  this.createInfoBox = function(resultElement)
+  {
+    //container for info box content
+    var contentElement = document.createElement('div');
+    contentElement.style.visibility = 'hidden';
+    contentElement.className = 'infoBoxContent';
+
+    //process relevance information
+    contentElement.appendChild(this.createRelevancyInfo(resultElement));
+
+    //process result type information
+    contentElement.appendChild(this.createResultTypeInfo(resultElement));
+
+    //add info box form
+    var infoBoxForm        = document.createElement('form');
+    var buttonToggle       = document.createElement('input');
+    buttonToggle.type      = 'submit';
+    buttonToggle.value     = 'advanced';
+    buttonToggle.className = 'infoBoxButton';
+    infoBoxForm.appendChild(buttonToggle);
+    infoBoxForm.appendChild(contentElement);
+
+    //add toggle functionality to info box
     var tmpThis = this;
     buttonToggle.onclick=function() { tmpThis.toggleInfoBox(contentElement); return false; };
 
-    var tableKeywordInfo = document.createElement("table");
-    for(var i=0; i < keywordElements.length; i++){
-      var typeKeyword = keywordElements[i].getAttribute('type');
-      var relevancyKeyword = keywordElements[i].getAttribute('relevancy');
-      var wordKeyword = GetTextElementContent(keywordElements[i]);
-
-      var cellKeyword = document.createElement("td");
-      cellKeyword.appendChild(document.createTextNode(wordKeyword));
-      var cellType = document.createElement("td");
-      cellType.appendChild(document.createTextNode(typeKeyword));
-      var cellRelevancy = document.createElement("td");
-      cellRelevancy.appendChild(document.createTextNode(relevancyKeyword));
-
-      var rowKeywordInfo = document.createElement("tr");
-      rowKeywordInfo.appendChild(cellKeyword);
-      rowKeywordInfo.appendChild(cellType);
-      rowKeywordInfo.appendChild(cellRelevancy);
-      tableKeywordInfo.appendChild(rowKeywordInfo);
-    }
-    contentElement.appendChild(tableKeywordInfo);
-
-    infoBoxForm.appendChild(buttonToggle);
-    infoBoxForm.appendChild(contentElement);
-    tableCell.appendChild(infoBoxForm);
+    //create a new row for returning
+    var advancedInfoCell = document.createElement('td');
+    advancedInfoCell.appendChild(infoBoxForm);
+    var advancedInfoRow = document.createElement('tr');
+    advancedInfoRow.appendChild(advancedInfoCell);
     return advancedInfoRow;
   };
 
