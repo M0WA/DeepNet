@@ -48,12 +48,16 @@ void QueryXmlResponseResultEntry::SortResultsByRelevance(){
 
 void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
 
-	std::ostringstream keywordPart;
-	std::vector<const QueryThreadResultEntry*>::const_iterator iKeywords(threadResults.begin());
-	for(;iKeywords != threadResults.end(); ++iKeywords) {
-		std::string encodedKeyword(query.GetKeywordByPosition((*iKeywords)->keywordPos));
+	std::ostringstream alternativeResultPart;
+	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
+	std::advance(iRes,1);
+	for(;iRes != threadResults.end(); ++iRes) {
+		const QueryThreadResultEntry* res((*iRes));
+		std::string encodedKeyword(query.GetKeywordByPosition(res->keywordPos));
 		network::HttpUrlParser::EncodeUrl(encodedKeyword);
-		keywordPart << "<keyword>" << encodedKeyword << "</keyword>";
+		alternativeResultPart << "<alternativeResult><keyword>" << encodedKeyword << "</keyword>";
+		res->AppendToXML(db,query,resultID,alternativeResultPart);
+		alternativeResultPart << "</alternativeResult>";
 	}
 
 	xml <<
@@ -62,7 +66,8 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 	threadResults.at(0)->AppendToXML(db,query,resultID,xml);
 
 	xml <<
-	"<keywords>" << keywordPart.str() << "</keywords>"
+	"<alternativeResults>" << alternativeResultPart.str() << "</alternativeResults>"
+	"<keywords><keyword></keyword></keywords>"
 	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
 	"<relevancy>" << GetRelevance() << "</relevancy>"
 	"<weight>" << GetWeight() << "</weight>"

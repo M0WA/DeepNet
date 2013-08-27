@@ -37,12 +37,6 @@ public:
 		this->weight += rhs.weight;
 		return *this; }
 
-	//
-	//TODO: deprecated, will be removed soon
-	//
-	Relevance  operator+(const Relevance& rhs) const { return Relevance(this->GetWeightedRelevance() + rhs.GetWeightedRelevance(), this->weight + rhs.weight); }
-	Relevance  operator*(const Relevance& rhs) const { return Relevance(this->relevance * rhs.relevance, this->weight * rhs.weight); }
-
 public:
 	double GetWeightedRelevance(void) const { return GetRelevance() * GetWeight(); }
 

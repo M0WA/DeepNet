@@ -142,6 +142,9 @@ public:
 	 * found date of URL
 	 */
 	struct tm found;
+
+private:
+	static std::string ResultTypeToString(const QueryThreadResultType& type);
 };
 
 }

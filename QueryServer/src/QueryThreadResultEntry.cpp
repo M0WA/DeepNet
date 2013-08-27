@@ -89,10 +89,10 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	db->Select(selectMeta,results);
 	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
 
-		long long type(-1);
-		results.GetConstIter()->Get_type(type);
+		long long metaType(-1);
+		results.GetConstIter()->Get_type(metaType);
 
-		switch(type) {
+		switch(metaType) {
 		case indexing::Dictionary::META_TITLE:
 			results.GetConstIter()->Get_value(encodedTitle);
 			network::HttpUrlParser::EncodeUrl(encodedTitle);
@@ -118,7 +118,27 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	"<title>" << encodedTitle << "</title>"
 	"<description>" << encodedDescription << "</description>"
 	"<lastVisited>" << lastVisitedString << "</lastVisited>"
-	"<lastChanged></lastChanged>";
+	"<lastChanged></lastChanged>"
+	"<type>" << ResultTypeToString(type) << "</type>";
+}
+
+std::string QueryThreadResultEntry::ResultTypeToString(const QueryThreadResultType& type) {
+
+	switch(type)
+	{
+	case CONTENT_RESULT:
+		return "CONTENT_RESULT";
+	case META_RESULT:
+		return "META_RESULT";
+	case SUBDOMAIN_RESULT:
+		return "SUBDOMAIN_RESULT";
+	case SECONDLEVELDOMAIN_RESULT:
+		return "SECONDLEVELDOMAIN_RESULT";
+	case URLPATH_RESULT:
+		return "URLPATH_RESULT";
+	default:
+		return "UNKNOWN";
+	}
 }
 
 }

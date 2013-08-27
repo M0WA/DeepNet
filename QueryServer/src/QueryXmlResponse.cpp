@@ -45,11 +45,12 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	std::vector<const QueryThreadResultEntry*> results;
 	queryManager.WaitForResults(results);
 
-	//group results by secondlevel domain or url id
+	//group results by url id
+	MergeDuplicateURLs(results,responseEntries);
+
+	//group results by secondlevel domain if requested
 	if(query.properties.groupBySecondLevelDomain) {
 		MergeDuplicateSecondLevel(db, results, responseEntries);}
-	else {
-		MergeDuplicateURLs(results,responseEntries); }
 
 	//sort results
 	SortResults(responseEntries);
@@ -67,13 +68,13 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 
 void QueryXmlResponse::SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
-	//sort response entries by relevance
-	std::sort(responseEntries.begin(), responseEntries.end());
-
 	//resorting thread results in each response entry by relevance
 	std::vector<QueryXmlResponseResultEntry>::iterator iResort(responseEntries.begin());
 	for(;iResort!=responseEntries.end();++iResort) {
 		iResort->SortResultsByRelevance(); }
+
+	//sort response entries by relevance (descending, therefore we use reverse iterator)
+	std::sort(responseEntries.rbegin(), responseEntries.rend());
 }
 
 void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryXmlResponseResultEntry>& results) {
