@@ -45,6 +45,8 @@ DictionaryInfoThread::~DictionaryInfoThread() {
 
 void* DictionaryInfoThread::DictionaryInfoThreadFunction(threading::Thread::THREAD_PARAM* threadParam) {
 
+	log::Logging::RegisterThreadID("DictionaryInfoThread");
+
 	DictionaryInfoThread* threadInst = reinterpret_cast<DictionaryInfoThread*>(threadParam->instance);
 
 	if(!threadInst->GetIDsForKeywords()) {

@@ -26,7 +26,8 @@
 namespace queryserver {
 
 QueryThreadManager::QueryThreadManager(const database::DatabaseConfig* dbConfig)
-: releaseSeen(true){
+: releaseSeen(true)
+, dictionary(0){
 
 	for(size_t i(0); i < QUERY_THREAD_MANAGER_DB_HELPERS_SIZE; i++) {
 		dbHelpers[i].CreateConnection(dbConfig); }
@@ -51,12 +52,9 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		(query.properties.relevanceContent > 0.0) ||
 		(query.properties.relevanceMeta > 0.0) );
 
-	//DictionaryInfoThread* dictionary(0);
 	if(dictionaryThreadNeeded) {
-		/*
 		dictionary = new DictionaryInfoThread(dbHelpers[0].Connection(),query);
 		dictionary->StartThread();
-		*/
 	}
 
 	if(query.properties.relevanceSecondLevelDomain > 0.0) {
@@ -69,16 +67,14 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 
 	if(dictionaryThreadNeeded) {
-		//dictionary->WaitForThread();
+		dictionary->WaitForThread();
 
 		if(query.properties.relevanceContent > 0.0) {
-			AddQueryTyped<QueryContentThread,QueryThreadParam>(dbHelpers[0].Connection(),query); }
+			AddQueryTyped<QueryContentThread,QueryDictionaryThreadParam>(dbHelpers[0].Connection(),query,dictionary); }
 
 		if(query.properties.relevanceMeta > 0.0) {
-			AddQueryTyped<QueryMetaThread,QueryThreadParam>(dbHelpers[1].Connection(),query);
+			AddQueryTyped<QueryMetaThread,QueryDictionaryThreadParam>(dbHelpers[1].Connection(),query,dictionary);
 		}
-
-		//delete dictionary;
 	}
 }
 
@@ -103,6 +99,10 @@ void QueryThreadManager::ReleaseQuery() {
 
 	queryThreadIDs.clear();
 	ReleaseAll();
+
+	if(dictionary)
+		delete dictionary;
+
 	releaseSeen = true;
 }
 

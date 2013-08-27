@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "QueryDictionaryThread.h"
+#include "QueryThread.h"
 
 #include <SelectResultContainer.h>
 
@@ -23,7 +23,7 @@ namespace queryserver {
 /**
  * @brief queries for search results matching in the content of a webpage
  */
-class QueryContentThread : public queryserver::QueryDictionaryThread {
+class QueryContentThread : public queryserver::QueryThread {
 public:
 	QueryContentThread();
 	virtual ~QueryContentThread();
@@ -31,6 +31,8 @@ public:
 private:
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryContentThread"; }
+	virtual void OnInitThreadInstance();
+	virtual void OnDestroyThreadInstance();
 
 private:
 	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results);

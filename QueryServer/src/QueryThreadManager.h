@@ -29,6 +29,7 @@ namespace queryserver {
 
 	class Query;
 	class QueryThreadResultEntry;
+	class DictionaryInfoThread;
 
 /**
  * @brief manages several information gathering threads for a single queryserver::Query at a time
@@ -77,10 +78,20 @@ private:
 		);
 	}
 
+	template <class threadT, class paramT, class extraT>
+	void AddQueryTyped(database::DatabaseConnection* dbConn,const Query& query, extraT extra) {
+		queryThreadIDs.push_back(
+			AddThread(
+				new threadT(),
+				new paramT(dbConn, query, extra))
+		);
+	}
+
 private:
 	std::vector<threading::Thread::ThreadID> queryThreadIDs;
 	bool releaseSeen;
 	database::DatabaseHelper dbHelpers[QUERY_THREAD_MANAGER_DB_HELPERS_SIZE];
+	DictionaryInfoThread* dictionary;
 };
 
 }

@@ -11,6 +11,7 @@
 #include "Query.h"
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
+#include "DictionaryInfoThread.h"
 
 #include <iterator>
 
@@ -33,15 +34,19 @@
 namespace queryserver {
 
 QueryContentThread::QueryContentThread()
-: queryserver::QueryDictionaryThread() {
+: queryserver::QueryThread() {
 }
 
 QueryContentThread::~QueryContentThread() {
 }
 
-void* QueryContentThread::OnRun() {
+void QueryContentThread::OnInitThreadInstance() {
+}
 
-	QueryDictionaryThread::OnRun();
+void QueryContentThread::OnDestroyThreadInstance(){
+}
+
+void* QueryContentThread::OnRun() {
 
 	database::SelectResultContainer<database::TableBase> results;
 
@@ -56,12 +61,14 @@ void* QueryContentThread::OnRun() {
 
 bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) {
 
+	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
+
 	std::vector<long long> allDictIDs;
-	allDictIDs.insert(allDictIDs.end(),dictIDs.begin(),dictIDs.end());
+	allDictIDs.insert(allDictIDs.end(),dictThreadParam->dictInfo->dictIDs.begin(),dictThreadParam->dictInfo->dictIDs.end());
 	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
 
-	if(caseInsensitiveDictIDs.size()) {
-		tools::ContainerTools::AppendFlattenedVector(caseInsensitiveDictIDs,allDictIDs);}
+	if(dictThreadParam->dictInfo->caseInsensitiveDictIDs.size()) {
+		tools::ContainerTools::AppendFlattenedVector(dictThreadParam->dictInfo->caseInsensitiveDictIDs,allDictIDs);}
 
 	tools::ContainerTools::MakeUniqueVector(allDictIDs,true);
 
@@ -144,6 +151,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 
 	const Query query(queryThreadParam.GetConst()->query);
 	const QueryProperties& queryProperties(query.properties);
+	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
@@ -187,7 +195,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 				CONTENT_RESULT,
 				urlID,
 				urlStageID,
-				dictIDPosition[dictID],
+				dictThreadParam->dictInfo->dictIDPosition.at(dictID),
 				occurence,
 				queryProperties.relevanceContent,
 				found));
