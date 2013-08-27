@@ -7,11 +7,14 @@
 #pragma once
 
 #include <string>
+
+#include "WildcardType.h"
 #include "TableColumnType.h"
 
 namespace database {
 
 class DatabaseConnection;
+
 
 /**
  * @brief container for a generic column value.
@@ -85,7 +88,7 @@ public:
 	 * @param db database connection.
 	 * @return escaped column value.
 	 */
-	std::string GetForSQL(DatabaseConnection* db) const;
+	std::string GetForSQL(DatabaseConnection* db,const WildcardType& wildCard) const;
 
 	/**
 	 * check if string is valid for column type.

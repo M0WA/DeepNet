@@ -10,6 +10,7 @@
 
 #include "WhereConditionOperator.h"
 #include "WhereConditionCompositeOperator.h"
+#include "WildcardType.h"
 
 namespace database {
 
@@ -37,7 +38,7 @@ public:
 	WhereConditionTableColumnCreateParam(
 		const WhereConditionOperator& op,
 		const WhereConditionCompositeOperator& compOp,
-		const WhereConditionWildcardType& wildcardFlag);
+		const WildcardType& wildcardFlag);
 
 	/**
 	 * construct using operator, composite operator, a wildcarded value and a table alias.
@@ -49,7 +50,7 @@ public:
 	WhereConditionTableColumnCreateParam(
 		const WhereConditionOperator& op,
 		const WhereConditionCompositeOperator& compOp,
-		const WhereConditionWildcardType& wildcardFlag,
+		const WildcardType& wildcardFlag,
 		const std::string& tableAlias);
 
 	/**
@@ -79,7 +80,7 @@ public:
 	/**
 	 * wildcard type.
 	 */
-	WhereConditionWildcardType wildcardFlag;
+	WildcardType wildcardFlag;
 
 	/**
 	 * alias column name.

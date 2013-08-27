@@ -57,7 +57,7 @@ public:
 	virtual bool LastInsertID       (long long& lastInsertID);
 	virtual bool AffectedRows       (long long& affectedRows);
 
-	virtual bool EscapeString(std::string& inEscape);
+	virtual bool EscapeString(std::string& inEscape, const WildcardType& wildcard);
 
 	virtual void Initialize();
 	virtual void Shutdown();

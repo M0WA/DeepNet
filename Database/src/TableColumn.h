@@ -135,7 +135,7 @@ public:
 	 * gets escaped value of the column.
 	 * @return column value.
 	 */
-	std::string GetForSQL(DatabaseConnection* db) const;
+	std::string GetForSQL(DatabaseConnection* db,const WildcardType& wildCard) const;
 
 public:
 	/**

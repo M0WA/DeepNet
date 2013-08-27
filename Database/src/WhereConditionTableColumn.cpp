@@ -157,19 +157,10 @@ std::string WhereConditionTableColumn::ToString(DatabaseConnection* db) const {
 
 std::string WhereConditionTableColumn::GetColumnValue(DatabaseConnection* db,const TableColumn* col,const bool lowerVal) const {
 
-	std::string tmp(col->GetForSQL(db));
+	std::string tmp(col->GetForSQL(db,createParam.wildcardFlag));
 
 	if(lowerVal) {
 		tools::StringTools::ToLowerIP(tmp); }
-
-	bool
-		left (createParam.wildcardFlag & WILDCARD_LEFT),
-		right(createParam.wildcardFlag & WILDCARD_RIGHT);
-
-	if(left)
-		tmp.insert(0,"%");
-	if(right)
-		tmp.append("%");
 
 	return tmp;
 }

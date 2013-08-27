@@ -10,6 +10,7 @@
 
 #include "TableColumn.h"
 #include "TableBase.h"
+#include "WildcardType.h"
 
 #include "DatabaseNoColumnsException.h"
 #include <NotImplementedException.h>
@@ -59,7 +60,7 @@ std::string UpdateStatement::ToSQL(database::DatabaseConnection* db) const {
 			if(!TableAlias().empty())
 				ssQuery << TableAlias() << ".";
 
-			ssQuery << pCol->GetColumnName() << " = " << pCol->GetForSQL(db);
+			ssQuery << pCol->GetColumnName() << " = " << pCol->GetForSQL(db,WILDCARD_NONE);
 			i++;
 		}
 	}

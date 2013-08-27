@@ -154,11 +154,11 @@ const std::string& TableColumn::GetColumnName() const {
 	return GetConstColumnDefinition()->GetColumnName();
 }
 
-std::string TableColumn::GetForSQL(DatabaseConnection* db) const {
+std::string TableColumn::GetForSQL(DatabaseConnection* db,const WildcardType& wildCard) const {
 
 	if(isNull) {
 		return "NULL"; }
-	return columnValue->GetForSQL(db);
+	return columnValue->GetForSQL(db,wildCard);
 }
 
 void TableColumn::InitFromDefinition() {

@@ -263,7 +263,7 @@ bool MySQLConnection::AffectedRows(long long& affectedRows)
 	return true;
 }
 
-bool MySQLConnection::EscapeString(std::string& inEscape)
+bool MySQLConnection::EscapeString(std::string& inEscape, const WildcardType& wildcard)
 {
 	if(inEscape.empty()) {
 		inEscape = "\"\"";

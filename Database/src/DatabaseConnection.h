@@ -11,6 +11,7 @@
 
 #include "TableBase.h"
 #include "DatabaseTypes.h"
+#include "WildcardType.h"
 #include "SelectResultContainer.h"
 
 namespace database {
@@ -144,7 +145,7 @@ public:
 	 * @param inEscape string to be escaped.
 	 * @return false on error, true on success.
 	 */
-	virtual bool EscapeString(std::string& inEscape)=0;
+	virtual bool EscapeString(std::string& inEscape, const WildcardType& wildcard)=0;
 
 	/**
 	 * called for global initialization, once per runtime.

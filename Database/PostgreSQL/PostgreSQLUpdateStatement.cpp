@@ -17,6 +17,7 @@
 #include "TableBase.h"
 #include "TableColumn.h"
 #include "TableColumnDefinition.h"
+#include "WildcardType.h"
 
 #include "PostgreSQLInvalidStatementException.h"
 
@@ -75,7 +76,7 @@ UPDATE slots
 			if(!orgStmt.TableAlias().empty())
 				ssSetValues << orgStmt.TableAlias() << ".";
 
-			ssSetValues << pCol->GetColumnName() << " = " << pCol->GetForSQL(db);
+			ssSetValues << pCol->GetColumnName() << " = " << pCol->GetForSQL(db,WILDCARD_NONE);
 			i++;
 		}
 	}

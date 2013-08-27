@@ -17,6 +17,7 @@
 #include "TableDefinition.h"
 #include "TableColumn.h"
 #include "TableColumnDefinition.h"
+#include "WildcardType.h"
 
 #include "DatabaseNoColumnsException.h"
 #include "DatabaseNoPrimaryKeyException.h"
@@ -107,7 +108,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 			THROW_EXCEPTION(database::PostgreSQLInvalidStatementException,0,curColName + " must contain value, column is not nullable and has no default value");}
 
 		if(!pCurCol->IsNull() && pCurCol->IsDirty()) {
-			newValuesColumnValues.push_back(pCurCol->GetForSQL(db));
+			newValuesColumnValues.push_back(pCurCol->GetForSQL(db,WILDCARD_NONE));
 			newValuesColumnNames.push_back(curColName);
 		}
 
@@ -116,7 +117,7 @@ std::string PostgreSQLInsertOrUpdateStatement::UpdateOrInsertByUniqueKeys( Datab
 		if(orgStatement.IsSumColumn(curColName)) {
 			if(pCurCol->IsNull()) {
 				THROW_EXCEPTION(PostgreSQLInvalidStatementException,0,"sum column cannot be NULL for update or insert"); }
-			setNewValuesColumnNames.push_back(curColName+"= m."+curColName +" + "+pCurCol->GetForSQL(db));
+			setNewValuesColumnNames.push_back(curColName+"= m."+curColName +" + "+pCurCol->GetForSQL(db,WILDCARD_NONE));
 			insertSelectColumnValues.push_back("nvi."+curColName);
 		}
 		else {

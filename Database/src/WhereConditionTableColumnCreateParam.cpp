@@ -29,7 +29,7 @@ WhereConditionTableColumnCreateParam::WhereConditionTableColumnCreateParam(
 WhereConditionTableColumnCreateParam::WhereConditionTableColumnCreateParam(
 	const WhereConditionOperator& op,
 	const WhereConditionCompositeOperator& compOp,
-	const WhereConditionWildcardType& wildcardFlag)
+	const WildcardType& wildcardFlag)
 : op(op)
 , compOp(compOp)
 , wildcardFlag(wildcardFlag) {
@@ -38,7 +38,7 @@ WhereConditionTableColumnCreateParam::WhereConditionTableColumnCreateParam(
 WhereConditionTableColumnCreateParam::WhereConditionTableColumnCreateParam(
 	const WhereConditionOperator& op,
 	const WhereConditionCompositeOperator& compOp,
-	const WhereConditionWildcardType& wildcardFlag,
+	const WildcardType& wildcardFlag,
 	const std::string& tableAlias)
 : op(op)
 , compOp(compOp)

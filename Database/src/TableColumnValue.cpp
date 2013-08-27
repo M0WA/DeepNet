@@ -138,7 +138,7 @@ void TableColumnValue::Get(double& out) const {
 	dynamic_cast< const TableColumnValueTyped<double>* >(this)->Get(out);
 }
 
-std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
+std::string TableColumnValue::GetForSQL(DatabaseConnection* db,const WildcardType& wildCard) const {
 
 	std::string stringQuotation, timestampPrefix;
 	switch(db->GetDatabaseType()) {
@@ -161,7 +161,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 	{
 		std::string value;
 		Get(value);
-		db->EscapeString(value);
+		db->EscapeString(value,wildCard);
 		ssSQLValue << value;
 	}
 		break;
@@ -189,7 +189,7 @@ std::string TableColumnValue::GetForSQL(DatabaseConnection* db) const {
 		Get(rawValue);
 		std::string timeString;
 		tools::TimeTools::ToSQLTimestamp(rawValue, timeString);
-		db->EscapeString(timeString);
+		db->EscapeString(timeString,WILDCARD_NONE);
 		ssSQLValue << timestampPrefix << timeString;
 	}
 		break;

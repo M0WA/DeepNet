@@ -12,6 +12,7 @@
 #include "TableDefinition.h"
 #include "TableColumn.h"
 #include "TableColumnDefinition.h"
+#include "WildcardType.h"
 
 #include "InsertOrUpdateStatement.h"
 
@@ -61,7 +62,7 @@ std::string MySQLInsertOrUpdateStatement::ToSQL( DatabaseConnection* db ) const 
 		}
 
 		ssColumnNames  << (*iterCols)->GetColumnName();
-		ssColumnValues << (*iterCols)->GetForSQL(db);
+		ssColumnValues << (*iterCols)->GetForSQL(db,WILDCARD_NONE);
 	}
 	ssColumnNames  << " ) ";
 	ssColumnValues << " ) ";

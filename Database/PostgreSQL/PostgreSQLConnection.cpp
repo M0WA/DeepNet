@@ -416,7 +416,7 @@ bool PostgreSQLConnection::AffectedRows(long long& affectedRows){
 	return affectedRows > -1;
 }
 
-bool PostgreSQLConnection::EscapeString(std::string& inEscape){
+bool PostgreSQLConnection::EscapeString(std::string& inEscape, const WildcardType& wildcard){
 
 	if(!Connected()) {
 		THROW_EXCEPTION(database::DatabaseNotConnectedException);}

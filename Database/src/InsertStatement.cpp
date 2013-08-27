@@ -58,12 +58,12 @@ std::string InsertStatement::ToSQL(database::DatabaseConnection* db) const {
 				ssColumnValues << "DEFAULT";
 				break;
 			default:
-				ssColumnValues << pCol->GetForSQL(db);
+				ssColumnValues << pCol->GetForSQL(db,WILDCARD_NONE);
 				break;
 			}
 		}
 		else {
-			ssColumnValues << pCol->GetForSQL(db);
+			ssColumnValues << pCol->GetForSQL(db,WILDCARD_NONE);
 		}
 		i++;
 	}

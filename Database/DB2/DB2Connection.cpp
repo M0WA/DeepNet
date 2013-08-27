@@ -102,7 +102,7 @@ bool DB2Connection::AffectedRows(long long& affectedRows)
 	return false;
 }
 
-bool DB2Connection::EscapeString(std::string& inEscape)
+bool DB2Connection::EscapeString(std::string& inEscape, const WildcardType& wildcard)
 {
 	THROW_EXCEPTION(errors::NotImplementedException,"database");
 	return false;
