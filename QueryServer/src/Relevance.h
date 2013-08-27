@@ -7,22 +7,10 @@
 
 #pragma once
 
-#include <string>
-#include <sstream>
-#include <vector>
-#include <list>
-
 namespace queryserver {
 
 class Relevance
 {
-public:
-	typedef struct _RelevancePointerComparator {
-	  bool operator() (const Relevance* i,const Relevance* j) {
-		  return ((*i)<(*j));
-	  }
-	} RelevancePointerComparator;
-
 public:
 	Relevance(const Relevance& rhs)
 	: relevance(rhs.relevance)

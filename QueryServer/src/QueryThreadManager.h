@@ -59,7 +59,7 @@ public:
 	 * @see queryserver::QueryThreadManager::ReleaseQuery
 	 * @param results results of current query
 	 */
-	void WaitForResults(std::vector<QueryThreadResultEntry*>& results);
+	void WaitForResults(std::vector<const QueryThreadResultEntry*>& results);
 
 	/**
 	 * releases all resources allocated with current query (including

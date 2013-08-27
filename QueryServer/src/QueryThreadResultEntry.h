@@ -39,7 +39,15 @@ typedef enum {
 /**
  * @brief encapsulates one result entry from a QueryThread
  */
-class QueryThreadResultEntry : public queryserver::Relevance {
+class QueryThreadResultEntry {
+
+public:
+	typedef struct _PointerComparator {
+	  bool operator() (const QueryThreadResultEntry* i,const QueryThreadResultEntry* j) {
+		  return i->relevance < j->relevance;
+	  }
+	} PointerComparator;
+
 public:
 	/**
 	 * creates a result entry with unknown found date
@@ -90,6 +98,11 @@ public:
 	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
 
 public:
+	/**
+	 * relevance of this result
+	 */
+	Relevance relevance;
+
 	/**
 	 * origin type of this result
 	 */

@@ -19,6 +19,7 @@
 #include "QueryUrlPathThread.h"
 
 #include <Logging.h>
+#include <ContainerTools.h>
 
 namespace queryserver {
 
@@ -60,7 +61,7 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 }
 
-void QueryThreadManager::WaitForResults(std::vector<QueryThreadResultEntry*>& results) {
+void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry*>& results) {
 
 	if(releaseSeen) {
 		log::Logging::LogError("waiting for invalid query, skipping");
@@ -71,7 +72,10 @@ void QueryThreadManager::WaitForResults(std::vector<QueryThreadResultEntry*>& re
 	std::vector<threading::Thread::ThreadID>::const_iterator i(queryThreadIDs.begin());
 	for(;i != queryThreadIDs.end();++i) {
 		const std::vector<QueryThreadResultEntry*>& threadResults(GetThreadInfosByID(*i).first->GetResults().GetConstVector());
-		results.insert(results.end(),threadResults.begin(),threadResults.end()); }
+		std::vector<const QueryThreadResultEntry*> out;
+		tools::ContainerTools::ToConstVector(threadResults,out);
+		results.insert(results.end(),out.begin(),out.end());
+	}
 }
 
 void QueryThreadManager::ReleaseQuery() {

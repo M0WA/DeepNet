@@ -11,6 +11,8 @@
 #include <vector>
 #include <map>
 
+#include "QueryXmlResponseResultEntry.h"
+
 #include <FastCGIResponse.h>
 
 namespace database {
@@ -35,35 +37,10 @@ private:
 	virtual bool Process(FCGX_Request& request);
 
 private:
-	void AssembleXMLResult(const std::vector<QueryThreadResultEntry*>& results);
-	void MergeDuplicates(std::vector<QueryThreadResultEntry*>& results);
-
-private:
-	/**
-	 * @brief functor to group results vector by secondlevel domain id
-	 */
-	struct SecondLevelDomainGroupByFunc : public std::unary_function<QueryThreadResultEntry*,bool> {
-
-		SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults);
-
-		bool operator() (QueryThreadResultEntry*& entry);
-
-		database::DatabaseConnection* db;
-		std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults;
-		std::map<long long,size_t> mapSecondlevelDomainPos;
-	};
-
-	/**
-	 * @brief functor to select the first item of a result vector and put it into another vector
-	 */
-	struct SelectFirstGroupedResultsFunc : public std::unary_function< const std::vector<QueryThreadResultEntry*>& ,bool> {
-
-		SelectFirstGroupedResultsFunc(std::vector<QueryThreadResultEntry*>& results);
-
-		bool operator() (const std::vector<QueryThreadResultEntry*>& entry);
-
-		std::vector<QueryThreadResultEntry*>& results;
-	};
+	void AssembleXMLResult(const std::vector<QueryXmlResponseResultEntry>& results);
+	void MergeDuplicateURLs(const std::vector<const QueryThreadResultEntry*>& results, std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	void MergeDuplicateSecondLevel(database::DatabaseConnection* db,const std::vector<const QueryThreadResultEntry*>& results, std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	void SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
 private:
 	QueryThreadManager& queryManager;

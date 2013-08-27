@@ -31,7 +31,7 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 	const size_t&    keywordPos,
 	const long long& occurrences,
 	const double&    relevance)
-: queryserver::Relevance(relevance)
+: relevance(queryserver::Relevance(relevance))
 , type(type)
 , urlID(urlID)
 , urlStageID(urlStageID)
@@ -48,7 +48,7 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 	const long long& occurrences,
 	const double&    relevance,
 	const struct tm& found)
-: queryserver::Relevance(relevance)
+: relevance(queryserver::Relevance(relevance))
 , type(type)
 , urlID(urlID)
 , urlStageID(urlStageID)
@@ -113,21 +113,12 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	std::string encodedURL(dbUrl.GetConst()->GetFullUrl());
 	network::HttpUrlParser::EncodeUrl(encodedURL);
 
-	std::string encodedKeyword(query.GetKeywordByPosition(keywordPos));
-	network::HttpUrlParser::EncodeUrl(encodedKeyword);
-
 	xml <<
-	"<result id=\"" << resultID << "\">"
 	"<url id=\"" << urlID << "\">" << encodedURL << "</url>"
 	"<title>" << encodedTitle << "</title>"
 	"<description>" << encodedDescription << "</description>"
 	"<lastVisited>" << lastVisitedString << "</lastVisited>"
-	"<lastChanged></lastChanged>"
-	"<keywords><keyword>" << encodedKeyword << "</keyword></keywords>"
-	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
-	"<relevancy>" << GetRelevance() << "</relevancy>"
-	"<weight>" << GetWeight() << "</weight>"
-	"</result>";
+	"<lastChanged></lastChanged>";
 }
 
 }

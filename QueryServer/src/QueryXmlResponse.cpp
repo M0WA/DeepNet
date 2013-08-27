@@ -38,29 +38,24 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
+	//container for final results
+	std::vector<QueryXmlResponseResultEntry> responseEntries;
+
 	//waiting for all results to arrive
-	std::vector<QueryThreadResultEntry*> results;
+	std::vector<const QueryThreadResultEntry*> results;
 	queryManager.WaitForResults(results);
 
-	//sorting all results by relevance
-	Relevance::RelevancePointerComparator relevanceComp;
-	std::sort(results.begin(),results.end(), relevanceComp);
-
-	//merging duplicates
-	MergeDuplicates(results);
-
-	//group results
+	//group results by secondlevel domain or url id
 	if(query.properties.groupBySecondLevelDomain) {
-		std::vector< std::vector<QueryThreadResultEntry*> > groupedResults;
+		MergeDuplicateSecondLevel(db, results, responseEntries);}
+	else {
+		MergeDuplicateURLs(results,responseEntries); }
 
-		SecondLevelDomainGroupByFunc groupBy(db,groupedResults);
-		std::for_each(results.begin(),results.end(), groupBy);
-
-		SelectFirstGroupedResultsFunc firstGroup(results);
-		std::for_each(groupedResults.begin(),groupedResults.end(), firstGroup);	}
+	//sort results
+	SortResults(responseEntries);
 
 	//assemble xml response string
-	AssembleXMLResult(results);
+	AssembleXMLResult(responseEntries);
 
 	//releasing the query invalidates
 	//all pointers to it's results
@@ -70,16 +65,27 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	return FastCGIResponse::Process(request);
 }
 
-void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryThreadResultEntry*>& results) {
+void QueryXmlResponse::SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+
+	//sort response entries by relevance
+	std::sort(responseEntries.begin(), responseEntries.end());
+
+	//resorting thread results in each response entry by relevance
+	std::vector<QueryXmlResponseResultEntry>::iterator iResort(responseEntries.begin());
+	for(;iResort!=responseEntries.end();++iResort) {
+		iResort->SortResultsByRelevance(); }
+}
+
+void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryXmlResponseResultEntry>& results) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	//assemble xml entries from results
 	std::ostringstream xmlResultEntries;
-	std::vector<QueryThreadResultEntry*>::const_iterator i(results.begin());
+	std::vector<QueryXmlResponseResultEntry>::const_iterator i(results.begin());
 	for(size_t resultID(0);i!=results.end();++i,++resultID) {
-		(*i)->AppendToXML(db,query,resultID,xmlResultEntries); }
+		i->AppendToXML(db,query,resultID,xmlResultEntries); }
 
 	//assemble complete xml response including header etc.
 	std::ostringstream xmlResult;
@@ -96,55 +102,45 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryThreadResultEntr
 	content = xmlResult.str();
 }
 
-void QueryXmlResponse::MergeDuplicates(std::vector<QueryThreadResultEntry*>& results) {
+void QueryXmlResponse::MergeDuplicateSecondLevel(database::DatabaseConnection* db,const std::vector<const QueryThreadResultEntry*>& results, std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
-	std::map<long long,size_t> urlIDPos;
-	std::vector<QueryThreadResultEntry*>::iterator i(results.begin());
-	for(size_t pos(0);i!=results.end();++i,++pos) {
-		const long long& urlID((*i)->urlID);
-		if(urlIDPos.count(urlID) > 0) {
-			size_t pos(urlIDPos[urlID]);
-			Relevance& entryAtPos(dynamic_cast<Relevance&>(*(results.at(pos))));
-			entryAtPos += dynamic_cast<const Relevance&>(*(*i));
-			results.erase(i);
-			i--;
-			pos--; }
+	std::map<long long,size_t> secondLvlIDPos;
+
+	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
+	for(size_t pos(0);i!=results.end();++i) {
+
+		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
+		caching::CacheDatabaseUrl::GetByUrlID(db,(*i)->urlID,ptrUrl);
+		long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
+
+		if(secondLvlIDPos.count(secondLevelID) > 0) {
+			responseEntries.at(secondLvlIDPos[secondLevelID]).AddResult(*i);
+		}
 		else {
-			urlIDPos[urlID]=pos; }
+			responseEntries.push_back(QueryXmlResponseResultEntry(*i));
+			secondLvlIDPos[secondLevelID]=pos;
+			++pos;
+		}
 	}
 }
 
-QueryXmlResponse::SecondLevelDomainGroupByFunc::SecondLevelDomainGroupByFunc(database::DatabaseConnection* db,std::vector< std::vector<QueryThreadResultEntry*> >& groupedResults)
-: db(db)
-, groupedResults(groupedResults) {
-}
+void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadResultEntry*>& results,std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
-bool QueryXmlResponse::SecondLevelDomainGroupByFunc::operator() (QueryThreadResultEntry*& entry) {
+	std::map<long long,size_t> urlIDPos;
+	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
 
-	tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
-	caching::CacheDatabaseUrl::GetByUrlID(db,entry->urlID,ptrUrl);
-	long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
+	for(size_t pos(0);i!=results.end();++i) {
 
-	size_t pos(0);
-	if(mapSecondlevelDomainPos.count(secondLevelID) > 0) {
-		pos = mapSecondlevelDomainPos[secondLevelID]; }
-	else {
-		pos = mapSecondlevelDomainPos[secondLevelID] = groupedResults.size();
-		groupedResults.push_back(std::vector<QueryThreadResultEntry*>()); }
-
-	groupedResults.at(pos).push_back(entry);
-	return true;
-}
-
-QueryXmlResponse::SelectFirstGroupedResultsFunc::SelectFirstGroupedResultsFunc(std::vector<QueryThreadResultEntry*>& results)
-: results(results) {
-	results.clear();
-}
-
-bool QueryXmlResponse::SelectFirstGroupedResultsFunc::operator() (const std::vector<QueryThreadResultEntry*>& entry) {
-	if(entry.size()) {
-		results.push_back(entry.at(0));	}
-	return true;
+		const long long& urlID((*i)->urlID);
+		if(urlIDPos.count(urlID) > 0) {
+			responseEntries.at(urlIDPos[urlID]).AddResult(*i);
+		}
+		else {
+			responseEntries.push_back(QueryXmlResponseResultEntry(*i));
+			urlIDPos[urlID]=pos;
+			++pos;
+		}
+	}
 }
 
 }
