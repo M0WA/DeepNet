@@ -50,7 +50,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 
 	//group results by secondlevel domain if requested
 	if(query.properties.groupBySecondLevelDomain) {
-		MergeDuplicateSecondLevel(db, results, responseEntries);}
+		MergeDuplicateSecondLevel(db, responseEntries);}
 
 	//sort results
 	SortResults(responseEntries);
@@ -103,22 +103,23 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryXmlResponseResul
 	content = xmlResult.str();
 }
 
-void QueryXmlResponse::MergeDuplicateSecondLevel(database::DatabaseConnection* db,const std::vector<const QueryThreadResultEntry*>& results, std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+void QueryXmlResponse::MergeDuplicateSecondLevel(database::DatabaseConnection* db, std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
 	std::map<long long,size_t> secondLvlIDPos;
 
-	std::vector<const QueryThreadResultEntry*>::const_iterator i(results.begin());
-	for(size_t pos(0);i!=results.end();++i) {
+	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
+	for(size_t pos(0);i!=responseEntries.end();++i) {
 
 		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
-		caching::CacheDatabaseUrl::GetByUrlID(db,(*i)->urlID,ptrUrl);
+		caching::CacheDatabaseUrl::GetByUrlID(db,i->GetMostRelevantResult()->urlID,ptrUrl);
 		long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
 
 		if(secondLvlIDPos.count(secondLevelID) > 0) {
 			responseEntries.at(secondLvlIDPos[secondLevelID]).AddResult(*i);
+			responseEntries.erase(i);
+			--i;
 		}
 		else {
-			responseEntries.push_back(QueryXmlResponseResultEntry(*i));
 			secondLvlIDPos[secondLevelID]=pos;
 			++pos;
 		}

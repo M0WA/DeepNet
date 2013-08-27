@@ -9,6 +9,7 @@
 #include "QueryXmlResponseResultEntry.h"
 
 #include <algorithm>
+#include <map>
 
 #include <HttpUrlParser.h>
 
@@ -31,11 +32,13 @@ bool QueryXmlResponseResultEntry::operator< (const QueryXmlResponseResultEntry& 
 	return dynamic_cast<const Relevance&>(*this) < dynamic_cast<const Relevance&>(rhs);
 }
 
-void QueryXmlResponseResultEntry::AddResult(const QueryThreadResultEntry* result) {
+void QueryXmlResponseResultEntry::AddResult(const QueryXmlResponseResultEntry& result) {
 
 	isSorted = false;
-	threadResults.push_back(result);
-	(*this) += result->relevance;
+
+	threadResults.insert(threadResults.end(),result.threadResults.begin(),result.threadResults.end());
+
+	(*this) += dynamic_cast<const Relevance&>(result);
 }
 
 void QueryXmlResponseResultEntry::SortResultsByRelevance(){
@@ -46,19 +49,34 @@ void QueryXmlResponseResultEntry::SortResultsByRelevance(){
 		isSorted = true; }
 }
 
+const QueryThreadResultEntry* QueryXmlResponseResultEntry::GetMostRelevantResult() {
+
+	SortResultsByRelevance();
+	return threadResults.at(0);
+}
+
 void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
 
-	std::ostringstream alternativeResultPart;
+	std::map<QueryThreadResultType,size_t> typeCounts;
+	typeCounts[threadResults.at(0)->type]++;
+
+	std::ostringstream keywordsPart;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
 	std::advance(iRes,1);
 	for(;iRes != threadResults.end(); ++iRes) {
 		const QueryThreadResultEntry* res((*iRes));
+
+		typeCounts[res->type]++;
+
 		std::string encodedKeyword(query.GetKeywordByPosition(res->keywordPos));
 		network::HttpUrlParser::EncodeUrl(encodedKeyword);
-		alternativeResultPart << "<alternativeResult><keyword>" << encodedKeyword << "</keyword>";
-		res->AppendToXML(db,query,resultID,alternativeResultPart);
-		alternativeResultPart << "</alternativeResult>";
+		keywordsPart << "<keyword>" << encodedKeyword << "</keyword>";
 	}
+
+	std::ostringstream typesPart;
+	std::map<QueryThreadResultType,size_t>::const_iterator iTypes(typeCounts.begin());
+	for(;iTypes!= typeCounts.end();++iTypes) {
+		typesPart << "<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";}
 
 	xml <<
 	"<result id=\"" << resultID << "\">";
@@ -66,8 +84,8 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 	threadResults.at(0)->AppendToXML(db,query,resultID,xml);
 
 	xml <<
-	"<alternativeResults>" << alternativeResultPart.str() << "</alternativeResults>"
-	"<keywords><keyword></keyword></keywords>"
+	"<types>" << typesPart.str() << "</types>"
+	"<keywords>" << keywordsPart.str() << "</keywords>"
 	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
 	"<relevancy>" << GetRelevance() << "</relevancy>"
 	"<weight>" << GetWeight() << "</weight>"

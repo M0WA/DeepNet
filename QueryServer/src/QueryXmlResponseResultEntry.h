@@ -29,9 +29,10 @@ public:
 	bool operator< (const QueryXmlResponseResultEntry& rhs) const;
 
 public:
-	void AddResult(const QueryThreadResultEntry* result);
+	void AddResult(const QueryXmlResponseResultEntry& result);
 	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
 	void SortResultsByRelevance();
+	const QueryThreadResultEntry* GetMostRelevantResult();
 
 private:
 	std::vector<const QueryThreadResultEntry*> threadResults;

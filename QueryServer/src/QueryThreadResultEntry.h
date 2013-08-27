@@ -98,6 +98,9 @@ public:
 	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
 
 public:
+	static std::string ResultTypeToString(const QueryThreadResultType& type);
+
+public:
 	/**
 	 * relevance of this result
 	 */
@@ -142,9 +145,6 @@ public:
 	 * found date of URL
 	 */
 	struct tm found;
-
-private:
-	static std::string ResultTypeToString(const QueryThreadResultType& type);
 };
 
 }
