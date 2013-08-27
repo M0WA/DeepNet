@@ -25,6 +25,7 @@
 #include <TimeTools.h>
 #include <Pointer.h>
 #include <Logging.h>
+#include <PerformanceCounter.h>
 
 #include <DatabaseException.h>
 
@@ -49,6 +50,8 @@ void* DictionaryInfoThread::DictionaryInfoThreadFunction(threading::Thread::THRE
 
 	DictionaryInfoThread* threadInst = reinterpret_cast<DictionaryInfoThread*>(threadParam->instance);
 
+	PERFORMANCE_LOG_START;
+
 	if(!threadInst->GetIDsForKeywords()) {
 		return (void*)1; }
 
@@ -57,6 +60,8 @@ void* DictionaryInfoThread::DictionaryInfoThreadFunction(threading::Thread::THRE
 
 	if(!threadInst->GetIDsForSimilarKeywords()) {
 		return (void*)1; }
+
+	PERFORMANCE_LOG_STOP("DictionaryInfoThread");
 
 	return 0;
 }
