@@ -21,8 +21,16 @@ namespace queryserver {
 
 	class Query;
 
+/**
+ * @brief helper class for queryserver::QueryThread classes that need infos from the dictionary
+ */
 class DictionaryInfoThread: public threading::Thread {
 public:
+	/**
+	 * create from database connection and associated query
+	 * @param dbConn database connection
+	 * @param query query
+	 */
 	DictionaryInfoThread(database::DatabaseConnection* dbConn,const Query& query);
 	virtual ~DictionaryInfoThread();
 
@@ -30,6 +38,9 @@ private:
 	bool GetIDsForKeywords();
 	bool GetIDsForCaseInsensitiveKeywords();
 	bool GetIDsForSimilarKeywords();
+
+private:
+	static void* DictionaryInfoThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
 
 private:
 	database::DatabaseConnection* dbConn;
@@ -55,9 +66,6 @@ public:
 	 * contains all similar matches except above
 	 */
 	std::vector<long long> similarDictIDs;
-
-private:
-	static void* DictionaryInfoThreadFunction(threading::Thread::THREAD_PARAM* threadParam);
 };
 
 }

@@ -41,12 +41,24 @@ public:
 	const Query& query;
 };
 
+/**
+ * @brief encapsulates thread parameters for a queryserver::QueryThread that also uses information from the dictionary
+ */
 class QueryDictionaryThreadParam : public QueryThreadParam {
 public:
+	/**
+	 * creates parameters from database connection, a query and dictionary information
+	 * @param dbConn database connection
+	 * @param query query to process
+	 * @param dictInfo dictionary information thread (should have ended already)
+	 */
 	QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const DictionaryInfoThread* dictInfo);
 	virtual ~QueryDictionaryThreadParam() {}
 
 public:
+	/**
+	 * dictionary information
+	 */
 	const DictionaryInfoThread* dictInfo;
 };
 

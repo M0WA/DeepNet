@@ -1,8 +1,9 @@
-/*
- * QueryServer.h
+/**
  *
- *  Created on: 12.03.2012
- *      Author: Moritz Wagner
+ * @file QueryServer.h
+ * @author Moritz Wagner
+ * @date 12.03.2012
+ *
  */
 
 #pragma once
@@ -24,6 +25,9 @@ namespace threading {
 
 namespace queryserver {
 
+/**
+ * @brief implements fastcgiserver::FastCGIServer used for query server application
+ */
 class QueryServer : public fastcgiserver::FastCGIServer
 {
 public:

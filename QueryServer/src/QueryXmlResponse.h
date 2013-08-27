@@ -26,7 +26,7 @@ namespace queryserver {
 	class QueryThreadResultEntry;
 
 /**
- * @brief encapsulates a xml query request
+ * @brief encapsulates a xml query request and also implements fastcgiserver::FastCGIResponse
  */
 class QueryXmlResponse: public fastcgiserver::FastCGIResponse {
 public:

@@ -1,8 +1,9 @@
-/*
- * QueryServer.cpp
+/**
  *
- *  Created on: 12.03.2012
- *      Author: Moritz Wagner
+ * @file QueryServer.cpp
+ * @author Moritz Wagner
+ * @date 12.03.2012
+ *
  */
 
 #include "QueryServer.h"

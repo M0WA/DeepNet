@@ -67,14 +67,14 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 
 	if(dictionaryThreadNeeded) {
+
 		dictionary->WaitForThread();
 
 		if(query.properties.relevanceContent > 0.0) {
 			AddQueryTyped<QueryContentThread,QueryDictionaryThreadParam>(dbHelpers[0].Connection(),query,dictionary); }
 
 		if(query.properties.relevanceMeta > 0.0) {
-			AddQueryTyped<QueryMetaThread,QueryDictionaryThreadParam>(dbHelpers[1].Connection(),query,dictionary);
-		}
+			AddQueryTyped<QueryMetaThread,QueryDictionaryThreadParam>(dbHelpers[1].Connection(),query,dictionary); }
 	}
 }
 

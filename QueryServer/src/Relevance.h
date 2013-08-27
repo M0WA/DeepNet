@@ -1,14 +1,18 @@
-/*
- * Relevance.h
+/**
  *
- *  Created on: 16.06.2012
- *      Author: Moritz Wagner
+ * @file Relevance.h
+ * @author Moritz Wagner
+ * @date 16.06.2012
+ *
  */
 
 #pragma once
 
 namespace queryserver {
 
+/**
+ * @brief implements relevance functionality for query results
+ */
 class Relevance
 {
 public:
@@ -30,15 +34,20 @@ private:
 	, weight(1.0) { }
 
 public:
-	bool operator==(const Relevance& rhs)      const { return (this->GetWeightedRelevance() == rhs.GetWeightedRelevance());      }
-	bool operator<(const Relevance& rhs)       const { return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
+	bool operator==(const Relevance& rhs) const {
+		return (this->GetWeightedRelevance() == rhs.GetWeightedRelevance());}
+
+	bool operator<(const Relevance& rhs) const {
+		return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
+
 	Relevance& operator+=(const Relevance& rhs) {
 		this->relevance += rhs.relevance;
 		this->weight += rhs.weight;
 		return *this; }
 
 public:
-	double GetWeightedRelevance(void) const { return GetRelevance() * GetWeight(); }
+	double GetWeightedRelevance(void) const {
+		return GetRelevance() * GetWeight(); }
 
 public:
 	const double& GetRelevance(void) const { return relevance; }
