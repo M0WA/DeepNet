@@ -58,7 +58,10 @@ public:
 				usleep(250 * 1000); }
 			else {
 				//removes 25% of the cache
-				RemoveItem(0, ( tmpLimit > 4 ? tmpLimit : tmpLimit /4 ) );
+				rwLockEntries.WaitForWriteLock();
+				if(mapEntries.size() > tmpLimit){
+					RemoveItem(0, ( tmpLimit < 4 ? tmpLimit : tmpLimit/4 ), false ); }
+				rwLockEntries.ReleaseLock();
 			}
 		}
 
@@ -182,16 +185,7 @@ public:
 	 */
 	void RemoveItem(const size_t startPos, const size_t count)
 	{
-		rwLockEntries.WaitForWriteLock();
-		typename std::map<T, V>::iterator iterStart(mapEntries.begin());
-		if(startPos)
-			std::advance(iterStart,startPos);
-
-		typename std::map<T, V>::iterator iterEnd(mapEntries.begin());
-		std::advance(iterEnd, ( (count>0 && count<mapEntries.size()) ? count : mapEntries.size()) );
-
-		mapEntries.erase(iterStart,iterEnd);
-		rwLockEntries.ReleaseLock();
+		RemoveItem(startPos, count, true);
 	}
 
 	/**
@@ -358,6 +352,24 @@ public:
 		return ret; }
 
 private:
+	void RemoveItem(const size_t startPos, const size_t count, const bool lock) {
+
+		if(lock)
+			rwLockEntries.WaitForWriteLock();
+
+		typename std::map<T, V>::iterator iterStart(mapEntries.begin());
+		if(startPos)
+			std::advance(iterStart,startPos);
+
+		typename std::map<T, V>::iterator iterEnd(mapEntries.begin());
+		std::advance(iterEnd, ( (count>0 && count<mapEntries.size()) ? count : mapEntries.size()) );
+
+		mapEntries.erase(iterStart,iterEnd);
+
+		if(lock)
+			rwLockEntries.ReleaseLock();
+	}
+
 	void AddMisses(size_t n) const {
 		rwLockMiss.WaitForWriteLock();
 		misses += n;
