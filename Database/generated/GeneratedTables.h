@@ -54,6 +54,7 @@
 #include "dataminingalertsTableBase.h"
 #include "cacheurlTableBase.h"
 #include "dictTableBase.h"
+#include "urlspathpartTableBase.h"
 #include "cachepathpartsTableBase.h"
 #include "customerproductsTableBase.h"
 #include "customerdomainblacklistTableBase.h"
