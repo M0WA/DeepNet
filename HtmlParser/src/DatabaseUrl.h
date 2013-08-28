@@ -7,6 +7,8 @@
 #pragma once
 
 #include <map>
+#include <vector>
+
 #include <HttpUrl.h>
 
 namespace database {
@@ -112,7 +114,7 @@ private:
 	void InitByUrlID(database::DatabaseConnection* db, const long long& urlID);
 	void InitByIDs(database::DatabaseConnection* db);
 
-	void Store(database::DatabaseConnection* db);
+	void Store(database::DatabaseConnection* db,const std::vector<long long>& pathPartIDs);
 
 private:
 	long long urlID;

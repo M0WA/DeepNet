@@ -132,12 +132,13 @@ void DatabaseUrl::InitByHttpUrl(database::DatabaseConnection* db) {
 		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
 
 	//path part
-	caching::CacheUrlPathPart::GetIDByUrlPathPart(db,path_part,urlPathPartID);
+	std::vector<long long> pathPartIDs;
+	caching::CacheUrlPathPart::GetIDByUrlPathPart(db,path_part,urlPathPartID,pathPartIDs);
 
 	//search part
 	caching::CacheUrlSearchPart::GetIDByUrlSearchPart(db,search_part,urlSearchPartID);
 
-	Store(db);
+	Store(db,pathPartIDs);
 }
 
 void DatabaseUrl::InitByUrlID(database::DatabaseConnection* db, const long long& urlID) {
@@ -229,7 +230,7 @@ void DatabaseUrl::InitByIDs(database::DatabaseConnection* db) {
 	}
 }
 
-void DatabaseUrl::Store(database::DatabaseConnection* db) {
+void DatabaseUrl::Store(database::DatabaseConnection* db,const std::vector<long long>& pathPartIDs) {
 
 	if(!isCalculated)
 		CalculateFullUrl(db);
@@ -257,6 +258,15 @@ void DatabaseUrl::Store(database::DatabaseConnection* db) {
 
 	if(urlID == -1){
 		THROW_EXCEPTION(network::HttpUrlParserInvalidUrlException, GetFullUrl(), ""); }
+
+
+	std::vector<long long>::const_iterator iPathParts(pathPartIDs.begin());
+	for(;iPathParts!=pathPartIDs.end();++iPathParts) {
+		database::urlspathpartTableBase urlIdPathPartIDTbl;
+		urlIdPathPartIDTbl.Set_URL_ID(urlID);
+		urlIdPathPartIDTbl.Set_PATHPART_ID(*iPathParts);
+		urlIdPathPartIDTbl.InsertOrUpdate(db);
+	}
 }
 
 bool DatabaseUrl::DeepMatchUrl(const DatabaseUrl& rhs, const bool compareAuth) const {
