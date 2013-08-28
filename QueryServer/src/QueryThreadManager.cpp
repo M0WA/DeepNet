@@ -100,8 +100,9 @@ void QueryThreadManager::ReleaseQuery() {
 	queryThreadIDs.clear();
 	ReleaseAll();
 
-	if(dictionary)
+	if(dictionary) {
 		delete dictionary;
+		dictionary = 0; }
 
 	releaseSeen = true;
 }
