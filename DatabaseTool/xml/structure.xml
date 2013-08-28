@@ -81,6 +81,29 @@
 
 <!-- ======================================================================================== 
  *
+ *	TABLE: urlspathpart
+ *
+ --> 
+<table
+	name="urlspathpart"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="documents"
+>
+
+	<column name="ID"          type="INTEGER"  notnull="1" autoincrement="1" />
+  <column name="PATHPART_ID" type="INTEGER"  notnull="1" />
+  <column name="URL_ID"	     type="INTEGER"  notnull="1" />
+
+	<primary_key column="ID" />
+	<foreign_key column="PATHPART_ID" references_table="pathparts" references_column="ID" MySQL_Database="documents" />
+	<foreign_key column="URL_ID"      references_table="urls"      references_column="ID" MySQL_Database="documents" />
+  <unique_key  column="PATHPART_ID,URL_ID" />
+
+</table>
+
+
+<!-- ======================================================================================== 
+ *
  *	TABLE: pathparts
  *
  --> 
