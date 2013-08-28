@@ -59,7 +59,7 @@ void* QueryMetaThread::OnRun(){
 	return 0;
 }
 
-bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) {
+bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 

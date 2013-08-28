@@ -35,7 +35,7 @@ private:
 	virtual void OnDestroyThreadInstance();
 
 private:
-	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results);
+	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const;
 	bool ProcessResults(database::SelectResultContainer<database::TableBase>& results);
 };
 

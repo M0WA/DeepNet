@@ -11,6 +11,7 @@
 #include "QueryThread.h"
 
 #include <vector>
+#include <map>
 
 namespace queryserver {
 
@@ -29,7 +30,8 @@ private:
 	virtual const char* GetThreadName() const { return "QueryUrlPathThread"; }
 
 private:
-	std::vector<long long> pathPartIDs;
+	bool GetPathPartIDs(std::vector<long long>& pathPartIDs,std::map<long long,size_t>& pathPartIDKeywordPos) const;
+	bool ProcessResults(const std::vector<long long>& pathPartIDs,const std::map<long long,size_t>& pathPartIDKeywordPos);
 };
 
 }
