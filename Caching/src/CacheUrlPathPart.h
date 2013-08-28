@@ -51,6 +51,19 @@ public:
 		long long& urlPathPartID);
 
 	/**
+	 * gets urlPathPartID of an url by it's path part
+	 * @param db database connection
+	 * @param urlPathPart url path part to search for
+	 * @param urlPathPartID urlPathPartID for given path part
+	 * @param pathPartIDs will contain all pathpart ids (in correct order)
+	 */
+	static void GetIDByUrlPathPart(
+		database::DatabaseConnection* db,
+		const std::string& urlPathPart,
+		long long& urlPathPartID,
+		std::vector<long long>& pathPartIDs);
+
+	/**
 	 * removes all items from cache.
 	 */
 	static void Clear(void);

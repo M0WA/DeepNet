@@ -77,6 +77,11 @@ void CacheUrlPathPart::Init(database::DatabaseConnection* db) {
 }
 
 void CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart, long long& urlPathPartID) {
+	std::vector<long long> tmp;
+	CacheUrlPathPart::GetIDByUrlPathPart(db,pathPart,urlPathPartID,tmp);
+}
+
+void CacheUrlPathPart::GetIDByUrlPathPart(database::DatabaseConnection* db,const std::string& pathPart, long long& urlPathPartID, std::vector<long long>& pathPartIDs) {
 
 	bool isInCache(cacheInstance.idUrlPathPart.GetByValue(pathPart,urlPathPartID));
 	isInCache &= (urlPathPartID != -1);
@@ -103,7 +108,6 @@ AND
 		parts.push_back(""); }
 
 	//fetch all path part ids
-	std::vector<long long> pathPartIDs;
 	std::vector<std::string>::const_iterator iPathParts(parts.begin());
 	for(;iPathParts!=parts.end();++iPathParts) {
 		long long pathPartID(-1);
