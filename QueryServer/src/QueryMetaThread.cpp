@@ -23,6 +23,8 @@
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
 
+#include <Dictionary.h>
+
 #include <ContainerTools.h>
 #include <StringTools.h>
 #include <TimeTools.h>
@@ -40,12 +42,6 @@ QueryMetaThread::QueryMetaThread()
 QueryMetaThread::~QueryMetaThread() {
 }
 
-void QueryMetaThread::OnInitThreadInstance() {
-}
-
-void QueryMetaThread::OnDestroyThreadInstance(){
-}
-
 void* QueryMetaThread::OnRun(){
 
 	database::SelectResultContainer<database::TableBase> results;
@@ -61,27 +57,24 @@ void* QueryMetaThread::OnRun(){
 
 bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
-	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
-
-	std::vector<long long> allDictIDs;
-	allDictIDs.insert(allDictIDs.end(),dictThreadParam->dictInfo->dictIDs.begin(),dictThreadParam->dictInfo->dictIDs.end());
 	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
+	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
+	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
-	if(dictThreadParam->dictInfo->caseInsensitiveDictIDs.size()) {
-		tools::ContainerTools::AppendFlattenedVector(dictThreadParam->dictInfo->caseInsensitiveDictIDs,allDictIDs);}
-
-	tools::ContainerTools::MakeUniqueVector(allDictIDs,true);
+	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
 
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::docmetaTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());
 
 	database::TableColumnDefinition
+		*colDefMetaType(database::docmetaTableBase::GetDefinition_type()),
 		*colDefDictID(database::docmetaTableBase::GetDefinition_DICT_ID()),
 		*colDefOccurrence(database::docmetaTableBase::GetDefinition_occurrence()),
 		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
 		*colDefUrlID(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
 		*colDefFound(database::urlstagesTableBase::GetDefinition_found_date());
 
+	select.SelectAddColumnAlias(colDefMetaType,colDefMetaType->GetColumnName());
 	select.SelectAddColumnAlias(colDefDictID,colDefDictID->GetColumnName());
 	select.SelectAddColumnAlias(colDefOccurrence,colDefOccurrence->GetColumnName());
 	select.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
@@ -152,8 +145,10 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 	const Query& query(queryThreadParam.GetConst()->query);
 	const QueryProperties& queryProperties(query.properties);
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
+	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
 	tools::Pointer<database::TableColumnDefinition>
+		colDefMetaTypePtr(database::docmetaTableBase::GetDefinition_type()),
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
 		colDefUrlStageIDPtr(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
 		colDefOccurencePtr(database::docmetaTableBase::GetDefinition_occurrence()),
@@ -161,6 +156,7 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 		colDefFoundPtr(database::urlstagesTableBase::GetDefinition_found_date());
 
 	const database::TableColumnDefinition
+		*colDefMetaType(colDefMetaTypePtr.GetConst()),
 		*colDefUrlID(colDefUrlIDPtr.GetConst()),
 		*colDefUrlStageID(colDefUrlStageIDPtr.GetConst()),
 		*colDefOccurence(colDefOccurencePtr.GetConst()),
@@ -172,18 +168,20 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 		const database::TableBase* curTbl(results.GetConstIter());
 
 		const database::TableColumn
+			*colMetaType(curTbl->GetConstColumnByName(colDefMetaType->GetColumnName())),
 			*colUrlID(curTbl->GetConstColumnByName(colDefUrlID->GetColumnName())),
 			*colUrlStageID(curTbl->GetConstColumnByName(colDefUrlStageID->GetColumnName())),
 			*colOccurence(curTbl->GetConstColumnByName(colDefOccurence->GetColumnName())),
 			*colDictID(curTbl->GetConstColumnByName(colDefDictID->GetColumnName())),
 			*colFound(curTbl->GetConstColumnByName(colDefFound->GetColumnName()));
 
-		if(!colUrlID || !colDictID || !colOccurence || !colFound || !colUrlStageID) {
+		if(!colMetaType || !colUrlID || !colDictID || !colOccurence || !colFound || !colUrlStageID) {
 			log::Logging::LogWarn("invalid result row received for search query content result, ommitting entry");
 			continue; }
 
-		long long urlID(-1),urlStageID(-1), dictID(-1), occurence(-1);
+		long long metaType(-1), urlID(-1),urlStageID(-1), dictID(-1), occurence(-1);
 		struct tm found;
+		colMetaType->Get(metaType);
 		colUrlID->Get(urlID);
 		colUrlStageID->Get(urlStageID);
 		colDictID->Get(dictID);
@@ -191,17 +189,58 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 		colFound->Get(found);
 
 		//
-		//TODO: differentiate results by meta type
+		//TODO: this should not be hardcoded, move to QueryProperties
 		//
+		double matchRelevanceFactor(0.0);
+		switch(dictInfo->GetMatchTypeForDictionaryID(dictID))
+		{
+		case DictionaryInfoThread::EXACT_MATCH:
+			matchRelevanceFactor=1.0;
+			break;
+
+		case DictionaryInfoThread::CASEINSENSITIVE_MATCH:
+			matchRelevanceFactor=0.95;
+			break;
+
+		case DictionaryInfoThread::SIMILAR_MATCH:
+			matchRelevanceFactor=0.9;
+			break;
+
+		default:
+			//TODO: throw exception
+			break;
+		}
+
+		//
+		//TODO: this should not be hardcoded, move to QueryProperties
+		//
+		double metaRelevanceFactor(0.5);
+		switch(metaType)
+		{
+		case indexing::Dictionary::META_TITLE:
+			metaRelevanceFactor = 1.0;
+			break;
+
+		case indexing::Dictionary::META_DESCRIPTION:
+			metaRelevanceFactor = 0.95;
+			break;
+
+		case indexing::Dictionary::META_KEYWORDS:
+			metaRelevanceFactor = 0.8;
+			break;
+
+		default:
+			break;
+		}
 
 		resultEntries.Add(
 			new QueryThreadResultEntry(
 				META_RESULT,
 				urlID,
 				urlStageID,
-				dictThreadParam->dictInfo->dictIDPosition.at(dictID),
+				dictInfo->GetPositionForDictionaryID(dictID),
 				occurence,
-				queryProperties.relevanceContent,
+				queryProperties.relevanceMeta * matchRelevanceFactor * metaRelevanceFactor,
 				found));
 	}
 

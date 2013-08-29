@@ -23,6 +23,11 @@ public:
 	virtual ~QueryProperties();
 
 	/**
+	 * query id
+	 */
+	long long queryId;
+
+	/**
 	 * min age of webpage
 	 */
 	struct tm minAge;

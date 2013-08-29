@@ -44,12 +44,12 @@ private:
 	/**
 	 * called when a new query has arrived
 	 */
-	virtual void OnInitThreadInstance()=0;
+	virtual void OnInitThreadInstance() {}
 
 	/**
 	 * called when query is released
 	 */
-	virtual void OnDestroyThreadInstance()=0;
+	virtual void OnDestroyThreadInstance() {}
 
 	/**
 	 * returns specific name of the thread used for logging purposes

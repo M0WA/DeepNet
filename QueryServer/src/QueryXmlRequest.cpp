@@ -60,8 +60,8 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 		query.pageNo = 0; }
 
 	//parsing query id
-	if(!QueryXmlFirstElement(query.queryId, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
-		query.queryId = 0; }
+	if(!QueryXmlFirstElement(query.properties.queryId, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
+		query.properties.queryId = 0; }
 
 	if(!ParseQueryCriteria(xmlRequest))
 		return false;

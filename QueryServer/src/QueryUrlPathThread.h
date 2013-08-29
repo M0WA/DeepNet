@@ -24,8 +24,6 @@ public:
 	virtual ~QueryUrlPathThread();
 
 private:
-	virtual void OnInitThreadInstance();
-	virtual void OnDestroyThreadInstance();
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryUrlPathThread"; }
 

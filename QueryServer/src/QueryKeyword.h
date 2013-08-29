@@ -16,8 +16,10 @@ namespace queryserver {
  * @brief encapsulates a single keyword in a Query
  */
 class QueryKeyword {
+private:
+	QueryKeyword();
+
 public:
-	QueryKeyword() : position(-1), keyword(""), caseSensitive(false) {}
 	QueryKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
 	virtual ~QueryKeyword();
 
@@ -35,6 +37,12 @@ public:
 	const std::string& GetKeyword() const { return keyword; }
 
 	/**
+	 * gets lowered keyword
+	 * @return lowered keyword
+	 */
+	const std::string& GetLoweredKeyword() const { return keywordLowered; }
+
+	/**
 	 * true if keyword is case sensitive
 	 * @return true if case sensitive
 	 */
@@ -43,6 +51,7 @@ public:
 private:
 	long long position;
 	std::string keyword;
+	std::string keywordLowered;
 	bool caseSensitive;
 };
 

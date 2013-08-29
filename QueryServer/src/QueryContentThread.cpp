@@ -40,12 +40,6 @@ QueryContentThread::QueryContentThread()
 QueryContentThread::~QueryContentThread() {
 }
 
-void QueryContentThread::OnInitThreadInstance() {
-}
-
-void QueryContentThread::OnDestroyThreadInstance(){
-}
-
 void* QueryContentThread::OnRun() {
 
 	database::SelectResultContainer<database::TableBase> results;
@@ -61,16 +55,11 @@ void* QueryContentThread::OnRun() {
 
 bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
-	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
-
-	std::vector<long long> allDictIDs;
-	allDictIDs.insert(allDictIDs.end(),dictThreadParam->dictInfo->dictIDs.begin(),dictThreadParam->dictInfo->dictIDs.end());
 	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
+	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
+	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
-	if(dictThreadParam->dictInfo->caseInsensitiveDictIDs.size()) {
-		tools::ContainerTools::AppendFlattenedVector(dictThreadParam->dictInfo->caseInsensitiveDictIDs,allDictIDs);}
-
-	tools::ContainerTools::MakeUniqueVector(allDictIDs,true);
+	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
 
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::dockeyTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());
@@ -128,14 +117,9 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 
 	select.Where().AddColumns(where);
 
-	if(queryProperties.maxResults != 0)
-		select.SetLimit(queryProperties.maxResults);
-	else {
-		//
-		//TODO: do not hardcode this limit here
-		//
-		select.SetLimit(10000);	}
-
+	//
+	//TODO: limit results here
+	//
 
 	try {
 		dbConn->Select(select,results);
@@ -152,6 +136,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 	const Query query(queryThreadParam.GetConst()->query);
 	const QueryProperties& queryProperties(query.properties);
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
+	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
@@ -190,14 +175,37 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 		colOccurence->Get(occurence);
 		colFound->Get(found);
 
+		//
+		//TODO: this should not be hardcoded, move to QueryProperties
+		//
+		double matchRelevanceFactor(0.0);
+		switch(dictInfo->GetMatchTypeForDictionaryID(dictID))
+		{
+		case DictionaryInfoThread::EXACT_MATCH:
+			matchRelevanceFactor=1.0;
+			break;
+
+		case DictionaryInfoThread::CASEINSENSITIVE_MATCH:
+			matchRelevanceFactor=0.95;
+			break;
+
+		case DictionaryInfoThread::SIMILAR_MATCH:
+			matchRelevanceFactor=0.9;
+			break;
+
+		default:
+			//TODO: throw exception
+			break;
+		}
+
 		resultEntries.Add(
 			new QueryThreadResultEntry(
 				CONTENT_RESULT,
 				urlID,
 				urlStageID,
-				dictThreadParam->dictInfo->dictIDPosition.at(dictID),
+				dictInfo->GetPositionForDictionaryID(dictID),
 				occurence,
-				queryProperties.relevanceContent,
+				queryProperties.relevanceContent * matchRelevanceFactor,
 				found));
 	}
 

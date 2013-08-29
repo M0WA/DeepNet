@@ -35,13 +35,53 @@ DictionaryInfoThread::DictionaryInfoThread(database::DatabaseConnection* dbConn,
 : threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(DictionaryInfoThread::DictionaryInfoThreadFunction)),false)
 , dbConn(dbConn)
 , query(query) {
-	const std::vector<std::string>& vecKey(query.keywords);
-	dictIDs.resize(vecKey.size(),-1);
-	if(query.lowerKeywords.size()) {
-		caseInsensitiveDictIDs.resize(query.lowerKeywords.size(),std::vector<long long>()); }
 }
 
 DictionaryInfoThread::~DictionaryInfoThread() {
+}
+
+DictionaryInfoThread::KeywordMatchType DictionaryInfoThread::GetMatchTypeForDictionaryID(const long long& dictID) const {
+
+	if(IsInVector(exactMatchDictIDs,dictID))
+		return EXACT_MATCH;
+	if(IsInVector(caseInsensitiveDictIDs,dictID))
+		return CASEINSENSITIVE_MATCH;
+	if(IsInVector(similarDictIDs,dictID))
+		return SIMILAR_MATCH;
+
+	return INVALID_MATCH_TYPE;
+}
+
+bool DictionaryInfoThread::IsInVector(const std::map<size_t, std::vector<long long> >& map,const long long& dictID) const {
+	size_t pos;
+	return IsInVector(pos,map,dictID);
+}
+
+bool DictionaryInfoThread::IsInVector(size_t& pos,const std::map<size_t, std::vector<long long> >& map,const long long& dictID) const {
+	std::map<size_t, std::vector<long long> >::const_iterator i(map.begin());
+	for(;i!=map.end();++i) {
+		std::vector<long long>::const_iterator ii(i->second.begin());
+		for(;ii!=i->second.end();++ii) {
+			if(*ii == dictID) {
+				pos = i->first;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+size_t DictionaryInfoThread::GetPositionForDictionaryID(const long long& dictID) const {
+
+	size_t pos(0);
+	if(IsInVector(pos,exactMatchDictIDs,dictID))
+		return pos;
+	if(IsInVector(pos,caseInsensitiveDictIDs,dictID))
+		return pos;
+	if(IsInVector(pos,similarDictIDs,dictID))
+		return pos;
+
+	return 0;
 }
 
 void* DictionaryInfoThread::DictionaryInfoThreadFunction(threading::Thread::THREAD_PARAM* threadParam) {
@@ -50,15 +90,17 @@ void* DictionaryInfoThread::DictionaryInfoThreadFunction(threading::Thread::THRE
 
 	DictionaryInfoThread* threadInst = reinterpret_cast<DictionaryInfoThread*>(threadParam->instance);
 
+	std::vector<long long> excludeDictIDs;
+
 	PERFORMANCE_LOG_START;
 
-	if(!threadInst->GetIDsForKeywords()) {
+	if(!threadInst->GetIDsForKeywords(excludeDictIDs)) {
 		return (void*)1; }
 
-	if(!threadInst->GetIDsForCaseInsensitiveKeywords()) {
+	if(!threadInst->GetIDsForCaseInsensitiveKeywords(excludeDictIDs)) {
 		return (void*)1; }
 
-	if(!threadInst->GetIDsForSimilarKeywords()) {
+	if(!threadInst->GetIDsForSimilarKeywords(excludeDictIDs)) {
 		return (void*)1; }
 
 	PERFORMANCE_LOG_STOP("DictionaryInfoThread");
@@ -66,143 +108,91 @@ void* DictionaryInfoThread::DictionaryInfoThreadFunction(threading::Thread::THRE
 	return 0;
 }
 
-bool DictionaryInfoThread::GetIDsForKeywords() {
+bool DictionaryInfoThread::GetIDsForKeywords(
+	const std::vector<std::string>& vecKey,
+	database::WhereConditionTableColumnCreateParam& whereKeywordCreate,
+	std::vector<long long>& excludeDictIDs,
+	std::map<size_t, std::vector<long long> >& mapPositionDictIDs) {
 
-	const std::vector<std::string>& vecKey(query.keywords);
-
-	database::SelectResultContainer<database::dictTableBase> results;
-
-	try {
-		database::dictTableBase::GetBy_keyword(dbConn,vecKey,results);
-	}
-	catch(database::DatabaseException& e) {
-		std::string keywordsDump;
-		tools::ContainerTools::DumpVector(vecKey,keywordsDump);
-		log::Logging::LogTrace("error while selecting keywords\n%s",keywordsDump.c_str());
-		return false;
-	}
-
-	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
-
-		std::string tmpKey;
-		results.GetConstIter()->Get_keyword(tmpKey);
-
-		size_t keywordPos(query.GetPositionByKeyword(tmpKey));
-		std::vector<long long>::iterator iDictID(dictIDs.begin());
-		std::advance(iDictID,keywordPos);
-
-		results.GetConstIter()->Get_ID(*iDictID);
-		dictIDPosition.insert(std::pair<long long,size_t>(*iDictID,keywordPos));
-	}
-
-	return true;
-}
-
-bool DictionaryInfoThread::GetIDsForCaseInsensitiveKeywords() {
-
-	const std::vector<std::string>& vecLower(query.lowerKeywords);
-
-	if(query.lowerKeywords.size() == 0)
-		return true;
+	whereKeywordCreate.compOp = database::WhereCondition::InitialComp();
 
 	std::vector<database::WhereConditionTableColumn*> where;
-	database::dictTableBase::GetWhereColumnsFor_keyword(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp()),
-		vecLower,
-		where );
+	std::vector<std::string>::const_iterator iKeyword(vecKey.begin());
+	for(size_t pos(0);iKeyword!=vecKey.end();++iKeyword,++pos) {
 
-	database::dictTableBase::GetWhereColumnsFor_ID(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
-		dictIDs,
-		where );
-
-	tools::Pointer<database::TableDefinition> defDictPtr(database::dictTableBase::CreateTableDefinition());
-	database::SelectStatement selectCaseInsensitive(defDictPtr.GetConst());
-	selectCaseInsensitive.SelectAllColumns();
-	selectCaseInsensitive.Where().AddColumns(where);
-
-	database::SelectResultContainer<database::dictTableBase> results;
-	try {
-		dbConn->Select(selectCaseInsensitive,results);
-	}
-	catch(database::DatabaseException& e) {
-		return false;
-	}
-
-	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
-
-		std::string tmpKey;
-		results.GetConstIter()->Get_keyword(tmpKey);
-
-		size_t keywordPos(query.GetPositionByKeyword(tmpKey));
-		std::vector< std::vector<long long> >::iterator iDictID(caseInsensitiveDictIDs.begin());
-		std::advance(iDictID,keywordPos);
-
-		long long dictID(-1);
-		results.GetConstIter()->Get_ID(dictID);
-
-		dictIDPosition.insert(std::pair<long long,size_t>(dictID,keywordPos));
-		caseInsensitiveDictIDs.at(keywordPos).push_back(dictID);
-	}
-
-	return true;
-}
-
-bool DictionaryInfoThread::GetIDsForSimilarKeywords() {
-
-	const std::vector<std::string>& vecLower(query.lowerKeywords);
-
-	if(query.lowerKeywords.size() == 0)
-		return true;
-
-	std::vector<database::WhereConditionTableColumn*> where;
-	database::dictTableBase::GetWhereColumnsFor_keyword(
-		database::WhereConditionTableColumnCreateParam(
-			database::WhereCondition::Like(),
-			database::WhereCondition::InitialComp(),
-			database::WILDCARD_BOTH),
-		vecLower,
-		where );
-
-	if(dictIDs.size()) {
-		database::dictTableBase::GetWhereColumnsFor_ID(
-			database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
-			dictIDs,
+		where.clear();
+		database::dictTableBase::GetWhereColumnsFor_keyword(
+			whereKeywordCreate,
+			*iKeyword,
 			where );
-	}
 
-	if(caseInsensitiveDictIDs.size()) {
-		std::vector< std::vector<long long> >::const_iterator iCSDict(caseInsensitiveDictIDs.begin());
-		for(;iCSDict!=caseInsensitiveDictIDs.end();++iCSDict) {
-			if(iCSDict->size()) {
-				database::dictTableBase::GetWhereColumnsFor_ID(
-					database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
-					*iCSDict,
-					where );
-			}
+		if(excludeDictIDs.size()) {
+			database::dictTableBase::GetWhereColumnsFor_ID(
+				database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(),database::WhereCondition::And()),
+				excludeDictIDs,
+				where );
+		}
+
+		database::SelectResultContainer<database::dictTableBase> results;
+		database::SelectStatement selectDict(database::dictTableBase::CreateTableDefinition());
+		selectDict.SelectAllColumns();
+		selectDict.Where().AddColumns(where);
+
+		try {
+			dbConn->Select(selectDict,results); }
+		catch(database::DatabaseException& e) {
+			log::Logging::LogTrace("error while selecting keyword: %s",iKeyword->c_str());
+			return false; }
+
+		for(results.ResetIter();!results.IsIterEnd();results.Next()) {
+			long long dictID(-1);
+			results.GetConstIter()->Get_ID(dictID);
+			mapPositionDictIDs[pos].push_back(dictID);
+			excludeDictIDs.push_back(dictID);
+			allKeywordIDs.push_back(dictID);
 		}
 	}
 
-	tools::Pointer<database::TableDefinition> defDictPtr(database::dictTableBase::CreateTableDefinition());
-	database::SelectStatement select(defDictPtr.GetConst());
-	select.SelectAllColumns();
-	select.Where().AddColumns(where);
-
-	database::SelectResultContainer<database::dictTableBase> results;
-	try {
-		dbConn->Select(select,results);
-	}
-	catch(database::DatabaseException& e) {
-		return false;
-	}
-
-	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
-		long long dictID(-1);
-		results.GetConstIter()->Get_ID(dictID);
-		similarDictIDs.push_back(dictID);
-	}
-
 	return true;
+}
+
+bool DictionaryInfoThread::GetIDsForKeywords(std::vector<long long>& excludeDictIDs) {
+
+	std::vector<std::string> vecKey;
+	query.GetKeywords(vecKey);
+
+	database::WhereConditionTableColumnCreateParam whereCreate(database::WhereCondition::Equals(),database::WhereCondition::InitialComp());
+	return GetIDsForKeywords(
+		vecKey,
+		whereCreate,
+		excludeDictIDs,
+		exactMatchDictIDs);
+}
+
+bool DictionaryInfoThread::GetIDsForCaseInsensitiveKeywords(std::vector<long long>& excludeDictIDs) {
+
+	std::vector<std::string> vecLower;
+	query.GetLoweredKeywords(vecLower);
+
+	database::WhereConditionTableColumnCreateParam whereCreate(database::WhereCondition::Like(),database::WhereCondition::InitialComp());
+	return GetIDsForKeywords(
+		vecLower,
+		whereCreate,
+		excludeDictIDs,
+		caseInsensitiveDictIDs);
+}
+
+bool DictionaryInfoThread::GetIDsForSimilarKeywords(std::vector<long long>& excludeDictIDs) {
+
+	std::vector<std::string> vecLower;
+	query.GetLoweredKeywords(vecLower);
+
+	database::WhereConditionTableColumnCreateParam whereCreate(database::WhereCondition::Like(),database::WhereCondition::InitialComp(),database::WILDCARD_BOTH);
+	return GetIDsForKeywords(
+		vecLower,
+		whereCreate,
+		excludeDictIDs,
+		similarDictIDs);
 }
 
 }

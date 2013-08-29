@@ -96,7 +96,7 @@ void QueryXmlResponse::AssembleXMLResult(const std::vector<QueryXmlResponseResul
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
 		"<response>"
-		"<queryId>" << query.queryId << "</queryId>"
+		"<queryId>" << query.properties.queryId << "</queryId>"
 		"<pageNo>" << query.pageNo << "</pageNo>"
 		"<totalResults>" << results.size() << "</totalResults>" <<
 		xmlResultEntries.str() <<

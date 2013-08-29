@@ -34,17 +34,14 @@ QuerySecondLevelDomainThread::QuerySecondLevelDomainThread() {
 QuerySecondLevelDomainThread::~QuerySecondLevelDomainThread() {
 }
 
-void QuerySecondLevelDomainThread::OnInitThreadInstance(){
-}
-
-void QuerySecondLevelDomainThread::OnDestroyThreadInstance(){
-}
-
 void* QuerySecondLevelDomainThread::OnRun(){
 
 	const Query& query(queryThreadParam.GetConst()->query);
 	const QueryProperties& queryProperties(query.properties);
-	const std::vector<std::string>& lowerKeywords(query.lowerKeywords);
+	std::vector<std::string> lowerKeywords;
+	query.GetLoweredKeywords(lowerKeywords);
+	if(lowerKeywords.size()) {
+		return 0; }
 
 	tools::Pointer<database::TableDefinition> ptrTblDef(database::secondleveldomainsTableBase::CreateTableDefinition());
 	database::SelectStatement select(ptrTblDef.GetConst());
@@ -66,23 +63,15 @@ void* QuerySecondLevelDomainThread::OnRun(){
 
 	std::vector<database::WhereConditionTableColumn*> where;
 
-	if(lowerKeywords.size()) {
-		database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(
-			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp()),
-			lowerKeywords,
-			where );
-	}
+	database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp(),database::WILDCARD_BOTH),
+		lowerKeywords,
+		where );
+	select.Where().AddColumns(where);
 
-	if(where.size())
-		select.Where().AddColumns(where);
-
-	if(queryProperties.maxResults != 0)
-		select.SetLimit(queryProperties.maxResults);
-	else {
-		//
-		//TODO: do not hardcode this limit here
-		//
-		select.SetLimit(10000);	}
+	//
+	//TODO: limit results here
+	//
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {
@@ -119,7 +108,7 @@ void* QuerySecondLevelDomainThread::OnRun(){
 				SECONDLEVELDOMAIN_RESULT,
 				urlID,
 				urlStageID,
-				query.GetPositionByKeyword(domainName),
+				0, //query.GetPositionByKeyword(domainName), //TODO: find real position
 				1,
 				queryProperties.relevanceSecondLevelDomain,
 				found));

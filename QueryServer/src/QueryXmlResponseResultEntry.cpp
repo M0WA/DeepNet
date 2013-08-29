@@ -60,6 +60,9 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 	std::map<QueryThreadResultType,size_t> typeCounts;
 	typeCounts[threadResults.at(0)->type]++;
 
+	std::vector<std::string> keywordsStrings;
+	query.GetKeywords(keywordsStrings);
+
 	std::ostringstream keywordsPart;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
 	std::advance(iRes,1);
@@ -68,7 +71,7 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 
 		typeCounts[res->type]++;
 
-		std::string encodedKeyword(query.GetKeywordByPosition(res->keywordPos));
+		std::string encodedKeyword(keywordsStrings.at(res->keywordPos));
 		network::HttpUrlParser::EncodeUrl(encodedKeyword);
 		keywordsPart << "<keyword>" << encodedKeyword << "</keyword>";
 	}

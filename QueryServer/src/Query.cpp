@@ -13,8 +13,7 @@
 namespace queryserver {
 
 Query::Query()
-: queryId(-1)
-, pageNo(0)
+: pageNo(0)
 {
 }
 
@@ -24,32 +23,18 @@ Query::~Query() {
 void Query::AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive) {
 
 	queryKeywords.insert(queryKeywords.end(),QueryKeyword(position,keyword,caseSensitive));
-	keywords.insert(keywords.end(),keyword);
-	lowerKeywords.insert(lowerKeywords.end(),tools::StringTools::ToLowerNP(keyword));
 }
 
-size_t Query::GetPositionByKeyword(const std::string& keyword) const {
-
-	std::vector<std::string>::const_iterator i(keywords.begin());
-	for(size_t pos(0);i!=keywords.end();++i,++pos){
-		if(i->compare(keyword) == 0) {
-			return pos; }
-	}
-
-	i=lowerKeywords.begin();
-	for(size_t pos(0);i!=lowerKeywords.end();++i,++pos){
-		if(i->compare(keyword) == 0) {
-			return pos; }
-	}
-
-	//
-	//TODO: throw exception
-	//
-	return 0;
+void Query::GetKeywords(std::vector<std::string>& keywordsOut) const {
+	std::vector<QueryKeyword>::const_iterator i(queryKeywords.begin());
+	for(;i!=queryKeywords.end();++i) {
+		keywordsOut.push_back(i->GetKeyword());	}
 }
 
-const std::string& Query::GetKeywordByPosition(const size_t& position) const {
-	return keywords.at(position);
+void Query::GetLoweredKeywords(std::vector<std::string>& keywordsOut) const {
+	std::vector<QueryKeyword>::const_iterator i(queryKeywords.begin());
+	for(;i!=queryKeywords.end();++i) {
+		keywordsOut.push_back(i->GetLoweredKeyword());	}
 }
 
 }

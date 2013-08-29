@@ -16,12 +16,6 @@ QuerySubdomainThread::QuerySubdomainThread() {
 QuerySubdomainThread::~QuerySubdomainThread() {
 }
 
-void QuerySubdomainThread::OnInitThreadInstance(){
-}
-
-void QuerySubdomainThread::OnDestroyThreadInstance(){
-}
-
 void* QuerySubdomainThread::OnRun(){
 	return 0;
 }

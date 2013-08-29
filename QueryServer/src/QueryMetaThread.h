@@ -31,8 +31,6 @@ public:
 private:
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryMetaThread"; }
-	virtual void OnInitThreadInstance();
-	virtual void OnDestroyThreadInstance();
 
 private:
 	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const;

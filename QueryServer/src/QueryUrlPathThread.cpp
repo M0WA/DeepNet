@@ -30,21 +30,18 @@ QueryUrlPathThread::QueryUrlPathThread() {
 QueryUrlPathThread::~QueryUrlPathThread() {
 }
 
-void QueryUrlPathThread::OnInitThreadInstance(){
-}
-
-void QueryUrlPathThread::OnDestroyThreadInstance(){
-}
-
 bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std::map<long long,size_t>& pathPartIDKeywordPos) const {
 
 	const Query& query(queryThreadParam.GetConst()->query);
 
-	if(query.lowerKeywords.size() == 0)
+	std::vector<std::string> lowerKeywords;
+	query.GetLoweredKeywords(lowerKeywords);
+
+	if(lowerKeywords.size() == 0)
 		return false;
 
-	std::vector<std::string>::const_iterator iKey(query.lowerKeywords.begin());
-	for(size_t pos(0);iKey != query.lowerKeywords.end();++iKey,++pos) {
+	std::vector<std::string>::const_iterator iKey(lowerKeywords.begin());
+	for(size_t pos(0);iKey != lowerKeywords.end();++iKey,++pos) {
 
 		std::vector<database::WhereConditionTableColumn*> where;
 		database::pathpartsTableBase::GetWhereColumnsFor_path(

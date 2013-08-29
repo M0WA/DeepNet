@@ -26,20 +26,6 @@ public:
 
 public:
 	/**
-	 * gets position of a certain keyword in a query
-	 * @param keyword keyword to get position for
-	 * @return keyword position
-	 */
-	size_t GetPositionByKeyword(const std::string& keyword) const;
-
-	/**
-	 * gets a keyword by it's position
-	 * @param position position of keyword to find
-	 * @return keyword
-	 */
-	const std::string& GetKeywordByPosition(const size_t& position) const;
-
-	/**
 	 * appends a keyword at a given position
 	 * @param position position of keyword to append
 	 * @param keyword keyword to append
@@ -47,26 +33,23 @@ public:
 	 */
 	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
 
+	/**
+	 * gets all keywords
+	 * @param keywords vector of keywords to fill
+	 */
+	void GetKeywords(std::vector<std::string>& keywords) const;
+
+	/**
+	 * gets all keywords in lowered form
+	 * @param keywords vector of keywords to fill
+	 */
+	void GetLoweredKeywords(std::vector<std::string>& keywords) const;
+
 public:
-	/**
-	 * raw keyword strings
-	 */
-	std::vector<std::string> keywords;
-
-	/**
-	 * lowered keyword strings
-	 */
-	std::vector<std::string> lowerKeywords;
-
 	/**
 	 * query's properties
 	 */
 	QueryProperties properties;
-
-	/**
-	 * query id
-	 */
-	long long queryId;
 
 	/**
 	 * page number for this request
