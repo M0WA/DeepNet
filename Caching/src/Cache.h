@@ -52,7 +52,7 @@ public:
 		const size_t tmpLimit(GetLimit());
 
 		while(tmpLimit) {
-			if( GetSize() < tmpLimit ) {
+			if( GetSize() <= tmpLimit ) {
 				break; }
 			else if(deleteOnGet) {
 				usleep(250 * 1000); }
