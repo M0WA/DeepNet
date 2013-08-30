@@ -86,6 +86,11 @@ public:
 	 * webpage language (empty to allow all)
 	 */
 	std::string language;
+
+	/**
+	 * page number for this request
+	 */
+	size_t pageNo;
 };
 
 }

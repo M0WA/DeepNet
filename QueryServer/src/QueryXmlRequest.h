@@ -48,6 +48,12 @@ public:
 	 */
 	const Query& GetQuery(void) const { return query; }
 
+	/**
+	 * gets raw query string
+	 * @return raw query string
+	 */
+	const std::string& GetRawQueryString() const { return rawQueryString; }
+
 private:
 	virtual void OnHandle(FCGX_Request& request);
 
@@ -131,11 +137,10 @@ private:
 
 		CRITERIA_ALL     = 1,
 		CRITERIA_META    = 2,
-		CRITERIA_TITLE   = 4,
-		CRITERIA_DOMAIN  = 16,
-		CRITERIA_CONTENT = 32,
+		CRITERIA_DOMAIN  = 4,
+		CRITERIA_CONTENT = 16,
+		CRITERIA_PATH    = 32,
 		CRITERIA_LINKS   = 64,
-		CRITERIA_PATH    = 128,
 
 		CRITERIA_MAX     = 0xFF,
 	};
@@ -160,6 +165,9 @@ private:
 
 		LIMITATION_MAX     = 0xFF,
 	};
+
+private:
+	std::string rawQueryString;
 };
 
 }

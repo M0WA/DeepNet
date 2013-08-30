@@ -51,11 +51,6 @@ public:
 	 */
 	QueryProperties properties;
 
-	/**
-	 * page number for this request
-	 */
-	size_t pageNo;
-
 private:
 	/**
 	 * query's keywords

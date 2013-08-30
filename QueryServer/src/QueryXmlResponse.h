@@ -17,6 +17,9 @@
 
 namespace database {
 	class DatabaseConnection;
+	class queryresultsTableBase;
+	template <class T> class  SelectResultContainer;
+
 }
 
 namespace queryserver {
@@ -37,10 +40,15 @@ private:
 	virtual bool Process(FCGX_Request& request);
 
 private:
-	void AssembleXMLResult(const std::vector<QueryXmlResponseResultEntry>& results);
+	bool LoadQuery(const long long& queryId,const std::string& sessionID,const std::string& rawQueryString);
+	bool CreateQuery(long long& queryId,const std::string& sessionID,const std::string& rawQueryString);
+
+	void AssembleXMLResult(const database::SelectResultContainer<database::queryresultsTableBase>& queryResults, const size_t& total, const long long& queryId);
+
 	void MergeDuplicateURLs(std::vector<QueryXmlResponseResultEntry>& responseEntries);
 	void MergeDuplicateSecondLevel(database::DatabaseConnection* db, std::vector<QueryXmlResponseResultEntry>& responseEntries);
 	void SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	void InsertResults(long long& queryId,const std::string& sessionID,const std::string& rawQueryString,const std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
 private:
 	QueryThreadManager& queryManager;

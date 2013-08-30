@@ -60,6 +60,8 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
 	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
+	if(allDictIDs.size() == 0)
+		return true;
 
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::dockeyTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());

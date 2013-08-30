@@ -13,7 +13,6 @@
 namespace queryserver {
 
 Query::Query()
-: pageNo(0)
 {
 }
 

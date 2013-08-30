@@ -44,6 +44,11 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 		log::Logging::LogWarn("could not find keywords in query request");
 		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 		return false; }
+	std::vector<std::string>::const_iterator iKey(strKeywords.begin());
+	for(size_t pos(0);iKey!=strKeywords.end();++iKey,++pos) {
+		if(pos)
+			rawQueryString.append(" ");
+		rawQueryString.append(*iKey); }
 
 	//parsing case sensivity
 	bool caseSensitive(false);
@@ -56,11 +61,11 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 		query.AppendKeyword(pos,*iStrs,caseSensitive); }
 
 	//parsing page number
-	if(!QueryXmlFirstElement(query.pageNo, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
-		query.pageNo = 0; }
+	if(!QueryXmlFirstElement(query.properties.pageNo, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
+		query.properties.pageNo = 0; }
 
 	//parsing query id
-	if(!QueryXmlFirstElement(query.properties.queryId, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
+	if(!QueryXmlFirstElement(query.properties.queryId, xmlRequest.c_str(), xmlRequest.length(), "queryId")) {
 		query.properties.queryId = 0; }
 
 	if(!ParseQueryCriteria(xmlRequest))
@@ -245,14 +250,10 @@ bool QueryXmlRequest::ParseQueryCriteria(const std::string& xmlRequest) {
 				return false; }
 			//TODO:
 			/*
-			if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceTitle/text()") || tmpList.size() == 0)
-				return false;
-			tools::StringTools::TransformString(*tmpList.begin(), out.relevanceTitle);
 			tmpList.clear();
 			if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceBackLinks/text()") || tmpList.size() == 0)
 				return false;
 			tools::StringTools::TransformString(*tmpList.begin(), out.relevanceBackLinks);
-			tmpList.clear();
 			*/
 			bDone = true;
 			break;
@@ -282,11 +283,6 @@ bool QueryXmlRequest::ParseQueryCriteria(const std::string& xmlRequest) {
 			break;
 			//TODO:
 			/*
-		case CRITERIA_TITLE:
-			if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceTitle/text()") || tmpList.size() == 0)
-				return false;
-			tools::StringTools::TransformString(*tmpList.begin(), out.relevanceTitle);
-			break;
 		case CRITERIA_LINKS:
 			if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceBackLinks/text()") || tmpList.size() == 0)
 				return false;
