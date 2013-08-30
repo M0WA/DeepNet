@@ -219,264 +219,176 @@ void queryresultsTableBase::Set_SEARCHQUERY_ID(const long long& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
-void queryresultsTableBase::Get_URL_ID(long long& out) const {
+void queryresultsTableBase::Get_resultXML(std::string& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_IBM_DB2:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      fieldName = tools::StringTools::ToLowerNP("resultXML");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* queryresultsTableBase::GetConstColumn_URL_ID() const {
+const TableColumn* queryresultsTableBase::GetConstColumn_resultXML() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_IBM_DB2:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      fieldName = tools::StringTools::ToLowerNP("resultXML");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     }
 
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* queryresultsTableBase::GetColumn_URL_ID() {
+TableColumn* queryresultsTableBase::GetColumn_resultXML() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_IBM_DB2:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      fieldName = tools::StringTools::ToLowerNP("resultXML");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     }
 
     return GetColumnByName(fieldName);
 }
 
-void queryresultsTableBase::Set_URL_ID(const long long& in) {
+void queryresultsTableBase::Set_resultXML(const std::string& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_IBM_DB2:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URL_ID");
+      fieldName = tools::StringTools::ToLowerNP("resultXML");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URL_ID";
+      fieldName = "resultXML";
       break;
     }
 
     GetColumnByName(fieldName)->Set(in);
 }
 
-void queryresultsTableBase::Get_URLSTAGE_ID(long long& out) const {
+void queryresultsTableBase::Get_position(long long& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_IBM_DB2:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      fieldName = tools::StringTools::ToLowerNP("position");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* queryresultsTableBase::GetConstColumn_URLSTAGE_ID() const {
+const TableColumn* queryresultsTableBase::GetConstColumn_position() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_IBM_DB2:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      fieldName = tools::StringTools::ToLowerNP("position");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     }
 
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* queryresultsTableBase::GetColumn_URLSTAGE_ID() {
+TableColumn* queryresultsTableBase::GetColumn_position() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_IBM_DB2:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      fieldName = tools::StringTools::ToLowerNP("position");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     }
 
     return GetColumnByName(fieldName);
 }
 
-void queryresultsTableBase::Set_URLSTAGE_ID(const long long& in) {
+void queryresultsTableBase::Set_position(const long long& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_IBM_DB2:
-      fieldName = "URLSTAGE_ID";
+      fieldName = "position";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("URLSTAGE_ID");
+      fieldName = tools::StringTools::ToLowerNP("position");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "URLSTAGE_ID";
-      break;
-    }
-
-    GetColumnByName(fieldName)->Set(in);
-}
-
-void queryresultsTableBase::Get_order_position(long long& out) const {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "order_position";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "order_position";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("order_position");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "order_position";
-      break;
-    }
-
-    GetConstColumnByName(fieldName)->Get(out);
-}
-
-const TableColumn* queryresultsTableBase::GetConstColumn_order_position() const {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "order_position";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "order_position";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("order_position");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "order_position";
-      break;
-    }
-
-    return GetConstColumnByName(fieldName);
-}
-
-TableColumn* queryresultsTableBase::GetColumn_order_position() {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "order_position";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "order_position";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("order_position");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "order_position";
-      break;
-    }
-
-    return GetColumnByName(fieldName);
-}
-
-void queryresultsTableBase::Set_order_position(const long long& in) {
-
-    std::string fieldName;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      fieldName = "order_position";
-      break;
-    case DB_IBM_DB2:
-      fieldName = "order_position";
-      break;
-    case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("order_position");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      fieldName = "order_position";
+      fieldName = "position";
       break;
     }
 
@@ -564,13 +476,51 @@ void queryresultsTableBase::GetBy_SEARCHQUERY_ID(
     delete pTblDef;
 }
 
-void queryresultsTableBase::GetBy_URL_ID(
+void queryresultsTableBase::GetBy_resultXML(
+        DatabaseConnection* db, 
+        const std::string& fieldValue, 
+        SelectResultContainer<queryresultsTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    queryresultsTableBase::GetWhereColumnsFor_resultXML(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void queryresultsTableBase::GetBy_resultXML(
+        DatabaseConnection* db, 
+        const std::vector<std::string>& fieldValue, 
+        SelectResultContainer<queryresultsTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    queryresultsTableBase::GetWhereColumnsFor_resultXML(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void queryresultsTableBase::GetBy_position(
         DatabaseConnection* db, 
         const long long& fieldValue, 
         SelectResultContainer<queryresultsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    queryresultsTableBase::GetWhereColumnsFor_URL_ID(
+    queryresultsTableBase::GetWhereColumnsFor_position(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -583,89 +533,13 @@ void queryresultsTableBase::GetBy_URL_ID(
     delete pTblDef;
 }
 
-void queryresultsTableBase::GetBy_URL_ID(
+void queryresultsTableBase::GetBy_position(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
         SelectResultContainer<queryresultsTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    queryresultsTableBase::GetWhereColumnsFor_URL_ID(
-        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
-        fieldValue, 
-        container);
-
-    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
-    SelectStatement stmt(pTblDef);
-    stmt.SelectAllColumns();
-    stmt.Where().AddColumns( container );
-    db->Select(stmt,results);
-    delete pTblDef;
-}
-
-void queryresultsTableBase::GetBy_URLSTAGE_ID(
-        DatabaseConnection* db, 
-        const long long& fieldValue, 
-        SelectResultContainer<queryresultsTableBase>& results) {
-    
-    std::vector<WhereConditionTableColumn*> container;
-    queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
-        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
-        fieldValue, 
-        container);
-
-    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
-    SelectStatement stmt(pTblDef);
-    stmt.SelectAllColumns();
-    stmt.Where().AddColumns( container );
-    db->Select(stmt,results);
-    delete pTblDef;
-}
-
-void queryresultsTableBase::GetBy_URLSTAGE_ID(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
-        SelectResultContainer<queryresultsTableBase>& results) {
-    
-    std::vector<WhereConditionTableColumn*> container;
-    queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
-        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
-        fieldValue, 
-        container);
-
-    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
-    SelectStatement stmt(pTblDef);
-    stmt.SelectAllColumns();
-    stmt.Where().AddColumns( container );
-    db->Select(stmt,results);
-    delete pTblDef;
-}
-
-void queryresultsTableBase::GetBy_order_position(
-        DatabaseConnection* db, 
-        const long long& fieldValue, 
-        SelectResultContainer<queryresultsTableBase>& results) {
-    
-    std::vector<WhereConditionTableColumn*> container;
-    queryresultsTableBase::GetWhereColumnsFor_order_position(
-        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
-        fieldValue, 
-        container);
-
-    TableDefinition* pTblDef(queryresultsTableBase::CreateTableDefinition());
-    SelectStatement stmt(pTblDef);
-    stmt.SelectAllColumns();
-    stmt.Where().AddColumns( container );
-    db->Select(stmt,results);
-    delete pTblDef;
-}
-
-void queryresultsTableBase::GetBy_order_position(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
-        SelectResultContainer<queryresultsTableBase>& results) {
-    
-    std::vector<WhereConditionTableColumn*> container;
-    queryresultsTableBase::GetWhereColumnsFor_order_position(
+    queryresultsTableBase::GetWhereColumnsFor_position(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -809,12 +683,12 @@ void queryresultsTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
     delete pTmpDef;
 }
 
-void queryresultsTableBase::GetWhereColumnsFor_URL_ID(
+void queryresultsTableBase::GetWhereColumnsFor_resultXML(
     const WhereConditionTableColumnCreateParam& createParam,
-    const long long& fieldValue, 
+    const std::string& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URL_ID());
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_resultXML());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -827,12 +701,12 @@ void queryresultsTableBase::GetWhereColumnsFor_URL_ID(
     delete pTmpDef;
 }
 
-void queryresultsTableBase::GetWhereColumnsFor_URL_ID(
+void queryresultsTableBase::GetWhereColumnsFor_resultXML(
     const WhereConditionTableColumnCreateParam& createParam,
-    const std::vector<long long>& fieldValue, 
+    const std::vector<std::string>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URL_ID());
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_resultXML());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -845,12 +719,12 @@ void queryresultsTableBase::GetWhereColumnsFor_URL_ID(
     delete pTmpDef;
 }
 
-void queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
+void queryresultsTableBase::GetWhereColumnsFor_position(
     const WhereConditionTableColumnCreateParam& createParam,
     const long long& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URLSTAGE_ID());
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_position());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -863,48 +737,12 @@ void queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
     delete pTmpDef;
 }
 
-void queryresultsTableBase::GetWhereColumnsFor_URLSTAGE_ID(
+void queryresultsTableBase::GetWhereColumnsFor_position(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::vector<long long>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_URLSTAGE_ID());
-    container.push_back(
-      WhereConditionTableColumn::CreateInstance(
-        createParam, 
-        TableColumn::CreateInstancesFromValues(
-          pTmpDef,
-          fieldValue
-        )
-      )
-    );
-    delete pTmpDef;
-}
-
-void queryresultsTableBase::GetWhereColumnsFor_order_position(
-    const WhereConditionTableColumnCreateParam& createParam,
-    const long long& fieldValue, 
-    std::vector<WhereConditionTableColumn*>& container) {
-
-    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_order_position());
-    container.push_back(
-      WhereConditionTableColumn::CreateInstance(
-        createParam, 
-        TableColumn::CreateInstanceFromValue(
-          pTmpDef,
-          fieldValue
-        )
-      )
-    );
-    delete pTmpDef;
-}
-
-void queryresultsTableBase::GetWhereColumnsFor_order_position(
-    const WhereConditionTableColumnCreateParam& createParam,
-    const std::vector<long long>& fieldValue, 
-    std::vector<WhereConditionTableColumn*>& container) {
-
-    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_order_position());
+    TableColumnDefinition* pTmpDef(queryresultsTableBase::GetDefinition_position());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -992,30 +830,30 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_SEARCHQUERY_ID() {
     createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* queryresultsTableBase::GetDefinition_URL_ID() {
+TableColumnDefinition* queryresultsTableBase::GetDefinition_resultXML() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
-      createParam.columnName   = "URL_ID";
+      createParam.columnName   = "resultXML";
       createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "URL_ID";
+      createParam.columnName   = "resultXML";
       createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("URL_ID");
+      createParam.columnName   = tools::StringTools::ToLowerNP("resultXML");
       createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:
     default:
       break;
     }
-    createParam.columnType          = DB_TYPE_INTEGER;
+    createParam.columnType          = DB_TYPE_LARGE_TEXT;
     createParam.isPrimaryKey        = false;
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = false;
@@ -1024,61 +862,26 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_URL_ID() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
-    createParam.dataSize            = 0;
+    createParam.dataSize            = (4096);
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* queryresultsTableBase::GetDefinition_URLSTAGE_ID() {
+TableColumnDefinition* queryresultsTableBase::GetDefinition_position() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
-      createParam.columnName   = "URLSTAGE_ID";
+      createParam.columnName   = "position";
       createParam.tableName    = "queryresults";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "URLSTAGE_ID";
+      createParam.columnName   = "position";
       createParam.tableName    = "queryresults";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("URLSTAGE_ID");
-      createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
-      break;
-    case DB_INVALID_TYPE:
-    default:
-      break;
-    }
-    createParam.columnType          = DB_TYPE_INTEGER;
-    createParam.isPrimaryKey        = false;
-    createParam.isAutoGenerated     = false;
-    createParam.isForeignKey        = false;
-    createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = false;
-    createParam.isIndex             = false;
-    createParam.isNullable          = false;
-    createParam.hasDefaultValue     = false;
-    createParam.dataSize            = 0;
-    return TableColumnDefinition::CreateInstance(createParam);
-}
-TableColumnDefinition* queryresultsTableBase::GetDefinition_order_position() {
-
-    TableColumnDefinitionCreateParam createParam;
-    switch(DatabaseHelper::GetDatabaseType()) {
-    case DB_MYSQL:
-      createParam.databaseName = "queryserver";
-      createParam.columnName   = "order_position";
-      createParam.tableName    = "queryresults";
-      break;
-    case DB_IBM_DB2:
-      createParam.databaseName = "deepnet";
-      createParam.columnName   = "order_position";
-      createParam.tableName    = "queryresults";
-      break;
-    case DB_POSTGRESQL:
-      createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("order_position");
+      createParam.columnName   = tools::StringTools::ToLowerNP("position");
       createParam.tableName    = tools::StringTools::ToLowerNP("queryresults");
       break;
     case DB_INVALID_TYPE:

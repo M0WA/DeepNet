@@ -80,6 +80,52 @@ public:
 	 * @param in value.
 	 */
   void Set_session(const std::string& in);
+  /**
+   * gets value of query.
+   * @param out value.
+   */
+  void Get_query(std::string& out) const;
+
+  /**
+   * gets const column for query.
+   * @return column for query.
+   */
+  const TableColumn* GetConstColumn_query() const;
+
+  /**
+   * gets column for query.
+   * @return column for query.
+   */
+  TableColumn* GetColumn_query();
+
+	/**
+	 * sets value of query.
+	 * @param in value.
+	 */
+  void Set_query(const std::string& in);
+  /**
+   * gets value of age.
+   * @param out value.
+   */
+  void Get_age(struct tm& out) const;
+
+  /**
+   * gets const column for age.
+   * @return column for age.
+   */
+  const TableColumn* GetConstColumn_age() const;
+
+  /**
+   * gets column for age.
+   * @return column for age.
+   */
+  TableColumn* GetColumn_age();
+
+	/**
+	 * sets value of age.
+	 * @param in value.
+	 */
+  void Set_age(const struct tm& in);
 
 
 public:
@@ -129,6 +175,50 @@ public:
     static void GetBy_session(
         DatabaseConnection* db, 
         const std::vector<std::string>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of query.
+	 * @param db database connection.
+	 * @param fieldValue value of query.
+	 * @param results contains results.
+	 */
+    static void GetBy_query(
+        DatabaseConnection* db,
+        const std::string& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of query.
+	 * @param db database connection.
+	 * @param fieldValue values of query.
+	 * @param results contains results.
+	 */
+    static void GetBy_query(
+        DatabaseConnection* db, 
+        const std::vector<std::string>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of age.
+	 * @param db database connection.
+	 * @param fieldValue value of age.
+	 * @param results contains results.
+	 */
+    static void GetBy_age(
+        DatabaseConnection* db,
+        const struct tm& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of age.
+	 * @param db database connection.
+	 * @param fieldValue values of age.
+	 * @param results contains results.
+	 */
+    static void GetBy_age(
+        DatabaseConnection* db, 
+        const std::vector<struct tm>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 
 
@@ -184,6 +274,48 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<std::string>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of query.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_query(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::string& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of query.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_query(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<std::string>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of age.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_age(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const struct tm& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of age.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_age(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<struct tm>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -200,6 +332,16 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_session();
+	/**
+     * create a column definition for column query.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_query();
+	/**
+     * create a column definition for column age.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_age();
 
 };
 

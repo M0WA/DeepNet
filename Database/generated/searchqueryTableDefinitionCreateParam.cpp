@@ -29,8 +29,18 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for session
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_session());
 
+    //creating column definition for query
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_query());
+
+    //creating column definition for age
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_age());
+
 
 	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("query");
+	tmpCombined.push_back("session");
+	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 
