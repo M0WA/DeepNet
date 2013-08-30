@@ -880,8 +880,6 @@
 </table>
 
 
-
-
 <!-- ======================================================================================== 
  *
  *  TABLE: customermatchcriteria
@@ -922,6 +920,7 @@
     <primary_key column="ID" />
     
 </table>
+
 
 <!-- ======================================================================================== 
  *
@@ -1076,25 +1075,25 @@
     <foreign_key column="CUSTOMER_ID"    references_table="dataminingcustomer" references_column="ID"  MySQL_Database="datamining" />
 </table>
 
+
 <!-- ======================================================================================== 
  *
  *	TABLE: fencedsearch
  *
  -->
-
 <table
 	name="fencedsearch"
 	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
 	MySQL_Database="datamining"
 >
 	<column name="ID"                   type="INTEGER"      notnull="1" autoincrement="1" />
-    <column name="CUSTOMER_ID"          type="INTEGER"      notnull="1" />
+  <column name="CUSTOMER_ID"          type="INTEGER"      notnull="1" />
 	<column name="SECONDLEVELDOMAIN_ID" type="INTEGER"      notnull="1" />
 
 	<primary_key column="ID" />
-    <foreign_key column="CUSTOMER_ID"           references_table="dataminingcustomer" references_column="ID"    MySQL_Database="datamining" />
+  <foreign_key column="CUSTOMER_ID"           references_table="dataminingcustomer" references_column="ID"    MySQL_Database="datamining" />
 	<foreign_key column="SECONDLEVELDOMAIN_ID"  references_table="secondleveldomains" references_column="ID"    MySQL_Database="documents" />
-    <unique_key  column="CUSTOMER_ID,SECONDLEVELDOMAIN_ID" />
+  <unique_key  column="CUSTOMER_ID,SECONDLEVELDOMAIN_ID" />
 </table>
 
 
@@ -1116,10 +1115,13 @@
 	MySQL_Database="queryserver"
 >
 
-	<column name="ID"     	    type="INTEGER"       notnull="1" autoincrement="1" />
-	<column name="session" 	    type="CHAR(64)"      notnull="1" />
+	<column name="ID"      type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="session" type="CHAR(64)"     notnull="1" />
+	<column name="query"   type="VARCHAR(255)" notnull="1" />
+	<column name="age"     type="TIMESTAMP"    notnull="1" />
 
 	<primary_key column="ID" />
+  <unique_key column="query,session" />
 
 </table>
 
@@ -1135,62 +1137,16 @@
 	MySQL_Database="queryserver"
 >
 
-	<column name="ID"     	      type="INTEGER"       notnull="1" autoincrement="1" />
-	<column name="SEARCHQUERY_ID" type="INTEGER"       notnull="1" />
-	<column name="URL_ID"         type="INTEGER"       notnull="1" />
-	<column name="URLSTAGE_ID"    type="INTEGER"       notnull="1" />
-	<column name="order_position" type="INTEGER"       notnull="1" />
+	<column name="ID"     	      type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERY_ID" type="INTEGER" notnull="1" />
+	<column name="resultXML"      type="LARGE_TEXT(4096)" notnull="1" />
+	<column name="position"       type="INTEGER" notnull="1" />
 
 	<primary_key column="ID" />
 	<foreign_key column="SEARCHQUERY_ID" references_table="searchquery" references_column="ID" MySQL_Database="queryserver" />
-	<index column="order_position" sort="ASC" />
+	<index column="position" sort="ASC" />
 
 </table>
-
-
-<!-- ======================================================================================== 
- *
- *	TABLE: keywordquery
- *
- -->
-<table
-	name="keywordquery"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
-	MySQL_Database="queryserver"
->
-
-	<column name="ID"     	    type="INTEGER"      notnull="1" autoincrement="1" />	
-	<column name="query_part"   type="VARCHAR(255)" notnull="1" />
-
-	<primary_key column="ID" />
-	<unique_key  column="query_part" />
-
-</table>
-
-
-<!-- ======================================================================================== 
- *
- *	TABLE: searchquerykeyword
- *
- -->
-<table
-	name="searchquerykeywords"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
-	MySQL_Database="queryserver"
->
-
-	<column name="ID"     	       type="INTEGER"      notnull="1" autoincrement="1" />	
-	<column name="KEYWORDQUERY_ID" type="INTEGER"      notnull="1" />
-	<column name="SEARCHQUERY_ID"  type="INTEGER"      notnull="1" />
-
-	<primary_key column="ID" />
-  <unique_key column="SEARCHQUERY_ID,KEYWORDQUERY_ID" />
-
-	<foreign_key column="SEARCHQUERY_ID"  references_table="searchquery"  references_column="ID" MySQL_Database="queryserver" />
-	<foreign_key column="KEYWORDQUERY_ID" references_table="keywordquery" references_column="ID" MySQL_Database="queryserver" />
-	
-</table>
-
 
 
 <!-- ========================================================================================
@@ -1225,6 +1181,7 @@
 
 	<primary_key column="ID" />
 </table>
+
 
 <!-- ======================================================================================== 
  *
