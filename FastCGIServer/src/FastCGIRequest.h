@@ -125,6 +125,13 @@ public:
 	 */
 	const std::vector<network::HttpCookie>& Cookies() const { return cookies; }
 
+	/**
+	 * gets value of a cookie entry by it's name
+	 * @param name name of the cookie entry
+	 * @return value of cookie entry
+	 */
+	const std::string& GetCookieValueByName(const std::string& name) const;
+
 protected:
 	/**
 	 * registers namespaces from nsList in xpathCtx.

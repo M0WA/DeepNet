@@ -9,6 +9,7 @@
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
+#include <stdexcept>
 
 #include <Logging.h>
 #include <StringTools.h>
@@ -398,6 +399,17 @@ bool FastCGIRequest::Xpath(std::list<std::string>& queryparts, const char* xmlDo
     xmlFreeDoc(doc);
 
     return true;
+}
+
+const std::string& FastCGIRequest::GetCookieValueByName(const std::string& name) const {
+
+	std::vector<network::HttpCookie>::const_iterator i(cookies.begin());
+	for(;i != cookies.end(); ++i) {
+		if(i->GetKey().compare(name) == 0) {
+			return i->GetValue(); }
+	}
+
+	throw std::out_of_range("no value for " + name);
 }
 
 }
