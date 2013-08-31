@@ -862,7 +862,7 @@ TableColumnDefinition* queryresultsTableBase::GetDefinition_resultXML() {
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
-    createParam.dataSize            = (4096);
+    createParam.dataSize            = (1024000);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* queryresultsTableBase::GetDefinition_position() {

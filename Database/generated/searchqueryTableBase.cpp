@@ -394,6 +394,94 @@ void searchqueryTableBase::Set_age(const struct tm& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
+void searchqueryTableBase::Get_total(long long& out) const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "total";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "total";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("total");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "total";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* searchqueryTableBase::GetConstColumn_total() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "total";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "total";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("total");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "total";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
+TableColumn* searchqueryTableBase::GetColumn_total() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "total";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "total";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("total");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "total";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
+}
+
+void searchqueryTableBase::Set_total(const long long& in) {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "total";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "total";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("total");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "total";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
+}
+
 
 
 //
@@ -539,6 +627,44 @@ void searchqueryTableBase::GetBy_age(
     
     std::vector<WhereConditionTableColumn*> container;
     searchqueryTableBase::GetWhereColumnsFor_age(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_total(
+        DatabaseConnection* db, 
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_total(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_total(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_total(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -705,6 +831,42 @@ void searchqueryTableBase::GetWhereColumnsFor_age(
     delete pTmpDef;
 }
 
+void searchqueryTableBase::GetWhereColumnsFor_total(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const long long& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_total());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_total(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const std::vector<long long>& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_total());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
 
 
 //
@@ -773,7 +935,7 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_session() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = false;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = true;
+    createParam.isCombinedUniqueKey = false;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
@@ -808,7 +970,7 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_query() {
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = false;
     createParam.isUniqueKey         = false;
-    createParam.isCombinedUniqueKey = true;
+    createParam.isCombinedUniqueKey = false;
     createParam.isIndex             = false;
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
@@ -839,6 +1001,41 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_age() {
       break;
     }
     createParam.columnType          = DB_TYPE_TIMESTAMP;
+    createParam.isPrimaryKey        = false;
+    createParam.isAutoGenerated     = false;
+    createParam.isForeignKey        = false;
+    createParam.isUniqueKey         = false;
+    createParam.isCombinedUniqueKey = false;
+    createParam.isIndex             = false;
+    createParam.isNullable          = false;
+    createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
+    return TableColumnDefinition::CreateInstance(createParam);
+}
+TableColumnDefinition* searchqueryTableBase::GetDefinition_total() {
+
+    TableColumnDefinitionCreateParam createParam;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      createParam.databaseName = "queryserver";
+      createParam.columnName   = "total";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_IBM_DB2:
+      createParam.databaseName = "deepnet";
+      createParam.columnName   = "total";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_POSTGRESQL:
+      createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("total");
+      createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      break;
+    }
+    createParam.columnType          = DB_TYPE_INTEGER;
     createParam.isPrimaryKey        = false;
     createParam.isAutoGenerated     = false;
     createParam.isForeignKey        = false;

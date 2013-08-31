@@ -126,6 +126,29 @@ public:
 	 * @param in value.
 	 */
   void Set_age(const struct tm& in);
+  /**
+   * gets value of total.
+   * @param out value.
+   */
+  void Get_total(long long& out) const;
+
+  /**
+   * gets const column for total.
+   * @return column for total.
+   */
+  const TableColumn* GetConstColumn_total() const;
+
+  /**
+   * gets column for total.
+   * @return column for total.
+   */
+  TableColumn* GetColumn_total();
+
+	/**
+	 * sets value of total.
+	 * @param in value.
+	 */
+  void Set_total(const long long& in);
 
 
 public:
@@ -219,6 +242,28 @@ public:
     static void GetBy_age(
         DatabaseConnection* db, 
         const std::vector<struct tm>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of total.
+	 * @param db database connection.
+	 * @param fieldValue value of total.
+	 * @param results contains results.
+	 */
+    static void GetBy_total(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of total.
+	 * @param db database connection.
+	 * @param fieldValue values of total.
+	 * @param results contains results.
+	 */
+    static void GetBy_total(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 
 
@@ -316,6 +361,27 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<struct tm>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of total.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_total(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of total.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_total(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -342,6 +408,11 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_age();
+	/**
+     * create a column definition for column total.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_total();
 
 };
 
