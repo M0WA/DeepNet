@@ -123,21 +123,14 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 
 	select.Where().AddColumns(where);
 
-	if(queryProperties.maxResults != 0)
-		select.SetLimit(queryProperties.maxResults);
-	else {
-		//
-		//TODO: do not hardcode this limit here
-		//
-		select.SetLimit(10000);	}
-
+	//
+	//TODO: limit results here
+	//
 
 	try {
-		dbConn->Select(select,results);
-	}
+		dbConn->Select(select,results); }
 	catch(database::DatabaseException& e) {
-		return false;
-	}
+		return false; }
 
 	return true;
 }

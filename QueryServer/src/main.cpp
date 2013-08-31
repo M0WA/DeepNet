@@ -42,7 +42,7 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 {
 	threading::AutoMutex autoMutex(signalMutex);
 
-	tools::DebuggingTools::SignalInfos signalInfo = tools::DebuggingTools::GetSignalInfos(signum, info, ucontext);
+	tools::DebuggingTools::SignalInfos signalInfo(tools::DebuggingTools::GetSignalInfos(signum, info, ucontext));
 
 	switch(signum)
 	{

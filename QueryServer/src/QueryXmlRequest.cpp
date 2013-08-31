@@ -8,8 +8,6 @@
 
 #include "QueryXmlRequest.h"
 
-#include "QueryThreadManager.h"
-
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 
@@ -28,9 +26,8 @@ namespace queryserver {
 //
 #define RESULTS_PER_REQUEST_HARDLIMIT 10000
 
-QueryXmlRequest::QueryXmlRequest(QueryThreadManager& queryManager,fastcgiserver::FastCGIServerThread* serverThread)
-: fastcgiserver::FastCGIRequest(serverThread)
-, queryManager(queryManager){
+QueryXmlRequest::QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThread)
+: fastcgiserver::FastCGIRequest(serverThread){
 }
 
 QueryXmlRequest::~QueryXmlRequest() {
@@ -333,8 +330,6 @@ void QueryXmlRequest::OnHandle(FCGX_Request& request) {
 	//
 	if(!ParseQuery(std::string(rawPostData))) {
 		return; }
-
-	queryManager.BeginQuery(query);
 }
 
 }

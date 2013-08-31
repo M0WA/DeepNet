@@ -25,8 +25,6 @@ namespace fastcgiserver {
 
 namespace queryserver {
 
-	class QueryThreadManager;
-
 /**
  * @brief encapsulates a xml query request and also implements fastcgiserver::FastCGIRequest
  */
@@ -38,7 +36,7 @@ public:
 	 * @param queryManager query thread manager
 	 * @param serverThread server thread
 	 */
-	QueryXmlRequest(QueryThreadManager& queryManager,fastcgiserver::FastCGIServerThread* serverThread);
+	QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThread);
 	virtual ~QueryXmlRequest();
 
 public:
@@ -65,7 +63,6 @@ private:
 
 private:
 	Query query;
-	QueryThreadManager& queryManager;
 
 private:
 	bool QueryXml(std::vector<std::string>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType);

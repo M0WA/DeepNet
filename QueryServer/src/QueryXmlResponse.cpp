@@ -149,6 +149,8 @@ bool QueryXmlResponse::CreateQuery(long long& queryId,const std::string& session
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
+	queryManager.BeginQuery(query);
+
 	//waiting for all results to arrive
 	std::vector<const QueryThreadResultEntry*> results;
 	queryManager.WaitForResults(results);
@@ -183,7 +185,6 @@ bool QueryXmlResponse::CreateQuery(long long& queryId,const std::string& session
 bool QueryXmlResponse::Process(FCGX_Request& request) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
-	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
 	if(sessionID.empty()) {
@@ -198,6 +199,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	long long relevantQueryID(query.properties.queryId);
 
 	//no query id given, try to find it in database
+	/*
 	if(relevantQueryID <= 0) {
 		std::vector<database::WhereConditionTableColumn*> where;
 
@@ -232,6 +234,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 		else {
 			relevantQueryID = -1; }
 	}
+	*/
 
 	//if query does not exist in database, create it
 	if(relevantQueryID <= 0) {

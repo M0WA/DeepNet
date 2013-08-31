@@ -54,8 +54,7 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 
 	if(dictionaryThreadNeeded) {
 		dictionary = new DictionaryInfoThread(dbHelpers[0].Connection(),query);
-		dictionary->StartThread();
-	}
+		dictionary->StartThread(); }
 
 	if(query.properties.relevanceSecondLevelDomain > 0.0) {
 		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
@@ -91,8 +90,7 @@ void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry
 		const std::vector<QueryThreadResultEntry*>& threadResults(GetThreadInfosByID(*i).first->GetResults().GetConstVector());
 		std::vector<const QueryThreadResultEntry*> out;
 		tools::ContainerTools::ToConstVector(threadResults,out);
-		results.insert(results.end(),out.begin(),out.end());
-	}
+		results.insert(results.end(),out.begin(),out.end()); }
 }
 
 void QueryThreadManager::ReleaseQuery() {

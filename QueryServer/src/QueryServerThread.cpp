@@ -31,7 +31,7 @@ QueryServerThread::~QueryServerThread() {
 }
 
 fastcgiserver::FastCGIRequest* QueryServerThread::CreateRequest() {
-	return dynamic_cast<fastcgiserver::FastCGIRequest*>(new QueryXmlRequest(threadManager,dynamic_cast<fastcgiserver::FastCGIServerThread*>(this)));
+	return dynamic_cast<fastcgiserver::FastCGIRequest*>(new QueryXmlRequest(dynamic_cast<fastcgiserver::FastCGIServerThread*>(this)));
 }
 
 fastcgiserver::FastCGIResponse* QueryServerThread::CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request) {
