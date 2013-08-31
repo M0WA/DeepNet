@@ -12,6 +12,7 @@
 #include <map>
 
 #include <HttpUrlParser.h>
+#include <ContainerTools.h>
 
 #include "Query.h"
 #include "QueryThreadResultEntry.h"
@@ -57,24 +58,22 @@ const QueryThreadResultEntry* QueryXmlResponseResultEntry::GetMostRelevantResult
 
 void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
 
-	std::map<QueryThreadResultType,size_t> typeCounts;
-	typeCounts[threadResults.at(0)->type]++;
-
 	std::vector<std::string> keywordsStrings;
 	query.GetKeywords(keywordsStrings);
+	tools::ContainerTools::MakeUniqueVector(keywordsStrings,true);
 
 	std::ostringstream keywordsPart;
+	std::vector<std::string>::iterator iKey(keywordsStrings.begin());
+	for(;iKey!=keywordsStrings.end();++iKey) {
+		network::HttpUrlParser::EncodeUrl(*iKey);
+		keywordsPart << "<keyword>" << *iKey << "</keyword>"; }
+
+	std::map<QueryThreadResultType,size_t> typeCounts;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
 	std::advance(iRes,1);
 	for(;iRes != threadResults.end(); ++iRes) {
 		const QueryThreadResultEntry* res((*iRes));
-
-		typeCounts[res->type]++;
-
-		std::string encodedKeyword(keywordsStrings.at(res->keywordPos));
-		network::HttpUrlParser::EncodeUrl(encodedKeyword);
-		keywordsPart << "<keyword>" << encodedKeyword << "</keyword>";
-	}
+		typeCounts[res->type]++; }
 
 	std::ostringstream typesPart;
 	std::map<QueryThreadResultType,size_t>::const_iterator iTypes(typeCounts.begin());

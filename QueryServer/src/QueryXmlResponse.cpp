@@ -101,7 +101,11 @@ bool QueryXmlResponse::LoadQuery(const long long& queryId,const std::string& ses
 	return true;
 }
 
-void QueryXmlResponse::InsertResults(long long& queryId,const std::string& sessionID,const std::string& rawQueryString,const std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+void QueryXmlResponse::InsertResults(
+	long long& queryId,
+	const std::string& sessionID,
+	const std::string& rawQueryString,
+	const std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
@@ -182,25 +186,14 @@ bool QueryXmlResponse::CreateQuery(long long& queryId,const std::string& session
 	return true;
 }
 
-bool QueryXmlResponse::Process(FCGX_Request& request) {
+bool QueryXmlResponse::ValidateQueryData(const std::string& sessionID,const std::string& rawQueryString) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
-	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
-	if(sessionID.empty()) {
-		log::Logging::LogWarn("empty session id (SIRIDIAID) received, cannot process query request");
-		return false; }
+	if(query.properties.queryId > 0) {
 
-	const std::string& rawQueryString(xmlQueryRequest->GetRawQueryString());
-	if(rawQueryString.empty()) {
-		log::Logging::LogWarn("empty query string received, cannot process query request");
-		return false; }
-
-	long long relevantQueryID(query.properties.queryId);
-
-	//no query id given, try to find it in database
-	/*
-	if(relevantQueryID <= 0) {
+		// check if query is associated with session
 		std::vector<database::WhereConditionTableColumn*> where;
 
 		database::searchqueryTableBase::GetWhereColumnsFor_session(
@@ -212,6 +205,11 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
 			rawQueryString,
 			where );
+
+		database::searchqueryTableBase::GetWhereColumnsFor_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+			query.properties.queryId,
+			where);
 
 		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
 		selectSearchQuery.SelectAllColumns();
@@ -229,12 +227,32 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 			return false; }
 
 		if(resultSearchQuery.Size() == 1) {
-			resultSearchQuery.ResetIter();
-			resultSearchQuery.GetConstIter()->Get_ID(relevantQueryID); }
+			return true; }
 		else {
-			relevantQueryID = -1; }
+			log::Logging::LogInfo("client specified invalid query id for it's session, creating new query");
+			return false; }
 	}
-	*/
+
+	return false;
+}
+
+bool QueryXmlResponse::Process(FCGX_Request& request) {
+
+	const Query& query(xmlQueryRequest->GetQuery());
+
+	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
+	if(sessionID.empty()) {
+		log::Logging::LogWarn("empty session id (SIRIDIAID) received, cannot process query request");
+		return false; }
+
+	const std::string& rawQueryString(xmlQueryRequest->GetRawQueryString());
+	if(rawQueryString.empty()) {
+		log::Logging::LogWarn("empty query string received, cannot process query request");
+		return false; }
+
+	long long relevantQueryID(query.properties.queryId);
+	if(!ValidateQueryData(sessionID,rawQueryString))
+		relevantQueryID = -1;
 
 	//if query does not exist in database, create it
 	if(relevantQueryID <= 0) {

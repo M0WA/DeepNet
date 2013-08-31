@@ -48,7 +48,12 @@ private:
 	void MergeDuplicateURLs(std::vector<QueryXmlResponseResultEntry>& responseEntries);
 	void MergeDuplicateSecondLevel(database::DatabaseConnection* db, std::vector<QueryXmlResponseResultEntry>& responseEntries);
 	void SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries);
-	void InsertResults(long long& queryId,const std::string& sessionID,const std::string& rawQueryString,const std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	void InsertResults(
+		long long& queryId,
+		const std::string& sessionID,
+		const std::string& rawQueryString,
+		const std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	bool ValidateQueryData(const std::string& sessionID,const std::string& rawQueryString);
 
 private:
 	QueryThreadManager& queryManager;
