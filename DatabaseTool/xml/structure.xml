@@ -1119,9 +1119,9 @@
 	<column name="session" type="CHAR(64)"     notnull="1" />
 	<column name="query"   type="VARCHAR(255)" notnull="1" />
 	<column name="age"     type="TIMESTAMP"    notnull="1" />
+	<column name="total"   type="INTEGER"      notnull="1" />
 
 	<primary_key column="ID" />
-  <unique_key column="query,session" />
 
 </table>
 
@@ -1139,7 +1139,7 @@
 
 	<column name="ID"     	      type="INTEGER" notnull="1" autoincrement="1" />
 	<column name="SEARCHQUERY_ID" type="INTEGER" notnull="1" />
-	<column name="resultXML"      type="LARGE_TEXT(4096)" notnull="1" />
+	<column name="resultXML"      type="LARGE_TEXT(1024000)" notnull="1" />
 	<column name="position"       type="INTEGER" notnull="1" />
 
 	<primary_key column="ID" />
