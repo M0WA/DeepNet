@@ -43,7 +43,10 @@ QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequ
 QueryXmlResponse::~QueryXmlResponse() {
 }
 
-bool QueryXmlResponse::LoadQuery(const long long& queryId,const std::string& sessionID,const std::string& rawQueryString) {
+bool QueryXmlResponse::LoadQuery(
+		const long long& queryId,
+		const std::string& sessionID,
+		const std::string& rawQueryString) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
@@ -151,7 +154,10 @@ void QueryXmlResponse::InsertResults(
 	}
 }
 
-bool QueryXmlResponse::CreateQuery(long long& queryId,const std::string& sessionID,const std::string& rawQueryString) {
+bool QueryXmlResponse::CreateQuery(
+		long long& queryId,
+		const std::string& sessionID,
+		const std::string& rawQueryString) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
@@ -189,7 +195,9 @@ bool QueryXmlResponse::CreateQuery(long long& queryId,const std::string& session
 	return true;
 }
 
-bool QueryXmlResponse::ValidateQueryData(const std::string& sessionID,const std::string& rawQueryString) {
+bool QueryXmlResponse::ValidateQueryData(
+		const std::string& sessionID,
+		const std::string& rawQueryString) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
@@ -280,7 +288,10 @@ void QueryXmlResponse::SortResults(std::vector<QueryXmlResponseResultEntry>& res
 	std::sort(responseEntries.rbegin(), responseEntries.rend());
 }
 
-void QueryXmlResponse::AssembleXMLResult(const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,const size_t& total, const long long& queryId) {
+void QueryXmlResponse::AssembleXMLResult(
+		const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,
+		const size_t& total,
+		const long long& queryId) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 
@@ -307,7 +318,9 @@ void QueryXmlResponse::AssembleXMLResult(const database::SelectResultContainer<d
 	content = xmlResult.str();
 }
 
-void QueryXmlResponse::MergeDuplicateSecondLevel(database::DatabaseConnection* db, std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+void QueryXmlResponse::MergeDuplicateSecondLevel(
+		database::DatabaseConnection* db,
+		std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
 	std::map<long long,size_t> secondLvlIDPos;
 

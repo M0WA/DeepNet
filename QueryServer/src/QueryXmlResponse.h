@@ -33,27 +33,50 @@ namespace queryserver {
  */
 class QueryXmlResponse: public fastcgiserver::FastCGIResponse {
 public:
-	QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequest* xmlQueryRequest);
+	QueryXmlResponse(
+		QueryThreadManager& queryManager,
+		QueryXmlRequest* xmlQueryRequest);
+
 	virtual ~QueryXmlResponse();
 
 private:
 	virtual bool Process(FCGX_Request& request);
 
 private:
-	bool LoadQuery(const long long& queryId,const std::string& sessionID,const std::string& rawQueryString);
-	bool CreateQuery(long long& queryId,const std::string& sessionID,const std::string& rawQueryString);
+	bool LoadQuery(
+		const long long& queryId,
+		const std::string& sessionID,
+		const std::string& rawQueryString);
 
-	void AssembleXMLResult(const database::SelectResultContainer<database::queryresultsTableBase>& queryResults, const size_t& total, const long long& queryId);
+	bool CreateQuery(
+		long long& queryId,
+		const std::string& sessionID,
+		const std::string& rawQueryString);
 
-	void MergeDuplicateURLs(std::vector<QueryXmlResponseResultEntry>& responseEntries);
-	void MergeDuplicateSecondLevel(database::DatabaseConnection* db, std::vector<QueryXmlResponseResultEntry>& responseEntries);
-	void SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries);
+	void MergeDuplicateURLs(
+		std::vector<QueryXmlResponseResultEntry>& responseEntries);
+
+	void MergeDuplicateSecondLevel(
+		database::DatabaseConnection* db,
+		std::vector<QueryXmlResponseResultEntry>& responseEntries);
+
+	void SortResults(
+		std::vector<QueryXmlResponseResultEntry>& responseEntries);
+
 	void InsertResults(
 		long long& queryId,
 		const std::string& sessionID,
 		const std::string& rawQueryString,
 		const std::vector<QueryXmlResponseResultEntry>& responseEntries);
-	bool ValidateQueryData(const std::string& sessionID,const std::string& rawQueryString);
+
+	void AssembleXMLResult(
+		const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,
+		const size_t& total,
+		const long long& queryId);
+
+	bool ValidateQueryData(
+		const std::string& sessionID,
+		const std::string& rawQueryString);
 
 private:
 	QueryThreadManager& queryManager;
