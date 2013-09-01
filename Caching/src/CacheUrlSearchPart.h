@@ -18,6 +18,9 @@ namespace database {
 
 namespace caching {
 
+/**
+ * @brief Cache for search part of urls
+ */
 class CacheUrlSearchPart {
 public:
 	CacheUrlSearchPart(size_t limit = 0);
