@@ -37,7 +37,7 @@ bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std:
 	std::vector<std::string> lowerKeywords;
 	query.GetLoweredKeywords(lowerKeywords);
 
-	if(lowerKeywords.size() == 0)
+	if(!lowerKeywords.size())
 		return false;
 
 	std::vector<std::string>::const_iterator iKey(lowerKeywords.begin());

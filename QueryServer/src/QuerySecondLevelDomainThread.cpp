@@ -40,7 +40,7 @@ void* QuerySecondLevelDomainThread::OnRun(){
 	const QueryProperties& queryProperties(query.properties);
 	std::vector<std::string> lowerKeywords;
 	query.GetLoweredKeywords(lowerKeywords);
-	if(lowerKeywords.size()) {
+	if(!lowerKeywords.size()) {
 		return 0; }
 
 	tools::Pointer<database::TableDefinition> ptrTblDef(database::secondleveldomainsTableBase::CreateTableDefinition());
