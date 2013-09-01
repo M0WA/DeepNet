@@ -70,7 +70,6 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 
 	std::map<QueryThreadResultType,size_t> typeCounts;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
-	std::advance(iRes,1);
 	for(;iRes != threadResults.end(); ++iRes) {
 		const QueryThreadResultEntry* res((*iRes));
 		typeCounts[res->type]++; }
