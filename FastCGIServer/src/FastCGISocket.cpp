@@ -1,8 +1,7 @@
-/*
- * FastCGISocket.cpp
- *
- *  Created on: 12.03.2012
- *      Author: Moritz Wagner
+/**
+ * @file FastCGISocket.cpp
+ * @author Moritz Wagner
+ * @date 12.03.2012
  */
 
 #include "FastCGISocket.h"

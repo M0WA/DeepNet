@@ -1,8 +1,7 @@
-/*
- * FastCGIServerThread.cpp
- *
- *  Created on: 13.03.2012
- *      Author: Moritz Wagner
+/**
+ * @file FastCGIServerThread.cpp
+ * @author Moritz Wagner
+ * @date 13.03.2012
  */
 
 #include "FastCGIServerThread.h"
