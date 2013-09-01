@@ -33,6 +33,11 @@ public:
 	bool operator<(const Relevance& rhs) const {
 		return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
 
+	/**
+	 * sums up to relevances storing result in current instance
+	 * @param rhs relevance to add
+	 * @return new relevance
+	 */
 	Relevance& operator+=(const Relevance& rhs) {
 		this->relevance += rhs.relevance;
 		this->weight += rhs.weight;
