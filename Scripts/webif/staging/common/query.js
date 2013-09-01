@@ -101,7 +101,6 @@ function QueryHelper()
   {
     // preparing criteria
     var metaRelevance     = document.getElementById("criteria_meta_relevance_id").value;
-    var titleRelevance    = document.getElementById("criteria_title_relevance_id").value;
     var domainRelevance   = document.getElementById("criteria_domain_relevance_id").value;
     var contentRelevance  = document.getElementById("criteria_content_relevance_id").value;
     var backlinkRelevance = document.getElementById("criteria_backlinks_relevance_id").value;
@@ -143,7 +142,6 @@ function QueryHelper()
       }
       xml +=
               "<relevanceMeta>"+ metaRelevance +"</relevanceMeta>" +
-              "<relevanceTitle>"+ titleRelevance +"</relevanceTitle>" +
               "<relevanceDomain>"+ domainRelevance +"</relevanceDomain>" +
               "<relevanceFullText>"+ contentRelevance +"</relevanceFullText>" +
               "<relevanceBackLinks>"+ backlinkRelevance +"</relevanceBackLinks>" +
