@@ -60,15 +60,11 @@ private:
 	bool ParseQueryCriteria(const std::string& xmlRequest);
 	bool ParseQueryGrouping(const std::string& xmlRequest);
 	bool ParseQueryLimitations(const std::string& xmlRequest);
-
-private:
-	Query query;
-
-private:
 	bool QueryXml(std::vector<std::string>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType);
 	bool QueryTmXml(std::vector<struct tm>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType);
 	bool QueryTmXmlFirstElement(struct tm& out, const char* xmlDocument, const size_t& lenDocument, const char* queryType);
 
+private:
 	template <class T>
 	bool QueryXml(std::vector<T>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType) {
 		std::vector<std::string> querypartsStr;
@@ -164,6 +160,7 @@ private:
 	};
 
 private:
+	Query query;
 	std::string rawQueryString;
 };
 

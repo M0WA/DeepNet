@@ -16,10 +16,6 @@ namespace queryserver {
 class Relevance
 {
 public:
-	Relevance(const Relevance& rhs)
-	: relevance(rhs.relevance)
-	, weight(rhs.weight) { }
-
 	Relevance(const double& relevance)
 	: relevance(relevance)
 	, weight(1.0) { }
@@ -28,15 +24,12 @@ public:
 	: relevance(relevance)
 	, weight(weight) { }
 
-private:
-	Relevance()
-	: relevance(1.0)
-	, weight(1.0) { }
-
 public:
-	bool operator==(const Relevance& rhs) const {
-		return (this->GetWeightedRelevance() == rhs.GetWeightedRelevance());}
-
+	/**
+	 * compares values of two relevances
+	 * @param rhs relevance to compare to
+	 * @return true if smaller, else false
+	 */
 	bool operator<(const Relevance& rhs) const {
 		return (this->GetWeightedRelevance() < rhs.GetWeightedRelevance()); }
 
@@ -46,15 +39,24 @@ public:
 		return *this; }
 
 public:
+	/**
+	 * gets calculated relevance value
+	 * @return calculated relevance
+	 */
 	double GetWeightedRelevance(void) const {
 		return GetRelevance() * GetWeight(); }
 
-public:
+	/**
+	 * gets relevance value
+	 * @return relevance
+	 */
 	const double& GetRelevance(void) const { return relevance; }
-	const double& GetWeight(void)    const { return weight;    }
 
-	void SetRelevance(const double& in) { relevance = in; }
-	void SetWeight(const double& in)    { weight    = in; }
+	/**
+	 * gets weight value
+	 * @return weight
+	 */
+	const double& GetWeight(void) const { return weight; }
 
 private:
 	double relevance;
