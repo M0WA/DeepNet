@@ -8,7 +8,8 @@
 
 #include <cstddef>
 
-#include "Thread.h"
+#include <Thread.h>
+#include <Mutex.h>
 
 namespace tools {
 
