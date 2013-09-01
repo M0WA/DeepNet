@@ -83,13 +83,16 @@ bool QueryXmlResponse::LoadQuery(const long long& queryId,const std::string& ses
 		where );
 
 	database::queryresultsTableBase::GetWhereColumnsFor_position(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::SmallerOrEqual(),database::WhereCondition::And()),
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Smaller(),database::WhereCondition::And()),
 		endPosition,
 		where );
 
 	database::SelectStatement selectQueryResults(database::queryresultsTableBase::CreateTableDefinition());
 	selectQueryResults.SelectAllColumns();
 	selectQueryResults.Where().AddColumns(where);
+
+	selectQueryResults.OrderBy().AddColumn(database::queryresultsTableBase::GetDefinition_position(),database::ASCENDING);
+	selectQueryResults.SetLimit(query.properties.maxResults);
 
 	database::SelectResultContainer<database::queryresultsTableBase> queryResults;
 	try {
@@ -130,15 +133,15 @@ void QueryXmlResponse::InsertResults(
 
 	//insert all results
 	std::vector<QueryXmlResponseResultEntry>::const_iterator i(responseEntries.begin());
-	for(size_t resultID(0);i!=responseEntries.end();++i,++resultID) {
+	for(size_t resultPosition(0);i!=responseEntries.end();++i,++resultPosition) {
 
 		std::ostringstream xmlResultEntry;
-		i->AppendToXML(db,query,resultID,xmlResultEntry);
+		i->AppendToXML(db,query,resultPosition,xmlResultEntry);
 
 		database::queryresultsTableBase queryResultTbl;
 		queryResultTbl.Set_SEARCHQUERY_ID(queryId);
 		queryResultTbl.Set_resultXML(xmlResultEntry.str());
-		queryResultTbl.Set_position(resultID);
+		queryResultTbl.Set_position(resultPosition);
 
 		try {
 			queryResultTbl.Insert(db);
