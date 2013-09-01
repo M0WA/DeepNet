@@ -33,7 +33,6 @@ class QueryXmlRequest: public fastcgiserver::FastCGIRequest {
 public:
 	/**
 	 * creates from QueryThreadManager and FastCGIServerThread
-	 * @param queryManager query thread manager
 	 * @param serverThread server thread
 	 */
 	QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThread);
