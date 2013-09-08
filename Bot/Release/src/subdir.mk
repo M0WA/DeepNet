@@ -32,7 +32,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -DENABLE_PERFORMANCE_LOG -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../Tools/src -I../../Logging/src -I../../HtmlParser/src -I../../Caching/src -I../../Database/src -I../../Database/generated -I../../Threading/src -O0 -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -DENABLE_PERFORMANCE_LOG -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../Tools/src -I../../Logging/src -I../../HtmlParser/src -I../../Caching/src -I../../Database/src -I../../Database/generated -I../../Threading/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
