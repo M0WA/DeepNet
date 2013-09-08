@@ -8,11 +8,11 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include subdir.mk
 -include src/html5/subdir.mk
 -include src/generic/subdir.mk
--include src/DOM3/subdir.mk
 -include src/subdir.mk
--include subdir.mk
+-include src/DOM3/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -47,7 +47,7 @@ all: libDOMParser.a
 libDOMParser.a: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC Archiver'
-	ar -r  "libDOMParser.a" $(OBJS) $(USER_OBJS) $(LIBS)
+	ar -r "libDOMParser.a" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
