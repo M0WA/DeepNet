@@ -155,7 +155,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I/home/momo/deepnet/Database/src -I/home/momo/deepnet/Bot/src -I/home/momo/deepnet/Database/generated -I/home/momo/deepnet/Logging/src -I/home/momo/deepnet/Tools/src -I/home/momo/deepnet/Threading/src -I/usr/include/postgresql/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/postgresql/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
