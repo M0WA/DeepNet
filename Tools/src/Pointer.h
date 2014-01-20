@@ -199,7 +199,7 @@ public:
 
 	virtual operator T&() {
     	if(!Pointer<T>::ptr)
-    		Set(new T(), true);
+    		this->Set(new T(), true);
         return *(Pointer<T>::ptr);
     }
 };
