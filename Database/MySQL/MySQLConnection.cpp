@@ -7,7 +7,7 @@
 #include "MySQLConnection.h"
 
 #include <cstring>
-#include <mysql/mysqld_error.h>
+#include <mysqld_error.h>
 
 #include <Logging.h>
 

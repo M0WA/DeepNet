@@ -7,7 +7,7 @@
 #pragma once
 
 #include <string>
-#include <mysql/mysql.h>
+#include <mysql.h>
 #include "TableBase.h"
 
 namespace database {
