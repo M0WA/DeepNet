@@ -13,6 +13,24 @@
 
 #include <FileTools.h>
 
+//the last element in this list has to be zero
+static const char** injectStringValues[] = {
+	"; DROP DATABASE; -- ",
+	"' ; DROP DATABASE;",
+	"'' a",
+	"' ' a '",
+	"\" ; DROP DATABASE;",
+	"; DROP DATABASE;",
+	"; DROP DATABASE;/*",
+	"*/ x",
+	"; DROP DATABASE;//",
+	"<!DOCTYPE html> \n	<html><head>",
+	0 });
+	//
+	//TODO: check for zeros in statement
+	//
+	// "\0 a", 0 };
+
 namespace toolbot {
 
 UnitTestDatabase::UnitTestDatabase(const database::DatabaseConfig* dbConfig)
@@ -402,24 +420,6 @@ bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry
 }
 
 bool UnitTestDatabase::SQLInjectionTest() {
-
-	//the last element in this list has to be zero
-	static const char** injectStringValues(	(const char *[]){
-		"; DROP DATABASE; -- ",
-		"' ; DROP DATABASE;",
-		"'' a",
-		"' ' a '",
-		"\" ; DROP DATABASE;",
-		"; DROP DATABASE;",
-		"; DROP DATABASE;/*",
-		"*/ x",
-		"; DROP DATABASE;//",
-		"<!DOCTYPE html> \n	<html><head>",
-		0 });
-		//
-		//TODO: check for zeros in statement
-		//
-		// "\0 a", 0 };
 
 	for(size_t i = 0; injectStringValues[i]; i++) {
 		database::unittest1TableBase sqlInject;
