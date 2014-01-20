@@ -54,7 +54,7 @@ void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std:
 
 void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& ap) {
 
-	outString.clear();
+	//outString.clear();
 
 	int n, size(100);
 	char *p(0), *np(0);
