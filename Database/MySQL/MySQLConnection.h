@@ -9,7 +9,7 @@
 #include <vector>
 #include <string>
 
-#include <mysql/mysql.h>
+#include <mysql.h>
 
 #include "DatabaseConnection.h"
 
