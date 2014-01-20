@@ -30,12 +30,12 @@
 								<option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1757785351" name="Optimization Level" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.210497086" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.1612543022" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Logging/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Tools/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Threading/src"/>
+									<listOptionValue builtIn="false" value="../../Database/src"/>
+									<listOptionValue builtIn="false" value="../../Bot/src"/>
+									<listOptionValue builtIn="false" value="../../Database/generated"/>
+									<listOptionValue builtIn="false" value="../../Logging/src"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
+									<listOptionValue builtIn="false" value="../../Threading/src"/>
 									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.494512883" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
@@ -125,12 +125,12 @@
 								<option id="gnu.cpp.compiler.lib.release.option.optimization.level.1089364979" name="Optimization Level" superClass="gnu.cpp.compiler.lib.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.release.option.debugging.level.746810726" name="Debug Level" superClass="gnu.cpp.compiler.lib.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.default" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.699820374" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Logging/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Tools/src"/>
-									<listOptionValue builtIn="false" value="/home/momo/deepnet/Threading/src"/>
+									<listOptionValue builtIn="false" value="../../Database/src"/>
+									<listOptionValue builtIn="false" value="../../Bot/src"/>
+									<listOptionValue builtIn="false" value="../../Database/generated"/>
+									<listOptionValue builtIn="false" value="../../Logging/src"/>
+									<listOptionValue builtIn="false" value="../../Tools/src"/>
+									<listOptionValue builtIn="false" value="../../Threading/src"/>
 									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.228460405" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
@@ -138,7 +138,7 @@
 									<listOptionValue builtIn="false" value="_REENTRANT"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.pic.565476259" name="Position Independent Code (-fPIC)" superClass="gnu.cpp.compiler.option.other.pic" value="true" valueType="boolean"/>
-								<option id="gnu.cpp.compiler.option.optimization.flags.1487893432" superClass="gnu.cpp.compiler.option.optimization.flags" value="-fPIC -fomit-frame-pointer" valueType="string"/>
+								<option id="gnu.cpp.compiler.option.optimization.flags.1487893432" name="Other optimization flags" superClass="gnu.cpp.compiler.option.optimization.flags" value="-fPIC -fomit-frame-pointer" valueType="string"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2011410356" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.release.853081566" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.release">
