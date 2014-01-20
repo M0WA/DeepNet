@@ -45,7 +45,7 @@ Thread::ThreadID Thread::StartThread(void* pParam)
 		return 0;
 	}
 
-	return reinterpret_cast<unsigned long long&>(thread);
+	return reinterpret_cast<long unsigned int&>(thread);
 }
 
 bool Thread::SetShallEnd(bool shallEnd)
