@@ -36,6 +36,8 @@
 									<listOptionValue builtIn="false" value="../../Logging/src"/>
 									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Threading/src"/>
+									<listOptionValue builtIn="false" value="/usr/include/"/>
+									<listOptionValue builtIn="false" value="/usr/include/mysql"/>
 									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.494512883" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
@@ -131,6 +133,8 @@
 									<listOptionValue builtIn="false" value="../../Logging/src"/>
 									<listOptionValue builtIn="false" value="../../Tools/src"/>
 									<listOptionValue builtIn="false" value="../../Threading/src"/>
+									<listOptionValue builtIn="false" value="/usr/include/"/>
+									<listOptionValue builtIn="false" value="/usr/include/mysql"/>
 									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.228460405" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
