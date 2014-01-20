@@ -51,7 +51,7 @@ size_t NamedCharacterReferences::IsRef(const char* p,const size_t size, bool& is
 void NamedCharacterReferences::InitStaticNamedCharRefs() {
 	lockNamedCharRefs.Lock();
 	if(vecNamedCharRefs.size() == 0) {
-
+/*
 		vecNamedCharRefs.push_back("AElig;");
 		vecNamedCharRefs.push_back("AMP;");
 		vecNamedCharRefs.push_back("Aacute;");
@@ -2283,6 +2283,7 @@ void NamedCharacterReferences::InitStaticNamedCharRefs() {
 		vecNamedCharRefs.push_back("yacute");
 		vecNamedCharRefs.push_back("yen");
 		vecNamedCharRefs.push_back("yuml");
+*/
 	}
 	lockNamedCharRefs.Unlock();
 }
