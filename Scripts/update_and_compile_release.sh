@@ -8,7 +8,7 @@
 #
 #########################################################
 
-PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools LibXMLParser WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
+PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools DOMParser LibXMLParser WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
 
 INTERN_CALL=$1
 
@@ -39,7 +39,7 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
 
     make -j all
     if [ $? -ne 0 ]; then
-        echo "Error while comiling ${PROJECT}"
+        echo "Error while compiling ${PROJECT}"
         exit 1
     fi
 
