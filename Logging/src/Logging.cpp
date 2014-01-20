@@ -52,9 +52,12 @@ void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std:
 		Logging::mutex.Unlock();
 }
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+
 void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& ap) {
 
-	//outString.clear();
+	outString.clear();
 
 	int n, size(100);
 	char *p(0), *np(0);
@@ -88,6 +91,8 @@ void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& a
 		return;
 }
 
+#pragma GCC pop_options
+
 void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
 
 	if(instance && levelMsg > instance->logLevel)
@@ -105,6 +110,9 @@ void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
     	Logging::Log(levelMsg,msgOut);}
 }
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+
 void Logging::LogUnlimited(LogLevel levelMsg, const char* fmt,...) {
 
 	if(instance && levelMsg > instance->logLevel)
@@ -121,6 +129,8 @@ void Logging::LogUnlimited(LogLevel levelMsg, const char* fmt,...) {
     else{
     	Logging::LogUnlimited(levelMsg,msgOut);}
 }
+
+#pragma GCC pop_options
 
 void Logging::RegisterThreadID(const std::string& threadName) {
 
