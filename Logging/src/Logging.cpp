@@ -56,36 +56,48 @@ void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& a
 
 	outString.clear();
 
-	int n, size(100);
-	char *p(0), *np(0);
+	int size(100);
+	char *p(0);
 
-	if ((p = (char*)malloc (size)) == NULL)
+	if ((p = (char*)malloc(size)) == NULL) {
+		return;	}
+
+	int n = vsnprintf (p, size, fmt, ap);
+	if (n > -1 && n < size) {
+		outString = p;
+		free(p);
 		return;
-
-	while (1) {
-		n = vsnprintf (p, size, fmt, ap);
-		if (n > -1 && n < size) {
-		    break; }
-
-		if (n > -1) {  // glibc 2.1
-		   size = n+1; }
-		else           // glibc 2.0
-		   size *= 2;
-
-		if ((np = (char*)realloc(p, size)) == NULL) {
-		   free(p);
-		   p = 0;
-		   break;
-		} else {
-		   p = np;
-		}
 	}
 
-	if(p) {
-		outString = p;
-		free(p); }
-	else
-		return;
+	if (n > -1) {  // glibc 2.1
+		size = n + 1;
+		char *np = (char *)malloc(size);
+		n = vsnprintf (np, size, fmt, ap);
+		if (n > -1 && n < size) {
+			outString = np; }
+		free(np);
+		free(p);
+	}
+	else {         // glibc 2.0
+		char *np(0);
+		while (1) {
+			size *= 2;
+			if ((np = (char*)realloc(p, size)) == NULL) {
+			   free(p);
+			   p = 0;
+			   break;
+			} else {
+			   p = np;
+			}
+			n = vsnprintf (p, size, fmt, ap);
+			if (n > -1 && n < size) {
+			    break; }
+		}
+		if(p) {
+			outString = p;
+			free(p); }
+	}
+	return;
 }
 
 void Logging::Log(LogLevel levelMsg, const char* fmt,...) {
