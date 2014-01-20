@@ -14,7 +14,7 @@
 #include <FileTools.h>
 
 //the last element in this list has to be zero
-static const char** injectStringValues[] = {
+static const char** injectStringValues = (	(const char *[]){
 	"; DROP DATABASE; -- ",
 	"' ; DROP DATABASE;",
 	"'' a",
