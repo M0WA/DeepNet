@@ -8,7 +8,7 @@
 #
 #########################################################
 
-PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
+PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools LibXMLParser WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
 
 INTERN_CALL=$1
 
