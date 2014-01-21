@@ -53,9 +53,20 @@ void Logging::Log_Intern(const LogLevel levelMsg, const size_t length,const std:
 }
 
 void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& ap) {
-
-	outString.clear();
-
+	char pszOut[4096] = {0};
+	int n = vsnprintf (pszOut, 4095, fmt, ap);
+	if(n>0) {
+		outString.assign(pszOut); }
+	else {
+		outString = (std::string("error while log::Logging::FormatVAString(fmt=)")+fmt);
+	}
+	
+	//
+	//TODO: the beyond is buggy on Debian wheezy,
+	//      check out why, remember that the same
+	//      code is tools::StringTools::FormatString()...
+	//
+/*
 	int size(100);
 	char *p(0);
 
@@ -68,8 +79,7 @@ void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& a
 		free(p);
 		return;
 	}
-
-	if (n > -1) {  // glibc 2.1
+	else if (n > -1) {  // glibc 2.1
 		size = n + 1;
 		char *np = (char *)malloc(size);
 		n = vsnprintf (np, size, fmt, ap);
@@ -87,6 +97,7 @@ void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& a
 			   p = 0;
 			   break;
 			} else {
+			   free(p);
 			   p = np;
 			}
 			n = vsnprintf (p, size, fmt, ap);
@@ -97,6 +108,7 @@ void Logging::FormatVAString(std::string& outString, const char* fmt, va_list& a
 			outString = p;
 			free(p); }
 	}
+*/
 	return;
 }
 
