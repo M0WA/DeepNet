@@ -67,7 +67,7 @@ bool UnitTestIndexerEx::HandleSingleFile(tools::SpellChecking& spellCheck,const 
 		curFileName = testPath + fileName; }
 
 	tools::Pointer<indexing::IIndexer> indexer;
-	if(!indexing::IIndexerFactory::CreateInstance(connection,indexing::IIndexerFactory::OWN_GENERIC,indexer)) {
+	if(!indexing::IIndexerFactory::CreateInstance(connection,indexing::IIndexerFactory::OWN_GENERIC,indexing::IIndexerFactory::IDX_OPT_NONE,indexer)) {
 		log::Logging::LogError("error while creating indexer");
 		return false; }
 
