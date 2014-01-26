@@ -1,5 +1,8 @@
-/*
- * IndexerBase.cpp
+/**
+ *
+ * @file IndexerBase.h
+ * @author Moritz Wagner
+ * @date 11.03.2012
  *
  * !!! ATTENTION: this is NOT the base for class Indexer
  *                as the name might suggest.
@@ -7,8 +10,6 @@
  *                Indexer used to lex and parse a certain piece
  *                of content.
  *
- *  Created on: 11.03.2012
- *      Author: Moritz Wagner
  */
 
 #pragma once
@@ -28,6 +29,11 @@ namespace database {
 	class DatabaseConnection;
 }
 
+/**
+ * @struct IndexerCtx
+ * context for indexing::IndexerBase
+ * @see indexing::IndexerBase
+ */
 struct IndexerCtx {
 
 	IndexerCtx()

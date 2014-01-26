@@ -49,6 +49,22 @@ public:
 		MAX_INDEXER_TYPE,
 	} IndexerType;
 
+	/**
+	 * @enum IndexerOptions
+	 * generic option flags for indexing::IIndexer
+	 */
+	typedef enum {
+		/**
+		 * no options
+		 */
+		IDX_OPT_NONE   = 0x0,
+
+		/**
+		 * do not index word positions
+		 */
+		IDX_OPT_NO_POS = 0x1,
+	} IndexerOptions;
+
 private:
 	IIndexerFactory();
 public:
@@ -62,7 +78,7 @@ public:
 	 * @param indexer created indexer
 	 * @return true if successful, false if unsuccessful
 	 */
-	static bool CreateInstance(database::DatabaseConnection* db,const IndexerType& type, tools::Pointer<IIndexer>& indexer);
+	static bool CreateInstance(database::DatabaseConnection* db,const IndexerType& type, const IndexerOptions& opts, tools::Pointer<IIndexer>& indexer);
 };
 
 }

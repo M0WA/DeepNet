@@ -20,7 +20,7 @@ IIndexerFactory::IIndexerFactory() {
 IIndexerFactory::~IIndexerFactory() {
 }
 
-bool IIndexerFactory::CreateInstance(database::DatabaseConnection* db,const IndexerType& type, tools::Pointer<IIndexer>& indexer) {
+bool IIndexerFactory::CreateInstance(database::DatabaseConnection* db,const IndexerType& type, const IndexerOptions& opts, tools::Pointer<IIndexer>& indexer) {
 	switch(type)
 	{
 	case OWN_GENERIC:

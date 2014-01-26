@@ -27,7 +27,7 @@ IndexerTester::~IndexerTester() {
 bool IndexerTester::Parse(database::DatabaseConnection* database, const std::string& content)
 {
 	tools::Pointer<IIndexer> indexer;
-	IIndexerFactory::CreateInstance(database,IIndexerFactory::FLEX_GENERIC,indexer);
+	IIndexerFactory::CreateInstance(database,IIndexerFactory::FLEX_GENERIC,IIndexerFactory::IDX_OPT_NONE,indexer);
 	indexer.Get()->GetDictionary().SetTestMode(true);
 	indexer.Get()->Parse( content,-1 );
 

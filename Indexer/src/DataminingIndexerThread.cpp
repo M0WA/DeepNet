@@ -21,8 +21,8 @@ void DataminingIndexerThread::OnCreateIndexer(
 			tools::Pointer<IIndexer>& indexerMeta,
 			tools::Pointer<IIndexer>& indexerContent) {
 
-	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::FLEX_DATAMINING,indexerContent);
-	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::FLEX_DATAMINING,indexerMeta);
+	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::FLEX_DATAMINING,IIndexerFactory::IDX_OPT_NONE,indexerContent);
+	IIndexerFactory::CreateInstance(DB().Connection(),IIndexerFactory::FLEX_DATAMINING,IIndexerFactory::IDX_OPT_NONE,indexerMeta);
 }
 
 }
