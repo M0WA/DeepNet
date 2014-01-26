@@ -27,7 +27,7 @@ class IndexerEx : public IIndexer {
 	friend class IIndexerFactory;
 
 private:
-	IndexerEx(database::DatabaseConnection* database);
+	IndexerEx(database::DatabaseConnection* database,bool savePositions);
 public:
 	virtual ~IndexerEx();
 

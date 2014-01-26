@@ -13,12 +13,15 @@ namespace indexing {
 
 class GenericWebDictionary: public indexing::Dictionary {
 public:
-	GenericWebDictionary(database::DatabaseConnection* database);
+	GenericWebDictionary(database::DatabaseConnection* database, bool savePositions);
 	virtual ~GenericWebDictionary();
 
 public:
 	virtual bool CommitMeta(void);
 	virtual bool CommitContent(void);
+
+private:
+	bool savePositions;
 };
 
 }

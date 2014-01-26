@@ -19,7 +19,7 @@ class GenericWebContentIndexer: public indexing::ContentIndexer {
 	friend class IIndexerFactory;
 
 private:
-	GenericWebContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type);
+	GenericWebContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type, bool savePositions);
 public:
 	virtual ~GenericWebContentIndexer();
 

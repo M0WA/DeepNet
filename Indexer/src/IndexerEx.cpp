@@ -16,9 +16,9 @@
 
 namespace indexing {
 
-IndexerEx::IndexerEx(database::DatabaseConnection* database)
+IndexerEx::IndexerEx(database::DatabaseConnection* database,bool savePositions)
 : db(database)
-, dictionary(database){
+, dictionary(database,savePositions){
 }
 
 IndexerEx::~IndexerEx() {

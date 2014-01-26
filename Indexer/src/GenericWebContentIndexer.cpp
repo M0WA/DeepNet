@@ -9,9 +9,9 @@
 
 namespace indexing {
 
-GenericWebContentIndexer::GenericWebContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type)
+GenericWebContentIndexer::GenericWebContentIndexer(database::DatabaseConnection* database, const IndexerBase::IndexerType type, bool savePositions)
 : ContentIndexer(database,type)
-, dictionary(database){
+, dictionary(database,savePositions){
 }
 
 GenericWebContentIndexer::~GenericWebContentIndexer() {

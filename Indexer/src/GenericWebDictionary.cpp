@@ -17,8 +17,9 @@
 
 namespace indexing {
 
-GenericWebDictionary::GenericWebDictionary(database::DatabaseConnection* database)
-: Dictionary(database){
+GenericWebDictionary::GenericWebDictionary(database::DatabaseConnection* database, bool savePositions)
+: Dictionary(database)
+, savePositions(savePositions){
 }
 
 GenericWebDictionary::~GenericWebDictionary() {
@@ -83,19 +84,21 @@ bool GenericWebDictionary::CommitContent(void)
 			throw;
 		}
 
-		const std::vector<std::pair<long long, long long> >& wordPositions(wordRef.GetPositions());
-		std::vector<std::pair<long long, long long> >::const_iterator iterPos(wordPositions.begin());
-		for(;iterPos != wordPositions.end();++iterPos) {
-			database::dockeyposTableBase tblPos;
-			tblPos.Set_DOCKEY_ID(docKeyID);
-			tblPos.Set_paragraph(iterPos->first);
-			tblPos.Set_position(iterPos->second);
+		if(savePositions) {
+			const std::vector<std::pair<long long, long long> >& wordPositions(wordRef.GetPositions());
+			std::vector<std::pair<long long, long long> >::const_iterator iterPos(wordPositions.begin());
+			for(;iterPos != wordPositions.end();++iterPos) {
+				database::dockeyposTableBase tblPos;
+				tblPos.Set_DOCKEY_ID(docKeyID);
+				tblPos.Set_paragraph(iterPos->first);
+				tblPos.Set_position(iterPos->second);
 
-			try {
-				tblPos.Insert(database);
-			}
-			catch(...) {
-				throw;
+				try {
+					tblPos.Insert(database);
+				}
+				catch(...) {
+					throw;
+				}
 			}
 		}
 	}
