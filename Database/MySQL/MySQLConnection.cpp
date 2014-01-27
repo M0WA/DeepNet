@@ -96,7 +96,7 @@ bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 
 	log::Logging::LogInfo("connected to mysql-database");
 
-	return true;
+	return mysqlConnection;
 }
 
 bool MySQLConnection::Disconnect()
