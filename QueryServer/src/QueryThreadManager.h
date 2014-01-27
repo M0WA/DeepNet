@@ -25,7 +25,7 @@ namespace queryserver {
 	/**
 	 * this variable is used internally by queryserver::QueryThreadManager
 	 */
-	static const long long QUERY_THREAD_MANAGER_DB_HELPERS_SIZE(5);
+	static const size_t QUERY_THREAD_MANAGER_DB_HELPERS_SIZE(5);
 
 	class Query;
 	class QueryThreadResultEntry;
