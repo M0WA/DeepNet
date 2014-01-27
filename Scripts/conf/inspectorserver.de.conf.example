@@ -43,7 +43,7 @@ urlcache=1000
 subdomaincache=1000
 
 # number of second level in cache (*)
-secondlevelcache=1000
+secondleveldomaincache=1000
 
 # number of url path parts in cache (*)
 urlpathpartcache=1000
