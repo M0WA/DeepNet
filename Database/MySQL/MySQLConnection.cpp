@@ -70,6 +70,7 @@ bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 	mysql_options(mysqlConnection,MYSQL_OPT_RECONNECT,(const char*)&one);
 	mysql_options(mysqlConnection,MYSQL_OPT_COMPRESS, (const char*)&one);
 
+	MYSQL* tmp = mysqlConnection;
 	mysqlConnection = mysql_real_connect(
 			mysqlConnection,
 			config->GetHost().c_str(),
@@ -78,25 +79,20 @@ bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 			config->GetDatabaseName().c_str(),
 			config->GetPort(),
 			NULL,
-			CLIENT_MULTI_STATEMENTS|CLIENT_COMPRESS
-			);
+			CLIENT_MULTI_STATEMENTS|CLIENT_COMPRESS	);
 
-	if(!mysqlConnection)
-	{
-		const char* pszMySQLError = mysql_error(mysqlConnection);
-		std::string msg = "mysql error: ";
-		msg += std::string(pszMySQLError ? pszMySQLError : "N/A" );
-		msg += "\n";
-		log::Logging::LogError(msg);
-	}
-	else
-	{
-		mysql_autocommit(mysqlConnection,1);
+	if(!mysqlConnection) {
+		log::Logging::LogError("could not connect to the database %s@%s:%d\nmysql error: %s",
+				config->GetUser().c_str(),
+				config->GetHost().c_str(),
+				config->GetPort(),
+				mysql_error(tmp));
+		return false;
 	}
 
+	mysql_autocommit(mysqlConnection,1);
 	log::Logging::LogInfo("connected to mysql-database");
-
-	return mysqlConnection;
+	return true;
 }
 
 bool MySQLConnection::Disconnect()

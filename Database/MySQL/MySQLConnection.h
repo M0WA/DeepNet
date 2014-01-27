@@ -66,7 +66,7 @@ private:
 	void Execute(const std::string& query, bool doRetry);
 
 private:
-	MYSQL*               mysqlConnection;
+	MYSQL* mysqlConnection;
 	const MySQLDatabaseConfig* config;
 };
 
