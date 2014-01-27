@@ -82,13 +82,8 @@ bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 			CLIENT_MULTI_STATEMENTS|CLIENT_COMPRESS	);
 
 	if(!mysqlConnection) {
-		log::Logging::LogError("could not connect to the database %s@%s:%d\nmysql error: %s",
-				config->GetUser().c_str(),
-				config->GetHost().c_str(),
-				config->GetPort(),
-				mysql_error(tmp));
-		return false;
-	}
+		log::Logging::LogError(mysql_error(tmp));
+		return false;}
 
 	mysql_autocommit(mysqlConnection,1);
 	log::Logging::LogInfo("connected to mysql-database");
