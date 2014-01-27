@@ -186,7 +186,12 @@ void Bot::RegisterCacheConfigParams()
 
 bool Bot::InitCacheConfigParams()
 {
-	if(!htmlparser::TLD::InitTLDCache(DB().Connection())) {
+	database::DatabaseConnection* db = DB().Connection();
+	if(!db) {
+		log::Logging::LogError("database not connected, could not initialize top level domain cache, exiting...");
+		return false;}
+
+	if(!htmlparser::TLD::InitTLDCache(db)) {
 		log::Logging::LogError("cannot initialize top level domain cache, exiting...");
 		return false;}
 
