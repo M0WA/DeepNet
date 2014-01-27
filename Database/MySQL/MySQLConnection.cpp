@@ -171,11 +171,10 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 			// does not detect CR_SERVER_LOST. To be extra careful we also
 			// check for CR_SERVER_GONE_ERROR, which should be handled by auto-reconnect
 			// anyways
-			Disconnect();
 			if(!Connect(config)) {
-				std::string mySQLError = mysqlConnection ? mysql_error(mysqlConnection) : "reconnect to server failed";
 				log::Logging::LogUnlimited(log::Logging::GetLogLevel(),"error (%d) while reconnecting to server for query: %s", errNoMysql, query.c_str());
-				THROW_EXCEPTION(MySQLQueryErrorException,mySQLError,query);	}
+				THROW_EXCEPTION(MySQLQueryErrorException,"reconnect to server failed",query); }
+			log::Logging::LogInfo("retrying query after reconnect to server: %s",query.c_str());
 			Execute(query,doRetry);
 		}
 		else {
