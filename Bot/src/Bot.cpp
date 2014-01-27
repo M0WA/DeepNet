@@ -186,7 +186,7 @@ void Bot::RegisterCacheConfigParams()
 
 bool Bot::InitCacheConfigParams()
 {
-	database::DatabaseConnection* db = DB().Connection();
+	database::DatabaseConnection* db(DB().Connection());
 	if(!db) {
 		log::Logging::LogError("database not connected, could not initialize top level domain cache, exiting...");
 		return false;}
