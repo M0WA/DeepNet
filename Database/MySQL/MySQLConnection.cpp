@@ -8,6 +8,7 @@
 
 #include <cstring>
 #include <mysqld_error.h>
+#include <errmsg.h>
 
 #include <Logging.h>
 
@@ -150,8 +151,7 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 		log::Logging::LogUnlimited(log::Logging::GetLogLevel(),"execute: %s",query.c_str()); }
 
 	if(!mysqlConnection) {
-		THROW_EXCEPTION(DatabaseNotConnectedException);
-	}
+		THROW_EXCEPTION(DatabaseNotConnectedException); }
 
 	int nError = mysql_real_query(mysqlConnection,query.c_str(),query.size());
 	if(nError) {
@@ -173,15 +173,22 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 				}
 			}
 			if(exceptionOccurred){
-				if(config->GetLogQuery()){
-					log::Logging::LogCurrentLevel("execute: " + query); }
-				THROW_EXCEPTION(MySQLOperationTimeoutException);
-			}
+				THROW_EXCEPTION(MySQLOperationTimeoutException); }
+		}
+		else if(errNoMysql == CR_SERVER_LOST || errNoMysql == CR_SERVER_GONE_ERROR) {
+			// normally auto-reconnect takes care of this but Percona
+			// does not detect CR_SERVER_LOST. To be extra careful we also
+			// check for CR_SERVER_GONE_ERROR, which should be handled by auto-reconnect
+			// anyways
+			Disconnect();
+			if(!Connect(config)) {
+				std::string mySQLError = mysqlConnection ? mysql_error(mysqlConnection) : "reconnect to server failed";
+				log::Logging::LogUnlimited(log::Logging::GetLogLevel(),"error (%d) while reconnecting to server for query: %s", errNoMysql, query.c_str());
+				THROW_EXCEPTION(MySQLQueryErrorException,mySQLError,query);	}
+			Execute(query,doRetry);
 		}
 		else {
 			std::string mySQLError = mysql_error(mysqlConnection);
-			if(config->GetLogQuery()){
-				log::Logging::LogCurrentLevel("execute: " + query); }
 			THROW_EXCEPTION(MySQLQueryErrorException,mySQLError,query);
 		}
 	}
