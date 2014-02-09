@@ -79,21 +79,20 @@ void CacheUrlSearchPart::GetIDByUrlSearchPart(
 	if(isInCache)
 		return;
 
-	database::urlsearchpartsTableBase tblInsert;
-	tblInsert.Set_searchpart(urlSearchPart);
-	tblInsert.Set_md5(tools::HashTools::GetMD5(urlSearchPart));
-
 	try {
+		database::urlsearchpartsTableBase tblInsert;
+		tblInsert.Set_searchpart(urlSearchPart);
+		tblInsert.Set_md5(tools::HashTools::GetMD5(urlSearchPart));
 		tblInsert.InsertOrUpdate(db);
 		db->LastInsertID(urlSearchPartID);
 	}
 	catch(database::DatabaseException& e) {
+		urlSearchPartID = -1;
 		e.DisableLogging();
 		std::stringstream ss;
 		ss << "exception while inserting url search part: " << urlSearchPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();
 		THROW_EXCEPTION(URLInvalidUrlSearchPartIDException, ss.str());
-		return;
 	}
 
 	if(urlSearchPartID == -1) {

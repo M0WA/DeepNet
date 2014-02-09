@@ -60,8 +60,12 @@ bool CacheDatabaseUrl::GetByUrl(database::DatabaseConnection* db, const network:
 
 	long long urlID(-1);
 	if(!cacheInstance.cacheIDUrl.GetByValue(url,urlID)){
-		urlOut.Set(new htmlparser::DatabaseUrl(db,url),true);
-		cacheInstance.cacheIDUrl.AddItem(urlOut.Get()->GetUrlID(),*urlOut.Get());
+		try {
+			urlOut.Set(new htmlparser::DatabaseUrl(db,url),true);
+			cacheInstance.cacheIDUrl.AddItem(urlOut.Get()->GetUrlID(),*urlOut.Get()); }
+		catch(errors::Exception& e) {
+			urlOut.Release();
+			return false; }
 		return true; }
 	else {
 		return GetByUrlID(db,urlID,urlOut);	}
