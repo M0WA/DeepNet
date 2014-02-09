@@ -170,9 +170,16 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 
 		try {
 			tools::Pointer<htmlparser::DatabaseUrl> urlLink;
-			caching::CacheDatabaseUrl::GetByUrl(db,*iterUrls,urlLink);
-			dbLinks.push_back(*urlLink.Get());
-			mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(*urlLink.Get(),urlLink.Get()->GetUrlID()));
+			if(caching::CacheDatabaseUrl::GetByUrl(db,*iterUrls,urlLink)) {
+				dbLinks.push_back(*urlLink.Get());
+				mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(*urlLink.Get(),urlLink.Get()->GetUrlID()));
+			}
+			else {
+				if(log::Logging::IsLogLevelTrace()) {
+					log::Logging::LogTrace(
+							"error while trying to add url %s to database",iterUrls->GetFullUrl().c_str());
+				}
+			}
 		}
 		catch(const network::HttpUrlParserException& ex) {
 			if(log::Logging::IsLogLevelTrace()) {
