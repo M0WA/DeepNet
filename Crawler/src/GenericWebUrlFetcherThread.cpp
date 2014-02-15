@@ -149,14 +149,14 @@ bool GenericWebUrlFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs)
 	syncUrl.Set_CRAWLERSESSION_ID(crawlerSessionID);
 	syncUrl.Set_schedule(tools::TimeTools::NowUTCAdd(fetcherThreadParam->minAge));
 
-	PERFORMANCE_LOG_RESTART;
-	syncUrl.Update(DB().Connection(),fetchUrlParam);
-	PERFORMANCE_LOG_STOP("setting crawlersession to syncurls");
 
 	database::SelectResultContainer<database::syncurlsTableBase> syncUrlTbls;
 
 	PERFORMANCE_LOG_RESTART;
 	try {
+		PERFORMANCE_LOG_RESTART;
+		syncUrl.Update(DB().Connection(),fetchUrlParam);
+		PERFORMANCE_LOG_STOP("setting crawlersession to syncurls");
 		database::syncurlsTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,syncUrlTbls);
 	}
 	catch(database::DatabaseException&) {
