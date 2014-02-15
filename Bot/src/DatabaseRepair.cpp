@@ -123,7 +123,7 @@ bool DatabaseRepair::ValidateSecondLevelLockTable(database::DatabaseConnection* 
 		lockedUrl->Get(lockedUrlCount);
 
 		if(lockedUrlCount > 0) {
-			log::Logging::LogError("error, count for locked second level domains is not 0");
+			log::Logging::LogError("error, count for locked second level domains is %ll, should be 0",lockedUrlCount);
 			return false; }
 	}
 
@@ -176,7 +176,7 @@ bool DatabaseRepair::ValidateSyncUrlTable(database::DatabaseConnection* db, cons
 		reservedCount->Get(reservedUrlCount);
 
 		if(reservedUrlCount > 0) {
-			log::Logging::LogError("error, count for reserved urls is not 0");
+			log::Logging::LogError("count for reserved urls is %ll, should be 0",reservedUrlCount);
 			return false; }
 	}
 
