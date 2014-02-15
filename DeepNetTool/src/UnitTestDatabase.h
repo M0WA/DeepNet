@@ -50,18 +50,18 @@ private:
 
 	/*
 	typedef struct _LongLongComparator {
-	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) {
+	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) const {
 	        return a.nInteger>b.nInteger; }
 	} LongLongComparator;
 
 	typedef struct _StringComparator {
-	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) {
+	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) const {
 	        return a.varchar_test.compare(b.varchar_test); }
 	} StringComparator;
 	*/
 
 	typedef struct _DoubleComparator {
-	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) {
+	    bool operator()(const UnitTestDatabaseEntry& a , const UnitTestDatabaseEntry& b ) const {
 	        return a.dDouble>b.dDouble; }
 	} DoubleComparator;
 
