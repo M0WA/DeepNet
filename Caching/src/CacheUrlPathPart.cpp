@@ -10,8 +10,6 @@
 
 #include "CachePathPart.h"
 
-#include <vector>
-
 #include <StringTools.h>
 #include <ContainerTools.h>
 #include <Pointer.h>
@@ -28,6 +26,12 @@
 #include <DatabaseException.h>
 
 namespace caching {
+
+//
+//TODO: do not check this only here and move
+//      this setting to config files
+//
+#define MAX_PATH_DEEPTH 32
 
 CacheUrlPathPart CacheUrlPathPart::cacheInstance;
 
@@ -100,12 +104,16 @@ WHERE
 AND
   ( t1.pathpart_id = 2 )
 */
-
 	std::vector<std::string> parts;
 	tools::StringTools::SplitBy(pathPart, "/", parts);
 
 	if(parts.size()==0) {
 		parts.push_back(""); }
+	else if(parts.size()>MAX_PATH_DEEPTH) {
+		urlPathPartID = -1;
+		std::ostringstream ss;
+		ss << "filepath exceeds deepth levels: " << parts.size() << ", max: " << MAX_PATH_DEEPTH;
+		THROW_EXCEPTION(URLInvalidUrlPathPartIDException, ss.str()); }
 
 	//fetch all path part ids
 	std::vector<std::string>::const_iterator iPathParts(parts.begin());
@@ -175,7 +183,7 @@ AND
 	}
 	catch(database::DatabaseException& e) {
 		e.DisableLogging();
-		std::stringstream ss;
+		std::ostringstream ss;
 		ss << "exception while getting url path part: " << pathPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();
 		THROW_EXCEPTION(URLInvalidUrlPathPartIDException, ss.str());
@@ -183,7 +191,7 @@ AND
 	}
 
 	if(results.Size()>1) {
-		std::stringstream ss;
+		std::ostringstream ss;
 		ss << "too many results while getting url path part: " << pathPart << std::endl;
 		THROW_EXCEPTION(URLInvalidUrlPathPartIDException, ss.str());
 		return; }
@@ -200,7 +208,7 @@ AND
 		cacheInstance.idUrlPathPart.AddItem(urlPathPartID,pathPart);
 	}
 	else {
-		std::stringstream ss;
+		std::ostringstream ss;
 		ss << "invalid url path part id (-1) for path part: " << pathPart << std::endl;
 		THROW_EXCEPTION(URLInvalidUrlPathPartIDException, ss.str());
 	}
@@ -224,7 +232,7 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 		catch(database::DatabaseException& e) {
 
 			e.DisableLogging();
-			std::stringstream ss;
+			std::ostringstream ss;
 			ss << "exception while inserting url path part ID: " << *i << " next url path part id: " << urlPathPartID << std::endl
 			   << "original exception: " << std::endl << e.Dump();
 			THROW_EXCEPTION(URLInvalidUrlPathPartIDException, ss.str());
@@ -232,7 +240,7 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 		}
 
 		if(urlPathPartID == -1) {
-			std::stringstream ss;
+			std::ostringstream ss;
 			ss << "invalid id while inserting url path part: "<< std::endl
 			   << "path part id: " << *i << std::endl
 			   << "next url path part id: -1" << std::endl;
@@ -256,14 +264,14 @@ void CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const
 		}
 		catch(database::DatabaseException& e) {
 			e.DisableLogging();
-			std::stringstream ss;
+			std::ostringstream ss;
 			ss << "exception while getting url path part ID: " << nextUrlPathPartID << std::endl
 			   << "original exception: " << std::endl << e.Dump();
 			THROW_EXCEPTION(URLInvalidUrlPathPartIDException, ss.str());
 		}
 
 		if(urlpathpartTbl.Size() != 1) {
-			std::stringstream ss;
+			std::ostringstream ss;
 			ss << "invalid result size while getting url path part: "<< std::endl
 			   << "url path part id: " << urlPathPartID << std::endl
 			   << "result size (should be 1): " << urlpathpartTbl.Size() << std::endl;
