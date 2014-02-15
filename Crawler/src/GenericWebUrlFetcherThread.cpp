@@ -156,7 +156,14 @@ bool GenericWebUrlFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs)
 	database::SelectResultContainer<database::syncurlsTableBase> syncUrlTbls;
 
 	PERFORMANCE_LOG_RESTART;
-	database::syncurlsTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,syncUrlTbls);
+	try {
+		database::syncurlsTableBase::GetBy_CRAWLERSESSION_ID(DB().Connection(),crawlerSessionID,syncUrlTbls);
+	}
+	catch(database::DatabaseException&) {
+		// database exceptions are considered
+		// nonfatal because we will just sleep
+		// and come back later to try again
+	}
 	PERFORMANCE_LOG_STOP("fetching sync urls to crawl");
 
 	if( syncUrlTbls.Size() == 0 ) {
