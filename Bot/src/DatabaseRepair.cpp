@@ -127,7 +127,7 @@ bool DatabaseRepair::ValidateSecondLevelLockTable(database::DatabaseConnection* 
 			return false; }
 	}
 
-	log::Logging::LogTrace("SyncSecondLevelTable was already in a clean state, nothing to be done here");
+	log::Logging::LogInfo("SyncSecondLevelTable was already in a clean state, nothing to be done here");
 	return true;
 }
 
@@ -180,7 +180,7 @@ bool DatabaseRepair::ValidateSyncUrlTable(database::DatabaseConnection* db, cons
 			return false; }
 	}
 
-	log::Logging::LogTrace("SyncUrlTable was already in a clean state, nothing to be done here");
+	log::Logging::LogInfo("SyncUrlTable was already in a clean state, nothing to be done here");
 	return true;
 }
 
