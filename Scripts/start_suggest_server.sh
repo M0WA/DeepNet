@@ -20,7 +20,8 @@ else
   cd ../SuggestServer/Release/
 #	nohup ./SuggestServer --configfile ../../Scripts/conf/suggestserver.de.conf&
 #	nohup ./SuggestServer --configfile ../../Scripts/conf/suggestserver.com.conf&
-	nohup ./SuggestServer --configfile ../../Scripts/conf/suggestserver.staging.se.conf&
+#	nohup ./SuggestServer --configfile ../../Scripts/conf/suggestserver.staging.se.conf&
+	nohup ./SuggestServer --configfile ../../Scripts/conf/suggestserver.conf&
 	rm nohup.out
 	ps aux | grep SuggestServer | grep -v grep
 fi

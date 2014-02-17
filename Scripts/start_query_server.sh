@@ -20,7 +20,7 @@ else
   cd ../QueryServer/Release/
 #	nohup ./QueryServer --configfile ../../Scripts/conf/queryserver.de.conf&
 #	nohup ./QueryServer --configfile ../../Scripts/conf/queryserver.com.conf&
-	nohup ./QueryServer --configfile ../../Scripts/conf/queryserver.staging.se.conf&
+	nohup ./QueryServer --configfile ../../Scripts/conf/queryserver.conf&
 #	nohup ./QueryServer --configfile ../../Scripts/conf/queryserver.staging.cs.conf&
 	rm nohup.out
 	ps aux | grep QueryServer | grep -v grep

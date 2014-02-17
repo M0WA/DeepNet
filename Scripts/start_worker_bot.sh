@@ -17,7 +17,7 @@ then
 	echo "exiting"
 else
 	cd ../WorkerBot/Release/
-	nohup ./WorkerBot --configfile ../../Scripts/conf/worker.se.conf&
+	nohup ./WorkerBot --configfile ../../Scripts/conf/worker.conf&
 	rm nohup.out
 	ps aux | grep WorkerBot | grep -v grep
 fi
