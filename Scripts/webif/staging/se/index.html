@@ -2,47 +2,15 @@
    "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
+	<meta name="robots" CONTENT="NOINDEX, NOFOLLOW">
     <script type="text/javascript" src="/common/common.js"></script>
     <script type="text/javascript" src="/common/suggest.js"></script> 
     <script type="text/javascript" src="/common/query.js"></script>
-    <script type="text/javascript" src="/common/inspect.js"></script>
     <link rel="stylesheet" type="text/css" href="/common/common.css">
     <link rel="stylesheet" type="text/css" href="/common/suggest.css">
     <link rel="stylesheet" type="text/css" href="/common/query.css">
-    <link rel="stylesheet" type="text/css" href="/common/inspect.css">
 </head>
 <body>
-    <div id="form_container">
-      <center>
-        <h1>page inspector</h1>
-<!--
-    begin: inspector form
--->
-        <form name="inspectform" onsubmit="onInspect(); return false;" onClick="return true;" >
-          <textarea id="inspect_url" name="inspect_url" cols="100" rows="10"></textarea>
-          <br>
-          <input type="submit" id="inspect_button" value="analyse" />
-        </form>
-<!--
-    end: inspector form
--->
-      </center>
-    </div>
-    <br>
-<!--
-    begin: inspector results
--->
-    <div id="inspect_output">
-    </div>
-<!--
-    end: inspector results
--->
-
-<hr>
-
-<center>
-<h1>search engine</h1>
-</center>
 
 <!-- ------------------------------------------------------------------------------------- -->
 
@@ -55,34 +23,44 @@
 <!--
     begin: query input
 -->
+    <div id="criteria_box_toogle_button_expand" style="font-size: 0.6em; display: none; float: left;" onclick="toggleCriteriaBox('criteria_box_toogle_button_collapse','criteria_box_toogle_button_expand','criteria_box_id',true);">&gt;&gt;</div>
     <div id="criteria_box_id" name="criteria_box">
+      <div id="criteria_box_toogle_button_collapse" style="font-size: 0.6em; float: right;" onclick="toggleCriteriaBox('criteria_box_toogle_button_collapse','criteria_box_toogle_button_expand','criteria_box_id',false);">&nbsp;&nbsp;X&nbsp;&nbsp;</div>
+
       <h4 class="small_topic_first">criteria</h4>
       <input type="checkbox" name="criteria[]" value="2" onchange="toggleElement('criteria_meta_relevance_id', this.checked);" checked />meta info<br>
-      relevance: <input type="text"     size="5" id="criteria_meta_relevance_id" name="criteria_meta_relevance" value="0.25" /><br><br>
+      <input type="text"     size="5" id="criteria_meta_relevance_id" name="criteria_meta_relevance" value="0.25" /><br>
+
       <input type="checkbox" name="criteria[]" value="4" onchange="toggleElement('criteria_domain_relevance_id', this.checked);" checked />domain name<br>
-      relevance: <input type="text"     size="5" id="criteria_domain_relevance_id" name="criteria_domain_relevance" value="0.85" /><br><br>
+      <input type="text"     size="5" id="criteria_domain_relevance_id" name="criteria_domain_relevance" value="0.85" /><br>
+
       <input type="checkbox" name="criteria[]" value="16" onchange="toggleElement('criteria_content_relevance_id', this.checked);" checked />full text<br>
-      relevance: <input type="text"     size="5" id="criteria_content_relevance_id" name="criteria_content_relevance" value="0.15" /><br><br>
+      <input type="text"     size="5" id="criteria_content_relevance_id" name="criteria_content_relevance" value="0.15" /><br>
+
       <input type="checkbox" name="criteria[]" value="32" onchange="toggleElement('criteria_url_path_relevance_id', this.checked);" checked />url path<br>
-      relevance: <input type="text"     size="5" id="criteria_url_path_relevance_id" name="criteria_url_path_relevance" value="0.75"/><br><br>
-      <h4 class="small_topic_first">static criteria</h4>
+      <input type="text"     size="5" id="criteria_url_path_relevance_id" name="criteria_url_path_relevance" value="0.75"/><br>
+
       <input type="checkbox" name="criteria[]" value="64"  disabled />backlinks<br>
-      relevance: <input type="text"     size="5" id="criteria_backlinks_relevance_id" name="criteria_backlinks_relevance" value="0.33" disabled /><br>
+      <input type="text"     size="5" id="criteria_backlinks_relevance_id" name="criteria_backlinks_relevance" value="0.33" disabled /><br>
+
       <h4 class="small_topic">grouping</h4>
       <input type="checkbox" name="grouping[]" value="1" checked />domain name<br>
+
       <h4 class="small_topic">limitations</h4>
-      max <input type="text" size="1" id="limit_result_count_id" name="limit_result_count" value="25"/> results per page<br><br>
       <input type="checkbox" name="limit[]" value="1" onchange="toggleElement('limit_domain_id', this.checked);" />domain name<br>
-      <input type="text"     size="15" id="limit_domain_id" name="limit_domain" value="domain name" disabled /><br><br>
+      <input type="text"     size="15" id="limit_domain_id" name="limit_domain" value="domain name" disabled style="display: none;" /><br>
       <input type="checkbox" name="limit[]" value="2" onchange="toggleElement('limit_age_id', this.checked);" />age<br>
-      <input type="text"     size="15" id="limit_age_id" name="limit_age" value="01-01-2012" disabled /><br><br>
+      <input type="text"     size="15" id="limit_age_id" name="limit_age" value="01-01-2012" disabled style="display: none;" /><br>
       <input type="checkbox" name="limit[]" value="4" onchange="toggleElement('limit_lang_id', this.checked);" disabled/>language<br>
       <select id="limit_lang_id" disabled>
         <option>english</option>
         <option>german</option>
         <option>french</option>
         <option>russian</option>
-      </select>
+      </select><br><br>
+
+      results per page<br>
+      <input type="text" size="1" id="limit_result_count_id" name="limit_result_count" value="25"/> <br>
     </div>
     <div>
 <table><tr><td>
@@ -118,5 +96,9 @@
 <!--
     end: query form
 -->
+<div style="clear: both"></div>
+<div style="text-align: center; position: fixed; bottom: 0; width: 100%; margin: 10px;">
+	<small>&copy; 2013 by Moritz Wagner</small>
+<div>
 </body>
 </html>

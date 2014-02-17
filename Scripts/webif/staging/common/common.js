@@ -26,22 +26,56 @@ function IsReturnKeyDown(evt) {
   return false;
 }
 
+function toggleCriteriaBox(buttonCollapseId,buttonExpandId,boxId,doExpand)
+{
+  var expand   = document.getElementById(buttonExpandId);
+  var collapse = document.getElementById(buttonCollapseId);
+  var box      = document.getElementById(boxId);
+
+  setDisplay(expand,!doExpand);
+  setVisibility(expand,!doExpand);
+
+  setDisplay(collapse,doExpand);
+  setVisibility(collapse,doExpand);
+
+  setDisplay(box,doExpand);
+  setVisibility(box,doExpand);
+}
 
 function toggleElement(elementId, isChecked)
 {
   var element = document.getElementById(elementId);
   element.disabled = !isChecked;
+  setDisplay(element,isChecked);
+  setVisibility(element,isChecked);
 }
 
 function toggleVisibility(contentElement)
 {
-  if(contentElement.style.visibility == "hidden")
-  {
+  if(contentElement.style.visibility == "hidden") {
+    setVisibility(contentElement,true);
+  }
+  else {
+    setVisibility(contentElement,false);
+  }
+}
+
+function setVisibility(contentElement,isVisible)
+{
+  if(isVisible) {
     contentElement.style.visibility = "visible";
   }
-  else
-  {
+  else {
     contentElement.style.visibility = "hidden";
+  }
+}
+
+function setDisplay(contentElement,isVisible) {
+  if(isVisible) {
+    contentElement.style.display = "inline";
+  }
+  else {
+    contentElement.style.display = "none";
   }
 }
 
@@ -49,10 +83,8 @@ function RemoveAllChildren(theElement)
 {
   try
   {
-    if ( theElement.hasChildNodes() )
-    {
-        while ( theElement.childNodes.length >= 1 )
-        {
+    if ( theElement.hasChildNodes() ) {
+        while ( theElement.childNodes.length >= 1 ) {
             theElement.removeChild( theElement.firstChild );       
         } 
     }

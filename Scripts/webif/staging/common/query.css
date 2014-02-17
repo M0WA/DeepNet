@@ -16,6 +16,7 @@
 
 #query_form_container
 {
+	margin: 15px 0;
 }
 
 #result_header_pending
@@ -52,6 +53,7 @@
   margin-left: 15px; 
   margin-bottom: 5px; 
   text-align: left;
+  font-size: 0.8em;
 }
 
 #query_box_id
