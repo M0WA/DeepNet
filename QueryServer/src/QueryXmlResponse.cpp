@@ -70,8 +70,8 @@ bool QueryXmlResponse::LoadQuery(
 		log::Logging::LogWarn("invalid session id or query string received for this query id, cannot process request");
 		return false; }
 
-	long long startPosition(query.properties.pageNo * query.properties.maxResults);
-	long long endPosition(startPosition + query.properties.maxResults);
+	long long startPosition(query.GetQueryProperties().pageNo * query.GetQueryProperties().maxResults);
+	long long endPosition(startPosition + query.GetQueryProperties().maxResults);
 
 	std::vector<database::WhereConditionTableColumn*> where;
 
@@ -95,7 +95,7 @@ bool QueryXmlResponse::LoadQuery(
 	selectQueryResults.Where().AddColumns(where);
 
 	selectQueryResults.OrderBy().AddColumn(database::queryresultsTableBase::GetDefinition_position(),database::ASCENDING);
-	selectQueryResults.SetLimit(query.properties.maxResults);
+	selectQueryResults.SetLimit(query.GetQueryProperties().maxResults);
 
 	database::SelectResultContainer<database::queryresultsTableBase> queryResults;
 	try {
@@ -159,7 +159,7 @@ bool QueryXmlResponse::CreateQuery(
 		const std::string& sessionID,
 		const std::string& rawQueryString) {
 
-	const Query& query(xmlQueryRequest->GetQuery());
+	Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	queryManager.BeginQuery(query);
@@ -178,7 +178,7 @@ bool QueryXmlResponse::CreateQuery(
 	MergeDuplicateURLs(responseEntries);
 
 	//group results by secondlevel domain if requested
-	if(query.properties.groupBySecondLevelDomain) {
+	if(query.GetQueryProperties().groupBySecondLevelDomain) {
 		MergeDuplicateSecondLevel(db, responseEntries);}
 
 	//sort results
@@ -202,7 +202,7 @@ bool QueryXmlResponse::ValidateQueryData(
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
-	if(query.properties.queryId > 0) {
+	if(query.GetQueryProperties().queryId > 0) {
 
 		// check if query is associated with session
 		std::vector<database::WhereConditionTableColumn*> where;
@@ -219,7 +219,7 @@ bool QueryXmlResponse::ValidateQueryData(
 
 		database::searchqueryTableBase::GetWhereColumnsFor_ID(
 			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-			query.properties.queryId,
+			query.GetQueryProperties().queryId,
 			where);
 
 		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
@@ -256,12 +256,12 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 		log::Logging::LogWarn("empty session id (SIRIDIAID) received, cannot process query request");
 		return false; }
 
-	const std::string& rawQueryString(xmlQueryRequest->GetRawQueryString());
+	const std::string& rawQueryString(xmlQueryRequest->GetQuery().GetRawQueryString());
 	if(rawQueryString.empty()) {
 		log::Logging::LogWarn("empty query string received, cannot process query request");
 		return false; }
 
-	long long relevantQueryID(query.properties.queryId);
+	long long relevantQueryID(query.GetQueryProperties().queryId);
 	if(!ValidateQueryData(sessionID,rawQueryString))
 		relevantQueryID = -1;
 
@@ -309,7 +309,7 @@ void QueryXmlResponse::AssembleXMLResult(
 		"<?xml version=\"1.0\"?>\n"
 		"<response>"
 		"<queryId>" << queryId << "</queryId>"
-		"<pageNo>" << query.properties.pageNo << "</pageNo>"
+		"<pageNo>" << query.GetQueryProperties().pageNo << "</pageNo>"
 		"<totalResults>" << total << "</totalResults>" <<
 		xmlResultEntries.str() <<
 		"</response>\n";

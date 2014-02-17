@@ -12,50 +12,68 @@
 #include <string>
 
 #include "QueryProperties.h"
-#include "QueryKeyword.h"
+#include "QueryKeywordGroup.h"
 
 namespace queryserver {
 
+class QueryFactory;
+
 /**
  * @brief encapsulates query keywords and their properties
+ * please have a look at queryserver::QueryFactory to construct
+ * instances of this class
  */
 class Query {
-public:
+
+	friend class QueryFactory;
+
+private:
 	Query();
+public:
 	virtual ~Query();
 
 public:
 	/**
-	 * appends a keyword at a given position
-	 * @param position position of keyword to append
-	 * @param keyword keyword to append
-	 * @param caseSensitive true if keyword is case sensitive
+	 * gets query's properties
+	 * @return query's properties
 	 */
-	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
+	const queryserver::QueryProperties& GetQueryProperties(void) const { return properties; }
 
 	/**
-	 * gets all keywords
-	 * @param keywords vector of keywords to fill
+	 * gets list of all keyword groups of this query
+	 * @return list of all keyword groups
 	 */
-	void GetKeywords(std::vector<std::string>& keywords) const;
+	const std::vector<queryserver::QueryKeywordGroup>& GetKeywordGroups(void) const { return keywordGroups; }
 
 	/**
-	 * gets all keywords in lowered form
-	 * @param keywords vector of keywords to fill
+	 * gets the current raw query string
+	 * @return
 	 */
-	void GetLoweredKeywords(std::vector<std::string>& keywords) const;
-
-public:
-	/**
-	 * query's properties
-	 */
-	QueryProperties properties;
+	const std::string& GetRawQueryString(void) const { return query; }
 
 private:
 	/**
+	 * adds a keyword group to this query
+	 * used only during initialization phase
+	 * @param grp keyword group to add
+	 */
+	void AddQueryGroup(queryserver::QueryKeywordGroup& grp);
+
+private:
+	/**
+	 * query's properties
+	 */
+	queryserver::QueryProperties properties;
+
+	/**
 	 * query's keywords
 	 */
-	std::vector<QueryKeyword> queryKeywords;
+	std::vector<queryserver::QueryKeywordGroup> keywordGroups;
+
+	/**
+	 * raw query string
+	 */
+	std::string query;
 };
 
 }

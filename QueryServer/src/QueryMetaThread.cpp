@@ -11,7 +11,7 @@
 #include "Query.h"
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
-#include "DictionaryInfoThread.h"
+#include "QueryDictionaryInfoThread.h"
 
 #include <iterator>
 

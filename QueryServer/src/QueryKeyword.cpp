@@ -8,25 +8,55 @@
 
 #include "QueryKeyword.h"
 
-#include <StringTools.h>
+#include <DatabaseLayer.h>
 
 namespace queryserver {
 
-QueryKeyword::QueryKeyword()
-: position(-1)
-, keyword("")
-, keywordLowered("")
-, caseSensitive(false) {
+QueryKeyword::_QueryKeyWordEntry::_QueryKeyWordEntry()
+: keyword("")
+, id(-1) {
 }
 
-QueryKeyword::QueryKeyword(const long long& position,const std::string& keyword,const bool caseSensitive)
-: position(position)
-, keyword(keyword)
-, keywordLowered(tools::StringTools::ToLowerNP(keyword))
-, caseSensitive(caseSensitive){
+QueryKeyword::QueryKeyword()
+: keyword("") {
+}
+
+QueryKeyword::QueryKeyword(const std::string& keyword)
+: keyword(keyword){
 }
 
 QueryKeyword::~QueryKeyword() {
+}
+
+bool QueryKeyword::InitSimilar(database::DatabaseConnection *db) {
+	return false;
+}
+
+bool QueryKeyword::InitCaseInsensitive(database::DatabaseConnection *db) {
+	return false;
+}
+
+bool QueryKeyword::InitExact(database::DatabaseConnection *db) {
+	return false;
+}
+
+bool QueryKeyword::Init(database::DatabaseConnection *db, QueryKeyword::QueryKeywordType initTypes) {
+
+	switch(initTypes)
+	{
+	case SIMILAR_MATCH:
+		InitSimilar(db);
+	case CASEINSENSITIVE_MATCH:
+		InitCaseInsensitive(db);
+	case EXACT_MATCH:
+		InitExact(db);
+		break;
+
+	default:
+		break;
+	}
+
+	return false;
 }
 
 }

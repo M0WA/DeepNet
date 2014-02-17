@@ -29,7 +29,7 @@ namespace queryserver {
 
 	class Query;
 	class QueryThreadResultEntry;
-	class DictionaryInfoThread;
+	class QueryDictionaryInfoThread;
 
 /**
  * @brief manages several information gathering threads for a single queryserver::Query at a time
@@ -52,7 +52,7 @@ public:
 	 * @see queryserver::QueryThreadManager::ReleaseQuery
 	 * @param query query to process
 	 */
-	void BeginQuery(const Query& query);
+	void BeginQuery(Query& query);
 
 	/**
 	 * waits for all querying threads to end and gives results.
@@ -91,7 +91,7 @@ private:
 	std::vector<threading::Thread::ThreadID> queryThreadIDs;
 	bool releaseSeen;
 	database::DatabaseHelper dbHelpers[QUERY_THREAD_MANAGER_DB_HELPERS_SIZE];
-	DictionaryInfoThread* dictionary;
+	QueryDictionaryInfoThread *dictionary;
 };
 
 }

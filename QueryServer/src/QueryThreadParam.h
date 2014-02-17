@@ -15,7 +15,7 @@ namespace database {
 namespace queryserver {
 
 	class Query;
-	class DictionaryInfoThread;
+	class QueryDictionaryInfoThread;
 
 /**
  * @brief encapsulates thread parameters for a queryserver::QueryThread
@@ -52,14 +52,14 @@ public:
 	 * @param query query to process
 	 * @param dictInfo dictionary information thread (should have ended already)
 	 */
-	QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const DictionaryInfoThread* dictInfo);
+	QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const QueryDictionaryInfoThread* dictInfo);
 	virtual ~QueryDictionaryThreadParam() {}
 
 public:
 	/**
 	 * dictionary information
 	 */
-	const DictionaryInfoThread* dictInfo;
+	const QueryDictionaryInfoThread* dictInfo;
 };
 
 }

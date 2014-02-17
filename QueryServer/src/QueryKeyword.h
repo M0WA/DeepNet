@@ -9,50 +9,81 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <map>
+
+namespace database {
+	class DatabaseConnection;
+}
 
 namespace queryserver {
 
 /**
- * @brief encapsulates a single keyword in a Query
+ * @brief encapsulates a single keyword in a QueryKeywordGroup
  */
 class QueryKeyword {
+public:
+	typedef enum {
+
+		/**
+		 * invalid match type
+		 */
+		INVALID_MATCH_TYPE = 0,
+
+		/**
+		 * matches exactly
+		 */
+		EXACT_MATCH 			= 0x01,
+
+		/**
+		 * matches case insensitive
+		 */
+		CASEINSENSITIVE_MATCH	= 0x02,
+
+		/**
+		 * is similar to keyword
+		 */
+		SIMILAR_MATCH	        = 0x04,
+	} QueryKeywordType;
+
+private:
+	typedef struct _QueryKeyWordEntry {
+		_QueryKeyWordEntry();
+		std::string keyword;
+		long long id;
+	} QueryKeyWordEntry;
+
 private:
 	QueryKeyword();
 
 public:
-	QueryKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
+	/**
+	 * constructs keywords from string and match type
+	 * @param keyword keyword string
+	 * @param type match type
+	 */
+	QueryKeyword(const std::string& keyword);
 	virtual ~QueryKeyword();
 
 public:
 	/**
-	 * gets position of this keyword in the query string
-	 * @return position of this keyword
+	 * initialize keyword
+	 * @param db database connection
+	 * @param initTypes types to initialize
+	 * @return true on success, false on error
 	 */
-	const size_t GetPosition() const { return position; }
-
-	/**
-	 * gets the keyword
-	 * @return keyword
-	 */
-	const std::string& GetKeyword() const { return keyword; }
-
-	/**
-	 * gets lowered keyword
-	 * @return lowered keyword
-	 */
-	const std::string& GetLoweredKeyword() const { return keywordLowered; }
-
-	/**
-	 * true if keyword is case sensitive
-	 * @return true if case sensitive
-	 */
-	bool IsCaseSensitive() const { return caseSensitive; }
+	bool Init(database::DatabaseConnection *db, QueryKeyword::QueryKeywordType initTypes);
 
 private:
-	long long position;
+	bool InitExact(database::DatabaseConnection *db);
+	bool InitCaseInsensitive(database::DatabaseConnection *db);
+	bool InitSimilar(database::DatabaseConnection *db);
+
+private:
 	std::string keyword;
-	std::string keywordLowered;
-	bool caseSensitive;
+
+private:
+	std::map< QueryKeywordType, std::vector<QueryKeyWordEntry>  > map;
 };
 
 }

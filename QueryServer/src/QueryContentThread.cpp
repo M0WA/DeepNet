@@ -11,7 +11,7 @@
 #include "Query.h"
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
-#include "DictionaryInfoThread.h"
+#include "QueryDictionaryInfoThread.h"
 
 #include <iterator>
 
@@ -55,7 +55,7 @@ void* QueryContentThread::OnRun() {
 
 bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
+	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 

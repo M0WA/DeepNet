@@ -18,7 +18,7 @@ QueryThreadParam::QueryThreadParam(database::DatabaseConnection* dbConn, const Q
 QueryThreadParam::~QueryThreadParam() {
 }
 
-QueryDictionaryThreadParam::QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const DictionaryInfoThread* dictInfo)
+QueryDictionaryThreadParam::QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const QueryDictionaryInfoThread* dictInfo)
 : QueryThreadParam(dbConn,query)
 , dictInfo(dictInfo){
 }
