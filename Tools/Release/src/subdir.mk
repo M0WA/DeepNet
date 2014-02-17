@@ -12,6 +12,7 @@ CPP_SRCS += \
 ../src/Exception.cpp \
 ../src/FileTools.cpp \
 ../src/HashTools.cpp \
+../src/InvalidOperationException.cpp \
 ../src/MemoryContainer.cpp \
 ../src/MimeType.cpp \
 ../src/NotImplementedException.cpp \
@@ -40,6 +41,7 @@ OBJS += \
 ./src/Exception.o \
 ./src/FileTools.o \
 ./src/HashTools.o \
+./src/InvalidOperationException.o \
 ./src/MemoryContainer.o \
 ./src/MimeType.o \
 ./src/NotImplementedException.o \
@@ -68,6 +70,7 @@ CPP_DEPS += \
 ./src/Exception.d \
 ./src/FileTools.d \
 ./src/HashTools.d \
+./src/InvalidOperationException.d \
 ./src/MemoryContainer.d \
 ./src/MimeType.d \
 ./src/NotImplementedException.d \
