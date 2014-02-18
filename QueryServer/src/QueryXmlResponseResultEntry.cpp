@@ -57,7 +57,7 @@ const QueryThreadResultEntry* QueryXmlResponseResultEntry::GetMostRelevantResult
 }
 
 void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
-
+/*
 	std::vector<std::string> keywordsStrings;
 	query.GetKeywords(keywordsStrings);
 	tools::ContainerTools::MakeUniqueVector(keywordsStrings,true);
@@ -67,7 +67,7 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 	for(;iKey!=keywordsStrings.end();++iKey) {
 		network::HttpUrlParser::EncodeUrl(*iKey);
 		keywordsPart << "<keyword>" << *iKey << "</keyword>"; }
-
+*/
 	std::map<QueryThreadResultType,size_t> typeCounts;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
 	for(;iRes != threadResults.end(); ++iRes) {
@@ -86,7 +86,9 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 
 	xml <<
 	"<types>" << typesPart.str() << "</types>"
+	/*
 	"<keywords>" << keywordsPart.str() << "</keywords>"
+	*/
 	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
 	"<relevancy>" << GetRelevance() << "</relevancy>"
 	"<weight>" << GetWeight() << "</weight>"
