@@ -31,7 +31,7 @@ class QueryDictionaryInfoThread : public threading::Thread {
 
 public:
 	/**
-	 * @brief paramaters for a queryserver::QueryDictionaryInfoThread
+	 * @brief parameters for a queryserver::QueryDictionaryInfoThread
 	 */
 	typedef struct _QueryDictionaryInfoThreadParam {
 
