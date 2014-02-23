@@ -43,14 +43,12 @@ public:
 	 */
 	const std::vector<queryserver::QueryKeyword>& GetKeywords() const { return groups; }
 
-	/**
-	 * check if group is mandatory
-	 * @return true if mandatory, false if not mandatory
-	 */
-	const bool IsMandatory() const { return isMandatory; }
-
 public:
-	bool GetKeywordVariations(std::vector<std::string>& words, std::vector<std::string>& caseInsensitive, std::vector<std::string>& similar) const;
+	/**
+	 * initializes dictIDs for this keyword group
+	 * @param db database connection
+	 * @return true on success, false on error
+	 */
 	bool Init(database::DatabaseConnection *db);
 
 private:
