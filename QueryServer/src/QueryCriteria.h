@@ -16,6 +16,10 @@ namespace queryserver {
 
 class QueryFactory;
 
+/**
+ * @brief encapsulates all criterias for a query
+ * @see queryserver::Query queryserver::QueryProperties
+ */
 class QueryCriteria {
 
 	friend class QueryFactory;
@@ -24,12 +28,34 @@ public:
 	typedef enum {
 		CRITERIA_UNKNOWN = 0,
 
+		/**
+		 * special case, enable all criterias
+		 */
 		CRITERIA_ALL     = 1,
 
+		/**
+		 * meta information criteria
+		 */
 		CRITERIA_META    = 2,
+
+		/**
+		 * domain based criteria
+		 */
 		CRITERIA_DOMAIN  = 4,
+
+		/**
+		 * content based criteria
+		 */
 		CRITERIA_CONTENT = 16,
+
+		/**
+		 * url path based criteria
+		 */
 		CRITERIA_PATH    = 32,
+
+		/**
+		 * backlink based criteria
+		 */
 		CRITERIA_LINKS   = 64,
 
 		CRITERIA_MAX     = 0xFF,

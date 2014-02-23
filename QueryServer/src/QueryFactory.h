@@ -21,12 +21,22 @@
 
 namespace queryserver {
 
+/**
+ * @brief factory class for queryserver::Query from xml strings
+ * @see queryserver::Query
+ */
 class QueryFactory {
 public:
 	QueryFactory();
 	virtual ~QueryFactory();
 
 public:
+	/**
+	 * creates a query from a xml string
+	 * @param xml xml string
+	 * @param queryPtr query
+	 * @return true on success, false on error
+	 */
 	bool CreateQueryFromXML(const std::string& xml, tools::Pointer<queryserver::Query>& queryPtr);
 
 private:
@@ -99,8 +109,6 @@ private:
 	private:
 		std::vector<struct tm>& out;
 	};
-
-private:
 };
 
 }

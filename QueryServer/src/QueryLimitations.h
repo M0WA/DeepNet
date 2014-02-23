@@ -21,6 +21,10 @@ namespace queryserver {
 
 class QueryFactory;
 
+/**
+ * @brief encapsulates all limitations for a query
+ * @see queryserver::Query queryserver::QueryProperties
+ */
 class QueryLimitations {
 
 	friend class QueryFactory;
@@ -30,9 +34,24 @@ public:
 	{
 		LIMITATION_UNKNOWN = 0,
 
+		/**
+		 * domain limitation
+		 */
 		LIMITATION_DOMAIN  = 1,
+
+		/**
+		 * maximum age limitation
+		 */
 		LIMITATION_MAX_AGE = 2,
+
+		/**
+		 * language limitation
+		 */
 		LIMITATION_LANG    = 4,
+
+		/**
+		 * minimum age limitation
+		 */
 		LIMITATION_MIN_AGE = 16,
 
 		LIMITATION_MAX     = 0xFF,
