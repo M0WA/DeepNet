@@ -26,6 +26,7 @@ volatile DatabaseType DatabaseHelper::dbType(DB_INVALID_TYPE);
 
 DatabaseHelper::DatabaseHelper()
 : dbConnection(0)
+, config(0)
 {
 }
 
@@ -94,6 +95,7 @@ DatabaseConnection* DatabaseHelper::CreateConnection(const DatabaseConfig* dbCon
 		DestroyConnection();
 		return 0;}
 
+	config = dbConfig;
 	return dbConnection;
 }
 
@@ -113,6 +115,7 @@ void DatabaseHelper::DestroyConnection(void)
 
 		dbConnection.Release();
 	}
+	config = 0;
 }
 
 database::DatabaseConnection* DatabaseHelper::Connection(void)

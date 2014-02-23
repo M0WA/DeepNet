@@ -53,6 +53,12 @@ public:
 	 */
 	DatabaseConnection* Connection(void);
 
+	/**
+	 * gets currently active database configuration
+	 * @return database config
+	 */
+	const DatabaseConfig* GetDatabaseConfig(void) const { return config; }
+
 public:
 	/**
 	 * gets current database type
@@ -62,6 +68,7 @@ public:
 
 private:
     tools::Pointer<DatabaseConnection> dbConnection;
+	const DatabaseConfig *config;
 
 private:
     static volatile DatabaseType dbType;
