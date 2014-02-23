@@ -13,6 +13,10 @@
 
 #include "QueryKeyword.h"
 
+namespace database {
+	class DatabaseConnection;
+}
+
 namespace queryserver {
 
 /**
@@ -30,7 +34,7 @@ public:
 	 * @param isMandatory is group mandatory
 	 * @return true on success, false on error
 	 */
-	bool ParseFromString(const std::string& querygroup, const bool isMandatory);
+	bool ParseFromString(const std::string& querygroup, const bool isMandatory, const bool isCaseSensitive, const bool isSimilar);
 
 public:
 	/**
@@ -47,10 +51,13 @@ public:
 
 public:
 	bool GetKeywordVariations(std::vector<std::string>& words, std::vector<std::string>& caseInsensitive, std::vector<std::string>& similar) const;
+	bool Init(database::DatabaseConnection *db);
 
 private:
 	std::vector<queryserver::QueryKeyword> groups;
 	bool isMandatory;
+	bool isCaseSensitive;
+	bool isSimilar;
 };
 
 }

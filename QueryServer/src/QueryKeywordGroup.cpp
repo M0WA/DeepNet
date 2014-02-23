@@ -13,47 +13,46 @@
 
 namespace queryserver {
 
-QueryKeywordGroup::QueryKeywordGroup() {
+QueryKeywordGroup::QueryKeywordGroup()
+: isMandatory(false)
+, isCaseSensitive(false)
+, isSimilar(false) {
 }
 
 QueryKeywordGroup::~QueryKeywordGroup() {
 }
 
-bool QueryKeywordGroup::GetKeywordVariations(std::vector<std::string>& wordsVec, std::vector<std::string>& caseInsensitive, std::vector<std::string>& similar) const {
+bool QueryKeywordGroup::Init(database::DatabaseConnection *db) {
 
-	/*
-	std::vector<std::string>::const_iterator i(words.begin());
-	for(;i != words.end(); ++i) {
+	unsigned long types(QueryKeyword::EXACT_MATCH);
+	if(isCaseSensitive) {
+		types |= QueryKeyword::CASEINSENSITIVE_MATCH; }
+	if(isSimilar) {
+		types |= QueryKeyword::SIMILAR_MATCH; }
 
-		wordsVec.push_back(i->GetKeyword());
+	bool success(true);
+	std::vector<queryserver::QueryKeyword>::iterator i(groups.begin());
+	for(; i != groups.end(); ++i) {
+		success &= i->Init(db,reinterpret_cast<const QueryKeyword::QueryKeywordType&>(types)); }
 
-		if(!IsCaseSensitive()) {
-			caseInsensitive.push_back(i->GetLoweredKeyword());}
-
-		//
-		//TODO: fill similiar vector
-		//
-	}
-	*/
-	return false;
+	return success;
 }
 
-bool QueryKeywordGroup::ParseFromString(const std::string& querygroup, const bool isMandatory) {
+bool QueryKeywordGroup::ParseFromString(const std::string& querygroup, const bool isMandatory, const bool isCaseSensitive, const bool isSimilar) {
 
 	std::vector<std::string> words;
 	tools::StringTools::SplitBy(querygroup," ",words);
-	this->isMandatory = isMandatory;
+
 	if(!words.size()) {
 		return false; }
 
+	this->isMandatory = isMandatory;
+	this->isCaseSensitive = isCaseSensitive;
+	this->isSimilar = isSimilar;
+
 	std::vector<std::string>::const_iterator i(words.begin());
 	for(;i != words.end(); ++i) {
-		//
-		//TODO: is this correct: caseSensitive == isMandatory ??
-		//
-		bool caseSensitive(isMandatory);
-		groups.push_back( queryserver::QueryKeyword(*i) );
-	}
+		groups.push_back( queryserver::QueryKeyword(*i) ); }
 	return true;
 }
 

@@ -34,6 +34,13 @@ public:
 
 public:
 	/**
+	 * initializes dictIDs from database
+	 * @param db database connection
+	 * @return true on success, false on error
+	 */
+	bool Init(database::DatabaseConnection *db);
+
+	/**
 	 * gets query's properties
 	 * @return query's properties
 	 */
@@ -47,7 +54,7 @@ public:
 
 	/**
 	 * gets the current raw query string
-	 * @return
+	 * @return raw query string
 	 */
 	const std::string& GetRawQueryString(void) const { return query; }
 

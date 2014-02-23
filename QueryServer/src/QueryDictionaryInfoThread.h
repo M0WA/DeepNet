@@ -14,7 +14,7 @@
 #include <Thread.h>
 
 namespace database {
-	class DatabaseConnection;
+	class DatabaseConfig;
 	class WhereConditionTableColumnCreateParam;
 }
 
@@ -38,9 +38,9 @@ public:
 		/**
 		 * constructs QueryDictionaryInfoThreadParam
 		 * @param query query to be processed
-		 * @param db database connection
+		 * @param dbconf database config
 		 */
-		_QueryDictionaryInfoThreadParam(Query& query,database::DatabaseConnection *db);
+		_QueryDictionaryInfoThreadParam(Query& query,const database::DatabaseConfig *dbconf);
 
 		/**
 		 * query to be processed
@@ -48,9 +48,9 @@ public:
 		Query& query;
 
 		/**
-		 * database connection
+		 * database config
 		 */
-		database::DatabaseConnection *db;
+		const database::DatabaseConfig *dbconf;
 	} QueryDictionaryInfoThreadParam;
 
 public:

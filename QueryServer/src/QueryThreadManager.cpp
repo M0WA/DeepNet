@@ -55,7 +55,7 @@ void QueryThreadManager::BeginQuery(Query& query) {
 	if(dictionaryThreadNeeded) {
 		dictionary = new QueryDictionaryInfoThread();
 		dictionary->StartThread(
-				new QueryDictionaryInfoThread::QueryDictionaryInfoThreadParam( query, dbHelpers[0].Connection() )
+				new QueryDictionaryInfoThread::QueryDictionaryInfoThreadParam( query, dbHelpers[0].GetDatabaseConfig() )
 		);
 	}
 

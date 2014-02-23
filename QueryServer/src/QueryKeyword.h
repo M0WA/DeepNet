@@ -11,9 +11,11 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 namespace database {
 	class DatabaseConnection;
+	class WhereConditionTableColumnCreateParam;
 }
 
 namespace queryserver {
@@ -49,9 +51,37 @@ public:
 private:
 	typedef struct _QueryKeyWordEntry {
 		_QueryKeyWordEntry();
+		_QueryKeyWordEntry(const std::string& keyword, const long long& id = -1, const long long& occurrence = -1);
+
+		bool operator== (const std::string &keyword) const {
+		    return (this->keyword.compare(keyword) == 0); }
+
 		std::string keyword;
 		long long id;
+		long long occurrence;
 	} QueryKeyWordEntry;
+
+	typedef struct _QueryKeywordEntryToDictID : public std::unary_function<QueryKeyWordEntry,bool> {
+		_QueryKeywordEntryToDictID(std::vector<long long>& ids) : ids(ids) {}
+
+		bool operator() (const QueryKeyWordEntry& e) {
+			ids.push_back(e.id);
+			return true;}
+
+	private:
+		std::vector<long long>& ids;
+	} QueryKeywordEntryToDictID;
+
+	typedef struct _QueryKeywordEntryToKeyword : public std::unary_function<QueryKeyWordEntry,bool> {
+		_QueryKeywordEntryToKeyword(std::vector<std::string>& keywords) : keywords(keywords) {}
+
+		bool operator() (const QueryKeyWordEntry& e) {
+			keywords.push_back(e.keyword);
+			return true;}
+
+	private:
+		std::vector<std::string>& keywords;
+	} QueryKeywordEntryToKeyword;
 
 private:
 	QueryKeyword();
@@ -69,15 +99,37 @@ public:
 	/**
 	 * initialize keyword
 	 * @param db database connection
-	 * @param initTypes types to initialize
+	 * @param types types to initialize
 	 * @return true on success, false on error
 	 */
-	bool Init(database::DatabaseConnection *db, QueryKeyword::QueryKeywordType initTypes);
+	bool Init(
+			database::DatabaseConnection *db,
+			QueryKeyword::QueryKeywordType types);
+
+	/**
+	 * gets dictionary ids by keyword types
+	 * @param types keyword types
+	 * @param dictIDs dictionary ids
+	 */
+	void GetDictIDByType(
+			QueryKeywordType types,
+			std::map<QueryKeywordType, std::vector<long long> >& dictIDs) const;
 
 private:
-	bool InitExact(database::DatabaseConnection *db);
-	bool InitCaseInsensitive(database::DatabaseConnection *db);
-	bool InitSimilar(database::DatabaseConnection *db);
+	bool InitExactKeywords(void);
+	bool InitCaseInsensitiveKeywords(void);
+	bool InitSimilarKeywords(void);
+
+	bool InitIDsForKeywords(
+			database::DatabaseConnection *db,
+			std::vector<QueryKeyWordEntry>& entries,
+			database::WhereConditionTableColumnCreateParam& where,
+			std::vector<long long>& excludeDictIDs);
+
+private:
+	static void GetWhereForType(
+			QueryKeyword::QueryKeywordType type,
+			database::WhereConditionTableColumnCreateParam& where);
 
 private:
 	std::string keyword;
