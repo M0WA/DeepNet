@@ -92,19 +92,18 @@ bool QueryKeyword::Init(database::DatabaseConnection *db, QueryKeyword::QueryKey
 }
 
 void QueryKeyword::GetDictIDByType(QueryKeywordType types, std::map<QueryKeywordType, std::vector<long long> >& dictIDs) const {
-
 	if( (types & SIMILAR_MATCH) ) {
 		const std::vector<QueryKeyWordEntry>& entries(map.at(SIMILAR_MATCH));
 		QueryKeywordEntryToDictID e(dictIDs.at(SIMILAR_MATCH));
-		std::for_each(entries.begin(),entries.end(), dynamic_cast< std::unary_function<QueryKeyWordEntry,bool>& >(e)); }
+		std::for_each(entries.begin(),entries.end(), e); }
 	if( (types & CASEINSENSITIVE_MATCH) ) {
 		const std::vector<QueryKeyWordEntry>& entries(map.at(CASEINSENSITIVE_MATCH));
 		QueryKeywordEntryToDictID e(dictIDs.at(CASEINSENSITIVE_MATCH));
-		std::for_each(entries.begin(),entries.end(), dynamic_cast< std::unary_function<QueryKeyWordEntry,bool>& >(e)); }
+		std::for_each(entries.begin(),entries.end(), e); }
 	if( (types & EXACT_MATCH) ) {
 		const std::vector<QueryKeyWordEntry>& entries(map.at(EXACT_MATCH));
 		QueryKeywordEntryToDictID e(dictIDs.at(EXACT_MATCH));
-		std::for_each(entries.begin(),entries.end(), dynamic_cast< std::unary_function<QueryKeyWordEntry,bool>& >(e)); }
+		std::for_each(entries.begin(),entries.end(), e); }
 }
 
 bool QueryKeyword::InitIDsForKeywords(
@@ -119,7 +118,7 @@ bool QueryKeyword::InitIDsForKeywords(
 
 	std::vector<std::string> keywords;
 	QueryKeywordEntryToKeyword e(keywords);
-	std::for_each(entries.begin(),entries.end(), dynamic_cast< std::unary_function<QueryKeyWordEntry,bool>& >(e));
+	std::for_each(entries.begin(),entries.end(), e);
 
 	std::vector<std::string>::const_iterator iKeyword(keywords.begin());
 	for(size_t pos(0);iKeyword!=keywords.end();++iKeyword,++pos) {
