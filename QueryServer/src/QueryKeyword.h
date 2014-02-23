@@ -114,6 +114,15 @@ public:
 			QueryKeywordType types,
 			std::map<QueryKeywordType, std::vector<long long> >& dictIDs) const;
 
+	/**
+	 * gets keywords by keyword types
+	 * @param types keyword types
+	 * @param keywords keywords
+	 */
+	void GetKeywordsByType(
+			QueryKeywordType types,
+			std::map<QueryKeywordType, std::vector<std::string> >& keywords) const;
+
 private:
 	bool InitExactKeywords(void);
 	bool InitCaseInsensitiveKeywords(void);
