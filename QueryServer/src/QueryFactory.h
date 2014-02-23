@@ -41,8 +41,6 @@ private:
 
 private:
 	bool QueryXml(std::vector<std::string>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType);
-	bool QueryTmXml(std::vector<struct tm>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType);
-	bool QueryTmXmlFirstElement(struct tm& out, const char* xmlDocument, const size_t& lenDocument, const char* queryType);
 
 private:
 	template <class T>
@@ -103,39 +101,6 @@ private:
 	};
 
 private:
-	enum QueryCriteriaFlag
-	{
-		CRITERIA_UNKNOWN = 0,
-
-		CRITERIA_ALL     = 1,
-		CRITERIA_META    = 2,
-		CRITERIA_DOMAIN  = 4,
-		CRITERIA_CONTENT = 16,
-		CRITERIA_PATH    = 32,
-		CRITERIA_LINKS   = 64,
-
-		CRITERIA_MAX     = 0xFF,
-	};
-
-	enum QueryGroupingFlag
-	{
-		GROUPING_UNKNOWN = 0,
-		GROUPING_DOMAIN  = 1,
-
-		GROUPING_MAX     = 0xFF,
-	};
-
-	enum QueryLimitationsFlag
-	{
-		LIMITATION_UNKNOWN = 0,
-
-		LIMITATION_DOMAIN  = 1,
-		LIMITATION_MAX_AGE = 2,
-		LIMITATION_LANG    = 4,
-		LIMITATION_MIN_AGE = 16,
-
-		LIMITATION_MAX     = 0xFF,
-	};
 };
 
 }

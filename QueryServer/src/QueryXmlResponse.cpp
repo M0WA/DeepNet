@@ -70,8 +70,8 @@ bool QueryXmlResponse::LoadQuery(
 		log::Logging::LogWarn("invalid session id or query string received for this query id, cannot process request");
 		return false; }
 
-	long long startPosition(query.GetQueryProperties().pageNo * query.GetQueryProperties().maxResults);
-	long long endPosition(startPosition + query.GetQueryProperties().maxResults);
+	long long startPosition(query.GetQueryProperties().GetPageNo() * query.GetQueryProperties().GetMaxResults());
+	long long endPosition(startPosition + query.GetQueryProperties().GetMaxResults());
 
 	std::vector<database::WhereConditionTableColumn*> where;
 
@@ -95,7 +95,7 @@ bool QueryXmlResponse::LoadQuery(
 	selectQueryResults.Where().AddColumns(where);
 
 	selectQueryResults.OrderBy().AddColumn(database::queryresultsTableBase::GetDefinition_position(),database::ASCENDING);
-	selectQueryResults.SetLimit(query.GetQueryProperties().maxResults);
+	selectQueryResults.SetLimit(query.GetQueryProperties().GetMaxResults());
 
 	database::SelectResultContainer<database::queryresultsTableBase> queryResults;
 	try {
@@ -178,7 +178,7 @@ bool QueryXmlResponse::CreateQuery(
 	MergeDuplicateURLs(responseEntries);
 
 	//group results by secondlevel domain if requested
-	if(query.GetQueryProperties().groupBySecondLevelDomain) {
+	if(query.GetQueryProperties().GetGroupBySecondLevelDomain()) {
 		MergeDuplicateSecondLevel(db, responseEntries);}
 
 	//sort results
@@ -202,7 +202,7 @@ bool QueryXmlResponse::ValidateQueryData(
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
-	if(query.GetQueryProperties().queryId > 0) {
+	if(query.GetQueryProperties().GetQueryId() > 0) {
 
 		// check if query is associated with session
 		std::vector<database::WhereConditionTableColumn*> where;
@@ -219,7 +219,7 @@ bool QueryXmlResponse::ValidateQueryData(
 
 		database::searchqueryTableBase::GetWhereColumnsFor_ID(
 			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-			query.GetQueryProperties().queryId,
+			query.GetQueryProperties().GetQueryId(),
 			where);
 
 		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
@@ -261,7 +261,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 		log::Logging::LogWarn("empty query string received, cannot process query request");
 		return false; }
 
-	long long relevantQueryID(query.GetQueryProperties().queryId);
+	long long relevantQueryID(query.GetQueryProperties().GetQueryId());
 	if(!ValidateQueryData(sessionID,rawQueryString))
 		relevantQueryID = -1;
 
@@ -309,7 +309,7 @@ void QueryXmlResponse::AssembleXMLResult(
 		"<?xml version=\"1.0\"?>\n"
 		"<response>"
 		"<queryId>" << queryId << "</queryId>"
-		"<pageNo>" << query.GetQueryProperties().pageNo << "</pageNo>"
+		"<pageNo>" << query.GetQueryProperties().GetPageNo() << "</pageNo>"
 		"<totalResults>" << total << "</totalResults>" <<
 		xmlResultEntries.str() <<
 		"</response>\n";

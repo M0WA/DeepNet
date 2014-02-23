@@ -104,26 +104,6 @@ bool QueryFactory::QueryXml(std::vector<std::string>& queryparts, const char* xm
     return true;
 }
 
-bool QueryFactory::QueryTmXml(std::vector<struct tm>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType) {
-	std::vector<std::string> querypartsStr;
-	if(!QueryXml(querypartsStr, xmlDocument, lenDocument, queryType)) {
-		return false;}
-
-	QueryTmXmlFunc trans(queryparts);
-	std::for_each(querypartsStr.begin(),querypartsStr.end(),trans);
-	return true;
-}
-
-bool QueryFactory::QueryTmXmlFirstElement(struct tm& out, const char* xmlDocument, const size_t& lenDocument, const char* queryType) {
-	std::vector<struct tm> queryparts;
-	if(!QueryTmXml(queryparts, xmlDocument, lenDocument, queryType)) {
-		return false;}
-	if(queryparts.size() < 1) {
-		return false;}
-	out = queryparts.at(0);
-	return true;
-}
-
 void QueryFactory::CommitKeywordGroup(const std::string& querystring, size_t &pos, size_t &oldPos, const bool isMandatory, const bool isCaseInsensitive, const bool isSimilar, queryserver::Query& query) {
 
 	pos++;
@@ -215,7 +195,7 @@ bool QueryFactory::ParseQueryLimitations(const std::string& xmlRequest, queryser
 	for(;i != limitationFlags.end();++i) {
 		switch(*i)
 		{
-		case LIMITATION_DOMAIN:
+		case QueryLimitations::LIMITATION_DOMAIN:
 
 			//
 			//TODO: need database connection here
@@ -245,23 +225,35 @@ bool QueryFactory::ParseQueryLimitations(const std::string& xmlRequest, queryser
 			}
 			*/
 			break;
-		case LIMITATION_MAX_AGE:
-			if(!QueryTmXmlFirstElement(query.properties.maxAge, xmlRequest.c_str(), xmlRequest.length(), "limitations/ageLimit")) {
+		case QueryLimitations::LIMITATION_MAX_AGE:
+		{
+			std::string maxAge;
+			if(!QueryXmlFirstElement(maxAge, xmlRequest.c_str(), xmlRequest.length(), "limitations/ageLimit")) {
 				log::Logging::LogWarn("could not find maximum age in query request");
 				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 				return false; }
+			query.properties.limitations.limits[QueryLimitations::LIMITATION_MAX_AGE] = maxAge;
+		}
 			break;
-		case LIMITATION_MIN_AGE:
-			if(!QueryTmXmlFirstElement(query.properties.minAge, xmlRequest.c_str(), xmlRequest.length(), "limitations/minAgeLimit")) {
+		case QueryLimitations::LIMITATION_MIN_AGE:
+		{
+			std::string minAge;
+			if(!QueryXmlFirstElement(minAge, xmlRequest.c_str(), xmlRequest.length(), "limitations/minAgeLimit")) {
 				log::Logging::LogWarn("could not find minimum age in query request");
 				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 				return false; }
+			query.properties.limitations.limits[QueryLimitations::LIMITATION_MIN_AGE] = minAge;
+		}
 			break;
-		case LIMITATION_LANG:
-			if(!QueryXmlFirstElement(query.properties.language, xmlRequest.c_str(), xmlRequest.length(), "langLimit/langLimit")) {
+		case QueryLimitations::LIMITATION_LANG:
+		{
+			std::string lang;
+			if(!QueryXmlFirstElement(lang, xmlRequest.c_str(), xmlRequest.length(), "langLimit/langLimit")) {
 				log::Logging::LogWarn("could not find language limitation in query request");
 				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 				return false; }
+			query.properties.limitations.limits[QueryLimitations::LIMITATION_LANG] = lang;
+		}
 			break;
 		default:
 			break;
@@ -288,78 +280,54 @@ bool QueryFactory::ParseQueryCriteria(const std::string& xmlRequest, queryserver
 		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 		return false; }
 
-	bool bDone(false);
+	unsigned long long flag(QueryCriteria::CRITERIA_UNKNOWN);
 	std::vector<unsigned long long>::const_iterator i(queryCriterias.begin());
 	for(;i != queryCriterias.end();++i){
-		switch(*i)
-		{
-		case CRITERIA_ALL:
-			if(!QueryXmlFirstElement(query.properties.relevanceMeta, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceMeta")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
+		flag |= (*i); }
 
-			if(!QueryXmlFirstElement(query.properties.relevanceSecondLevelDomain, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceDomain")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-
-			if(!QueryXmlFirstElement(query.properties.relevanceContent, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceFullText")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-
-			if(!QueryXmlFirstElement(query.properties.relevanceUrlPath, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceUrlPath")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-			//TODO:
-			/*
-			tmpList.clear();
-			if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceBackLinks/text()") || tmpList.size() == 0)
-				return false;
-			tools::StringTools::TransformString(*tmpList.begin(), out.relevanceBackLinks);
-			*/
-			bDone = true;
-			break;
-		case CRITERIA_META:
-			if(!QueryXmlFirstElement(query.properties.relevanceMeta, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceMeta")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-			break;
-		case CRITERIA_CONTENT:
-			if(!QueryXmlFirstElement(query.properties.relevanceContent, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceFullText")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-			break;
-		case CRITERIA_PATH:
-			if(!QueryXmlFirstElement(query.properties.relevanceUrlPath, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceUrlPath")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-			break;
-		case CRITERIA_DOMAIN:
-			if(!QueryXmlFirstElement(query.properties.relevanceSecondLevelDomain, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceDomain")) {
-				log::Logging::LogWarn("could not find limitation flag in query request");
-				log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
-				return false; }
-			break;
-			//TODO:
-			/*
-		case CRITERIA_LINKS:
-			if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceBackLinks/text()") || tmpList.size() == 0)
-				return false;
-			tools::StringTools::TransformString(*tmpList.begin(), out.relevanceBackLinks);
-			break;
-			*/
-		default:
-			break;
-		}
-
-		if(bDone) break;
+	QueryCriteria& criteria(query.properties.criteria);
+	if( (flag & QueryCriteria::CRITERIA_META) ) {
+		double relevanceMeta(0.0);
+		if(!QueryXmlFirstElement(relevanceMeta, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceMeta")) {
+			log::Logging::LogWarn("could not find limitation flag in query request");
+			log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+			return false; }
+		if(relevanceMeta > 0.0) {
+			criteria.relevance.insert(std::pair<QueryCriteria::QueryCriteriaFlag,Relevance>(QueryCriteria::CRITERIA_META,Relevance(relevanceMeta,1.0)));}
 	}
+	if( (flag & QueryCriteria::CRITERIA_CONTENT) ) {
+		double relevanceContent(0.0);
+		if(!QueryXmlFirstElement(relevanceContent, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceFullText")) {
+			log::Logging::LogWarn("could not find limitation flag in query request");
+			log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+			return false; }
+		if(relevanceContent > 0.0) {
+			criteria.relevance.insert(std::pair<QueryCriteria::QueryCriteriaFlag,Relevance>(QueryCriteria::CRITERIA_CONTENT,Relevance(relevanceContent,1.0))); }
+	}
+	if( (flag & QueryCriteria::CRITERIA_PATH) ) {
+		double relevanceUrlPath(0.0);
+		if(!QueryXmlFirstElement(relevanceUrlPath, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceUrlPath")) {
+			log::Logging::LogWarn("could not find limitation flag in query request");
+			log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+			return false; }
+		if(relevanceUrlPath > 0.0) {
+			criteria.relevance.insert(std::pair<QueryCriteria::QueryCriteriaFlag,Relevance>(QueryCriteria::CRITERIA_PATH,Relevance(relevanceUrlPath,1.0))); }
+	}
+	if( (flag & QueryCriteria::CRITERIA_DOMAIN) ) {
+		double relevanceDomain(0.0);
+		if(!QueryXmlFirstElement(relevanceDomain, xmlRequest.c_str(), xmlRequest.length(), "criteria/relevanceDomain")) {
+			log::Logging::LogWarn("could not find limitation flag in query request");
+			log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
+			return false; }
+		if(relevanceDomain > 0.0) {
+			criteria.relevance.insert(std::pair<QueryCriteria::QueryCriteriaFlag,Relevance>(QueryCriteria::CRITERIA_DOMAIN,Relevance(relevanceDomain,1.0))); }
+	}
+	//TODO:
+	//case QueryCriteria::CRITERIA_LINKS:
+	//	if (!Xpath(tmpList, xmlRequest.c_str(), (xmlChar*)"/request/query/criteria/relevanceBackLinks/text()") || tmpList.size() == 0)
+	//		return false;
+	//	tools::StringTools::TransformString(*tmpList.begin(), out.relevanceBackLinks);
+	//	break;
 
 	return true;
 }

@@ -48,9 +48,11 @@ void QueryThreadManager::BeginQuery(Query& query) {
 
 	releaseSeen = false;
 
+	const QueryCriteria& criteria(query.GetQueryProperties().GetCriteria());
+
 	bool dictionaryThreadNeeded(
-		(query.GetQueryProperties().relevanceContent > 0.0) ||
-		(query.GetQueryProperties().relevanceMeta > 0.0) );
+		criteria.IsCriteriaEnabled(QueryCriteria::CRITERIA_CONTENT) ||
+		criteria.IsCriteriaEnabled(QueryCriteria::CRITERIA_META) );
 
 	if(dictionaryThreadNeeded) {
 		dictionary = new QueryDictionaryInfoThread();
@@ -59,23 +61,21 @@ void QueryThreadManager::BeginQuery(Query& query) {
 		);
 	}
 
-	if(query.GetQueryProperties().relevanceSecondLevelDomain > 0.0) {
-		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
-
-	if(query.GetQueryProperties().relevanceSubdomain > 0.0) {
+	if( criteria.IsCriteriaEnabled(QueryCriteria::CRITERIA_DOMAIN) ) {
+		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query);
 		AddQueryTyped<QuerySubdomainThread,QueryThreadParam>(dbHelpers[3].Connection(),query); }
 
-	if(query.GetQueryProperties().relevanceUrlPath > 0.0) {
+	if(criteria.IsCriteriaEnabled(QueryCriteria::CRITERIA_PATH)) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 
 	if(dictionaryThreadNeeded) {
 
 		dictionary->WaitForThread();
 
-		if(query.GetQueryProperties().relevanceContent > 0.0) {
+		if(criteria.IsCriteriaEnabled(QueryCriteria::CRITERIA_CONTENT)) {
 			AddQueryTyped<QueryContentThread,QueryDictionaryThreadParam>(dbHelpers[0].Connection(),query,dictionary); }
 
-		if(query.GetQueryProperties().relevanceMeta > 0.0) {
+		if(criteria.IsCriteriaEnabled(QueryCriteria::CRITERIA_META)) {
 			AddQueryTyped<QueryMetaThread,QueryDictionaryThreadParam>(dbHelpers[1].Connection(),query,dictionary); }
 	}
 }

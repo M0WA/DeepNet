@@ -11,66 +11,77 @@
 #include <ctime>
 #include <string>
 
+#include "QueryCriteria.h"
+#include "QueryLimitations.h"
+
 namespace queryserver {
+
+enum QueryGroupingFlag
+{
+	GROUPING_UNKNOWN = 0,
+	GROUPING_DOMAIN  = 1,
+
+	GROUPING_MAX     = 0xFF,
+};
+
+
+class QueryFactory;
 
 /**
  * @brief encapsulates all properties of a query
  * @see queryserver::Query
  */
 class QueryProperties {
+
+	friend class QueryFactory;
+
 public:
 	QueryProperties();
 	virtual ~QueryProperties();
 
+public:
+	/**
+	 * checks if result should be groupped by secondlevel domain
+	 * @return true if set, false if unset
+	 */
+	const bool& GetGroupBySecondLevelDomain(void) const { return groupBySecondLevelDomain; }
+
+
+    /**
+     * hardlimit for the number of search results
+     * @return max number of search results
+     */
+    const size_t& GetMaxResults(void) const { return maxResults; }
+
+    /**
+     * gets requested page number
+     * @return requested page number
+     */
+    const size_t& GetPageNo(void) const { return pageNo; }
+
+    /**
+     * gets id of this query
+     * @return query id
+     */
+    const long long& GetQueryId(void) const { return queryId; }
+
+    /**
+     * gets all criterias for this query
+     * @return all criterias for this query
+     */
+    const QueryCriteria& GetCriteria(void) const { return criteria; }
+
+    /**
+     * gets all limitations for this query
+     * @return all limitations for this query
+     */
+    const QueryLimitations& GetLimitations(void) const { return limitations; }
+
+private:
 	/**
 	 * query id
 	 */
 	long long queryId;
-
-	/**
-	 * min age of webpage
-	 */
-	struct tm minAge;
-
-	/**
-	 * max age of webpage
-	 */
-	struct tm maxAge;
-
-	/**
-	 * limit search to a certain secondlevel domain id (-1 to disable)
-	 */
-	long long limitSecondLevelDomainID;
-
-	/**
-	 * limit search to a certain subdomain id (-1 to disable)
-	 */
-	long long limitSubDomainID;
-
-	/**
-	 * relevance factor for content matches (0.0 to disable)
-	 */
-	double relevanceContent;
-
-	/**
-	 * relevance factor for meta content matches (0.0 to disable)
-	 */
-	double relevanceMeta;
-
-	/**
-	 * relevance factor for subdomain matches (0.0 to disable)
-	 */
-	double relevanceSubdomain;
-
-	/**
-	 * relevance factor for secondlevel domain matches (0.0 to disable)
-	 */
-	double relevanceSecondLevelDomain;
-
-	/**
-	 * relevance factor for matches in path part of the url (0.0 to disable)
-	 */
-	double relevanceUrlPath;
 
 	/**
 	 * group by secondlevel domain
@@ -83,14 +94,19 @@ public:
 	size_t maxResults;
 
 	/**
-	 * webpage language (empty to allow all)
-	 */
-	std::string language;
-
-	/**
 	 * page number for this request
 	 */
 	size_t pageNo;
+
+	/**
+	 * query criteria
+	 */
+	QueryCriteria criteria;
+
+	/**
+	 * query limitations
+	 */
+	QueryLimitations limitations;
 };
 
 }
