@@ -15,7 +15,7 @@ namespace queryserver {
 
 QueryKeywordGroup::QueryKeywordGroup()
 : isMandatory(false)
-, isCaseSensitive(false)
+, isCaseInsensitive(false)
 , isSimilar(false) {
 }
 
@@ -25,7 +25,7 @@ QueryKeywordGroup::~QueryKeywordGroup() {
 bool QueryKeywordGroup::Init(database::DatabaseConnection *db) {
 
 	unsigned long types(QueryKeyword::EXACT_MATCH);
-	if(isCaseSensitive) {
+	if(isCaseInsensitive) {
 		types |= QueryKeyword::CASEINSENSITIVE_MATCH; }
 	if(isSimilar) {
 		types |= QueryKeyword::SIMILAR_MATCH; }
@@ -38,7 +38,7 @@ bool QueryKeywordGroup::Init(database::DatabaseConnection *db) {
 	return success;
 }
 
-bool QueryKeywordGroup::ParseFromString(const std::string& querygroup, const bool isMandatory, const bool isCaseSensitive, const bool isSimilar) {
+bool QueryKeywordGroup::ParseFromString(const std::string& querygroup, const bool isMandatory, const bool isCaseInsensitive, const bool isSimilar) {
 
 	std::vector<std::string> words;
 	tools::StringTools::SplitBy(querygroup," ",words);
@@ -47,7 +47,7 @@ bool QueryKeywordGroup::ParseFromString(const std::string& querygroup, const boo
 		return false; }
 
 	this->isMandatory = isMandatory;
-	this->isCaseSensitive = isCaseSensitive;
+	this->isCaseInsensitive = isCaseInsensitive;
 	this->isSimilar = isSimilar;
 
 	std::vector<std::string>::const_iterator i(words.begin());

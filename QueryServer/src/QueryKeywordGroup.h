@@ -56,7 +56,7 @@ public:
 private:
 	std::vector<queryserver::QueryKeyword> groups;
 	bool isMandatory;
-	bool isCaseSensitive;
+	bool isCaseInsensitive;
 	bool isSimilar;
 };
 

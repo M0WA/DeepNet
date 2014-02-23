@@ -37,7 +37,7 @@ private:
 	bool ParseQueryLimitations(const std::string& xmlRequest, queryserver::Query& query);
 
 private:
-	void CommitKeywordGroup(const std::string& querystring, size_t &pos, size_t &oldPos, const bool isMandatory, queryserver::Query& query);
+	void CommitKeywordGroup(const std::string& querystring, size_t &pos, size_t &oldPos, const bool isMandatory, const bool isCaseInsensitive, const bool isSimilar, queryserver::Query& query);
 
 private:
 	bool QueryXml(std::vector<std::string>& queryparts, const char* xmlDocument, const size_t& lenDocument, const char* queryType);

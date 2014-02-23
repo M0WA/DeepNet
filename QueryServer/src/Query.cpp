@@ -24,9 +24,11 @@ void Query::AddQueryGroup(queryserver::QueryKeywordGroup& grp) {
 }
 
 bool Query::Init(database::DatabaseConnection *db) {
+	bool success(true);
 	std::vector<QueryKeywordGroup>::iterator i(keywordGroups.begin());
 	for(; i != keywordGroups.end(); ++i) {
-		i->Init(db); }
+		success &= i->Init(db); }
+	return success;
 }
 
 }

@@ -124,7 +124,7 @@ bool QueryFactory::QueryTmXmlFirstElement(struct tm& out, const char* xmlDocumen
 	return true;
 }
 
-void QueryFactory::CommitKeywordGroup(const std::string& querystring, size_t &pos, size_t &oldPos, const bool isMandatory, queryserver::Query& query) {
+void QueryFactory::CommitKeywordGroup(const std::string& querystring, size_t &pos, size_t &oldPos, const bool isMandatory, const bool isCaseInsensitive, const bool isSimilar, queryserver::Query& query) {
 
 	pos++;
 	if( (pos-oldPos) <= 1) {
@@ -132,7 +132,7 @@ void QueryFactory::CommitKeywordGroup(const std::string& querystring, size_t &po
 		return;	}
 
 	QueryKeywordGroup group;
-	if(group.ParseFromString(querystring.substr(oldPos,pos-oldPos),isMandatory)) {
+	if(group.ParseFromString(querystring.substr(oldPos,pos-oldPos),isMandatory,isCaseInsensitive, isSimilar)) {
 		query.AddQueryGroup(group); }
 	oldPos = pos;
 }
@@ -148,33 +148,53 @@ bool QueryFactory::ParseQueryString(const std::string& xmlRequest, queryserver::
 	tools::StringTools::Trim(querystring);
 	query.query = querystring;
 
-	bool inQuote(false), isMandatory(false);
+	bool inQuote(false), isMandatory(false), isCaseInsensitive(true), isSimilar(false);
 	size_t pos(0), oldPos(0);
 
 	while( (pos = querystring.find_first_of("+\" ",pos)) != std::string::npos ) {
-		switch(querystring.at(pos))
-		{
-		case '+':
-			if(!inQuote) {
-				CommitKeywordGroup(querystring, pos, oldPos, isMandatory, query);
-				isMandatory = true;	}
-			break;
-		case '\"':
-			inQuote = !inQuote;
-			if(!inQuote) {
-				CommitKeywordGroup(querystring, pos, oldPos, isMandatory, query);
-				isMandatory = false; }
-			break;
-		case ' ':
-			if(!inQuote) {
-				CommitKeywordGroup(querystring, pos, oldPos, isMandatory, query);
-				isMandatory = false; }
-			break;
+
+		const char& c(querystring.at(pos));
+
+		bool commit(false), commitIsMandatory(isMandatory), commitIsCaseInsensitive(isCaseInsensitive), commitIsSimilar(isSimilar);
+		if(!inQuote) {
+			if(c == ' ') {
+				commit = true;
+				isMandatory = true;
+				isCaseInsensitive = false;
+				isSimilar = false;
+			}
+			else if(c == '+') {
+				commit = true;
+				isMandatory = true;
+				isCaseInsensitive = false;
+				isSimilar = false;
+			}
+		}
+		else if (c == '\"') {
+			if( !pos || querystring.at(pos-1) != '\\' ) {
+				commit = true;
+				inQuote = !inQuote;
+				isMandatory = false;
+				isCaseInsensitive = true;
+				isSimilar = false;
+			}
+		}
+
+		if(commit) {
+			CommitKeywordGroup(
+				querystring,
+				pos,
+				oldPos,
+				commitIsMandatory,
+				commitIsCaseInsensitive,
+				commitIsSimilar,
+				query
+			);
 		}
 	}
 
 	if(pos < querystring.length()) {
-		CommitKeywordGroup(querystring, pos, oldPos, isMandatory, query); }
+		CommitKeywordGroup(querystring, pos, oldPos, isMandatory, isCaseInsensitive, isSimilar, query); }
 
 	if(!query.GetKeywordGroups().size()) {
 		log::Logging::LogWarn("could not find query string groups in query request: %s",querystring.c_str());
