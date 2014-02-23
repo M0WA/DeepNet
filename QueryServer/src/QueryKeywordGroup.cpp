@@ -24,16 +24,16 @@ QueryKeywordGroup::~QueryKeywordGroup() {
 
 bool QueryKeywordGroup::Init(database::DatabaseConnection *db) {
 
-	unsigned long types(QueryKeyword::EXACT_MATCH);
+	QueryKeyword::QueryKeywordType types(QueryKeyword::EXACT_MATCH);
 	if(isCaseInsensitive) {
-		types |= QueryKeyword::CASEINSENSITIVE_MATCH; }
+		reinterpret_cast<unsigned long&>(types) |= QueryKeyword::CASEINSENSITIVE_MATCH; }
 	if(isSimilar) {
-		types |= QueryKeyword::SIMILAR_MATCH; }
+		reinterpret_cast<unsigned long&>(types) |= QueryKeyword::SIMILAR_MATCH; }
 
 	bool success(true);
 	std::vector<queryserver::QueryKeyword>::iterator i(groups.begin());
 	for(; i != groups.end(); ++i) {
-		success &= i->Init(db,reinterpret_cast<const QueryKeyword::QueryKeywordType&>(types)); }
+		success &= i->Init(db,types); }
 
 	return success;
 }

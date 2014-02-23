@@ -38,14 +38,6 @@ public:
 	 */
 	bool ParseFromString(const std::string& querygroup, const bool isMandatory, const bool isCaseSensitive, const bool isSimilar);
 
-public:
-	/**
-	 * gets keywords of this group
-	 * @return keywords of this group
-	 */
-	const std::vector<queryserver::QueryKeyword>& GetKeywords() const { return groups; }
-
-public:
 	/**
 	 * initializes dictIDs for this keyword group
 	 * @param db database connection
@@ -53,8 +45,34 @@ public:
 	 */
 	bool Init(database::DatabaseConnection *db);
 
+public:
+	/**
+	 * gets keywords of this group
+	 * @return keywords of this group
+	 */
+	const std::vector<queryserver::QueryKeyword>& GetKeywords() const { return groups; }
+
+	/**
+	 * checks if group is mandatory
+	 * @return true if mandatory, false if optional
+	 */
+	const bool& IsMandatory(void) const { return isMandatory; }
+
+	/**
+	 * checks if group is case insensitive
+	 * @return true if case insensitive, false if case sensitive
+	 */
+	const bool& IsCaseInsensitive(void) const { return isCaseInsensitive; }
+
+	/**
+	 * checks if group matches similar results
+	 * @return true if it can match similar results, false if not
+	 */
+	const bool& IsSimilar(void) const { return isSimilar; }
+
 private:
 	std::vector<queryserver::QueryKeyword> groups;
+
 	bool isMandatory;
 	bool isCaseInsensitive;
 	bool isSimilar;

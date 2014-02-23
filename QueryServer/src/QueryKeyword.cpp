@@ -92,15 +92,18 @@ bool QueryKeyword::Init(database::DatabaseConnection *db, QueryKeyword::QueryKey
 }
 
 void QueryKeyword::GetDictIDByType(QueryKeywordType types, std::map<QueryKeywordType, std::vector<long long> >& dictIDs) const {
-	if( (types & SIMILAR_MATCH) ) {
+
+	if( (types & SIMILAR_MATCH) && (map.find(SIMILAR_MATCH) != map.end()) ) {
 		const std::vector<QueryKeyWordEntry>& entries(map.at(SIMILAR_MATCH));
 		QueryKeywordEntryToDictID e(dictIDs.at(SIMILAR_MATCH));
 		std::for_each(entries.begin(),entries.end(), e); }
-	if( (types & CASEINSENSITIVE_MATCH) ) {
+
+	if( (types & CASEINSENSITIVE_MATCH) && (map.find(CASEINSENSITIVE_MATCH) != map.end()) ) {
 		const std::vector<QueryKeyWordEntry>& entries(map.at(CASEINSENSITIVE_MATCH));
 		QueryKeywordEntryToDictID e(dictIDs.at(CASEINSENSITIVE_MATCH));
 		std::for_each(entries.begin(),entries.end(), e); }
-	if( (types & EXACT_MATCH) ) {
+
+	if( (types & EXACT_MATCH) && (map.find(EXACT_MATCH) != map.end()) ) {
 		const std::vector<QueryKeyWordEntry>& entries(map.at(EXACT_MATCH));
 		QueryKeywordEntryToDictID e(dictIDs.at(EXACT_MATCH));
 		std::for_each(entries.begin(),entries.end(), e); }

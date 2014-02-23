@@ -39,12 +39,11 @@ const Relevance& QueryCriteria::GetRelevanceByCriteria(const QueryCriteria::Quer
 
 QueryCriteria::QueryCriteriaFlag QueryCriteria::GetEnabledFlags(void) const {
 
-	unsigned long flag(CRITERIA_UNKNOWN);
-
+	QueryCriteria::QueryCriteriaFlag flag(CRITERIA_UNKNOWN);
 	std::map<QueryCriteriaFlag,Relevance>::const_iterator i(relevance.begin());
 	for(;i!= relevance.end();++i) {
-		flag |= reinterpret_cast<const unsigned long&>(i->first);}
-	return reinterpret_cast<QueryCriteria::QueryCriteriaFlag&>(flag);
+		reinterpret_cast<unsigned long&>(flag) |= i->first;}
+	return flag;
 }
 
 bool QueryCriteria::IsCriteriaEnabled(const QueryCriteria::QueryCriteriaFlag& type) const {
