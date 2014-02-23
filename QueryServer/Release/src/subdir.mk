@@ -4,10 +4,14 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/DictionaryInfoThread.cpp \
 ../src/Query.cpp \
 ../src/QueryContentThread.cpp \
+../src/QueryCriteria.cpp \
+../src/QueryDictionaryInfoThread.cpp \
+../src/QueryFactory.cpp \
 ../src/QueryKeyword.cpp \
+../src/QueryKeywordGroup.cpp \
+../src/QueryLimitations.cpp \
 ../src/QueryMetaThread.cpp \
 ../src/QueryProperties.cpp \
 ../src/QuerySecondLevelDomainThread.cpp \
@@ -26,10 +30,14 @@ CPP_SRCS += \
 ../src/main.cpp 
 
 OBJS += \
-./src/DictionaryInfoThread.o \
 ./src/Query.o \
 ./src/QueryContentThread.o \
+./src/QueryCriteria.o \
+./src/QueryDictionaryInfoThread.o \
+./src/QueryFactory.o \
 ./src/QueryKeyword.o \
+./src/QueryKeywordGroup.o \
+./src/QueryLimitations.o \
 ./src/QueryMetaThread.o \
 ./src/QueryProperties.o \
 ./src/QuerySecondLevelDomainThread.o \
@@ -48,10 +56,14 @@ OBJS += \
 ./src/main.o 
 
 CPP_DEPS += \
-./src/DictionaryInfoThread.d \
 ./src/Query.d \
 ./src/QueryContentThread.d \
+./src/QueryCriteria.d \
+./src/QueryDictionaryInfoThread.d \
+./src/QueryFactory.d \
 ./src/QueryKeyword.d \
+./src/QueryKeywordGroup.d \
+./src/QueryLimitations.d \
 ./src/QueryMetaThread.d \
 ./src/QueryProperties.d \
 ./src/QuerySecondLevelDomainThread.d \

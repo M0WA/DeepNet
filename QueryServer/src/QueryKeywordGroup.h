@@ -32,6 +32,8 @@ public:
 	 * parse a single group from a string
 	 * @param querygroup group to parse
 	 * @param isMandatory is group mandatory
+	 * @param isCaseSensitive is group case insensitive
+	 * @param isSimilar group matches similar results
 	 * @return true on success, false on error
 	 */
 	bool ParseFromString(const std::string& querygroup, const bool isMandatory, const bool isCaseSensitive, const bool isSimilar);

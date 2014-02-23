@@ -90,7 +90,6 @@ public:
 	/**
 	 * constructs keywords from string and match type
 	 * @param keyword keyword string
-	 * @param type match type
 	 */
 	QueryKeyword(const std::string& keyword);
 	virtual ~QueryKeyword();
