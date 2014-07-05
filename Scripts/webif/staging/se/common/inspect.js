@@ -6,7 +6,7 @@
 
 ********************************************************* */
 
-var serverNameInspect = "/inspectorserver";
+var serverNameInspect = "https://inspectorserver.se.mo-sys.de/";
 var ajaxInspect;
 
 function inspectServer(xmlRequest)

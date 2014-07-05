@@ -10,7 +10,7 @@ var suggestHelper = new SuggestHelper();
 
 function SuggestHelper()
 {
-  this.suggestServerName = "/suggestserver";
+  this.suggestServerName = "https://suggestserver.se.mo-sys.de/";
   this.suggestRequest;
 
   this.setCaretPosition = function(theElement, caretPos)
