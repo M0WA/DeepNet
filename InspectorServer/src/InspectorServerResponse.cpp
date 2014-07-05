@@ -83,7 +83,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				network::HttpClientFactory::CreateInstance(network::HttpClientFactory::CURL,client);
 				network::HttpClientSettings& settings = client.Get()->Settings();
 
-				settings.userAgent = "siridia.de crawler v1.0";
+				settings.userAgent = "se.mo-sys.de crawler v1.0";
 				settings.secondsTimeoutConnect    = 3;
 				settings.secondsTimeoutConnection = 3;
 				settings.allowIPv6       = false;
