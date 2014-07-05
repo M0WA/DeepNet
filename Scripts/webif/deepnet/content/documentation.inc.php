@@ -49,8 +49,7 @@ $content = "
       <p>
       DeepNet is tested on x86 CPUs (32 and 64 Bit) using Debian and Ubuntu
       operating systems. Although DeepNet is theoretically database independent,
-      the only currently implemented and tested is MySQL. A connector for IBM DB2
-      databases is currently in work and will be available soon.
+      currently implemented and tested is MySQL and PostGRESQL.
       </p>
       
       <h4><a name=\"configuration\">configuration</a></h4>

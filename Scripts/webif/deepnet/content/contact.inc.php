@@ -6,8 +6,8 @@ $content = "
       imprint:<br>
       <p>
       Moritz Wagner<br>
-      Prenzlauer Allee 49<br>
-      D - 10405 Berlin<br>
+      Wilmersdorfer Strasse 41<br>
+      D - 10627 Berlin<br>
       </p>
       <p>
       support at mo-sys.de

@@ -2,6 +2,6 @@
 
 $footer = "    
     <div id=\"footer_wrapper\" class=\"footer\">
-      <small>&copy; 2013, Moritz Wagner</small>
+      <small>&copy; 2012-2014, Moritz Wagner</small>
     </div>
 ";

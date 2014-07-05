@@ -9,6 +9,7 @@ else {
 	$contentMode = "home";
 }
 
+
 switch($contentMode) {
 
   case 'features':
