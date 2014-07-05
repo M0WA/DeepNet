@@ -1,8 +1,8 @@
 #########################################################
 #
-# this is part of the SIRIDIA search engine software
-# Copyright 2012, SIRIDIA GmbH
-# Author: Moritz Wagner (moritz.wagner@siridia.de)
+# this is part of the DeepNet search engine software
+# Copyright 2012-2014, Moritz Wagner
+# Author: Moritz Wagner (support@mo-sys.de)
 #
 #########################################################
 
@@ -242,7 +242,7 @@ This module is used by CodeParser and DDLGenerator
 
 =head1 AUTHOR
 
-Moritz Wagner, Moritz Wagner<lt>moritz.wagner@siridia.de<gt>
+Moritz Wagner, Moritz Wagner<lt>support@mo-sys.de<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
