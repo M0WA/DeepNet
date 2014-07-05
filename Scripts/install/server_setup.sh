@@ -2,9 +2,9 @@
 
 #########################################################
 #
-# this is part of the SIRIDIA search engine software
-# Copyright 2012, SIRIDIA GmbH
-# Author: Moritz Wagner (moritz.wagner@siridia.de)
+# this is part of the DeepNet search engine software
+# Copyright 2012-2014, Moritz Wagner
+# Author: Moritz Wagner (support@mo-sys.de)
 #
 #########################################################
 
@@ -26,7 +26,7 @@ apt-get install subversion
 
 # checkout, prerequirements and compile
 mkdir -p ${BASE_DIR}
-svn co https://svn.siridia.de/DeepNet ${BASE_DIR}
+svn co https://vcs.mo-sys.de/DeepNet/trunk ${BASE_DIR}
 cd ${BASE_DIR}/Scripts
 chmod u+x *.sh
 ./install_prerequirements.sh

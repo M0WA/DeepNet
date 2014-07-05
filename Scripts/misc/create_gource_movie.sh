@@ -1,7 +1,7 @@
 #!/bin/bash
 
 BASE_DIR="deepnet_tmp/DeepNet"
-REPOSITORY="https://svn.siridia.de/DeepNet"
+REPOSITORY="https://vcs.mo-sys.de/DeepNet/trunk"
 MOVIE_NAME="movie.mpg"
 
 rm -rf ${BASE_DIR}
