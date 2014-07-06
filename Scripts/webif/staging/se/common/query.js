@@ -10,7 +10,7 @@ var queryHelper = new QueryHelper();
 
 function QueryHelper()
 {
-  this.serverNameQuery = "https://queryserver.se.mo-sys.de/";
+  this.serverNameQuery = "/queryserver";
   this.ajaxQuery = null;
 
   this.onQueryResponse = function()
