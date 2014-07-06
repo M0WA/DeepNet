@@ -251,7 +251,12 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 
 	const Query& query(xmlQueryRequest->GetQuery());
 
-	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
+	std::string sessionID;
+	try {
+		sessionID = fcgiRequest->GetCookieValueByName("SIRIDIAID");
+	}
+	catch(...) { sessionID.clear(); }
+
 	if(sessionID.empty()) {
 		log::Logging::LogWarn("empty session id (SIRIDIAID) received, cannot process query request");
 		return false; }
