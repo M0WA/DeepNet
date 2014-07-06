@@ -130,7 +130,7 @@ public:
 	 * @param name name of the cookie entry
 	 * @return value of cookie entry
 	 */
-	const std::string& GetCookieValueByName(const std::string& name) const;
+	std::string GetCookieValueByName(const std::string& name) const;
 
 protected:
 	/**
