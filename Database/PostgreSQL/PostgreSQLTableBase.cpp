@@ -9,8 +9,8 @@
 #include "PostgreSQLTableBase.h"
 
 #include <postgres.h>
-#include <libpq-fe.h>
 #include <catalog/pg_type.h>
+//#include <libpq-fe.h>
 
 #include "TableColumn.h"
 #include "TableDefinition.h"
