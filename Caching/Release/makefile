@@ -8,8 +8,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include subdir.mk
 -include src/subdir.mk
+-include subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -44,7 +44,7 @@ all: libCaching.a
 libCaching.a: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC Archiver'
-	ar -r "libCaching.a" $(OBJS) $(USER_OBJS) $(LIBS)
+	ar -r  "libCaching.a" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
