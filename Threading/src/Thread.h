@@ -72,7 +72,11 @@ protected:
 	Thread(ThreadFunction pFunction, bool bAutoDelete = false);
 
 private:
-	Thread(const Thread& copy) { throw; }
+	Thread(const Thread& copy)
+	: thread(0)
+	, autoDelete(false)	{
+		throw; }
+
 	Thread& operator =(const Thread& rhs) { throw; }
 
 public:
