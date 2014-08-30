@@ -86,7 +86,7 @@ public:
 	 * @param vecOut converted vector.
 	 */
 	template <class T, class V>
-	static void Map1ToVector(const std::map<T,V> mapIn,std::vector<T>& vecOut) {
+	static void Map1ToVector(const std::map<T,V>& mapIn,std::vector<T>& vecOut) {
 		Map1ToVectorFunc<T,V> convFunc(vecOut);
 		std::for_each(mapIn.begin(),mapIn.end(),convFunc);
 	}
@@ -97,7 +97,7 @@ public:
 	 * @param vecOut converted vector.
 	 */
 	template <class T, class V>
-	static void Map2ToVector(const std::map<T,V> mapIn,std::vector<V>& vecOut) {
+	static void Map2ToVector(const std::map<T,V>& mapIn,std::vector<V>& vecOut) {
 		Map2ToVectorFunc<T,V> convFunc(vecOut);
 		std::for_each(mapIn.begin(),mapIn.end(),convFunc);
 	}
