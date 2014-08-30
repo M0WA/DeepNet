@@ -27,7 +27,7 @@ class TableDefinition;
  */
 class SelectColumn {
 public:
-	SelectColumn() : isCountColumn(false), doDelete(true) {}
+	SelectColumn() : colDef(0), isCountColumn(false), doDelete(true) {}
 
 public:
 	/**
