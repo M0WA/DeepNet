@@ -73,8 +73,8 @@ protected:
 
 private:
 	Thread(const Thread& copy)
-	: thread(0)
-	, autoDelete(false)	{
+	: autoDelete(false)
+	, thread(0)	{
 		throw; }
 
 	Thread& operator =(const Thread& rhs) { throw; }
