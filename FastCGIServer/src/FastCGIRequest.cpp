@@ -21,6 +21,7 @@ namespace fastcgiserver {
 
 FastCGIRequest::FastCGIRequest(FastCGIServerThread* serverThread)
 : serverThread(serverThread)
+, rawQueryString(0)
 , completed(false) {
 }
 

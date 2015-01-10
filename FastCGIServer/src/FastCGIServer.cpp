@@ -41,10 +41,11 @@
 namespace fastcgiserver {
 
 FastCGIServer::FastCGIServer()
-: logging(NULL)
+: databaseConfig(NULL)
+, logging(NULL)
+, max_postdata_size(4096)
 , basePort(-1)
-, threadCount(1)
-, max_postdata_size(4096) {
+, threadCount(1) {
 	errors::Exception::InitializeExceptionHandling();
 }
 

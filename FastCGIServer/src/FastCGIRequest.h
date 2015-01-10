@@ -176,11 +176,6 @@ protected:
 	tools::MemoryContainer<char> rawPostData;
 
 	/**
-	 * buffer to raw get data.
-	 */
-	const char* rawQueryString;
-
-	/**
 	 * parsed get parameters.
 	 */
 	std::vector<std::pair<std::string,std::string> > getParameters;
@@ -189,6 +184,11 @@ protected:
 	 * server thread
 	 */
 	FastCGIServerThread* serverThread;
+
+	/**
+	 * buffer to raw get data.
+	 */
+	const char* rawQueryString;
 
 private:
 	bool completed;
