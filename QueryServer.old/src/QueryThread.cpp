@@ -30,9 +30,8 @@ QueryThread::~QueryThread() {
 	dbConn = 0;
 }
 
-const tools::PointerContainer<QueryThreadResultEntry>& QueryThread::GetResults() const {
-
-	return resultEntries;
+const std::map<QueryThreadResultKey,QueryThreadResultEntry>& QueryThread::GetResults() const {
+	return results;
 }
 
 bool QueryThread::InitThreadInstance(threading::Thread::THREAD_PARAM* threadParam) {

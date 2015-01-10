@@ -19,8 +19,6 @@
 
 namespace fastcgiserver {
 
-static const unsigned long FCGI_MAX_POST_DATA_SIZE(4096);
-
 FastCGIRequest::FastCGIRequest(FastCGIServerThread* serverThread)
 : serverThread(serverThread)
 , completed(false) {
@@ -93,20 +91,9 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     fcgi_streambuf cout_fcgi_I(request.out);
     fcgi_streambuf cerr_fcgi_I(request.err);
 
-#if HAVE_IOSTREAM_WITHASSIGN_STREAMBUF
-        std::istream cin_fcgi = &cin_fcgi_I;
-        std::ostream cout_fcgi = &cout_fcgi_I;
-        std::ostream cerr_fcgi = &cerr_fcgi_I;
-#else
-        std::istream cin_fcgi(&cin_fcgi_I);
-        std::ostream cout_fcgi(&cout_fcgi_I);
-        std::ostream cerr_fcgi(&cerr_fcgi_I);
-/*
-        cin_fcgi.rdbuf(&cin_fcgi_I);
-        cout_fcgi.rdbuf(&cout_fcgi_I);
-        cerr_fcgi.rdbuf(&cerr_fcgi_I);
- */
-#endif
+	std::istream cin_fcgi(&cin_fcgi_I);
+	std::ostream cout_fcgi(&cout_fcgi_I);
+	std::ostream cerr_fcgi(&cerr_fcgi_I);
 
     //parse cookies
     ParseCookies(FastCGIRequest::SafeGetEnv("HTTP_COOKIE",request));
@@ -114,7 +101,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     std::string requestMethod(FastCGIRequest::SafeGetEnv("REQUEST_METHOD",request));
     tools::StringTools::ToLowerIP(requestMethod);
 
-	unsigned long clen(FCGI_MAX_POST_DATA_SIZE);
+	unsigned long long clen(serverThread->GetMaxPostSize());
     if(requestMethod.compare("post") == 0)
     {
 		// Although FastCGI supports writing before reading,
@@ -129,7 +116,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 				log::Logging::LogWarn("empty post request received, dropping");
 				return false;
 			}
-			if(clen>FCGI_MAX_POST_DATA_SIZE) {
+			if(clen > serverThread->GetMaxPostSize()) {
 				log::Logging::LogWarn("request is too big, dropping");
 				return false;
 			}

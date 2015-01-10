@@ -10,8 +10,6 @@
 
 #include "QueryThread.h"
 
-#include <SelectResultContainer.h>
-
 namespace database {
 	class TableBase;
 }
@@ -32,9 +30,11 @@ private:
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QueryContentThread"; }
 
+/*
 private:
 	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const;
 	bool ProcessResults(database::SelectResultContainer<database::TableBase>& results);
+*/
 };
 
 }

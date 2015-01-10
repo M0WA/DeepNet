@@ -44,15 +44,14 @@ FastCGIServer::FastCGIServer()
 : logging(NULL)
 , basePort(-1)
 , threadCount(1)
-{
+, max_postdata_size(4096) {
 	errors::Exception::InitializeExceptionHandling();
 }
 
 FastCGIServer::~FastCGIServer() {
 }
 
-bool FastCGIServer::StartServer(int argc, char** argv)
-{
+bool FastCGIServer::StartServer(int argc, char** argv) {
 	if(threads.size())
 		StopServer();
 
@@ -61,12 +60,23 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	RegisterSocketConfig();
 	RegisterCacheConfigParams();
 
+	std::string def_max_postdata_size = "4096";
+	config.RegisterParam("max_postdata_size", "maximum size in bytes for postdata", false, &def_max_postdata_size);
 	config.RegisterParam("configfile", "filename of config file", false, 0);
+
+	RegisterConfig();
 
 	config.Init(argc,argv);
 
 	//logging is "non-vital" so ignore non successful initiation...
 	InitLoggingConfig();
+
+	if(!config.GetValue("max_postdata_size",max_postdata_size)) {
+		log::Logging::LogInfo("missing config entry for max_postdata_size, defaulting to %llu bytes",max_postdata_size); }
+
+	if(!max_postdata_size) {
+		log::Logging::LogError("please specify a post data size >0");
+		return false; }
 
 	if(FCGX_Init() != 0){
 		return false;}
@@ -90,8 +100,7 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	return true;
 }
 
-bool FastCGIServer::StopServer()
-{
+bool FastCGIServer::StopServer() {
 	std::vector<FastCGIServerThread*>::iterator iterThreads(threads.begin());
 	for(;iterThreads != threads.end(); ++iterThreads) {
 		(*iterThreads)->SetShallEnd();
@@ -109,8 +118,7 @@ bool FastCGIServer::StopServer()
 	return true;
 }
 
-void FastCGIServer::RegisterLoggingParams()
-{
+void FastCGIServer::RegisterLoggingParams() {
 	std::string defaultLogType = "none";
 	config.RegisterParam("log", "logging, one of: none,console,file,database", false, &defaultLogType );
 
@@ -121,8 +129,7 @@ void FastCGIServer::RegisterLoggingParams()
 	config.RegisterParam("logfile", "log file, needed only for log type: file", false, &defaultLogFile );
 }
 
-void FastCGIServer::InitLoggingConfig()
-{
+void FastCGIServer::InitLoggingConfig() {
 	if(logging)
 		delete logging;
 	logging = NULL;
@@ -178,8 +185,7 @@ void FastCGIServer::InitLoggingConfig()
 	}
 }
 
-void FastCGIServer::RegisterSocketConfig()
-{
+void FastCGIServer::RegisterSocketConfig() {
 	std::string defaultThreadCount = "1";
 	config.RegisterParam("threads", "number of threads per server application", false, &defaultThreadCount );
 
@@ -188,8 +194,7 @@ void FastCGIServer::RegisterSocketConfig()
 	config.RegisterParam("base_port", "base port for fastcgi applications (needed only in socket_type port)", false, NULL );
 }
 
-bool FastCGIServer::InitSocketConfig()
-{
+bool FastCGIServer::InitSocketConfig() {
 	if ( !config.GetValue("threads",threadCount) )
 		threadCount = 1;
 
@@ -208,8 +213,7 @@ bool FastCGIServer::InitSocketConfig()
 	return true;
 }
 
-void FastCGIServer::RegisterDatabaseConfigParams(void)
-{
+void FastCGIServer::RegisterDatabaseConfigParams(void) {
 	std::string defaultDbType = "mysql";
 	config.RegisterParam( "dbtype", "database type, one of: mysql | postgres ", true, &defaultDbType );
 	config.RegisterParam( "dbhost", "database host"    , true, 0 );
@@ -225,8 +229,7 @@ void FastCGIServer::RegisterDatabaseConfigParams(void)
 	config.RegisterParam( "affix_file", " hunspell affix file (see dictionary_file)", true, 0 );
 }
 
-bool FastCGIServer::InitDatabaseConfigs(void)
-{
+bool FastCGIServer::InitDatabaseConfigs(void) {
 	int port;
 	std::string tmp;
 	bool bSuccess = true;
@@ -288,8 +291,7 @@ bool FastCGIServer::InitDatabaseConfigs(void)
 	return bSuccess;
 }
 
-void FastCGIServer::RegisterCacheConfigParams()
-{
+void FastCGIServer::RegisterCacheConfigParams() {
 	std::string defaultUrlCacheSize = "1000";
 	config.RegisterParam("urlcache", "number of urls in cache", true, &defaultUrlCacheSize );
 
@@ -318,8 +320,7 @@ void FastCGIServer::RegisterCacheConfigParams()
 	config.RegisterParam("robotscache", "number of robots.txt in cache", true, &defaultRobotsTxtCacheSize);
 }
 
-bool FastCGIServer::InitCacheConfigParams()
-{
+bool FastCGIServer::InitCacheConfigParams() {
 	if(!htmlparser::TLD::InitTLDCache(dbHelper.Connection())) {
 		log::Logging::LogError("cannot initialize top level domain cache, exiting...");
 		return false;}
@@ -387,13 +388,10 @@ bool FastCGIServer::InitCacheConfigParams()
 }
 
 void FastCGIServer::OnException() {
-
 	log::Logging::LogError("killing none gracefully due to unknown and uncaught exception");
-
 }
 
 void FastCGIServer::OnException(errors::Exception& ex) {
-
 	log::Logging::LogError("killing none gracefully due to uncaught exception");
 }
 

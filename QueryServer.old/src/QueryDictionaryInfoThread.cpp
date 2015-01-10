@@ -39,7 +39,7 @@ QueryDictionaryInfoThread::~QueryDictionaryInfoThread() {
 
 void* QueryDictionaryInfoThread::QueryDictionaryInfoThreadFunction(threading::Thread::THREAD_PARAM* threadParam) {
 
-	log::Logging::RegisterThreadID("QueryDictionaryInfoThreadFunction");
+	log::Logging::RegisterThreadID("QueryDictionaryInfoThread");
 
 	QueryDictionaryInfoThreadParam *qp(reinterpret_cast<QueryDictionaryInfoThreadParam*>(threadParam->pParam));
 	Query& q(qp->query);

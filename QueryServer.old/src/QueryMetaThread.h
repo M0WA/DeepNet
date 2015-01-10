@@ -33,8 +33,7 @@ private:
 	virtual const char* GetThreadName() const { return "QueryMetaThread"; }
 
 private:
-	bool GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const;
-	bool ProcessResults(database::SelectResultContainer<database::TableBase>& results);
+	void ProcessResults(database::SelectResultContainer<database::TableBase>& results);
 };
 
 }

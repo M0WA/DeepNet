@@ -10,28 +10,33 @@
 
 #include "Query.h"
 #include "QueryThreadParam.h"
-#include "QueryThreadResultEntry.h"
-#include "QueryDictionaryInfoThread.h"
 
-#include <iterator>
-
-#include <DatabaseLayer.h>
-#include <DatabaseHelper.h>
-#include <TableDefinition.h>
-#include <TableColumnDefinition.h>
-#include <TableColumn.h>
-#include <WhereConditionTableColumn.h>
-#include <WhereConditionTableColumnCreateParam.h>
-
-#include <Dictionary.h>
-
+#include <Logging.h>
+#include <PerformanceCounter.h>
 #include <ContainerTools.h>
 #include <StringTools.h>
 #include <TimeTools.h>
 #include <Pointer.h>
-#include <Logging.h>
 
+#include <DatabaseLayer.h>
 #include <DatabaseException.h>
+#include <TableDefinition.h>
+#include <TableColumnDefinition.h>
+#include <WhereConditionTableColumn.h>
+#include <WhereConditionTableColumnCreateParam.h>
+
+/*
+#include "QueryThreadResultEntry.h"
+#include "QueryDictionaryInfoThread.h"
+
+#include <TableColumn.h>
+#include <Dictionary.h>
+*/
+
+//
+//TODO: move to config file
+//
+#define META_INFO_HARDLIMIT 10000
 
 namespace queryserver {
 
@@ -44,26 +49,26 @@ QueryMetaThread::~QueryMetaThread() {
 
 void* QueryMetaThread::OnRun(){
 
-	database::SelectResultContainer<database::TableBase> results;
+	const Query& q(queryThreadParam.GetConst()->query);
+	const QueryProperties& queryProperties(q.GetQueryProperties());
 
-	if(!GetUrlsForKeywords(results)) {
-		return (void*)1; }
+	const std::vector<QueryKeywordGroup>& grps(q.GetKeywordGroups());
+	std::vector<QueryKeywordGroup>::const_iterator igrp(grps.begin());
 
-	if(!ProcessResults(results)) {
-		return (void*)1; }
+	std::map<QueryKeyword::QueryKeywordType, std::vector<long long> > dictIDsType;
+	for(; igrp!=grps.end(); ++igrp) {
+		const std::vector<QueryKeyword>& keys(igrp->GetKeywords());
+		std::vector<QueryKeyword>::const_iterator ikey(keys.begin());
+		for(;ikey != keys.end(); ++ikey) {
+			ikey->GetDictIDByType(QueryKeyword::CASEINSENSITIVE_MATCH, dictIDsType); }
+	}
 
-	return 0;
-}
+	std::vector<std::vector<long long> > dictIDsVec;
+	tools::ContainerTools::Map2ToVector(dictIDsType,dictIDsVec);
 
-bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
-
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
-	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
-	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
-
-	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
-	if(allDictIDs.size() == 0)
-		return true;
+	std::vector<long long> dictIDs;
+	tools::ContainerTools::AppendFlattenedVector(dictIDsVec, dictIDs);
+	tools::ContainerTools::MakeUniqueVector(dictIDs,false);
 
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::docmetaTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());
@@ -91,18 +96,21 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 		database::WhereConditionTableColumnCreateParam(
 			database::WhereCondition::Equals(),
 			database::WhereCondition::InitialComp()),
-		allDictIDs,
+			dictIDs,
 		where);
 
-	if(queryProperties.limitSecondLevelDomainID > 0) {
+	if(queryProperties.GetLimitations().IsLimitationEnabled(QueryLimitations::LIMITATION_DOMAIN)) {
+		long long secondleveldomainID(-1);
+		queryProperties.GetLimitations().GetLimitationByType(QueryLimitations::LIMITATION_DOMAIN,secondleveldomainID);
 		database::urlsTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
 			database::WhereConditionTableColumnCreateParam(
 				database::WhereCondition::Equals(),
 				database::WhereCondition::And()),
-			queryProperties.limitSecondLevelDomainID,
+				secondleveldomainID,
 			where);
 	}
 
+	/*
 	if(queryProperties.limitSubDomainID > 0) {
 		database::urlsTableBase::GetWhereColumnsFor_SUBDOMAIN_ID(
 			database::WhereConditionTableColumnCreateParam(
@@ -111,36 +119,56 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 			queryProperties.limitSubDomainID,
 			where);
 	}
+	*/
 
-	if(!tools::TimeTools::IsZero(queryProperties.maxAge)) {
+	if(queryProperties.GetLimitations().IsLimitationEnabled(QueryLimitations::LIMITATION_MIN_AGE)) {
+		struct tm min_age;
+		queryProperties.GetLimitations().GetLimitationByType(QueryLimitations::LIMITATION_MIN_AGE,min_age);
+				database::urlstagesTableBase::GetWhereColumnsFor_found_date(
+					database::WhereConditionTableColumnCreateParam(
+						database::WhereCondition::GreaterOrEqual(),
+						database::WhereCondition::And()),
+					min_age,
+					where);
+	}
+
+	if(queryProperties.GetLimitations().IsLimitationEnabled(QueryLimitations::LIMITATION_MAX_AGE)) {
+		struct tm max_age;
+		queryProperties.GetLimitations().GetLimitationByType(QueryLimitations::LIMITATION_MAX_AGE,max_age);
 		database::urlstagesTableBase::GetWhereColumnsFor_found_date(
 			database::WhereConditionTableColumnCreateParam(
-				database::WhereCondition::GreaterOrEqual(),
+				database::WhereCondition::SmallerOrEqual(),
 				database::WhereCondition::And()),
-			queryProperties.maxAge,
+			max_age,
 			where);
 	}
 
 	select.Where().AddColumns(where);
 
 	//
-	//TODO: limit results here
+	//TODO: set order by when setting a limit
 	//
+	select.SetLimit(META_INFO_HARDLIMIT);
 
+	database::SelectResultContainer<database::TableBase> dbResults;
+	PERFORMANCE_LOG_START;
 	try {
-		dbConn->Select(select,results); }
+		dbConn->Select(select,dbResults); }
 	catch(database::DatabaseException& e) {
-		return false; }
+		return 0; }
+	PERFORMANCE_LOG_STOP("selecting result by meta information");
 
-	return true;
+	ProcessResults(dbResults);
+	return 0;
 }
 
-bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
+void QueryMetaThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
+	/*
 	const Query& query(queryThreadParam.GetConst()->query);
-	const QueryProperties& queryProperties(query.properties);
+	const QueryProperties& queryProperties(query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
-	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const QueryDictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefMetaTypePtr(database::docmetaTableBase::GetDefinition_type()),
@@ -238,9 +266,7 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 				queryProperties.relevanceMeta * matchRelevanceFactor * metaRelevanceFactor,
 				found));
 	}
-
-	return true;
+	 */
 }
-
 
 }

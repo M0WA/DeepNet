@@ -7,11 +7,12 @@
  */
 
 #include "QueryContentThread.h"
-
+/*
 #include "Query.h"
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
 #include "QueryDictionaryInfoThread.h"
+#include "QueryKeywordGroup.h"
 
 #include <iterator>
 
@@ -22,6 +23,7 @@
 #include <TableColumn.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
+#include <SelectResultContainer.h>
 
 #include <ContainerTools.h>
 #include <StringTools.h>
@@ -30,6 +32,7 @@
 #include <Logging.h>
 
 #include <DatabaseException.h>
+*/
 
 namespace queryserver {
 
@@ -42,6 +45,17 @@ QueryContentThread::~QueryContentThread() {
 
 void* QueryContentThread::OnRun() {
 
+/*
+	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
+	const QueryDictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const Query& query(queryThreadParam.GetConst()->query);
+	const std::vector<QueryKeywordGroup>& groups(query.GetKeywordGroups());
+
+	std::vector<QueryKeywordGroup>::const_iterator i(groups.begin());
+	for(;i != groups.end();++i) {
+	}
+	*/
+/*
 	database::SelectResultContainer<database::TableBase> results;
 
 	if(!GetUrlsForKeywords(results)) {
@@ -49,15 +63,16 @@ void* QueryContentThread::OnRun() {
 
 	if(!ProcessResults(results)) {
 		return (void*)1; }
-
+*/
 	return 0;
 }
 
+/*
 bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
-	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const QueryDictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+
 
 	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
 	if(allDictIDs.size() == 0)
@@ -129,16 +144,27 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 	catch(database::DatabaseException& e) {
 		return false;
 	}
-
 	return true;
 }
+*/
 
+/*
 bool QueryContentThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
+	const Query& query(queryThreadParam.GetConst()->query);
+	const QueryProperties& queryProperties(query.GetQueryProperties());
+
+	const std::vector<QueryKeywordGroup>& keygroups(query.GetKeywordGroups());
+	std::vector<QueryKeywordGroup>::const_iterator i(keygroups.begin());
+	for(;i != keygroups.end(); ++i) {
+
+	}
+	*/
+	/*
 	const Query query(queryThreadParam.GetConst()->query);
-	const QueryProperties& queryProperties(query.properties);
+	const QueryProperties& queryProperties(query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
-	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const QueryDictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
@@ -213,5 +239,6 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 
 	return true;
 }
+	*/
 
 }

@@ -15,7 +15,7 @@
 
 namespace fastcgiserver {
 
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex,const int port, const int backlog)
+FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data,const int port, const int backlog)
 : threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
 , databaseConfig(databaseConfig)
 , fcgiSocket(port,backlog)
@@ -24,10 +24,10 @@ FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfi
 , backlog(backlog)
 , filename("")
 , acceptMutex(acceptMutex)
-{
+, max_post_data(max_post_data) {
 }
 
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex,const std::string& filename, const int backlog)
+FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data,const std::string& filename, const int backlog)
 : threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
 , databaseConfig(databaseConfig)
 , fcgiSocket(filename,backlog)
@@ -36,15 +36,13 @@ FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfi
 , backlog(backlog)
 , filename(filename)
 , acceptMutex(acceptMutex)
-{
+, max_post_data(max_post_data) {
 }
 
-FastCGIServerThread::~FastCGIServerThread()
-{
+FastCGIServerThread::~FastCGIServerThread() {
 }
 
-void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
-{
+void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* threadParam) {
 	FastCGIServerThread* instance(dynamic_cast<FastCGIServerThread*>(threadParam->instance));
 	log::Logging::RegisterThreadID(instance->GetThreadName());
 

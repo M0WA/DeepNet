@@ -82,6 +82,10 @@ void QueryThreadManager::BeginQuery(Query& query) {
 
 void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry*>& results) {
 
+	//TODO:
+
+
+/*
 	if(releaseSeen) {
 		log::Logging::LogError("waiting for invalid query, skipping");
 		return; }
@@ -94,6 +98,7 @@ void QueryThreadManager::WaitForResults(std::vector<const QueryThreadResultEntry
 		std::vector<const QueryThreadResultEntry*> out;
 		tools::ContainerTools::ToConstVector(threadResults,out);
 		results.insert(results.end(),out.begin(),out.end()); }
+		*/
 }
 
 void QueryThreadManager::ReleaseQuery() {

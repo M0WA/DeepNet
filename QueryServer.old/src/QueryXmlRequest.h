@@ -13,11 +13,9 @@
 #include <FastCGIRequest.h>
 #include <Pointer.h>
 
-namespace fastcgiserver {
-	class FastCGIServerThread;
-}
-
 namespace queryserver {
+
+class QueryServerThread;
 
 /**
  * @brief encapsulates a xml query request and also implements fastcgiserver::FastCGIRequest
@@ -29,7 +27,7 @@ public:
 	 * creates from QueryThreadManager and FastCGIServerThread
 	 * @param serverThread server thread
 	 */
-	QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThread);
+	QueryXmlRequest(QueryServerThread* serverThread);
 	virtual ~QueryXmlRequest();
 
 public:

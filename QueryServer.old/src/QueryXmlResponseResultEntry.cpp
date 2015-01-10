@@ -20,7 +20,7 @@
 namespace queryserver {
 
 QueryXmlResponseResultEntry::QueryXmlResponseResultEntry(const QueryThreadResultEntry* result)
-: queryserver::Relevance(result->relevance)
+: queryserver::Relevance(result->GetTotalRelevance())
 , isSorted(true) {
 	threadResults.push_back(result);
 }
@@ -68,6 +68,13 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 		network::HttpUrlParser::EncodeUrl(*iKey);
 		keywordsPart << "<keyword>" << *iKey << "</keyword>"; }
 */
+
+
+
+
+	//TODO:
+	/*
+
 	std::map<QueryThreadResultType,size_t> typeCounts;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
 	for(;iRes != threadResults.end(); ++iRes) {
@@ -86,13 +93,12 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 
 	xml <<
 	"<types>" << typesPart.str() << "</types>"
-	/*
-	"<keywords>" << keywordsPart.str() << "</keywords>"
-	*/
+	//"<keywords>" << keywordsPart.str() << "</keywords>"
 	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
 	"<relevancy>" << GetRelevance() << "</relevancy>"
 	"<weight>" << GetWeight() << "</weight>"
 	"</result>";
+	*/
 }
 
 }

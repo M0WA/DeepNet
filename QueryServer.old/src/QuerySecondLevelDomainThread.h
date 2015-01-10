@@ -26,6 +26,9 @@ public:
 private:
 	virtual void* OnRun();
 	virtual const char* GetThreadName() const { return "QuerySecondLevelDomainThread"; }
+
+private:
+	bool GetSecondLevelDomainIDs();
 };
 
 }

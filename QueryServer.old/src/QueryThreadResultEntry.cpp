@@ -8,6 +8,7 @@
 
 #include "QueryThreadResultEntry.h"
 
+/*
 #include <StringTools.h>
 #include <TimeTools.h>
 #include <Pointer.h>
@@ -21,9 +22,10 @@
 #include <Dictionary.h>
 
 #include "Query.h"
+*/
 
 namespace queryserver {
-
+/*
 QueryThreadResultEntry::QueryThreadResultEntry(
 	const QueryThreadResultType& type,
 	const long long& urlID,
@@ -56,12 +58,25 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 , occurrences(occurrences)
 , found(found){
 }
-
+*/
 QueryThreadResultEntry::~QueryThreadResultEntry() {
+}
+
+Relevance QueryThreadResultEntry::GetTotalRelevance() const {
+	return Relevance(0.0);
+}
+
+void QueryThreadResultEntry::AddRelevanceForType(const QueryThreadResultType& type,const Relevance& r) {
+
+	if(relevances.find(type) == relevances.end()) {
+		relevances.insert(std::pair<QueryThreadResultType,Relevance>(type,Relevance(0.0))); }
+	Relevance& rel(relevances.at(type));
+	rel += r;
 }
 
 void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
 
+	/*
 	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
 
@@ -120,6 +135,7 @@ void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const 
 	"<lastVisited>" << lastVisitedString << "</lastVisited>"
 	"<lastChanged></lastChanged>"
 	"<type>" << ResultTypeToString(type) << "</type>";
+*/
 }
 
 std::string QueryThreadResultEntry::ResultTypeToString(const QueryThreadResultType& type) {

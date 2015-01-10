@@ -23,8 +23,8 @@ namespace fastcgiserver {
 class FastCGIServerThread : public threading::Thread
 {
 public:
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const int port, const int backlog = 0);
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog = 0);
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data, const int port, const int backlog = 0);
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data, const std::string& filename, const int backlog = 0);
 	virtual ~FastCGIServerThread();
 
 public:
@@ -39,6 +39,9 @@ public:
 	 * @return spellchecking instance
 	 */
 	tools::SpellChecking& SpellChecker() { return spellChecker; }
+
+public:
+	const unsigned long long& GetMaxPostSize() const;
 
 private:
 	/**
@@ -75,6 +78,7 @@ private:
 	int backlog;
 	std::string filename;
 	threading::Mutex* acceptMutex;
+	const unsigned long long& max_post_data;
 };
 
 }

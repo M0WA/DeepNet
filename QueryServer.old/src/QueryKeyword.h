@@ -116,12 +116,21 @@ public:
 
 	/**
 	 * gets keywords by keyword types
-	 * @param types keyword types
+	 * @param type keyword types
 	 * @param keywords keywords
 	 */
 	void GetKeywordsByType(
 			QueryKeywordType types,
 			std::map<QueryKeywordType, std::vector<std::string> >& keywords) const;
+
+	/**
+	 * gets keywords by keyword types
+	 * @param types keyword types
+	 * @param keywords keywords
+	 */
+	void GetKeywordsByType(
+			QueryKeywordType types,
+			std::vector<std::string>& keywords) const;
 
 private:
 	bool InitExactKeywords(void);

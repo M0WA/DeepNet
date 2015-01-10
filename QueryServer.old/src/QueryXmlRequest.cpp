@@ -18,8 +18,8 @@
 
 namespace queryserver {
 
-QueryXmlRequest::QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThread)
-: fastcgiserver::FastCGIRequest(serverThread){
+QueryXmlRequest::QueryXmlRequest(QueryServerThread* serverThread)
+: fastcgiserver::FastCGIRequest(dynamic_cast<fastcgiserver::FastCGIServerThread*>(serverThread)){
 }
 
 QueryXmlRequest::~QueryXmlRequest() {
@@ -37,10 +37,12 @@ void QueryXmlRequest::OnHandle(FCGX_Request& request) {
 		log::Logging::LogWarn("no post data received, ommitting...");
 		return;	}
 
+	memmem_s()
+
 	//
 	//TODO: need to make this better => buffer overflow ???
 	//
-	std::string xml = static_cast<const char*>(rawPostData);
+	std::string xml = reinterpret_cast<const char*>(rawPostData);
 
 	queryserver::QueryFactory fact;
 	if( !fact.CreateQueryFromXML(xml, queryPtr) ) {

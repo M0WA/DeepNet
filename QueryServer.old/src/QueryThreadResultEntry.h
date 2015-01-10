@@ -11,6 +11,7 @@
 #include <ctime>
 #include <string>
 #include <sstream>
+#include <map>
 
 #include "Relevance.h"
 
@@ -37,15 +38,30 @@ typedef enum {
 } QueryThreadResultType;
 
 /**
+ * @brief encapsulates key type for a queryserver::QueryThreadResult
+ */
+class QueryThreadResultKey{
+public:
+	bool operator< (const QueryThreadResultKey& rhs) const {
+		return
+			this->urlId < rhs.urlId &&
+			this->urlStageId < rhs.urlStageId;
+	}
+
+public:
+	long long urlId;
+	long long urlStageId;
+};
+
+/**
  * @brief encapsulates one result entry from a QueryThread
  */
 class QueryThreadResultEntry {
 
 public:
 	typedef struct _PointerComparator {
-	  bool operator() (const QueryThreadResultEntry* i,const QueryThreadResultEntry* j) {
-		  return i->relevance < j->relevance;
-	  }
+	  bool operator() (const QueryThreadResultEntry* i,const QueryThreadResultEntry* j) const {
+		  return i->GetTotalRelevance() < j->GetTotalRelevance(); }
 	} PointerComparator;
 
 public:
@@ -57,7 +73,6 @@ public:
 	 * @param keywordPos position of this keyword in query
 	 * @param occurrences position of this keyword in query
 	 * @param relevance relevance of this entry
-	 */
 	QueryThreadResultEntry(
 			const QueryThreadResultType& type,
 			const long long& urlID,
@@ -65,6 +80,7 @@ public:
 			const size_t&    keywordPos,
 			const long long& occurrences,
 			const double&    relevance);
+	 */
 
 	/**
 	 * creates a result entry
@@ -75,7 +91,6 @@ public:
 	 * @param occurrences position of this keyword in query
 	 * @param relevance relevance of this entry
 	 * @param found found date of URL
-	 */
 	QueryThreadResultEntry(
 			const QueryThreadResultType& type,
 			const long long& urlID,
@@ -84,6 +99,7 @@ public:
 			const long long& occurrences,
 			const double&    relevance,
 			const struct tm& found);
+	 */
 
 	virtual ~QueryThreadResultEntry();
 
@@ -97,19 +113,18 @@ public:
 	 */
 	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
 
+	Relevance GetTotalRelevance() const;
+
+	void AddRelevanceForType(const QueryThreadResultType& type,const Relevance& r);
+
 public:
 	static std::string ResultTypeToString(const QueryThreadResultType& type);
 
 public:
 	/**
-	 * relevance of this result
+	 * types and their relevances of this result
 	 */
-	Relevance relevance;
-
-	/**
-	 * origin type of this result
-	 */
-	QueryThreadResultType type;
+	std::map<QueryThreadResultType,Relevance> relevances;
 
 	/**
 	 * url id
@@ -122,14 +137,9 @@ public:
 	long long urlStageID;
 
 	/**
-	 * position of this keyword in query
+	 * second level domain id
 	 */
-	size_t keywordPos;
-
-	/**
-	 * occurrences of this keyword in url
-	 */
-	long long occurrences;
+	long long secondLvlDomainId;
 
 	/**
 	 * description

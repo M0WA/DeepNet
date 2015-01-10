@@ -8,10 +8,14 @@
 
 #pragma once
 
+#include <map>
+
 #include <Thread.h>
 
 #include <PointerContainer.h>
 #include <Pointer.h>
+
+#include "QueryThreadResultEntry.h"
 
 namespace database {
 	class DatabaseConnection;
@@ -20,7 +24,6 @@ namespace database {
 namespace queryserver {
 
 	class QueryThreadParam;
-	class QueryThreadResultEntry;
 
 /**
  * @brief base class for all query threads
@@ -38,7 +41,7 @@ public:
 	 * use only when thread has ended.
 	 * @return results
 	 */
-	const tools::PointerContainer<QueryThreadResultEntry>& GetResults() const;
+	const std::map<QueryThreadResultKey,QueryThreadResultEntry>& GetResults() const;
 
 private:
 	/**
@@ -72,10 +75,7 @@ private:
 	void* Run();
 
 protected:
-	/**
-	 * contains results for this query thread
-	 */
-	tools::PointerContainer<QueryThreadResultEntry> resultEntries;
+	std::map<QueryThreadResultKey,QueryThreadResultEntry> results;
 
 	/**
 	 * contains query thread params

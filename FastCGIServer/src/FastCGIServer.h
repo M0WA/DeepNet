@@ -106,6 +106,11 @@ protected:
 	 */
 	std::string xsdResponseContent;
 
+	/**
+	 * max post data size in bytes
+	 */
+	unsigned long long max_postdata_size;
+
 private:
 	threading::Mutex acceptMutex;
 	std::vector<FastCGIServerThread*> threads;

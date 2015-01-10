@@ -21,10 +21,16 @@
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
 
+#include <PerformanceCounter.h>
 #include <StringTools.h>
 #include <Pointer.h>
 #include <Exception.h>
 #include <Logging.h>
+
+//
+//TODO: move to config file
+//
+#define SECONDLEVELDOMAIN_HARDLIMIT 10000
 
 namespace queryserver {
 
@@ -36,22 +42,33 @@ QuerySecondLevelDomainThread::~QuerySecondLevelDomainThread() {
 
 void* QuerySecondLevelDomainThread::OnRun(){
 
-	const Query& query(queryThreadParam.GetConst()->query);
-	const QueryProperties& queryProperties(query.properties);
-	std::vector<std::string> lowerKeywords;
-	query.GetLoweredKeywords(lowerKeywords);
-	if(!lowerKeywords.size()) {
-		return 0; }
+	const Query& q(queryThreadParam.GetConst()->query);
+	//const QueryProperties& queryProperties(q.GetQueryProperties());
 
+	const std::vector<QueryKeywordGroup>& grps(q.GetKeywordGroups());
+	std::vector<QueryKeywordGroup>::const_iterator igrp(grps.begin());
+
+	std::vector<std::string> keywords;
+	for(; igrp!=grps.end(); ++igrp) {
+		const std::vector<QueryKeyword>& keys(igrp->GetKeywords());
+		std::vector<QueryKeyword>::const_iterator ikey(keys.begin());
+		for(;ikey != keys.end(); ++ikey) {
+			ikey->GetKeywordsByType(QueryKeyword::CASEINSENSITIVE_MATCH,keywords); }
+	}
+
+	tools::StringTools::LowerStringsInVector(keywords);
+	tools::ContainerTools::MakeUniqueVector(keywords,false);
 	tools::Pointer<database::TableDefinition> ptrTblDef(database::secondleveldomainsTableBase::CreateTableDefinition());
 	database::SelectStatement select(ptrTblDef.GetConst());
 
 	database::TableColumnDefinition
+		*colDefSecondLevelDomainID(database::secondleveldomainsTableBase::GetDefinition_ID()),
 		*colDefSecondLevelDomain(database::secondleveldomainsTableBase::GetDefinition_domain()),
 		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
 		*colDefUrlID(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
 		*colDefFound(database::urlstagesTableBase::GetDefinition_found_date());
 
+	select.SelectAddColumnAlias(colDefSecondLevelDomainID,colDefSecondLevelDomainID->GetColumnName());
 	select.SelectAddColumnAlias(colDefSecondLevelDomain,colDefSecondLevelDomain->GetColumnName());
 	select.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
 	select.SelectAddColumnAlias(colDefUrlID,colDefUrlID->GetColumnName());
@@ -62,58 +79,55 @@ void* QuerySecondLevelDomainThread::OnRun(){
 	database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 
 	std::vector<database::WhereConditionTableColumn*> where;
-
 	database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp(),database::WILDCARD_BOTH),
-		lowerKeywords,
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Like(),
+			database::WhereCondition::InitialComp(),
+			database::WILDCARD_BOTH),
+		keywords,
 		where );
 	select.Where().AddColumns(where);
 
 	//
-	//TODO: limit results here
+	//TODO: set order by when setting a limit
 	//
+	select.SetLimit(SECONDLEVELDOMAIN_HARDLIMIT);
 
-	database::SelectResultContainer<database::TableBase> results;
+	database::SelectResultContainer<database::TableBase> selectresults;
+
+	PERFORMANCE_LOG_START;
 	try {
-		dbConn->Select(select,results);
+		dbConn->Select(select,selectresults);
 	}
 	catch(errors::Exception& e) {
-		return (void*) -1;
-	}
+		return (void*) -1; }
+	PERFORMANCE_LOG_STOP("selecting result by second level domain");
 
-	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
+	for(selectresults.ResetIter();!selectresults.IsIterEnd();selectresults.Next()) {
 
-		const database::TableBase* curTbl(results.GetConstIter());
+		const database::TableBase* curTbl(selectresults.GetConstIter());
 		const database::TableColumn
+			*colSecondLevelDomainID(curTbl->GetConstColumnByName(colDefSecondLevelDomainID->GetColumnName())),
 			*colSecondLevelDomain(curTbl->GetConstColumnByName(colDefSecondLevelDomain->GetColumnName())),
 			*colUrlStageID(curTbl->GetConstColumnByName(colDefUrlStageID->GetColumnName())),
 			*colUrlID(curTbl->GetConstColumnByName(colDefUrlID->GetColumnName())),
 			*colFound(curTbl->GetConstColumnByName(colDefFound->GetColumnName()));
 
-		if(!colUrlID || !colSecondLevelDomain || !colUrlStageID || !colFound) {
+		if(!colUrlID || !colSecondLevelDomainID || !colSecondLevelDomain || !colUrlStageID || !colFound) {
 			log::Logging::LogWarn("invalid result row received for search query secondlevel domain result, ommitting entry");
 			continue; }
 
-		long long urlID(-1),urlStageID(-1);
-		struct tm found;
-		std::string domainName;
+		QueryThreadResultKey key;
+		colUrlID->Get(key.urlId);
+		colUrlStageID->Get(key.urlStageId);
 
-		colSecondLevelDomain->Get(domainName);
-		colUrlID->Get(urlID);
-		colUrlStageID->Get(urlStageID);
-		colFound->Get(found);
+		const Relevance& relSndLvl(q.GetQueryProperties().GetCriteria().GetRelevanceByCriteria(QueryCriteria::CRITERIA_DOMAIN));
 
-		resultEntries.Add(
-			new QueryThreadResultEntry(
-				SECONDLEVELDOMAIN_RESULT,
-				urlID,
-				urlStageID,
-				0, //query.GetPositionByKeyword(domainName), //TODO: find real position
-				1,
-				queryProperties.relevanceSecondLevelDomain,
-				found));
+		QueryThreadResultEntry& e(results[key]);
+		colSecondLevelDomainID->Get(e.secondLvlDomainId);
+		colFound->Get(e.found);
+		e.AddRelevanceForType(SECONDLEVELDOMAIN_RESULT,relSndLvl);
 	}
-
 	return 0;
 }
 

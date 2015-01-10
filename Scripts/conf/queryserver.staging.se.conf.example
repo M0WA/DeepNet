@@ -97,6 +97,18 @@ base_port=20260
 
 threads=2
 
+# maximum size for post data in bytes
+max_postdata_size=4096
+
+##################################################
+#
+# query server settings
+#
+##################################################
+
+hardlimit_urlpathpart=10000
+hardlimit_meta=10000
+hardlimit_secondleveldomain=10000
 
 ##################################################
 #

@@ -97,6 +97,9 @@ base_port=20230
 
 threads=2
 
+# maximum size for post data in bytes
+max_postdata_size=4096
+
 ##################################################
 #
 # hunspell settings

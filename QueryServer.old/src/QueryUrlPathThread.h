@@ -10,6 +10,7 @@
 
 #include "QueryThread.h"
 
+#include <string>
 #include <vector>
 #include <map>
 
@@ -28,8 +29,8 @@ private:
 	virtual const char* GetThreadName() const { return "QueryUrlPathThread"; }
 
 private:
-	bool GetPathPartIDs(std::vector<long long>& pathPartIDs,std::map<long long,size_t>& pathPartIDKeywordPos) const;
-	bool ProcessResults(const std::vector<long long>& pathPartIDs,const std::map<long long,size_t>& pathPartIDKeywordPos);
+	bool GetPathPartIDs(std::map<std::string, std::vector<long long> >& pathPartIDs) const;
+	bool ProcessResults(const std::map<std::string, std::vector<long long> >& pathPartIDs);
 };
 
 }

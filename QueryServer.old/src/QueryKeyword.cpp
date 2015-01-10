@@ -127,6 +127,24 @@ void QueryKeyword::GetKeywordsByType(QueryKeywordType types,std::map<QueryKeywor
 		std::for_each(entries.begin(),entries.end(), e); }
 }
 
+void QueryKeyword::GetKeywordsByType( QueryKeywordType types, std::vector<std::string>& keywords) const {
+
+	if( (types & SIMILAR_MATCH) && (map.find(SIMILAR_MATCH) != map.end()) ) {
+		const std::vector<QueryKeyWordEntry>& entries(map.at(SIMILAR_MATCH));
+		QueryKeywordEntryToKeyword e(keywords);
+		std::for_each(entries.begin(),entries.end(), e); }
+
+	if( (types & CASEINSENSITIVE_MATCH) && (map.find(CASEINSENSITIVE_MATCH) != map.end()) ) {
+		const std::vector<QueryKeyWordEntry>& entries(map.at(CASEINSENSITIVE_MATCH));
+		QueryKeywordEntryToKeyword e(keywords);
+		std::for_each(entries.begin(),entries.end(), e); }
+
+	if( (types & EXACT_MATCH) && (map.find(EXACT_MATCH) != map.end()) ) {
+		const std::vector<QueryKeyWordEntry>& entries(map.at(EXACT_MATCH));
+		QueryKeywordEntryToKeyword e(keywords);
+		std::for_each(entries.begin(),entries.end(), e); }
+}
+
 bool QueryKeyword::InitIDsForKeywords(
 	database::DatabaseConnection *db,
 	std::vector<QueryKeyWordEntry>& entries,
