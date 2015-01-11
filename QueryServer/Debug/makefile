@@ -44,7 +44,7 @@ all: QueryServer
 QueryServer: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++  -o "QueryServer" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L../../Bot/Debug -L../../Networking/Debug -L../../Caching/Debug -L../../HtmlParser/Debug -L../../Database/Debug -L../../FastCGIServer/Debug -L../../Threading/Debug -L../../Logging/Debug -L../../Tools/Debug -pthread -rdynamic -o "QueryServer" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
