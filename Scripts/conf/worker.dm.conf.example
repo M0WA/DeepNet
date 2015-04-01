@@ -1,0 +1,163 @@
+##################################################
+#
+# generic settings
+#
+##################################################
+
+# daemonize: 0,1
+# D=0
+
+# user/group id to drop privileges to
+# user=0
+# group=0
+
+# mode of workerbot, one of: searchengine, commercesearch, datamining, fenced
+worker_bot_mode=datamining
+
+##################################################
+#
+# logging settings
+#
+##################################################
+
+# type of log, one of: none, console, file, database
+# log=none
+
+# log level, one of: error,warn,info,trace
+# loglevel=error
+
+# log file, needed only for log type: file
+# logfile=/var/log/worker.dm.log
+
+# enables or disables performance logging at runtime (if compiled with ENABLE_PERFORMANCE_LOG)
+# enablePerformanceLogging=1
+
+# log all cache stati (0: off, interval in mins)
+# dumpCaches=0
+
+# log all SQL statements
+# dblogquery=1
+
+##################################################
+#
+# cache settings
+#
+##################################################
+
+# number of urls in cache (*)
+urlcache=1000
+
+# number of subdomains in cache (*)
+subdomaincache=1000
+
+# number of second level in cache (*)
+secondleveldomaincache=1000
+
+# number of url path parts in cache (*)
+urlpathpartcache=1000
+
+# number of search parts in cache (*)
+searchpartcache=1000
+
+# number of path parts in cache (*)
+pathpartcache=1000
+
+# number of html docs in cache (*)
+# should be at least: crawler_threads * crawler_maxUrl
+htmlcache=100
+
+# number of parsed html docs in cache (*)
+# should be at least: parser_threads * parser_maxUrl
+# it should also be no problem if size is unlimited here (parsercache=0)
+parsercache=100
+
+# number of robots.txt in cache (*)
+robotscache=500
+
+##################################################
+#
+# database settings
+#
+##################################################
+
+# database type (one of mysql | postgres )
+dbtype=mysql
+
+# settings for database (*)
+dbhost=127.0.0.1
+dbport=3306
+dbname=contents
+dbuser=username
+dbpass=password
+
+##################################################
+#
+# crawler settings
+#
+##################################################
+
+# number of concurrent crawler threads (*)
+crawler_threads=8
+
+# minimum age of page in days before recrawl (*)
+crawler_minAge=1
+
+# maximum size of selected urls per turn (*)
+crawler_maxUrl=100
+
+# user agent string (*)
+crawler_userAgent=SIRIDIA DM v1.0
+
+# timeout for connect() in sec (*)
+crawler_cntTimeout=10
+
+# timeout for connection, overall in sec (*)
+crawler_connectionTimeout=60
+
+# maximum download size when crawling websites in bytes (0: unlimited) (*)
+# 3145728 bytes <==> 3MB
+crawler_maxDownloadSize=3145728
+
+#enable the use of ipv6
+#	crawler_ipv6=0
+
+# speed limit per connection in kb (0 <= unlimited) (*)
+crawler_limit=300
+
+# how long to wait for recheck if idle in seconds (*)
+crawler_waitIdle=30
+
+# should the crawler respect robots.txt ( 0 | 1 ) (*)
+crawler_respectRobotsTxt=1
+
+##################################################
+#
+# parser settings
+#
+##################################################
+
+# number of concurrent parser threads (*)
+parser_threads=8
+
+# maximum size of selected urls per turn (*)
+parser_maxUrl=100
+
+# how long to wait for recheck if idle in seconds (*)
+parser_waitIdle=30
+
+
+##################################################
+#
+# indexer settings
+#
+##################################################
+
+# number of concurrent indexer threads (*)
+indexer_threads=8
+
+# how long to wait for recheck if idle in seconds (*)
+indexer_waitIdle=30
+
+#maximum size of selected urls per turn (*)
+indexer_maxUrl=100
+

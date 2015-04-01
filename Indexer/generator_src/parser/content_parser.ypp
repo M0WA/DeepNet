@@ -1,0 +1,98 @@
+%define api.pure
+%lex-param {void * scanner}
+%parse-param {ContentIndexerCtx * ctx}
+
+
+%code requires {
+
+#include "../src/ContentIndexer.h"
+#include <string>
+typedef void* yyscan_t;
+#define YYSTYPE std::string*
+
+extern "C"
+{
+	int contentIndexer_yylex(YYSTYPE * yylval_param ,yyscan_t yyscanner);
+	int contentIndexer_yyerror(ContentIndexerCtx*,const char*);
+	int contentIndexer_yylex_init_extra(ContentIndexerCtx* yy_user_defined,yyscan_t* ptr_yy_globals );
+	int contentIndexer_yylex_destroy(yyscan_t yyscanner);
+}
+
+}
+
+%code provides {
+
+#include "../src/ContentIndexer.h"
+
+namespace indexing
+{
+class ContentIndexerHelper
+{
+public:
+	static bool ParseFromContext(ContentIndexerCtx* ctx);
+	
+private:	
+	static bool InitThread(ContentIndexerCtx* ctx);
+	static bool DestroyThread(ContentIndexerCtx* ctx);
+};
+}
+}
+
+%{
+//
+// this seems to be a very shitty wordaround 
+// but is needed as far as I know
+//
+#define scanner ctx->memoryScanner
+%}
+
+%token WORD INT_NUMBER FLOAT_NUMBER HTML_ENTITY CHARACTER_REFERENCE TERMINATE_WORD
+%destructor { delete $$; } WORD HTML_ENTITY CHARACTER_REFERENCE
+%start contents
+
+%%
+contents:
+  | wordlist
+;
+    
+wordlist: word
+    | word wordlist
+;
+    
+word: WORD { $$ = $1; ctx->indexer->OnWord($$); }
+	| real
+	| HTML_ENTITY         { $$ = $1; ctx->indexer->OnHtmlEntity($$); } 
+	| CHARACTER_REFERENCE { $$ = $1; ctx->indexer->OnCharacterReference($$); } 
+	| TERMINATE_WORD      { $$ = $1; ctx->indexer->TerminateWord(); }
+
+real: INT_NUMBER     { $$ = $1; }
+	  | FLOAT_NUMBER { $$ = $1; }
+;
+%%
+
+////////////////////////////////////////////////
+
+namespace indexing
+{
+
+bool ContentIndexerHelper::ParseFromContext(ContentIndexerCtx* ctx)
+{
+	ContentIndexerHelper::InitThread(ctx);
+	contentIndexer_yyparse(ctx);
+	ContentIndexerHelper::DestroyThread(ctx);
+	return true;
+}
+
+bool ContentIndexerHelper::InitThread(ContentIndexerCtx* ctx)
+{
+	contentIndexer_yylex_init_extra( (ContentIndexerCtx*)ctx, &ctx->memoryScanner );
+	return true;
+}
+
+bool ContentIndexerHelper::DestroyThread(ContentIndexerCtx* ctx)
+{
+	contentIndexer_yylex_destroy(ctx->memoryScanner);
+	return true;
+}
+
+}

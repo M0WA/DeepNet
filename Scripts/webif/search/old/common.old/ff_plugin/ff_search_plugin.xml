@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>web search</ShortName>
+  <Description>just another fine searchengine</Description>
+  <Tags>yafs search engine web search</Tags>
+  <Contact>visit@search.mo-sys.de</Contact>
+  <Developer>mo-sys.de Moritz Wagner</Developer>
+  <Attribution>
+    Copyright 2012, Moritz Wagner, All Rights Reserved
+  </Attribution>
+  <!--
+  <Image width="16" height="16" type="image/x-icon">data:image/x-icon;base64,imageData</Image>
+  -->
+  <Url type="text/html" method="method" template="http://search.mo-sys.de/?search_query={searchTerms}"></Url>
+  <Url type="application/x-suggestions+json" template="/ff_suggest/?search_query={searchTerms}"/>
+  <moz:SearchForm>http://search.mo-sys.de/</moz:SearchForm>
+</OpenSearchDescription>

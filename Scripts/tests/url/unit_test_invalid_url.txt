@@ -1,0 +1,42 @@
+###########################################################################
+#
+#  define urls for unit test here
+#
+###########################################################################
+#
+# format is one url per line:
+#     "baseUrl"   "actualUrl"
+#
+#  actualUrl: url to be validated and is invalid
+#  baseUrl  : parent url if actualUrl is a relative url
+#
+###########################################################################
+
+###############################
+#
+# scheme
+#
+###############################
+""    "javascript://alert();"
+""    "javascript://example.com/myfunny.js"
+
+
+###############################
+#
+# domain
+#
+###############################
+""		"http://nondomain/"
+""		"http://com.nondomain/"
+""		"http://validdomain.com@com.nondomain/"
+""		"http://validdomain.com:bla@com.nondomain/"
+""		"http://.com/"
+
+
+###############################
+#
+# best of best: the internet
+#
+###############################
+"http://validdomain.com"      "javascript:Recaptcha.reload()"
+""                            "//ka.wikipedia.org/"

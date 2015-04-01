@@ -1,0 +1,23 @@
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
+#
+#########################################################
+
+CONF_EDITOR="nano"
+
+# renaming *.conf.example files to *.conf if they not exist
+RenameExampleFile() {
+    local configFileName=$1
+    if [ -f "${configFileName}" ];
+    then
+        echo "${configFileName} already exists, not overwriting..."
+    else
+        #update/restore & copy
+        svn up ${configFileName}.example    
+        cp ${configFileName}.example ${configFileName}
+    fi
+    ${CONF_EDITOR} ${configFileName}
+}

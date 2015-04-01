@@ -1,0 +1,1 @@
+This man page includes most, if not all, available error codes in libcurl. Why they occur and possibly what you can do to fix the problem are also included. 

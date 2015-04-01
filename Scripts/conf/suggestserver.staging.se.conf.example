@@ -1,0 +1,118 @@
+##################################################
+#
+# generic settings
+#
+##################################################
+
+# user/group id to drop privileges to
+# user=0
+# group=0
+
+
+##################################################
+#
+# logging settings
+#
+##################################################
+
+# type of log, one of: none, console, file, database
+# log=none
+
+# log level, one of: error,warn,info,trace
+# loglevel=error
+
+# log file, needed only for log type: file
+# logfile=/var/log/suggestserver.se.staging.log
+
+# enables or disables performance logging at runtime (if compiled with ENABLE_PERFORMANCE_LOG)
+# enablePerformanceLogging=1
+
+# log all SQL statements
+# dblogquery=1
+
+##################################################
+#
+# cache settings
+#
+##################################################
+
+# number of urls in cache (*)
+urlcache=1000
+
+# number of subdomains in cache (*)
+subdomaincache=1000
+
+# number of second level in cache (*)
+secondleveldomaincache=1000
+
+# number of url path parts in cache (*)
+urlpathpartcache=1000
+
+# number of search parts in cache (*)
+searchpartcache=1000
+
+# number of path parts in cache (*)
+pathpartcache=1000
+
+# number of html docs in cache (*)
+# should be at least: crawler_threads * crawler_maxUrl
+htmlcache=100
+
+# number of parsed html docs in cache (*)
+# should be at least: parser_threads * parser_maxUrl
+# it should also be no problem if size is unlimited here (parsercache=0)
+parsercache=100
+
+# number of robots.txt in cache (*)
+robotscache=500
+
+##################################################
+#
+# database settings
+#
+##################################################
+
+# database type (one of mysql | postgres )
+dbtype=mysql
+
+# settings for database (*)
+dbhost=127.0.0.1
+dbport=3306
+dbname=contents
+dbuser=username
+dbpass=password
+
+##################################################
+#
+# fastcgi settings
+#
+##################################################
+
+# type of fastcgi socket: one of port, filename(not implement by now)
+socket_type=port
+
+# base port for fastcgi application (if changes, also needs to be changed in
+# start_query_server.sh as well as in the lighttpd config file
+base_port=20310
+
+threads=2
+
+
+##################################################
+#
+# hunspell settings
+#
+##################################################
+
+dictionary_file=/usr/share/hunspell/de_DE.dic
+affix_file=/usr/share/hunspell/de_DE.aff
+
+
+##################################################
+#
+# xml settings
+#
+##################################################
+
+request_xsd=
+response_xsd=

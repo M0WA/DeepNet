@@ -1,0 +1,33 @@
+
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
+#
+#########################################################
+
+#########################################################
+#
+# this file should be linked into /etc/mysql/conf.d/siridia.cnf
+#
+#########################################################
+
+[mysqld]
+
+#########################################################
+#
+# innodb settings
+#
+#########################################################
+
+#
+# Set buffer pool size to 50-80% of your computer's memory
+innodb_buffer_pool_size=22G
+innodb_additional_mem_pool_size=200M
+#
+# Set the log file size to about 25% of the buffer pool size
+innodb_log_file_size=1800M
+innodb_log_buffer_size=80M
+#
+innodb_flush_log_at_trx_commit=1

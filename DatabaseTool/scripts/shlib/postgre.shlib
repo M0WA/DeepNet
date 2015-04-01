@@ -1,0 +1,18 @@
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
+#
+#########################################################
+
+
+function execute_postgre()
+{
+  source ../Scripts/conf/db.generator.postgre.conf
+  EXEC_FILENAME=$1
+  echo "executing ${EXEC_FILENAME}"
+  export PGPASSWORD=${DBPASS}
+  psql -h ${DBHOST} -U ${DBUSER} -p ${DBPORT} -d ${DBNAME} -f ${EXEC_FILENAME} -q
+  unset PGPASSWORD
+}

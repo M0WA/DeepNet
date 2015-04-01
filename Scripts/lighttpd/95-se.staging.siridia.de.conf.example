@@ -1,0 +1,87 @@
+#############################################################
+#
+# se.staging.siridia.de
+#
+#############################################################
+
+$HTTP["host"] =~ "^(se\.staging\.siridia\.de|se\.de\.siridia)$" {
+
+  dir-listing.activate = "disable" 
+  
+  server.document-root = var.baseDoc + "/Scripts/webif/staging/se"
+  accesslog.filename   = var.logDir  + "/lighttpd/se.siridia.de.access.log"
+
+  $HTTP["url"] =~ ".*\.svn/.*" {
+    url.access-deny = ( "" )
+  }
+
+  usertrack.cookie-name = "SIRIDIAID"
+  $HTTP["host"] =~ "^(se\.staging\.siridia\.de)$" {
+    usertrack.cookie-domain = ".siridia.de" }
+  $HTTP["host"] =~ "^(se\.de\.siridia)$" {
+    usertrack.cookie-domain = ".de.siridia" }
+
+  fastcgi.debug = 1
+  fastcgi.server = (
+    "/queryserver" => (
+      "query0se" => (
+        "host"         => "127.0.0.1",
+        "port"         => 20260,
+        "check-local"  => "disable",
+        "doc-root"     => var.baseDoc + "/Scripts/webif/queryserver/",                               
+        "min-procs"    => 1,
+        "max-procs"    => 4,
+        "idle-timeout" => 20
+      ),
+      "query1se" => (
+        "host"         => "127.0.0.1",
+        "port"         => 20261,
+        "check-local"  => "disable",
+        "doc-root"     => var.baseDoc + "/Scripts/webif/queryserver/",                               
+        "min-procs"    => 1,
+        "max-procs"    => 4,
+        "idle-timeout" => 20
+      )
+    ),
+    "/inspectorserver" => (
+      "inspector0se" => (
+        "host"         => "127.0.0.1",
+        "port"         => 20270,
+        "check-local"  => "disable",
+        "doc-root"     => var.baseDoc + "/Scripts/webif/inspectorserver/",                               
+        "min-procs"    => 1,
+        "max-procs"    => 4,
+        "idle-timeout" => 20
+      ),
+      "inspector1se" => (
+        "host"         => "127.0.0.1",
+        "port"         => 20271,
+        "check-local"  => "disable",
+        "doc-root"     => var.baseDoc + "/Scripts/webif/inspectorserver/",                               
+        "min-procs"    => 1,
+        "max-procs"    => 4,
+        "idle-timeout" => 20
+      )
+    ),
+    "/suggestserver" => (
+            "suggest0se" => (
+        "host"         => "127.0.0.1",
+        "port"         => 20310,
+        "check-local"  => "disable",
+        "doc-root"     => var.baseDoc + "/Scripts/webif/suggestserver/",                               
+        "min-procs"    => 1,
+        "max-procs"    => 4,
+        "idle-timeout" => 20
+      ),
+            "suggest1se" => (
+        "host"         => "127.0.0.1",
+        "port"         => 20311,
+        "check-local"  => "disable",
+        "doc-root"     => var.baseDoc + "/Scripts/webif/suggestserver/",                               
+        "min-procs"    => 1,
+        "max-procs"    => 4,
+        "idle-timeout" => 20
+      )
+    )
+  )
+}

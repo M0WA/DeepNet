@@ -1,0 +1,140 @@
+#ifdef USE_UI_THREADS
+// Sun has "Unix International" threads APIs
+#include <thread.h>
+#include <synch.h>
+#else
+#include <pthread.h>
+#endif
+
+#include <sql.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#if ((__cplusplus >= 199711L) && !defined DB2HP && !defined DB2AIX) || \
+    (DB2LINUX && (__LP64__ || (__GNUC__ >= 3)) )
+   #include <iostream>
+   using namespace std;
+#else
+   #include <iostream.h>
+#endif
+
+
+#ifdef USE_UI_THREADS
+// Hide the differences in the threads implementations
+#define pthread_exit(x) thr_exit(x)
+#define pthread_mutex_lock(x) mutex_lock(x)
+#define pthread_mutex_unlock(x) mutex_unlock(x)
+#define pthread_mutex_init(x,y) mutex_init(x, USYNC_THREAD, y)
+#define pthread_cond_init(x,y) cond_init(x, USYNC_THREAD, y)
+#define pthread_cond_wait(x,y) cond_wait(x,y)
+#define pthread_cond_signal(x) cond_signal(x)
+#define pthread_mutex_t mutex_t
+#define pthread_cond_t cond_t
+#define pthread_t thread_t
+#endif
+
+#if (defined(DB2HP))
+#define DEFAULT_STACK_SIZE 0x20000
+#else
+#define DEFAULT_STACK_SIZE 0
+#endif
+
+//
+///////////////////////////////////////////////
+//
+
+void initialize(int argc, char *argv[])
+{
+  int c, i, rc;
+  struct sqlca sqlca;
+
+/*
+  strcpy(database, "sample");
+  strcpy(userid, "");
+  strcpy(password, "");
+
+  // read any command line options
+  while ((c = getopt(argc, argv, "d:u:p:l:c:qCh")) != EOF)
+  {
+    switch (c)
+    {
+      case 'd':
+        strcpy(database, optarg);
+        break;
+      case 'u':
+        strcpy(userid, optarg);
+        break;
+      case 'p':
+        strcpy(password, optarg);
+        break;
+      case 'l':
+        loops = atoi(optarg);
+        break;
+      case 'c':
+        contexts = atoi(optarg);
+        break;
+      case 'q':
+        verbose = 0;
+        break;
+      case 'C':
+        commit = 1;
+        break;
+      case 'h':
+      default:
+        usage(argv[0]);
+        break;
+    }
+  }
+  contexts_free = contexts;
+
+  ctxlist = new context[contexts];
+  check_expected(ctxlist != NULL);
+
+  thd = new pthread_t[contexts];
+  check_expected(thd != NULL);
+
+#ifndef USE_UI_THREADS
+  rc = pthread_attr_init(&attr);
+  check_expected(rc == 0);
+
+  rc = pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+  check_expected(rc == 0);
+
+#if (defined(DB2DYNIX)) || (defined(DB2HP))
+  rc = pthread_attr_setstacksize(&attr, DEFAULT_STACK_SIZE);
+#endif
+
+#ifdef _POSIX_THREAD_PRIORITY_SCHEDULING
+
+#if (defined(DB2IRIX))
+  rc = pthread_attr_setscope(&attr, PTHREAD_SCOPE_PROCESS);
+#else
+  rc = pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+#endif
+  check_expected(rc == 0);
+#endif
+#endif
+
+  sqleSetTypeCtx(SQL_CTX_MULTI_MANUAL);
+
+  if (verbose)
+  {
+    cout << "creating context pool of size " << contexts << endl;
+  }
+
+  for (i = 0; i < contexts; i++)
+  {
+    rc = sqleBeginCtx(&ctxlist[i].ctx, SQL_CTX_CREATE_ONLY, NULL, &sqlca);
+    check_expected(rc == 0 && sqlca.sqlcode == 0);
+    ctxlist[i].free = 1;
+  }
+
+  rc = pthread_mutex_init(&cond_m, NULL);
+  check_expected(rc == 0);
+
+  rc = pthread_cond_init(&cond, NULL);
+  check_expected(rc == 0);
+*/
+  return;
+} //initialize

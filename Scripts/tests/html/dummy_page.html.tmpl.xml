@@ -1,0 +1,122 @@
+<document wellformed="0" url="http://siridia.de:80">
+<links count="13">
+	<link>http://siridia.de:80</link>
+	<link>http://siridia.de:80</link>
+	<link>http://siridia.de:80/#</link>
+	<link>http://siridia.de:80/a1.html</link>
+	<link>http://siridia.de:80/b1.html</link>
+	<link>http://dummy.mo-sys.de:80/c1.html</link>
+	<link>http://dummy.mo-sys.de:80/c1.html</link>
+	<link>http://dummy.mo-sys.de:80/404.html</link>
+	<link>http://dummy.mo-sys.de:80/a.html?param2=blub&query=bla</link>
+	<link>http://dummy.mo-sys.de:80/a.html#toTop</link>
+	<link>http://dummy.mo-sys.de:80/b.html?param3=blub&query=bla#toTop</link>
+	<link>http://dummy.mo-sys.de:80/c.html?param3=blub&query=bla#toTop&realMean='a'</link>
+	<link>http://dummy.mo-sys.de:80/404.html</link>
+</links>
+<images count="3">
+	<image>http://dummy.mo-sys.de:80/image.gif</image>
+	<image>http://dummy.mo-sys.de:80/image2.gif</image>
+	<image>http://dummy.mo-sys.de:80/image3.gif</image>
+</images>
+<elements content="28" meta="8">
+	<content type="h1">heading 1</content>
+	<content type="h2">heading 2</content>
+	<content type="h3">heading 3</content>
+	<content type="td">Table Cell 1</content>
+	<content type="td">Table Cell 2</content>
+	<content type="td">Table Cell 3</content>
+	<content type="td">Table Cell 4</content>
+	<content type="p">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</content>
+	<content type="p">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</content>
+	<content type="p">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, 
+        sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+        At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam 
+        voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</content>
+	<content type="a"> title="root link1">root link1</content>
+	<content type="a">root link2</content>
+	<content type="a">root link2</content>
+	<content type="a">root link3</content>
+	<content type="a">root link3</content>
+	<content type="a">relative link</content>
+	<content type="a">absolute link</content>
+	<content type="a">full link</content>
+	<content type="a">stupid link</content>
+	<content type="a">non existent link</content>
+	<content type="a">search parameter link</content>
+	<content type="a">fragment parameter link</content>
+	<content type="a">search,fragement parameter link</content>
+	<content type="a">real mean link</content>
+	<content type="a">non existent link</content>
+	<content type="img">image.gif</content>
+	<content type="img">image2.gif</content>
+	<content type="img">image3.gif</content>
+	<meta type="title">mo-sys.de dummy page</meta>
+	<meta type="keywords">dummy page</meta>
+	<meta type="description">mo-sys.de dummypage</meta>
+	<meta type="robots">index, follow</meta>
+	<meta type="language">German, de, deutsch</meta>
+	<meta type="author">mo-sys.de, info@mo-sys.de</meta>
+	<meta type="copyright">mo-sys.de, info@mo-sys.de</meta>
+	<meta type="page-topic">dummy page</meta>
+</elements>
+<errors warnings="0" errors="10" fatals="0">
+	<error>
+element: body, line: 53, col: 8
+"<!-- some comment in"
+error parsing attribute name
+</error>
+	<error>
+element: body, line: 53, col: 33
+"--> >
+  <a href="/" "
+error parsing attribute name
+</error>
+	<error>
+element: body, line: 54, col: 15
+"<!-- some comment in"
+error parsing attribute name
+</error>
+	<error>
+element: body, line: 54, col: 47
+"--> title="root link"
+error parsing attribute name
+</error>
+	<error>
+element: body, line: 70, col: 58
+"=blub">search parame"
+htmlParseEntityRef: expecting ';'
+</error>
+	<error>
+element: body, line: 74, col: 58
+"=blub#toTop">search,"
+htmlParseEntityRef: expecting ';'
+</error>
+	<error>
+element: body, line: 76, col: 58
+"=blub#toTop&realMean"
+htmlParseEntityRef: expecting ';'
+</error>
+	<error>
+element: body, line: 76, col: 78
+"='a'">real mean link"
+htmlParseEntityRef: expecting ';'
+</error>
+	<error>
+element: body, line: 82, col: 71
+"
+  <br>
+  <img alt=i"
+Unexpected end tag : img
+</error>
+	<error>
+element: body, line: 84, col: 69
+"
+  <br>
+  </body>
+</"
+Unexpected end tag : img
+</error>
+</errors>
+</document>

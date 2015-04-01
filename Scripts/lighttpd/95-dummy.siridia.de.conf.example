@@ -1,0 +1,17 @@
+#############################################################
+#
+# dummy.siridia.de
+#
+#############################################################
+
+$HTTP["host"] =~ "^(dummy\.siridia\.de|dummy\.siridia)$" {
+
+  dir-listing.activate = "disable" 
+
+  $HTTP["url"] =~ ".*\.svn/.*" {
+    url.access-deny = ( "" )
+  }
+  
+  server.document-root = var.baseDoc + "/Scripts/webif/dummy/"
+  accesslog.filename   = var.logDir  + "/lighttpd/dummy.siridia.access.log"
+}
