@@ -1,6 +1,0 @@
-# base dir
-var.baseDoc = "/opt/DeepNet"
-# var.baseDoc = "/home/momo/deepnet"
-
-# logging directory
-var.logDir = "/var/log"
