@@ -115,6 +115,7 @@ private:
 	threading::Mutex acceptMutex;
 	std::vector<FastCGIServerThread*> threads;
 	int basePort;
+	std::string socketFilename;
 	int threadCount;
 	std::string dictionaryFile;
 	std::string affixFile;

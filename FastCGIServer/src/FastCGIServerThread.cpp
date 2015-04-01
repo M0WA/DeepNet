@@ -12,31 +12,13 @@
 #include "FastCGIRequest.h"
 #include "FastCGIResponse.h"
 #include "FastCGIServerInitException.h"
+#include "FastCGIServerThreadConfig.h"
 
 namespace fastcgiserver {
 
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data,const int port, const int backlog)
+FastCGIServerThread::FastCGIServerThread(FastCGIServerThreadConfig* config)
 : threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
-, databaseConfig(databaseConfig)
-, fcgiSocket(port,backlog)
-, isFileSocket(false)
-, port(port)
-, backlog(backlog)
-, filename("")
-, acceptMutex(acceptMutex)
-, max_post_data(max_post_data) {
-}
-
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data,const std::string& filename, const int backlog)
-: threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
-, databaseConfig(databaseConfig)
-, fcgiSocket(filename,backlog)
-, isFileSocket(true)
-, port(-1)
-, backlog(backlog)
-, filename(filename)
-, acceptMutex(acceptMutex)
-, max_post_data(max_post_data) {
+, config(config) {
 }
 
 FastCGIServerThread::~FastCGIServerThread() {
@@ -46,31 +28,31 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 	FastCGIServerThread* instance(dynamic_cast<FastCGIServerThread*>(threadParam->instance));
 	log::Logging::RegisterThreadID(instance->GetThreadName());
 
-	database::DatabaseConnection* conn(instance->DB().CreateConnection(instance->databaseConfig));
+	database::DatabaseConnection* conn(instance->DB().CreateConnection(instance->config.GetConst()->GetDatabaseConfig()));
 	if(!conn) {
 		THROW_EXCEPTION(FastCGIServerException,"FastCGIServerException","could not establish database connection"); }
 
 	FastCGIRequest* fcgiRequest(0);
 	FastCGIResponse* fcgiResponse(0);
 
-	int initSuccess(FCGX_InitRequest(&instance->request, instance->fcgiSocket.Socket(), FCGI_FAIL_ACCEPT_ON_INTR));
+	int initSuccess(FCGX_InitRequest(&instance->request, instance->config.Get()->GetFastCGISocket().Socket(), FCGI_FAIL_ACCEPT_ON_INTR));
 	if(initSuccess != 0) {
 		THROW_EXCEPTION(FastCGIServerInitException,"could not initialize fastcgi request");	}
 
 	while(!instance->ShallEnd()) {
 
-		instance->acceptMutex->Lock();
+		instance->config.Get()->GetAcceptMutex()->Lock();
 		bool isAcceptWaiting(false);
 		while( !instance->ShallEnd() ) {
 			isAcceptWaiting = false;
-			if( (isAcceptWaiting = instance->fcgiSocket.WaitForAccept()) ) {
+			if( (isAcceptWaiting = instance->config.Get()->GetFastCGISocket().WaitForAccept()) ) {
 				break;	}
 		}
 
 		int rc = -1;
 		if(isAcceptWaiting)
 			rc = FCGX_Accept_r(&instance->request);
-		instance->acceptMutex->Unlock();
+		instance->config.Get()->GetAcceptMutex()->Unlock();
 
 		if(rc != 0)	{
 			if(isAcceptWaiting) {

@@ -9,10 +9,12 @@
 #include "FastCGISocket.h"
 #include "FastCGIRequest.h"
 #include "FastCGIResponse.h"
+#include "FastCGIServerThreadConfig.h"
 
 #include <DatabaseLayer.h>
 #include <Thread.h>
 #include <Mutex.h>
+#include <Pointer.h>
 #include <SpellChecking.h>
 
 namespace fastcgiserver {
@@ -23,8 +25,7 @@ namespace fastcgiserver {
 class FastCGIServerThread : public threading::Thread
 {
 public:
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data, const int port, const int backlog = 0);
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const unsigned long long& max_post_data, const std::string& filename, const int backlog = 0);
+	FastCGIServerThread(FastCGIServerThreadConfig* config);
 	virtual ~FastCGIServerThread();
 
 public:
@@ -66,19 +67,10 @@ private:
 	static void* FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* param);
 
 private:
+	tools::Pointer<FastCGIServerThreadConfig> config;
 	tools::SpellChecking spellChecker;
 	database::DatabaseHelper dbHelper;
-	database::DatabaseConfig* databaseConfig;
-
 	FCGX_Request request;
-	FastCGISocket fcgiSocket;
-
-	bool isFileSocket;
-	int port;
-	int backlog;
-	std::string filename;
-	threading::Mutex* acceptMutex;
-	const unsigned long long& max_post_data;
 };
 
 }

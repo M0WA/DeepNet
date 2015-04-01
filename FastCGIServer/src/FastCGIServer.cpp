@@ -191,8 +191,9 @@ void FastCGIServer::RegisterSocketConfig() {
 	config.RegisterParam("threads", "number of threads per server application", false, &defaultThreadCount );
 
 	std::string defaultSocketType = "port";
-	config.RegisterParam("socket_type", "one of: port, filename(not supported)", false, &defaultSocketType );
+	config.RegisterParam("socket_type", "one of: port, socket", true, &defaultSocketType );
 	config.RegisterParam("base_port", "base port for fastcgi applications (needed only in socket_type port)", false, NULL );
+	config.RegisterParam("socket_file", "socket filename for fastcgi applications (needed only in socket_type socket)", false, NULL );
 }
 
 bool FastCGIServer::InitSocketConfig() {
@@ -204,10 +205,17 @@ bool FastCGIServer::InitSocketConfig() {
 		socketType = "port";
 
 	if(socketType.compare("port") == 0) {
-		if ( !config.GetValue("base_port",basePort) )
-			return false;
+		if ( !config.GetValue("base_port",basePort) ) {
+			log::Logging::LogError("invalid or missing base_port in config");
+			return false; }
+	}
+	else if (socketType.compare("socket") == 0){
+		if ( !config.GetValue("socket_file",socketFilename) || socketFilename.empty() ) {
+			log::Logging::LogError("invalid or missing socket_file in config");
+			return false; }
 	}
 	else {
+		log::Logging::LogError("invalid or missing socket_type in config");
 		return false;
 	}
 
