@@ -20,17 +20,19 @@ class Pointer {
 public:
 	/**
 	 * constructs a typed null pointer
+	 * @param autoDelete set true if Pointer should be delete when this instance is destroyed
 	 */
-	Pointer<T>()
+	Pointer<T>(bool autoDelete = true)
 	: ptr(0)
-	, autoDelete(true)
+	, autoDelete(autoDelete)
 	{ }
 
 	/**
 	 * constructs a typed object by copying copyObj
 	 * @param copyObj object to be copied
+	 * @param autoDelete set true if Pointer should be delete when this instance is destroyed
 	 */
-	Pointer<T>(const T& copyObj)
+	Pointer<T>(const T& copyObj, bool autoDelete = true)
 	: ptr(new T(copyObj))
 	, autoDelete(true)
 	{ }
@@ -38,8 +40,9 @@ public:
 	/**
 	 * constructs a typed object from a already allocated pointer
 	 * @param ptr pointer to be managed by this class
+	 * @param autoDelete set true if Pointer should be delete when this instance is destroyed
 	 */
-	Pointer<T>(T* ptr)
+	Pointer<T>(T* ptr, bool autoDelete = true)
 	: ptr(ptr)
 	, autoDelete(true)
 	{ }
