@@ -10,9 +10,26 @@
 
 PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools DOMParser LibXMLParser WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
 
-INTERN_CALL=$1
+CLEAN_DB=0
+MAKE_WEBIF=0
 
-if [ "${INTERN_CALL}" == 'intern_call' ]; then
+function clean_projects {
+
+  echo "Cleaning projects"
+
+  BASE_DIR_TMP=`pwd`
+  cd ..
+  BASE_DIR=`pwd`
+
+  for PROJECT in $PROJECT_NAMES; do
+    cd ${BASE_DIR}/${PROJECT}/Release
+    make clean &> /dev/null
+  done;
+
+  cd ${BASE_DIR_TMP}
+}
+
+function intern_call {  
 
   BASE_DIR_TMP=`pwd`
   cd ..
@@ -25,7 +42,7 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
   chmod u+x ./tests/*.sh
   chmod u+x ./misc/init_webinterface.sh
   
-  ./update_and_compile_release.sh clean_projects
+  clean_projects
 
   for PROJECT in $PROJECT_NAMES; do
 
@@ -68,39 +85,54 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
              #when "only" the unit tests fail
   fi
 
-  ./reset_database.sh
-  misc/./init_webinterface.sh
-  
-  echo "Done"
+  if [ ${CLEAN_DB} -ne 0 ]; then
+    ./reset_database.sh
+  fi
 
-elif [ "${INTERN_CALL}" == 'clean_projects' ]; then
-
-  echo "Cleaning projects"
-
-  BASE_DIR_TMP=`pwd`
-  cd ..
-  BASE_DIR=`pwd`
-
-  for PROJECT in $PROJECT_NAMES; do
-    cd ${BASE_DIR}/${PROJECT}/Release
-    make clean &> /dev/null
-  done;
-
-  cd ${BASE_DIR_TMP}
-
-else
-
-  echo "Updating update_and_compile_release.sh script itself"
-  svn up update_and_compile_release.sh
-  
-  echo "Updating..."
-  ./update_and_compile_release.sh intern_call
-  if [ $? -ne 0 ]; then
-    ./update_and_compile_release.sh clean_projects
-    echo "ERROR: update process exited unsuccessful, aborting..."
-    exit 1
+  if [ ${MAKE_WEBIF} -ne 0 ]; then
+    misc/./init_webinterface.sh
   fi
   
+  echo "Done"
+}
+
+function print_usage {
+  echo "$0 [-d] [-w]"
+  echo "-d create database"
+  echo "-w init webinterface"
+}
+
+######################################################################
+
+while getopts "dwh" opt; do
+  case $opt in
+    d)
+      ${CLEAN_DB}=1
+      ;;
+    w)
+      ${MAKE_WEBIF}=1
+      ;;
+    h)
+      print_usage
+      exit 0
+      ;;
+    \?)
+      print_usage
+      echo "Invalid option: -$OPTARG"
+      exit 1
+      ;;
+  esac
+done
+
+echo "Updating update_and_compile_release.sh script itself"
+svn up update_and_compile_release.sh
+
+echo "Updating..."
+intern_call
+if [ $? -ne 0 ]; then
+  clean_projects
+  echo "ERROR: update process exited unsuccessful, aborting..."
+  exit 1
 fi
 
 exit 0
