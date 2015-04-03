@@ -53,6 +53,10 @@ private:
 		const std::string& sessionID,
 		const std::string& rawQueryString);
 
+	bool GetSimilarQuery(
+		long long& queryId,
+		const std::string& sessionID);
+
 	void MergeDuplicateURLs(
 		std::vector<QueryXmlResponseResultEntry>& responseEntries);
 

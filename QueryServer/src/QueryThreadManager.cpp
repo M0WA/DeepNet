@@ -49,30 +49,30 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 	releaseSeen = false;
 
 	bool dictionaryThreadNeeded(
-		(query.properties.relevanceContent > 0.0) ||
-		(query.properties.relevanceMeta > 0.0) );
+		(query.GetQueryProperties().relevanceContent > 0.0) ||
+		(query.GetQueryProperties().relevanceMeta > 0.0) );
 
 	if(dictionaryThreadNeeded) {
 		dictionary = new DictionaryInfoThread(dbHelpers[0].Connection(),query);
 		dictionary->StartThread(); }
 
-	if(query.properties.relevanceSecondLevelDomain > 0.0) {
+	if(query.GetQueryProperties().relevanceSecondLevelDomain > 0.0) {
 		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
 
-	if(query.properties.relevanceSubdomain > 0.0) {
+	if(query.GetQueryProperties().relevanceSubdomain > 0.0) {
 		AddQueryTyped<QuerySubdomainThread,QueryThreadParam>(dbHelpers[3].Connection(),query); }
 
-	if(query.properties.relevanceUrlPath > 0.0) {
+	if(query.GetQueryProperties().relevanceUrlPath > 0.0) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
 
 	if(dictionaryThreadNeeded) {
 
 		dictionary->WaitForThread();
 
-		if(query.properties.relevanceContent > 0.0) {
+		if(query.GetQueryProperties().relevanceContent > 0.0) {
 			AddQueryTyped<QueryContentThread,QueryDictionaryThreadParam>(dbHelpers[0].Connection(),query,dictionary); }
 
-		if(query.properties.relevanceMeta > 0.0) {
+		if(query.GetQueryProperties().relevanceMeta > 0.0) {
 			AddQueryTyped<QueryMetaThread,QueryDictionaryThreadParam>(dbHelpers[1].Connection(),query,dictionary); }
 	}
 }

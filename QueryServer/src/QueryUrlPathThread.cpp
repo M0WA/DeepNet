@@ -78,7 +78,7 @@ bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std:
 
 bool QueryUrlPathThread::ProcessResults(const std::vector<long long>& pathPartIDs,const std::map<long long,size_t>& pathPartIDKeywordPos) {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
+	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
 
 	 if(pathPartIDs.size() == 0)
 		 return false;

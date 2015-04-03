@@ -74,6 +74,8 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 	if(!ParseQueryLimitations(xmlRequest))
 		return false;
 
+	query.RecalculateIdentifier();
+
 	return true;
 }
 

@@ -24,15 +24,9 @@ public:
 	Query();
 	virtual ~Query();
 
-public:
-	/**
-	 * appends a keyword at a given position
-	 * @param position position of keyword to append
-	 * @param keyword keyword to append
-	 * @param caseSensitive true if keyword is case sensitive
-	 */
-	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
+	friend class QueryXmlRequest;
 
+public:
 	/**
 	 * gets all keywords
 	 * @param keywords vector of keywords to fill
@@ -45,17 +39,48 @@ public:
 	 */
 	void GetLoweredKeywords(std::vector<std::string>& keywords) const;
 
-public:
+	/**
+	 * gets queries properties
+	 * @return QueryProperties
+	 */
+	const QueryProperties& GetQueryProperties() const;
+
+	/**
+	 * gets a unique identifier for query to be able
+	 * to compare two queries
+	 * @return query identifier
+	 */
+	const std::string& GetQueryIdentifier() const;
+
+private:
+	/**
+	 * appends a keyword at a given position
+	 * @param position position of keyword to append
+	 * @param keyword keyword to append
+	 * @param caseSensitive true if keyword is case sensitive
+	 */
+	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
+
+	/**
+	 * recalculates identifier
+	 */
+	void RecalculateIdentifier();
+
+private:
 	/**
 	 * query's properties
 	 */
 	QueryProperties properties;
 
-private:
 	/**
 	 * query's keywords
 	 */
 	std::vector<QueryKeyword> queryKeywords;
+
+	/**
+	 * an identifier to be able to detect similiar queries
+	 */
+	std::string queryIdentifier;
 };
 
 }

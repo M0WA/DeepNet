@@ -37,7 +37,7 @@ QuerySecondLevelDomainThread::~QuerySecondLevelDomainThread() {
 void* QuerySecondLevelDomainThread::OnRun(){
 
 	const Query& query(queryThreadParam.GetConst()->query);
-	const QueryProperties& queryProperties(query.properties);
+	const QueryProperties& queryProperties(query.GetQueryProperties());
 	std::vector<std::string> lowerKeywords;
 	query.GetLoweredKeywords(lowerKeywords);
 	if(!lowerKeywords.size()) {
