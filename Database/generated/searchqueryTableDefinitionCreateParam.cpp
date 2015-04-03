@@ -38,8 +38,15 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for total
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_total());
 
+    //creating column definition for identifier
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_identifier());
+
 
 	std::vector<std::string> tmpCombined;
+	tmpCombined.clear();
+	tmpCombined.push_back("identifier");
+	tmpCombined.push_back("session");
+	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 

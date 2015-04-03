@@ -149,6 +149,29 @@ public:
 	 * @param in value.
 	 */
   void Set_total(const long long& in);
+  /**
+   * gets value of identifier.
+   * @param out value.
+   */
+  void Get_identifier(std::string& out) const;
+
+  /**
+   * gets const column for identifier.
+   * @return column for identifier.
+   */
+  const TableColumn* GetConstColumn_identifier() const;
+
+  /**
+   * gets column for identifier.
+   * @return column for identifier.
+   */
+  TableColumn* GetColumn_identifier();
+
+	/**
+	 * sets value of identifier.
+	 * @param in value.
+	 */
+  void Set_identifier(const std::string& in);
 
 
 public:
@@ -264,6 +287,28 @@ public:
     static void GetBy_total(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of identifier.
+	 * @param db database connection.
+	 * @param fieldValue value of identifier.
+	 * @param results contains results.
+	 */
+    static void GetBy_identifier(
+        DatabaseConnection* db,
+        const std::string& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of identifier.
+	 * @param db database connection.
+	 * @param fieldValue values of identifier.
+	 * @param results contains results.
+	 */
+    static void GetBy_identifier(
+        DatabaseConnection* db, 
+        const std::vector<std::string>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 
 
@@ -382,6 +427,27 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of identifier.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_identifier(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::string& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of identifier.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_identifier(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<std::string>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -413,6 +479,11 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_total();
+	/**
+     * create a column definition for column identifier.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_identifier();
 
 };
 
