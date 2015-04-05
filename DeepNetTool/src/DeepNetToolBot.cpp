@@ -101,12 +101,15 @@ bool DeepNetToolBot::OnRun() {
 			log::Logging::LogInfo("adding user to commerce search database");
 
 			if(!CommerceSearchTools::AddCustomer(DB().Connection(),csUser,csPass,csDomain,csRevisitInterval)) {
-				log::Logging::LogError("an error occured while inserting new customer for commerce search, customer was not inserted.");}
+				log::Logging::LogError("an error occured while inserting new customer for commerce search, customer was not inserted.");
+				bSuccess = false;
+			}
 			else {
 				log::Logging::LogInfo("new customer for commerce search was inserted successfully");}
 		}
 		else {
 			log::Logging::LogError("either csUser, csPass, csDomain or csRevisitInterval parameter is/are missing, exiting...");
+			bSuccess = false;
 		}
 	}
 
@@ -124,7 +127,7 @@ bool DeepNetToolBot::OnRun() {
 			Config().GetValue("dmDataminingAlertType" , dmDataminingAlertType) ) {
 
 			Config().GetValue("dmDataminingAlertParam", dmDataminingAlertParam);
-			DataMiningTools::RegisterDataminingAlert(DB().Connection(),dmDataminingUsername,dmDataminingCriteria,dmDataminingAlertType,dmDataminingAlertParam);
+			bSuccess = DataMiningTools::RegisterDataminingAlert(DB().Connection(),dmDataminingUsername,dmDataminingCriteria,dmDataminingAlertType,dmDataminingAlertParam);
 		}
 	}
 
@@ -137,8 +140,16 @@ bool DeepNetToolBot::OnRun() {
 
 		if( Config().GetValue("dmDataminingUsername"  , dmDataminingUsername) &&
 			Config().GetValue("dmDataminingPassword"  , dmDataminingPassword) ) {
+			bSuccess = DataMiningTools::InsertDataminingUser(DB().Connection(),dmDataminingUsername,dmDataminingPassword);
+		}
+	}
 
-			DataMiningTools::InsertDataminingUser(DB().Connection(),dmDataminingUsername,dmDataminingPassword);
+	//add fenced crawler url for datamining user
+	std::string dmAddFencedUrl;
+	if( Config().GetValue("dmAddFencedUrl",dmAddFencedUrl) ) {
+		std::string dmFencedDataminingUsername = "";
+		if(Config().GetValue("dmFencedDataminingUsername", dmFencedDataminingUsername)) {
+			bSuccess = DataMiningTools::InsertFencedUrl(DB().Connection(),dmFencedDataminingUsername,dmAddFencedUrl);
 		}
 	}
 
@@ -157,6 +168,7 @@ bool DeepNetToolBot::OnPreInit() {
 	RegisterCommerceSearchParams();
 	RegisterDataminingParams();
 	RegisterUrlInserterParams();
+	RegisterFencedUrlInserterParams();
 
 	//unit tests
 	RegisterHtmlTestParams();
@@ -188,6 +200,11 @@ void DeepNetToolBot::RegisterUrlInserterParams() {
 	Config().RegisterParam("urlInvalidateFile", "validates invalid urls from file", false, 0 );
 
 	Config().RegisterParam("urlPathPartValidateFile", "validates path part of an url from a file", false, 0 );
+}
+
+void DeepNetToolBot::RegisterFencedUrlInserterParams() {
+	Config().RegisterParam("dmAddFencedUrl", "add fenced url for datamining user", false, 0);
+	Config().RegisterParam("dmFencedDataminingUsername", "datamining username for fenced url to add", false, 0);
 }
 
 void DeepNetToolBot::RegisterCommerceSearchParams() {
