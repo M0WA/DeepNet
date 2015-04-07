@@ -1,7 +1,7 @@
 /* ******************************************************
 
-  this is part of the SIRIDIA search engine software
-  Copyright 2012, SIRIDIA GmbH
+  this is part of the DeepNet search engine software
+  Copyright 2015, Moritz Wagner
   Author: Moritz Wagner (moritz.wagner@mo-sys.de)
 
 ********************************************************* */
