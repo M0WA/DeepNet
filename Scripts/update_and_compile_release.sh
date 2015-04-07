@@ -114,13 +114,13 @@ function intern_call {
 while getopts "dwUh" opt; do
   case $opt in
     d)
-      $CLEAN_DB=1
+      CLEAN_DB=1
       ;;
     w)
-      $MAKE_WEBIF=1
+      MAKE_WEBIF=1
       ;;
     U)
-      $UNITTESTS=0
+      UNITTESTS=0
       ;;
     h)
       print_usage
