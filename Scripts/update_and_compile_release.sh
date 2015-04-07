@@ -93,6 +93,8 @@ function intern_call {
       # exit 1 #commented out to prevent cleaning of projects
                #when "only" the unit tests fail
     fi
+  else
+    echo "Skipping Unittests"
   fi
 
   if [ ${CLEAN_DB} -ne 0 ]; then
@@ -119,6 +121,7 @@ while getopts "dwUh" opt; do
       ;;
     U)
       ${UNITTESTS}=0
+      ;;
     h)
       print_usage
       exit 0
