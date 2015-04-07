@@ -2,9 +2,9 @@
 
 #########################################################
 #
-# this is part of the SIRIDIA search engine software
-# Copyright 2012, SIRIDIA GmbH
-# Author: Moritz Wagner (moritz.wagner@siridia.de)
+# this is part of the DeepNet search engine software
+# Copyright 2015, Moritz Wagner
+# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
 #
 #########################################################
 if [ $# -ne 2 ]; then
@@ -12,7 +12,7 @@ if [ $# -ne 2 ]; then
   echo "usage: ./$0 <username> <url> [--debug]"
   echo ""
   echo "please enter valid username and password:"
-  echo "  i.e. ./$0 \"dummy_customer@siridia.de\" \"google.de\""
+  echo "  i.e. ./$0 \"dummy_customer@mo-sys.de\" \"google.de\""
   echo ""
   exit 1
 fi
