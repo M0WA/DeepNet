@@ -8,8 +8,16 @@
 #
 #########################################################
 
+function print_usage {
+  echo "$0 [-d] [-w]"
+  echo "-d reset database"
+  echo "-w init webinterface"
+  echo "-U skip unittests"
+}
+
 PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools DOMParser LibXMLParser WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
 
+UNITTESTS=1
 CLEAN_DB=0
 MAKE_WEBIF=0
 
@@ -76,16 +84,19 @@ function intern_call {
   chmod a+x ./*.sh
   chmod u+x ./tests/*.sh
   
-  echo "Running unit-tests"
-  ./run_all_unit_tests.sh
-  if [ $? -ne 0 ]; then
-    echo "ERROR: unit-tests exited unsuccessful, aborting..."
-    exit 0
-    # exit 1 #commented out to prevent cleaning of projects
-             #when "only" the unit tests fail
+  if [ ${UNITTESTS} -ne 0 ]; then
+    echo "Running unit-tests"
+    ./run_all_unit_tests.sh
+    if [ $? -ne 0 ]; then
+      echo "ERROR: unit-tests exited unsuccessful, aborting..."
+      exit 0
+      # exit 1 #commented out to prevent cleaning of projects
+               #when "only" the unit tests fail
+    fi
   fi
 
   if [ ${CLEAN_DB} -ne 0 ]; then
+    echo "Resetting database"
     ./reset_database.sh
   fi
 
@@ -96,15 +107,9 @@ function intern_call {
   echo "Done"
 }
 
-function print_usage {
-  echo "$0 [-d] [-w]"
-  echo "-d create database"
-  echo "-w init webinterface"
-}
-
 ######################################################################
 
-while getopts "dwh" opt; do
+while getopts "dwUh" opt; do
   case $opt in
     d)
       ${CLEAN_DB}=1
@@ -112,6 +117,8 @@ while getopts "dwh" opt; do
     w)
       ${MAKE_WEBIF}=1
       ;;
+    U)
+      ${UNITTESTS}=0
     h)
       print_usage
       exit 0
