@@ -32,8 +32,14 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for query
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_query());
 
-    //creating column definition for age
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_age());
+    //creating column definition for started
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_started());
+
+    //creating column definition for modified
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_modified());
+
+    //creating column definition for finished
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_finished());
 
     //creating column definition for total
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_total());

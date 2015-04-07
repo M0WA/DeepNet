@@ -8,6 +8,10 @@
 
 #pragma once
 
+#include "QueryResultCleanupThread.h"
+
+#include <Pointer.h>
+
 #include <string>
 #include <FastCGIServer.h>
 
@@ -36,6 +40,7 @@ public:
 
 public:
 	virtual bool StartServer(int argc, char** argv);
+	virtual bool StopServer();
 
 private:
 	virtual void RegisterConfig();
@@ -44,6 +49,7 @@ private:
 	virtual fastcgiserver::FastCGIServerThread* CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
 
 private:
+	tools::Pointer<QueryResultCleanupThread> cleanupThread;
 	unsigned long long requery_after;
 };
 

@@ -36,7 +36,7 @@ namespace queryserver {
 class QueryServerThread : public fastcgiserver::FastCGIServerThread
 {
 public:
-	QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket, unsigned long long requery_after);
+	QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
 	virtual ~QueryServerThread();
 
 private:
@@ -48,7 +48,6 @@ private:
 	std::string responseXSD;
 
 	QueryThreadManager threadManager;
-	unsigned long long requery_after;
 };
 
 }

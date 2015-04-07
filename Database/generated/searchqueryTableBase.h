@@ -104,28 +104,74 @@ public:
 	 */
   void Set_query(const std::string& in);
   /**
-   * gets value of age.
+   * gets value of started.
    * @param out value.
    */
-  void Get_age(struct tm& out) const;
+  void Get_started(struct tm& out) const;
 
   /**
-   * gets const column for age.
-   * @return column for age.
+   * gets const column for started.
+   * @return column for started.
    */
-  const TableColumn* GetConstColumn_age() const;
+  const TableColumn* GetConstColumn_started() const;
 
   /**
-   * gets column for age.
-   * @return column for age.
+   * gets column for started.
+   * @return column for started.
    */
-  TableColumn* GetColumn_age();
+  TableColumn* GetColumn_started();
 
 	/**
-	 * sets value of age.
+	 * sets value of started.
 	 * @param in value.
 	 */
-  void Set_age(const struct tm& in);
+  void Set_started(const struct tm& in);
+  /**
+   * gets value of modified.
+   * @param out value.
+   */
+  void Get_modified(struct tm& out) const;
+
+  /**
+   * gets const column for modified.
+   * @return column for modified.
+   */
+  const TableColumn* GetConstColumn_modified() const;
+
+  /**
+   * gets column for modified.
+   * @return column for modified.
+   */
+  TableColumn* GetColumn_modified();
+
+	/**
+	 * sets value of modified.
+	 * @param in value.
+	 */
+  void Set_modified(const struct tm& in);
+  /**
+   * gets value of finished.
+   * @param out value.
+   */
+  void Get_finished(long long& out) const;
+
+  /**
+   * gets const column for finished.
+   * @return column for finished.
+   */
+  const TableColumn* GetConstColumn_finished() const;
+
+  /**
+   * gets column for finished.
+   * @return column for finished.
+   */
+  TableColumn* GetColumn_finished();
+
+	/**
+	 * sets value of finished.
+	 * @param in value.
+	 */
+  void Set_finished(const long long& in);
   /**
    * gets value of total.
    * @param out value.
@@ -246,25 +292,69 @@ public:
         SelectResultContainer<searchqueryTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of age.
+	 * gets rows by a value of started.
 	 * @param db database connection.
-	 * @param fieldValue value of age.
+	 * @param fieldValue value of started.
 	 * @param results contains results.
 	 */
-    static void GetBy_age(
+    static void GetBy_started(
         DatabaseConnection* db,
         const struct tm& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of age.
+	 * gets rows by multiple values of started.
 	 * @param db database connection.
-	 * @param fieldValue values of age.
+	 * @param fieldValue values of started.
 	 * @param results contains results.
 	 */
-    static void GetBy_age(
+    static void GetBy_started(
         DatabaseConnection* db, 
         const std::vector<struct tm>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of modified.
+	 * @param db database connection.
+	 * @param fieldValue value of modified.
+	 * @param results contains results.
+	 */
+    static void GetBy_modified(
+        DatabaseConnection* db,
+        const struct tm& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of modified.
+	 * @param db database connection.
+	 * @param fieldValue values of modified.
+	 * @param results contains results.
+	 */
+    static void GetBy_modified(
+        DatabaseConnection* db, 
+        const std::vector<struct tm>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
+	 * gets rows by a value of finished.
+	 * @param db database connection.
+	 * @param fieldValue value of finished.
+	 * @param results contains results.
+	 */
+    static void GetBy_finished(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of finished.
+	 * @param db database connection.
+	 * @param fieldValue values of finished.
+	 * @param results contains results.
+	 */
+    static void GetBy_finished(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 public:
 	/**
@@ -386,25 +476,67 @@ public:
         const std::vector<std::string>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of age.
+     * creates where condition for a value of started.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_age(
+	static void GetWhereColumnsFor_started(
         const WhereConditionTableColumnCreateParam& createParam,
         const struct tm& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of age.
+     * creates where condition for multiple values of started.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_age(
+    static void GetWhereColumnsFor_started(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<struct tm>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of modified.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_modified(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const struct tm& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of modified.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_modified(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<struct tm>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of finished.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_finished(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of finished.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_finished(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
      * creates where condition for a value of total.
@@ -470,10 +602,20 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_query();
 	/**
-     * create a column definition for column age.
+     * create a column definition for column started.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_age();
+	static TableColumnDefinition* GetDefinition_started();
+	/**
+     * create a column definition for column modified.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_modified();
+	/**
+     * create a column definition for column finished.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_finished();
 	/**
      * create a column definition for column total.
      * @return column definition.

@@ -35,8 +35,7 @@ class QueryXmlResponse: public fastcgiserver::FastCGIResponse {
 public:
 	QueryXmlResponse(
 		QueryThreadManager& queryManager,
-		QueryXmlRequest* xmlQueryRequest,
-		unsigned long long requery_after);
+		QueryXmlRequest* xmlQueryRequest);
 
 	virtual ~QueryXmlResponse();
 
@@ -83,10 +82,12 @@ private:
 		const std::string& sessionID,
 		const std::string& rawQueryString);
 
+	bool SetQueryFinished(
+		const long long& queryId);
+
 private:
 	QueryThreadManager& queryManager;
 	QueryXmlRequest* xmlQueryRequest;
-	unsigned long long requery_after;
 };
 
 }

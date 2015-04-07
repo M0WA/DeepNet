@@ -34,14 +34,37 @@
 
 namespace queryserver {
 
-QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequest* xmlQueryRequest,unsigned long long requery_after)
+QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequest* xmlQueryRequest)
 : fastcgiserver::FastCGIResponse(dynamic_cast<fastcgiserver::FastCGIRequest*>(xmlQueryRequest))
 , queryManager(queryManager)
-, xmlQueryRequest(xmlQueryRequest)
-, requery_after(requery_after){
+, xmlQueryRequest(xmlQueryRequest){
 }
 
 QueryXmlResponse::~QueryXmlResponse() {
+}
+
+bool QueryXmlResponse::SetQueryFinished(const long long& queryId)
+{
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
+
+	database::TableBaseUpdateParam param;
+	param.limit = -1;
+	param.onlyDirtyColumns = true;
+
+	database::searchqueryTableBase::GetWhereColumnsFor_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+		queryId,
+		param.whereCols);
+
+	database::searchqueryTableBase tbl;
+	tbl.Set_modified(tools::TimeTools::NowUTC());
+	tbl.Set_finished(1);
+	try {
+		tbl.Update(db,param); }
+	catch(database::DatabaseException& e) {
+		return false; }
+
+	return true;
 }
 
 bool QueryXmlResponse::LoadQuery(
@@ -117,11 +140,16 @@ void QueryXmlResponse::InsertResults(
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
+	struct tm now;
+	tools::TimeTools::NowUTC(now);
+
 	//insert search query itself at first
 	database::searchqueryTableBase insertSearchQuery;
 	insertSearchQuery.Set_session(sessionID);
 	insertSearchQuery.Set_query(rawQueryString);
-	insertSearchQuery.Set_age(tools::TimeTools::NowUTC());
+	insertSearchQuery.Set_started(now);
+	insertSearchQuery.Set_modified(now);
+	insertSearchQuery.Set_finished(0);
 	insertSearchQuery.Set_total(responseEntries.size());
 	insertSearchQuery.Set_identifier(query.GetQueryIdentifier());
 
@@ -188,6 +216,8 @@ bool QueryXmlResponse::CreateQuery(
 
 	//save results to database
 	InsertResults(queryId,sessionID,rawQueryString,responseEntries);
+
+	SetQueryFinished(queryId);
 
 	//releasing the query invalidates
 	//all pointers to it's results
@@ -264,11 +294,6 @@ bool QueryXmlResponse::GetSimilarQuery(long long& queryId, const std::string& se
 	database::searchqueryTableBase::GetWhereColumnsFor_identifier(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
 		query.GetQueryIdentifier(),
-		where );
-
-	database::searchqueryTableBase::GetWhereColumnsFor_age(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-		tools::TimeTools::NowUTCAddSeconds(requery_after),
 		where );
 
 	database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());

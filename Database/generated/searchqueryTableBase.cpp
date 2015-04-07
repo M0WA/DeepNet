@@ -306,88 +306,264 @@ void searchqueryTableBase::Set_query(const std::string& in) {
     GetColumnByName(fieldName)->Set(in);
 }
 
-void searchqueryTableBase::Get_age(struct tm& out) const {
+void searchqueryTableBase::Get_started(struct tm& out) const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_IBM_DB2:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("age");
+      fieldName = tools::StringTools::ToLowerNP("started");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "age";
+      fieldName = "started";
       break;
     }
 
     GetConstColumnByName(fieldName)->Get(out);
 }
 
-const TableColumn* searchqueryTableBase::GetConstColumn_age() const {
+const TableColumn* searchqueryTableBase::GetConstColumn_started() const {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_IBM_DB2:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("age");
+      fieldName = tools::StringTools::ToLowerNP("started");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "age";
+      fieldName = "started";
       break;
     }
 
     return GetConstColumnByName(fieldName);
 }
 
-TableColumn* searchqueryTableBase::GetColumn_age() {
+TableColumn* searchqueryTableBase::GetColumn_started() {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_IBM_DB2:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("age");
+      fieldName = tools::StringTools::ToLowerNP("started");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "age";
+      fieldName = "started";
       break;
     }
 
     return GetColumnByName(fieldName);
 }
 
-void searchqueryTableBase::Set_age(const struct tm& in) {
+void searchqueryTableBase::Set_started(const struct tm& in) {
 
     std::string fieldName;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_IBM_DB2:
-      fieldName = "age";
+      fieldName = "started";
       break;
     case DB_POSTGRESQL:
-      fieldName = tools::StringTools::ToLowerNP("age");
+      fieldName = tools::StringTools::ToLowerNP("started");
       break;
     case DB_INVALID_TYPE:
     default:
-      fieldName = "age";
+      fieldName = "started";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
+}
+
+void searchqueryTableBase::Get_modified(struct tm& out) const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "modified";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "modified";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("modified");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "modified";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* searchqueryTableBase::GetConstColumn_modified() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "modified";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "modified";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("modified");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "modified";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
+TableColumn* searchqueryTableBase::GetColumn_modified() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "modified";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "modified";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("modified");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "modified";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
+}
+
+void searchqueryTableBase::Set_modified(const struct tm& in) {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "modified";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "modified";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("modified");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "modified";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
+}
+
+void searchqueryTableBase::Get_finished(long long& out) const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "finished";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "finished";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("finished");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "finished";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* searchqueryTableBase::GetConstColumn_finished() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "finished";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "finished";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("finished");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "finished";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
+TableColumn* searchqueryTableBase::GetColumn_finished() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "finished";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "finished";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("finished");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "finished";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
+}
+
+void searchqueryTableBase::Set_finished(const long long& in) {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "finished";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "finished";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("finished");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "finished";
       break;
     }
 
@@ -689,13 +865,13 @@ void searchqueryTableBase::GetBy_query(
     delete pTblDef;
 }
 
-void searchqueryTableBase::GetBy_age(
+void searchqueryTableBase::GetBy_started(
         DatabaseConnection* db, 
         const struct tm& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    searchqueryTableBase::GetWhereColumnsFor_age(
+    searchqueryTableBase::GetWhereColumnsFor_started(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -708,13 +884,89 @@ void searchqueryTableBase::GetBy_age(
     delete pTblDef;
 }
 
-void searchqueryTableBase::GetBy_age(
+void searchqueryTableBase::GetBy_started(
         DatabaseConnection* db, 
         const std::vector<struct tm>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results) {
     
     std::vector<WhereConditionTableColumn*> container;
-    searchqueryTableBase::GetWhereColumnsFor_age(
+    searchqueryTableBase::GetWhereColumnsFor_started(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_modified(
+        DatabaseConnection* db, 
+        const struct tm& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_modified(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_modified(
+        DatabaseConnection* db, 
+        const std::vector<struct tm>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_modified(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_finished(
+        DatabaseConnection* db, 
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_finished(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_finished(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_finished(
         WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
         fieldValue, 
         container);
@@ -921,12 +1173,12 @@ void searchqueryTableBase::GetWhereColumnsFor_query(
     delete pTmpDef;
 }
 
-void searchqueryTableBase::GetWhereColumnsFor_age(
+void searchqueryTableBase::GetWhereColumnsFor_started(
     const WhereConditionTableColumnCreateParam& createParam,
     const struct tm& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_age());
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_started());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -939,12 +1191,84 @@ void searchqueryTableBase::GetWhereColumnsFor_age(
     delete pTmpDef;
 }
 
-void searchqueryTableBase::GetWhereColumnsFor_age(
+void searchqueryTableBase::GetWhereColumnsFor_started(
     const WhereConditionTableColumnCreateParam& createParam,
     const std::vector<struct tm>& fieldValue, 
     std::vector<WhereConditionTableColumn*>& container) {
 
-    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_age());
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_started());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_modified(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const struct tm& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_modified());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_modified(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const std::vector<struct tm>& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_modified());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_finished(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const long long& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_finished());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_finished(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const std::vector<long long>& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_finished());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -1139,23 +1463,23 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_query() {
     createParam.dataSize            = (255);
     return TableColumnDefinition::CreateInstance(createParam);
 }
-TableColumnDefinition* searchqueryTableBase::GetDefinition_age() {
+TableColumnDefinition* searchqueryTableBase::GetDefinition_started() {
 
     TableColumnDefinitionCreateParam createParam;
     switch(DatabaseHelper::GetDatabaseType()) {
     case DB_MYSQL:
       createParam.databaseName = "queryserver";
-      createParam.columnName   = "age";
+      createParam.columnName   = "started";
       createParam.tableName    = "searchquery";
       break;
     case DB_IBM_DB2:
       createParam.databaseName = "deepnet";
-      createParam.columnName   = "age";
+      createParam.columnName   = "started";
       createParam.tableName    = "searchquery";
       break;
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
-      createParam.columnName   = tools::StringTools::ToLowerNP("age");
+      createParam.columnName   = tools::StringTools::ToLowerNP("started");
       createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
       break;
     case DB_INVALID_TYPE:
@@ -1172,6 +1496,76 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_age() {
     createParam.isNullable          = false;
     createParam.hasDefaultValue     = false;
     createParam.dataSize            = 0;
+    return TableColumnDefinition::CreateInstance(createParam);
+}
+TableColumnDefinition* searchqueryTableBase::GetDefinition_modified() {
+
+    TableColumnDefinitionCreateParam createParam;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      createParam.databaseName = "queryserver";
+      createParam.columnName   = "modified";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_IBM_DB2:
+      createParam.databaseName = "deepnet";
+      createParam.columnName   = "modified";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_POSTGRESQL:
+      createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("modified");
+      createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      break;
+    }
+    createParam.columnType          = DB_TYPE_TIMESTAMP;
+    createParam.isPrimaryKey        = false;
+    createParam.isAutoGenerated     = false;
+    createParam.isForeignKey        = false;
+    createParam.isUniqueKey         = false;
+    createParam.isCombinedUniqueKey = false;
+    createParam.isIndex             = true;
+    createParam.isNullable          = false;
+    createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
+    return TableColumnDefinition::CreateInstance(createParam);
+}
+TableColumnDefinition* searchqueryTableBase::GetDefinition_finished() {
+
+    TableColumnDefinitionCreateParam createParam;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      createParam.databaseName = "queryserver";
+      createParam.columnName   = "finished";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_IBM_DB2:
+      createParam.databaseName = "deepnet";
+      createParam.columnName   = "finished";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_POSTGRESQL:
+      createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("finished");
+      createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      break;
+    }
+    createParam.columnType          = DB_TYPE_INTEGER;
+    createParam.isPrimaryKey        = false;
+    createParam.isAutoGenerated     = false;
+    createParam.isForeignKey        = false;
+    createParam.isUniqueKey         = false;
+    createParam.isCombinedUniqueKey = false;
+    createParam.isIndex             = true;
+    createParam.isNullable          = false;
+    createParam.hasDefaultValue     = false;
+    createParam.dataSize            = (1);
     return TableColumnDefinition::CreateInstance(createParam);
 }
 TableColumnDefinition* searchqueryTableBase::GetDefinition_total() {
