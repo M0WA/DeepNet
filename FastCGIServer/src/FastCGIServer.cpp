@@ -311,7 +311,7 @@ void FastCGIServer::RegisterCacheConfigParams()
 	config.RegisterParam("subdomaincache", "number of subdomains in cache", true, &defaultUrlSubdomainCacheSize );
 
 	std::string defaultUrlSecondLevelCacheSize = "1000";
-	config.RegisterParam("secondlevelcache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
+	config.RegisterParam("secondleveldomaincache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
 
 	std::string defaultUrlPathPartCacheSize = "1000";
 	config.RegisterParam("urlpathpartcache", "number of url path parts in cache", true, &defaultUrlPathPartCacheSize );
