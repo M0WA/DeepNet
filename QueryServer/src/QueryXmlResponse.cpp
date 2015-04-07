@@ -52,7 +52,7 @@ bool QueryXmlResponse::SetQueryFinished(const long long& queryId)
 	param.onlyDirtyColumns = true;
 
 	database::searchqueryTableBase::GetWhereColumnsFor_ID(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
 		queryId,
 		param.whereCols);
 
