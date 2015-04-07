@@ -42,8 +42,11 @@ void QueryResultCleanupThread::GetExpiredQueries(database::DatabaseConnection* d
 		1,
 		where);
 
-	database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
-	selectSearchQuery.SelectAddColumn(database::searchqueryTableBase::GetDefinition_ID());
+	tools::Pointer<database::TableDefinition> pDef;
+	pDef.Set(database::searchqueryTableBase::CreateTableDefinition(),true);
+
+	database::SelectStatement selectSearchQuery(pDef.GetConst());
+	selectSearchQuery.SelectAllColumns();
 	selectSearchQuery.Where().AddColumns(where);
 
 	database::SelectResultContainer<database::searchqueryTableBase> resultSearchQuery;
