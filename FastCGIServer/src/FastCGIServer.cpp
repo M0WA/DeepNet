@@ -61,6 +61,7 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	RegisterLoggingParams();
 	RegisterSocketConfig();
 	RegisterCacheConfigParams();
+	RegisterConfig();
 
 	config.RegisterParam("configfile", "filename of config file", false, 0);
 
