@@ -122,6 +122,7 @@ void QueryXmlResponse::InsertResults(
 	insertSearchQuery.Set_query(rawQueryString);
 	insertSearchQuery.Set_age(tools::TimeTools::NowUTC());
 	insertSearchQuery.Set_total(responseEntries.size());
+	insertSearchQuery.Set_identifier(query.GetQueryIdentifier());
 
 	try {
 		insertSearchQuery.Insert(db);
