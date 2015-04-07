@@ -26,6 +26,8 @@ FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfi
 
 FastCGIServerThread::~FastCGIServerThread()
 {
+	if(fcgiSocket){
+		delete fcgiSocket; }
 }
 
 void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PARAM* threadParam)
