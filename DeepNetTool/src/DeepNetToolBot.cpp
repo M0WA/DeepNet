@@ -184,7 +184,7 @@ void DeepNetToolBot::RegisterHtmlTestParams() {
 
 void DeepNetToolBot::RegisterUrlInserterParams() {
 	Config().RegisterParam("urlFile", "insert urls from file into database", false, 0 );
-	Config().RegisterParam("insertUrl", "domain to insert ie. dummy.siridia.de", false, 0 );
+	Config().RegisterParam("insertUrl", "domain to insert ie. dummy.mo-sys.de", false, 0 );
 
 	Config().RegisterParam("urlValidateFile", "validates urls from file", false, 0 );
 	Config().RegisterParam("urlInvalidateFile", "validates invalid urls from file", false, 0 );

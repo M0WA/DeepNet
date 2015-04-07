@@ -11,7 +11,7 @@
 namespace network {
 
 HttpClientSettings::HttpClientSettings()
-: userAgent("siridia v1.0")
+: userAgent("DeepNetClient v1.0")
 , secondsTimeoutConnect(5)
 , secondsTimeoutConnection(15)
 , allowIPv6(false)
