@@ -39,7 +39,8 @@ bool QueryServer::StartServer(int argc, char** argv)
 	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
 
 	if(success) {
-		cleanupThread.Set(new QueryResultCleanupThread(databaseConfig, requery_after),true); }
+		cleanupThread.Set(new QueryResultCleanupThread(databaseConfig, requery_after),true);
+		cleanupThread.Get()->StartThread(0);}
 
 	return success;
 }
