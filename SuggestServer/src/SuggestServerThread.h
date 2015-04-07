@@ -15,8 +15,7 @@ namespace suggestserver {
 
 class SuggestServerThread : public fastcgiserver::FastCGIServerThread {
 public:
-	SuggestServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog = 0);
-	SuggestServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog = 0);
+	SuggestServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
 	virtual ~SuggestServerThread();
 
 private:

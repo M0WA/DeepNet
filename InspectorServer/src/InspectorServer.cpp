@@ -33,14 +33,9 @@ bool InspectorServer::InitConfig()
 	return true;
 }
 
-fastcgiserver::FastCGIServerThread* InspectorServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog)
+fastcgiserver::FastCGIServerThread* InspectorServer::CreateThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket)
 {
-	return new InspectorServerThread( databaseConfig, acceptMutex, port, backlog);
-}
-
-fastcgiserver::FastCGIServerThread* InspectorServer::CreateThreadSocket(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
-{
-	return new InspectorServerThread( databaseConfig, acceptMutex, filename, backlog);
+	return new InspectorServerThread( databaseConfig, acceptMutex, socket);
 }
 
 }

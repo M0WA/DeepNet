@@ -6,6 +6,7 @@
 
 #include "FastCGIServer.h"
 
+#include "FastCGISocket.h"
 #include "FastCGIServerThread.h"
 
 #include <fcgiapp.h>
@@ -76,12 +77,20 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 
 	dbHelper.DestroyConnection();
 
-	if(basePort <= 0)
-		return false;
+	std::string socketType = "port";
+	if ( !config.GetValue("socket_type",socketType) ) {
+		socketType = "port"; }
 
 	int backlog = 0;
 	for(int i = 0; i < threadCount; i++) {
-		FastCGIServerThread* thread = CreateThreadPort(databaseConfig,&acceptMutex,basePort+i,backlog);
+		FastCGISocket* socket = 0;
+		if(socketType.compare("port") == 0) {
+			int port = basePort+i;
+			socket = new FastCGISocket(port,backlog); }
+		else if(socketType.compare("port") == 0) {
+			continue;
+		}
+		FastCGIServerThread* thread = CreateThread(databaseConfig,&acceptMutex,socket);
 		thread->SpellChecker().InitSpellChecking(dictionaryFile,affixFile);
 		thread->StartThread(NULL);
 		threads.push_back(thread);
@@ -200,6 +209,11 @@ bool FastCGIServer::InitSocketConfig()
 	if(socketType.compare("port") == 0) {
 		if ( !config.GetValue("base_port",basePort) )
 			return false;
+		if(basePort <= 0)
+			return false;
+	}
+	else if(socketType.compare("filename") == 0) {
+		return false;
 	}
 	else {
 		return false;

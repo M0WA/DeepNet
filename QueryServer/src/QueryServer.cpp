@@ -16,6 +16,7 @@ namespace queryserver {
 
 QueryServer::QueryServer()
 : fastcgiserver::FastCGIServer()
+, requery_after(120)
 {
 }
 
@@ -23,16 +24,10 @@ QueryServer::~QueryServer()
 {
 }
 
-fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog)
+fastcgiserver::FastCGIServerThread* QueryServer::CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket)
 {
 	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
-			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, port, backlog));
-}
-
-fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadSocket(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
-{
-	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
-			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, filename, backlog));
+			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, socket));
 }
 
 bool QueryServer::StartServer(int argc, char** argv)
@@ -43,11 +38,15 @@ bool QueryServer::StartServer(int argc, char** argv)
 
 void QueryServer::RegisterConfig()
 {
+	std::string defaultRequeryAfter = "120";
+	Config().RegisterParam("requery_after", "requery user after n seconds", false, &defaultRequeryAfter );
 }
 
 bool QueryServer::InitConfig()
 {
 	log::Logging::SetApplicationName("QueryServer");
+	if(!Config().GetValue("requery_after", requery_after)) {
+		return false; }
 	return true;
 }
 

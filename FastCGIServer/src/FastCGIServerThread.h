@@ -6,7 +6,6 @@
 
 #pragma once
 
-#include "FastCGISocket.h"
 #include "FastCGIRequest.h"
 #include "FastCGIResponse.h"
 
@@ -17,14 +16,15 @@
 
 namespace fastcgiserver {
 
+class FastCGISocket;
+
 /**
  * @brief thread that manages a FastCGI instance listening on a socket
  */
 class FastCGIServerThread : public threading::Thread
 {
 public:
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const int port, const int backlog = 0);
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog = 0);
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, FastCGISocket* socket,const int backlog = 0);
 	virtual ~FastCGIServerThread();
 
 public:
@@ -68,12 +68,7 @@ private:
 	database::DatabaseConfig* databaseConfig;
 
 	FCGX_Request request;
-	FastCGISocket fcgiSocket;
-
-	bool isFileSocket;
-	int port;
-	int backlog;
-	std::string filename;
+	FastCGISocket* fcgiSocket;
 	threading::Mutex* acceptMutex;
 };
 

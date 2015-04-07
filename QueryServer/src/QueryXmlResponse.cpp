@@ -265,6 +265,13 @@ bool QueryXmlResponse::GetSimilarQuery(long long& queryId, const std::string& se
 		query.GetQueryIdentifier(),
 		where );
 
+	/*
+	database::searchqueryTableBase::GetWhereColumnsFor_age(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+		//tools::TimeTools::NowUTCAdd(),
+		where );
+	*/
+
 	database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
 	selectSearchQuery.SelectAllColumns();
 	selectSearchQuery.Where().AddColumns(where);

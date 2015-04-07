@@ -9,32 +9,17 @@
 #include <TLD.h>
 #include <Logging.h>
 
+#include "FastCGISocket.h"
 #include "FastCGIRequest.h"
 #include "FastCGIResponse.h"
 #include "FastCGIServerInitException.h"
 
 namespace fastcgiserver {
 
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex,const int port, const int backlog)
+FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, FastCGISocket* socket, const int backlog)
 : threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
 , databaseConfig(databaseConfig)
-, fcgiSocket(port,backlog)
-, isFileSocket(false)
-, port(port)
-, backlog(backlog)
-, filename("")
-, acceptMutex(acceptMutex)
-{
-}
-
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex,const std::string& filename, const int backlog)
-: threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
-, databaseConfig(databaseConfig)
-, fcgiSocket(filename,backlog)
-, isFileSocket(true)
-, port(-1)
-, backlog(backlog)
-, filename(filename)
+, fcgiSocket(socket)
 , acceptMutex(acceptMutex)
 {
 }
@@ -55,7 +40,7 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 	FastCGIRequest* fcgiRequest(0);
 	FastCGIResponse* fcgiResponse(0);
 
-	int initSuccess(FCGX_InitRequest(&instance->request, instance->fcgiSocket.Socket(), FCGI_FAIL_ACCEPT_ON_INTR));
+	int initSuccess(FCGX_InitRequest(&instance->request, instance->fcgiSocket->Socket(), FCGI_FAIL_ACCEPT_ON_INTR));
 	if(initSuccess != 0) {
 		THROW_EXCEPTION(FastCGIServerInitException,"could not initialize fastcgi request");	}
 
@@ -65,7 +50,7 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 		bool isAcceptWaiting(false);
 		while( !instance->ShallEnd() ) {
 			isAcceptWaiting = false;
-			if( (isAcceptWaiting = instance->fcgiSocket.WaitForAccept()) ) {
+			if( (isAcceptWaiting = instance->fcgiSocket->WaitForAccept()) ) {
 				break;	}
 		}
 

@@ -13,18 +13,11 @@
 
 namespace queryserver {
 
-QueryServerThread::QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, const int port, const int backlog)
-: FastCGIServerThread(databaseConfig,acceptMutex,port,backlog)
+QueryServerThread::QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket)
+: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex,socket)
 , requestXSD(requestXSD)
 , responseXSD(responseXSD)
 , threadManager(QueryThreadManager(databaseConfig)){
-}
-
-QueryServerThread::QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
-: FastCGIServerThread(databaseConfig,acceptMutex,filename,backlog)
-, requestXSD(requestXSD)
-, responseXSD(responseXSD)
-, threadManager(QueryThreadManager(databaseConfig)) {
 }
 
 QueryServerThread::~QueryServerThread() {
