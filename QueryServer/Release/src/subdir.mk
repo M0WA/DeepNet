@@ -10,6 +10,7 @@ CPP_SRCS += \
 ../src/QueryKeyword.cpp \
 ../src/QueryMetaThread.cpp \
 ../src/QueryProperties.cpp \
+../src/QueryResultCleanupThread.cpp \
 ../src/QuerySecondLevelDomainThread.cpp \
 ../src/QueryServer.cpp \
 ../src/QueryServerThread.cpp \
@@ -32,6 +33,7 @@ OBJS += \
 ./src/QueryKeyword.o \
 ./src/QueryMetaThread.o \
 ./src/QueryProperties.o \
+./src/QueryResultCleanupThread.o \
 ./src/QuerySecondLevelDomainThread.o \
 ./src/QueryServer.o \
 ./src/QueryServerThread.o \
@@ -54,6 +56,7 @@ CPP_DEPS += \
 ./src/QueryKeyword.d \
 ./src/QueryMetaThread.d \
 ./src/QueryProperties.d \
+./src/QueryResultCleanupThread.d \
 ./src/QuerySecondLevelDomainThread.d \
 ./src/QueryServer.d \
 ./src/QueryServerThread.d \
@@ -74,7 +77,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../Tools/src -I../../HtmlParser/src -I../../FastCGIServer/src -I../../Caching/src -I../../Crawler/src -I../../Indexer/src -I../../Database/src -I../../Database/generated -I../../Bot/src -I../../Threading/src -I../../Logging/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../Tools/src -I../../HtmlParser/src -I../../FastCGIServer/src -I../../Caching/src -I../../Crawler/src -I../../Indexer/src -I../../Database/src -I../../Database/generated -I../../Bot/src -I../../Threading/src -I../../Logging/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
