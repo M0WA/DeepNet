@@ -35,7 +35,8 @@ class QueryXmlResponse: public fastcgiserver::FastCGIResponse {
 public:
 	QueryXmlResponse(
 		QueryThreadManager& queryManager,
-		QueryXmlRequest* xmlQueryRequest);
+		QueryXmlRequest* xmlQueryRequest,
+		unsigned long long requery_after);
 
 	virtual ~QueryXmlResponse();
 
@@ -85,6 +86,7 @@ private:
 private:
 	QueryThreadManager& queryManager;
 	QueryXmlRequest* xmlQueryRequest;
+	unsigned long long requery_after;
 };
 
 }

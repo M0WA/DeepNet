@@ -178,16 +178,25 @@ void TimeTools::NowUTC(struct tm& tmNow) {
 }
 
 void TimeTools::NowUTCAdd(struct tm& tmFuture, const int nDays) {
-
-	InitTm(tmFuture);
-    time_t now(time(0));
-    now += (nDays * 86400); //86400 seconds/day
-    gmtime_r(&now,&tmFuture);
+	TimeTools::NowUTCAddSeconds(tmFuture,(nDays * 86400));
 }
 
 struct tm TimeTools::NowUTCAdd(const int nDays) {
 	struct tm tmFuture;
 	TimeTools::NowUTCAdd(tmFuture, nDays);
+	return tmFuture;
+}
+
+void TimeTools::NowUTCAddSeconds(struct tm& tmFuture, const int nSeconds) {
+	InitTm(tmFuture);
+    time_t now(time(0));
+    now += nSeconds;
+    gmtime_r(&now,&tmFuture);
+}
+
+struct tm TimeTools::NowUTCAddSeconds(const int nSeconds) {
+	struct tm tmFuture;
+	TimeTools::NowUTCAddSeconds(tmFuture, nSeconds);
 	return tmFuture;
 }
 

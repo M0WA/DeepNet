@@ -34,10 +34,11 @@
 
 namespace queryserver {
 
-QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequest* xmlQueryRequest)
+QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequest* xmlQueryRequest,unsigned long long requery_after)
 : fastcgiserver::FastCGIResponse(dynamic_cast<fastcgiserver::FastCGIRequest*>(xmlQueryRequest))
 , queryManager(queryManager)
-, xmlQueryRequest(xmlQueryRequest){
+, xmlQueryRequest(xmlQueryRequest)
+, requery_after(requery_after){
 }
 
 QueryXmlResponse::~QueryXmlResponse() {
@@ -265,12 +266,10 @@ bool QueryXmlResponse::GetSimilarQuery(long long& queryId, const std::string& se
 		query.GetQueryIdentifier(),
 		where );
 
-	/*
 	database::searchqueryTableBase::GetWhereColumnsFor_age(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-		//tools::TimeTools::NowUTCAdd(),
+		tools::TimeTools::NowUTCAddSeconds(requery_after),
 		where );
-	*/
 
 	database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
 	selectSearchQuery.SelectAllColumns();

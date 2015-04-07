@@ -27,7 +27,7 @@ QueryServer::~QueryServer()
 fastcgiserver::FastCGIServerThread* QueryServer::CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket)
 {
 	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
-			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, socket));
+			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, socket, requery_after));
 }
 
 bool QueryServer::StartServer(int argc, char** argv)

@@ -184,6 +184,20 @@ public:
 	 */
     static struct tm NowUTCAdd(const int nDays);
 
+	/**
+	 * gets future time in UTC as struct tm adding nSeconds.
+	 * @param tmFuture future UTC time.
+	 * @param nSeconds days to add to current time.
+	 */
+    static void NowUTCAddSeconds(struct tm& tmFuture, const int nSeconds);
+
+	/**
+	 * gets future time in UTC as struct tm adding nSeconds.
+	 * @param nSeconds seconds to add to current time.
+	 * @return future UTC time.
+	 */
+    static struct tm NowUTCAddSeconds(const int nSeconds);
+
     /**
      * converts struct tm to time_t
      * @param time struct tm to convert
