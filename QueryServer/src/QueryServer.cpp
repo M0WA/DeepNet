@@ -14,6 +14,8 @@
 
 namespace queryserver {
 
+QueryProcessManager QueryServer::queryProcessManager;
+
 QueryServer::QueryServer()
 : fastcgiserver::FastCGIServer()
 , requery_after(120)

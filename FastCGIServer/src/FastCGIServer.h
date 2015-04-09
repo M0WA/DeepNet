@@ -66,11 +66,22 @@ protected:
 	bot::ConfigManager& Config() { return config; }
 
 private:
-	virtual FastCGIServerThread* CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, FastCGISocket* socket) =0;
+	/**
+	 * creates a fastcgi server thread, implemented by application
+	 * @param databaseConfig database config
+	 * @param acceptMutex accept mutex
+	 * @param socket fastcgi socket
+	 * @return fastcgi server thread
+	 */
+	virtual FastCGIServerThread* CreateThread(
+		database::DatabaseConfig* databaseConfig,
+		threading::Mutex* acceptMutex,
+		FastCGISocket* socket) =0;
 
 	virtual void RegisterConfig() {}
 	virtual bool InitConfig() {return true;}
 
+private:
 	void RegisterSocketConfig();
 	bool InitSocketConfig();
 

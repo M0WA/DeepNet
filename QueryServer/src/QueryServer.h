@@ -9,6 +9,7 @@
 #pragma once
 
 #include "QueryResultCleanupThread.h"
+#include "QueryProcessManager.h"
 
 #include <Pointer.h>
 
@@ -48,7 +49,11 @@ private:
 
 	virtual fastcgiserver::FastCGIServerThread* CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
 
+public:
+	queryserver::QueryProcessManager& QueryProcessManager() { return queryProcessManager; }
+
 private:
+	static queryserver::QueryProcessManager queryProcessManager;
 	tools::Pointer<QueryResultCleanupThread> cleanupThread;
 	unsigned long long requery_after;
 };

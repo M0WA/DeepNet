@@ -11,6 +11,7 @@
 #include <curl/curl.h>
 
 #include "QueryServer.h"
+#include "QueryResultServer.h"
 
 #include <Logging.h>
 #include <Thread.h>
@@ -20,6 +21,7 @@
 volatile static bool run = true;
 static threading::Mutex signalMutex;
 static queryserver::QueryServer serverQuery;
+static queryserver::QueryResultServer serverResults;
 
 static const int catchSignals[] =
 {
@@ -100,13 +102,14 @@ int main(int argc, char** argv) {
 		curl_global_init(CURL_GLOBAL_ALL);
 
 		RegisterSignalHandlers();
-		if( serverQuery.StartServer(argc,argv) ) {
+		if( serverQuery.StartServer(argc,argv) && serverResults.StartServer(argc,argv) ) {
 			while(run)
 				sleep(1);
 		}
 		else {
 			std::cerr << "fatal error while starting server";}
 
+		serverResults.StopServer();
 		serverQuery.StopServer();
 
 		curl_global_cleanup();

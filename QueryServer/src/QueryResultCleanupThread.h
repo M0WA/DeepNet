@@ -16,8 +16,16 @@ namespace database {
 
 namespace queryserver {
 
+/**
+ * @brief thread to clean up expired search results from database
+ */
 class QueryResultCleanupThread : public threading::Thread {
 public:
+	/**
+	 * constructs cleanup thread
+	 * @param databaseConfig database config
+	 * @param requery_after max age of search queries
+	 */
 	QueryResultCleanupThread(database::DatabaseConfig* databaseConfig,unsigned long long requery_after);
 	virtual ~QueryResultCleanupThread();
 

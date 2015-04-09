@@ -152,6 +152,14 @@ bool ConfigManager::GetValue(const std::string& key, std::string& value) const {
 	return true;
 }
 
+bool ConfigManager::SetValue(const std::string& key, std::string& value) {
+	std::vector<ConfigEntry>::iterator iFind = std::find(registeredParams.begin(),registeredParams.end(),key);
+	if(iFind == registeredParams.end()) {
+		return false; }
+	iFind->SetValue(value);
+	return true;
+}
+
 const std::string& ConfigManager::GetApplicationName() const {
 	return cmdLine.GetApplicationName();
 }

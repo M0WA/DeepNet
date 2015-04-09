@@ -40,6 +40,12 @@ public:
 	 */
 	tools::SpellChecking& SpellChecker() { return spellChecker; }
 
+	/**
+	 * gets database configuration for this thread
+	 * @return database configuration
+	 */
+	const database::DatabaseConfig* DBConf() const { return databaseConfig; }
+
 private:
 	/**
 	 * creates returns a new request

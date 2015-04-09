@@ -103,6 +103,27 @@ public:
 	}
 
 	/**
+	 * sets parameters by their name by string value
+	 * @param key name of the parameter.
+	 * @param value new value of parameter.
+	 * @return false if non-existent, true on success.
+	 */
+	bool SetValue(const std::string& key, std::string& value);
+
+	/**
+	 * sets parameters by their name by type T
+	 * @param key name of the parameter.
+	 * @param value new value of parameter.
+	 * @return false if non-existent, true on success.
+	 */
+	template <class T>
+	bool SetValue(const std::string& key, T& value) {
+		std::stringstream ss;
+		ss << value;
+		return SetValue(key,value);
+	}
+
+	/**
 	 * dumps config to a string
 	 * @param dump string to dump to
 	 */

@@ -1,14 +1,10 @@
 /**
- *
- * @file QueryServerThread.h
+ * @file QueryResultServerThread.h
  * @author Moritz Wagner
- * @date 13.08.2013
- *
+ * @date Apr 7, 2015
  */
 
 #pragma once
-
-#include <string>
 
 #include <FastCGIServerThread.h>
 
@@ -29,22 +25,20 @@ namespace fastcgiserver {
 namespace queryserver {
 
 /**
- * @brief encapsulates fastcgiserver::FastCGIServerThread for queryserver::QueryServer
+ * @brief encapsulates fastcgiserver::FastCGIServerThread for queryserver::QueryResultServer
  */
-class QueryServerThread : public fastcgiserver::FastCGIServerThread
-{
+class QueryResultServerThread : public fastcgiserver::FastCGIServerThread {
 public:
-	QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
-	virtual ~QueryServerThread();
+	QueryResultServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
+	virtual ~QueryResultServerThread();
 
 private:
 	virtual fastcgiserver::FastCGIRequest*  CreateRequest();
 	virtual fastcgiserver::FastCGIResponse* CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request);
-	virtual const char* GetThreadName() const { return "QueryServerThread"; }
+	virtual const char* GetThreadName() const { return "QueryResultServerThread"; }
 
 	std::string requestXSD;
 	std::string responseXSD;
 };
 
 }
-
