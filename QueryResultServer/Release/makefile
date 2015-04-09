@@ -44,7 +44,7 @@ all: QueryResultServer
 QueryResultServer: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross G++ Linker'
-	g++  -o "QueryResultServer" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L../../FastCGIServer/Release -L../../HtmlParser/Release -L../../QueryLib/Release -L../../Crawler/Release -L../../Indexer/Release -L../../Caching/Release -L../../Threading/Release -L../../Bot/Release -L../../Database/Release -L../../Networking/Release -L../../Logging/Release -L../../Tools/Release -o "QueryResultServer" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
