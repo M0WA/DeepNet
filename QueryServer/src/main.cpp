@@ -5,6 +5,10 @@
  *      Author: Moritz Wagner
  */
 
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #include <iostream>
 #include <csignal>
 #include <libxml/parser.h>
@@ -18,10 +22,10 @@
 #include <DebuggingTools.h>
 #include <Exception.h>
 
+#include <vector>
+
 volatile static bool run = true;
 static threading::Mutex signalMutex;
-static queryserver::QueryServer serverQuery;
-static queryserver::QueryResultServer serverResults;
 
 static const int catchSignals[] =
 {
@@ -97,29 +101,76 @@ bool RegisterSignalHandlers() {
 
 int main(int argc, char** argv) {
 
-	try {
-		xmlInitParser();
-		curl_global_init(CURL_GLOBAL_ALL);
+	xmlInitParser();
+	curl_global_init(CURL_GLOBAL_ALL);
 
-		RegisterSignalHandlers();
-		if( serverQuery.StartServer(argc,argv) && serverResults.StartServer(argc,argv) ) {
-			while(run)
-				sleep(1);
+	RegisterSignalHandlers();
+
+	pid_t childQuery(fork());
+	if(!childQuery) {
+		//in QueryServer child
+		int rc(0);
+		queryserver::QueryServer serverQuery;
+		try {
+			if( serverQuery.StartServer(argc,argv) ) {
+				while(run)
+					sleep(1);
+			}
+			else {
+				rc = 1;
+				std::cerr << "fatal error while starting QueryServer";
+			}
+			serverQuery.StopServer();
 		}
-		else {
-			std::cerr << "fatal error while starting server";}
-
-		serverResults.StopServer();
-		serverQuery.StopServer();
-
-		curl_global_cleanup();
-		xmlCleanupParser();
+		catch(errors::Exception& ex) {
+			serverQuery.OnException(ex);
+			rc = 1;
+		}
+		exit(rc);
 	}
-	catch(errors::Exception& ex) {
 
-		serverQuery.OnException(ex);
-		return 1;
+	pid_t childResult(fork());
+	if(!childResult) {
+		//in QueryResultServer child
+		int rc(0);
+		queryserver::QueryResultServer serverResult;
+		try {
+			if(serverResult.StartServer(argc,argv) ) {
+				while(run)
+					sleep(1);
+			}
+			else {
+				rc = 1;
+				std::cerr << "fatal error while starting QueryResultServer";
+			}
+			serverResult.StopServer();
+		}
+		catch(errors::Exception& ex) {
+			serverResult.OnException(ex);
+			rc = 1;
+		}
+		exit(rc);
 	}
+
+	while(childResult || childQuery) {
+		int status(0);
+		if(childResult) {
+			if(!childQuery) {
+				kill(childResult,SIGINT); }
+			if( waitpid(childResult, &status, WNOHANG) == childResult) {
+				childResult = 0; }
+		}
+		if(childQuery) {
+			if(!childResult) {
+				kill(childQuery,SIGINT); }
+			if( waitpid(childQuery, &status, WNOHANG) == childResult) {
+				childQuery = 0; }
+		}
+		sleep(3);
+	}
+
+	curl_global_cleanup();
+	xmlCleanupParser();
 
 	return 0;
 }

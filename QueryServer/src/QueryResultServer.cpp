@@ -54,6 +54,12 @@ bool QueryResultServer::InitConfig() {
 		basePort += threadCount;
 		Config().SetValue("base_port",basePort);
 	}
+
+	std::string configFileName;
+	if(Config().GetValue("logfile",configFileName)) {
+		configFileName = "QueryServer." + configFileName;
+		Config().SetValue("logfile",configFileName); }
+
 	return true;
 }
 

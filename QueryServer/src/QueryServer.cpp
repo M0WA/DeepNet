@@ -69,6 +69,11 @@ bool QueryServer::InitConfig()
 	if(!Config().GetValue("requery_after", requery_after)) {
 		return false; }
 
+	std::string configFileName;
+	if(Config().GetValue("logfile",configFileName)) {
+		configFileName = "QueryServer." + configFileName;
+		Config().SetValue("logfile",configFileName); }
+
 	return true;
 }
 

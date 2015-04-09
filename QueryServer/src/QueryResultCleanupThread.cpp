@@ -166,7 +166,7 @@ void* QueryResultCleanupThread::QueryResultCleanupThreadFunc(threading::Thread::
 		log::Logging::LogTrace("cleanup of query results ran %llu seconds, sleeping for %llu seconds",duration,rest);
 
 		if(rest>0){
-			sleep(rest); }
+			sleep(rest);}
 	}
 
 	return 0;
