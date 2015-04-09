@@ -13,6 +13,7 @@ namespace queryserver {
 
 QueryResultServer::QueryResultServer()
 : fastcgiserver::FastCGIServer(){
+	log::Logging::SetApplicationName("QueryResultServer");
 }
 
 QueryResultServer::~QueryResultServer() {
@@ -34,8 +35,6 @@ void QueryResultServer::RegisterConfig() {
 
 bool QueryResultServer::InitConfig() {
 
-	log::Logging::SetApplicationName("QueryServer");
-
 	//we need to set a port range different from
 	//query server here, so we start at
 	// baseport + number of queryserver threads
@@ -43,15 +42,13 @@ bool QueryResultServer::InitConfig() {
 
 	std::string socketType = "port";
 	if ( !Config().GetValue("socket_type",socketType) ) {
-		socketType = "port"; }
-	else {
-		log::Logging::LogError("error while getting socket_type");
+		log::Logging::LogError("error while getting ocket_type");
 		return false; }
 
 	int threadCount = 1;
 	if ( !Config().GetValue("threads",threadCount) ) {
-		log::Logging::LogWarn("error while getting threads, defaulting to 1");
-		threadCount = 1; }
+		log::Logging::LogError("error while getting threads");
+		return false; }
 
 	if(socketType.compare("port") == 0) {
 		int basePort(0);

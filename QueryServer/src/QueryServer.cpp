@@ -20,6 +20,7 @@ QueryServer::QueryServer()
 : fastcgiserver::FastCGIServer()
 , requery_after(120)
 {
+	log::Logging::SetApplicationName("QueryServer");
 }
 
 QueryServer::~QueryServer()
@@ -67,7 +68,6 @@ void QueryServer::RegisterConfig()
 
 bool QueryServer::InitConfig()
 {
-	log::Logging::SetApplicationName("QueryServer");
 	if(!Config().GetValue("requery_after", requery_after)) {
 		log::Logging::LogError("missing requery_after parameter");
 		return false; }
