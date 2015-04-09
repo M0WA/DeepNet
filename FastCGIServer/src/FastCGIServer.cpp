@@ -71,10 +71,12 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	InitLoggingConfig();
 
 	if(FCGX_Init() != 0){
+		log::Logging::LogError("error while initializing FastCGI");
 		return false;}
 
-	if (!InitConfig() || !InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams())
-		return false;
+	if (!InitConfig() || !InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams()) {
+		log::Logging::LogError("error while initializing configuration");
+		return false;}
 
 	dbHelper.DestroyConnection();
 

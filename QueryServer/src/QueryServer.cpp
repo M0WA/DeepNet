@@ -67,6 +67,7 @@ bool QueryServer::InitConfig()
 {
 	log::Logging::SetApplicationName("QueryServer");
 	if(!Config().GetValue("requery_after", requery_after)) {
+		log::Logging::LogError("missing requery_after parameter");
 		return false; }
 
 	std::string configFileName;
