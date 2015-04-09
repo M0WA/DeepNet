@@ -57,7 +57,7 @@ bool QueryResultServer::InitConfig() {
 
 	std::string configFileName;
 	if(Config().GetValue("logfile",configFileName)) {
-		configFileName = "QueryServer." + configFileName;
+		configFileName = configFileName + ".result.log";
 		Config().SetValue("logfile",configFileName); }
 
 	return true;
