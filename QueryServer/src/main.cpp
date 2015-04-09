@@ -152,10 +152,12 @@ int main(int argc, char** argv) {
 		exit(rc);
 	}
 
+	int childResultKilled = 0, childQueryKilled = 0;
 	while(childResult || childQuery) {
 		int status(0);
 		if(childResult) {
-			if(!childQuery) {
+			if(!childQuery && !childResultKilled) {
+				childResultKilled = 1;
 				kill(childResult,SIGINT); }
 			if( waitpid(childResult, &status, WNOHANG) == childResult) {
 				if (WIFEXITED(status)) {
@@ -164,7 +166,8 @@ int main(int argc, char** argv) {
 			}
 		}
 		if(childQuery) {
-			if(!childResult) {
+			if(!childResult && !childQueryKilled) {
+				childQueryKilled = 1;
 				kill(childQuery,SIGINT); }
 			if( waitpid(childQuery, &status, WNOHANG) == childQuery) {
 				if (WIFEXITED(status)) {

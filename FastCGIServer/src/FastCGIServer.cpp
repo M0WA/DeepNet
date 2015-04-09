@@ -67,6 +67,10 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 
 	config.Init(argc,argv);
 
+	if(!InitConfig()) {
+		log::Logging::LogError("error while initializing parent config");
+		return false; }
+
 	//logging is "non-vital" so ignore non successful initiation...
 	InitLoggingConfig();
 
@@ -74,7 +78,7 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 		log::Logging::LogError("error while initializing FastCGI");
 		return false;}
 
-	if (!InitConfig() || !InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams()) {
+	if (!InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams()) {
 		log::Logging::LogError("error while initializing configuration");
 		return false;}
 
