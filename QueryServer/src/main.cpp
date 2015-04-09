@@ -118,7 +118,7 @@ int main(int argc, char** argv) {
 			}
 			else {
 				rc = 1;
-				std::cerr << "fatal error while starting QueryServer" << std::endl;
+				log::Logging::LogError("fatal error while starting QueryServer");
 			}
 			serverQuery.StopServer();
 		}
@@ -141,7 +141,7 @@ int main(int argc, char** argv) {
 			}
 			else {
 				rc = 1;
-				std::cerr << "fatal error while starting QueryResultServer" << std::endl;
+				log::Logging::LogError("fatal error while starting QueryResultServer");
 			}
 			serverResult.StopServer();
 		}
