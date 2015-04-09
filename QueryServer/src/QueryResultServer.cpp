@@ -57,6 +57,8 @@ bool QueryResultServer::InitConfig() {
 			return false; }
 
 		basePort += threadCount;
+
+		log::Logging::LogTrace("setting base_port: %d",basePort);
 		Config().SetValue("base_port",basePort);
 	}
 
@@ -67,7 +69,6 @@ bool QueryResultServer::InitConfig() {
 		Config().SetValue("logfile",configFileName);
 		log::Logging::LogTrace("new logfile is set: %s",configFileName.c_str());
 	}
-
 	return true;
 }
 
