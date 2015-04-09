@@ -166,7 +166,7 @@ int main(int argc, char** argv) {
 				childResultKilled = 1;
 				kill(childResult,SIGINT); }
 			if( waitpid(childResult, &status, WNOHANG) == childResult) {
-				if (WIFEXITED(status)) {
+				if (WIFEXITED(status) || WIFSIGNALED(status)) {
 					childResult = 0;
 				}
 			}
@@ -176,7 +176,7 @@ int main(int argc, char** argv) {
 				childQueryKilled = 1;
 				kill(childQuery,SIGINT); }
 			if( waitpid(childQuery, &status, WNOHANG) == childQuery) {
-				if (WIFEXITED(status)) {
+				if (WIFEXITED(status) || WIFSIGNALED(status)) {
 					childQuery = 0;
 				}
 			}
