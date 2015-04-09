@@ -167,6 +167,7 @@ int main(int argc, char** argv) {
 				kill(childResult,SIGINT); }
 			if( waitpid(childResult, &status, WNOHANG) == childResult) {
 				if (WIFEXITED(status) || WIFSIGNALED(status)) {
+					log::Logging::LogInfo("QueryResultServer exited");
 					childResult = 0;
 				}
 			}
@@ -177,6 +178,7 @@ int main(int argc, char** argv) {
 				kill(childQuery,SIGINT); }
 			if( waitpid(childQuery, &status, WNOHANG) == childQuery) {
 				if (WIFEXITED(status) || WIFSIGNALED(status)) {
+					log::Logging::LogInfo("QueryServer exited");
 					childQuery = 0;
 				}
 			}
