@@ -45,6 +45,7 @@ bool QueryResultServer::InitConfig() {
 	if ( !Config().GetValue("socket_type",socketType) ) {
 		socketType = "port"; }
 	else {
+		log::Logging::LogError("error while getting socket_type");
 		return false; }
 
 	int threadCount = 1;
@@ -53,8 +54,9 @@ bool QueryResultServer::InitConfig() {
 
 	if(socketType.compare("port") == 0) {
 		int basePort(0);
-		if ( !Config().GetValue("base_port",basePort) )
-			return false;
+		if ( !Config().GetValue("base_port",basePort) ) {
+			log::Logging::LogError("error while getting base_port");
+			return false; }
 
 		basePort += threadCount;
 		Config().SetValue("base_port",basePort);
