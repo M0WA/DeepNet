@@ -104,6 +104,8 @@ int main(int argc, char** argv) {
 	xmlInitParser();
 	curl_global_init(CURL_GLOBAL_ALL);
 
+	log::Logging::SetApplicationName("QueryServerParent");
+
 	RegisterSignalHandlers();
 
 	pid_t childQuery(fork());
