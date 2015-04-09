@@ -19,9 +19,12 @@ namespace database {
 	class WhereConditionTableColumnCreateParam;
 }
 
+namespace querylib {
+	class Query;
+}
+
 namespace queryserver {
 
-	class Query;
 
 /**
  * @brief helper class for queryserver::QueryThread classes that need infos from the dictionary
@@ -62,7 +65,7 @@ public:
 	 * @param dbConn database connection
 	 * @param query query
 	 */
-	DictionaryInfoThread(database::DatabaseConnection* dbConn,const Query& query);
+	DictionaryInfoThread(database::DatabaseConnection* dbConn,const querylib::Query& query);
 	virtual ~DictionaryInfoThread();
 
 public:
@@ -119,7 +122,7 @@ private:
 
 private:
 	database::DatabaseConnection* dbConn;
-	const Query& query;
+	const querylib::Query& query;
 };
 
 }

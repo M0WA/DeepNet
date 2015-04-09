@@ -26,7 +26,7 @@ public:
 	 * @param databaseConfig database config
 	 * @param requery_after max age of search queries
 	 */
-	QueryResultCleanupThread(database::DatabaseConfig* databaseConfig,unsigned long long requery_after);
+	QueryResultCleanupThread(const database::DatabaseConfig* databaseConfig,unsigned long long requery_after);
 	virtual ~QueryResultCleanupThread();
 
 private:
@@ -41,7 +41,7 @@ private:
 	static void* QueryResultCleanupThreadFunc(threading::Thread::THREAD_PARAM* param);
 
 private:
-	database::DatabaseConfig* databaseConfig;
+	const database::DatabaseConfig* databaseConfig;
 	unsigned long long requery_after;
 };
 

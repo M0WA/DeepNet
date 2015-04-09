@@ -45,9 +45,6 @@ private:
 	virtual bool InitConfig();
 
 	virtual fastcgiserver::FastCGIServerThread* CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
-
-private:
-	unsigned long long requery_after;
 };
 
 }

@@ -12,7 +12,8 @@
 namespace queryserver {
 
 QueryResultServer::QueryResultServer()
-: fastcgiserver::FastCGIServer(){
+: fastcgiserver::FastCGIServer()
+, requery_after(120) {
 }
 
 QueryResultServer::~QueryResultServer() {
@@ -31,44 +32,14 @@ bool QueryResultServer::StopServer() {
 }
 
 void QueryResultServer::RegisterConfig() {
+	std::string defaultRequeryAfter = "120";
+	Config().RegisterParam("requery_after", "requery user after n seconds", false, &defaultRequeryAfter );
 }
 
 bool QueryResultServer::InitConfig() {
-
-	//we need to set a port range different from
-	//query server here, so we start at
-	// baseport + number of queryserver threads
-	//to make make sure those are not colliding
-
-	std::string socketType = "port";
-	if ( !Config().GetValue("socket_type",socketType) ) {
-		log::Logging::LogError("error while getting socket_type");
+	if(!Config().GetValue("requery_after", requery_after)) {
+		log::Logging::LogError("missing requery_after parameter");
 		return false; }
-
-	int threadCount = 1;
-	if ( !Config().GetValue("threads",threadCount) ) {
-		log::Logging::LogError("error while getting threads");
-		return false; }
-
-	if(socketType.compare("port") == 0) {
-		int basePort(0);
-		if ( !Config().GetValue("base_port",basePort) ) {
-			log::Logging::LogError("error while getting base_port");
-			return false; }
-
-		basePort += threadCount;
-
-		log::Logging::LogTrace("setting base_port: %d",basePort);
-		Config().SetValue("base_port",basePort);
-	}
-
-	std::string configFileName;
-	if(Config().GetValue("logfile",configFileName)) {
-		configFileName = configFileName + ".result.log";
-		log::Logging::LogInfo("setting new logfile: %s",configFileName.c_str());
-		Config().SetValue("logfile",configFileName);
-		log::Logging::LogTrace("new logfile is set: %s",configFileName.c_str());
-	}
 	return true;
 }
 

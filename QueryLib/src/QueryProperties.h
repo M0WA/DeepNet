@@ -11,7 +11,7 @@
 #include <ctime>
 #include <string>
 
-namespace queryserver {
+namespace querylib {
 
 /**
  * @brief encapsulates all properties of a query

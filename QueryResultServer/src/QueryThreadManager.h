@@ -20,6 +20,10 @@ namespace database {
 	class DatabaseConnection;
 }
 
+namespace querylib {
+	class Query;
+}
+
 namespace queryserver {
 
 	/**
@@ -27,7 +31,6 @@ namespace queryserver {
 	 */
 	static const size_t QUERY_THREAD_MANAGER_DB_HELPERS_SIZE(5);
 
-	class Query;
 	class QueryThreadResultEntry;
 	class DictionaryInfoThread;
 
@@ -52,7 +55,7 @@ public:
 	 * @see queryserver::QueryThreadManager::ReleaseQuery
 	 * @param query query to process
 	 */
-	void BeginQuery(const Query& query);
+	void BeginQuery(const querylib::Query& query);
 
 	/**
 	 * waits for all querying threads to end and gives results.
@@ -70,7 +73,7 @@ public:
 
 private:
 	template <class threadT, class paramT>
-	void AddQueryTyped(database::DatabaseConnection* dbConn,const Query& query)	{
+	void AddQueryTyped(database::DatabaseConnection* dbConn,const querylib::Query& query)	{
 		queryThreadIDs.push_back(
 			AddThread(
 				new threadT(),
@@ -79,7 +82,7 @@ private:
 	}
 
 	template <class threadT, class paramT, class extraT>
-	void AddQueryTyped(database::DatabaseConnection* dbConn,const Query& query, extraT extra) {
+	void AddQueryTyped(database::DatabaseConnection* dbConn,const querylib::Query& query, extraT extra) {
 		queryThreadIDs.push_back(
 			AddThread(
 				new threadT(),

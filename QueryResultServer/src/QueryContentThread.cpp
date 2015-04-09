@@ -55,7 +55,7 @@ void* QueryContentThread::OnRun() {
 
 bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
+	const querylib::QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
@@ -135,8 +135,8 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 
 bool QueryContentThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
-	const Query query(queryThreadParam.GetConst()->query);
-	const QueryProperties& queryProperties(query.GetQueryProperties());
+	const querylib::Query query(queryThreadParam.GetConst()->query);
+	const querylib::QueryProperties& queryProperties(query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 

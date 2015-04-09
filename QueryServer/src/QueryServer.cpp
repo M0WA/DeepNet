@@ -16,7 +16,6 @@ namespace queryserver {
 
 QueryServer::QueryServer()
 : fastcgiserver::FastCGIServer()
-, requery_after(120)
 {
 }
 
@@ -45,21 +44,10 @@ bool QueryServer::StopServer()
 
 void QueryServer::RegisterConfig()
 {
-	std::string defaultRequeryAfter = "120";
-	Config().RegisterParam("requery_after", "requery user after n seconds", false, &defaultRequeryAfter );
 }
 
 bool QueryServer::InitConfig()
 {
-	if(!Config().GetValue("requery_after", requery_after)) {
-		log::Logging::LogError("missing requery_after parameter");
-		return false; }
-
-	std::string configFileName;
-	if(Config().GetValue("logfile",configFileName)) {
-		configFileName = configFileName + ".query.log";
-		Config().SetValue("logfile",configFileName); }
-
 	return true;
 }
 

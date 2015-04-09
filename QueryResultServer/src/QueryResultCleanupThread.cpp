@@ -21,7 +21,7 @@
 
 namespace queryserver {
 
-QueryResultCleanupThread::QueryResultCleanupThread(database::DatabaseConfig* databaseConfig,unsigned long long requery_after)
+QueryResultCleanupThread::QueryResultCleanupThread(const database::DatabaseConfig* databaseConfig,unsigned long long requery_after)
 : threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(QueryResultCleanupThread::QueryResultCleanupThreadFunc)),false)
 , databaseConfig(databaseConfig)
 , requery_after(requery_after){

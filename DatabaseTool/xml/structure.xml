@@ -1142,7 +1142,6 @@
 
 	<primary_key column="ID" />
 	<foreign_key column="RESULTTHREAD_ID"  references_table="queryresultthread" references_column="ID"    MySQL_Database="queryserver" />
-	<unique_key  column="identifier,session" />
 	<index       column="identifier" />
 	<index       column="session" />
 	<index       column="modified" />

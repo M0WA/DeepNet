@@ -17,7 +17,7 @@
 #include <StringTools.h>
 #include <TimeTools.h>
 
-#include "Query.h"
+#include <Query.h>
 
 namespace fastcgiserver {
 	class FastCGIServerThread;
@@ -43,7 +43,7 @@ public:
 	 * gets query associated with this request
 	 * @return query
 	 */
-	const Query& GetQuery(void) const { return query; }
+	const querylib::Query& GetQuery(void) const { return query; }
 
 	/**
 	 * gets raw query string
@@ -159,7 +159,7 @@ private:
 	};
 
 private:
-	Query query;
+	querylib::Query query;
 	std::string rawQueryString;
 };
 

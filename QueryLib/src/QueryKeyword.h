@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace queryserver {
+namespace querylib {
 
 /**
  * @brief encapsulates a single keyword in a Query

@@ -32,7 +32,7 @@ QueryUrlPathThread::~QueryUrlPathThread() {
 
 bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std::map<long long,size_t>& pathPartIDKeywordPos) const {
 
-	const Query& query(queryThreadParam.GetConst()->query);
+	const querylib::Query& query(queryThreadParam.GetConst()->query);
 
 	std::vector<std::string> lowerKeywords;
 	query.GetLoweredKeywords(lowerKeywords);
@@ -78,7 +78,7 @@ bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std:
 
 bool QueryUrlPathThread::ProcessResults(const std::vector<long long>& pathPartIDs,const std::map<long long,size_t>& pathPartIDKeywordPos) {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
+	const querylib::QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
 
 	 if(pathPartIDs.size() == 0)
 		 return false;

@@ -17,9 +17,12 @@ namespace database {
 	class DatabaseConnection;
 }
 
+namespace querylib {
+	class Query;
+}
+
 namespace queryserver {
 
-	class Query;
 	class QueryThreadResultEntry;
 
 /**
@@ -45,7 +48,7 @@ public:
 	 * @param resultID result id
 	 * @param xml stream to write to
 	 */
-	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
+	void AppendToXML(database::DatabaseConnection* db,const querylib::Query& query,const size_t resultID,std::ostringstream& xml) const;
 
 	/**
 	 * sorts all associated matches by their relevance

@@ -56,7 +56,7 @@ const QueryThreadResultEntry* QueryXmlResponseResultEntry::GetMostRelevantResult
 	return threadResults.at(0);
 }
 
-void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
+void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const querylib::Query& query,const size_t resultID,std::ostringstream& xml) const {
 
 	std::vector<std::string> keywordsStrings;
 	query.GetKeywords(keywordsStrings);

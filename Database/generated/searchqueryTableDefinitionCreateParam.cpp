@@ -52,10 +52,6 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
 
 
 	std::vector<std::string> tmpCombined;
-	tmpCombined.clear();
-	tmpCombined.push_back("identifier");
-	tmpCombined.push_back("session");
-	combinedUniqueKeys.push_back(tmpCombined);
 
 }
 

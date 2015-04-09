@@ -29,7 +29,7 @@ public:
 	QueryProcessThread(
 		const database::DatabaseConfig* dbConfig,
 		const long long& queryId,
-		const Query& query,
+		const querylib::Query& query,
 		const std::string& sessionID,
 		const std::string& rawQueryString);
 
@@ -62,7 +62,7 @@ private:
 private:
 	const database::DatabaseConfig* dbConfig;
 	long long queryId;
-	Query query;
+	querylib::Query query;
 	std::string sessionID;
 	std::string rawQueryString;
 	QueryThreadManager queryManager;

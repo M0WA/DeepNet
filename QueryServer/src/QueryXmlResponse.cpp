@@ -13,10 +13,9 @@
 
 #include "Query.h"
 #include "QueryServer.h"
-#include "QueryProcessManager.h"
-#include "QueryProperties.h"
 #include "QueryXmlRequest.h"
-#include "QueryThreadManager.h"
+
+#include <QueryProperties.h>
 
 #include <FastCGIRequest.h>
 #include <FastCGIServerThread.h>
@@ -44,7 +43,7 @@ void QueryXmlResponse::InsertQuery(
 	const std::string& sessionID,
 	const std::string& rawQueryString) {
 
-	const Query& query(xmlQueryRequest->GetQuery());
+	const querylib::Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	struct tm now;
@@ -52,6 +51,7 @@ void QueryXmlResponse::InsertQuery(
 
 	//insert search query itself at first
 	database::searchqueryTableBase insertSearchQuery;
+	insertSearchQuery.Set_RESULTTHREAD_ID(0);
 	insertSearchQuery.Set_session(sessionID);
 	insertSearchQuery.Set_query(rawQueryString);
 	insertSearchQuery.Set_started(now);
@@ -76,7 +76,7 @@ bool QueryXmlResponse::ValidateQueryData(
 		const std::string& sessionID,
 		const std::string& rawQueryString) {
 
-	const Query& query(xmlQueryRequest->GetQuery());
+	const querylib::Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	if(query.GetQueryProperties().queryId > 0) {
@@ -126,7 +126,7 @@ bool QueryXmlResponse::ValidateQueryData(
 
 bool QueryXmlResponse::GetSimilarQuery(long long& queryId, const std::string& sessionID) {
 
-	const Query& query(xmlQueryRequest->GetQuery());
+	const querylib::Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	std::vector<database::WhereConditionTableColumn*> where;
@@ -188,7 +188,7 @@ bool QueryXmlResponse::AssembleResponse(const long long& relevantQueryID)
 
 bool QueryXmlResponse::Process(FCGX_Request& request) {
 
-	const Query& query(xmlQueryRequest->GetQuery());
+	const querylib::Query& query(xmlQueryRequest->GetQuery());
 
 	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
 	if(sessionID.empty()) {
@@ -209,14 +209,7 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 
 		//check for similar query
 		if(!GetSimilarQuery(relevantQueryID,sessionID)) {
-
 			InsertQuery(relevantQueryID,sessionID,rawQueryString);
-			if(relevantQueryID == -1) {
-				return false; }
-
-			QueryServer* queryServer(dynamic_cast<QueryServer*>(xmlQueryRequest->ServerThread()));
-			QueryProcessManager& qpm(queryServer->QueryProcessManager());
-			qpm.AddQuery(xmlQueryRequest->ServerThread()->DBConf(),relevantQueryID,query,sessionID,rawQueryString);
 		}
 	}
 

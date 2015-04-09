@@ -40,7 +40,7 @@ QueryThreadManager::~QueryThreadManager() {
 		dbHelpers[i].DestroyConnection(); }
 }
 
-void QueryThreadManager::BeginQuery(const Query& query) {
+void QueryThreadManager::BeginQuery(const querylib::Query& query) {
 
 	if(!releaseSeen) {
 		log::Logging::LogWarn("canceling running query, this should no be happening");

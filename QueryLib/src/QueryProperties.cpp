@@ -10,7 +10,7 @@
 
 #include <TimeTools.h>
 
-namespace queryserver {
+namespace querylib {
 
 QueryProperties::QueryProperties()
 : queryId(-1)

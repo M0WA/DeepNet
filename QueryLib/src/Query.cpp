@@ -14,7 +14,7 @@
 #include <StringTools.h>
 #include <HashTools.h>
 
-namespace queryserver {
+namespace querylib {
 
 Query::Query()
 {

@@ -12,9 +12,12 @@ namespace database {
 	class DatabaseConnection;
 }
 
+namespace querylib {
+	class Query;
+}
+
 namespace queryserver {
 
-	class Query;
 	class DictionaryInfoThread;
 
 /**
@@ -27,7 +30,7 @@ public:
 	 * @param dbConn database connection
 	 * @param query query to process
 	 */
-	QueryThreadParam(database::DatabaseConnection* dbConn, const Query& query);
+	QueryThreadParam(database::DatabaseConnection* dbConn, const querylib::Query& query);
 	virtual ~QueryThreadParam();
 
 	/**
@@ -38,7 +41,7 @@ public:
 	/**
 	 * current query
 	 */
-	const Query& query;
+	const querylib::Query& query;
 };
 
 /**
@@ -52,7 +55,7 @@ public:
 	 * @param query query to process
 	 * @param dictInfo dictionary information thread (should have ended already)
 	 */
-	QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const DictionaryInfoThread* dictInfo);
+	QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const querylib::Query& query, const DictionaryInfoThread* dictInfo);
 	virtual ~QueryDictionaryThreadParam() {}
 
 public:

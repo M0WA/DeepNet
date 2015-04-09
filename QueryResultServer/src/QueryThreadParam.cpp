@@ -10,7 +10,7 @@
 
 namespace queryserver {
 
-QueryThreadParam::QueryThreadParam(database::DatabaseConnection* dbConn, const Query& query)
+QueryThreadParam::QueryThreadParam(database::DatabaseConnection* dbConn, const querylib::Query& query)
 : dbConn(dbConn)
 , query(query){
 }
@@ -18,7 +18,7 @@ QueryThreadParam::QueryThreadParam(database::DatabaseConnection* dbConn, const Q
 QueryThreadParam::~QueryThreadParam() {
 }
 
-QueryDictionaryThreadParam::QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const Query& query, const DictionaryInfoThread* dictInfo)
+QueryDictionaryThreadParam::QueryDictionaryThreadParam(database::DatabaseConnection* dbConn, const querylib::Query& query, const DictionaryInfoThread* dictInfo)
 : QueryThreadParam(dbConn,query)
 , dictInfo(dictInfo){
 }

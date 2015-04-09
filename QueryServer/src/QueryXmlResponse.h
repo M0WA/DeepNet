@@ -13,15 +13,6 @@
 
 #include <FastCGIResponse.h>
 
-/*
-namespace database {
-	class DatabaseConnection;
-	class queryresultsTableBase;
-	template <class T> class  SelectResultContainer;
-
-}
-*/
-
 namespace queryserver {
 
 	class QueryXmlRequest;

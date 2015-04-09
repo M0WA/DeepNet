@@ -96,6 +96,8 @@ CPP_SRCS += \
 ../generated/pathpartsTableDefinitionCreateParam.cpp \
 ../generated/queryresultsTableBase.cpp \
 ../generated/queryresultsTableDefinitionCreateParam.cpp \
+../generated/queryresultthreadTableBase.cpp \
+../generated/queryresultthreadTableDefinitionCreateParam.cpp \
 ../generated/schemesTableBase.cpp \
 ../generated/schemesTableDefinitionCreateParam.cpp \
 ../generated/searchqueryTableBase.cpp \
@@ -218,6 +220,8 @@ OBJS += \
 ./generated/pathpartsTableDefinitionCreateParam.o \
 ./generated/queryresultsTableBase.o \
 ./generated/queryresultsTableDefinitionCreateParam.o \
+./generated/queryresultthreadTableBase.o \
+./generated/queryresultthreadTableDefinitionCreateParam.o \
 ./generated/schemesTableBase.o \
 ./generated/schemesTableDefinitionCreateParam.o \
 ./generated/searchqueryTableBase.o \
@@ -340,6 +344,8 @@ CPP_DEPS += \
 ./generated/pathpartsTableDefinitionCreateParam.d \
 ./generated/queryresultsTableBase.d \
 ./generated/queryresultsTableDefinitionCreateParam.d \
+./generated/queryresultthreadTableBase.d \
+./generated/queryresultthreadTableDefinitionCreateParam.d \
 ./generated/schemesTableBase.d \
 ./generated/schemesTableDefinitionCreateParam.d \
 ./generated/searchqueryTableBase.d \
@@ -374,7 +380,7 @@ CPP_DEPS += \
 generated/%.o: ../generated/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/ -I/usr/include/mysql -I/usr/include/postgresql/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/ -I/usr/include/mysql -I/usr/include/postgresql/9.3/server -I/usr/include/postgresql/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

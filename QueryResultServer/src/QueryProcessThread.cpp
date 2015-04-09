@@ -20,7 +20,7 @@
 
 namespace queryserver {
 
-QueryProcessThread::QueryProcessThread(const database::DatabaseConfig* dbConfig, const long long& queryId, const Query& query, const std::string& sessionID, const std::string& rawQueryString)
+QueryProcessThread::QueryProcessThread(const database::DatabaseConfig* dbConfig, const long long& queryId, const querylib::Query& query, const std::string& sessionID, const std::string& rawQueryString)
 : threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(QueryProcessThread::QueryProcessThreadFunction)),false)
 , dbConfig(dbConfig)
 , queryId(queryId)

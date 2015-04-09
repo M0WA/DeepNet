@@ -18,9 +18,11 @@ namespace database {
 	class DatabaseConnection;
 }
 
-namespace queryserver {
-
+namespace querylib {
 	class Query;
+}
+
+namespace queryserver {
 
 typedef enum {
 
@@ -95,7 +97,7 @@ public:
 	 * @param resultID result id
 	 * @param xml stream to append to
 	 */
-	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
+	void AppendToXML(database::DatabaseConnection* db,const querylib::Query& query,const size_t resultID,std::ostringstream& xml) const;
 
 public:
 	static std::string ResultTypeToString(const QueryThreadResultType& type);

@@ -10,7 +10,7 @@
 
 #include <StringTools.h>
 
-namespace queryserver {
+namespace querylib {
 
 QueryKeyword::QueryKeyword()
 : position(-1)

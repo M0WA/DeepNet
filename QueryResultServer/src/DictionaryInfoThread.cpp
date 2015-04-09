@@ -31,7 +31,7 @@
 
 namespace queryserver {
 
-DictionaryInfoThread::DictionaryInfoThread(database::DatabaseConnection* dbConn,const Query& query)
+DictionaryInfoThread::DictionaryInfoThread(database::DatabaseConnection* dbConn,const querylib::Query& query)
 : threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(DictionaryInfoThread::DictionaryInfoThreadFunction)),false)
 , dbConn(dbConn)
 , query(query) {

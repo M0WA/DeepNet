@@ -15,6 +15,8 @@
 
 #include <iterator>
 
+#include <Dictionary.h>
+
 #include <DatabaseLayer.h>
 #include <DatabaseHelper.h>
 #include <TableDefinition.h>
@@ -22,8 +24,6 @@
 #include <TableColumn.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
-
-#include <Dictionary.h>
 
 #include <ContainerTools.h>
 #include <StringTools.h>
@@ -57,7 +57,7 @@ void* QueryMetaThread::OnRun(){
 
 bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<database::TableBase>& results) const {
 
-	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
+	const querylib::QueryProperties& queryProperties(queryThreadParam.GetConst()->query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 
@@ -137,8 +137,8 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 
 bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::TableBase>& results) {
 
-	const Query& query(queryThreadParam.GetConst()->query);
-	const QueryProperties& queryProperties(query.GetQueryProperties());
+	const querylib::Query& query(queryThreadParam.GetConst()->query);
+	const querylib::QueryProperties& queryProperties(query.GetQueryProperties());
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
 

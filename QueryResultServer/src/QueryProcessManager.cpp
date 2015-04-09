@@ -8,18 +8,25 @@
 
 namespace queryserver {
 
-QueryProcessManager::QueryProcessManager()
-: cleanupThread(*this) {
+QueryProcessManager::QueryProcessManager(const database::DatabaseConfig* dbConfig)
+: cleanupThread(*this)
+, cleanResultThread(dbConfig,300)
+, dbConfig(dbConfig) {
 	cleanupThread.StartThread();
+	cleanResultThread.StartThread();
 }
 
 QueryProcessManager::~QueryProcessManager() {
 	if(cleanupThread.IsRunning()) {
 		cleanupThread.SetShallEnd();
 		cleanupThread.WaitForThread(); }
+
+	if(cleanResultThread.IsRunning()) {
+		cleanResultThread.SetShallEnd();
+		cleanResultThread.WaitForThread(); }
 }
 
-void QueryProcessManager::AddQuery(const database::DatabaseConfig* dbConfig, const long long& queryId,const Query& query, const std::string& sessionID, const std::string& rawQueryString) {
+void QueryProcessManager::AddQuery(const long long& queryId,const querylib::Query& query, const std::string& sessionID, const std::string& rawQueryString) {
 	QueryProcessThread* thread(new QueryProcessThread(dbConfig,queryId,query,sessionID,rawQueryString));
 	std::pair<long long,QueryProcessThread*> ins(queryId, thread);
 	lockThreads.Lock();

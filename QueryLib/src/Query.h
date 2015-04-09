@@ -15,16 +15,20 @@
 #include "QueryKeyword.h"
 
 namespace queryserver {
+	class QueryXmlRequest;
+}
+
+namespace querylib {
 
 /**
  * @brief encapsulates query keywords and their properties
  */
 class Query {
+	friend class queryserver::QueryXmlRequest;
+
 public:
 	Query();
 	virtual ~Query();
-
-	friend class QueryXmlRequest;
 
 public:
 	/**

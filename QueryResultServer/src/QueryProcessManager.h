@@ -7,6 +7,7 @@
 #pragma once
 
 #include "QueryProcessThread.h"
+#include "QueryResultCleanupThread.h"
 #include "QueryProcessManagerCleanupThread.h"
 
 #include <Mutex.h>
@@ -26,7 +27,7 @@ class Query;
  */
 class QueryProcessManager {
 public:
-	QueryProcessManager();
+	QueryProcessManager(const database::DatabaseConfig* dbConfig);
 	virtual ~QueryProcessManager();
 
 	friend class QueryProcessManagerCleanupThread;
@@ -41,9 +42,8 @@ public:
 	 * @param rawQueryString raw query string
 	 */
 	void AddQuery(
-		const database::DatabaseConfig* dbConfig,
 		const long long& queryId,
-		const Query& query,
+		const querylib::Query& query,
 		const std::string& sessionID,
 		const std::string& rawQueryString);
 
@@ -51,6 +51,8 @@ private:
 	std::map<long long,QueryProcessThread*> threads;
 	threading::Mutex lockThreads;
 	QueryProcessManagerCleanupThread cleanupThread;
+	QueryResultCleanupThread cleanResultThread;
+	const database::DatabaseConfig* dbConfig;
 };
 
 }

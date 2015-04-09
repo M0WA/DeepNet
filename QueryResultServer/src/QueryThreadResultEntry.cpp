@@ -60,7 +60,7 @@ QueryThreadResultEntry::QueryThreadResultEntry(
 QueryThreadResultEntry::~QueryThreadResultEntry() {
 }
 
-void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
+void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const querylib::Query& query,const size_t resultID,std::ostringstream& xml) const {
 
 	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
