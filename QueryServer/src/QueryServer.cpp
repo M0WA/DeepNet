@@ -24,7 +24,7 @@ QueryServer::QueryServer()
 
 QueryServer::~QueryServer()
 {
-	if(!cleanupThread.IsNull()) {
+	if(!cleanupThread.IsNull() && cleanupThread.Get()->IsRunning()) {
 		cleanupThread.Get()->SetShallEnd();
 		cleanupThread.Get()->WaitForThread();
 		cleanupThread.Release(); }
@@ -49,7 +49,7 @@ bool QueryServer::StartServer(int argc, char** argv)
 
 bool QueryServer::StopServer()
 {
-	if(!cleanupThread.IsNull()) {
+	if(!cleanupThread.IsNull() && cleanupThread.Get()->IsRunning()) {
 		cleanupThread.Get()->SetShallEnd();
 		cleanupThread.Get()->WaitForThread();
 		cleanupThread.Release(); }
