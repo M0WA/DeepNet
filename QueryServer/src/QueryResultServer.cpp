@@ -7,6 +7,8 @@
 #include "QueryResultServer.h"
 #include "QueryResultServerThread.h"
 
+#include <Logging.h>
+
 namespace queryserver {
 
 QueryResultServer::QueryResultServer()
@@ -18,6 +20,7 @@ QueryResultServer::~QueryResultServer() {
 
 bool QueryResultServer::StartServer(int argc, char** argv) {
 	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
+	log::Logging::LogTrace("QueryResultServer::StartServer() returns %d",success);
 	return success;
 }
 

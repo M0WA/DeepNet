@@ -39,11 +39,13 @@ fastcgiserver::FastCGIServerThread* QueryServer::CreateThread(database::Database
 bool QueryServer::StartServer(int argc, char** argv)
 {
 	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
+	log::Logging::LogTrace("QueryServer::StartServer() returns %d",success);
 
 	if(success) {
 		cleanupThread.Set(new QueryResultCleanupThread(databaseConfig, requery_after),true);
 		cleanupThread.Get()->StartThread(0);}
 
+	log::Logging::LogTrace("QueryServer::StartServer(): cleanup thread started ");
 	return success;
 }
 
