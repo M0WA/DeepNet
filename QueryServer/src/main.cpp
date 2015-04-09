@@ -158,13 +158,19 @@ int main(int argc, char** argv) {
 			if(!childQuery) {
 				kill(childResult,SIGINT); }
 			if( waitpid(childResult, &status, WNOHANG) == childResult) {
-				childResult = 0; }
+				if (WIFEXITED(status)) {
+					childResult = 0;
+				}
+			}
 		}
 		if(childQuery) {
 			if(!childResult) {
 				kill(childQuery,SIGINT); }
-			if( waitpid(childQuery, &status, WNOHANG) == childResult) {
-				childQuery = 0; }
+			if( waitpid(childQuery, &status, WNOHANG) == childQuery) {
+				if (WIFEXITED(status)) {
+					childQuery = 0;
+				}
+			}
 		}
 		sleep(3);
 	}
