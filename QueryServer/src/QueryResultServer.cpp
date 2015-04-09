@@ -42,7 +42,7 @@ bool QueryResultServer::InitConfig() {
 
 	std::string socketType = "port";
 	if ( !Config().GetValue("socket_type",socketType) ) {
-		log::Logging::LogError("error while getting ocket_type");
+		log::Logging::LogError("error while getting socket_type");
 		return false; }
 
 	int threadCount = 1;
@@ -63,7 +63,10 @@ bool QueryResultServer::InitConfig() {
 	std::string configFileName;
 	if(Config().GetValue("logfile",configFileName)) {
 		configFileName = configFileName + ".result.log";
-		Config().SetValue("logfile",configFileName); }
+		log::Logging::LogInfo("setting new logfile: %s",configFileName);
+		Config().SetValue("logfile",configFileName);
+		log::Logging::LogTrace("new logfile is set: %s",configFileName);
+	}
 
 	return true;
 }
