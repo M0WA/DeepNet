@@ -63,9 +63,9 @@ bool QueryResultServer::InitConfig() {
 	std::string configFileName;
 	if(Config().GetValue("logfile",configFileName)) {
 		configFileName = configFileName + ".result.log";
-		log::Logging::LogInfo("setting new logfile: %s",configFileName);
+		log::Logging::LogInfo("setting new logfile: %s",configFileName.c_str());
 		Config().SetValue("logfile",configFileName);
-		log::Logging::LogTrace("new logfile is set: %s",configFileName);
+		log::Logging::LogTrace("new logfile is set: %s",configFileName.c_str());
 	}
 
 	return true;
