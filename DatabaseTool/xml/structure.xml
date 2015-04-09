@@ -1106,6 +1106,21 @@
 
 <!-- ======================================================================================== 
  *
+ *	TABLE: queryresultthread
+ *
+ -->
+<table
+	name="queryresultthread"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+
+	<column name="ID"  type="INTEGER"      notnull="1" autoincrement="1" />
+</table>
+
+
+<!-- ======================================================================================== 
+ *
  *	TABLE: searchquery
  *
  -->
@@ -1115,16 +1130,18 @@
 	MySQL_Database="queryserver"
 >
 
-	<column name="ID"      		type="INTEGER"      notnull="1" autoincrement="1" />
-	<column name="session" 		type="CHAR(64)"     notnull="1" />
-	<column name="query"   		type="VARCHAR(255)" notnull="1" />
-	<column name="started"     	type="TIMESTAMP"    notnull="1" />
-	<column name="modified"  	type="TIMESTAMP"    notnull="1" />
-	<column name="finished"    	type="INTEGER(1)"   notnull="1" />
-	<column name="total"   		type="INTEGER"      notnull="1" />
-	<column name="identifier"   type="VARCHAR(32)"  notnull="1" />
+	<column name="ID"      			type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="RESULTTHREAD_ID"	type="INTEGER"		notnull="1" />
+	<column name="session" 			type="CHAR(64)"     notnull="1" />
+	<column name="query"   			type="VARCHAR(255)" notnull="1" />
+	<column name="started"     		type="TIMESTAMP"    notnull="1" />
+	<column name="modified"  		type="TIMESTAMP"    notnull="1" />
+	<column name="finished"    		type="INTEGER(1)"   notnull="1" />
+	<column name="total"   			type="INTEGER"      notnull="1" />
+	<column name="identifier"   	type="VARCHAR(32)"  notnull="1" />
 
 	<primary_key column="ID" />
+	<foreign_key column="RESULTTHREAD_ID"  references_table="queryresultthread" references_column="ID"    MySQL_Database="queryserver" />
 	<unique_key  column="identifier,session" />
 	<index       column="identifier" />
 	<index       column="session" />

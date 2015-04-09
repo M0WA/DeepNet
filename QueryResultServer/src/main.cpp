@@ -1,9 +1,3 @@
-/*
- * main.cpp
- *
- *  Created on: 12.03.2012
- *      Author: Moritz Wagner
- */
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -14,7 +8,7 @@
 #include <libxml/parser.h>
 #include <curl/curl.h>
 
-#include "QueryServer.h"
+#include "QueryResultServer.h"
 
 #include <Logging.h>
 #include <Thread.h>
@@ -104,19 +98,19 @@ int main(int argc, char** argv) {
 	curl_global_init(CURL_GLOBAL_ALL);
 
 	RegisterSignalHandlers();
-	queryserver::QueryServer serverQuery;
+	queryserver::QueryResultServer serverResult;
 	try {
-		if( serverQuery.StartServer(argc,argv) ) {
+		if(serverResult.StartServer(argc,argv) ) {
 			while(run)
 				sleep(1);
 		}
 		else {
-			log::Logging::LogError("fatal error while starting QueryServer");
+			log::Logging::LogError("fatal error while starting QueryResultServer");
 		}
-		serverQuery.StopServer();
+		serverResult.StopServer();
 	}
 	catch(errors::Exception& ex) {
-		serverQuery.OnException(ex);
+		serverResult.OnException(ex);
 	}
 
 	curl_global_cleanup();

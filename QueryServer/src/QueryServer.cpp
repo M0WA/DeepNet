@@ -14,8 +14,6 @@
 
 namespace queryserver {
 
-QueryProcessManager QueryServer::queryProcessManager;
-
 QueryServer::QueryServer()
 : fastcgiserver::FastCGIServer()
 , requery_after(120)
@@ -24,10 +22,6 @@ QueryServer::QueryServer()
 
 QueryServer::~QueryServer()
 {
-	if(!cleanupThread.IsNull() && cleanupThread.Get()->IsRunning()) {
-		cleanupThread.Get()->SetShallEnd();
-		cleanupThread.Get()->WaitForThread();
-		cleanupThread.Release(); }
 }
 
 fastcgiserver::FastCGIServerThread* QueryServer::CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket)
@@ -41,22 +35,11 @@ bool QueryServer::StartServer(int argc, char** argv)
 	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
 	log::Logging::SetApplicationName("QueryServer");
 	log::Logging::LogTrace("QueryServer::StartServer() returns %d",success);
-
-	if(success) {
-		cleanupThread.Set(new QueryResultCleanupThread(databaseConfig, requery_after),true);
-		cleanupThread.Get()->StartThread(0);}
-
-	log::Logging::LogTrace("QueryServer::StartServer(): cleanup thread started ");
 	return success;
 }
 
 bool QueryServer::StopServer()
 {
-	if(!cleanupThread.IsNull() && cleanupThread.Get()->IsRunning()) {
-		cleanupThread.Get()->SetShallEnd();
-		cleanupThread.Get()->WaitForThread();
-		cleanupThread.Release(); }
-
 	return fastcgiserver::FastCGIServer::StopServer();
 }
 

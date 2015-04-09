@@ -58,6 +58,29 @@ public:
 	 */
   void Set_ID(const long long& in);
   /**
+   * gets value of RESULTTHREAD_ID.
+   * @param out value.
+   */
+  void Get_RESULTTHREAD_ID(long long& out) const;
+
+  /**
+   * gets const column for RESULTTHREAD_ID.
+   * @return column for RESULTTHREAD_ID.
+   */
+  const TableColumn* GetConstColumn_RESULTTHREAD_ID() const;
+
+  /**
+   * gets column for RESULTTHREAD_ID.
+   * @return column for RESULTTHREAD_ID.
+   */
+  TableColumn* GetColumn_RESULTTHREAD_ID();
+
+	/**
+	 * sets value of RESULTTHREAD_ID.
+	 * @param in value.
+	 */
+  void Set_RESULTTHREAD_ID(const long long& in);
+  /**
    * gets value of session.
    * @param out value.
    */
@@ -248,6 +271,28 @@ public:
         SelectResultContainer<searchqueryTableBase>& results);
 public:
 	/**
+	 * gets rows by a value of RESULTTHREAD_ID.
+	 * @param db database connection.
+	 * @param fieldValue value of RESULTTHREAD_ID.
+	 * @param results contains results.
+	 */
+    static void GetBy_RESULTTHREAD_ID(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of RESULTTHREAD_ID.
+	 * @param db database connection.
+	 * @param fieldValue values of RESULTTHREAD_ID.
+	 * @param results contains results.
+	 */
+    static void GetBy_RESULTTHREAD_ID(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
 	 * gets rows by a value of session.
 	 * @param db database connection.
 	 * @param fieldValue value of session.
@@ -406,6 +451,10 @@ public:
 //
 // template: TableBase_InnerJoin.inc.h
 //
+    static void AddInnerJoinLeftSideOn_RESULTTHREAD_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinLeftSideOn_RESULTTHREAD_ID(Statement& stmt);
+    static void AddInnerJoinRightSideOn_RESULTTHREAD_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinRightSideOn_RESULTTHREAD_ID(Statement& stmt);
 
 
 public:
@@ -430,6 +479,27 @@ public:
      * @param container adds newly created where conditions.
      */
     static void GetWhereColumnsFor_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of RESULTTHREAD_ID.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_RESULTTHREAD_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of RESULTTHREAD_ID.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_RESULTTHREAD_ID(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
@@ -591,6 +661,11 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_ID();
+	/**
+     * create a column definition for column RESULTTHREAD_ID.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_RESULTTHREAD_ID();
 	/**
      * create a column definition for column session.
      * @return column definition.
