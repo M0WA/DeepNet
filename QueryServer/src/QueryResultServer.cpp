@@ -31,6 +31,8 @@ void QueryResultServer::RegisterConfig() {
 
 bool QueryResultServer::InitConfig() {
 
+	log::Logging::SetApplicationName("QueryServer");
+
 	//we need to set a port range different from
 	//query server here, so we start at
 	// baseport + number of queryserver threads

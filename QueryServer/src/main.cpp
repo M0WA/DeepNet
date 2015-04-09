@@ -24,7 +24,7 @@
 
 #include <vector>
 
-volatile static bool run = true;
+static bool run = true;
 static threading::Mutex signalMutex;
 
 static const int catchSignals[] =
@@ -108,6 +108,8 @@ int main(int argc, char** argv) {
 
 	pid_t childQuery(fork());
 	if(!childQuery) {
+		RegisterSignalHandlers();
+
 		//in QueryServer child
 		int rc(0);
 		queryserver::QueryServer serverQuery;
@@ -131,6 +133,8 @@ int main(int argc, char** argv) {
 
 	pid_t childResult(fork());
 	if(!childResult) {
+		RegisterSignalHandlers();
+
 		//in QueryResultServer child
 		int rc(0);
 		queryserver::QueryResultServer serverResult;
