@@ -214,15 +214,19 @@ bool FastCGIServer::InitSocketConfig()
 		socketType = "port";
 
 	if(socketType.compare("port") == 0) {
-		if ( !config.GetValue("base_port",basePort) )
-			return false;
-		if(basePort <= 0)
-			return false;
+		if ( !config.GetValue("base_port",basePort) ) {
+			log::Logging::LogError("error while getting basePort: %d",basePort);
+			return false; }
+		if(basePort <= 0) {
+			log::Logging::LogError("invalid basePort found: %d",basePort);
+			return false; }
 	}
 	else if(socketType.compare("filename") == 0) {
+		log::Logging::LogError("not implemented socket_type: %s",socketType.c_str());
 		return false;
 	}
 	else {
+		log::Logging::LogError("invalid socketType found: %s",socketType.c_str());
 		return false;
 	}
 

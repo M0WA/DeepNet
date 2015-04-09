@@ -49,8 +49,9 @@ bool QueryResultServer::InitConfig() {
 		return false; }
 
 	int threadCount = 1;
-	if ( !Config().GetValue("threads",threadCount) )
-		threadCount = 1;
+	if ( !Config().GetValue("threads",threadCount) ) {
+		log::Logging::LogWarn("error while getting threads, defaulting to 1");
+		threadCount = 1; }
 
 	if(socketType.compare("port") == 0) {
 		int basePort(0);
