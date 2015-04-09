@@ -13,7 +13,6 @@ namespace queryserver {
 
 QueryResultServer::QueryResultServer()
 : fastcgiserver::FastCGIServer(){
-	log::Logging::SetApplicationName("QueryResultServer");
 }
 
 QueryResultServer::~QueryResultServer() {
@@ -21,6 +20,7 @@ QueryResultServer::~QueryResultServer() {
 
 bool QueryResultServer::StartServer(int argc, char** argv) {
 	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
+	log::Logging::SetApplicationName("QueryResultServer");
 	log::Logging::LogTrace("QueryResultServer::StartServer() returns %d",success);
 	return success;
 }

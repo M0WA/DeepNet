@@ -20,7 +20,6 @@ QueryServer::QueryServer()
 : fastcgiserver::FastCGIServer()
 , requery_after(120)
 {
-	log::Logging::SetApplicationName("QueryServer");
 }
 
 QueryServer::~QueryServer()
@@ -40,6 +39,7 @@ fastcgiserver::FastCGIServerThread* QueryServer::CreateThread(database::Database
 bool QueryServer::StartServer(int argc, char** argv)
 {
 	bool success(fastcgiserver::FastCGIServer::StartServer(argc, argv));
+	log::Logging::SetApplicationName("QueryServer");
 	log::Logging::LogTrace("QueryServer::StartServer() returns %d",success);
 
 	if(success) {
