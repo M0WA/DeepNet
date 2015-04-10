@@ -15,7 +15,7 @@ function print_usage {
   echo "-U skip unittests"
 }
 
-PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools DOMParser LibXMLParser WorkerBot InspectorServer SuggestServer QueryServer DeepNetTool"
+PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools DOMParser LibXMLParser WorkerBot InspectorServer SuggestServer QueryResultServer QueryServer DeepNetTool"
 
 UNITTESTS=1
 CLEAN_DB=0
