@@ -176,7 +176,7 @@ function QueryHelper()
       var queryString = document.getElementById("search_query_id").value;
       var queryId = GetTextElementContentRaw(xmlDoc.getElementsByTagName("queryId")[0]);
 
-      if(queryId > 1) {
+      if(queryId > 0) {
         resultHelper.onQueryResult(queryId,pageNo);
       }
       else {
