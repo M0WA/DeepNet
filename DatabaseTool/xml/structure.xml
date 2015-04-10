@@ -1116,6 +1116,8 @@
 >
 
 	<column name="ID"  type="INTEGER"      notnull="1" autoincrement="1" />
+	
+	<primary_key column="ID" />
 </table>
 
 
