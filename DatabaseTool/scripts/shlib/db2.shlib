@@ -6,10 +6,15 @@
 #
 #########################################################
 
-source ../Scripts/conf/db.generator.conf
-
 function execute_db2()
 {
+if [ ! -f ../Scripts/conf/db.generator.db2.conf ]; then
+  echo "DB2 (../Scripts/conf/db.generator.db2.conf) is not configured, skipping"
+  return
+fi
+
+source ../Scripts/conf/db.generator.conf
+
 # TODO: replace values with values from config file
 # {DBPASS} ${DBUSER}
 TMP_DBUSER="deepinst"

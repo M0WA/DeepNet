@@ -9,6 +9,11 @@
 
 function execute_mysql()
 {
+if [ ! -f ../Scripts/conf/db.generator.mysql.conf ]; then
+  echo "MySQL (../Scripts/conf/db.generator.mysql.conf) is not configured, skipping"
+  return
+fi
+
   source ../Scripts/conf/db.generator.mysql.conf
   EXEC_FILENAME=$1
   echo "executing ${EXEC_FILENAME}"
