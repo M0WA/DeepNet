@@ -29,6 +29,9 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for RESULTTHREAD_ID
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_RESULTTHREAD_ID());
 
+    //creating column definition for PROPERTIES_ID
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_PROPERTIES_ID());
+
     //creating column definition for session
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_session());
 

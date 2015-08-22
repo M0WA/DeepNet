@@ -21,6 +21,7 @@
 
 
 #include "queryresultthreadTableBase.h"
+#include "querypropertiesTableBase.h"
 
 
 namespace database {
@@ -213,6 +214,94 @@ void searchqueryTableBase::Set_RESULTTHREAD_ID(const long long& in) {
     case DB_INVALID_TYPE:
     default:
       fieldName = "RESULTTHREAD_ID";
+      break;
+    }
+
+    GetColumnByName(fieldName)->Set(in);
+}
+
+void searchqueryTableBase::Get_PROPERTIES_ID(long long& out) const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PROPERTIES_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PROPERTIES_ID";
+      break;
+    }
+
+    GetConstColumnByName(fieldName)->Get(out);
+}
+
+const TableColumn* searchqueryTableBase::GetConstColumn_PROPERTIES_ID() const {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PROPERTIES_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PROPERTIES_ID";
+      break;
+    }
+
+    return GetConstColumnByName(fieldName);
+}
+
+TableColumn* searchqueryTableBase::GetColumn_PROPERTIES_ID() {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PROPERTIES_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PROPERTIES_ID";
+      break;
+    }
+
+    return GetColumnByName(fieldName);
+}
+
+void searchqueryTableBase::Set_PROPERTIES_ID(const long long& in) {
+
+    std::string fieldName;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_IBM_DB2:
+      fieldName = "PROPERTIES_ID";
+      break;
+    case DB_POSTGRESQL:
+      fieldName = tools::StringTools::ToLowerNP("PROPERTIES_ID");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      fieldName = "PROPERTIES_ID";
       break;
     }
 
@@ -916,6 +1005,44 @@ void searchqueryTableBase::GetBy_RESULTTHREAD_ID(
     delete pTblDef;
 }
 
+void searchqueryTableBase::GetBy_PROPERTIES_ID(
+        DatabaseConnection* db, 
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_PROPERTIES_ID(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
+void searchqueryTableBase::GetBy_PROPERTIES_ID(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results) {
+    
+    std::vector<WhereConditionTableColumn*> container;
+    searchqueryTableBase::GetWhereColumnsFor_PROPERTIES_ID(
+        WhereConditionTableColumnCreateParam( WhereCondition::Equals(), WhereCondition::InitialComp() ),
+        fieldValue, 
+        container);
+
+    TableDefinition* pTblDef(searchqueryTableBase::CreateTableDefinition());
+    SelectStatement stmt(pTblDef);
+    stmt.SelectAllColumns();
+    stmt.Where().AddColumns( container );
+    db->Select(stmt,results);
+    delete pTblDef;
+}
+
 void searchqueryTableBase::GetBy_session(
         DatabaseConnection* db, 
         const std::string& fieldValue, 
@@ -1236,6 +1363,55 @@ void searchqueryTableBase::AddInnerJoinRightSideOn_RESULTTHREAD_ID(Statement& st
 
     AddInnerJoinRightSideOn_RESULTTHREAD_ID("","","","",stmt);
 }
+void searchqueryTableBase::AddInnerJoinLeftSideOn_PROPERTIES_ID(
+    const std::string& joinTableAlias,
+    const std::string& joinColumnAlias,
+    const std::string& referencedTableAlias,
+    const std::string& referencedColumnAlias,
+    Statement& stmt ) {
+
+    TableDefinition*       referencedTableDef (querypropertiesTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(querypropertiesTableBase::GetDefinition_ID());
+    TableDefinition*       joinTableDef       (searchqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (searchqueryTableBase::GetDefinition_PROPERTIES_ID());
+
+    InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
+    entry.joinTableAlias         = joinTableAlias;
+    entry.joinColumnAlias        = joinColumnAlias;
+    entry.referencedTableAlias   = referencedTableAlias;
+    entry.referencedColumnsAlias = referencedColumnAlias;
+    stmt.InnerJoin().AddInnerJoin(entry);
+}
+
+void searchqueryTableBase::AddInnerJoinLeftSideOn_PROPERTIES_ID(Statement& stmt) {
+
+    AddInnerJoinLeftSideOn_PROPERTIES_ID("","","","",stmt);
+}
+
+void searchqueryTableBase::AddInnerJoinRightSideOn_PROPERTIES_ID(
+    const std::string& joinTableAlias,
+    const std::string& joinColumnAlias,
+    const std::string& referencedTableAlias,
+    const std::string& referencedColumnAlias,
+    Statement& stmt ) {
+
+    TableDefinition*       referencedTableDef (searchqueryTableBase::CreateTableDefinition());
+    TableColumnDefinition* referencedColumnDef(searchqueryTableBase::GetDefinition_PROPERTIES_ID());
+    TableDefinition*       joinTableDef       (querypropertiesTableBase::CreateTableDefinition());
+    TableColumnDefinition* joinColumnDef      (querypropertiesTableBase::GetDefinition_ID());
+
+    InnerJoinEntry entry(joinTableDef,joinColumnDef,referencedTableDef,referencedColumnDef);
+    entry.joinTableAlias         = referencedTableAlias;
+    entry.joinColumnAlias        = referencedColumnAlias;
+    entry.referencedTableAlias   = joinTableAlias;
+    entry.referencedColumnsAlias = joinColumnAlias;
+    stmt.InnerJoin().AddInnerJoin(entry);
+}
+
+void searchqueryTableBase::AddInnerJoinRightSideOn_PROPERTIES_ID(Statement& stmt) {
+
+    AddInnerJoinRightSideOn_PROPERTIES_ID("","","","",stmt);
+}
 
 
 //
@@ -1301,6 +1477,42 @@ void searchqueryTableBase::GetWhereColumnsFor_RESULTTHREAD_ID(
     std::vector<WhereConditionTableColumn*>& container) {
 
     TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_RESULTTHREAD_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstancesFromValues(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_PROPERTIES_ID(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const long long& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_PROPERTIES_ID());
+    container.push_back(
+      WhereConditionTableColumn::CreateInstance(
+        createParam, 
+        TableColumn::CreateInstanceFromValue(
+          pTmpDef,
+          fieldValue
+        )
+      )
+    );
+    delete pTmpDef;
+}
+
+void searchqueryTableBase::GetWhereColumnsFor_PROPERTIES_ID(
+    const WhereConditionTableColumnCreateParam& createParam,
+    const std::vector<long long>& fieldValue, 
+    std::vector<WhereConditionTableColumn*>& container) {
+
+    TableColumnDefinition* pTmpDef(searchqueryTableBase::GetDefinition_PROPERTIES_ID());
     container.push_back(
       WhereConditionTableColumn::CreateInstance(
         createParam, 
@@ -1622,6 +1834,41 @@ TableColumnDefinition* searchqueryTableBase::GetDefinition_RESULTTHREAD_ID() {
     case DB_POSTGRESQL:
       createParam.databaseName = "deepnet.public";
       createParam.columnName   = tools::StringTools::ToLowerNP("RESULTTHREAD_ID");
+      createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
+      break;
+    case DB_INVALID_TYPE:
+    default:
+      break;
+    }
+    createParam.columnType          = DB_TYPE_INTEGER;
+    createParam.isPrimaryKey        = false;
+    createParam.isAutoGenerated     = false;
+    createParam.isForeignKey        = true;
+    createParam.isUniqueKey         = false;
+    createParam.isCombinedUniqueKey = false;
+    createParam.isIndex             = false;
+    createParam.isNullable          = false;
+    createParam.hasDefaultValue     = false;
+    createParam.dataSize            = 0;
+    return TableColumnDefinition::CreateInstance(createParam);
+}
+TableColumnDefinition* searchqueryTableBase::GetDefinition_PROPERTIES_ID() {
+
+    TableColumnDefinitionCreateParam createParam;
+    switch(DatabaseHelper::GetDatabaseType()) {
+    case DB_MYSQL:
+      createParam.databaseName = "queryserver";
+      createParam.columnName   = "PROPERTIES_ID";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_IBM_DB2:
+      createParam.databaseName = "deepnet";
+      createParam.columnName   = "PROPERTIES_ID";
+      createParam.tableName    = "searchquery";
+      break;
+    case DB_POSTGRESQL:
+      createParam.databaseName = "deepnet.public";
+      createParam.columnName   = tools::StringTools::ToLowerNP("PROPERTIES_ID");
       createParam.tableName    = tools::StringTools::ToLowerNP("searchquery");
       break;
     case DB_INVALID_TYPE:

@@ -81,6 +81,29 @@ public:
 	 */
   void Set_RESULTTHREAD_ID(const long long& in);
   /**
+   * gets value of PROPERTIES_ID.
+   * @param out value.
+   */
+  void Get_PROPERTIES_ID(long long& out) const;
+
+  /**
+   * gets const column for PROPERTIES_ID.
+   * @return column for PROPERTIES_ID.
+   */
+  const TableColumn* GetConstColumn_PROPERTIES_ID() const;
+
+  /**
+   * gets column for PROPERTIES_ID.
+   * @return column for PROPERTIES_ID.
+   */
+  TableColumn* GetColumn_PROPERTIES_ID();
+
+	/**
+	 * sets value of PROPERTIES_ID.
+	 * @param in value.
+	 */
+  void Set_PROPERTIES_ID(const long long& in);
+  /**
    * gets value of session.
    * @param out value.
    */
@@ -293,6 +316,28 @@ public:
         SelectResultContainer<searchqueryTableBase>& results);
 public:
 	/**
+	 * gets rows by a value of PROPERTIES_ID.
+	 * @param db database connection.
+	 * @param fieldValue value of PROPERTIES_ID.
+	 * @param results contains results.
+	 */
+    static void GetBy_PROPERTIES_ID(
+        DatabaseConnection* db,
+        const long long& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+
+	/**
+	 * gets rows by multiple values of PROPERTIES_ID.
+	 * @param db database connection.
+	 * @param fieldValue values of PROPERTIES_ID.
+	 * @param results contains results.
+	 */
+    static void GetBy_PROPERTIES_ID(
+        DatabaseConnection* db, 
+        const std::vector<long long>& fieldValue, 
+        SelectResultContainer<searchqueryTableBase>& results);
+public:
+	/**
 	 * gets rows by a value of session.
 	 * @param db database connection.
 	 * @param fieldValue value of session.
@@ -455,6 +500,10 @@ public:
     static void AddInnerJoinLeftSideOn_RESULTTHREAD_ID(Statement& stmt);
     static void AddInnerJoinRightSideOn_RESULTTHREAD_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
     static void AddInnerJoinRightSideOn_RESULTTHREAD_ID(Statement& stmt);
+    static void AddInnerJoinLeftSideOn_PROPERTIES_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinLeftSideOn_PROPERTIES_ID(Statement& stmt);
+    static void AddInnerJoinRightSideOn_PROPERTIES_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
+    static void AddInnerJoinRightSideOn_PROPERTIES_ID(Statement& stmt);
 
 
 public:
@@ -500,6 +549,27 @@ public:
      * @param container adds newly created where conditions.
      */
     static void GetWhereColumnsFor_RESULTTHREAD_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const std::vector<long long>& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+    /**
+     * creates where condition for a value of PROPERTIES_ID.
+     * @param createParam create parameter.
+     * @param fieldValue field value.
+     * @param container adds newly created where condition.
+     */
+	static void GetWhereColumnsFor_PROPERTIES_ID(
+        const WhereConditionTableColumnCreateParam& createParam,
+        const long long& fieldValue, 
+        std::vector<WhereConditionTableColumn*>& container);
+
+    /**
+     * creates where condition for multiple values of PROPERTIES_ID.
+     * @param createParam create parameter.
+     * @param fieldValue field values.
+     * @param container adds newly created where conditions.
+     */
+    static void GetWhereColumnsFor_PROPERTIES_ID(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
@@ -666,6 +736,11 @@ public:
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_RESULTTHREAD_ID();
+	/**
+     * create a column definition for column PROPERTIES_ID.
+     * @return column definition.
+     */
+	static TableColumnDefinition* GetDefinition_PROPERTIES_ID();
 	/**
      * create a column definition for column session.
      * @return column definition.

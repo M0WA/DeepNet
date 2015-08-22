@@ -94,6 +94,8 @@ CPP_SRCS += \
 ../generated/metainfoTableDefinitionCreateParam.cpp \
 ../generated/pathpartsTableBase.cpp \
 ../generated/pathpartsTableDefinitionCreateParam.cpp \
+../generated/querypropertiesTableBase.cpp \
+../generated/querypropertiesTableDefinitionCreateParam.cpp \
 ../generated/queryresultsTableBase.cpp \
 ../generated/queryresultsTableDefinitionCreateParam.cpp \
 ../generated/queryresultthreadTableBase.cpp \
@@ -218,6 +220,8 @@ OBJS += \
 ./generated/metainfoTableDefinitionCreateParam.o \
 ./generated/pathpartsTableBase.o \
 ./generated/pathpartsTableDefinitionCreateParam.o \
+./generated/querypropertiesTableBase.o \
+./generated/querypropertiesTableDefinitionCreateParam.o \
 ./generated/queryresultsTableBase.o \
 ./generated/queryresultsTableDefinitionCreateParam.o \
 ./generated/queryresultthreadTableBase.o \
@@ -342,6 +346,8 @@ CPP_DEPS += \
 ./generated/metainfoTableDefinitionCreateParam.d \
 ./generated/pathpartsTableBase.d \
 ./generated/pathpartsTableDefinitionCreateParam.d \
+./generated/querypropertiesTableBase.d \
+./generated/querypropertiesTableDefinitionCreateParam.d \
 ./generated/queryresultsTableBase.d \
 ./generated/queryresultsTableDefinitionCreateParam.d \
 ./generated/queryresultthreadTableBase.d \
