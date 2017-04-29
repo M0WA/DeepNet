@@ -79,7 +79,9 @@ bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 			config->GetDatabaseName().c_str(),
 			config->GetPort(),
 			NULL,
-			CLIENT_MULTI_STATEMENTS|CLIENT_COMPRESS	);
+			CLIENT_MULTI_STATEMENTS |
+			CLIENT_COMPRESS |
+			CLIENT_IGNORE_SIGPIPE );
 
 	if(!mysqlConnection) {
 		log::Logging::LogError(mysql_error(tmp));

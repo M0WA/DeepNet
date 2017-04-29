@@ -37,7 +37,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/"/>
 									<listOptionValue builtIn="false" value="/usr/include/mysql"/>
 									<listOptionValue builtIn="false" value="/usr/include/postgresql/"/>
-									<listOptionValue builtIn="false" value="/usr/include/postgresql/9.4/server/"/>
+									<listOptionValue builtIn="false" value="/usr/include/postgresql/9.5/server/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.494512883" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -pthread -rdynamic" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.879403064" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -148,7 +148,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.release.853081566" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.release">
 								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.lib.release.option.optimization.level.1645253688" name="Optimization Level" superClass="gnu.c.compiler.lib.release.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.lib.release.option.debugging.level.1519259714" name="Debug Level" superClass="gnu.c.compiler.lib.release.option.debugging.level" value="gnu.c.debugging.level.none" valueType="enumerated"/>
-								<option id="gnu.c.compiler.option.include.paths.147348399" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+								<option id="gnu.c.compiler.option.include.paths.147348399" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/src"/>
 									<listOptionValue builtIn="false" value="/home/momo/deepnet/Bot/src"/>
 									<listOptionValue builtIn="false" value="/home/momo/deepnet/Database/generated"/>

@@ -31,6 +31,7 @@ HttpClientCURL::HttpClientCURL()
 	curl_easy_setopt(curlPtr, CURLOPT_NOPROGRESS, 1);
 	curl_easy_setopt(curlPtr, CURLOPT_NOSIGNAL, 1);
 	curl_easy_setopt(curlPtr, CURLOPT_FORBID_REUSE, 1);
+	curl_easy_setopt(curlPtr, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
 	//TODO: how to deal with invalid ssl certificates?
 	curl_easy_setopt(curlPtr, CURLOPT_SSL_VERIFYPEER, 0);
