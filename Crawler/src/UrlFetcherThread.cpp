@@ -59,10 +59,6 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 	UrlFetcherThread* instance(dynamic_cast<UrlFetcherThread*>(threadParam->instance));
 	instance->fetcherThreadParam = reinterpret_cast<UrlFetcherThreadParam*>(threadParam->pParam);
 
-	if(instance->fetcherThreadParam->minAge < 10) {
-		log::Logging::LogWarn("setting crawler_minAge to 10 days for crawling");
-		instance->fetcherThreadParam->minAge = 10; }
-
 	PERFORMANCE_LOG_START;
 	bool connectedDB(instance->DB().CreateConnection(instance->fetcherThreadParam->databaseConfig)!= 0);
 	PERFORMANCE_LOG_STOP("crawler: connect to database");
