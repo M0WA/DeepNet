@@ -9,6 +9,9 @@
 #include <cmath>
 #include <sstream>
 
+#include <string.h>
+#include <time.h>
+
 namespace tools {
 
 TimeTools::TimeTools() {
@@ -142,6 +145,7 @@ bool TimeTools::ToSQLTimestamp(const struct tm& in,std::string& out ) {
 }
 
 void TimeTools::InitTm(struct tm& init) {
+	memset(&init,0,sizeof(struct tm));
 	init = TimeToTm(0);
 }
 
@@ -160,12 +164,11 @@ bool TimeTools::IsZero(const struct timeval& test) {
 }
 
 bool TimeTools::IsZero(struct tm test) {
-	time_t timeT(mktime(&test));
+	time_t timeT(timegm(&test));
 	return timeT <= 0;
 }
 
 struct tm TimeTools::NowUTC(void) {
-
   struct tm tmNow;
   TimeTools::NowUTC(tmNow);
   return tmNow;
@@ -178,7 +181,6 @@ void TimeTools::NowUTC(struct tm& tmNow) {
 }
 
 void TimeTools::NowUTCAdd(struct tm& tmFuture, const int nDays) {
-
 	InitTm(tmFuture);
     time_t now(time(0));
     now += (nDays * 86400); //86400 seconds/day
@@ -193,11 +195,12 @@ struct tm TimeTools::NowUTCAdd(const int nDays) {
 
 time_t TimeTools::TmToTime(const struct tm& time) {
 	struct tm timeTmp(time);
-	return mktime(&timeTmp);
+	return timegm(&timeTmp);
 }
 
 struct tm TimeTools::TimeToTm(const time_t& time) {
 	struct tm out;
+	memset(&out,0,sizeof(struct tm));
 	gmtime_r(&time,&out);
 	return out;
 }

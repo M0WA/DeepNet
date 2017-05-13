@@ -71,7 +71,7 @@ bool DataMiningTools::RegisterDataminingAlert(database::DatabaseConnection* db, 
 
 		db->TransactionCommit();
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 		db->TransactionRollback();
 		log::Logging::LogError("error while inserting dataming alert (%lld, %lld), alert has not been registered",critID,alertID);
 		return false;
@@ -101,7 +101,7 @@ bool DataMiningTools::InsertDataminingUser(database::DatabaseConnection* db, con
 		db->LastInsertID(userID);
 		log::Logging::LogTrace("inserted user %s has userID: %lld",username.c_str(),userID);
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 		log::Logging::LogError("error while inserting datamining user, user not created");
 		return false;
 	}

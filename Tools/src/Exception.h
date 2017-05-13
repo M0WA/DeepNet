@@ -11,8 +11,10 @@
 #define THROW_EXCEPTION(className,args...) \
 	throw className(__FILE__,__LINE__,__PRETTY_FUNCTION__, ##args);
 
-#define RETHROW_EXCEPTION(org) \
-	throw org;
+#define CATCH_EXCEPTION(className,exceptionName,enableLogging) \
+	catch(className& exceptionName) { \
+		if( enableLogging ) { \
+		  exceptionName.Log(); }
 
 namespace errors {
 
@@ -74,11 +76,6 @@ public:
 	 * log this exception.
 	 */
 	void Log() const;
-
-	/**
-	 * prevent exception from being logged.
-	 */
-	void DisableLogging();
 
 	/**
 	 * dumps exception as string.

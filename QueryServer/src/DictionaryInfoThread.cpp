@@ -140,7 +140,7 @@ bool DictionaryInfoThread::GetIDsForKeywords(
 
 		try {
 			dbConn->Select(selectDict,results); }
-		catch(database::DatabaseException& e) {
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			log::Logging::LogTrace("error while selecting keyword: %s",iKeyword->c_str());
 			return false; }
 

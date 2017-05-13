@@ -148,7 +148,6 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 
 	int nError = mysql_real_query(mysqlConnection,query.c_str(),query.size());
 	if(nError) {
-
 		unsigned int errNoMysql = mysql_errno(mysqlConnection);
 		if(errNoMysql == ER_LOCK_DEADLOCK || errNoMysql == ER_LOCK_WAIT_TIMEOUT) {
 			bool exceptionOccurred = true;
@@ -160,7 +159,7 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 						Execute(query,false);
 						exceptionOccurred = false;
 					}
-					catch(MySQLOperationTimeoutException& e) {
+					CATCH_EXCEPTION(MySQLOperationTimeoutException,e,1)
 						exceptionOccurred = true;
 					}
 				}

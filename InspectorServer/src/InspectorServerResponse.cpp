@@ -59,7 +59,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 			try {
 				network::HttpUrlParser::DecodeUrl(htmlCode);
 			}
-			catch(errors::Exception& e) {
+			CATCH_EXCEPTION(errors::Exception,e,1)
 				log::Logging::LogWarn("error while url-decoding:\n" + htmlCode);
 				continue;
 			}
@@ -71,7 +71,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				try {
 					network::HttpUrlParser::ParseURL(htmlCode,urlIn);
 				}
-				catch(errors::Exception& e) {
+				CATCH_EXCEPTION(errors::Exception,e,1)
 					log::Logging::LogWarn("error while url-parsing:\n" + htmlCode);
 					continue; }
 

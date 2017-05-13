@@ -72,7 +72,7 @@ bool UnitTestUrlParser::TestValidUrls(const std::string& urlFileName) {
 				network::HttpUrlParser::ParseURL(curTestUrl.baseUrl, curTestUrl.base);
 				curTestUrl.base.CalculateFullUrl(connection);
 			}
-			catch(errors::Exception& e) {
+			CATCH_EXCEPTION(errors::Exception,e,1)
 				UnitTestUrlParser::OnError("error while parsing urlBase:\n" + e.Dump(),curTestUrl);
 				success = false;
 				continue;
@@ -86,7 +86,7 @@ bool UnitTestUrlParser::TestValidUrls(const std::string& urlFileName) {
 			network::HttpUrlParser::ParseURL(curTestUrl.base,curTestUrl.url.GetFullUrl(), curTestUrl.reverse);
 			curTestUrl.reverse.CalculateFullUrl(connection);
 		}
-		catch(errors::Exception& e) {
+		CATCH_EXCEPTION(errors::Exception,e,1)
 			UnitTestUrlParser::OnError("error while parsing url:\n" + e.Dump(),curTestUrl);
 			success = false;
 			continue;
@@ -98,7 +98,7 @@ bool UnitTestUrlParser::TestValidUrls(const std::string& urlFileName) {
 			network::HttpUrlParser::ParseURL(curTestUrl.resultUrl, curTestUrl.result);
 			curTestUrl.result.CalculateFullUrl(connection);
 		}
-		catch(errors::Exception& e) {
+		CATCH_EXCEPTION(errors::Exception,e,1)
 			UnitTestUrlParser::OnError("error while parsing result url:\n" + e.Dump(),curTestUrl);
 			success = false;
 			continue;
@@ -171,7 +171,7 @@ bool UnitTestUrlParser::TestInvalidUrls(database::DatabaseConnection* connection
 				network::HttpUrlParser::ParseURL(curTestUrl.baseUrl, baseUrl);
 				baseUrl.CalculateFullUrl(connection);
 			}
-			catch(errors::Exception& e) {
+			CATCH_EXCEPTION(errors::Exception,e,1)
 				UnitTestUrlParser::OnError("error while parsing urlBase:\n" + e.Dump(),curTestUrl);
 				success = false;
 				continue;
@@ -183,8 +183,7 @@ bool UnitTestUrlParser::TestInvalidUrls(database::DatabaseConnection* connection
 		try {
 			network::HttpUrlParser::ParseURL(baseUrl,curTestUrl.theUrl, curUrl);
 		}
-		catch(errors::Exception& e) {
-			e.DisableLogging();
+		CATCH_EXCEPTION(errors::Exception,e,0)
 			hasError = true;
 		}
 

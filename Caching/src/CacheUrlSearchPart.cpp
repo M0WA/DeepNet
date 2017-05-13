@@ -48,8 +48,7 @@ void CacheUrlSearchPart::GetUrlSearchPartByID(
 	try {
 		database::urlsearchpartsTableBase::GetBy_ID(db,urlSearchPartID,results);
 	}
-	catch(database::DatabaseException& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		std::stringstream ss;
 		ss << "exception while getting url search part: " << searchPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();
@@ -86,9 +85,8 @@ void CacheUrlSearchPart::GetIDByUrlSearchPart(
 		tblInsert.InsertOrUpdate(db);
 		db->LastInsertID(urlSearchPartID);
 	}
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		urlSearchPartID = -1;
-		e.DisableLogging();
 		std::stringstream ss;
 		ss << "exception while inserting url search part: " << urlSearchPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();

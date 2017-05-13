@@ -29,9 +29,7 @@ bool DOMParser::Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData
 	try {
 		doc = DocumentFactory::FromHtmlData(url,html);
 	}
-	catch(htmlparser::HtmlParserException& ex) {
-		if(!log::Logging::IsLogLevelTrace()) {
-			ex.DisableLogging(); }
+	CATCH_EXCEPTION(htmlparser::HtmlParserException,ex,!log::Logging::IsLogLevelTrace())
 	}
 
 	tools::Pointer<Document> docPtr(doc);

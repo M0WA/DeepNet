@@ -118,7 +118,7 @@ int main(int argc, char** argv)
 		curl_global_cleanup();
 		xmlCleanupParser();
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 
 		serverSuggest.OnException(ex);
 		return 1;

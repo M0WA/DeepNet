@@ -11,7 +11,7 @@
 
 namespace database {
 
-class DatabaseInvalidOperatorTypeException: public DatabaseException {
+class DatabaseInvalidOperatorTypeException: public database::DatabaseException {
 public:
 	DatabaseInvalidOperatorTypeException(
 			const std::string& file,

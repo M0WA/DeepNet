@@ -77,7 +77,7 @@ void* QuerySecondLevelDomainThread::OnRun(){
 	try {
 		dbConn->Select(select,results);
 	}
-	catch(errors::Exception& e) {
+	CATCH_EXCEPTION(errors::Exception,e,1)
 		return (void*) -1;
 	}
 

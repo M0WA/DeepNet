@@ -11,7 +11,7 @@
 
 namespace database {
 
-class DatabaseInvalidColumnNameException : DatabaseException {
+class DatabaseInvalidColumnNameException : public database::DatabaseException {
 public:
 	DatabaseInvalidColumnNameException(
 			const std::string& file,

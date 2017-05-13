@@ -54,7 +54,7 @@ bool QueryXmlResponse::LoadQuery(
 	database::SelectResultContainer<database::searchqueryTableBase> results;
 	try {
 		database::searchqueryTableBase::GetBy_ID(db,queryId,results); }
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false; }
 
 	results.ResetIter();
@@ -100,7 +100,7 @@ bool QueryXmlResponse::LoadQuery(
 	database::SelectResultContainer<database::queryresultsTableBase> queryResults;
 	try {
 		db->Select(selectQueryResults,queryResults); }
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false; }
 
 	AssembleXMLResult(queryResults,sizeTotal,queryId);
@@ -127,7 +127,7 @@ void QueryXmlResponse::InsertResults(
 		insertSearchQuery.Insert(db);
 		db->LastInsertID(queryId);
 	}
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return; }
 
 	if(queryId == -1) {
@@ -149,7 +149,7 @@ void QueryXmlResponse::InsertResults(
 		try {
 			queryResultTbl.Insert(db);
 		}
-		catch(database::DatabaseException& e) {
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			return; }
 	}
 }
@@ -230,7 +230,7 @@ bool QueryXmlResponse::ValidateQueryData(
 		try {
 			db->Select(selectSearchQuery,resultSearchQuery);
 		}
-		catch(database::DatabaseException& e) {
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			return false; }
 
 		if(resultSearchQuery.Size() > 1) {

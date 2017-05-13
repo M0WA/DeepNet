@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 	try {
 		success = bot.Run(argc,argv);
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 		bot.OnException( ex );
 		return 1;
 	}

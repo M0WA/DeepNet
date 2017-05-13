@@ -35,6 +35,7 @@ Exception::Exception(
 , message(message)
 , backtrace(tools::DebuggingTools::GetBacktrace())
 , logException(logException){
+	tryRethrow = true;
 }
 
 Exception::Exception(
@@ -58,21 +59,15 @@ Exception::Exception(
 }
 
 Exception::~Exception() {
-	if(logException)
-		Log();
 }
 
 void Exception::Log() const {
-
-	log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,Dump());
-}
-
-void Exception::DisableLogging() {
-	logException = false;
+	if(logException) {
+		log::Logging::LogUnlimited(log::Logging::LOGLEVEL_ERROR,Dump());
+	}
 }
 
 std::string Exception::Dump() const {
-
 	std::string now;
 	log::Logging::GetTimeString(now);
 
@@ -91,34 +86,24 @@ std::string Exception::Dump() const {
 }
 
 void Exception::InitializeExceptionHandling() {
-
 	std::set_terminate(Exception::TerminateHandler);
 	//std::set_unexpected(Exception::TerminateHandler);
 }
 
 void Exception::TerminateHandler() {
-
+	//unhandled exceptions
 	std::string backtrace = tools::DebuggingTools::GetBacktrace();
-	if(tryRethrow) {
-		try {
-			tryRethrow = false;
-			throw;
-		}
-		catch(std::exception& ex){
-			THROW_EXCEPTION(errors::StdException,ex,backtrace);
-		}
-		catch(errors::Exception& ex) {
-			throw ex;
-		}
-		/*
-		catch(...) {
-			THROW_EXCEPTION(errors::EmptyException);
-		}
-		*/
+	try {
+		throw;
 	}
-	else {
-		tryRethrow = true;
-		THROW_EXCEPTION(errors::EmptyException);
+	catch(std::exception& ex) {
+		THROW_EXCEPTION(errors::StdException,ex,backtrace);
+	}
+	CATCH_EXCEPTION(errors::Exception,ex,1)
+		throw ex;
+	}
+	catch(...) {
+		THROW_EXCEPTION(errors::EmptyException,backtrace);
 	}
 }
 

@@ -72,7 +72,7 @@ void* QueryThread::QueryThreadFunction(threading::Thread::THREAD_PARAM* threadPa
 			ret = instance->Run(); }
 		instance->DestroyThreadInstance();
 	}
-	catch(errors::Exception& e) {
+	CATCH_EXCEPTION(errors::Exception,e,1)
 		ret = (void*)1;
 	}
 	catch(...) {

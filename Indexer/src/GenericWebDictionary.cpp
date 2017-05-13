@@ -44,8 +44,7 @@ bool GenericWebDictionary::CommitContent(void)
 		try {
 			dictKeyword.Set_keyword(word);
 		}
-		catch(database::DatabaseColumnDatasizeExceededException& ex) {
-			ex.DisableLogging();
+		CATCH_EXCEPTION(database::DatabaseColumnDatasizeExceededException,ex,0)
 			log::Logging::LogWarn("omitting keyword exceeding which is exceeding max size");
 			continue; }
 
@@ -128,8 +127,7 @@ bool GenericWebDictionary::CommitMeta(void)
 			try {
 				dictKeyword.Set_keyword(word);
 			}
-			catch(database::DatabaseColumnDatasizeExceededException& ex) {
-				ex.DisableLogging();
+			CATCH_EXCEPTION(database::DatabaseColumnDatasizeExceededException,ex,0)
 				log::Logging::LogWarn("omitting meta keyword exceeding which is exceeding max size");
 				continue; }
 

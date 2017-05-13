@@ -129,7 +129,7 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 
 	try {
 		dbConn->Select(select,results); }
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false; }
 
 	return true;

@@ -126,7 +126,7 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 	try {
 		dbConn->Select(select,results);
 	}
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false;
 	}
 

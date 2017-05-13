@@ -53,8 +53,7 @@ void CachePathPart::GetIDByPathPart(database::DatabaseConnection* db,const std::
 		pathPartTbl.InsertOrUpdate(db);
 		db->LastInsertID(pathPartID);
 	}
-	catch(database::DatabaseException& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		std::stringstream ss;
 		ss << "exception while getting path part: " << pathPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();
@@ -83,8 +82,7 @@ void CachePathPart::GetPathPartByID(database::DatabaseConnection* db, const long
 	try {
 		database::pathpartsTableBase::GetBy_ID(db,pathPartID,pathPartTbl);
 	}
-	catch(database::DatabaseException& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		std::stringstream ss;
 		ss << "exception while getting path part  for pathpart ID: " << pathPartID << std::endl
 		   << "original exception:"  << std::endl << e.Dump();

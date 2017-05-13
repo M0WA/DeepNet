@@ -289,7 +289,7 @@ bool DeepNetToolBot::ProcessUnitTests() {
 		bool successParse = true;
 		try {
 			network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
-		catch(errors::Exception& e) {
+		CATCH_EXCEPTION(errors::Exception,e,1)
 			successParse = false; }
 
 		if(successParse)

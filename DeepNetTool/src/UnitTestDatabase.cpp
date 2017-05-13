@@ -135,7 +135,7 @@ bool UnitTestDatabase::OrderByTest() {
 	database::SelectResultContainer<database::unittest1TableBase> results;
 	try {
 		dbHelper.Connection()->Select(stmt,results); }
-	catch(database::DatabaseException& ex) {
+	CATCH_EXCEPTION(database::DatabaseException,ex,1)
 		return false; }
 
 	if(results.Size() != entriesTmp.size()) {
@@ -177,7 +177,7 @@ bool UnitTestDatabase::InsertEntryFkTable(const UnitTestDatabaseEntry& entry) {
 	try {
 		database::unittest1TableBase::GetBy_integer_test(dbHelper.Connection(),entry.nInteger,results1);
 		database::unittest2TableBase::GetBy_integer_test(dbHelper.Connection(),entry.nInteger,results2); }
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false; }
 
 	if(results1.Size() != results2.Size() || results1.Size() != 1) {
@@ -226,7 +226,7 @@ bool UnitTestDatabase::InsertEntryFkTable(const UnitTestDatabaseEntry& entry) {
 
 	try{
 		insertFk.Insert(dbHelper.Connection());	}
-	catch(database::DatabaseException& ex) {
+	CATCH_EXCEPTION(database::DatabaseException,ex,1)
 		return false; }
 
 	return true;
@@ -253,7 +253,7 @@ bool UnitTestDatabase::UpsertTest() {
 		database::unittest2TableBase::GetBy_varchar_test(
 			dbHelper.Connection(), "duplicate key detected", results);
 	}
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false;}
 
 	if(results.Size() != 1) {
@@ -285,7 +285,7 @@ bool UnitTestDatabase::UpsertTest() {
 			log::Logging::LogError("invalid update table id while upsert test: %lld (should be %lld)",tmpID,tmp2ID);
 			return false; }
 	}
-	catch(database::DatabaseException& e) {
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
 		return false;}
 
 	if(!SelectTest<database::unittest2TableBase>()) {
@@ -310,7 +310,7 @@ bool UnitTestDatabase::UpdateTest() {
 	updateTbl1.Set_varchar_test("3");
 	try {
 		updateTbl1.Update(dbHelper.Connection(), paramTbl1); }
-	catch(database::DatabaseException& ex) {
+	CATCH_EXCEPTION(database::DatabaseException,ex,1)
 		log::Logging::LogError("could not update test data:\n%s",ex.Dump().c_str());
 		return false; }
 
@@ -327,7 +327,7 @@ bool UnitTestDatabase::UpdateTest() {
 	updateTbl2.Set_varchar_test("4");
 	try {
 		updateTbl2.Update(dbHelper.Connection(), paramTbl2); }
-	catch(database::DatabaseException& ex) {
+	CATCH_EXCEPTION(database::DatabaseException,ex,1)
 		log::Logging::LogError("could not update test data:\n%s",ex.Dump().c_str());
 		return false; }
 
@@ -365,7 +365,7 @@ bool UnitTestDatabase::InnerJoinRightSideEntry(const UnitTestDatabaseEntry& entr
 	database::SelectResultContainer<database::TableBase> results;
 	try {
 		dbHelper.Connection()->Select(stmt,results); }
-	catch(database::DatabaseException& ex) {
+	CATCH_EXCEPTION(database::DatabaseException,ex,1)
 		return false; }
 
 	if(results.Size() != 1) {
@@ -406,7 +406,7 @@ bool UnitTestDatabase::InnerJoinLeftSideEntry(const UnitTestDatabaseEntry& entry
 	database::SelectResultContainer<database::TableBase> results;
 	try {
 		dbHelper.Connection()->Select(stmt,results); }
-	catch(database::DatabaseException& ex) {
+	CATCH_EXCEPTION(database::DatabaseException,ex,1)
 		return false; }
 
 	if(results.Size() != 1) {
@@ -430,7 +430,7 @@ bool UnitTestDatabase::SQLInjectionTest() {
 
 		try {
 			sqlInject.Insert(dbHelper.Connection()); }
-		catch(database::DatabaseException& e) {
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			return false; }
 	}
 
@@ -451,7 +451,7 @@ bool UnitTestDatabase::SQLInjectionTest() {
 
 			try {
 				sqlInject.Insert(dbHelper.Connection()); }
-			catch(database::DatabaseException& e) {
+			CATCH_EXCEPTION(database::DatabaseException,e,1)
 				return false; }
 		}
 		else

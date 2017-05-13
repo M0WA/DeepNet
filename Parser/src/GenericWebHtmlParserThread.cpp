@@ -181,7 +181,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 				}
 			}
 		}
-		catch(const network::HttpUrlParserException& ex) {
+		CATCH_EXCEPTION(const network::HttpUrlParserException,ex,1)
 			if(log::Logging::IsLogLevelTrace()) {
 				log::Logging::LogTrace(
 						"exception while trying to add url %s to database",iterUrls->GetFullUrl().c_str());
