@@ -166,8 +166,7 @@ bool QueryXmlRequest::ParseQueryLimitations(const std::string& xmlRequest) {
 				tools::Pointer<htmlparser::DatabaseUrl> url;
 				try {
 					caching::CacheDatabaseUrl::GetByUrlString(serverThread->DB().Connection(), limitDomainString, url);	}
-				CATCH_EXCEPTION(errors::Exception,e,1)
-					e.DisableLogging();
+				CATCH_EXCEPTION(errors::Exception,e,0)
 					log::Logging::LogWarn("could not parse limitation domain");
 					log::Logging::LogTraceUnlimited("exception:\n%s",e.Dump().c_str());
 					log::Logging::LogTraceUnlimited("request:\n%s",xmlRequest.c_str());
