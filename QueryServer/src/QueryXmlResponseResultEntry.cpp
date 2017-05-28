@@ -20,8 +20,7 @@
 namespace queryserver {
 
 QueryXmlResponseResultEntry::QueryXmlResponseResultEntry(const QueryThreadResultEntry* result)
-: queryserver::Relevance(result->relevance)
-, isSorted(true) {
+: queryserver::Relevance(result->relevance) {
 	threadResults.push_back(result);
 }
 
@@ -35,25 +34,16 @@ bool QueryXmlResponseResultEntry::operator< (const QueryXmlResponseResultEntry& 
 
 void QueryXmlResponseResultEntry::AddResult(const QueryXmlResponseResultEntry& result) {
 
-	isSorted = false;
-
 	threadResults.insert(threadResults.end(),result.threadResults.begin(),result.threadResults.end());
 
 	(*this) += dynamic_cast<const Relevance&>(result);
 }
 
-void QueryXmlResponseResultEntry::SortResultsByRelevance(){
+void QueryXmlResponseResultEntry::AddResult(const QueryThreadResultEntry* result) {
 
-	if(!isSorted) {
-		QueryThreadResultEntry::PointerComparator relevanceComp;
-		std::sort(threadResults.begin(),threadResults.end(), relevanceComp);
-		isSorted = true; }
-}
+	threadResults.push_back(result);
 
-const QueryThreadResultEntry* QueryXmlResponseResultEntry::GetMostRelevantResult() {
-
-	SortResultsByRelevance();
-	return threadResults.at(0);
+	(*this) += dynamic_cast<const Relevance&>(*result);
 }
 
 void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
@@ -91,6 +81,11 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 	"<relevancy>" << GetRelevance() << "</relevancy>"
 	"<weight>" << GetWeight() << "</weight>"
 	"</result>";
+}
+
+long long QueryXmlResponseResultEntry::GetUrlID() const {
+
+	return threadResults.at(0)->urlID;
 }
 
 }

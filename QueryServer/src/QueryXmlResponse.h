@@ -54,6 +54,7 @@ private:
 		const std::string& rawQueryString);
 
 	void MergeDuplicateURLs(
+		const std::vector<const QueryThreadResultEntry*>& threadResults,
 		std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
 	void MergeDuplicateSecondLevel(

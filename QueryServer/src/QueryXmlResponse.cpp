@@ -43,6 +43,204 @@ QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequ
 QueryXmlResponse::~QueryXmlResponse() {
 }
 
+void QueryXmlResponse::MergeDuplicateSecondLevel(
+		database::DatabaseConnection* db,
+		std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+
+	std::map<long long,size_t> secondLvlIDPos;
+
+	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
+	for(size_t pos(0);i!=responseEntries.end();++i) {
+		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
+		caching::CacheDatabaseUrl::GetByUrlID(db,i->GetUrlID(),ptrUrl);
+		long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
+
+		if(secondLvlIDPos.count(secondLevelID) > 0) {
+			responseEntries.at(secondLvlIDPos[secondLevelID]).AddResult(*i);
+			responseEntries.erase(i);
+			--i;
+		}
+		else {
+			secondLvlIDPos[secondLevelID]=pos;
+			++pos;
+		}
+	}
+}
+
+void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadResultEntry*>& threadResults, std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+
+	std::map<long long,size_t> urlIDPos;
+	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
+	for(;iRes != threadResults.end(); ++iRes) {
+		const long long& urlID((*iRes)->urlID);
+		if(urlIDPos.count(urlID) > 0) {
+			size_t pos(urlIDPos[urlID]);
+			responseEntries[pos].AddResult(*iRes);
+		}
+		else {
+			size_t pos(responseEntries.size());
+			responseEntries.push_back(QueryXmlResponseResultEntry(*iRes));
+			urlIDPos[urlID] = pos;
+		}
+	}
+}
+
+void QueryXmlResponse::SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+
+	//sort response entries by relevance (descending, therefore we use reverse iterator)
+	std::sort(responseEntries.rbegin(), responseEntries.rend());
+}
+
+bool QueryXmlResponse::CreateQuery(
+		long long& queryId,
+		const std::string& sessionID,
+		const std::string& rawQueryString) {
+
+	const Query& query(xmlQueryRequest->GetQuery());
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
+
+	queryManager.BeginQuery(query);
+
+	//waiting for all results to arrive
+	std::vector<const QueryThreadResultEntry*> results;
+	queryManager.WaitForResults(results);
+
+	//container for final results
+	std::vector<QueryXmlResponseResultEntry> responseEntries;
+
+	//group results by url id
+	MergeDuplicateURLs(results,responseEntries);
+
+	//group results by secondlevel domain if requested
+	if(query.properties.groupBySecondLevelDomain) {
+		MergeDuplicateSecondLevel(db, responseEntries);}
+
+	//sort results
+	SortResults(responseEntries);
+
+	//save results to database
+	InsertResults(queryId,sessionID,rawQueryString,responseEntries);
+
+	//releasing the query invalidates
+	//all pointers to it's results
+	results.clear();
+	queryManager.ReleaseQuery();
+
+	return true;
+}
+
+bool QueryXmlResponse::Process(FCGX_Request& request) {
+
+	const Query& query(xmlQueryRequest->GetQuery());
+
+	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
+	if(sessionID.empty()) {
+		log::Logging::LogWarn("empty session id (SIRIDIAID) received, cannot process query request");
+		return false; }
+
+	const std::string& rawQueryString(xmlQueryRequest->GetRawQueryString());
+	if(rawQueryString.empty()) {
+		log::Logging::LogWarn("empty query string received, cannot process query request");
+		return false; }
+
+	long long relevantQueryID(query.properties.queryId);
+	if(!ValidateQueryData(sessionID,rawQueryString))
+		relevantQueryID = -1;
+
+	//if query does not exist in database, create it
+	if(relevantQueryID <= 0) {
+		if(!CreateQuery(relevantQueryID,sessionID,rawQueryString))
+			return false;
+	}
+
+	if(!LoadQuery(relevantQueryID,sessionID,rawQueryString))
+		return false;
+
+	return FastCGIResponse::Process(request);
+}
+
+void QueryXmlResponse::AssembleXMLResult(
+		const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,
+		const size_t& total,
+		const long long& queryId) {
+
+	const Query& query(xmlQueryRequest->GetQuery());
+
+	//assemble xml entries from results
+	std::ostringstream xmlResultEntries;
+	for(queryResults.ResetIter();!queryResults.IsIterEnd();queryResults.Next()) {
+		const database::queryresultsTableBase* curTbl(queryResults.GetConstIter());
+		std::string tmp;
+		curTbl->Get_resultXML(tmp);
+		xmlResultEntries << tmp; }
+
+	//assemble complete xml response including header etc.
+	std::ostringstream xmlResult;
+	xmlResult <<
+		"<?xml version=\"1.0\"?>\n"
+		"<response>"
+		"<queryId>" << queryId << "</queryId>"
+		"<pageNo>" << query.properties.pageNo << "</pageNo>"
+		"<totalResults>" << total << "</totalResults>" <<
+		xmlResultEntries.str() <<
+		"</response>\n";
+
+	//set xml string as response's content
+	content = xmlResult.str();
+}
+
+bool QueryXmlResponse::ValidateQueryData(
+		const std::string& sessionID,
+		const std::string& rawQueryString) {
+
+	const Query& query(xmlQueryRequest->GetQuery());
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
+
+	if(query.properties.queryId > 0) {
+
+		// check if query is associated with session
+		std::vector<database::WhereConditionTableColumn*> where;
+
+		database::searchqueryTableBase::GetWhereColumnsFor_session(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
+			sessionID,
+			where );
+
+		database::searchqueryTableBase::GetWhereColumnsFor_query(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+			rawQueryString,
+			where );
+
+		database::searchqueryTableBase::GetWhereColumnsFor_ID(
+			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+			query.properties.queryId,
+			where);
+
+		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
+		selectSearchQuery.SelectAllColumns();
+		selectSearchQuery.Where().AddColumns(where);
+
+		database::SelectResultContainer<database::searchqueryTableBase> resultSearchQuery;
+		try {
+			db->Select(selectSearchQuery,resultSearchQuery);
+		}
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
+			return false; }
+
+		if(resultSearchQuery.Size() > 1) {
+			log::Logging::LogWarn("too many results for search query, cannot process request");
+			return false; }
+
+		if(resultSearchQuery.Size() == 1) {
+			return true; }
+		else {
+			log::Logging::LogInfo("client specified invalid query id for it's session, creating new query");
+			return false; }
+	}
+
+	return false;
+}
+
 bool QueryXmlResponse::LoadQuery(
 		const long long& queryId,
 		const std::string& sessionID,
@@ -151,214 +349,6 @@ void QueryXmlResponse::InsertResults(
 		}
 		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			return; }
-	}
-}
-
-bool QueryXmlResponse::CreateQuery(
-		long long& queryId,
-		const std::string& sessionID,
-		const std::string& rawQueryString) {
-
-	const Query& query(xmlQueryRequest->GetQuery());
-	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
-
-	queryManager.BeginQuery(query);
-
-	//waiting for all results to arrive
-	std::vector<const QueryThreadResultEntry*> results;
-	queryManager.WaitForResults(results);
-
-	//container for final results
-	std::vector<QueryXmlResponseResultEntry> responseEntries;
-	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(results.begin());
-	for(;iRes != results.end(); ++iRes) {
-		responseEntries.push_back(QueryXmlResponseResultEntry(*iRes)); }
-
-	//group results by url id
-	MergeDuplicateURLs(responseEntries);
-
-	//group results by secondlevel domain if requested
-	if(query.properties.groupBySecondLevelDomain) {
-		MergeDuplicateSecondLevel(db, responseEntries);}
-
-	//sort results
-	SortResults(responseEntries);
-
-	//save results to database
-	InsertResults(queryId,sessionID,rawQueryString,responseEntries);
-
-	//releasing the query invalidates
-	//all pointers to it's results
-	results.clear();
-	queryManager.ReleaseQuery();
-
-	return true;
-}
-
-bool QueryXmlResponse::ValidateQueryData(
-		const std::string& sessionID,
-		const std::string& rawQueryString) {
-
-	const Query& query(xmlQueryRequest->GetQuery());
-	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
-
-	if(query.properties.queryId > 0) {
-
-		// check if query is associated with session
-		std::vector<database::WhereConditionTableColumn*> where;
-
-		database::searchqueryTableBase::GetWhereColumnsFor_session(
-			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
-			sessionID,
-			where );
-
-		database::searchqueryTableBase::GetWhereColumnsFor_query(
-			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-			rawQueryString,
-			where );
-
-		database::searchqueryTableBase::GetWhereColumnsFor_ID(
-			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-			query.properties.queryId,
-			where);
-
-		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
-		selectSearchQuery.SelectAllColumns();
-		selectSearchQuery.Where().AddColumns(where);
-
-		database::SelectResultContainer<database::searchqueryTableBase> resultSearchQuery;
-		try {
-			db->Select(selectSearchQuery,resultSearchQuery);
-		}
-		CATCH_EXCEPTION(database::DatabaseException,e,1)
-			return false; }
-
-		if(resultSearchQuery.Size() > 1) {
-			log::Logging::LogWarn("too many results for search query, cannot process request");
-			return false; }
-
-		if(resultSearchQuery.Size() == 1) {
-			return true; }
-		else {
-			log::Logging::LogInfo("client specified invalid query id for it's session, creating new query");
-			return false; }
-	}
-
-	return false;
-}
-
-bool QueryXmlResponse::Process(FCGX_Request& request) {
-
-	const Query& query(xmlQueryRequest->GetQuery());
-
-	const std::string& sessionID(fcgiRequest->GetCookieValueByName("SIRIDIAID"));
-	if(sessionID.empty()) {
-		log::Logging::LogWarn("empty session id (SIRIDIAID) received, cannot process query request");
-		return false; }
-
-	const std::string& rawQueryString(xmlQueryRequest->GetRawQueryString());
-	if(rawQueryString.empty()) {
-		log::Logging::LogWarn("empty query string received, cannot process query request");
-		return false; }
-
-	long long relevantQueryID(query.properties.queryId);
-	if(!ValidateQueryData(sessionID,rawQueryString))
-		relevantQueryID = -1;
-
-	//if query does not exist in database, create it
-	if(relevantQueryID <= 0) {
-		if(!CreateQuery(relevantQueryID,sessionID,rawQueryString))
-			return false;
-	}
-
-	if(!LoadQuery(relevantQueryID,sessionID,rawQueryString))
-		return false;
-
-	return FastCGIResponse::Process(request);
-}
-
-void QueryXmlResponse::SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
-
-	//resorting thread results in each response entry by relevance
-	std::vector<QueryXmlResponseResultEntry>::iterator iResort(responseEntries.begin());
-	for(;iResort!=responseEntries.end();++iResort) {
-		iResort->SortResultsByRelevance(); }
-
-	//sort response entries by relevance (descending, therefore we use reverse iterator)
-	std::sort(responseEntries.rbegin(), responseEntries.rend());
-}
-
-void QueryXmlResponse::AssembleXMLResult(
-		const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,
-		const size_t& total,
-		const long long& queryId) {
-
-	const Query& query(xmlQueryRequest->GetQuery());
-
-	//assemble xml entries from results
-	std::ostringstream xmlResultEntries;
-	for(queryResults.ResetIter();!queryResults.IsIterEnd();queryResults.Next()) {
-		const database::queryresultsTableBase* curTbl(queryResults.GetConstIter());
-		std::string tmp;
-		curTbl->Get_resultXML(tmp);
-		xmlResultEntries << tmp; }
-
-	//assemble complete xml response including header etc.
-	std::ostringstream xmlResult;
-	xmlResult <<
-		"<?xml version=\"1.0\"?>\n"
-		"<response>"
-		"<queryId>" << queryId << "</queryId>"
-		"<pageNo>" << query.properties.pageNo << "</pageNo>"
-		"<totalResults>" << total << "</totalResults>" <<
-		xmlResultEntries.str() <<
-		"</response>\n";
-
-	//set xml string as response's content
-	content = xmlResult.str();
-}
-
-void QueryXmlResponse::MergeDuplicateSecondLevel(
-		database::DatabaseConnection* db,
-		std::vector<QueryXmlResponseResultEntry>& responseEntries) {
-
-	std::map<long long,size_t> secondLvlIDPos;
-
-	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
-	for(size_t pos(0);i!=responseEntries.end();++i) {
-
-		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
-		caching::CacheDatabaseUrl::GetByUrlID(db,i->GetMostRelevantResult()->urlID,ptrUrl);
-		long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
-
-		if(secondLvlIDPos.count(secondLevelID) > 0) {
-			responseEntries.at(secondLvlIDPos[secondLevelID]).AddResult(*i);
-			responseEntries.erase(i);
-			--i;
-		}
-		else {
-			secondLvlIDPos[secondLevelID]=pos;
-			++pos;
-		}
-	}
-}
-
-void QueryXmlResponse::MergeDuplicateURLs(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
-
-	std::map<long long,size_t> urlIDPos;
-	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
-
-	for(size_t pos(0);i!=responseEntries.end();++i) {
-		const long long& urlID(i->GetMostRelevantResult()->urlID);
-		if(urlIDPos.count(urlID) > 0) {
-			responseEntries.at(urlIDPos[urlID]).AddResult(*i);
-			responseEntries.erase(i);
-			--i;
-		}
-		else {
-			urlIDPos[urlID]=pos;
-			++pos;
-		}
 	}
 }
 

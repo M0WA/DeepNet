@@ -36,6 +36,12 @@ public:
 	 * add/merge a result to this entry
 	 * @param result result to add/merge
 	 */
+	void AddResult(const QueryThreadResultEntry* result);
+
+	/**
+	 * add/merge a result to this entry
+	 * @param result result to add/merge
+	 */
 	void AddResult(const QueryXmlResponseResultEntry& result);
 
 	/**
@@ -48,15 +54,9 @@ public:
 	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
 
 	/**
-	 * sorts all associated matches by their relevance
+	 * gets urlID for this result
 	 */
-	void SortResultsByRelevance();
-
-	/**
-	 * gets most relevant match
-	 * @return most relevant match
-	 */
-	const QueryThreadResultEntry* GetMostRelevantResult();
+	long long GetUrlID() const;
 
 private:
 	std::vector<const QueryThreadResultEntry*> threadResults;
