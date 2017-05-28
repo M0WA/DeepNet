@@ -17,7 +17,7 @@ class FastCGISocket {
 public:
 	/**
 	 * creates a FastCGI IP socket
-	 * @param ip ip to listen on or empty string for all
+	 * @param ip ip to listen on (0.0.0.0 for all)
 	 * @param port tcp port to listen on
 	 * @param backlog backlog of socket (0 = unlimited)
 	 */

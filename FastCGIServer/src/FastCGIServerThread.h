@@ -27,7 +27,7 @@ public:
 	 * create FastCGI server thread using tcp by ip and port
 	 * @param databaseConfig database config
 	 * @param acceptMutex mutex for accept()
-	 * @param ip ip for tcp socket (empty for all)
+	 * @param ip ip for tcp socket (0.0.0.0 for all)
 	 * @param port port for tcp socket
 	 * @param backlog backlog of listen socket (0 for unlimited)
 	 */
