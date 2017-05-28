@@ -190,7 +190,7 @@ void FastCGIServer::RegisterSocketConfig()
 	config.RegisterParam("threads", "number of threads per server application", false, &defaultThreadCount );
 
 	std::string defaultSocketType = "tcp";
-	config.RegisterParam("socket_type", "one of: tcp, unix", false, &defaultSocketType );
+	config.RegisterParam("fcgi_socket_type", "one of: tcp, unix", false, &defaultSocketType );
 	config.RegisterParam("fcgi_ip", "ip to listen on for fastcgi requests (needed only in socket_type tcp, 0.0.0.0 for all)", false, NULL);
 	config.RegisterParam("fcgi_base_port", "base port to listen on for fastcgi requests (needed only in socket_type tcp)", false, NULL );
 	config.RegisterParam("fcgi_unix_path", "unix socket file to listen on for fastcgi requests (needed only in socket_type unix)", false, NULL );
