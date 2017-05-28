@@ -63,9 +63,10 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 
 	while(!instance->ShallEnd()) {
 
+		/*
 		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("waiting for fastcgi accept mutex");
-
 		instance->acceptMutex->Lock();
+		*/
 
 		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("aquired fastcgi accept mutex");
 
@@ -76,12 +77,16 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 				break;	}
 		}
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("fastcgi accept ready");
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("fastcgi accept ready: %d",isAcceptWaiting);
 
 		int rc = -1;
 		if(isAcceptWaiting)
 			rc = FCGX_Accept_r(&instance->request);
+
+		/*
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("unlocking fastcgi accept mutex");
 		instance->acceptMutex->Unlock();
+		*/
 
 		if(rc != 0)	{
 			if(isAcceptWaiting) {
