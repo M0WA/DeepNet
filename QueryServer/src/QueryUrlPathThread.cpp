@@ -21,6 +21,7 @@
 
 #include <Pointer.h>
 #include <Logging.h>
+#include <TimeTools.h>
 
 namespace queryserver {
 
@@ -46,8 +47,8 @@ bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std:
 		std::vector<database::WhereConditionTableColumn*> where;
 		database::pathpartsTableBase::GetWhereColumnsFor_path(
 			database::WhereConditionTableColumnCreateParam(
-				database::LIKE,
-				database::INITIAL_COMPOSITE_OPERATOR_TYPE,
+				database::WhereCondition::Like(),
+				database::WhereCondition::InitialComp(),
 				database::WILDCARD_BOTH),
 			*iKey,
 			where);
@@ -85,9 +86,38 @@ bool QueryUrlPathThread::ProcessResults(const std::vector<long long>& pathPartID
 
 	std::vector<database::WhereConditionTableColumn*> where;
 	database::urlspathpartTableBase::GetWhereColumnsFor_PATHPART_ID(
-		database::WhereConditionTableColumnCreateParam(database::EQUALS,database::INITIAL_COMPOSITE_OPERATOR_TYPE),
+		database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::InitialComp()),
 		pathPartIDs,
 		where);
+
+	if(queryProperties.limitSecondLevelDomainID > 0) {
+		database::urlsTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::And()),
+			queryProperties.limitSecondLevelDomainID,
+			where);
+	}
+
+	if(queryProperties.limitSubDomainID > 0) {
+		database::urlsTableBase::GetWhereColumnsFor_SUBDOMAIN_ID(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::Equals(),
+				database::WhereCondition::And()),
+			queryProperties.limitSubDomainID,
+			where);
+	}
+
+	if(!tools::TimeTools::IsZero(queryProperties.maxAge)) {
+		database::urlstagesTableBase::GetWhereColumnsFor_found_date(
+			database::WhereConditionTableColumnCreateParam(
+				database::WhereCondition::GreaterOrEqual(),
+				database::WhereCondition::And()),
+			queryProperties.maxAge,
+			where);
+	}
 
 	tools::Pointer<database::TableDefinition> tblDefPtr(database::urlspathpartTableBase::CreateTableDefinition());
 	database::SelectStatement select(tblDefPtr.GetConst());

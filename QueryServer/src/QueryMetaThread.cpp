@@ -86,7 +86,9 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 	database::docmetaTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(select);
 
-	if(queryProperties.limitSecondLevelDomainID > 0 || queryProperties.limitSubDomainID > 0) {
+	if( queryProperties.limitSecondLevelDomainID > 0
+	 || queryProperties.limitSubDomainID > 0
+	) {
 		database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URL_ID(select);
 	}
 

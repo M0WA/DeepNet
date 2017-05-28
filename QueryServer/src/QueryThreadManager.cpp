@@ -52,15 +52,21 @@ void QueryThreadManager::BeginQuery(const Query& query) {
 		(query.properties.relevanceContent > 0.0) ||
 		(query.properties.relevanceMeta > 0.0) );
 
+	bool domainThreadsNeeded(
+		query.properties.limitSecondLevelDomainID == 0 &&
+		query.properties.limitSubDomainID == 0 );
+
 	if(dictionaryThreadNeeded) {
 		dictionary = new DictionaryInfoThread(dbHelpers[0].Connection(),query);
 		dictionary->StartThread(); }
 
-	if(query.properties.relevanceSecondLevelDomain > 0.0) {
-		AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
+	if(domainThreadsNeeded) {
+		if(query.properties.relevanceSecondLevelDomain > 0.0) {
+			AddQueryTyped<QuerySecondLevelDomainThread,QueryThreadParam>(dbHelpers[2].Connection(),query); }
 
-	if(query.properties.relevanceSubdomain > 0.0) {
-		AddQueryTyped<QuerySubdomainThread,QueryThreadParam>(dbHelpers[3].Connection(),query); }
+		if(query.properties.relevanceSubdomain > 0.0) {
+			AddQueryTyped<QuerySubdomainThread,QueryThreadParam>(dbHelpers[3].Connection(),query); }
+	}
 
 	if(query.properties.relevanceUrlPath > 0.0) {
 		AddQueryTyped<QueryUrlPathThread,QueryThreadParam>(dbHelpers[4].Connection(),query); }
