@@ -75,6 +75,7 @@ void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadRes
 		long long urlID((*iRes)->urlID);
 		if(urlIDPos.count(urlID) > 0) {
 			size_t pos(urlIDPos.at(urlID));
+			log::Logging::LogTrace("pos is: %d",pos);
 			responseEntries.at(pos).AddResult((*iRes));
 		}
 		else {
