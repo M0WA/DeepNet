@@ -69,9 +69,8 @@ void* QuerySecondLevelDomainThread::OnRun(){
 		where );
 	select.Where().AddColumns(where);
 
-	//
-	//TODO: limit results here
-	//
+	select.OrderBy().AddColumn(database::urlstagesTableBase::GetDefinition_found_date(),database::DESCENDING);
+	select.SetLimit(queryProperties.maxResults);
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {

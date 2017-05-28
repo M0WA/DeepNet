@@ -34,6 +34,7 @@ QueryUrlPathThread::~QueryUrlPathThread() {
 bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std::map<long long,size_t>& pathPartIDKeywordPos) const {
 
 	const Query& query(queryThreadParam.GetConst()->query);
+	const QueryProperties& queryProperties(query.properties);
 
 	std::vector<std::string> lowerKeywords;
 	query.GetLoweredKeywords(lowerKeywords);
@@ -58,9 +59,7 @@ bool QueryUrlPathThread::GetPathPartIDs(std::vector<long long>& pathPartIDs,std:
 		selectPathParts.SelectAllColumns();
 		selectPathParts.Where().AddColumns(where);
 
-		//
-		//TODO: limit results
-		//
+		selectPathParts.SetLimit(queryProperties.maxResults);
 
 		database::SelectResultContainer<database::pathpartsTableBase> resultPathParts;
 		dbConn->Select(selectPathParts,resultPathParts);
@@ -131,9 +130,8 @@ bool QueryUrlPathThread::ProcessResults(const std::vector<long long>& pathPartID
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(select);
 	database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URLSTAGE_ID(select);
 
-	//
-	//TODO: limit results
-	//
+	select.OrderBy().AddColumn(database::urlstagesTableBase::GetDefinition_found_date(),database::DESCENDING);
+	select.SetLimit(queryProperties.maxResults);
 
 	database::SelectResultContainer<database::TableBase> results;
 	dbConn->Select(select,results);

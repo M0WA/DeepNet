@@ -129,9 +129,8 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 
 	select.Where().AddColumns(where);
 
-	//
-	//TODO: limit results here
-	//
+	select.OrderBy().AddColumn(database::urlstagesTableBase::GetDefinition_found_date(),database::DESCENDING);
+	select.SetLimit(queryProperties.maxResults);
 
 	try {
 		dbConn->Select(select,results); }
