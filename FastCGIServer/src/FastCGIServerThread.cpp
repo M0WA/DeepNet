@@ -66,9 +66,10 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 		/*
 		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("waiting for fastcgi accept mutex");
 		instance->acceptMutex->Lock();
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("aquired fastcgi accept mutex");
 		*/
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("aquired fastcgi accept mutex");
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("waiting for fastcgi accept");
 
 		bool isAcceptWaiting(false);
 		while( !instance->ShallEnd() ) {
