@@ -107,7 +107,10 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 			if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("error in client request");
 			goto END_OF_REQUEST; }
 
-		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("client request completed");
+		if(log::Logging::IsLogLevelTrace()) {
+			std::string envstring = FastCGIRequest::DumpEnv(instance->request);
+			log::Logging::LogTrace("client request received: %s",envstring.c_str());
+		}
 
 		fcgiResponse = instance->CreateResponse(instance->DB(),fcgiRequest);
 		fcgiResponse->Process(instance->request);

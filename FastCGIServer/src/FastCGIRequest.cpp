@@ -235,6 +235,17 @@ std::string FastCGIRequest::SafeGetEnv(const char* name,FCGX_Request& request)
     }
 }
 
+std::string FastCGIRequest::DumpEnv(FCGX_Request& request)
+{
+	std::ostringstream ss;
+	if(request.envp) {
+		for(size_t i = 0; request.envp[i] != NULL ; i++) {
+			ss << request.envp[i] << std::endl;
+		}
+	}
+	return ss.str();
+}
+
 void FastCGIRequest::ParseCookies(std::string cookieString)
 {
 	if(cookieString.empty())
