@@ -43,7 +43,7 @@ void QueryXmlResponseResultEntry::AddResult(const QueryThreadResultEntry* result
 
 	threadResults.push_back(result);
 
-	(*this) += dynamic_cast<const Relevance&>(*result);
+	(*this) += dynamic_cast<const Relevance&>(result->relevance);
 }
 
 void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
