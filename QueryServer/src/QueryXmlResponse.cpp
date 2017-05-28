@@ -72,10 +72,10 @@ void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadRes
 	std::map<long long,size_t> urlIDPos;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
 	for(;iRes != threadResults.end(); ++iRes) {
-		const long long& urlID((*iRes)->urlID);
+		long long urlID((*iRes)->urlID);
 		if(urlIDPos.count(urlID) > 0) {
-			size_t pos(urlIDPos[urlID]);
-			responseEntries[pos].AddResult(*iRes);
+			size_t pos(urlIDPos.at(urlID));
+			responseEntries.at(pos).AddResult((*iRes));
 		}
 		else {
 			size_t pos(responseEntries.size());
