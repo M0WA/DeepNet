@@ -83,7 +83,7 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(select);
 
 	if(queryProperties.limitSecondLevelDomainID > 0 || queryProperties.limitSubDomainID > 0) {
-		database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URL_ID(select);
+		database::latesturlstagesTableBase::AddInnerJoinRightSideOn_URL_ID(select);
 	}
 
 	std::vector<database::WhereConditionTableColumn*> where;
