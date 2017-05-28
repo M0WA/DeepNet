@@ -49,6 +49,9 @@ void QueryXmlResponse::MergeDuplicateSecondLevel(
 
 	std::map<long long,size_t> secondLvlIDPos;
 
+	size_t org_size(responseEntries.size());
+	log::Logging::LogTrace("merging duplicate secondleveldomain, got %d results",org_size);
+
 	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
 	for(size_t pos(0);i!=responseEntries.end();++i) {
 		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
@@ -65,9 +68,12 @@ void QueryXmlResponse::MergeDuplicateSecondLevel(
 			++pos;
 		}
 	}
+	log::Logging::LogTrace("merged duplicate secondleveldomain, got %d => %d results",org_size,responseEntries.size());
 }
 
 void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadResultEntry*>& threadResults, std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+
+	log::Logging::LogTrace("merging duplicate urls, got %zd results",threadResults.size());
 
 	std::map<long long,size_t> urlIDPos;
 	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
@@ -75,22 +81,26 @@ void QueryXmlResponse::MergeDuplicateURLs(const std::vector<const QueryThreadRes
 		long long urlID((*iRes)->urlID);
 		if(urlIDPos.count(urlID) > 0) {
 			size_t pos(urlIDPos.at(urlID));
-			log::Logging::LogTrace("pos is: %d",pos);
 			responseEntries.at(pos).AddResult((*iRes));
 		}
 		else {
 			size_t pos(responseEntries.size());
-			log::Logging::LogTrace("pos is: %d",pos);
 			responseEntries.push_back(QueryXmlResponseResultEntry(*iRes));
 			urlIDPos[urlID] = pos;
 		}
 	}
+
+	log::Logging::LogTrace("merged duplicate urls, got %d => %d results",threadResults.size(),responseEntries.size());
 }
 
 void QueryXmlResponse::SortResults(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
+	log::Logging::LogTrace("sorting %d results",responseEntries.size());
+
 	//sort response entries by relevance (descending, therefore we use reverse iterator)
 	std::sort(responseEntries.rbegin(), responseEntries.rend());
+
+	log::Logging::LogTrace("sorted %d results",responseEntries.size());
 }
 
 bool QueryXmlResponse::CreateQuery(
@@ -313,6 +323,8 @@ void QueryXmlResponse::InsertResults(
 	const std::string& rawQueryString,
 	const std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
+	log::Logging::LogTrace("inserting %d results",responseEntries.size());
+
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
@@ -352,6 +364,8 @@ void QueryXmlResponse::InsertResults(
 		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			return; }
 	}
+
+	log::Logging::LogTrace("inserted %d results",responseEntries.size());
 }
 
 }
