@@ -59,15 +59,24 @@ void* FastCGIServerThread::FastCGIServerThreadFunc(threading::Thread::THREAD_PAR
 	if(initSuccess != 0) {
 		THROW_EXCEPTION(FastCGIServerInitException,"could not initialize fastcgi request");	}
 
+	if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("ready for processing fastcgi requests");
+
 	while(!instance->ShallEnd()) {
 
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("waiting for fastcgi accept mutex");
+
 		instance->acceptMutex->Lock();
+
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("aquired fastcgi accept mutex");
+
 		bool isAcceptWaiting(false);
 		while( !instance->ShallEnd() ) {
 			isAcceptWaiting = false;
 			if( (isAcceptWaiting = instance->fcgiSocket.WaitForAccept()) ) {
 				break;	}
 		}
+
+		if(log::Logging::IsLogLevelTrace())	log::Logging::LogTrace("fastcgi accept ready");
 
 		int rc = -1;
 		if(isAcceptWaiting)
