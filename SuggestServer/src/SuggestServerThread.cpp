@@ -9,8 +9,8 @@
 
 namespace suggestserver {
 
-SuggestServerThread::SuggestServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog)
-: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, port, backlog)
+SuggestServerThread::SuggestServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
+: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, ip, port, backlog)
 {
 }
 

@@ -88,12 +88,18 @@ dbpass=password
 #
 ##################################################
 
-# type of fastcgi socket: one of port, filename(not implement by now)
-socket_type=port
+# type of fastcgi socket: one of tcp, unix
+fcgi_socket_type=tcp
+
+# ip to listen on for incoming fcgi requests
+fcgi_ip=0.0.0.0
 
 # base port for fastcgi application (if changes, also needs to be changed in
 # start_query_server.sh as well as in the lighttpd config file
-base_port=20260
+fcgi_base_port=20260
+
+# file to unix socket (for fcgi_socket_type == unix)
+# fcgi_unix_path=/tmp/fcgi.sock
 
 threads=2
 

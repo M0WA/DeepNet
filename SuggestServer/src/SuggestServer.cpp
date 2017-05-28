@@ -33,9 +33,9 @@ bool SuggestServer::InitConfig()
 	return true;
 }
 
-fastcgiserver::FastCGIServerThread* SuggestServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog)
+fastcgiserver::FastCGIServerThread* SuggestServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
 {
-	return new SuggestServerThread( databaseConfig, acceptMutex, port, backlog);
+	return new SuggestServerThread( databaseConfig, acceptMutex, ip, port, backlog);
 }
 
 fastcgiserver::FastCGIServerThread* SuggestServer::CreateThreadSocket(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)

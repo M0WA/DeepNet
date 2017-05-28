@@ -81,7 +81,13 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 
 	int backlog = 0;
 	for(int i = 0; i < threadCount; i++) {
-		FastCGIServerThread* thread = CreateThreadPort(databaseConfig,&acceptMutex,basePort+i,backlog);
+		FastCGIServerThread* thread(0);
+		if(basePort != -1) {
+			thread = CreateThreadPort(databaseConfig,&acceptMutex,fcgiIP,basePort+i,backlog);
+		}
+		else {
+			thread = CreateThreadSocket(databaseConfig,&acceptMutex,fcgiIP,backlog);
+		}
 		thread->SpellChecker().InitSpellChecking(dictionaryFile,affixFile);
 		thread->StartThread(NULL);
 		threads.push_back(thread);
@@ -183,25 +189,49 @@ void FastCGIServer::RegisterSocketConfig()
 	std::string defaultThreadCount = "1";
 	config.RegisterParam("threads", "number of threads per server application", false, &defaultThreadCount );
 
-	std::string defaultSocketType = "port";
-	config.RegisterParam("socket_type", "one of: port, filename(not supported)", false, &defaultSocketType );
-	config.RegisterParam("base_port", "base port for fastcgi applications (needed only in socket_type port)", false, NULL );
+	std::string defaultSocketType = "tcp";
+	config.RegisterParam("socket_type", "one of: tcp, unix", false, &defaultSocketType );
+	config.RegisterParam("fcgi_ip", "ip to listen on for fastcgi requests (needed only in socket_type tcp, 0.0.0.0 for all)", false, NULL);
+	config.RegisterParam("fcgi_base_port", "base port to listen on for fastcgi requests (needed only in socket_type tcp)", false, NULL );
+	config.RegisterParam("fcgi_unix_path", "unix socket file to listen on for fastcgi requests (needed only in socket_type unix)", false, NULL );
 }
 
 bool FastCGIServer::InitSocketConfig()
 {
-	if ( !config.GetValue("threads",threadCount) )
+	if ( !config.GetValue("threads",threadCount) ) {
+		log::Logging::LogWarn("no threads specified, fallback to 1");
 		threadCount = 1;
+	}
 
-	std::string socketType = "port";
-	if ( !config.GetValue("socket_type",socketType) )
-		socketType = "port";
+	std::string socketType = "tcp";
+	if ( !config.GetValue("fcgi_socket_type",socketType) ) {
+		socketType = "tcp";
+		log::Logging::LogWarn("no fcgi_socket_type specified, fallback to tcp");
+	}
 
-	if(socketType.compare("port") == 0) {
-		if ( !config.GetValue("base_port",basePort) )
+	if(socketType.compare("tcp") == 0) {
+		if ( !config.GetValue("fcgi_ip",fcgiIP) ) {
+			log::Logging::LogError("no fcgi_ip specified");
 			return false;
+		}
+		if ( !config.GetValue("fcgi_base_port",basePort) ) {
+			log::Logging::LogError("no fcgi_base_port specified");
+			return false;
+		}
+	}
+	else if (socketType.compare("unix") == 0){
+		if(threadCount != 1) {
+			log::Logging::LogError("fcgi_socket_type unix does not support multi thread configuration, threads needs to be set to 1");
+			return false;
+		}
+		if ( !config.GetValue("fcgi_unix_path",fcgiIP) ) {
+			log::Logging::LogError("no fcgi_ip specified");
+			return false;
+		}
+		basePort = -1;
 	}
 	else {
+		log::Logging::LogError("unknown fcgi_socket_type specified: %s",socketType.c_str());
 		return false;
 	}
 
@@ -297,7 +327,7 @@ void FastCGIServer::RegisterCacheConfigParams()
 	config.RegisterParam("subdomaincache", "number of subdomains in cache", true, &defaultUrlSubdomainCacheSize );
 
 	std::string defaultUrlSecondLevelCacheSize = "1000";
-	config.RegisterParam("secondlevelcache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
+	config.RegisterParam("secondleveldomaincache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
 
 	std::string defaultUrlPathPartCacheSize = "1000";
 	config.RegisterParam("urlpathpartcache", "number of url path parts in cache", true, &defaultUrlPathPartCacheSize );

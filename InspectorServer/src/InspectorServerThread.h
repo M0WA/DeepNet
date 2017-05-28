@@ -15,8 +15,8 @@ namespace inspectorserver {
 
 class InspectorServerThread : public fastcgiserver::FastCGIServerThread {
 public:
-	InspectorServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog = 0);
-	InspectorServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog = 0);
+	InspectorServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
+	InspectorServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
 	virtual ~InspectorServerThread();
 
 private:

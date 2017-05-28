@@ -23,8 +23,25 @@ namespace fastcgiserver {
 class FastCGIServerThread : public threading::Thread
 {
 public:
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const int port, const int backlog = 0);
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog = 0);
+	/**
+	 * create FastCGI server thread using tcp by ip and port
+	 * @param databaseConfig database config
+	 * @param acceptMutex mutex for accept()
+	 * @param ip ip for tcp socket (empty for all)
+	 * @param port port for tcp socket
+	 * @param backlog backlog of listen socket (0 for unlimited)
+	 */
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
+
+	/**
+	 * create FastCGI server thread using a unix file socket
+	 * @param databaseConfig database config
+	 * @param acceptMutex mutex for accept()
+	 * @param filename filename for unix socket
+	 * @param backlog backlog of listen socket (0 for unlimited)
+	 */
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
+
 	virtual ~FastCGIServerThread();
 
 public:

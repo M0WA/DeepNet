@@ -15,14 +15,14 @@
 
 namespace fastcgiserver {
 
-FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex,const int port, const int backlog)
+FastCGIServerThread::FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& ip,const int port, const int backlog)
 : threading::Thread((threading::Thread::ThreadFunction)&(FastCGIServerThread::FastCGIServerThreadFunc))
 , databaseConfig(databaseConfig)
-, fcgiSocket(port,backlog)
+, fcgiSocket(ip,port,backlog)
 , isFileSocket(false)
 , port(port)
 , backlog(backlog)
-, filename("")
+, filename(ip)
 , acceptMutex(acceptMutex)
 {
 }

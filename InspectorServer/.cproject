@@ -80,7 +80,7 @@
 									<listOptionValue builtIn="false" value="icudata"/>
 									<listOptionValue builtIn="false" value="curl"/>
 									<listOptionValue builtIn="false" value="xml2"/>
-									<listOptionValue builtIn="false" value="mysqlclient_r"/>
+									<listOptionValue builtIn="false" value="mysqlclient"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="magic"/>
 									<listOptionValue builtIn="false" value="pq"/>

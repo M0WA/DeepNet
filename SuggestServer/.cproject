@@ -77,7 +77,7 @@
 									<listOptionValue builtIn="false" value="icudata"/>
 									<listOptionValue builtIn="false" value="icuuc"/>
 									<listOptionValue builtIn="false" value="icui18n"/>
-									<listOptionValue builtIn="false" value="mysqlclient_r"/>
+									<listOptionValue builtIn="false" value="mysqlclient"/>
 									<listOptionValue builtIn="false" value="pcre"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="pq"/>

@@ -62,8 +62,8 @@ public:
 	virtual void OnException(errors::Exception& ex);
 
 private:
-	virtual FastCGIServerThread* CreateThreadPort(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const int port, const int backlog = 0)=0;
-	virtual FastCGIServerThread* CreateThreadSocket(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog = 0)=0;
+	virtual FastCGIServerThread* CreateThreadPort(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)=0;
+	virtual FastCGIServerThread* CreateThreadSocket(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog)=0;
 
 	virtual void RegisterConfig() {}
 	virtual bool InitConfig() {return true;}
@@ -109,6 +109,7 @@ protected:
 private:
 	threading::Mutex acceptMutex;
 	std::vector<FastCGIServerThread*> threads;
+	std::string fcgiIP;
 	int basePort;
 	int threadCount;
 	std::string dictionaryFile;

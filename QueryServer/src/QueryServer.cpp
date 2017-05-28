@@ -23,10 +23,10 @@ QueryServer::~QueryServer()
 {
 }
 
-fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const int port, const int backlog)
+fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
 {
 	return dynamic_cast<fastcgiserver::FastCGIServerThread*>(
-			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, port, backlog));
+			new QueryServerThread(databaseConfig, xsdRequestContent, xsdResponseContent, acceptMutex, ip, port, backlog));
 }
 
 fastcgiserver::FastCGIServerThread* QueryServer::CreateThreadSocket(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
