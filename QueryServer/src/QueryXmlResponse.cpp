@@ -229,6 +229,7 @@ bool QueryXmlResponse::ValidateQueryData(
 bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* curTbl,std::string& entryXML) {
 
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
+	std::ostringstream xml;
 /*
 	long long urlID(-1);
 	curTbl->Get_URL_ID(urlID);
@@ -238,7 +239,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	std::string encodedURL;
 	network::HttpUrlParser::EncodeUrl(encodedURL);
 
-	std::ostringstream xml;
 	xml << "<url id=\"" << urlID << "\">" << encodedURL << "</url>";
 
 	std::vector<database::WhereConditionTableColumn*> whereUrlStage;
