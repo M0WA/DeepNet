@@ -235,7 +235,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
-	std::string encodedURL;
+	std::string encodedURL(dbUrl.GetConst()->GetFullUrl());
 	network::HttpUrlParser::EncodeUrl(encodedURL);
 
 	xml << "<url id=\"" << urlID << "\">" << encodedURL << "</url>";
