@@ -229,7 +229,7 @@ bool QueryXmlResponse::ValidateQueryData(
 bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* curTbl,std::string& entryXML) {
 
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
-
+/*
 	long long urlID(-1);
 	curTbl->Get_URL_ID(urlID);
 
@@ -268,7 +268,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	long long urlstageID(-1);
 	for(urlstageresults.ResetIter();!urlstageresults.IsIterEnd();urlstageresults.Next()) {
-		/*
 		const database::urlstagesTableBase* urlstage(urlstageresults.GetConstIter());
 
 		urlstage->Get_ID(urlstageID);
@@ -280,8 +279,9 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		struct tm changed;
 		urlstage->Get_last_change(changed);
 		xml << "<lastChanged>" << (tools::TimeTools::IsZero(changed) ? "" : tools::TimeTools::DumpTm(changed)) << "</lastChanged>";
-		*/
 	}
+	*/
+	long long urlstageID(4);
 
 	//lookup meta information for this url
 	std::vector<database::WhereConditionTableColumn*> whereMeta;
