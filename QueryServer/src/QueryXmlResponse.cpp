@@ -267,6 +267,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	long long urlstageID(-1);
 	for(urlstageresults.ResetIter();!urlstageresults.IsIterEnd();urlstageresults.Next()) {
+		/*
 		const database::urlstagesTableBase* urlstage(urlstageresults.GetConstIter());
 
 		urlstage->Get_ID(urlstageID);
@@ -278,8 +279,10 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		struct tm changed;
 		urlstage->Get_last_change(changed);
 		xml << "<lastChanged>" << (tools::TimeTools::IsZero(changed) ? "" : tools::TimeTools::DumpTm(changed)) << "</lastChanged>";
+		*/
 	}
 
+	//lookup meta information for this url
 	std::vector<database::WhereConditionTableColumn*> where2;
 	database::metainfoTableBase::GetWhereColumnsFor_URLSTAGE_ID(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
@@ -331,68 +334,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	/*
 "<type>" << ResultTypeToString(type) << "</type>";
 	*/
-
-/*
-
-	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
-	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
-
-	std::vector<database::WhereConditionTableColumn*> where;
-	database::metainfoTableBase::GetWhereColumnsFor_URLSTAGE_ID(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
-		urlStageID,
-		where);
-
-	std::vector<long long> metaTypes;
-	metaTypes.push_back(indexing::Dictionary::META_TITLE);
-	metaTypes.push_back(indexing::Dictionary::META_DESCRIPTION);
-	database::metainfoTableBase::GetWhereColumnsFor_type(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
-		metaTypes,
-		where);
-
-	tools::Pointer<database::TableDefinition> ptrMetaDef(database::metainfoTableBase::CreateTableDefinition());
-	database::SelectStatement selectMeta(ptrMetaDef.GetConst());
-	selectMeta.SelectAllColumns();
-	selectMeta.Where().AddColumns(where);
-
-	std::string	encodedTitle, encodedDescription;
-	database::SelectResultContainer<database::metainfoTableBase> results;
-	db->Select(selectMeta,results);
-	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
-
-		long long metaType(-1);
-		results.GetConstIter()->Get_type(metaType);
-
-		switch(metaType) {
-		case indexing::Dictionary::META_TITLE:
-			results.GetConstIter()->Get_value(encodedTitle);
-			network::HttpUrlParser::EncodeUrl(encodedTitle);
-			break;
-
-		case indexing::Dictionary::META_DESCRIPTION:
-			results.GetConstIter()->Get_value(encodedDescription);
-			network::HttpUrlParser::EncodeUrl(encodedDescription);
-			break;
-
-		default:
-			break;
-		}
-	}
-
-	std::string	lastVisitedString(tools::TimeTools::DumpTm(found));
-
-	std::string encodedURL(dbUrl.GetConst()->GetFullUrl());
-	network::HttpUrlParser::EncodeUrl(encodedURL);
-
-	xml <<
-	"<url id=\"" << urlID << "\">" << encodedURL << "</url>"
-	"<title>" << encodedTitle << "</title>"
-	"<description>" << encodedDescription << "</description>"
-	"<lastVisited>" << lastVisitedString << "</lastVisited>"
-	"<lastChanged></lastChanged>"
-	"<type>" << ResultTypeToString(type) << "</type>";
- */
 }
 
 void QueryXmlResponse::AssembleXMLResult(
