@@ -23,6 +23,8 @@
 
 #include <DatabaseLayer.h>
 #include <TableDefinition.h>
+#include <TableColumnDefinition.h>
+#include <TableColumn.h>
 #include <DatabaseException.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
@@ -201,7 +203,8 @@ bool QueryXmlResponse::ValidateQueryData(
 			query.properties.queryId,
 			where);
 
-		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
+		tools::Pointer<database::TableDefinition> ptrSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
+		database::SelectStatement selectSearchQuery(ptrSearchQuery);
 		selectSearchQuery.SelectAllColumns();
 		selectSearchQuery.Where().AddColumns(where);
 
@@ -240,7 +243,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	xml << "<url id=\"" << urlID << "\">" << encodedURL << "</url>";
 
-	/*
 	std::vector<database::WhereConditionTableColumn*> whereUrlStage;
 
 	database::urlstagesTableBase::GetWhereColumnsFor_URL_ID(
@@ -250,13 +252,22 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	tools::Pointer<database::TableDefinition> ptrUrlStageDef(database::urlstagesTableBase::CreateTableDefinition());
 	database::SelectStatement selectUrlStage(ptrUrlStageDef);
-	selectUrlStage.SelectAllColumns();
+
+	database::TableColumnDefinition
+		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
+		*colDefFoundDate(database::urlstagesTableBase::GetDefinition_found_date()),
+		*colDefLastChange(database::urlstagesTableBase::GetDefinition_last_change());
+
+	selectUrlStage.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
+	selectUrlStage.SelectAddColumnAlias(colDefFoundDate,colDefFoundDate->GetColumnName());
+	selectUrlStage.SelectAddColumnAlias(colDefLastChange,colDefLastChange->GetColumnName());
+
 	selectUrlStage.Where().AddColumns(whereUrlStage);
 	selectUrlStage.SetLimit(1);
 
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(selectUrlStage);
 
-	database::SelectResultContainer<database::urlstagesTableBase> urlstageresults;
+	database::SelectResultContainer<database::TableBase> urlstageresults;
 	try {
 		db->Select(selectUrlStage,urlstageresults); }
 	CATCH_EXCEPTION(database::DatabaseException,e,1)
@@ -268,20 +279,23 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	long long urlstageID(-1);
 	for(urlstageresults.ResetIter();!urlstageresults.IsIterEnd();urlstageresults.Next()) {
-		const database::urlstagesTableBase* urlstage(urlstageresults.GetConstIter());
+		const database::TableBase* urlstage(urlstageresults.GetConstIter());
 
-		urlstage->Get_ID(urlstageID);
+		const database::TableColumn
+			*colUrlStageID(urlstage->GetConstColumnByName(colDefUrlStageID->GetColumnName())),
+			*colFoundDate(urlstage->GetConstColumnByName(colDefFoundDate->GetColumnName())),
+			*colLastChange(urlstage->GetConstColumnByName(colDefLastChange->GetColumnName()));
+
+		colUrlStageID->Get(urlstageID);
 
 		struct tm found;
-		urlstage->Get_found_date(found);
+		colFoundDate->Get(found);
 		xml << "<lastVisited>" << (tools::TimeTools::IsZero(found) ? "" : tools::TimeTools::DumpTm(found)) << "</lastVisited>";
 
 		struct tm changed;
-		urlstage->Get_last_change(changed);
+		colLastChange->Get(changed);
 		xml << "<lastChanged>" << (tools::TimeTools::IsZero(changed) ? "" : tools::TimeTools::DumpTm(changed)) << "</lastChanged>";
 	}
-	*/
-	long long urlstageID(4);
 
 	//lookup meta information for this url
 	std::vector<database::WhereConditionTableColumn*> whereMeta;
@@ -480,7 +494,8 @@ bool QueryXmlResponse::LoadQuery(
 		endPosition,
 		where );
 
-	database::SelectStatement selectQueryResults(database::searchqueryresultTableBase::CreateTableDefinition());
+	tools::Pointer<database::TableDefinition> ptrSearchQueryResultDef(database::searchqueryresultTableBase::CreateTableDefinition());
+	database::SelectStatement selectQueryResults(ptrSearchQueryResultDef);
 	selectQueryResults.SelectAllColumns();
 	selectQueryResults.Where().AddColumns(where);
 
