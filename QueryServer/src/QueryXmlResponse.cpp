@@ -241,16 +241,17 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	std::ostringstream xml;
 	xml << "<url id=\"" << urlID << "\">" << encodedURL << "</url>";
 
-	std::vector<database::WhereConditionTableColumn*> where;
+	std::vector<database::WhereConditionTableColumn*> whereUrlStage;
 
 	database::urlstagesTableBase::GetWhereColumnsFor_URL_ID(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
 		urlID,
-		where );
+		whereUrlStage );
 
-	database::SelectStatement selectUrlStage(database::urlstagesTableBase::CreateTableDefinition());
+	tools::Pointer<database::TableDefinition> ptrUrlStageDef(database::urlstagesTableBase::CreateTableDefinition());
+	database::SelectStatement selectUrlStage(ptrUrlStageDef);
 	selectUrlStage.SelectAllColumns();
-	selectUrlStage.Where().AddColumns(where);
+	selectUrlStage.Where().AddColumns(whereUrlStage);
 	selectUrlStage.SetLimit(1);
 
 	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(selectUrlStage);
@@ -283,11 +284,11 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	}
 
 	//lookup meta information for this url
-	std::vector<database::WhereConditionTableColumn*> where2;
+	std::vector<database::WhereConditionTableColumn*> whereMeta;
 	database::metainfoTableBase::GetWhereColumnsFor_URLSTAGE_ID(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
 		urlstageID,
-		where2);
+		whereMeta);
 
 	std::vector<long long> metaTypes;
 	metaTypes.push_back(indexing::Dictionary::META_TITLE);
@@ -295,30 +296,29 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	database::metainfoTableBase::GetWhereColumnsFor_type(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
 		metaTypes,
-		where2);
+		whereMeta);
 
 	tools::Pointer<database::TableDefinition> ptrMetaDef(database::metainfoTableBase::CreateTableDefinition());
 	database::SelectStatement selectMeta(ptrMetaDef.GetConst());
 	selectMeta.SelectAllColumns();
-	selectMeta.Where().AddColumns(where2);
+	selectMeta.Where().AddColumns(whereMeta);
 
 	std::string	encodedTitle, encodedDescription;
-	database::SelectResultContainer<database::metainfoTableBase> results;
-	db->Select(selectMeta,results);
-	for(results.ResetIter();!results.IsIterEnd();results.Next()) {
-
+	database::SelectResultContainer<database::metainfoTableBase> metaresults;
+	db->Select(selectMeta,metaresults);
+	for(metaresults.ResetIter();!metaresults.IsIterEnd();metaresults.Next()) {
 		long long metaType(-1);
-		results.GetConstIter()->Get_type(metaType);
+		metaresults.GetConstIter()->Get_type(metaType);
 
 		switch(metaType) {
 		case indexing::Dictionary::META_TITLE:
-			results.GetConstIter()->Get_value(encodedTitle);
+			metaresults.GetConstIter()->Get_value(encodedTitle);
 			network::HttpUrlParser::EncodeUrl(encodedTitle);
 			xml << "<title>" << encodedTitle << "</title>";
 			break;
 
 		case indexing::Dictionary::META_DESCRIPTION:
-			results.GetConstIter()->Get_value(encodedDescription);
+			metaresults.GetConstIter()->Get_value(encodedDescription);
 			network::HttpUrlParser::EncodeUrl(encodedDescription);
 			xml << "<description>" << encodedDescription << "</description>";
 			break;
@@ -328,12 +328,13 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		}
 	}
 
-	entryXML = xml.str();
-	return true;
-
 	/*
 "<type>" << ResultTypeToString(type) << "</type>";
 	*/
+
+	entryXML = xml.str();
+	return true;
+
 }
 
 void QueryXmlResponse::AssembleXMLResult(
