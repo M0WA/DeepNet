@@ -1125,6 +1125,49 @@
 
 </table>
 
+<!-- ======================================================================================== 
+ *
+ *	TABLE: searchqueryresult
+ *
+ -->
+<table
+	name="searchqueryresult"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+	<column name="ID"     	      type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERY_ID" type="INTEGER" notnull="1" />
+	<column name="URL_ID"    type="INTEGER" notnull="1" />
+	<column name="position"       type="INTEGER" notnull="1" />
+
+	<primary_key column="ID" />
+	<foreign_key column="SEARCHQUERY_ID" references_table="searchquery" references_column="ID" MySQL_Database="queryserver" />
+	<foreign_key column="URL_ID"         references_table="urls"        references_column="ID" MySQL_Database="contents" />
+	<index column="position" sort="ASC" />
+
+</table>
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: searchqueryresultinfo
+ *
+ -->
+<table
+	name="searchqueryresultinfo"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+	<column name="ID"     	            type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERYRESULT_ID" type="INTEGER" notnull="1" />
+	<column name="infotype"             type="INTEGER" notnull="1" />
+	<column name="type"                 type="VARCHAR(255)" notnull="1" />
+
+	<primary_key column="ID" />
+	<index column="infotype" sort="ASC" />
+	<foreign_key column="SEARCHQUERYRESULT_ID" references_table="searchqueryresult" references_column="ID" MySQL_Database="queryserver" />
+
+</table> 
+
 
 <!-- ======================================================================================== 
  *

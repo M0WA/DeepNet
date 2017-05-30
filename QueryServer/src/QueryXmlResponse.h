@@ -17,9 +17,8 @@
 
 namespace database {
 	class DatabaseConnection;
-	class queryresultsTableBase;
+	class searchqueryresultTableBase;
 	template <class T> class  SelectResultContainer;
-
 }
 
 namespace queryserver {
@@ -58,7 +57,6 @@ private:
 		std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
 	void MergeDuplicateSecondLevel(
-		database::DatabaseConnection* db,
 		std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
 	void SortResults(
@@ -70,8 +68,12 @@ private:
 		const std::string& rawQueryString,
 		const std::vector<QueryXmlResponseResultEntry>& responseEntries);
 
+	bool ResultToXML(
+		const database::searchqueryresultTableBase* curTbl,
+		std::string& entryXML);
+
 	void AssembleXMLResult(
-		const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,
+		const database::SelectResultContainer<database::searchqueryresultTableBase>& queryResults,
 		const size_t& total,
 		const long long& queryId);
 

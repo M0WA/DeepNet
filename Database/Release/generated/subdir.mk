@@ -100,6 +100,10 @@ CPP_SRCS += \
 ../generated/schemesTableDefinitionCreateParam.cpp \
 ../generated/searchqueryTableBase.cpp \
 ../generated/searchqueryTableDefinitionCreateParam.cpp \
+../generated/searchqueryresultTableBase.cpp \
+../generated/searchqueryresultTableDefinitionCreateParam.cpp \
+../generated/searchqueryresultinfoTableBase.cpp \
+../generated/searchqueryresultinfoTableDefinitionCreateParam.cpp \
 ../generated/secondleveldomainsTableBase.cpp \
 ../generated/secondleveldomainsTableDefinitionCreateParam.cpp \
 ../generated/subdomainsTableBase.cpp \
@@ -222,6 +226,10 @@ OBJS += \
 ./generated/schemesTableDefinitionCreateParam.o \
 ./generated/searchqueryTableBase.o \
 ./generated/searchqueryTableDefinitionCreateParam.o \
+./generated/searchqueryresultTableBase.o \
+./generated/searchqueryresultTableDefinitionCreateParam.o \
+./generated/searchqueryresultinfoTableBase.o \
+./generated/searchqueryresultinfoTableDefinitionCreateParam.o \
 ./generated/secondleveldomainsTableBase.o \
 ./generated/secondleveldomainsTableDefinitionCreateParam.o \
 ./generated/subdomainsTableBase.o \
@@ -344,6 +352,10 @@ CPP_DEPS += \
 ./generated/schemesTableDefinitionCreateParam.d \
 ./generated/searchqueryTableBase.d \
 ./generated/searchqueryTableDefinitionCreateParam.d \
+./generated/searchqueryresultTableBase.d \
+./generated/searchqueryresultTableDefinitionCreateParam.d \
+./generated/searchqueryresultinfoTableBase.d \
+./generated/searchqueryresultinfoTableDefinitionCreateParam.d \
 ./generated/secondleveldomainsTableBase.d \
 ./generated/secondleveldomainsTableDefinitionCreateParam.d \
 ./generated/subdomainsTableBase.d \
