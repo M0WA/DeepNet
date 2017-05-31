@@ -81,9 +81,12 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 		database::searchqueryresultinfoTableBase info;
 		info.Set_SEARCHQUERYRESULT_ID(resultID);
 		info.Set_infotype(RESULTINFO_TYPECOUNT);
-		info.Set_type(iTypes->first + ":" + iTypes->second);
 
-		log::Logging::LogTrace("inserting type/count string: %d : %d",iTypes->first,iTypes->second);
+		std::ostringstream ss;
+		ss << iTypes->first + ":" + iTypes->second;
+		info.Set_type(ss.str());
+
+		log::Logging::LogTrace("inserting type/count string: %s",ss.str().c_str());
 
 		try {
 			info.Insert(db);
