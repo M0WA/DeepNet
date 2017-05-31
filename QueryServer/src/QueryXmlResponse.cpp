@@ -258,6 +258,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		*colDefFoundDate(database::urlstagesTableBase::GetDefinition_found_date()),
 		*colDefLastChange(database::urlstagesTableBase::GetDefinition_last_change());
 
+	selectUrlStage.SelectAllColumns();
 	selectUrlStage.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
 	selectUrlStage.SelectAddColumnAlias(colDefFoundDate,colDefFoundDate->GetColumnName());
 	selectUrlStage.SelectAddColumnAlias(colDefLastChange,colDefLastChange->GetColumnName());
