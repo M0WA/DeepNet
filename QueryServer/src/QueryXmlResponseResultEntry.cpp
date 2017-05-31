@@ -86,8 +86,6 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 		ss << static_cast<long long>(iTypes->first) << ":" << static_cast<long long>(iTypes->second);
 		info.Set_type(ss.str());
 
-		log::Logging::LogTrace("inserting type/count string: %s",ss.str().c_str());
-
 		try {
 			info.Insert(db);
 		}
@@ -126,45 +124,7 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 	}
 }
 
-void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
-
-	std::vector<std::string> keywordsStrings;
-	query.GetKeywords(keywordsStrings);
-	tools::ContainerTools::MakeUniqueVector(keywordsStrings,true);
-
-	std::ostringstream keywordsPart;
-	std::vector<std::string>::iterator iKey(keywordsStrings.begin());
-	for(;iKey!=keywordsStrings.end();++iKey) {
-		network::HttpUrlParser::EncodeUrl(*iKey);
-		keywordsPart << "<keyword>" << *iKey << "</keyword>"; }
-
-	std::map<QueryThreadResultType,size_t> typeCounts;
-	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
-	for(;iRes != threadResults.end(); ++iRes) {
-		const QueryThreadResultEntry* res((*iRes));
-		typeCounts[res->type]++; }
-
-	std::ostringstream typesPart;
-	std::map<QueryThreadResultType,size_t>::const_iterator iTypes(typeCounts.begin());
-	for(;iTypes!= typeCounts.end();++iTypes) {
-		typesPart << "<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";}
-
-	xml <<
-	"<result id=\"" << resultID << "\">";
-
-	threadResults.at(0)->AppendToXML(db,query,resultID,xml);
-
-	xml <<
-	"<types>" << typesPart.str() << "</types>"
-	"<keywords>" << keywordsPart.str() << "</keywords>"
-	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
-	"<relevancy>" << GetRelevance() << "</relevancy>"
-	"<weight>" << GetWeight() << "</weight>"
-	"</result>";
-}
-
 bool QueryXmlResponseResultEntry::ParseTypeCount(const std::string& parse, std::string& type, size_t& count) {
-	//"<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";
 	std::vector<std::string> words;
 	tools::StringTools::SplitBy(parse,":",words);
 	if(words.size() != 2) {

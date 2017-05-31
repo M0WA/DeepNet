@@ -59,15 +59,6 @@ public:
 	void AddResult(const QueryXmlResponseResultEntry& result);
 
 	/**
-	 * appends this result as XML string to given stream xml
-	 * @param db database connection
-	 * @param query associated query
-	 * @param resultID result id
-	 * @param xml stream to write to
-	 */
-	void AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const;
-
-	/**
 	 * insert this result to a database
 	 * @param db database connection
 	 * @param queryId associated query id
