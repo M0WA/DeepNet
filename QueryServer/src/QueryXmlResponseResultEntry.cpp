@@ -145,11 +145,9 @@ void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,c
 		typeCounts[res->type]++; }
 
 	std::ostringstream typesPart;
-	typesPart << "<types>";
 	std::map<QueryThreadResultType,size_t>::const_iterator iTypes(typeCounts.begin());
 	for(;iTypes!= typeCounts.end();++iTypes) {
 		typesPart << "<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";}
-	typesPart << "</types>";
 
 	xml <<
 	"<result id=\"" << resultID << "\">";
