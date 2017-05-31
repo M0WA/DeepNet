@@ -343,10 +343,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		}
 	}
 
-	/*
-"<type>" << ResultTypeToString(type) << "</type>";
-	*/
-
 	entryXML = xml.str();
 	return true;
 
@@ -397,6 +393,7 @@ void QueryXmlResponse::AssembleXMLResult(
 		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			continue; }
 
+		std::ostringstream xmlTypes;
 		for(infoResults.ResetIter();!infoResults.IsIterEnd();infoResults.Next()) {
 			const database::searchqueryresultinfoTableBase* curInfo(infoResults.GetConstIter());
 
@@ -413,7 +410,7 @@ void QueryXmlResponse::AssembleXMLResult(
 				std::string typeCount = "n/a";
 				size_t count = 0;
 				QueryXmlResponseResultEntry::ParseTypeCount(info, typeCount, count);
-				xml << "<type count=\""<< count << "\">" << typeCount << "</type>";
+				xmlTypes << "<type count=\""<< count << "\">" << typeCount << "</type>";
 			}
 				break;
 			case QueryXmlResponseResultEntry::RESULTINFO_RELEVANCY:
@@ -429,6 +426,7 @@ void QueryXmlResponse::AssembleXMLResult(
 				break;
 			}
 		}
+		xml << "<types>" << xmlTypes.str() << "</types>";
 		xml << "</result>";
 		xmlResultEntries << xml.str();
 	}

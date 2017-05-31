@@ -171,13 +171,6 @@ bool QueryXmlResponseResultEntry::ParseTypeCount(const std::string& parse, std::
 		return false;
 	}
 	int tc = -1;
-
-	if(log::Logging::IsLogLevelTrace()) {
-		std::string out;
-		tools::StringTools::VectorToString(words,out," ");
-		log::Logging::LogTrace("parsing type/count string: %s ; %s",out.c_str(),parse.c_str());
-	}
-
 	tools::StringTools::TransformString(words.at(0), tc);
 	type = QueryThreadResultEntry::ResultTypeToString(static_cast<queryserver::QueryThreadResultType>(tc));
 	tools::StringTools::TransformString(words.at(1), tc);
