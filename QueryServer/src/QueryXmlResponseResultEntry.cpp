@@ -83,7 +83,7 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 		info.Set_infotype(RESULTINFO_TYPECOUNT);
 		info.Set_type(iTypes->first + ":" + iTypes->second);
 
-		log::Logging::LogTrace("inserting type/count string: %s : %s",iTypes->first.c_str(),iTypes->second.c_str());
+		log::Logging::LogTrace("inserting type/count string: %d : %d",iTypes->first,iTypes->second);
 
 		try {
 			info.Insert(db);
