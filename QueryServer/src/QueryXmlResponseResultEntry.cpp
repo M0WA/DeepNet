@@ -168,7 +168,7 @@ bool QueryXmlResponseResultEntry::ParseTypeCount(const std::string& parse, std::
 
 	if(log::Logging::IsLogLevelTrace()) {
 		std::string out;
-		tools::StringTools::VectorToString(words," ",out);
+		tools::StringTools::VectorToString(words,out," ");
 		log::Logging::LogTrace("parsing type/count string: %s",out.c_str());
 	}
 
