@@ -11,7 +11,7 @@
 
 namespace database {
 
-class DatabaseNoPrimaryKeyException: public DatabaseException {
+class DatabaseNoPrimaryKeyException: public database::DatabaseException {
 public:
 	DatabaseNoPrimaryKeyException(
 			const std::string& file,

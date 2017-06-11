@@ -42,6 +42,7 @@
 	  <xs:sequence>
 	    <xs:element name="flags" type="flags"></xs:element>
 	    <xs:element name="maxResults" type="xs:unsignedInt"></xs:element>
+	    <xs:element name="maxTotalResults" type="xs:unsignedInt"></xs:element>
 	    <xs:element name="domainLimit" type="xs:anyURI"></xs:element>
 	    <xs:element name="ageLimit" type="xs:dateTime"></xs:element>
 	    <xs:element name="langLimit" type="xs:string"></xs:element>

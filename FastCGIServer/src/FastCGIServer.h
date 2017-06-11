@@ -22,9 +22,7 @@ namespace errors {
 }
 
 namespace fastcgiserver {
-
 class FastCGIServerThread;
-class FastCGISocket;
 
 /**
  * @brief implements a fastcgi server instance.
@@ -51,6 +49,7 @@ public:
 	 */
 	virtual bool StopServer();
 
+public:
 	/**
 	 * generic function to catch untyped expressions.
 	 */
@@ -62,26 +61,13 @@ public:
 	 */
 	virtual void OnException(errors::Exception& ex);
 
-protected:
-	bot::ConfigManager& Config() { return config; }
-
 private:
-	/**
-	 * creates a fastcgi server thread, implemented by application
-	 * @param databaseConfig database config
-	 * @param acceptMutex accept mutex
-	 * @param socket fastcgi socket
-	 * @return fastcgi server thread
-	 */
-	virtual FastCGIServerThread* CreateThread(
-		database::DatabaseConfig* databaseConfig,
-		threading::Mutex* acceptMutex,
-		FastCGISocket* socket) =0;
+	virtual FastCGIServerThread* CreateThreadPort(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)=0;
+	virtual FastCGIServerThread* CreateThreadSocket(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog)=0;
 
 	virtual void RegisterConfig() {}
 	virtual bool InitConfig() {return true;}
 
-private:
 	void RegisterSocketConfig();
 	bool InitSocketConfig();
 
@@ -95,6 +81,11 @@ private:
 	bool InitCacheConfigParams();
 
 protected:
+	/**
+	 * server configuration.
+	 */
+	bot::ConfigManager config;
+
 	/**
 	 * database configuration.
 	 */
@@ -116,13 +107,9 @@ protected:
 	std::string xsdResponseContent;
 
 private:
-	/**
-	 * server configuration.
-	 */
-	bot::ConfigManager config;
-
 	threading::Mutex acceptMutex;
 	std::vector<FastCGIServerThread*> threads;
+	std::string fcgiIP;
 	int basePort;
 	int threadCount;
 	std::string dictionaryFile;

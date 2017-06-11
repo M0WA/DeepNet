@@ -8,8 +8,6 @@
 
 #pragma once
 
-#include <Pointer.h>
-
 #include <string>
 #include <FastCGIServer.h>
 
@@ -38,13 +36,13 @@ public:
 
 public:
 	virtual bool StartServer(int argc, char** argv);
-	virtual bool StopServer();
 
 private:
 	virtual void RegisterConfig();
 	virtual bool InitConfig();
 
-	virtual fastcgiserver::FastCGIServerThread* CreateThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
+	virtual fastcgiserver::FastCGIServerThread* CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
+	virtual fastcgiserver::FastCGIServerThread* CreateThreadSocket(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
 };
 
 }

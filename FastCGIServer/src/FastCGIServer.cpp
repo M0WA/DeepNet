@@ -6,7 +6,6 @@
 
 #include "FastCGIServer.h"
 
-#include "FastCGISocket.h"
 #include "FastCGIServerThread.h"
 
 #include <fcgiapp.h>
@@ -61,43 +60,34 @@ bool FastCGIServer::StartServer(int argc, char** argv)
 	RegisterLoggingParams();
 	RegisterSocketConfig();
 	RegisterCacheConfigParams();
-	RegisterConfig();
 
 	config.RegisterParam("configfile", "filename of config file", false, 0);
 
 	config.Init(argc,argv);
 
-	if(!InitConfig()) {
-		log::Logging::LogError("error while initializing parent config");
-		return false; }
-
 	//logging is "non-vital" so ignore non successful initiation...
 	InitLoggingConfig();
 
 	if(FCGX_Init() != 0){
-		log::Logging::LogError("error while initializing FastCGI");
 		return false;}
 
-	if (!InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams()) {
-		log::Logging::LogError("error while initializing configuration");
-		return false;}
+	if (!InitConfig() || !InitDatabaseConfigs() || !InitSocketConfig() || !InitCacheConfigParams())
+		return false;
 
 	dbHelper.DestroyConnection();
 
-	std::string socketType = "port";
-	if ( !config.GetValue("socket_type",socketType) ) {
-		socketType = "port"; }
+	if(basePort <= 0)
+		return false;
 
 	int backlog = 0;
 	for(int i = 0; i < threadCount; i++) {
-		FastCGISocket* socket = 0;
-		if(socketType.compare("port") == 0) {
-			int port = basePort+i;
-			socket = new FastCGISocket(port,backlog); }
-		else if(socketType.compare("port") == 0) {
-			continue;
+		FastCGIServerThread* thread(0);
+		if(basePort != -1) {
+			thread = CreateThreadPort(databaseConfig,&acceptMutex,fcgiIP,basePort+i,backlog);
 		}
-		FastCGIServerThread* thread = CreateThread(databaseConfig,&acceptMutex,socket);
+		else {
+			thread = CreateThreadSocket(databaseConfig,&acceptMutex,fcgiIP,backlog);
+		}
 		thread->SpellChecker().InitSpellChecking(dictionaryFile,affixFile);
 		thread->StartThread(NULL);
 		threads.push_back(thread);
@@ -199,34 +189,49 @@ void FastCGIServer::RegisterSocketConfig()
 	std::string defaultThreadCount = "1";
 	config.RegisterParam("threads", "number of threads per server application", false, &defaultThreadCount );
 
-	std::string defaultSocketType = "port";
-	config.RegisterParam("socket_type", "one of: port, filename(not supported)", false, &defaultSocketType );
-	config.RegisterParam("base_port", "base port for fastcgi applications (needed only in socket_type port)", false, NULL );
+	std::string defaultSocketType = "tcp";
+	config.RegisterParam("fcgi_socket_type", "one of: tcp, unix", false, &defaultSocketType );
+	config.RegisterParam("fcgi_ip", "ip to listen on for fastcgi requests (needed only in socket_type tcp, 0.0.0.0 for all)", false, NULL);
+	config.RegisterParam("fcgi_base_port", "base port to listen on for fastcgi requests (needed only in socket_type tcp)", false, NULL );
+	config.RegisterParam("fcgi_unix_path", "unix socket file to listen on for fastcgi requests (needed only in socket_type unix)", false, NULL );
 }
 
 bool FastCGIServer::InitSocketConfig()
 {
-	if ( !config.GetValue("threads",threadCount) )
+	if ( !config.GetValue("threads",threadCount) ) {
+		log::Logging::LogWarn("no threads specified, fallback to 1");
 		threadCount = 1;
-
-	std::string socketType = "port";
-	if ( !config.GetValue("socket_type",socketType) )
-		socketType = "port";
-
-	if(socketType.compare("port") == 0) {
-		if ( !config.GetValue("base_port",basePort) ) {
-			log::Logging::LogError("error while getting basePort: %d",basePort);
-			return false; }
-		if(basePort <= 0) {
-			log::Logging::LogError("invalid basePort found: %d",basePort);
-			return false; }
 	}
-	else if(socketType.compare("filename") == 0) {
-		log::Logging::LogError("not implemented socket_type: %s",socketType.c_str());
-		return false;
+
+	std::string socketType = "tcp";
+	if ( !config.GetValue("fcgi_socket_type",socketType) ) {
+		socketType = "tcp";
+		log::Logging::LogWarn("no fcgi_socket_type specified, fallback to tcp");
+	}
+
+	if(socketType.compare("tcp") == 0) {
+		if ( !config.GetValue("fcgi_ip",fcgiIP) ) {
+			log::Logging::LogError("no fcgi_ip specified");
+			return false;
+		}
+		if ( !config.GetValue("fcgi_base_port",basePort) ) {
+			log::Logging::LogError("no fcgi_base_port specified");
+			return false;
+		}
+	}
+	else if (socketType.compare("unix") == 0){
+		if(threadCount != 1) {
+			log::Logging::LogError("fcgi_socket_type unix does not support multi thread configuration, threads needs to be set to 1");
+			return false;
+		}
+		if ( !config.GetValue("fcgi_unix_path",fcgiIP) ) {
+			log::Logging::LogError("no fcgi_ip specified");
+			return false;
+		}
+		basePort = -1;
 	}
 	else {
-		log::Logging::LogError("invalid socketType found: %s",socketType.c_str());
+		log::Logging::LogError("unknown fcgi_socket_type specified: %s",socketType.c_str());
 		return false;
 	}
 

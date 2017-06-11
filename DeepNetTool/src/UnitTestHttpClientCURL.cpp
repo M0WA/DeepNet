@@ -83,8 +83,7 @@ bool UnitTestHttpClientCURL::ReadURLFile(const std::string& urlFileName, std::ve
 			network::HttpUrlParser::ParseURL(*iterLines,insertUrl);
 			testUrls.push_back(insertUrl);
 		}
-		catch(errors::Exception& e) {
-			e.DisableLogging();
+		CATCH_EXCEPTION(errors::Exception,e,0)
 		}
 		catch(...) {
 

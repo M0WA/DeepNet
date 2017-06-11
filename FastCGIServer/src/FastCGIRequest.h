@@ -132,6 +132,13 @@ public:
 	 */
 	const std::string& GetCookieValueByName(const std::string& name) const;
 
+public:
+	/**
+	 * dumps environment to a string
+	 * @param request fastcgi request
+	 */
+	static std::string DumpEnv(FCGX_Request& request);
+
 protected:
 	/**
 	 * registers namespaces from nsList in xpathCtx.

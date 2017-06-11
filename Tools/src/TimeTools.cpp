@@ -9,6 +9,9 @@
 #include <cmath>
 #include <sstream>
 
+#include <string.h>
+#include <time.h>
+
 namespace tools {
 
 TimeTools::TimeTools() {
@@ -126,13 +129,13 @@ bool TimeTools::ParseSQLTimestamp(const std::string timeString, struct tm& tmOut
 
 	// 1994-11-06 08:49:37
 	InitTm(tmOut);
-	static const char* pszFmtAscTime("%Y-%m-%d %H:%M:%S %Z");
-	return strptime((timeString + " GMT").c_str(), pszFmtAscTime, &tmOut) != 0;
+	static const char* pszFmtAscTime("%Y-%m-%d %H:%M:%S");
+	return strptime((timeString).c_str(), pszFmtAscTime, &tmOut) != 0;
 }
 
 bool TimeTools::ToSQLTimestamp(const struct tm& in,std::string& out ) {
 	// 1994-11-06 08:49:37
-	static const char* timeStringFormat("%Y-%m-%d %H:%M:%S GMT");
+	static const char* timeStringFormat("%Y-%m-%d %H:%M:%S");
 	static const int timeStringLength(40);
 	char timeString[timeStringLength] = {0};
 	strftime(timeString, timeStringLength, timeStringFormat, &in);
@@ -142,6 +145,7 @@ bool TimeTools::ToSQLTimestamp(const struct tm& in,std::string& out ) {
 }
 
 void TimeTools::InitTm(struct tm& init) {
+	memset(&init,0,sizeof(struct tm));
 	init = TimeToTm(0);
 }
 
@@ -160,12 +164,11 @@ bool TimeTools::IsZero(const struct timeval& test) {
 }
 
 bool TimeTools::IsZero(struct tm test) {
-	time_t timeT(mktime(&test));
+	time_t timeT(timegm(&test));
 	return timeT <= 0;
 }
 
 struct tm TimeTools::NowUTC(void) {
-
   struct tm tmNow;
   TimeTools::NowUTC(tmNow);
   return tmNow;
@@ -178,7 +181,10 @@ void TimeTools::NowUTC(struct tm& tmNow) {
 }
 
 void TimeTools::NowUTCAdd(struct tm& tmFuture, const int nDays) {
-	TimeTools::NowUTCAddSeconds(tmFuture,(nDays * 86400));
+	InitTm(tmFuture);
+    time_t now(time(0));
+    now += (nDays * 86400); //86400 seconds/day
+    gmtime_r(&now,&tmFuture);
 }
 
 struct tm TimeTools::NowUTCAdd(const int nDays) {
@@ -187,26 +193,14 @@ struct tm TimeTools::NowUTCAdd(const int nDays) {
 	return tmFuture;
 }
 
-void TimeTools::NowUTCAddSeconds(struct tm& tmFuture, const int nSeconds) {
-	InitTm(tmFuture);
-    time_t now(time(0));
-    now += nSeconds;
-    gmtime_r(&now,&tmFuture);
-}
-
-struct tm TimeTools::NowUTCAddSeconds(const int nSeconds) {
-	struct tm tmFuture;
-	TimeTools::NowUTCAddSeconds(tmFuture, nSeconds);
-	return tmFuture;
-}
-
 time_t TimeTools::TmToTime(const struct tm& time) {
 	struct tm timeTmp(time);
-	return mktime(&timeTmp);
+	return timegm(&timeTmp);
 }
 
 struct tm TimeTools::TimeToTm(const time_t& time) {
 	struct tm out;
+	memset(&out,0,sizeof(struct tm));
 	gmtime_r(&time,&out);
 	return out;
 }

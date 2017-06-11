@@ -81,51 +81,28 @@ public:
 	 */
   void Set_SEARCHQUERY_ID(const long long& in);
   /**
-   * gets value of URLSTAGE_ID.
+   * gets value of resultXML.
    * @param out value.
    */
-  void Get_URLSTAGE_ID(long long& out) const;
+  void Get_resultXML(std::string& out) const;
 
   /**
-   * gets const column for URLSTAGE_ID.
-   * @return column for URLSTAGE_ID.
+   * gets const column for resultXML.
+   * @return column for resultXML.
    */
-  const TableColumn* GetConstColumn_URLSTAGE_ID() const;
+  const TableColumn* GetConstColumn_resultXML() const;
 
   /**
-   * gets column for URLSTAGE_ID.
-   * @return column for URLSTAGE_ID.
+   * gets column for resultXML.
+   * @return column for resultXML.
    */
-  TableColumn* GetColumn_URLSTAGE_ID();
+  TableColumn* GetColumn_resultXML();
 
 	/**
-	 * sets value of URLSTAGE_ID.
+	 * sets value of resultXML.
 	 * @param in value.
 	 */
-  void Set_URLSTAGE_ID(const long long& in);
-  /**
-   * gets value of URL_ID.
-   * @param out value.
-   */
-  void Get_URL_ID(long long& out) const;
-
-  /**
-   * gets const column for URL_ID.
-   * @return column for URL_ID.
-   */
-  const TableColumn* GetConstColumn_URL_ID() const;
-
-  /**
-   * gets column for URL_ID.
-   * @return column for URL_ID.
-   */
-  TableColumn* GetColumn_URL_ID();
-
-	/**
-	 * sets value of URL_ID.
-	 * @param in value.
-	 */
-  void Set_URL_ID(const long long& in);
+  void Set_resultXML(const std::string& in);
   /**
    * gets value of position.
    * @param out value.
@@ -201,47 +178,25 @@ public:
         SelectResultContainer<queryresultsTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of URLSTAGE_ID.
+	 * gets rows by a value of resultXML.
 	 * @param db database connection.
-	 * @param fieldValue value of URLSTAGE_ID.
+	 * @param fieldValue value of resultXML.
 	 * @param results contains results.
 	 */
-    static void GetBy_URLSTAGE_ID(
+    static void GetBy_resultXML(
         DatabaseConnection* db,
-        const long long& fieldValue, 
+        const std::string& fieldValue, 
         SelectResultContainer<queryresultsTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of URLSTAGE_ID.
+	 * gets rows by multiple values of resultXML.
 	 * @param db database connection.
-	 * @param fieldValue values of URLSTAGE_ID.
+	 * @param fieldValue values of resultXML.
 	 * @param results contains results.
 	 */
-    static void GetBy_URLSTAGE_ID(
+    static void GetBy_resultXML(
         DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
-        SelectResultContainer<queryresultsTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of URL_ID.
-	 * @param db database connection.
-	 * @param fieldValue value of URL_ID.
-	 * @param results contains results.
-	 */
-    static void GetBy_URL_ID(
-        DatabaseConnection* db,
-        const long long& fieldValue, 
-        SelectResultContainer<queryresultsTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of URL_ID.
-	 * @param db database connection.
-	 * @param fieldValue values of URL_ID.
-	 * @param results contains results.
-	 */
-    static void GetBy_URL_ID(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
+        const std::vector<std::string>& fieldValue, 
         SelectResultContainer<queryresultsTableBase>& results);
 public:
 	/**
@@ -275,14 +230,6 @@ public:
     static void AddInnerJoinLeftSideOn_SEARCHQUERY_ID(Statement& stmt);
     static void AddInnerJoinRightSideOn_SEARCHQUERY_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
     static void AddInnerJoinRightSideOn_SEARCHQUERY_ID(Statement& stmt);
-    static void AddInnerJoinLeftSideOn_URLSTAGE_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinLeftSideOn_URLSTAGE_ID(Statement& stmt);
-    static void AddInnerJoinRightSideOn_URLSTAGE_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinRightSideOn_URLSTAGE_ID(Statement& stmt);
-    static void AddInnerJoinLeftSideOn_URL_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinLeftSideOn_URL_ID(Statement& stmt);
-    static void AddInnerJoinRightSideOn_URL_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinRightSideOn_URL_ID(Statement& stmt);
 
 
 public:
@@ -332,46 +279,25 @@ public:
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of URLSTAGE_ID.
+     * creates where condition for a value of resultXML.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_URLSTAGE_ID(
+	static void GetWhereColumnsFor_resultXML(
         const WhereConditionTableColumnCreateParam& createParam,
-        const long long& fieldValue, 
+        const std::string& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of URLSTAGE_ID.
+     * creates where condition for multiple values of resultXML.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_URLSTAGE_ID(
+    static void GetWhereColumnsFor_resultXML(
         const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<long long>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of URL_ID.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_URL_ID(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const long long& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of URL_ID.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_URL_ID(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<long long>& fieldValue, 
+        const std::vector<std::string>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
      * creates where condition for a value of position.
@@ -411,15 +337,10 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_SEARCHQUERY_ID();
 	/**
-     * create a column definition for column URLSTAGE_ID.
+     * create a column definition for column resultXML.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_URLSTAGE_ID();
-	/**
-     * create a column definition for column URL_ID.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_URL_ID();
+	static TableColumnDefinition* GetDefinition_resultXML();
 	/**
      * create a column definition for column position.
      * @return column definition.

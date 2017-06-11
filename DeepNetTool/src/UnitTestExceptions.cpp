@@ -39,13 +39,11 @@ bool UnitTestExceptions::Run() {
 		try {
 			ThrowException(tmp);
 		}
-		catch(errors::Exception& e) {
-			e.DisableLogging();
+		CATCH_EXCEPTION(errors::Exception,e,0)
 			throw;
 		}
 	}
-	catch(errors::Exception& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(errors::Exception,e,0)
 		success = true;
 	}
 	log::Logging::LogTrace("rethrow of an exception: %s", success ? "true" : "false");
@@ -60,14 +58,12 @@ bool UnitTestExceptions::Run() {
 			i = (tmpVec.at(20));
 			throw i;
 		}
-		catch(errors::StdException& stdEx){
-			stdEx.DisableLogging();
+		CATCH_EXCEPTION(errors::StdException,stdEx,0)
 			log::Logging::LogTrace("throw of a std::exception: success");
 			throw;
 		}
 	}
-	catch(errors::StdException& stdEx1) {
-		stdEx1.DisableLogging();
+	CATCH_EXCEPTION(errors::StdException,stdEx1,0)
 		success = true;
 	}
 	log::Logging::LogTrace("rethrow of a std::exception: %s", success ? "true" : "false");

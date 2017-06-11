@@ -59,7 +59,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 			try {
 				network::HttpUrlParser::DecodeUrl(htmlCode);
 			}
-			catch(errors::Exception& e) {
+			CATCH_EXCEPTION(errors::Exception,e,1)
 				log::Logging::LogWarn("error while url-decoding:\n" + htmlCode);
 				continue;
 			}
@@ -71,7 +71,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				try {
 					network::HttpUrlParser::ParseURL(htmlCode,urlIn);
 				}
-				catch(errors::Exception& e) {
+				CATCH_EXCEPTION(errors::Exception,e,1)
 					log::Logging::LogWarn("error while url-parsing:\n" + htmlCode);
 					continue; }
 
@@ -83,7 +83,7 @@ bool InspectorServerResponse::Process(FCGX_Request& request)
 				network::HttpClientFactory::CreateInstance(network::HttpClientFactory::CURL,client);
 				network::HttpClientSettings& settings = client.Get()->Settings();
 
-				settings.userAgent = "InspectorServer Crawler v1.0";
+				settings.userAgent = "siridia.de crawler v1.0";
 				settings.secondsTimeoutConnect    = 3;
 				settings.secondsTimeoutConnection = 3;
 				settings.allowIPv6       = false;

@@ -5,10 +5,6 @@
  *      Author: Moritz Wagner
  */
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
 #include <iostream>
 #include <csignal>
 #include <libxml/parser.h>
@@ -21,10 +17,9 @@
 #include <DebuggingTools.h>
 #include <Exception.h>
 
-#include <vector>
-
-static bool run = true;
+volatile static bool run = true;
 static threading::Mutex signalMutex;
+static queryserver::QueryServer serverQuery;
 
 static const int catchSignals[] =
 {
@@ -100,27 +95,28 @@ bool RegisterSignalHandlers() {
 
 int main(int argc, char** argv) {
 
-	xmlInitParser();
-	curl_global_init(CURL_GLOBAL_ALL);
-
-	RegisterSignalHandlers();
-	queryserver::QueryServer serverQuery;
 	try {
+		xmlInitParser();
+		curl_global_init(CURL_GLOBAL_ALL);
+
+		RegisterSignalHandlers();
 		if( serverQuery.StartServer(argc,argv) ) {
 			while(run)
 				sleep(1);
 		}
 		else {
-			log::Logging::LogError("fatal error while starting QueryServer");
-		}
-		serverQuery.StopServer();
-	}
-	catch(errors::Exception& ex) {
-		serverQuery.OnException(ex);
-	}
+			std::cerr << "fatal error while starting server";}
 
-	curl_global_cleanup();
-	xmlCleanupParser();
+		serverQuery.StopServer();
+
+		curl_global_cleanup();
+		xmlCleanupParser();
+	}
+	CATCH_EXCEPTION(errors::Exception,ex,1)
+
+		serverQuery.OnException(ex);
+		return 1;
+	}
 
 	return 0;
 }

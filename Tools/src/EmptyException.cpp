@@ -13,8 +13,9 @@ namespace errors {
 EmptyException::EmptyException(
 		const std::string& file,
 		const int line,
-		const std::string& function)
-: Exception(file,line,function,"Exception","EmptyException","an empty exception has been caught"){
+		const std::string& function,
+		const std::string& backtrace)
+: Exception(file,line,function,"Exception","EmptyException","an empty exception has been caught", backtrace){
 }
 
 EmptyException::~EmptyException() {

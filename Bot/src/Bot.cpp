@@ -163,7 +163,7 @@ void Bot::RegisterCacheConfigParams()
 	Config().RegisterParam("subdomaincache", "number of subdomains in cache", true, &defaultUrlSubdomainCacheSize );
 
 	std::string defaultUrlSecondLevelCacheSize = "1000";
-	Config().RegisterParam("secondleveldomaincache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
+	Config().RegisterParam("secondlevelcache", "number of second level domains in cache", true, &defaultUrlSecondLevelCacheSize );
 
 	std::string defaultUrlPathPartCacheSize = "1000";
 	Config().RegisterParam("urlpathpartcache", "number of url path parts in cache", true, &defaultUrlPathPartCacheSize );

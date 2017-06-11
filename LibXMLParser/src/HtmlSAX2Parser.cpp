@@ -137,8 +137,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 				network::HttpUrlParser::ParseURL(*context->url,attributeHref.value,theUrl);
 				context->htmlDocument->result.hyperlinks.push_back(theUrl);
 			}
-			catch(const network::HttpUrlParserException& ex)
-			{
+			CATCH_EXCEPTION(const network::HttpUrlParserException,ex,1)
 				if(log::Logging::IsLogLevelTrace()){
 					log::Logging::LogTrace("error while parsing url %s from document %s",
 							attributeHref.value.c_str(),theUrl.GetFullUrl().c_str());
@@ -179,8 +178,7 @@ void HtmlSAX2Parser::endElement(void *ctx, const xmlChar *name)
 				network::HttpUrlParser::ParseURL(*context->url,attributeSrc.value,theUrl);
 				context->htmlDocument->result.images.push_back(theUrl);
 			}
-			catch(const network::HttpUrlParserException& ex)
-			{
+			CATCH_EXCEPTION(const network::HttpUrlParserException,ex,1)
 				if(log::Logging::IsLogLevelTrace()){
 					log::Logging::LogTrace("error while parsing image url %s from document %s",
 							attributeSrc.value.c_str(),theUrl.GetFullUrl().c_str());

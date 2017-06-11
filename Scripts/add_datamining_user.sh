@@ -2,9 +2,9 @@
 
 #########################################################
 #
-# this is part of the DeepNet search engine software
-# Copyright 2015, Moritz Wagner
-# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
 #
 #########################################################
 
@@ -13,7 +13,7 @@ if [ $# -ne 2 ]; then
   echo "usage: ./add_datamining_user.sh <username> <password> [--debug]"
   echo ""
   echo "please enter valid username and password:"
-  echo "  i.e. ./add_datamining_user.sh \"dummy_customer@mo-sys.de\" \"areallyreallysecurepassword\""
+  echo "  i.e. ./add_datamining_user.sh \"dummy_customer@siridia.de\" \"areallyreallysecurepassword\""
   echo ""
   exit 1
 fi

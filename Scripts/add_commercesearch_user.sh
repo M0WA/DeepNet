@@ -2,9 +2,9 @@
 
 #########################################################
 #
-# this is part of the DeepNet search engine software
-# Copyright 2015, Moritz Wagner
-# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
 #
 #########################################################
 
@@ -17,7 +17,7 @@ if [ $# -ne 3 ]; then
   echo "username: username of customer, by policy username is an email-address";
   echo "password: password of customer";
   echo "domain: domain or url of customers webshop/website";
-  echo "  i.e. ./add_commercesearch_user.sh \"dummy_customer@mo-sys.de\" \"areallyreallysecurepassword\" \"mo-sys.de\"";
+  echo "  i.e. ./add_commercesearch_user.sh \"dummy_customer@siridia.de\" \"areallyreallysecurepassword\" \"siridia.de\"";
   echo ""
   exit 1
 fi

@@ -11,7 +11,7 @@
 
 namespace database {
 
-class DatabaseNotConnectedException : DatabaseException {
+class DatabaseNotConnectedException : public database::DatabaseException {
 public:
 	DatabaseNotConnectedException(
 			const std::string& file,

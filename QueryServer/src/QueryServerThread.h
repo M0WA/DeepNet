@@ -12,6 +12,8 @@
 
 #include <FastCGIServerThread.h>
 
+#include "QueryThreadManager.h"
+
 namespace database {
 	class DatabaseConfig;
 	class DatabaseHelper;
@@ -34,7 +36,8 @@ namespace queryserver {
 class QueryServerThread : public fastcgiserver::FastCGIServerThread
 {
 public:
-	QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket);
+	QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
+	QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
 	virtual ~QueryServerThread();
 
 private:
@@ -44,6 +47,8 @@ private:
 
 	std::string requestXSD;
 	std::string responseXSD;
+
+	QueryThreadManager threadManager;
 };
 
 }

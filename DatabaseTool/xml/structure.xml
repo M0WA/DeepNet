@@ -3,9 +3,9 @@
 <!--
   #########################################################
   #
-  # this is part of the DeepNet search engine software
-  # Copyright 2015, Moritz Wagner
-  # Author: Moritz Wagner (moritz.wagner@mo-sys.de)
+  # this is part of the SIRIDIA search engine software
+  # Copyright 2012, SIRIDIA GmbH
+  # Author: Moritz Wagner (moritz.wagner@siridia.de)
   #
   #########################################################
 -->
@@ -1106,54 +1106,6 @@
 
 <!-- ======================================================================================== 
  *
- *	TABLE: queryresultthread
- *
- -->
-<table
-	name="queryresultthread"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
-	MySQL_Database="queryserver"
->
-
-	<column name="ID"  type="INTEGER"      notnull="1" autoincrement="1" />
-	
-	<primary_key column="ID" />
-</table>
-
-
-<!-- ======================================================================================== 
- *
- *	TABLE: queryproperties
- *
- -->
-<table
-	name="queryproperties"
-	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
-	MySQL_Database="queryserver"
->
-
-	<column name="ID"					type="INTEGER"      notnull="1" autoincrement="1" />
-	<column name="SECONDLEVELDOMAIN_ID"	type="INTEGER"      notnull="0" />
-	<column name="SUBDOMAIN_ID"			type="INTEGER"      notnull="0" />
-	<column name="minAge"				type="TIMESTAMP"    notnull="0" />
-	<column name="maxAge"				type="TIMESTAMP"	notnull="0" />
-	<column name="language"				type="CHAR(3)"      notnull="1" />
-	<column name="relContent"			type="DOUBLE"		notnull="1" />
-	<column name="relMeta"				type="DOUBLE"		notnull="1" />
-	<column name="relSecondLevel"		type="DOUBLE"		notnull="1" />
-	<column name="relSubdomain"			type="DOUBLE"		notnull="1" />
-	<column name="relUrlPath"			type="DOUBLE"		notnull="1" />
-	<column name="groupBySecondLevel"	type="INTEGER"      notnull="1" />
-	
-	<primary_key column="ID" />
-	<foreign_key column="SECONDLEVELDOMAIN_ID"  references_table="secondleveldomains" 	references_column="ID"    MySQL_Database="documents" />
-	<foreign_key column="SUBDOMAIN_ID"  		references_table="subdomains" 			references_column="ID"    MySQL_Database="documents" />
-	
-</table>
-
-
-<!-- ======================================================================================== 
- *
  *	TABLE: searchquery
  *
  -->
@@ -1163,25 +1115,58 @@
 	MySQL_Database="queryserver"
 >
 
-	<column name="ID"      			type="INTEGER"      notnull="1" autoincrement="1" />
-	<column name="RESULTTHREAD_ID"	type="INTEGER"		notnull="1" />
-	<column name="PROPERTIES_ID"	type="INTEGER"		notnull="1" />
-	<column name="session" 			type="CHAR(64)"     notnull="1" />
-	<column name="query"   			type="VARCHAR(255)" notnull="1" />
-	<column name="started"     		type="TIMESTAMP"    notnull="1" />
-	<column name="modified"  		type="TIMESTAMP"    notnull="1" />
-	<column name="finished"    		type="INTEGER(1)"   notnull="1" />
-	<column name="total"   			type="INTEGER"      notnull="1" />
-	<column name="identifier"   	type="VARCHAR(32)"  notnull="1" />
+	<column name="ID"      type="INTEGER"      notnull="1" autoincrement="1" />
+	<column name="session" type="CHAR(64)"     notnull="1" />
+	<column name="query"   type="VARCHAR(255)" notnull="1" />
+	<column name="age"     type="TIMESTAMP"    notnull="1" />
+	<column name="total"   type="INTEGER"      notnull="1" />
 
 	<primary_key column="ID" />
-	<foreign_key column="RESULTTHREAD_ID"  references_table="queryresultthread" references_column="ID"    MySQL_Database="queryserver" />
-	<foreign_key column="PROPERTIES_ID"    references_table="queryproperties"   references_column="ID"    MySQL_Database="queryserver" />
-	<unique_key  column="identifier" />
-	<index       column="modified" />
-	<index       column="finished" />
 
 </table>
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: searchqueryresult
+ *
+ -->
+<table
+	name="searchqueryresult"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+	<column name="ID"     	      type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERY_ID" type="INTEGER" notnull="1" />
+	<column name="URL_ID"    type="INTEGER" notnull="1" />
+	<column name="position"       type="INTEGER" notnull="1" />
+
+	<primary_key column="ID" />
+	<foreign_key column="SEARCHQUERY_ID" references_table="searchquery" references_column="ID" MySQL_Database="queryserver" />
+	<foreign_key column="URL_ID"         references_table="urls"        references_column="ID" MySQL_Database="contents" />
+	<index column="position" sort="ASC" />
+
+</table>
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: searchqueryresultinfo
+ *
+ -->
+<table
+	name="searchqueryresultinfo"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+	<column name="ID"     	            type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERYRESULT_ID" type="INTEGER" notnull="1" />
+	<column name="infotype"             type="INTEGER" notnull="1" />
+	<column name="type"                 type="VARCHAR(255)" notnull="1" />
+
+	<primary_key column="ID" />
+	<index column="infotype" sort="ASC" />
+	<foreign_key column="SEARCHQUERYRESULT_ID" references_table="searchqueryresult" references_column="ID" MySQL_Database="queryserver" />
+
+</table> 
 
 
 <!-- ======================================================================================== 
@@ -1197,14 +1182,11 @@
 
 	<column name="ID"     	      type="INTEGER" notnull="1" autoincrement="1" />
 	<column name="SEARCHQUERY_ID" type="INTEGER" notnull="1" />
-	<column name="URLSTAGE_ID"    type="INTEGER" notnull="1" />
-	<column name="URL_ID"    	  type="INTEGER" notnull="1" />
+	<column name="resultXML"      type="LARGE_TEXT(1024000)" notnull="1" />
 	<column name="position"       type="INTEGER" notnull="1" />
 
 	<primary_key column="ID" />
 	<foreign_key column="SEARCHQUERY_ID" references_table="searchquery" references_column="ID" MySQL_Database="queryserver" />
-	<foreign_key column="URLSTAGE_ID"    references_table="urlstages"   references_column="ID" MySQL_Database="contents" />
-	<foreign_key column="URL_ID"         references_table="urls"        references_column="ID" MySQL_Database="documents" />
 	<index column="position" sort="ASC" />
 
 </table>

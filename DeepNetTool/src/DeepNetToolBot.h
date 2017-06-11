@@ -35,7 +35,6 @@ private:
 	void RegisterHtmlDocumentFactoryParams();
 	void RegisterIndexerExParams();
 	void RegisterDatabaseUnitTestParams();
-	void RegisterFencedUrlInserterParams();
 
 private:
 	bool ProcessUnitTests();

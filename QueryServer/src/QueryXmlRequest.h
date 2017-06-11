@@ -17,7 +17,7 @@
 #include <StringTools.h>
 #include <TimeTools.h>
 
-#include <Query.h>
+#include "Query.h"
 
 namespace fastcgiserver {
 	class FastCGIServerThread;
@@ -43,7 +43,7 @@ public:
 	 * gets query associated with this request
 	 * @return query
 	 */
-	const querylib::Query& GetQuery(void) const { return query; }
+	const Query& GetQuery(void) const { return query; }
 
 	/**
 	 * gets raw query string
@@ -56,6 +56,7 @@ private:
 
 private:
 	bool ParseQuery(const std::string& xmlRequest);
+	bool ParseQueryKeywords(const std::string& xmlRequest);
 	bool ParseQueryCriteria(const std::string& xmlRequest);
 	bool ParseQueryGrouping(const std::string& xmlRequest);
 	bool ParseQueryLimitations(const std::string& xmlRequest);
@@ -159,7 +160,7 @@ private:
 	};
 
 private:
-	querylib::Query query;
+	Query query;
 	std::string rawQueryString;
 };
 

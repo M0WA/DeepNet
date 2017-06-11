@@ -94,16 +94,16 @@ CPP_SRCS += \
 ../generated/metainfoTableDefinitionCreateParam.cpp \
 ../generated/pathpartsTableBase.cpp \
 ../generated/pathpartsTableDefinitionCreateParam.cpp \
-../generated/querypropertiesTableBase.cpp \
-../generated/querypropertiesTableDefinitionCreateParam.cpp \
 ../generated/queryresultsTableBase.cpp \
 ../generated/queryresultsTableDefinitionCreateParam.cpp \
-../generated/queryresultthreadTableBase.cpp \
-../generated/queryresultthreadTableDefinitionCreateParam.cpp \
 ../generated/schemesTableBase.cpp \
 ../generated/schemesTableDefinitionCreateParam.cpp \
 ../generated/searchqueryTableBase.cpp \
 ../generated/searchqueryTableDefinitionCreateParam.cpp \
+../generated/searchqueryresultTableBase.cpp \
+../generated/searchqueryresultTableDefinitionCreateParam.cpp \
+../generated/searchqueryresultinfoTableBase.cpp \
+../generated/searchqueryresultinfoTableDefinitionCreateParam.cpp \
 ../generated/secondleveldomainsTableBase.cpp \
 ../generated/secondleveldomainsTableDefinitionCreateParam.cpp \
 ../generated/subdomainsTableBase.cpp \
@@ -220,16 +220,16 @@ OBJS += \
 ./generated/metainfoTableDefinitionCreateParam.o \
 ./generated/pathpartsTableBase.o \
 ./generated/pathpartsTableDefinitionCreateParam.o \
-./generated/querypropertiesTableBase.o \
-./generated/querypropertiesTableDefinitionCreateParam.o \
 ./generated/queryresultsTableBase.o \
 ./generated/queryresultsTableDefinitionCreateParam.o \
-./generated/queryresultthreadTableBase.o \
-./generated/queryresultthreadTableDefinitionCreateParam.o \
 ./generated/schemesTableBase.o \
 ./generated/schemesTableDefinitionCreateParam.o \
 ./generated/searchqueryTableBase.o \
 ./generated/searchqueryTableDefinitionCreateParam.o \
+./generated/searchqueryresultTableBase.o \
+./generated/searchqueryresultTableDefinitionCreateParam.o \
+./generated/searchqueryresultinfoTableBase.o \
+./generated/searchqueryresultinfoTableDefinitionCreateParam.o \
 ./generated/secondleveldomainsTableBase.o \
 ./generated/secondleveldomainsTableDefinitionCreateParam.o \
 ./generated/subdomainsTableBase.o \
@@ -346,16 +346,16 @@ CPP_DEPS += \
 ./generated/metainfoTableDefinitionCreateParam.d \
 ./generated/pathpartsTableBase.d \
 ./generated/pathpartsTableDefinitionCreateParam.d \
-./generated/querypropertiesTableBase.d \
-./generated/querypropertiesTableDefinitionCreateParam.d \
 ./generated/queryresultsTableBase.d \
 ./generated/queryresultsTableDefinitionCreateParam.d \
-./generated/queryresultthreadTableBase.d \
-./generated/queryresultthreadTableDefinitionCreateParam.d \
 ./generated/schemesTableBase.d \
 ./generated/schemesTableDefinitionCreateParam.d \
 ./generated/searchqueryTableBase.d \
 ./generated/searchqueryTableDefinitionCreateParam.d \
+./generated/searchqueryresultTableBase.d \
+./generated/searchqueryresultTableDefinitionCreateParam.d \
+./generated/searchqueryresultinfoTableBase.d \
+./generated/searchqueryresultinfoTableDefinitionCreateParam.d \
 ./generated/secondleveldomainsTableBase.d \
 ./generated/secondleveldomainsTableDefinitionCreateParam.d \
 ./generated/subdomainsTableBase.d \
@@ -386,7 +386,7 @@ CPP_DEPS += \
 generated/%.o: ../generated/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/ -I/usr/include/mysql -I/usr/include/postgresql/9.3/server -I/usr/include/postgresql/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/ -I/usr/include/mysql -I/usr/include/postgresql/ -I/usr/include/postgresql/9.4/server/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

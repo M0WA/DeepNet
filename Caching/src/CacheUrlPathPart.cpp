@@ -181,8 +181,7 @@ AND
 	try{
 		db->Select(selectUrlPathPart,results);
 	}
-	catch(database::DatabaseException& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		std::ostringstream ss;
 		ss << "exception while getting url path part: " << pathPart << std::endl
 		   << "original exception: " << std::endl << e.Dump();
@@ -229,9 +228,7 @@ void CacheUrlPathPart::InsertUrlPathPart(database::DatabaseConnection* db, std::
 			urlPathPartTbl.InsertOrUpdate(db);
 			db->LastInsertID(urlPathPartID);
 		}
-		catch(database::DatabaseException& e) {
-
-			e.DisableLogging();
+		CATCH_EXCEPTION(database::DatabaseException,e,0)
 			std::ostringstream ss;
 			ss << "exception while inserting url path part ID: " << *i << " next url path part id: " << urlPathPartID << std::endl
 			   << "original exception: " << std::endl << e.Dump();
@@ -262,8 +259,7 @@ void CacheUrlPathPart::GetUrlPathPartByID(database::DatabaseConnection* db,const
 		try {
 			database::urlpathpartsTableBase::GetBy_ID(db,nextUrlPathPartID,urlpathpartTbl);
 		}
-		catch(database::DatabaseException& e) {
-			e.DisableLogging();
+		CATCH_EXCEPTION(database::DatabaseException,e,0)
 			std::ostringstream ss;
 			ss << "exception while getting url path part ID: " << nextUrlPathPartID << std::endl
 			   << "original exception: " << std::endl << e.Dump();

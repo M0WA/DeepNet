@@ -78,7 +78,7 @@ DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std:
 			log::Logging::LogInfo("dumping URL: %s  => %s\n%s",sUrl.c_str(),sDomain.c_str(),urlDump.c_str());
 		}
 	}
-	catch(errors::Exception& e) {
+	CATCH_EXCEPTION(errors::Exception,e,1)
 
 		log::Logging::LogError("invalid url: %s",sUrl.c_str());
 		throw;

@@ -58,52 +58,6 @@ public:
 	 */
   void Set_ID(const long long& in);
   /**
-   * gets value of RESULTTHREAD_ID.
-   * @param out value.
-   */
-  void Get_RESULTTHREAD_ID(long long& out) const;
-
-  /**
-   * gets const column for RESULTTHREAD_ID.
-   * @return column for RESULTTHREAD_ID.
-   */
-  const TableColumn* GetConstColumn_RESULTTHREAD_ID() const;
-
-  /**
-   * gets column for RESULTTHREAD_ID.
-   * @return column for RESULTTHREAD_ID.
-   */
-  TableColumn* GetColumn_RESULTTHREAD_ID();
-
-	/**
-	 * sets value of RESULTTHREAD_ID.
-	 * @param in value.
-	 */
-  void Set_RESULTTHREAD_ID(const long long& in);
-  /**
-   * gets value of PROPERTIES_ID.
-   * @param out value.
-   */
-  void Get_PROPERTIES_ID(long long& out) const;
-
-  /**
-   * gets const column for PROPERTIES_ID.
-   * @return column for PROPERTIES_ID.
-   */
-  const TableColumn* GetConstColumn_PROPERTIES_ID() const;
-
-  /**
-   * gets column for PROPERTIES_ID.
-   * @return column for PROPERTIES_ID.
-   */
-  TableColumn* GetColumn_PROPERTIES_ID();
-
-	/**
-	 * sets value of PROPERTIES_ID.
-	 * @param in value.
-	 */
-  void Set_PROPERTIES_ID(const long long& in);
-  /**
    * gets value of session.
    * @param out value.
    */
@@ -150,74 +104,28 @@ public:
 	 */
   void Set_query(const std::string& in);
   /**
-   * gets value of started.
+   * gets value of age.
    * @param out value.
    */
-  void Get_started(struct tm& out) const;
+  void Get_age(struct tm& out) const;
 
   /**
-   * gets const column for started.
-   * @return column for started.
+   * gets const column for age.
+   * @return column for age.
    */
-  const TableColumn* GetConstColumn_started() const;
+  const TableColumn* GetConstColumn_age() const;
 
   /**
-   * gets column for started.
-   * @return column for started.
+   * gets column for age.
+   * @return column for age.
    */
-  TableColumn* GetColumn_started();
+  TableColumn* GetColumn_age();
 
 	/**
-	 * sets value of started.
+	 * sets value of age.
 	 * @param in value.
 	 */
-  void Set_started(const struct tm& in);
-  /**
-   * gets value of modified.
-   * @param out value.
-   */
-  void Get_modified(struct tm& out) const;
-
-  /**
-   * gets const column for modified.
-   * @return column for modified.
-   */
-  const TableColumn* GetConstColumn_modified() const;
-
-  /**
-   * gets column for modified.
-   * @return column for modified.
-   */
-  TableColumn* GetColumn_modified();
-
-	/**
-	 * sets value of modified.
-	 * @param in value.
-	 */
-  void Set_modified(const struct tm& in);
-  /**
-   * gets value of finished.
-   * @param out value.
-   */
-  void Get_finished(long long& out) const;
-
-  /**
-   * gets const column for finished.
-   * @return column for finished.
-   */
-  const TableColumn* GetConstColumn_finished() const;
-
-  /**
-   * gets column for finished.
-   * @return column for finished.
-   */
-  TableColumn* GetColumn_finished();
-
-	/**
-	 * sets value of finished.
-	 * @param in value.
-	 */
-  void Set_finished(const long long& in);
+  void Set_age(const struct tm& in);
   /**
    * gets value of total.
    * @param out value.
@@ -241,29 +149,6 @@ public:
 	 * @param in value.
 	 */
   void Set_total(const long long& in);
-  /**
-   * gets value of identifier.
-   * @param out value.
-   */
-  void Get_identifier(std::string& out) const;
-
-  /**
-   * gets const column for identifier.
-   * @return column for identifier.
-   */
-  const TableColumn* GetConstColumn_identifier() const;
-
-  /**
-   * gets column for identifier.
-   * @return column for identifier.
-   */
-  TableColumn* GetColumn_identifier();
-
-	/**
-	 * sets value of identifier.
-	 * @param in value.
-	 */
-  void Set_identifier(const std::string& in);
 
 
 public:
@@ -289,50 +174,6 @@ public:
 	 * @param results contains results.
 	 */
     static void GetBy_ID(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of RESULTTHREAD_ID.
-	 * @param db database connection.
-	 * @param fieldValue value of RESULTTHREAD_ID.
-	 * @param results contains results.
-	 */
-    static void GetBy_RESULTTHREAD_ID(
-        DatabaseConnection* db,
-        const long long& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of RESULTTHREAD_ID.
-	 * @param db database connection.
-	 * @param fieldValue values of RESULTTHREAD_ID.
-	 * @param results contains results.
-	 */
-    static void GetBy_RESULTTHREAD_ID(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of PROPERTIES_ID.
-	 * @param db database connection.
-	 * @param fieldValue value of PROPERTIES_ID.
-	 * @param results contains results.
-	 */
-    static void GetBy_PROPERTIES_ID(
-        DatabaseConnection* db,
-        const long long& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of PROPERTIES_ID.
-	 * @param db database connection.
-	 * @param fieldValue values of PROPERTIES_ID.
-	 * @param results contains results.
-	 */
-    static void GetBy_PROPERTIES_ID(
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
@@ -382,69 +223,25 @@ public:
         SelectResultContainer<searchqueryTableBase>& results);
 public:
 	/**
-	 * gets rows by a value of started.
+	 * gets rows by a value of age.
 	 * @param db database connection.
-	 * @param fieldValue value of started.
+	 * @param fieldValue value of age.
 	 * @param results contains results.
 	 */
-    static void GetBy_started(
+    static void GetBy_age(
         DatabaseConnection* db,
         const struct tm& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 
 	/**
-	 * gets rows by multiple values of started.
+	 * gets rows by multiple values of age.
 	 * @param db database connection.
-	 * @param fieldValue values of started.
+	 * @param fieldValue values of age.
 	 * @param results contains results.
 	 */
-    static void GetBy_started(
+    static void GetBy_age(
         DatabaseConnection* db, 
         const std::vector<struct tm>& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of modified.
-	 * @param db database connection.
-	 * @param fieldValue value of modified.
-	 * @param results contains results.
-	 */
-    static void GetBy_modified(
-        DatabaseConnection* db,
-        const struct tm& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of modified.
-	 * @param db database connection.
-	 * @param fieldValue values of modified.
-	 * @param results contains results.
-	 */
-    static void GetBy_modified(
-        DatabaseConnection* db, 
-        const std::vector<struct tm>& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of finished.
-	 * @param db database connection.
-	 * @param fieldValue value of finished.
-	 * @param results contains results.
-	 */
-    static void GetBy_finished(
-        DatabaseConnection* db,
-        const long long& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of finished.
-	 * @param db database connection.
-	 * @param fieldValue values of finished.
-	 * @param results contains results.
-	 */
-    static void GetBy_finished(
-        DatabaseConnection* db, 
-        const std::vector<long long>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
 public:
 	/**
@@ -468,42 +265,12 @@ public:
         DatabaseConnection* db, 
         const std::vector<long long>& fieldValue, 
         SelectResultContainer<searchqueryTableBase>& results);
-public:
-	/**
-	 * gets rows by a value of identifier.
-	 * @param db database connection.
-	 * @param fieldValue value of identifier.
-	 * @param results contains results.
-	 */
-    static void GetBy_identifier(
-        DatabaseConnection* db,
-        const std::string& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
-
-	/**
-	 * gets rows by multiple values of identifier.
-	 * @param db database connection.
-	 * @param fieldValue values of identifier.
-	 * @param results contains results.
-	 */
-    static void GetBy_identifier(
-        DatabaseConnection* db, 
-        const std::vector<std::string>& fieldValue, 
-        SelectResultContainer<searchqueryTableBase>& results);
 
 
 public:
 //
 // template: TableBase_InnerJoin.inc.h
 //
-    static void AddInnerJoinLeftSideOn_RESULTTHREAD_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinLeftSideOn_RESULTTHREAD_ID(Statement& stmt);
-    static void AddInnerJoinRightSideOn_RESULTTHREAD_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinRightSideOn_RESULTTHREAD_ID(Statement& stmt);
-    static void AddInnerJoinLeftSideOn_PROPERTIES_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinLeftSideOn_PROPERTIES_ID(Statement& stmt);
-    static void AddInnerJoinRightSideOn_PROPERTIES_ID(const std::string& joinTableAlias, const std::string& joinColumnAlias, const std::string& referencedTableAlias, const std::string& referencedColumnAlias, Statement& stmt);
-    static void AddInnerJoinRightSideOn_PROPERTIES_ID(Statement& stmt);
 
 
 public:
@@ -528,48 +295,6 @@ public:
      * @param container adds newly created where conditions.
      */
     static void GetWhereColumnsFor_ID(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<long long>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of RESULTTHREAD_ID.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_RESULTTHREAD_ID(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const long long& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of RESULTTHREAD_ID.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_RESULTTHREAD_ID(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<long long>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of PROPERTIES_ID.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_PROPERTIES_ID(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const long long& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of PROPERTIES_ID.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_PROPERTIES_ID(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
@@ -616,67 +341,25 @@ public:
         const std::vector<std::string>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
-     * creates where condition for a value of started.
+     * creates where condition for a value of age.
      * @param createParam create parameter.
      * @param fieldValue field value.
      * @param container adds newly created where condition.
      */
-	static void GetWhereColumnsFor_started(
+	static void GetWhereColumnsFor_age(
         const WhereConditionTableColumnCreateParam& createParam,
         const struct tm& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
 
     /**
-     * creates where condition for multiple values of started.
+     * creates where condition for multiple values of age.
      * @param createParam create parameter.
      * @param fieldValue field values.
      * @param container adds newly created where conditions.
      */
-    static void GetWhereColumnsFor_started(
+    static void GetWhereColumnsFor_age(
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<struct tm>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of modified.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_modified(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const struct tm& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of modified.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_modified(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<struct tm>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of finished.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_finished(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const long long& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of finished.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_finished(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
     /**
      * creates where condition for a value of total.
@@ -699,27 +382,6 @@ public:
         const WhereConditionTableColumnCreateParam& createParam,
         const std::vector<long long>& fieldValue, 
         std::vector<WhereConditionTableColumn*>& container);
-    /**
-     * creates where condition for a value of identifier.
-     * @param createParam create parameter.
-     * @param fieldValue field value.
-     * @param container adds newly created where condition.
-     */
-	static void GetWhereColumnsFor_identifier(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::string& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
-
-    /**
-     * creates where condition for multiple values of identifier.
-     * @param createParam create parameter.
-     * @param fieldValue field values.
-     * @param container adds newly created where conditions.
-     */
-    static void GetWhereColumnsFor_identifier(
-        const WhereConditionTableColumnCreateParam& createParam,
-        const std::vector<std::string>& fieldValue, 
-        std::vector<WhereConditionTableColumn*>& container);
 
 
 public:
@@ -732,16 +394,6 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_ID();
 	/**
-     * create a column definition for column RESULTTHREAD_ID.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_RESULTTHREAD_ID();
-	/**
-     * create a column definition for column PROPERTIES_ID.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_PROPERTIES_ID();
-	/**
      * create a column definition for column session.
      * @return column definition.
      */
@@ -752,30 +404,15 @@ public:
      */
 	static TableColumnDefinition* GetDefinition_query();
 	/**
-     * create a column definition for column started.
+     * create a column definition for column age.
      * @return column definition.
      */
-	static TableColumnDefinition* GetDefinition_started();
-	/**
-     * create a column definition for column modified.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_modified();
-	/**
-     * create a column definition for column finished.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_finished();
+	static TableColumnDefinition* GetDefinition_age();
 	/**
      * create a column definition for column total.
      * @return column definition.
      */
 	static TableColumnDefinition* GetDefinition_total();
-	/**
-     * create a column definition for column identifier.
-     * @return column definition.
-     */
-	static TableColumnDefinition* GetDefinition_identifier();
 
 };
 

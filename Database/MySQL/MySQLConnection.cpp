@@ -79,7 +79,9 @@ bool MySQLConnection::Connect(const DatabaseConfig* dbConfig)
 			config->GetDatabaseName().c_str(),
 			config->GetPort(),
 			NULL,
-			CLIENT_MULTI_STATEMENTS|CLIENT_COMPRESS	);
+			CLIENT_MULTI_STATEMENTS |
+			CLIENT_COMPRESS |
+			CLIENT_IGNORE_SIGPIPE );
 
 	if(!mysqlConnection) {
 		log::Logging::LogError(mysql_error(tmp));
@@ -144,21 +146,20 @@ void MySQLConnection::Execute(const std::string& query, bool doRetry)
 	if(!mysqlConnection) {
 		THROW_EXCEPTION(DatabaseNotConnectedException); }
 
-	int nError = mysql_real_query(mysqlConnection,query.c_str(),query.size());
+	int nError(mysql_real_query(mysqlConnection,query.c_str(),query.size()));
 	if(nError) {
-
-		unsigned int errNoMysql = mysql_errno(mysqlConnection);
+		unsigned int errNoMysql(mysql_errno(mysqlConnection));
 		if(errNoMysql == ER_LOCK_DEADLOCK || errNoMysql == ER_LOCK_WAIT_TIMEOUT) {
-			bool exceptionOccurred = true;
+			bool exceptionOccurred(true);
 			if(doRetry) {
-				log::Logging::LogWarn("timeout or deadlock in mysql database connection, retrying statement: %s",query.c_str());
+				log::Logging::LogTrace("timeout or deadlock in mysql database connection, retrying statement: %s",query.c_str());
 				exceptionOccurred = true;
 				for(int i = 0; exceptionOccurred && i < 3; i++) {
 					try{
 						Execute(query,false);
 						exceptionOccurred = false;
 					}
-					catch(MySQLOperationTimeoutException& e) {
+					CATCH_EXCEPTION(MySQLOperationTimeoutException,e,0)
 						exceptionOccurred = true;
 					}
 				}

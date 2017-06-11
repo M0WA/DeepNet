@@ -17,17 +17,19 @@ class FastCGISocket {
 public:
 	/**
 	 * creates a FastCGI IP socket
-	 * @param port tcp port
+	 * @param ip ip to listen on (0.0.0.0 for all)
+	 * @param port tcp port to listen on
 	 * @param backlog backlog of socket (0 = unlimited)
 	 */
-	FastCGISocket(const int port, const int backlog = 0);
+	FastCGISocket(const std::string& ip, const int port, const int backlog);
 
 	/**
 	 * creates a FastCGI file socket
 	 * @param filename filename of socket
 	 * @param backlog backlog of socket (0 = unlimited)
 	 */
-	FastCGISocket(const std::string& filename, const int backlog = 0);
+	FastCGISocket(const std::string& filename, const int backlog);
+
 	virtual ~FastCGISocket();
 
 public:
@@ -51,7 +53,15 @@ private:
 private:
 	int socket;
 	int backlog;
+
+	/**
+	 * port for tcp socket, -1 if unix file socket
+	 */
 	int port;
+
+	/**
+	 * ip/hostname for tcp socket, filename if unix file socket
+	 */
 	std::string filename;
 };
 

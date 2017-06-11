@@ -124,7 +124,7 @@ int main(int argc, char** argv)
 
 		serverInspector.StopServer();
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 
 		serverInspector.OnException(ex);
 		return 1;

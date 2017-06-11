@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 #include <sstream>
-#include <algorithm>
 #include <cstdarg>
 
 namespace tools
@@ -259,19 +258,6 @@ public:
 	}
 
 	/**
-	 * transform a vector of string to a vector of a certain type
-	 * @param in values to convert
-	 * @param out converted values
-	 * @return true if successful
-	 */
-	template <class T>
-	static bool TransformStringVector(const std::vector<std::string>& in, std::vector<T>& out) {
-		StringToTypeFunc<T> trans(out);
-		std::for_each(in.begin(),in.end(),trans);
-		return in.size() == out.size();
-	}
-
-	/**
 	 * checks if comp is one of the strings in choice.
 	 * use this function only with care.
 	 * @param comp string to compare
@@ -322,24 +308,6 @@ private:
 	struct ToLowerVecFunc : public std::unary_function<std::string,bool> {
 		ToLowerVecFunc() {}
 		bool operator() (std::string& item);
-	};
-
-	template <class T>
-	struct StringToTypeFunc : public std::unary_function<std::string,bool> {
-	public:
-		StringToTypeFunc(std::vector<T>& out)
-		: out(out){ }
-
-		bool operator () (const std::string& in) {
-			bool success(TransformString(in,tmp));
-			if(success)
-				out.push_back(tmp);
-			return success;
-		}
-
-	private:
-		std::vector<T>& out;
-		T tmp;
 	};
 };
 

@@ -11,7 +11,7 @@
 
 namespace database {
 
-class DatabaseEmptyTableNameException:  public DatabaseException {
+class DatabaseEmptyTableNameException:  public database::DatabaseException {
 public:
 	DatabaseEmptyTableNameException(
 			const std::string& file,

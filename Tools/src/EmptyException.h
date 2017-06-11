@@ -20,7 +20,8 @@ public:
 	EmptyException(
 			const std::string& file,
 			const int line,
-			const std::string& function);
+			const std::string& function,
+			const std::string& backtrace);
 	virtual ~EmptyException();
 };
 

@@ -2,9 +2,9 @@
 
 #########################################################
 #
-# this is part of the DeepNet search engine software
-# Copyright 2015, Moritz Wagner
-# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
+# this is part of the SIRIDIA search engine software
+# Copyright 2012, SIRIDIA GmbH
+# Author: Moritz Wagner (moritz.wagner@siridia.de)
 #
 #########################################################
 
@@ -15,5 +15,5 @@ then
 else
   cd ../DeepNetTool/Release/
 fi
-./DeepNetTool --configfile ../../Scripts/conf/deepnet.tool.conf --insertUrl dummy.mo-sys.de
+./DeepNetTool --configfile ../../Scripts/conf/deepnet.tool.conf --insertUrl dummy.siridia.de
 cd ${TMP}

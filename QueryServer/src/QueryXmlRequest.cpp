@@ -21,10 +21,6 @@
 
 namespace queryserver {
 
-//
-//TODO: move to config file
-//
-#define RESULTS_PER_REQUEST_HARDLIMIT 10000
 
 QueryXmlRequest::QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThread)
 : fastcgiserver::FastCGIRequest(serverThread){
@@ -33,7 +29,7 @@ QueryXmlRequest::QueryXmlRequest(fastcgiserver::FastCGIServerThread* serverThrea
 QueryXmlRequest::~QueryXmlRequest() {
 }
 
-bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
+bool QueryXmlRequest::ParseQueryKeywords(const std::string& xmlRequest) {
 
 	//parsing keywords for query
 	std::vector<std::string> strKeywords;
@@ -41,21 +37,48 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 		log::Logging::LogWarn("could not find keywords in query request");
 		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 		return false; }
+
+	//rebuild raw query string
 	std::vector<std::string>::const_iterator iKey(strKeywords.begin());
 	for(size_t pos(0);iKey!=strKeywords.end();++iKey,++pos) {
 		if(pos)
 			rawQueryString.append(" ");
-		rawQueryString.append(*iKey); }
+
+		if(iKey->find(' ') != std::string::npos) {
+			//if keywords contains whitespaces it must have been
+			//enclosed in quotation marks
+			rawQueryString.append("\"" + *iKey + "\"");
+		}
+		else {
+			rawQueryString.append(*iKey);
+		}
+	}
 
 	//parsing case sensivity
 	bool caseSensitive(false);
 	if(!QueryXmlFirstElement(caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "caseSensivity")) {
 		caseSensitive = false; }
 
+	//parsing mandatory occurance
+	bool occuranceMandatory(false);
+	if(!QueryXmlFirstElement(caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "occuranceMandatory")) {
+		occuranceMandatory = false; }
+
+	bool exactMatch(false);
+	//TODO: make exactMatch set-able
+
 	//append all keywords to query
 	std::vector<std::string>::const_iterator iStrs(strKeywords.begin());
 	for(size_t pos(0);iStrs!=strKeywords.end();++iStrs,++pos) {
-		query.AppendKeyword(pos,*iStrs,caseSensitive); }
+		query.AppendKeyword(pos,*iStrs,caseSensitive,occuranceMandatory,exactMatch); }
+
+	return true;
+}
+
+bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
+
+	if(!ParseQueryKeywords(xmlRequest))
+		return false;
 
 	//parsing page number
 	if(!QueryXmlFirstElement(query.properties.pageNo, xmlRequest.c_str(), xmlRequest.length(), "pageNo")) {
@@ -73,8 +96,6 @@ bool QueryXmlRequest::ParseQuery(const std::string& xmlRequest) {
 
 	if(!ParseQueryLimitations(xmlRequest))
 		return false;
-
-	query.RecalculateIdentifier();
 
 	return true;
 }
@@ -168,8 +189,7 @@ bool QueryXmlRequest::ParseQueryLimitations(const std::string& xmlRequest) {
 				tools::Pointer<htmlparser::DatabaseUrl> url;
 				try {
 					caching::CacheDatabaseUrl::GetByUrlString(serverThread->DB().Connection(), limitDomainString, url);	}
-				catch(errors::Exception& e) {
-					e.DisableLogging();
+				CATCH_EXCEPTION(errors::Exception,e,0)
 					log::Logging::LogWarn("could not parse limitation domain");
 					log::Logging::LogTraceUnlimited("exception:\n%s",e.Dump().c_str());
 					log::Logging::LogTraceUnlimited("request:\n%s",xmlRequest.c_str());
@@ -207,8 +227,8 @@ bool QueryXmlRequest::ParseQueryLimitations(const std::string& xmlRequest) {
 		log::Logging::LogWarn("could not find limitation flag in query request");
 		log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 		return false; }
-	if(query.properties.maxResults > RESULTS_PER_REQUEST_HARDLIMIT) {
-		query.properties.maxResults = RESULTS_PER_REQUEST_HARDLIMIT; }
+	if(query.properties.maxResults > query.properties.GetMaxResultHardLimit()) {
+		query.properties.maxResults = query.properties.GetMaxResultHardLimit(); }
 
 	return true;
 }
@@ -332,6 +352,12 @@ void QueryXmlRequest::OnHandle(FCGX_Request& request) {
 	//
 	if(!ParseQuery(std::string(rawPostData))) {
 		return; }
+
+	if(log::Logging::IsLogLevelTrace()) {
+		std::string dumpQuery;
+		query.DumpQuery(dumpQuery);
+		log::Logging::LogTraceUnlimited("query is:\n%s",dumpQuery.c_str());
+	}
 }
 
 }

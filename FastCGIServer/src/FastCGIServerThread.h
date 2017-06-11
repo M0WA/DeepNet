@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include "FastCGISocket.h"
 #include "FastCGIRequest.h"
 #include "FastCGIResponse.h"
 
@@ -16,15 +17,31 @@
 
 namespace fastcgiserver {
 
-class FastCGISocket;
-
 /**
  * @brief thread that manages a FastCGI instance listening on a socket
  */
 class FastCGIServerThread : public threading::Thread
 {
 public:
-	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, FastCGISocket* socket,const int backlog = 0);
+	/**
+	 * create FastCGI server thread using tcp by ip and port
+	 * @param databaseConfig database config
+	 * @param acceptMutex mutex for accept()
+	 * @param ip ip for tcp socket (0.0.0.0 for all)
+	 * @param port port for tcp socket
+	 * @param backlog backlog of listen socket (0 for unlimited)
+	 */
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
+
+	/**
+	 * create FastCGI server thread using a unix file socket
+	 * @param databaseConfig database config
+	 * @param acceptMutex mutex for accept()
+	 * @param filename filename for unix socket
+	 * @param backlog backlog of listen socket (0 for unlimited)
+	 */
+	FastCGIServerThread(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
+
 	virtual ~FastCGIServerThread();
 
 public:
@@ -39,12 +56,6 @@ public:
 	 * @return spellchecking instance
 	 */
 	tools::SpellChecking& SpellChecker() { return spellChecker; }
-
-	/**
-	 * gets database configuration for this thread
-	 * @return database configuration
-	 */
-	const database::DatabaseConfig* DBConf() const { return databaseConfig; }
 
 private:
 	/**
@@ -74,7 +85,12 @@ private:
 	database::DatabaseConfig* databaseConfig;
 
 	FCGX_Request request;
-	FastCGISocket* fcgiSocket;
+	FastCGISocket fcgiSocket;
+
+	bool isFileSocket;
+	int port;
+	int backlog;
+	std::string filename;
 	threading::Mutex* acceptMutex;
 };
 

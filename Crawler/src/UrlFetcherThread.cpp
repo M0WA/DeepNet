@@ -59,10 +59,6 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 	UrlFetcherThread* instance(dynamic_cast<UrlFetcherThread*>(threadParam->instance));
 	instance->fetcherThreadParam = reinterpret_cast<UrlFetcherThreadParam*>(threadParam->pParam);
 
-	if(instance->fetcherThreadParam->minAge < 10) {
-		log::Logging::LogWarn("setting crawler_minAge to 10 days for crawling");
-		instance->fetcherThreadParam->minAge = 10; }
-
 	PERFORMANCE_LOG_START;
 	bool connectedDB(instance->DB().CreateConnection(instance->fetcherThreadParam->databaseConfig)!= 0);
 	PERFORMANCE_LOG_STOP("crawler: connect to database");
@@ -269,6 +265,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 		htmlCode.Swap(result.html);
 	}
 
+
 	database::urlstagesTableBase urlStageTbl;
 	urlStageTbl.Set_URL_ID(urlID);
 	urlStageTbl.Set_response_code(httpCode);
@@ -278,10 +275,13 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	urlStageTbl.Set_upload_speed( (result.uploadSpeed > 0.0 ? static_cast<long long>(result.uploadSpeed * 1024) : -1) );
 	urlStageTbl.Set_content_length((result.contentLength > 0.0 ? static_cast<long long>(result.contentLength) : -1));
 	urlStageTbl.Set_content_type(result.html.GetContentType());
-	urlStageTbl.Set_last_change(result.fileTimestamp);
 	urlStageTbl.Set_primary_ip(inet_addr(result.primaryIP.c_str()));
 	urlStageTbl.Set_primary_port(result.primaryPort);
 	urlStageTbl.Set_found_date(tools::TimeTools::NowUTC());
+
+	if(!tools::TimeTools::IsZero(result.fileTimestamp)){
+		urlStageTbl.Set_last_change(result.fileTimestamp);
+	}
 
 	if(htmlCode.GetBuffer()) {
 		urlStageTbl.Set_content_md5(tools::HashTools::GetMD5(htmlCode.GetBuffer(),htmlCode.GetBufferSize())); }
@@ -429,8 +429,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	try {
 		documentCodeTbl.Set_code(pszBuffer);
 	}
-	catch(database::DatabaseException& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		log::Logging::LogTrace("document source code too big from %s\nexception was:%s",url.GetFullUrl().c_str(),e.Dump().c_str());
 	}
 
@@ -438,8 +437,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	try {
 		documentCodeTbl.Insert(DB().Connection());
 	}
-	catch(database::DatabaseException& e) {
-		e.DisableLogging();
+	CATCH_EXCEPTION(database::DatabaseException,e,0)
 		log::Logging::LogTrace("invalid encoding from %s",url.GetFullUrl().c_str());
 	}
 	PERFORMANCE_LOG_STOP("inserting html code into database");

@@ -13,7 +13,7 @@
 
 namespace database {
 
-class MySQLQueryResultStoreException: public DatabaseException {
+class MySQLQueryResultStoreException: public database::DatabaseException {
 public:
 	MySQLQueryResultStoreException(
 			const std::string& file,

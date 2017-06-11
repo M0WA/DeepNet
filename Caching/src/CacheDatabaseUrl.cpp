@@ -63,7 +63,7 @@ bool CacheDatabaseUrl::GetByUrl(database::DatabaseConnection* db, const network:
 		try {
 			urlOut.Set(new htmlparser::DatabaseUrl(db,url),true);
 			cacheInstance.cacheIDUrl.AddItem(urlOut.Get()->GetUrlID(),*urlOut.Get()); }
-		catch(errors::Exception& e) {
+		CATCH_EXCEPTION(errors::Exception,e,1)
 			urlOut.Release();
 			return false; }
 		return true; }

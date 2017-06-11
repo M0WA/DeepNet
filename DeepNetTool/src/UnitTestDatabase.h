@@ -91,7 +91,7 @@ private:
 		database::DeleteStatement deleteAll(T::CreateTableDefinition());
 		try {
 			dbHelper.Connection()->Delete(deleteAll); }
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not delete test data:\n%s",ex.Dump().c_str());
 			return false; }
 
@@ -107,7 +107,7 @@ private:
 		database::SelectResultContainer<database::TableBase> results;
 		try {
 			dbHelper.Connection()->Select(selectRest,results); }
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could select count for test data:\n%s",ex.Dump().c_str());
 			return false; }
 		results.ResetIter();
@@ -154,7 +154,7 @@ private:
 		database::SelectResultContainer<T> results;
 		try {
 			dbHelper.Connection()->Select(selectAll,results); }
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
 			return false; }
 		results.ResetIter();
@@ -189,7 +189,7 @@ private:
 		database::SelectResultContainer<T> results;
 		try {
 			T::GetBy_double_test(dbHelper.Connection(),entry.dDouble,results);	}
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
 			return false; }
 
@@ -209,7 +209,7 @@ private:
 		database::SelectResultContainer<T> results;
 		try {
 			T::GetBy_varchar_test(dbHelper.Connection(),entry.varchar_test,results);	}
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
 			return false; }
 
@@ -229,7 +229,7 @@ private:
 		database::SelectResultContainer<T> results;
 		try {
 			T::GetBy_timestamp_test(dbHelper.Connection(),entry.timestamp,results);	}
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
 			return false; }
 
@@ -249,7 +249,7 @@ private:
 		database::SelectResultContainer<T> results;
 		try {
 			T::GetBy_integer_test(dbHelper.Connection(),entry.nInteger,results);	}
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not select test data:\n%s",ex.Dump().c_str());
 			return false; }
 
@@ -302,7 +302,7 @@ private:
 		database::SelectResultContainer<T> results;
 		try {
 			dbHelper.Connection()->Select(stmt,results); }
-		catch(database::DatabaseException& e) {
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
 			return false; }
 
 		if(results.Size() != 1) {
@@ -365,7 +365,7 @@ private:
 
 		try {
 			insertTbl.Insert(dbHelper.Connection()); }
-		catch(database::DatabaseException& ex) {
+		CATCH_EXCEPTION(database::DatabaseException,ex,1)
 			log::Logging::LogError("could not insert test data:\n%s",ex.Dump().c_str());
 			return false; }
 

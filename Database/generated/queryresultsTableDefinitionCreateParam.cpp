@@ -29,11 +29,8 @@ void queryresultsTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for SEARCHQUERY_ID
     columnDefinitions.push_back(queryresultsTableBase::GetDefinition_SEARCHQUERY_ID());
 
-    //creating column definition for URLSTAGE_ID
-    columnDefinitions.push_back(queryresultsTableBase::GetDefinition_URLSTAGE_ID());
-
-    //creating column definition for URL_ID
-    columnDefinitions.push_back(queryresultsTableBase::GetDefinition_URL_ID());
+    //creating column definition for resultXML
+    columnDefinitions.push_back(queryresultsTableBase::GetDefinition_resultXML());
 
     //creating column definition for position
     columnDefinitions.push_back(queryresultsTableBase::GetDefinition_position());

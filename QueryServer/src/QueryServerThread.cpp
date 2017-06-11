@@ -13,10 +13,18 @@
 
 namespace queryserver {
 
-QueryServerThread::QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, fastcgiserver::FastCGISocket* socket)
-: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex,socket)
+QueryServerThread::QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
+: FastCGIServerThread(databaseConfig,acceptMutex,ip,port,backlog)
 , requestXSD(requestXSD)
-, responseXSD(responseXSD) {
+, responseXSD(responseXSD)
+, threadManager(QueryThreadManager(databaseConfig)){
+}
+
+QueryServerThread::QueryServerThread(database::DatabaseConfig* databaseConfig, const std::string& requestXSD, const std::string responseXSD, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
+: FastCGIServerThread(databaseConfig,acceptMutex,filename,backlog)
+, requestXSD(requestXSD)
+, responseXSD(responseXSD)
+, threadManager(QueryThreadManager(databaseConfig)) {
 }
 
 QueryServerThread::~QueryServerThread() {
@@ -27,7 +35,7 @@ fastcgiserver::FastCGIRequest* QueryServerThread::CreateRequest() {
 }
 
 fastcgiserver::FastCGIResponse* QueryServerThread::CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request) {
-	return dynamic_cast<fastcgiserver::FastCGIResponse*>(new QueryXmlResponse(dynamic_cast<QueryXmlRequest*>(request)));
+	return dynamic_cast<fastcgiserver::FastCGIResponse*>(new QueryXmlResponse(threadManager, dynamic_cast<QueryXmlRequest*>(request)));
 }
 
 }

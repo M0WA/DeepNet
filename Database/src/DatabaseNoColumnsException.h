@@ -11,7 +11,7 @@
 
 namespace database {
 
-class DatabaseNoColumnsException: public DatabaseException {
+class DatabaseNoColumnsException: public database::DatabaseException {
 public:
 	DatabaseNoColumnsException(
 			const std::string& file,

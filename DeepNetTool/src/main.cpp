@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : DeepNetTool.cpp
-// Author      : Moritz Wagner (moritz.wagner@mo-sys.de)
+// Author      : Moritz Wagner (moritz.wagner@siridia.de)
 // Version     :
 // Copyright   : Copyright 2012, Moritz Wagner
 // Description : DeepNet Tool Bot
@@ -36,7 +36,7 @@ int main(int argc, char** argv) {
 	try {
 		success = bot.Run(argc,argv);
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 		bot.OnException( ex );
 		return 1;
 	}

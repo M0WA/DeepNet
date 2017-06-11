@@ -7,9 +7,6 @@
 
 #include "DataMiningTools.h"
 
-#include <Pointer.h>
-#include <DatabaseUrl.h>
-#include <CacheDatabaseUrl.h>
 #include <HashTools.h>
 #include <DatabaseLayer.h>
 #include <Logging.h>
@@ -74,7 +71,7 @@ bool DataMiningTools::RegisterDataminingAlert(database::DatabaseConnection* db, 
 
 		db->TransactionCommit();
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 		db->TransactionRollback();
 		log::Logging::LogError("error while inserting dataming alert (%lld, %lld), alert has not been registered",critID,alertID);
 		return false;
@@ -93,6 +90,7 @@ bool DataMiningTools::InsertDataminingUser(database::DatabaseConnection* db, con
 		log::Logging::LogError("empty username or password not allowed, user not created",username.c_str(),password.c_str());
 		return false; }
 
+
 	database::dataminingcustomerTableBase userTable;
 	userTable.Set_login(username);
 	userTable.Set_password(tools::HashTools::GetSHA512(password));
@@ -103,51 +101,8 @@ bool DataMiningTools::InsertDataminingUser(database::DatabaseConnection* db, con
 		db->LastInsertID(userID);
 		log::Logging::LogTrace("inserted user %s has userID: %lld",username.c_str(),userID);
 	}
-	catch(errors::Exception& ex) {
+	CATCH_EXCEPTION(errors::Exception,ex,1)
 		log::Logging::LogError("error while inserting datamining user, user not created");
-		return false;
-	}
-
-	return true;
-}
-
-bool DataMiningTools::InsertFencedUrl(database::DatabaseConnection* db, const std::string& username, const std::string& url) {
-
-	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
-	try {
-		if(!caching::CacheDatabaseUrl::GetByUrlString(db, url, dbUrl)) {
-			log::Logging::LogError("could not insert url: %s",url.c_str());
-			return false; }
-	}
-	catch(...) {
-		log::Logging::LogError("exception while inserting url: %s",url.c_str());
-		return false;
-	}
-
-	database::SelectResultContainer<database::dataminingcustomerTableBase> res;
-	try {
-		database::dataminingcustomerTableBase::GetBy_login(db,username,res);
-	}
-	catch(...) {
-		log::Logging::LogError("exception while getting datamining username id: %s",username.c_str());
-		return false;
-	}
-	if(res.Size() != 1) {
-		log::Logging::LogError("invalid datamining username: %s",username.c_str());
-		return false;
-	}
-	res.ResetIter();
-
-	long long dmUserId = -1;
-	res.GetConstIter()->Get_ID(dmUserId);
-
-	database::fencedsearchTableBase tblFence;
-	tblFence.Set_CUSTOMER_ID(dmUserId);
-	tblFence.Set_SECONDLEVELDOMAIN_ID(dbUrl.GetConst()->GetSecondLevelID());
-	try {
-		tblFence.InsertOrUpdate(db);
-	}
-	catch(...) {
 		return false;
 	}
 

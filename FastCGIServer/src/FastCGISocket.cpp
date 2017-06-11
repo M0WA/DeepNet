@@ -21,12 +21,12 @@
 
 namespace fastcgiserver {
 
-FastCGISocket::FastCGISocket(const int port, const int backlog)
+FastCGISocket::FastCGISocket(const std::string& ip, const int port, const int backlog)
 : backlog(backlog)
 , port(port)
-, filename() {
+, filename(ip) {
 	std::stringstream ssPortName;
-	ssPortName << "127.0.0.1:" << port;
+	ssPortName << ip << ":" << port;
 	socket = FCGX_OpenSocket(ssPortName.str().c_str(),backlog);
 
 	if(socket == -1)

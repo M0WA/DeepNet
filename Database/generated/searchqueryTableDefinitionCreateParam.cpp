@@ -26,32 +26,17 @@ void searchqueryTableDefinitionCreateParam::CreateColumnDefinitions() {
     //creating column definition for ID
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_ID());
 
-    //creating column definition for RESULTTHREAD_ID
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_RESULTTHREAD_ID());
-
-    //creating column definition for PROPERTIES_ID
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_PROPERTIES_ID());
-
     //creating column definition for session
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_session());
 
     //creating column definition for query
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_query());
 
-    //creating column definition for started
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_started());
-
-    //creating column definition for modified
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_modified());
-
-    //creating column definition for finished
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_finished());
+    //creating column definition for age
+    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_age());
 
     //creating column definition for total
     columnDefinitions.push_back(searchqueryTableBase::GetDefinition_total());
-
-    //creating column definition for identifier
-    columnDefinitions.push_back(searchqueryTableBase::GetDefinition_identifier());
 
 
 	std::vector<std::string> tmpCombined;

@@ -271,12 +271,11 @@ void PostgreSQLConnection::InsertOrUpdate(const InsertOrUpdateStatement& stmt){
 		ResToVec(query,res,results.GetVector());
 		TransactionCommit();
 	}
-	catch(errors::Exception& e) {
+	CATCH_EXCEPTION(errors::Exception,e,0)
 		if(res)
 			PQclear(res);
 		TransactionRollback();
 		e.Log();
-		e.DisableLogging();
 		return;
 	}
 
