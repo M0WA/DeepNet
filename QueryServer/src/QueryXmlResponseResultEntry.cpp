@@ -8,9 +8,6 @@
 
 #include "QueryXmlResponseResultEntry.h"
 
-#include "Query.h"
-#include "QueryThreadResultEntry.h"
-
 #include <algorithm>
 #include <map>
 
@@ -21,6 +18,9 @@
 #include <Logging.h>
 #include <StringTools.h>
 #include <PerformanceCounter.h>
+
+#include "Query.h"
+#include "QueryThreadResultEntry.h"
 
 namespace queryserver {
 
@@ -53,7 +53,7 @@ void QueryXmlResponseResultEntry::AddResult(const QueryThreadResultEntry* result
 
 void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const long long& queryId,const size_t& position) const {
 
-	PERFORMANCE_LOG_START
+        PERFORMANCE_LOG_START
 
 	database::searchqueryresultTableBase insertSearchResult;
 	insertSearchResult.Set_SEARCHQUERY_ID(queryId);
@@ -84,7 +84,11 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 		database::searchqueryresultinfoTableBase info;
 		info.Set_SEARCHQUERYRESULT_ID(resultID);
 		info.Set_infotype(RESULTINFO_TYPECOUNT);
-		info.Set_type(iTypes->first + ":" + iTypes->second);
+
+		std::ostringstream ss;
+		ss << static_cast<long long>(iTypes->first) << ":" << static_cast<long long>(iTypes->second);
+		info.Set_type(ss.str());
+
 		try {
 			info.Insert(db);
 		}
@@ -122,11 +126,10 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 			continue; }
 	}
 
-	PERFORMANCE_LOG_STOP("QueryXmlResponseResultEntry::Insert()")
+        PERFORMANCE_LOG_STOP("QueryXmlResponseResultEntry::Insert()")
 }
 
 bool QueryXmlResponseResultEntry::ParseTypeCount(const std::string& parse, std::string& type, size_t& count) {
-	//"<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";
 	std::vector<std::string> words;
 	tools::StringTools::SplitBy(parse,":",words);
 	if(words.size() != 2) {
