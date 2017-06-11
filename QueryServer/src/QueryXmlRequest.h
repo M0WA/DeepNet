@@ -56,6 +56,7 @@ private:
 
 private:
 	bool ParseQuery(const std::string& xmlRequest);
+	bool ParseQueryKeywords(const std::string& xmlRequest);
 	bool ParseQueryCriteria(const std::string& xmlRequest);
 	bool ParseQueryGrouping(const std::string& xmlRequest);
 	bool ParseQueryLimitations(const std::string& xmlRequest);

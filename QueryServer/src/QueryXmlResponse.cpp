@@ -37,6 +37,7 @@
 #include <ContainerTools.h>
 #include <Logging.h>
 #include <TimeTools.h>
+#include <PerformanceCounter.h>
 
 namespace queryserver {
 
@@ -114,6 +115,8 @@ bool QueryXmlResponse::CreateQuery(
 		const std::string& sessionID,
 		const std::string& rawQueryString) {
 
+	PERFORMANCE_LOG_START
+
 	const Query& query(xmlQueryRequest->GetQuery());
 
 	queryManager.BeginQuery(query);
@@ -142,6 +145,8 @@ bool QueryXmlResponse::CreateQuery(
 	//all pointers to it's results
 	results.clear();
 	queryManager.ReleaseQuery();
+
+	PERFORMANCE_LOG_STOP("QueryXmlResponse::CreateQuery()")
 
 	return true;
 }
@@ -253,6 +258,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	tools::Pointer<database::TableDefinition> ptrUrlStageDef(database::urlstagesTableBase::CreateTableDefinition());
 	database::SelectStatement selectUrlStage(ptrUrlStageDef);
 
+	/*
 	database::TableColumnDefinition
 		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
 		*colDefFoundDate(database::urlstagesTableBase::GetDefinition_found_date()),
@@ -262,6 +268,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	selectUrlStage.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
 	selectUrlStage.SelectAddColumnAlias(colDefFoundDate,colDefFoundDate->GetColumnName());
 	selectUrlStage.SelectAddColumnAlias(colDefLastChange,colDefLastChange->GetColumnName());
+	*/
 
 	selectUrlStage.Where().AddColumns(whereUrlStage);
 	selectUrlStage.SetLimit(1);
@@ -280,6 +287,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	long long urlstageID(-1);
 	for(urlstageresults.ResetIter();!urlstageresults.IsIterEnd();urlstageresults.Next()) {
+		/*
 		const database::TableBase* urlstage(urlstageresults.GetConstIter());
 
 		const database::TableColumn
@@ -296,6 +304,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		struct tm changed;
 		colLastChange->Get(changed);
 		xml << "<lastChanged>" << (tools::TimeTools::IsZero(changed) ? "" : tools::TimeTools::DumpTm(changed)) << "</lastChanged>";
+		*/
 	}
 
 	//lookup meta information for this url
@@ -356,8 +365,12 @@ void QueryXmlResponse::AssembleXMLResult(
 	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
+	const std::vector<QueryKeyword>& queryKeywords(query.GetQueryKeywords());
 	std::vector<std::string> keywordsStrings;
-	query.GetKeywords(keywordsStrings);
+	std::vector<QueryKeyword>::const_iterator iqkw(queryKeywords.begin());
+	for(; iqkw != queryKeywords.end(); ++iqkw) {
+		keywordsStrings.insert(keywordsStrings.end(),iqkw->GetKeyword());
+	}
 	tools::ContainerTools::MakeUniqueVector(keywordsStrings,true);
 
 	std::ostringstream keywordsPart;
@@ -517,7 +530,7 @@ void QueryXmlResponse::InsertResults(
 	const std::string& rawQueryString,
 	const std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
-	log::Logging::LogTrace("inserting %d results",responseEntries.size());
+	PERFORMANCE_LOG_START
 
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
@@ -546,6 +559,7 @@ void QueryXmlResponse::InsertResults(
 	}
 
 	log::Logging::LogTrace("inserted %d results",responseEntries.size());
+	PERFORMANCE_LOG_STOP("QueryXmlResponse::InsertResults()")
 }
 
 }

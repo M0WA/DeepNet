@@ -5,6 +5,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/DictionaryInfoThread.cpp \
+../src/KeywordDictionary.cpp \
+../src/KeywordMatch.cpp \
 ../src/Query.cpp \
 ../src/QueryContentThread.cpp \
 ../src/QueryKeyword.cpp \
@@ -27,6 +29,8 @@ CPP_SRCS += \
 
 OBJS += \
 ./src/DictionaryInfoThread.o \
+./src/KeywordDictionary.o \
+./src/KeywordMatch.o \
 ./src/Query.o \
 ./src/QueryContentThread.o \
 ./src/QueryKeyword.o \
@@ -49,6 +53,8 @@ OBJS += \
 
 CPP_DEPS += \
 ./src/DictionaryInfoThread.d \
+./src/KeywordDictionary.d \
+./src/KeywordMatch.d \
 ./src/Query.d \
 ./src/QueryContentThread.d \
 ./src/QueryKeyword.d \
