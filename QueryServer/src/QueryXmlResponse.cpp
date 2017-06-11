@@ -258,7 +258,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	tools::Pointer<database::TableDefinition> ptrUrlStageDef(database::urlstagesTableBase::CreateTableDefinition());
 	database::SelectStatement selectUrlStage(ptrUrlStageDef);
 
-	/*
 	database::TableColumnDefinition
 		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
 		*colDefFoundDate(database::urlstagesTableBase::GetDefinition_found_date()),
@@ -268,7 +267,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	selectUrlStage.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
 	selectUrlStage.SelectAddColumnAlias(colDefFoundDate,colDefFoundDate->GetColumnName());
 	selectUrlStage.SelectAddColumnAlias(colDefLastChange,colDefLastChange->GetColumnName());
-	*/
 
 	selectUrlStage.Where().AddColumns(whereUrlStage);
 	selectUrlStage.SetLimit(1);
@@ -287,7 +285,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 
 	long long urlstageID(-1);
 	for(urlstageresults.ResetIter();!urlstageresults.IsIterEnd();urlstageresults.Next()) {
-		/*
 		const database::TableBase* urlstage(urlstageresults.GetConstIter());
 
 		const database::TableColumn
@@ -304,7 +301,6 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 		struct tm changed;
 		colLastChange->Get(changed);
 		xml << "<lastChanged>" << (tools::TimeTools::IsZero(changed) ? "" : tools::TimeTools::DumpTm(changed)) << "</lastChanged>";
-		*/
 	}
 
 	//lookup meta information for this url
