@@ -84,11 +84,7 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 		database::searchqueryresultinfoTableBase info;
 		info.Set_SEARCHQUERYRESULT_ID(resultID);
 		info.Set_infotype(RESULTINFO_TYPECOUNT);
-
-		std::ostringstream ss;
-		ss << static_cast<long long>(iTypes->first) << ":" << static_cast<long long>(iTypes->second);
-		info.Set_type(ss.str());
-
+		info.Set_type(iTypes->first + ":" + iTypes->second);
 		try {
 			info.Insert(db);
 		}
@@ -129,48 +125,8 @@ void QueryXmlResponseResultEntry::Insert(database::DatabaseConnection* db,const 
 	PERFORMANCE_LOG_STOP("QueryXmlResponseResultEntry::Insert()")
 }
 
-void QueryXmlResponseResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
-
-	const std::vector<QueryKeyword>& queryKeywords(query.GetQueryKeywords());
-	std::vector<std::string> keywordsStrings;
-	std::vector<QueryKeyword>::const_iterator iqkw(queryKeywords.begin());
-	for(; iqkw != queryKeywords.end(); ++iqkw) {
-		keywordsStrings.insert(keywordsStrings.end(),iqkw->GetKeyword());
-	}
-	tools::ContainerTools::MakeUniqueVector(keywordsStrings,true);
-
-	std::ostringstream keywordsPart;
-	std::vector<std::string>::iterator iKey(keywordsStrings.begin());
-	for(;iKey!=keywordsStrings.end();++iKey) {
-		network::HttpUrlParser::EncodeUrl(*iKey);
-		keywordsPart << "<keyword>" << *iKey << "</keyword>"; }
-
-	std::map<QueryThreadResultType,size_t> typeCounts;
-	std::vector<const QueryThreadResultEntry*>::const_iterator iRes(threadResults.begin());
-	for(;iRes != threadResults.end(); ++iRes) {
-		const QueryThreadResultEntry* res((*iRes));
-		typeCounts[res->type]++; }
-
-	std::ostringstream typesPart;
-	std::map<QueryThreadResultType,size_t>::const_iterator iTypes(typeCounts.begin());
-	for(;iTypes!= typeCounts.end();++iTypes) {
-		typesPart << "<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";}
-
-	xml <<
-	"<result id=\"" << resultID << "\">";
-
-	threadResults.at(0)->AppendToXML(db,query,resultID,xml);
-
-	xml <<
-	"<types>" << typesPart.str() << "</types>"
-	"<keywords>" << keywordsPart.str() << "</keywords>"
-	"<relevancyWeighted>" << GetWeightedRelevance() << "</relevancyWeighted>"
-	"<relevancy>" << GetRelevance() << "</relevancy>"
-	"<weight>" << GetWeight() << "</weight>"
-	"</result>";
-}
-
 bool QueryXmlResponseResultEntry::ParseTypeCount(const std::string& parse, std::string& type, size_t& count) {
+	//"<type count=\""<< iTypes->second << "\">" << QueryThreadResultEntry::ResultTypeToString(iTypes->first) << "</type>";
 	std::vector<std::string> words;
 	tools::StringTools::SplitBy(parse,":",words);
 	if(words.size() != 2) {
