@@ -1,5 +1,5 @@
 /**
- * @file main.cpp
+ * @file SyncServer/src/main.cpp
  * @author Moritz Wagner
  * @date 11.27.2017
  */
@@ -77,7 +77,6 @@ void SignalHandler(int signum, siginfo_t* info, void* ucontext)
 		break;
 	}
 }
-
 
 bool RegisterSignalHandlers()
 {
