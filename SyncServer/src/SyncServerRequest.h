@@ -59,34 +59,39 @@ public:
 		SYNC_REQ_MODE_MAX
 	} SyncReqMode;
 
-	/*
-	typedef struct _SyncAuthReq {
-		long long crawlerId;
-		std::string password;
-	} SyncAuthReq;
-
-	typedef struct _SyncGetUrlsReq {
-		long long crawlerId;
-		std::string token;
-		long long count;
-	} SyncGetUrlsReq;
-
-	typedef struct _SyncReleaseReq {
-		long long crawlerId;
-		std::string token;
-		long long count;
-	} SyncReleaseReq;
-*/
-
 public:
 	SyncServerRequest(fastcgiserver::FastCGIServerThread* serverThread);
 	virtual ~SyncServerRequest();
 
 public:
+	/**
+	 * gets mode of request
+	 * @return mode of request
+	 */
 	const SyncReqMode& GetMode() const { return mode; }
+
+	/**
+	 * gets crawler id
+	 * @return crawler id
+	 */
 	long long GetCrawlerID() const { return crawlerID; }
+
+	/**
+	 * checks if client is authenticated
+	 * @return true if yes, false if no
+	 */
 	bool IsAuthenticated() const { return authenticated; }
+
+	/**
+	 * get this clients token
+	 * @return this clients token
+	 */
 	std::string GetToken() const { return auth_token; }
+
+	/**
+	 * get url count, for get_urls request only
+	 * @return url count
+	 */
 	std::string GetUrlCount() const { return urlCount; }
 
 public:
