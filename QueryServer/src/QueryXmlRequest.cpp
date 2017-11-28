@@ -61,7 +61,7 @@ bool QueryXmlRequest::ParseQueryKeywords(const std::string& xmlRequest) {
 
 	//parsing mandatory occurance
 	bool occuranceMandatory(false);
-	if(!QueryXmlFirstElement(caseSensitive, xmlRequest.c_str(), xmlRequest.length(), "occuranceMandatory")) {
+	if(!QueryXmlFirstElement(occuranceMandatory, xmlRequest.c_str(), xmlRequest.length(), "occuranceMandatory")) {
 		occuranceMandatory = false; }
 
 	bool exactMatch(false);
