@@ -27,6 +27,35 @@ namespace queryserver {
 
 /**
  * @brief encapsulates a xml query request and also implements fastcgiserver::FastCGIRequest
+ * @details
+ * example query request
+ *
+ *     <xml>
+ *       <request>
+ *         <query>
+ *           <querypart>ordered</querypart>
+ *           <querypart>query strings</querypart>
+ *           <caseSensivity>0</caseSensivity>
+ *           <occuranceMandatory>0</occuranceMandatory>
+ *           <criteria>
+ *             <relevanceMeta>0.2</relevanceMeta>
+ *             <relevanceFullText>0.1</relevanceFullText>
+ *             <relevanceUrlPath>0.2</relevanceUrlPath>
+ *             <relevanceDomain>0.3</relevanceDomain>
+ *           </criteria>
+ *           <limitations>
+ *             <flag>04</flag>
+ *             <domainLimit>mo-sys.de</domainLimit>
+ *             <ageLimit>20</ageLimit>
+ *             <minAgeLimit>2</minAgeLimit>
+ *             <langLimit>DE</langLimit>
+ *           </limitations>
+ *           <grouping>
+ *             <flag>04</flag>
+ *           </grouping>
+ *         </query>
+ *       </request>
+ *     </xml>
  */
 class QueryXmlRequest: public fastcgiserver::FastCGIRequest {
 
