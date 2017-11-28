@@ -77,12 +77,14 @@ public:
 	/**
 	 * log an error.
 	 * @param fmt format string.
+	 * @param ... format parameters.
 	 */
 	static void LogError(const char* fmt,...);
 
 	/**
 	 * log a warning.
 	 * @param msg log message.
+	 * @param ... format parameters.
 	 */
 	static void LogWarn(const std::string& msg) { Log(LOGLEVEL_WARN,msg); }
 
@@ -95,6 +97,7 @@ public:
 	/**
 	 * log an information.
 	 * @param msg log message.
+	 * @param ... format parameters.
 	 */
 	static void LogInfo(const std::string& msg) { Log(LOGLEVEL_INFO,msg); }
 
@@ -113,6 +116,7 @@ public:
 	/**
 	 * log a debug information.
 	 * @param fmt format string.
+	 * @param ... format parameters.
 	 */
 	static void LogTrace(const char* fmt,...);
 
@@ -162,6 +166,7 @@ public:
 	 * log a message not respecting max log length.
 	 * @param levelMsg log level.
 	 * @param fmt format string.
+	 * @param ... format parameters.
 	 */
 	static void LogUnlimited(const LogLevel levelMsg,const char* fmt,...);
 
@@ -208,6 +213,7 @@ protected:
 	 * log a message.
 	 * @param levelMsg log level.
 	 * @param fmt format string.
+	 * @param ... format parameters.
 	 */
 	static void Log(const LogLevel levelMsg,const char* fmt,...);
 
