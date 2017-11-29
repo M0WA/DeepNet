@@ -34,6 +34,7 @@ run_unittest "test_url_parser.sh" "url parser"
 run_unittest "test_html_parser.sh" "html parser"
 run_unittest "test_dom_parser.sh" "DOM parser"
 run_unittest "test_http_client.sh" "http client"
+run_unittest "test_syncing.sh" "crawler syncronisation"
 
 echo "all unit-tests exited SUCCESSFULLY"
 exit 0
