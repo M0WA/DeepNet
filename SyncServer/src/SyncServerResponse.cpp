@@ -101,7 +101,9 @@ bool SyncServerResponse::Process(FCGX_Request& request) {
 		break;
 
 	}
-	return fastcgiserver::FastCGIResponse::Process(request);
+
+	success &= fastcgiserver::FastCGIResponse::Process(request)
+	return success;
 }
 
 }
