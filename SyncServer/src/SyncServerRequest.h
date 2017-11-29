@@ -7,6 +7,7 @@
 #pragma once
 
 #include <FastCGIRequest.h>
+#include <ThreadManager.h>
 
 namespace syncserver {
 
@@ -17,7 +18,6 @@ namespace syncserver {
  *
  *     <xml>
  *       <request>
- *   	    <crawlerid>1</crawlerid>
  *   	    <mode>auth</mode>
  *   	    <pass>password</pass>
  *       </request>
@@ -89,10 +89,22 @@ public:
 	std::string GetToken() const { return auth_token; }
 
 	/**
-	 * get url count, for get_urls request only
+	 * get url count, used for get_urls request only
 	 * @return url count
 	 */
 	long long GetUrlCount() const { return urlCount; }
+
+	/**
+	 * get thread manager, currently used for get_urls requests only
+	 * @return thread manager
+	 */
+	threading::ThreadManager<threading::Thread>& GetThreadManager() { return manager; }
+
+	/**
+	 * get thread id
+	 * @return thread id
+	 */
+	const threading::Thread::ThreadID& GetThreadID() const { return threadID; }
 
 public:
 	virtual void OnHandle(FCGX_Request& request);
@@ -110,6 +122,8 @@ private:
 	long long urlCount;
 	bool authenticated;
 	std::string auth_token;
+	threading::ThreadManager<threading::Thread> manager;
+	threading::Thread::ThreadID threadID;
 };
 
 }

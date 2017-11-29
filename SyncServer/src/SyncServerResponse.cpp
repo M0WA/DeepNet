@@ -7,8 +7,12 @@
 #include "SyncServerResponse.h"
 
 #include "SyncServerRequest.h"
+#include "GetUrlsThread.h"
+#include "ReleaseCrawlerThread.h"
 
 #include <Logging.h>
+#include <ThreadManager.h>
+
 #include <sstream>
 
 namespace syncserver {
@@ -26,7 +30,8 @@ bool SyncServerResponse::Authenticate() {
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
 		"  <response>\n"
-		"    <token>" << req->GetToken() << "</token>\n"
+		"    <crawlerid>" << req->GetCrawlerID() << "</crawlerid>\n"
+		"    <token>"     << req->GetToken()     << "</token>\n"
 		"  </response>\n"
 		"</xml>";
 	content = xmlResult.str();
@@ -35,18 +40,45 @@ bool SyncServerResponse::Authenticate() {
 
 bool SyncServerResponse::GetUrls() {
 
-	//TODO: get urls
+	SyncServerRequest* req(reinterpret_cast<SyncServerRequest*>(fcgiRequest));
 
-	return false;
+	threading::ThreadManager<threading::Thread>& tm(req->GetThreadManager());
+	tm.WaitForAll();
+
+	threading::ThreadManager<threading::Thread>::ThreadInfos ti(tm.GetThreadInfosByID(req->GetThreadID()));
+	GetUrlsThread* t(reinterpret_cast<GetUrlsThread*>(ti.first));
+	const std::vector<long long>& urlIDs(t->GetUrlIDs());
+
+	std::vector<long long>::const_iterator i(urlIDs.begin());
+
+	std::ostringstream xmlResult;
+	xmlResult <<
+		"<?xml version=\"1.0\"?>\n"
+		"  <response>\n";
+	for(;i != urlIDs.end();++i) {
+		xmlResult <<
+		"    <urlid>" << *i << "</urlid>\n";
+	}
+	xmlResult <<
+		"  </response>\n"
+		"</xml>";
+
+	tm.ReleaseAll();
+	content = xmlResult.str();
+	return true;
 }
 
 bool SyncServerResponse::ReleaseCrawler() {
 
-	//TODO: really release crawler id
+	SyncServerRequest* req(reinterpret_cast<SyncServerRequest*>(fcgiRequest));
+
+	threading::ThreadManager<threading::Thread>& tm(req->GetThreadManager());
+	tm.WaitForAll();
+	tm.ReleaseAll();
 
 	std::ostringstream xmlResult;
 	xmlResult <<
-		"<?xml version=\"1.0\"?></xml>";
+		"<?xml version=\"1.0\"?><response></response></xml>";
 	content = xmlResult.str();
 	return true;
 }

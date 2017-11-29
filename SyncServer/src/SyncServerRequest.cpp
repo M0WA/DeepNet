@@ -6,6 +6,9 @@
 
 #include "SyncServerRequest.h"
 
+#include "GetUrlsThread.h"
+#include "ReleaseCrawlerThread.h"
+
 #include <Logging.h>
 #include <HashTools.h>
 
@@ -117,6 +120,9 @@ bool SyncServerRequest::Authenticate() {
 	std::string input(tools::StringTools::TransformString(crawlerID));
 	auth_token = tools::HashTools::GetSHA512(input);
 
+	//TODO: set crawlerID correctly
+	crawlerID = -1;
+
 	return true;
 }
 
@@ -135,6 +141,7 @@ bool SyncServerRequest::GetUrls() {
 		}
 	}
 
+	threadID = manager.AddThread(new GetUrlsThread(),this);
 	return true;
 }
 
@@ -146,6 +153,7 @@ bool SyncServerRequest::ReleaseCrawlerId() {
 	if(!CheckToken()) {
 		return false; }
 
+	threadID = manager.AddThread(new ReleaseCrawlerThread(),this);
 	return true;
 }
 

@@ -22,16 +22,25 @@ namespace syncserver {
  * example "auth" response
  *
  *     <xml>
- *       <request>
+ *       <response>
+ *   	    <crawlerid>1</crawlerid>
  *   	    <token>mytoken</token>
- *       </request>
+ *       </response>
  *     </xml>
  *
- * TBD: example "get_url_ids" response
+ * example "get_url_ids" response
+ *
+ *     <xml>
+ *       <response>
+ *   	    <urlid>1</urlid>
+ *   	    <urlid>2</urlid>
+ *   	    <urlid>5</urlid>
+ *       </response>
+ *     </xml>
  *
  * example "release_crawler_id" response
  *
- *     <xml></xml>
+ *     <xml><response></response></xml>
  */
 class SyncServerResponse: public fastcgiserver::FastCGIResponse {
 public:
