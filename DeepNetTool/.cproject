@@ -36,6 +36,7 @@
 									<listOptionValue builtIn="false" value="../../Threading/src"/>
 									<listOptionValue builtIn="false" value="../../Bot/src"/>
 									<listOptionValue builtIn="false" value="../../HtmlParser/src"/>
+									<listOptionValue builtIn="false" value="../../Syncing/src/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.179862741" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_REENTRANT"/>
@@ -163,6 +164,7 @@
 									<listOptionValue builtIn="false" value="../../Threading/src"/>
 									<listOptionValue builtIn="false" value="../../Bot/src"/>
 									<listOptionValue builtIn="false" value="../../HtmlParser/src"/>
+									<listOptionValue builtIn="false" value="../../Syncing/src/"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.934634078" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_REENTRANT"/>
@@ -258,7 +260,14 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="DeepNetTool.cdt.managedbuild.target.gnu.exe.263503782" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/DeepNetTool"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/DeepNetTool"/>
+		</configuration>
+	</storageModule>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile"/>
 		<profile id="org.eclipse.cdt.make.core.GCCStandardMakePerProjectProfile">

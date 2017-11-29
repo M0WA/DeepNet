@@ -19,6 +19,8 @@ UnitTestSyncingGetUrls::~UnitTestSyncingGetUrls() {
 
 bool UnitTestSyncingGetUrls::UnitTestSyncingGetUrls::Run() {
 
+	return false;
+
 	syncing::GetUrlsThread* thread(new syncing::GetUrlsThread());
 	syncing::GetUrlsThread::GetUrlsThreadParam* p(new syncing::GetUrlsThread::GetUrlsThreadParam);
 
@@ -32,7 +34,9 @@ bool UnitTestSyncingGetUrls::UnitTestSyncingGetUrls::Run() {
 
 	void* rc(syncing::GetUrlsThread::GetUrlsThreadFunc(p));
 
-	return false;
+	//TODO: check result
+
+	return !rc;
 }
 
 }
