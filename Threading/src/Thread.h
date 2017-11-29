@@ -14,6 +14,25 @@ namespace threading
 
 /**
  * @brief generic thread class.
+ * @details
+ * derive your class:
+ *
+ *     class MyThread : public threading::Thread
+ *     {
+ *       public:
+ *         typedef struct _MyThreadParam : public threading::Thread::THREAD_PARAM {
+ *           long long myid;
+ *           std::string mystring
+ *         } MyThreadParam;
+ *       private:
+ *         static void* MyThreadFunc(threading::Thread::THREAD_PARAM* param);
+ *     }
+ *
+ * use your thread:
+ *
+ *     MyThread* t(new MyThread());
+ *     threading::Thread::ThreadID id(t->StartThread(), new MyThread::MyThreadParam());
+ *     ...
  */
 class Thread
 {
