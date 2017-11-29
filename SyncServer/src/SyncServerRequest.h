@@ -89,13 +89,7 @@ public:
 	std::string GetToken() const { return auth_token; }
 
 	/**
-	 * get url count, used for get_urls request only
-	 * @return url count
-	 */
-	long long GetUrlCount() const { return urlCount; }
-
-	/**
-	 * get thread manager, currently used for get_urls requests only
+	 * get thread manager
 	 * @return thread manager
 	 */
 	threading::ThreadManager<threading::Thread>& GetThreadManager() { return manager; }
@@ -119,7 +113,6 @@ private:
 private:
 	SyncReqMode mode;
 	long long crawlerID;
-	long long urlCount;
 	bool authenticated;
 	std::string auth_token;
 	threading::ThreadManager<threading::Thread> manager;

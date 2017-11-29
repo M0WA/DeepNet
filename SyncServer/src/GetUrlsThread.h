@@ -10,9 +10,24 @@
 
 #include <Thread.h>
 
+namespace database {
+	class DatabaseConnection;
+}
+
 namespace syncserver {
 
+class SyncServerRequest;
 class GetUrlsThread : public threading::Thread {
+public:
+	typedef struct _GetUrlsThreadParam : threading::Thread::THREAD_PARAM {
+		virtual ~_GetUrlsThreadParam() {}
+		SyncServerRequest* req;
+		database::DatabaseConnection* dbConn;
+		long long secondlevelDomain;
+		long long urlCount;
+		long long minAge;
+	} GetUrlsThreadParam;
+
 public:
 	GetUrlsThread();
 	virtual ~GetUrlsThread();
@@ -29,6 +44,12 @@ private:
 
 private:
 	virtual const char* GetThreadName() const { return "GetUrlsThread"; }
+
+private:
+	bool GetUrls(GetUrlsThreadParam* p);
+	bool UnlockSecondLevelDomain(long long& sld);
+	bool GetNextUrls(GetUrlsThreadParam* p, long long& sld);
+	bool LockSecondLevelDomain(GetUrlsThreadParam* p, long long& sld);
 
 private:
 	std::vector<long long> urlIDs;

@@ -6,6 +6,7 @@
 
 #include "SyncServerRequest.h"
 
+#include "SyncServerThread.h"
 #include "GetUrlsThread.h"
 #include "ReleaseCrawlerThread.h"
 
@@ -18,7 +19,6 @@ SyncServerRequest::SyncServerRequest(fastcgiserver::FastCGIServerThread* serverT
 : fastcgiserver::FastCGIRequest(serverThread)
 , mode(SYNC_REQ_MODE_MAX)
 , crawlerID(-1)
-, urlCount(1)
 , authenticated(false) {
 }
 
@@ -134,14 +134,36 @@ bool SyncServerRequest::GetUrls() {
 	if(!CheckToken()) {
 		return false; }
 
+
+	GetUrlsThread::GetUrlsThreadParam* p(new GetUrlsThread::GetUrlsThreadParam());
+
+	p->urlCount = 1;
     std::list<std::string> cnt;
 	if( Xpath(cnt, rawPostData, (xmlChar*)"/request/count/text()") && cnt.size() ) {
-		if( !tools::StringTools::TransformString(cnt.front(),urlCount) ) {
-			urlCount = 1;
+		if( !tools::StringTools::TransformString(cnt.front(),p->urlCount) ) {
+			p->urlCount = 1;
 		}
 	}
 
-	threadID = manager.AddThread(new GetUrlsThread(),this);
+	p->secondlevelDomain = -1;
+    std::list<std::string> sld;
+	if( Xpath(sld, rawPostData, (xmlChar*)"/request/secondleveldomain/text()") && sld.size() ) {
+		if( !tools::StringTools::TransformString(sld.front(),p->secondlevelDomain) ) {
+			p->secondlevelDomain = -1;
+		}
+	}
+
+	p->minAge = 30;
+    std::list<std::string> min;
+	if( Xpath(min, rawPostData, (xmlChar*)"/request/minAge/text()") && min.size() ) {
+		if( !tools::StringTools::TransformString(min.front(),p->minAge) ) {
+			p->minAge = 30;
+		}
+	}
+
+	p->req = this;
+	p->dbConn = ServerThread()->DB().CreateConnection(dynamic_cast<SyncServerThread*>(ServerThread())->databaseConfig);
+	threadID = manager.AddThread(new GetUrlsThread(),p);
 	return true;
 }
 

@@ -25,7 +25,7 @@ SyncServerResponse::~SyncServerResponse() {
 }
 
 bool SyncServerResponse::Authenticate() {
-	const SyncServerRequest* req(reinterpret_cast<const SyncServerRequest*>(fcgiRequest));
+	const SyncServerRequest* req(dynamic_cast<const SyncServerRequest*>(fcgiRequest));
 	std::ostringstream xmlResult;
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
@@ -40,13 +40,13 @@ bool SyncServerResponse::Authenticate() {
 
 bool SyncServerResponse::GetUrls() {
 
-	SyncServerRequest* req(reinterpret_cast<SyncServerRequest*>(fcgiRequest));
+	SyncServerRequest* req(dynamic_cast<SyncServerRequest*>(fcgiRequest));
 
 	threading::ThreadManager<threading::Thread>& tm(req->GetThreadManager());
 	tm.WaitForAll();
 
 	threading::ThreadManager<threading::Thread>::ThreadInfos ti(tm.GetThreadInfosByID(req->GetThreadID()));
-	GetUrlsThread* t(reinterpret_cast<GetUrlsThread*>(ti.first));
+	GetUrlsThread* t(dynamic_cast<GetUrlsThread*>(ti.first));
 	const std::vector<long long>& urlIDs(t->GetUrlIDs());
 
 	std::vector<long long>::const_iterator i(urlIDs.begin());
@@ -70,7 +70,7 @@ bool SyncServerResponse::GetUrls() {
 
 bool SyncServerResponse::ReleaseCrawler() {
 
-	SyncServerRequest* req(reinterpret_cast<SyncServerRequest*>(fcgiRequest));
+	SyncServerRequest* req(dynamic_cast<SyncServerRequest*>(fcgiRequest));
 
 	threading::ThreadManager<threading::Thread>& tm(req->GetThreadManager());
 	tm.WaitForAll();
@@ -85,7 +85,7 @@ bool SyncServerResponse::ReleaseCrawler() {
 
 bool SyncServerResponse::Process(FCGX_Request& request) {
 	bool success(false);
-	const SyncServerRequest* req(reinterpret_cast<const SyncServerRequest*>(fcgiRequest));
+	const SyncServerRequest* req(dynamic_cast<const SyncServerRequest*>(fcgiRequest));
 	switch(req->GetMode()) {
 	case SyncServerRequest::SYNC_REQ_MODE_AUTH:
 		success = Authenticate();
@@ -101,7 +101,7 @@ bool SyncServerResponse::Process(FCGX_Request& request) {
 		break;
 
 	}
-	return success;
+	return fastcgiserver::FastCGIResponse::Process(request);
 }
 
 }

@@ -16,6 +16,9 @@ public:
 	SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
 	virtual ~SyncServerThread();
 
+public:
+	database::DatabaseConfig* databaseConfig;
+
 private:
 	virtual fastcgiserver::FastCGIRequest*  CreateRequest();
 	virtual fastcgiserver::FastCGIResponse* CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request);

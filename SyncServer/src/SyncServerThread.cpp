@@ -11,11 +11,13 @@
 namespace syncserver {
 
 SyncServerThread::SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
-: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, ip, port, backlog) {
+: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, ip, port, backlog)
+, databaseConfig(databaseConfig) {
 }
 
 SyncServerThread::SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
-: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, filename, backlog) {
+: fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, filename, backlog)
+, databaseConfig(databaseConfig) {
 }
 
 SyncServerThread::~SyncServerThread() {
