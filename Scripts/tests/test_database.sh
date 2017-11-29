@@ -19,7 +19,7 @@ else
 	DEEPNETTOOL_PATH="Release/"
 fi
 
-${DEEPNETTOOL_PATH}./DeepNetTool --configfile ../Scripts/conf/deepnet.tool.conf --pcreRegexFile ../Scripts/tests/regex/pcre.txt
+${DEEPNETTOOL_PATH}./DeepNetTool --configfile ../Scripts/conf/deepnet.tool.conf --databaseUnitTest 1
 if [ $? -ne 0 ]; then
  	cd ${TMP}
     exit 1

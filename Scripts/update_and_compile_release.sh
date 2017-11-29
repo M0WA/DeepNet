@@ -3,8 +3,8 @@
 #########################################################
 #
 # this is part of the SIRIDIA search engine software
-# Copyright 2012, SIRIDIA GmbH
-# Author: Moritz Wagner (moritz.wagner@siridia.de)
+# Copyright 2012, Moritz Wagner
+# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
 #
 #########################################################
 

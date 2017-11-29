@@ -3,8 +3,8 @@
 #########################################################
 #
 # this is part of the SIRIDIA search engine software
-# Copyright 2012, SIRIDIA GmbH
-# Author: Moritz Wagner (moritz.wagner@siridia.de)
+# Copyright 2012, Moritz Wagner
+# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
 #
 #########################################################
 
@@ -28,13 +28,14 @@ TEST_NAME=$2
   fi
 }
 
+run_unittest "test_database.sh" "database"
 run_unittest "test_pcre_processor.sh" "pcre regex"
 run_unittest "test_indexer.sh" "indexer"
 run_unittest "test_url_parser.sh" "url parser"
 run_unittest "test_html_parser.sh" "html parser"
 run_unittest "test_dom_parser.sh" "DOM parser"
 run_unittest "test_http_client.sh" "http client"
-run_unittest "test_syncing.sh" "crawler syncronisation"
+run_unittest "test_syncing.sh" "crawler sync"
 
 echo "all unit-tests exited SUCCESSFULLY"
 exit 0
