@@ -10,6 +10,11 @@
 
 namespace syncserver {
 
+/**
+ * @brief fastcgi main server thread for sync server
+ * @see fastcgiserver::FastCGIServerThread
+ * @see syncserver::SyncServer
+ */
 class SyncServerThread: public fastcgiserver::FastCGIServerThread {
 public:
 	SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
