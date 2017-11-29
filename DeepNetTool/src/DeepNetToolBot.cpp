@@ -38,6 +38,7 @@
 #include "UnitTestDatabase.h"
 #include "UnitTestCacheUrlPathPart.h"
 #include "UnitTestExceptions.h"
+#include "UnitTestSyncingGetUrls.h"
 
 namespace toolbot {
 
@@ -167,6 +168,7 @@ bool DeepNetToolBot::OnPreInit() {
 	RegisterHtmlDocumentFactoryParams();
 	RegisterIndexerExParams();
 	RegisterDatabaseUnitTestParams();
+	RegisterSyncingGetUrlTestParams();
 
 	return true;
 }
@@ -235,6 +237,10 @@ void DeepNetToolBot::RegisterIndexerExParams() {
 
 void DeepNetToolBot::RegisterDatabaseUnitTestParams() {
 	Config().RegisterFlag("databaseUnitTest", "enables unit tests for database",false);
+}
+
+void DeepNetToolBot::RegisterSyncingGetUrlTestParams() {
+	Config().RegisterParam("syncingGetUrlTest", "set to 1 to enable UnitTests for syncing::get_urls", false, 0 );
 }
 
 bool DeepNetToolBot::ProcessUnitTests() {
@@ -308,6 +314,14 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if( Config().GetValue("databaseUnitTest",enableDatabaseUnitTest) ) {
 		if(enableDatabaseUnitTest) {
 			unitTests.AddUnitTest(new toolbot::UnitTestDatabase(dbConfig));
+		}
+	}
+
+	//initiate syncing based unit tests
+	bool enableSyncingGetUrlsUnitTest = false;
+	if( Config().GetValue("syncingGetUrlTest",enableSyncingGetUrlsUnitTest) ) {
+		if(enableSyncingGetUrlsUnitTest) {
+			unitTests.AddUnitTest(new toolbot::UnitTestSyncingGetUrls(DB().Connection()));
 		}
 	}
 

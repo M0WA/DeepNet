@@ -35,6 +35,7 @@ private:
 	void RegisterHtmlDocumentFactoryParams();
 	void RegisterIndexerExParams();
 	void RegisterDatabaseUnitTestParams();
+	void RegisterSyncingGetUrlTestParams();
 
 private:
 	bool ProcessUnitTests();

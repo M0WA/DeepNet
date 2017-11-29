@@ -20,6 +20,7 @@ CPP_SRCS += \
 ../src/UnitTestPCRERegex.cpp \
 ../src/UnitTestRobotTxt.cpp \
 ../src/UnitTestSAX2HtmlParser.cpp \
+../src/UnitTestSyncingGetUrls.cpp \
 ../src/UnitTestUrl.cpp \
 ../src/UnitTestUrlParser.cpp \
 ../src/main.cpp 
@@ -41,6 +42,7 @@ OBJS += \
 ./src/UnitTestPCRERegex.o \
 ./src/UnitTestRobotTxt.o \
 ./src/UnitTestSAX2HtmlParser.o \
+./src/UnitTestSyncingGetUrls.o \
 ./src/UnitTestUrl.o \
 ./src/UnitTestUrlParser.o \
 ./src/main.o 
@@ -62,6 +64,7 @@ CPP_DEPS += \
 ./src/UnitTestPCRERegex.d \
 ./src/UnitTestRobotTxt.d \
 ./src/UnitTestSAX2HtmlParser.d \
+./src/UnitTestSyncingGetUrls.d \
 ./src/UnitTestUrl.d \
 ./src/UnitTestUrlParser.d \
 ./src/main.d 
@@ -71,7 +74,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -DENABLE_PERFORMANCE_LOG -I/usr/include/libxml2 -I../../LibXMLParser/src -I../../DOMParser/src -I../../Tools/src -I../../Networking/src -I../../Database/src -I../../Caching/src -I../../Database/generated -I../../Indexer/src -I../../Logging/src -I../../Threading/src -I../../Bot/src -I../../HtmlParser/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -DENABLE_PERFORMANCE_LOG -I/usr/include/libxml2 -I../../LibXMLParser/src -I../../DOMParser/src -I../../Tools/src -I../../Networking/src -I../../Database/src -I../../Caching/src -I../../Database/generated -I../../Indexer/src -I../../Logging/src -I../../Threading/src -I../../Bot/src -I../../HtmlParser/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o"$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
