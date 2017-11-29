@@ -92,7 +92,7 @@ public:
 	 * get url count, for get_urls request only
 	 * @return url count
 	 */
-	std::string GetUrlCount() const { return urlCount; }
+	long long GetUrlCount() const { return urlCount; }
 
 public:
 	virtual void OnHandle(FCGX_Request& request);

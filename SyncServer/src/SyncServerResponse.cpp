@@ -27,7 +27,7 @@ bool SyncServerResponse::Authenticate() {
 		"<?xml version=\"1.0\"?>\n"
 		"  <response>\n"
 		"    <token>" << req->GetToken() << "</token>\n"
-		"  </response>\n";
+		"  </response>\n"
 		"</xml>";
 	content = xmlResult.str();
 	return true;
@@ -44,7 +44,6 @@ bool SyncServerResponse::ReleaseCrawler() {
 
 	//TODO: really release crawler id
 
-	const SyncServerRequest* req(reinterpret_cast<const SyncServerRequest*>(fcgiRequest));
 	std::ostringstream xmlResult;
 	xmlResult <<
 		"<?xml version=\"1.0\"?></xml>";
