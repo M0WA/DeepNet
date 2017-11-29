@@ -7,8 +7,9 @@
 #include "SyncServerRequest.h"
 
 #include "SyncServerThread.h"
-#include "GetUrlsThread.h"
-#include "ReleaseCrawlerThread.h"
+
+#include <GetUrlsThread.h>
+#include <ReleaseCrawlerThread.h>
 
 #include <Logging.h>
 #include <HashTools.h>
@@ -135,7 +136,8 @@ bool SyncServerRequest::GetUrls() {
 		return false; }
 
 
-	GetUrlsThread::GetUrlsThreadParam* p(new GetUrlsThread::GetUrlsThreadParam());
+	syncing::GetUrlsThread::GetUrlsThreadParam* p(new syncing::GetUrlsThread::GetUrlsThreadParam());
+	p->crawlerID = crawlerID;
 
 	p->urlCount = 1;
     std::list<std::string> cnt;
@@ -161,9 +163,8 @@ bool SyncServerRequest::GetUrls() {
 		}
 	}
 
-	p->req = this;
 	p->dbConn = ServerThread()->DB().CreateConnection(dynamic_cast<SyncServerThread*>(ServerThread())->databaseConfig);
-	threadID = manager.AddThread(new GetUrlsThread(),p);
+	threadID = manager.AddThread(new syncing::GetUrlsThread(),p);
 	return true;
 }
 
@@ -175,7 +176,7 @@ bool SyncServerRequest::ReleaseCrawlerId() {
 	if(!CheckToken()) {
 		return false; }
 
-	threadID = manager.AddThread(new ReleaseCrawlerThread(),this);
+	threadID = manager.AddThread(new syncing::ReleaseCrawlerThread(),this);
 	return true;
 }
 

@@ -46,7 +46,7 @@ bool SyncServerResponse::GetUrls() {
 	tm.WaitForAll();
 
 	threading::ThreadManager<threading::Thread>::ThreadInfos ti(tm.GetThreadInfosByID(req->GetThreadID()));
-	GetUrlsThread* t(dynamic_cast<GetUrlsThread*>(ti.first));
+	syncing::GetUrlsThread* t(dynamic_cast<syncing::GetUrlsThread*>(ti.first));
 	const std::vector<long long>& urlIDs(t->GetUrlIDs());
 
 	std::vector<long long>::const_iterator i(urlIDs.begin());
