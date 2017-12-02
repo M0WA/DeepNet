@@ -20,7 +20,8 @@ SyncServerRequest::SyncServerRequest(fastcgiserver::FastCGIServerThread* serverT
 : fastcgiserver::FastCGIRequest(serverThread)
 , mode(SYNC_REQ_MODE_MAX)
 , crawlerID(-1)
-, authenticated(false) {
+, authenticated(false)
+, threadID(0) {
 }
 
 SyncServerRequest::~SyncServerRequest() {
@@ -155,14 +156,6 @@ bool SyncServerRequest::GetUrls() {
 		}
 	}
 
-	p->minAge = 30;
-    std::list<std::string> min;
-	if( Xpath(min, rawPostData, (xmlChar*)"/request/minAge/text()") && min.size() ) {
-		if( !tools::StringTools::TransformString(min.front(),p->minAge) ) {
-			p->minAge = 30;
-		}
-	}
-
 	p->dbConn = ServerThread()->DB().CreateConnection(dynamic_cast<SyncServerThread*>(ServerThread())->databaseConfig);
 	threadID = manager.AddThread(new syncing::GetUrlsThread(),p);
 	return true;
@@ -176,7 +169,8 @@ bool SyncServerRequest::ReleaseCrawlerId() {
 	if(!CheckToken()) {
 		return false; }
 
-	threadID = manager.AddThread(new syncing::ReleaseCrawlerThread(),this);
+	database::DatabaseConnection* dbCon(ServerThread()->DB().CreateConnection(dynamic_cast<SyncServerThread*>(ServerThread())->databaseConfig));
+	threadID = manager.AddThread(new syncing::ReleaseCrawlerThread(dbCon),this);
 	return true;
 }
 
