@@ -19,8 +19,6 @@ UnitTestSyncingGetUrls::~UnitTestSyncingGetUrls() {
 
 bool UnitTestSyncingGetUrls::UnitTestSyncingGetUrls::Run() {
 
-	return false;
-
 	syncing::GetUrlsThread* thread(new syncing::GetUrlsThread());
 	syncing::GetUrlsThread::GetUrlsThreadParam* p(new syncing::GetUrlsThread::GetUrlsThreadParam);
 
@@ -29,7 +27,6 @@ bool UnitTestSyncingGetUrls::UnitTestSyncingGetUrls::Run() {
 	p->crawlerID = 1;
 	p->dbConn = connection;
 	p->urlCount = 2;
-	p->minAge = 20;
 	p->secondlevelDomain = 1;
 
 	void* rc(syncing::GetUrlsThread::GetUrlsThreadFunc(p));

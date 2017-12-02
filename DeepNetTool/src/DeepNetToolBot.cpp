@@ -39,6 +39,7 @@
 #include "UnitTestCacheUrlPathPart.h"
 #include "UnitTestExceptions.h"
 #include "UnitTestSyncingGetUrls.h"
+#include "UnitTestSyncingReleaseCrawler.h"
 
 namespace toolbot {
 
@@ -322,6 +323,7 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if( Config().GetValue("syncingGetUrlTest",enableSyncingGetUrlsUnitTest) ) {
 		if(enableSyncingGetUrlsUnitTest) {
 			unitTests.AddUnitTest(new toolbot::UnitTestSyncingGetUrls(DB().Connection()));
+			unitTests.AddUnitTest(new toolbot::UnitTestSyncingReleaseCrawler(DB().Connection()));
 		}
 	}
 
