@@ -107,8 +107,10 @@ sub ParseStructureXML
       #default value
       my $hasDefaultValue = 0;
       my $defaultValue   = "";
-      if( ($defaultValue = $column->getAttribute('notnull')) ) {
-        $hasDefaultValue = 1; }
+      if( $column->getAttributeNode('default') ) {
+        $defaultValue = $column->getAttribute('default');
+        $hasDefaultValue = 1; 
+      }
       $column_attributes{'hasDefaultValue'} = $hasDefaultValue;
       $column_attributes{'defaultValue'}    = $defaultValue;
 
