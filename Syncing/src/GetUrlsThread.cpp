@@ -6,6 +6,8 @@
 
 #include "GetUrlsThread.h"
 
+#include "Sync.h"
+
 #include <TimeTools.h>
 #include <PerformanceCounter.h>
 #include <ContainerTools.h>
@@ -29,82 +31,118 @@ GetUrlsThread::GetUrlsThread()
 GetUrlsThread::~GetUrlsThread() {
 }
 
-bool GetUrlsThread::UnlockSecondLevelDomain(long long& sld) {
-	return false;
-}
+bool GetUrlsThread::GetNextUrls(GetUrlsThreadParam* p, long long& sld) {
 
-bool GetUrlsThread::LockSecondLevelDomain(GetUrlsThreadParam* p, long long& sld) {
+	//fetch urls for current second level domains and crawler id
+	database::TableBaseUpdateParam fetchUrlParam;
+	fetchUrlParam.limit = p->urlCount;
 
-	PERFORMANCE_LOG_START;
+	database::syncurlsTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::InitialComp()),
+		sld,
+		fetchUrlParam.whereCols);
 
-	database::TableBaseUpdateParam param;
-	param.onlyDirtyColumns = true;
-	param.limit = 1;
+	database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::And()),
+		0,
+		fetchUrlParam.whereCols);
 
-	database::OrderByColumn entry;
-	entry.colDef = database::locksecondleveldomainTableBase::GetDefinition_schedule();
-	entry.dir    = database::ASCENDING;
-	param.orderCols.push_back(entry);
-
-	database::locksecondleveldomainTableBase::GetWhereColumnsFor_schedule(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::SmallerOrEqual(),	database::WhereCondition::InitialComp()),
+	database::syncurlsTableBase::GetWhereColumnsFor_schedule(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::SmallerOrEqual(), database::WhereCondition::And()),
 		tools::TimeTools::NowUTC(),
-		param.whereCols);
+		fetchUrlParam.whereCols);
 
-	if(sld != -1) {
-		database::locksecondleveldomainTableBase::GetWhereColumnsFor_SECONDLEVELDOMAIN_ID(
-			database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),	database::WhereCondition::And()),
-			sld,
-			param.whereCols);
+	if(p->urlCount > 0) {
+		database::OrderByColumn colOrder;
+		colOrder.colDef = database::syncurlsTableBase::GetDefinition_schedule();
+		colOrder.dir = database::ASCENDING;
+		fetchUrlParam.orderCols.push_back(colOrder);
 	}
 
-	database::locksecondleveldomainTableBase tblLockDomain;
-	tblLockDomain.Set_CRAWLERSESSION_ID(p->crawlerID);
-	tblLockDomain.Set_schedule(tools::TimeTools::NowUTCAdd(p->minAge));
+	database::syncurlsTableBase syncUrl;
+	syncUrl.Set_CRAWLERSESSION_ID(p->crawlerID);
+	syncUrl.Set_schedule(tools::TimeTools::NowUTCAdd(Sync::GetRescheduleInterval()));
+
+	database::SelectResultContainer<database::syncurlsTableBase> syncUrlTbls;
 
 	PERFORMANCE_LOG_RESTART;
-	tblLockDomain.Update(p->dbConn,param);
-	PERFORMANCE_LOG_STOP("locking new second level domain id to crawl");
-
-	if(sld == -1) {
-		database::SelectResultContainer<database::locksecondleveldomainTableBase> tblLockDomains;
+	try {
+		PERFORMANCE_LOG_START;
+		syncUrl.Update(p->dbConn,fetchUrlParam);
+		PERFORMANCE_LOG_STOP("setting crawlersession to syncurls");
 
 		PERFORMANCE_LOG_RESTART;
-		database::locksecondleveldomainTableBase::GetBy_CRAWLERSESSION_ID(p->dbConn,p->crawlerID,tblLockDomains);
-		PERFORMANCE_LOG_STOP("lookup second level domain id to crawl");
-
-		if(tblLockDomains.Size() == 0){
-			return false; }
-
-		tblLockDomains.GetConstIter()->Get_SECONDLEVELDOMAIN_ID(sld);
+		database::syncurlsTableBase::GetBy_CRAWLERSESSION_ID(p->dbConn,p->crawlerID,syncUrlTbls);
+		PERFORMANCE_LOG_STOP("finding syncurls urls reserverd by crawlersession");
 	}
-	return true;
-}
+	catch(database::DatabaseException&) {
+		// database exceptions are considered
+		// nonfatal because we will just sleep
+		// and come back later to try again
+	}
+	PERFORMANCE_LOG_STOP("fetching sync urls to crawl");
 
-bool GetUrlsThread::GetNextUrls(GetUrlsThreadParam* p, long long& sld) {
-	return false;
+	syncUrlTbls.ResetIter();
+	for(;!syncUrlTbls.IsIterEnd(); syncUrlTbls.Next()) {
+		long long urlID(-1);
+		syncUrlTbls.GetIter()->Get_URL_ID(urlID);
+		urlIDs.push_back(urlID);
+	}
+
+	database::TableBaseUpdateParam clearParam;
+	clearParam.limit = -1;
+
+	database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),	database::WhereCondition::InitialComp()),
+		p->crawlerID,
+		clearParam.whereCols);
+
+	database::syncurlsTableBase clearSession;
+	clearSession.Set_CRAWLERSESSION_ID(0);
+	clearSession.Set_schedule(tools::TimeTools::NowUTCAdd(Sync::GetRescheduleInterval()));
+
+	PERFORMANCE_LOG_RESTART;
+	clearSession.Update(p->dbConn,clearParam);
+	PERFORMANCE_LOG_STOP("rescheduling sync urls to crawl");
+
+	return true;
 }
 
 bool GetUrlsThread::GetUrls(GetUrlsThreadParam* p) {
 	long long sld(p->secondlevelDomain);
 
-	if(!LockSecondLevelDomain(p,sld)) {
+	if(!Sync::LockSecondLevelDomain(p->dbConn,p->crawlerID,sld)) {
 		return false; }
 
+	long long reqSLD(sld);
 	bool success(GetNextUrls(p,sld));
 
-	UnlockSecondLevelDomain(sld);
+	if(reqSLD == -1) {
+		Sync::UnlockSecondLevelDomain(p->dbConn,p->crawlerID,sld);
+	}
+	else if(reqSLD != sld) {
+		//check if locked the correct secondlevel domain
+		Sync::UnlockSecondLevelDomain(p->dbConn,p->crawlerID,sld);
+		log::Logging::LogError("locked wrong secondlevel domain");
+		return false;
+	}
+
 	return success;
 }
 
 void* GetUrlsThread::GetUrlsThreadFunc(threading::Thread::THREAD_PARAM* param) {
 
-	GetUrlsThreadParam* p(reinterpret_cast<GetUrlsThreadParam*>(param));
-	GetUrlsThread* instance(dynamic_cast<GetUrlsThread*>(p->instance));
+	GetUrlsThreadParam* p(reinterpret_cast<GetUrlsThreadParam*>(param->pParam));
+	GetUrlsThread* instance(reinterpret_cast<GetUrlsThread*>(p->instance));
 
+	PERFORMANCE_LOG_START;
 	if(!instance->GetUrls(p)) {
+		delete p;
+		return (void*)1;
 	}
+	PERFORMANCE_LOG_STOP("GetUrls overall");
 
+	delete p;
 	return NULL;
 }
 

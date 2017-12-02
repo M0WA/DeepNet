@@ -8,11 +8,29 @@
 
 #include <Thread.h>
 
+namespace database {
+	class DatabaseConnection;
+}
+
+namespace toolbot {
+	class UnitTestSyncingReleaseCrawler;
+}
+
 namespace syncing {
 
 class ReleaseCrawlerThread : public threading::Thread {
+
+friend class toolbot::UnitTestSyncingReleaseCrawler;
+
 public:
-	ReleaseCrawlerThread();
+	typedef struct _ReleaseCrawlerThreadParam : threading::Thread::THREAD_PARAM {
+		virtual ~_ReleaseCrawlerThreadParam() {}
+		database::DatabaseConnection* dbConn;
+		long long crawlerID;
+	} ReleaseCrawlerThreadParam;
+
+public:
+	ReleaseCrawlerThread(database::DatabaseConnection* dbConn);
 	virtual ~ReleaseCrawlerThread();
 
 private:
@@ -20,6 +38,9 @@ private:
 
 private:
 	virtual const char* GetThreadName() const { return "ReleaseCrawlerThread"; }
+
+private:
+	database::DatabaseConnection* dbConn;
 };
 
 }
