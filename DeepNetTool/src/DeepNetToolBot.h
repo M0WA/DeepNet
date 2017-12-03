@@ -11,6 +11,9 @@
 
 namespace toolbot {
 
+/**
+ * @brief main class for DeepNetTool application
+ */
 class DeepNetToolBot : public bot::Bot{
 public:
 	DeepNetToolBot();
@@ -35,7 +38,7 @@ private:
 	void RegisterHtmlDocumentFactoryParams();
 	void RegisterIndexerExParams();
 	void RegisterDatabaseUnitTestParams();
-	void RegisterSyncingGetUrlTestParams();
+	void RegisterSyncingTestParams();
 
 private:
 	bool ProcessUnitTests();

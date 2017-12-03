@@ -170,7 +170,7 @@ bool DeepNetToolBot::OnPreInit() {
 	RegisterHtmlDocumentFactoryParams();
 	RegisterIndexerExParams();
 	RegisterDatabaseUnitTestParams();
-	RegisterSyncingGetUrlTestParams();
+	RegisterSyncingTestParams();
 
 	return true;
 }
@@ -241,7 +241,7 @@ void DeepNetToolBot::RegisterDatabaseUnitTestParams() {
 	Config().RegisterFlag("databaseUnitTest", "enables unit tests for database",false);
 }
 
-void DeepNetToolBot::RegisterSyncingGetUrlTestParams() {
+void DeepNetToolBot::RegisterSyncingTestParams() {
 	Config().RegisterParam("syncingUnitTest", "set to 1 to enable UnitTests for syncing library", false, 0 );
 }
 
