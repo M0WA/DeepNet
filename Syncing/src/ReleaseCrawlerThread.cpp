@@ -10,6 +10,14 @@
 
 #include <PerformanceCounter.h>
 #include <DatabaseHelper.h>
+#include <DatabaseLayer.h>
+#include <TableDefinition.h>
+#include <TableColumn.h>
+#include <TableBase.h>
+#include <OrderByClauseDirection.h>
+
+#include <WhereConditionTableColumn.h>
+#include <WhereConditionTableColumnCreateParam.h>
 
 namespace syncing {
 
@@ -30,10 +38,27 @@ void* ReleaseCrawlerThread::ReleaseCrawlerThreadFunc(threading::Thread::THREAD_P
 	database::DatabaseConnection* db(helper.CreateConnection(p->dbConf));
 
 	PERFORMANCE_LOG_START;
-	if(!Sync::UnlockSecondLevelDomain(db,p->crawlerID,-1)) {
-		delete p;
-		return (void*)1;
-	}
+	Sync::UnlockSecondLevelDomain(db,p->crawlerID,-1);
+
+	database::TableDefinition* tblDef(database::crawlersessionsTableBase::CreateTableDefinition());
+	database::DeleteStatement del(tblDef);
+
+	std::vector<database::WhereConditionTableColumn*> where;
+	database::crawlersessionsTableBase::GetWhereColumnsFor_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::InitialComp()),
+		p->crawlerID,
+		where
+	);
+	del.Where().AddColumns(where);
+	db->Delete(del);
+
+	delete tblDef;
+
+	long long aff(0);
+	db->AffectedRows(aff);
+	if(aff <= 0) {
+		return (void*)1; }
+
 	PERFORMANCE_LOG_STOP("ReleaseCrawler overall");
 
 	delete p;
