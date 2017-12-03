@@ -42,7 +42,7 @@ SyncClient::~SyncClient() {
 bool SyncClient::ReleaseCrawler() {
 	std::ostringstream ss;
 	ss <<
-		"<xml>\n"
+		"<?xml version=\"1.0\"?>\n"
 		"  <request>\n"
 		"    <mode>release_crawler_id</mode>\n"
 		"    <crawlerid>"<< crawlerID <<"</crawlerid>\n"
@@ -61,7 +61,7 @@ bool SyncClient::ReleaseCrawler() {
 bool SyncClient::RegisterCrawler(const std::string& pass) {
 	std::ostringstream ss;
 	ss <<
-		"<xml>\n"
+		"<?xml version=\"1.0\"?>\n"
 		"  <request>\n"
 		"    <mode>auth</mode>\n"
 		"    <pass>"<< pass <<"</pass>\n"
@@ -95,7 +95,7 @@ bool SyncClient::GetURLs(const long long& secondLevelDomainID, const long long& 
 
 	std::ostringstream ss;
 	ss <<
-		"<xml>\n"
+		"<?xml version=\"1.0\"?>\n"
 		"  <request>\n"
 		"    <mode>get_url_ids</mode>\n"
 		"    <crawlerid>"<< crawlerID <<"</crawlerid>\n"
