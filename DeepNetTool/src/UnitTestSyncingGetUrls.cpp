@@ -10,8 +10,8 @@
 
 namespace toolbot {
 
-UnitTestSyncingGetUrls::UnitTestSyncingGetUrls(database::DatabaseConnection* connection)
-: connection(connection) {
+UnitTestSyncingGetUrls::UnitTestSyncingGetUrls(database::DatabaseConfig* conf)
+: conf(conf) {
 }
 
 UnitTestSyncingGetUrls::~UnitTestSyncingGetUrls() {
@@ -25,7 +25,7 @@ bool UnitTestSyncingGetUrls::UnitTestSyncingGetUrls::Run() {
 	p->pParam = p;
 	p->instance = thread;
 	p->crawlerID = 1;
-	p->dbConn = connection;
+	p->dbConf = conf;
 	p->urlCount = 2;
 	p->secondlevelDomain = 1;
 

@@ -9,14 +9,14 @@
 #include "UnitTest.h"
 
 namespace database {
-	class DatabaseConnection;
+	class DatabaseConfig;
 }
 
 namespace toolbot {
 
 class UnitTestSyncingReleaseCrawler: public UnitTest {
 public:
-	UnitTestSyncingReleaseCrawler(database::DatabaseConnection* connection);
+	UnitTestSyncingReleaseCrawler(database::DatabaseConfig* conf);
 	virtual ~UnitTestSyncingReleaseCrawler();
 
 public:
@@ -24,7 +24,7 @@ public:
 	virtual std::string GetName() const { return "UnitTestSyncingReleaseCrawler"; }
 
 private:
-	database::DatabaseConnection* connection;
+	database::DatabaseConfig* conf;
 };
 
 }

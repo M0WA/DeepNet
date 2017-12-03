@@ -9,7 +9,7 @@
 #include "UnitTest.h"
 
 namespace database {
-	class DatabaseConnection;
+	class DatabaseConfig;
 }
 
 namespace toolbot {
@@ -20,7 +20,7 @@ namespace toolbot {
  */
 class UnitTestSyncingGetUrls : public UnitTest {
 public:
-	UnitTestSyncingGetUrls(database::DatabaseConnection* connection);
+	UnitTestSyncingGetUrls(database::DatabaseConfig* conf);
 	virtual ~UnitTestSyncingGetUrls();
 
 public:
@@ -28,7 +28,7 @@ public:
 	virtual std::string GetName() const { return "UnitTestSyncingGetUrls"; }
 
 private:
-	database::DatabaseConnection* connection;
+	database::DatabaseConfig* conf;
 };
 
 }

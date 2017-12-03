@@ -39,6 +39,7 @@
 #include "UnitTestCacheUrlPathPart.h"
 #include "UnitTestExceptions.h"
 #include "UnitTestSyncingGetUrls.h"
+#include "UnitTestSyncingRegisterCrawler.h"
 #include "UnitTestSyncingReleaseCrawler.h"
 
 namespace toolbot {
@@ -57,13 +58,13 @@ bool DeepNetToolBot::OnInit() {
 
 bool DeepNetToolBot::OnRun() {
 
-	bool bSuccess = true;
+	bool bSuccess(true);
 
 	//check for requested unit tests
 	bSuccess = ProcessUnitTests();
 
 	//repair database after unclean shutdown
-	bool isRepair = false;
+	bool isRepair(false);
 	if(Config().GetValue("databaseRepair", isRepair) && isRepair) {
 		bSuccess = bot::DatabaseRepair::FixUncleanShutdown(DB().Connection());
 		if(!bSuccess) {
@@ -93,7 +94,7 @@ bool DeepNetToolBot::OnRun() {
 
 	//add commerce search user
 	std::string csUserAdd, csUser = "", csPass = "", csDomain = "";
-	long long csRevisitInterval = -1;
+	long long csRevisitInterval(-1);
 	if( Config().GetValue("csUserAdd",csUserAdd) ) {
 		if( Config().GetValue("csUser", csUser)      &&
 			Config().GetValue("csPass", csPass)      &&
@@ -241,7 +242,7 @@ void DeepNetToolBot::RegisterDatabaseUnitTestParams() {
 }
 
 void DeepNetToolBot::RegisterSyncingGetUrlTestParams() {
-	Config().RegisterParam("syncingGetUrlTest", "set to 1 to enable UnitTests for syncing::get_urls", false, 0 );
+	Config().RegisterParam("syncingUnitTest", "set to 1 to enable UnitTests for syncing library", false, 0 );
 }
 
 bool DeepNetToolBot::ProcessUnitTests() {
@@ -293,7 +294,7 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	if( Config().GetValue("domParserUnitTestPath",domParserUnitTestPath) && !domParserUnitTestPath.empty()) {
 		//used for html parsed as base url
 		network::HttpUrl httpUrl;
-		bool successParse = true;
+		bool successParse(true);
 		try {
 			network::HttpUrlParser::ParseURL("siridia.de",httpUrl); }
 		CATCH_EXCEPTION(errors::Exception,e,1)
@@ -311,7 +312,7 @@ bool DeepNetToolBot::ProcessUnitTests() {
 		unitTests.AddUnitTest(new toolbot::UnitTestIndexerEx(DB().Connection(),indexerExUnitTestPath));	}
 
 	//initiate database based unit tests
-	bool enableDatabaseUnitTest = false;
+	bool enableDatabaseUnitTest(false);
 	if( Config().GetValue("databaseUnitTest",enableDatabaseUnitTest) ) {
 		if(enableDatabaseUnitTest) {
 			unitTests.AddUnitTest(new toolbot::UnitTestDatabase(dbConfig));
@@ -319,11 +320,12 @@ bool DeepNetToolBot::ProcessUnitTests() {
 	}
 
 	//initiate syncing based unit tests
-	bool enableSyncingGetUrlsUnitTest = false;
-	if( Config().GetValue("syncingGetUrlTest",enableSyncingGetUrlsUnitTest) ) {
-		if(enableSyncingGetUrlsUnitTest) {
-			unitTests.AddUnitTest(new toolbot::UnitTestSyncingGetUrls(DB().Connection()));
-			unitTests.AddUnitTest(new toolbot::UnitTestSyncingReleaseCrawler(DB().Connection()));
+	bool enableSyncingUnitTest(false);
+	if( Config().GetValue("syncingUnitTest",enableSyncingUnitTest) ) {
+		if(enableSyncingUnitTest) {
+			unitTests.AddUnitTest(new toolbot::UnitTestSyncingRegisterCrawler(dbConfig));
+			unitTests.AddUnitTest(new toolbot::UnitTestSyncingGetUrls(dbConfig));
+			unitTests.AddUnitTest(new toolbot::UnitTestSyncingReleaseCrawler(dbConfig));
 		}
 	}
 
