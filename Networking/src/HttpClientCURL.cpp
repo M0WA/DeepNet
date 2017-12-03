@@ -48,6 +48,54 @@ HttpClientCURL::~HttpClientCURL()
 
 bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 {
+	return DoRequest(url, response);
+}
+
+int HttpClientCURL::WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* instance)
+{
+	if(!size || !nmemb)
+		return 0;
+
+	size_t totalSize(size * nmemb);
+	if(instance->maxSize) {
+		if((instance->response.html.GetBufferSize() + totalSize) > instance->maxSize) {
+			instance->response.html.Release();
+			instance->omitRest = true;
+		}
+	}
+	if(totalSize && !data){
+		//
+		//TODO: throw exception
+		//
+		return totalSize;
+	}
+
+	if(!instance->omitRest){
+		instance->response.html.Append(data, totalSize); }
+	return totalSize;
+}
+
+bool HttpClientCURL::Post(const HttpUrl& url, const std::string& content, const std::string& contentType, HttpResponse& response)
+{
+	curl_easy_setopt(curlPtr, CURLOPT_POSTFIELDS, content.c_str());
+
+	struct curl_slist *list(NULL);
+	if(!contentType.empty()) {
+		std::string type = "Content-Type: " + contentType;
+		list = curl_slist_append(list, type.c_str());
+		curl_easy_setopt(curlPtr, CURLOPT_HTTPHEADER, list);
+	}
+
+	bool success(DoRequest(url, response));
+
+	if(list) {
+		curl_slist_free_all(list); }
+
+	return success;
+}
+
+bool HttpClientCURL::DoRequest(const HttpUrl& url, HttpResponse& response) {
+
 	CURLWriterParam param(url,response, Settings().maxSize);
 
 	curl_easy_setopt(curlPtr, CURLOPT_WRITEDATA, &param);
@@ -114,30 +162,6 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 			log::Logging::LogTrace("could not detect content type for url: " + url.GetFullUrl()); }
 		return false;
 	}
-}
-
-int HttpClientCURL::WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* instance)
-{
-	if(!size || !nmemb)
-		return 0;
-
-	size_t totalSize(size * nmemb);
-	if(instance->maxSize) {
-		if((instance->response.html.GetBufferSize() + totalSize) > instance->maxSize) {
-			instance->response.html.Release();
-			instance->omitRest = true;
-		}
-	}
-	if(totalSize && !data){
-		//
-		//TODO: throw exception
-		//
-		return totalSize;
-	}
-
-	if(!instance->omitRest){
-		instance->response.html.Append(data, totalSize); }
-	return totalSize;
 }
 
 }
