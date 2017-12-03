@@ -11,6 +11,7 @@
 #include <Thread.h>
 
 namespace database {
+	class DatabaseConfig;
 	class DatabaseConnection;
 }
 
@@ -27,7 +28,7 @@ friend class toolbot::UnitTestSyncingGetUrls;
 public:
 	typedef struct _GetUrlsThreadParam : threading::Thread::THREAD_PARAM {
 		virtual ~_GetUrlsThreadParam() {}
-		database::DatabaseConnection* dbConn;
+		database::DatabaseConfig* dbConf;
 		long long crawlerID;
 		long long secondlevelDomain;
 		long long urlCount;
@@ -51,8 +52,8 @@ private:
 	virtual const char* GetThreadName() const { return "GetUrlsThread"; }
 
 private:
-	bool GetUrls(GetUrlsThreadParam* p);
-	bool GetNextUrls(GetUrlsThreadParam* p, long long& sld);
+	bool GetUrls(database::DatabaseConnection* db,GetUrlsThreadParam* p);
+	bool GetNextUrls(database::DatabaseConnection* db,GetUrlsThreadParam* p, long long& sld);
 
 private:
 	std::vector<long long> urlIDs;

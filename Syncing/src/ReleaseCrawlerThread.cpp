@@ -9,12 +9,12 @@
 #include "Sync.h"
 
 #include <PerformanceCounter.h>
+#include <DatabaseHelper.h>
 
 namespace syncing {
 
-ReleaseCrawlerThread::ReleaseCrawlerThread(database::DatabaseConnection* dbConn)
-: threading::Thread(ReleaseCrawlerThreadFunc,false)
-, dbConn(dbConn) {
+ReleaseCrawlerThread::ReleaseCrawlerThread()
+: threading::Thread(ReleaseCrawlerThreadFunc,false) {
 }
 
 ReleaseCrawlerThread::~ReleaseCrawlerThread() {
@@ -22,10 +22,15 @@ ReleaseCrawlerThread::~ReleaseCrawlerThread() {
 
 void* ReleaseCrawlerThread::ReleaseCrawlerThreadFunc(threading::Thread::THREAD_PARAM* param) {
 
+	log::Logging::RegisterThreadID("ReleaseCrawlerThread");
+
 	ReleaseCrawlerThreadParam* p(reinterpret_cast<ReleaseCrawlerThreadParam*>(param->pParam));
 
+	database::DatabaseHelper helper;
+	database::DatabaseConnection* db(helper.CreateConnection(p->dbConf));
+
 	PERFORMANCE_LOG_START;
-	if(!Sync::UnlockSecondLevelDomain(p->dbConn,p->crawlerID,-1)) {
+	if(!Sync::UnlockSecondLevelDomain(db,p->crawlerID,-1)) {
 		delete p;
 		return (void*)1;
 	}
