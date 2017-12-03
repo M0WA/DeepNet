@@ -21,6 +21,9 @@ namespace toolbot {
 
 namespace syncing {
 
+/**
+ * @brief thread to aquire new url ids that are ready to be crawled
+ */
 class GetUrlsThread : public threading::Thread {
 
 friend class toolbot::UnitTestSyncingGetUrls;

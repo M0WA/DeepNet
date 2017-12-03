@@ -9,7 +9,6 @@
 #include <Thread.h>
 
 namespace database {
-	class DatabaseHelper;
 	class DatabaseConfig;
 }
 
@@ -19,6 +18,9 @@ namespace toolbot {
 
 namespace syncing {
 
+/**
+ * @brief thread to release a crawler registration
+ */
 class ReleaseCrawlerThread : public threading::Thread {
 
 friend class toolbot::UnitTestSyncingReleaseCrawler;
