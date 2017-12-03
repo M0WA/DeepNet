@@ -21,13 +21,29 @@ namespace tools {
  */
 class XML {
 public:
+	/**
+	 * construct an xml class from a string containing an xml
+	 * @param xmlDoc xml document as string
+	 */
 	XML(const std::string& xmlDoc);
 	virtual ~XML();
 
 public:
+	/**
+	 * do a xpath query on loaded xml document
+	 * @param xpath xpath expression
+	 * @param entries string content from matching nodes
+	 * @return true on success, false on error
+	 */
 	bool XPath(const std::string& xpath,std::vector<std::string>& entries);
 
 public:
+	/**
+	 * do a xpath query on loaded xml document
+	 * @param xpath xpath expression
+	 * @param entries typed content from matching nodes
+	 * @return true on success, false on error
+	 */
 	template <class T>
 	bool XPath(const std::string& xpath, std::vector<T>& entries) {
 		std::vector<std::string> partsStr;
@@ -39,6 +55,12 @@ public:
 		return true;
 	}
 
+	/**
+	 * do a xpath query on loaded xml document and return only first entry
+	 * @param xpath xpath expression
+	 * @param out typed content from matching nodes
+	 * @return true on success, false on error
+	 */
 	template <class T>
 	bool XPathFirst(const std::string& xpath, T& out) {
 		std::vector<T> entries;
