@@ -7,8 +7,10 @@
 #include "SyncServerResponse.h"
 
 #include "SyncServerRequest.h"
-#include "GetUrlsThread.h"
-#include "ReleaseCrawlerThread.h"
+
+#include <GetUrlsThread.h>
+#include <RegisterCrawlerThread.h>
+#include <ReleaseCrawlerThread.h>
 
 #include <Logging.h>
 #include <ThreadManager.h>
@@ -25,13 +27,20 @@ SyncServerResponse::~SyncServerResponse() {
 }
 
 bool SyncServerResponse::Authenticate() {
-	const SyncServerRequest* req(dynamic_cast<const SyncServerRequest*>(fcgiRequest));
+	SyncServerRequest* req(dynamic_cast<SyncServerRequest*>(fcgiRequest));
+
+	threading::ThreadManager<threading::Thread>& tm(req->GetThreadManager());
+	tm.WaitForAll();
+
+	threading::ThreadManager<threading::Thread>::ThreadInfos ti(tm.GetThreadInfosByID(req->GetThreadID()));
+	syncing::RegisterCrawlerThread* t(dynamic_cast<syncing::RegisterCrawlerThread*>(ti.first));
+
 	std::ostringstream xmlResult;
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
 		"  <response>\n"
-		"    <crawlerid>" << req->GetCrawlerID() << "</crawlerid>\n"
-		"    <token>"     << req->GetToken()     << "</token>\n"
+		"    <crawlerid>" << t->GetCrawlerID() << "</crawlerid>\n"
+		"    <token>"     << req->GetToken()   << "</token>\n"
 		"  </response>\n"
 		"</xml>";
 	content = xmlResult.str();

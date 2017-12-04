@@ -10,11 +10,16 @@
 
 #include <GetUrlsThread.h>
 #include <ReleaseCrawlerThread.h>
+#include <RegisterCrawlerThread.h>
 
 #include <Logging.h>
 #include <HashTools.h>
 
+
 namespace syncserver {
+
+//TODO: do not hardcode password
+const char* SyncServerRequest::password = "syncclient";
 
 SyncServerRequest::SyncServerRequest(fastcgiserver::FastCGIServerThread* serverThread)
 : fastcgiserver::FastCGIRequest(serverThread)
@@ -88,9 +93,7 @@ bool SyncServerRequest::CheckToken() {
 		log::Logging::LogError("could not parse xml crawler request: wrong token");
 		return false; }
 
-	std::string input(tools::StringTools::TransformString(crawlerID));
-	auth_token = tools::HashTools::GetSHA512(input);
-
+	auth_token = tools::HashTools::GetSHA512(password);
 	if(auth_token.compare(token.front()) != 0) {
 		auth_token = "";
 		return false; }
@@ -102,9 +105,6 @@ bool SyncServerRequest::Authenticate() {
 
 	authenticated = false;
 
-	if(!SetCrawlerID()) {
-		return false; }
-
     std::list<std::string> pass;
 	if( !Xpath(pass, rawPostData, (xmlChar*)"/request/pass/text()")) {
 		log::Logging::LogError("could not parse xml crawler request: missing pass");
@@ -114,17 +114,15 @@ bool SyncServerRequest::Authenticate() {
 		log::Logging::LogError("could not parse xml crawler request: wrong pass");
 		return false; }
 
-	//TODO: do not hardcode password
-	const char* password = "syncclient";
 	if(pass.front().compare(password) != 0) {
 		return false; }
 
-	std::string input(tools::StringTools::TransformString(crawlerID));
-	auth_token = tools::HashTools::GetSHA512(input);
+	auth_token = tools::HashTools::GetSHA512(password);
 
-	//TODO: set crawlerID correctly
-	crawlerID = -1;
 
+	syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam* p(new syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam());
+	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
+	threadID = manager.AddThread(new syncing::RegisterCrawlerThread(),p);
 	return true;
 }
 
@@ -135,7 +133,6 @@ bool SyncServerRequest::GetUrls() {
 
 	if(!CheckToken()) {
 		return false; }
-
 
 	syncing::GetUrlsThread::GetUrlsThreadParam* p(new syncing::GetUrlsThread::GetUrlsThreadParam());
 	p->crawlerID = crawlerID;
@@ -156,7 +153,7 @@ bool SyncServerRequest::GetUrls() {
 		}
 	}
 
-	p->dbConn = ServerThread()->DB().CreateConnection(dynamic_cast<SyncServerThread*>(ServerThread())->databaseConfig);
+	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
 	threadID = manager.AddThread(new syncing::GetUrlsThread(),p);
 	return true;
 }
@@ -169,8 +166,11 @@ bool SyncServerRequest::ReleaseCrawlerId() {
 	if(!CheckToken()) {
 		return false; }
 
-	database::DatabaseConnection* dbCon(ServerThread()->DB().CreateConnection(dynamic_cast<SyncServerThread*>(ServerThread())->databaseConfig));
-	threadID = manager.AddThread(new syncing::ReleaseCrawlerThread(dbCon),this);
+	syncing::ReleaseCrawlerThread::ReleaseCrawlerThreadParam* p(new syncing::ReleaseCrawlerThread::ReleaseCrawlerThreadParam());
+	p->crawlerID = crawlerID;
+	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
+
+	threadID = manager.AddThread(new syncing::ReleaseCrawlerThread(),p);
 	return true;
 }
 

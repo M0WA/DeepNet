@@ -117,6 +117,9 @@ private:
 	std::string auth_token;
 	threading::ThreadManager<threading::Thread> manager;
 	threading::Thread::ThreadID threadID;
+
+private:
+	static const char* password;
 };
 
 }
