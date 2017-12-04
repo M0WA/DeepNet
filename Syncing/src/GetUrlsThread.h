@@ -16,7 +16,7 @@ namespace database {
 }
 
 namespace toolbot {
-	class UnitTestSyncingGetUrls;
+	class UnitTestSyncing;
 }
 
 namespace syncing {
@@ -26,7 +26,7 @@ namespace syncing {
  */
 class GetUrlsThread : public threading::Thread {
 
-friend class toolbot::UnitTestSyncingGetUrls;
+friend class toolbot::UnitTestSyncing;
 
 public:
 	typedef struct _GetUrlsThreadParam : threading::Thread::THREAD_PARAM {

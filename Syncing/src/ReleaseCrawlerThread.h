@@ -13,7 +13,7 @@ namespace database {
 }
 
 namespace toolbot {
-	class UnitTestSyncingReleaseCrawler;
+	class UnitTestSyncing;
 }
 
 namespace syncing {
@@ -23,7 +23,7 @@ namespace syncing {
  */
 class ReleaseCrawlerThread : public threading::Thread {
 
-friend class toolbot::UnitTestSyncingReleaseCrawler;
+friend class toolbot::UnitTestSyncing;
 
 public:
 	typedef struct _ReleaseCrawlerThreadParam : threading::Thread::THREAD_PARAM {
