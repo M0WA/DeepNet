@@ -41,7 +41,8 @@
 namespace fastcgiserver {
 
 FastCGIServer::FastCGIServer()
-: logging(NULL)
+: databaseConfig(0)
+, logging(NULL)
 , basePort(-1)
 , threadCount(1)
 {
