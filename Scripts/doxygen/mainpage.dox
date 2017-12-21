@@ -3,7 +3,8 @@
  *
  * This is the HTML-based source code documentation targeted at the (potential) developers for the DeepNet project.<br>
  * * If you are an end user than you might be looking for the DeepNet <a href="https://se.mo-sys.de/" target="_blank">public search engine</a>.<br>
- * * If you are a potential contributor, please visit the <a href="https://deepnet.mo-sys.de/development.html" target="_blank">development homepage</a> first.<br>
  * * If you are an administrator running a DeepNet installation, please visit <a href="https://deepnet.mo-sys.de/documentation.html" target="_blank">for an adminstrator manual</a>.<br>
+ * * If you are a potential contributor, please visit the <a href="https://deepnet.mo-sys.de/development.html" target="_blank">development homepage</a> first. You will also find more in-deepth information about hacking Deepnet @link extending_deepnet here @endlink<br>
+ * 
  *
  */

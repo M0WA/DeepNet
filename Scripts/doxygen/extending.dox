@@ -1,0 +1,31 @@
+/** 
+ * @page extending_deepnet Extending DeepNet
+ * @tableofcontents
+ * @section extend_components Adding new components
+ * @subsection add_lib libraries
+ * @link addlibrary Adding new libraries @endlink
+ * @subsection add_app applications
+ * @link addapplication Adding new applications @endlink
+ * 
+ */
+
+/** 
+ * @page addlibrary Adding new libraries
+ * The following options are standard settings for DeepNet libraries
+ * when compiling and linking libraries
+ * @section add_lib_predef preprocessor definitions
+ * @subsection add_lib_predef_debug Debug
+ * * _REENTRANT
+ * * ENABLE_PERFORMANCE_LOG
+ * * DEBUG_DEEPNET
+ * @subsection add_lib_predef_release Release
+ * * _REENTRANT
+ * @section add_lib_compiler compiler options
+ * @subsection add_lib_compiler_release_debug Debug/Release
+ * * -fPIC
+ * * -pthread
+ */
+
+/** 
+ * @page addapplication Adding new applications
+ */
