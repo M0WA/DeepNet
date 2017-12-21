@@ -50,7 +50,7 @@ DatabaseUrl::DatabaseUrl(database::DatabaseConnection* db, const long long& urlI
 
 DatabaseUrl::DatabaseUrl(database::DatabaseConnection* db, database::urlsTableBase* urlTbl)
 : network::HttpUrl()
-, urlID(urlID)
+, urlID(-1)
 , schemeID(-1)
 , subdomainID(-1)
 , secondlevelID(-1)
