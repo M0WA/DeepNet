@@ -114,19 +114,20 @@ bool GetUrlsThread::GetUrls(database::DatabaseConnection* db,GetUrlsThreadParam*
 	if(!Sync::LockSecondLevelDomain(db,p->crawlerID,sld)) {
 		return false; }
 
-	long long reqSLD(sld);
 	bool success(GetNextUrls(db,p,sld));
-
-	if(reqSLD == -1) {
+	if(sld == -1) {
+		//client did not request a specific second level domain
+		//release second leveldomain after reserving urls
 		Sync::UnlockSecondLevelDomain(db,p->crawlerID,sld);
 	}
-	else if(reqSLD != sld) {
+	else if(p->secondlevelDomain != -1 && p->secondlevelDomain != sld) {
 		//check if locked the correct secondlevel domain
 		Sync::UnlockSecondLevelDomain(db,p->crawlerID,sld);
 		log::Logging::LogError("locked wrong secondlevel domain");
 		return false;
 	}
 
+	p->secondlevelDomain = sld;
 	return success;
 }
 

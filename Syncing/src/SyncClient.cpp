@@ -90,7 +90,7 @@ bool SyncClient::RegisterCrawler(const std::string& pass) {
 	return true;
 }
 
-bool SyncClient::GetURLs(const long long& secondLevelDomainID, const long long& count,std::vector<long long>& urls) {
+bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, std::vector<long long>& urls) {
 	urls.clear();
 
 	std::ostringstream ss;
@@ -111,7 +111,10 @@ bool SyncClient::GetURLs(const long long& secondLevelDomainID, const long long& 
 	}
 
 	tools::XML doc(xmlResponse);
-	if(!doc.XPath("/response/urlid",urls)) {
+	if(!doc.XPath("/response/urls/urlid",urls)) {
+		return false;
+	}
+	if(!doc.XPathFirst("/response/secondleveldomain",secondLevelDomainID)) {
 		return false;
 	}
 
