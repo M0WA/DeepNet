@@ -130,6 +130,12 @@ crawler_waitIdle=30
 # should the crawler respect robots.txt ( 0 | 1 ) (*)
 crawler_respectRobotsTxt=1
 
+# url for syncserver
+crawler_sync_url=https://se.mo-sys.de/syncserver
+
+# password for syncserver api
+crawler_sync_pass=password
+
 ##################################################
 #
 # parser settings
