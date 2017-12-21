@@ -36,6 +36,11 @@
 									<listOptionValue builtIn="false" value="../../Threading/src/"/>
 									<listOptionValue builtIn="false" value="../../Syncing/src/"/>
 								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.1145921669" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="ENABLE_PERFORMANCE_LOG"/>
+									<listOptionValue builtIn="false" value="DEBUG_DEEPNET"/>
+									<listOptionValue builtIn="false" value="_REENTRANT "/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1832539111" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.debug.288583328" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.debug">
@@ -144,6 +149,9 @@
 									<listOptionValue builtIn="false" value="../../Threading/src/"/>
 									<listOptionValue builtIn="false" value="../../Syncing/src/"/>
 								</option>
+								<option id="gnu.cpp.compiler.option.preprocessor.def.684635672" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="_REENTRANT "/>
+								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1281751491" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.exe.release.551927506" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.exe.release">
@@ -246,4 +254,5 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>
