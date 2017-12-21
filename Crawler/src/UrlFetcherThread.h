@@ -13,6 +13,8 @@
 #include <Thread.h>
 #include <DatabaseLayer.h>
 #include <HttpClientFactory.h>
+#include <SyncClient.h>
+#include <Pointer.h>
 
 #include "UrlFetchParam.h"
 #include "CrawlerParam.h"
@@ -30,22 +32,37 @@ namespace crawler {
 	class UrlFetcherThreadParam;
 
 /**
- * @brief generic url fetcher thread implementation.
+ * @brief generic url fetcher thread implementation
+ * @see crawler::GenericWebUrlFetcherThread
+ * @see crawler::FencedUrlFetcherThread
  */
 class UrlFetcherThread: public threading::Thread {
 
-public:
+protected:
+	/**
+	 * do not use directly, instead inherit from this class
+	 */
 	UrlFetcherThread();
-	virtual ~UrlFetcherThread();
 
 public:
-	/**
-	 * gets old crawler session id after this thread ended
-	 */
-	long long GetOldCrawlerSessionID() const;
+	virtual ~UrlFetcherThread();
 
 private:
 	static void* UrlFetcherThreadFunction(Thread::THREAD_PARAM* threadParam);
+
+protected:
+	/**
+	 * called when more url-ids are needed and should be reserved
+	 * @param maxUrls max number of urls reserved for crawling
+	 * @param urlIDs gets filled with reserved url ids
+	 * @return false on error, true on success.
+	 */
+	virtual bool GetNextUrlIDs(const long long& maxUrls,std::vector<long long>& urlIDs)=0;
+
+	/**
+	 * called when fetcher thread is going to exit.
+	 */
+	virtual void OnExit();
 
 protected:
 	/**
@@ -83,32 +100,6 @@ protected:
 	 */
 	void OnIdle();
 
-	//(pure-)virtual functions
-	/**
-	 * called when secondleveldomain id should be changed if possible.
-	 * @return false on error, true on success.
-	 */
-	virtual bool GetNextSecondLevelDomain()=0;
-
-	/**
-	 * called when more url-ids are needed and should be reserved
-	 * @param urlIDs gets filled with reserved url ids.
-	 * @return false on error, true on success.
-	 */
-	virtual bool ReserveNextUrls(std::vector<long long>& urlIDs)=0;
-
-	/**
-	 * called when fetcher thread is going to exit.
-	 */
-	virtual void OnExit() {};
-
-	/**
-	 * called when a new crawlersession-id is needed.
-	 * result is written to UrlFetcherThread::crawlerSessionID.
-	 * @return false on error, true on success.
-	 */
-	bool GetNextCrawlerSessionID();
-
 	/**
 	 * called when url-ids are needed from database.
 	 * @param urlIDs url-ids to look for.
@@ -116,16 +107,6 @@ protected:
 	 * @return false on error, true on success.
 	 */
 	bool GetUrlsFromDatabase(const std::vector<long long>& urlIDs, std::map<long long,htmlparser::DatabaseUrl>& urls);
-
-	/**
-	 * removes active crawlersession-id from database.
-	 */
-	void RemoveCrawlerSessionID();
-
-	/**
-	 * removes pending reservations for url-ids from database.
-	 */
-	void RemoveCrawlerReservation();
 
 	/**
 	 * helper function for crawler:.UrlFetcherThread::FetchHtmlCode.
@@ -140,18 +121,21 @@ protected:
 
 protected:
 	/**
-	 * current crawlersession-id.
+	 * gets instance of syncing::SyncClient for this url fetcher thread
+	 * @return instance of syncing::SyncClient
 	 */
-	long long crawlerSessionID;
+	syncing::SyncClient* SyncClient() { return syncCliPtr.Get(); }
 
+protected:
 	/**
 	 * parameters attached to this url fetcher thread.
 	 */
 	UrlFetcherThreadParam* fetcherThreadParam;
 
+
 private:
+	tools::Pointer<syncing::SyncClient> syncCliPtr;
 	database::DatabaseHelper databaseHelper;
-	long long oldCrawlerSessionID;
 };
 
 }

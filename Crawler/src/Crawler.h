@@ -33,12 +33,6 @@ protected:
 public:
 	virtual ~Crawler();
 
-public:
-	/**
-	 * gets old crawler session ids after crawling threads ended
-	 */
-	const std::vector<long long>& GetOldCrawlerSessionIDs() const;
-
 private:
 	/**
 	 * starts crawler thread.
@@ -63,9 +57,6 @@ protected:
 	 * map of url fetcher threads and their parameters.
 	 */
 	std::map<UrlFetcherThread*,UrlFetcherThreadParam*> urlFetcherThreads;
-
-private:
-	std::vector<long long> oldCrawlerSessionIDs;
 };
 
 }

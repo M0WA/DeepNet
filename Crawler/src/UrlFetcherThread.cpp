@@ -43,8 +43,7 @@ namespace crawler
 
 UrlFetcherThread::UrlFetcherThread()
 : threading::Thread(reinterpret_cast<threading::Thread::ThreadFunction>(&(UrlFetcherThread::UrlFetcherThreadFunction)))
-, crawlerSessionID(-1)
-, oldCrawlerSessionID(-1)
+, fetcherThreadParam(0)
 {
 }
 
@@ -59,42 +58,43 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 	UrlFetcherThread* instance(dynamic_cast<UrlFetcherThread*>(threadParam->instance));
 	instance->fetcherThreadParam = reinterpret_cast<UrlFetcherThreadParam*>(threadParam->pParam);
 
+	instance->syncCliPtr.Set(
+		new syncing::SyncClient(
+			instance->fetcherThreadParam->syncApiUrl,
+			-1,
+			instance->fetcherThreadParam->syncApiPass
+		),
+		true
+	);
+
 	PERFORMANCE_LOG_START;
 	bool connectedDB(instance->DB().CreateConnection(instance->fetcherThreadParam->databaseConfig)!= 0);
 	PERFORMANCE_LOG_STOP("crawler: connect to database");
+	if(	!connectedDB ) {
+		log::Logging::LogError("could not start crawler. check database configuration.");
+		return (void*)1;
+	}
 
-	if(	connectedDB )
-	{
-		instance->crawlerSessionID = -1;
-		if(instance->GetNextCrawlerSessionID() && instance->crawlerSessionID != -1){
-			while( !instance->ShallEnd() ) {
-
-				PERFORMANCE_LOG_RESTART;
-
-				std::map<long long,htmlparser::DatabaseUrl> urls;
-				if(	instance->FetchUrls(urls) && !urls.empty())
-				{
-					std::vector<UrlFetchParam> fetchParameters;
-					instance->FetchHtmlCode(urls,fetchParameters);
-					instance->CommitPages(fetchParameters);
-				}
-
-				PERFORMANCE_LOG_STOP("crawler run");
-			}
-		}
-
-		instance->OnExit();
-
-		//remove all reservations
-		instance->RemoveCrawlerReservation();
-		instance->RemoveCrawlerSessionID();
+	while( !instance->ShallEnd() ) {
 
 		PERFORMANCE_LOG_RESTART;
-		instance->DB().DestroyConnection();
-		PERFORMANCE_LOG_STOP("disconnect to databases");
+
+		std::map<long long,htmlparser::DatabaseUrl> urls;
+		if(	instance->FetchUrls(urls) && !urls.empty())
+		{
+			std::vector<UrlFetchParam> fetchParameters;
+			instance->FetchHtmlCode(urls,fetchParameters);
+			instance->CommitPages(fetchParameters);
+		}
+
+		PERFORMANCE_LOG_STOP("crawler run");
 	}
-	else {
-		log::Logging::LogError("could not start crawler. check database configuration."); }
+
+	instance->OnExit();
+
+	PERFORMANCE_LOG_RESTART;
+	instance->DB().DestroyConnection();
+	PERFORMANCE_LOG_STOP("disconnect to databases");
 
 	return 0;
 }
@@ -103,7 +103,7 @@ bool UrlFetcherThread::FetchUrls(std::map<long long,htmlparser::DatabaseUrl>& ur
 {
 	bool bSuccess(true);
 	std::vector<long long> urlIDs;
-	if(bSuccess && !ReserveNextUrls(urlIDs))
+	if(bSuccess && !GetNextUrlIDs(fetcherThreadParam->maxPerSelect,urlIDs))
 		bSuccess = false;
 
 	if (bSuccess && !GetUrlsFromDatabase(urlIDs, urls))
@@ -156,22 +156,6 @@ bool UrlFetcherThread::CommitPages(const std::vector<UrlFetchParam>& fetchParame
 	return true;
 }
 
-bool UrlFetcherThread::GetNextCrawlerSessionID()
-{
-	database::crawlersessionsTableBase crawlerSession;
-
-	crawlerSessionID = oldCrawlerSessionID = -1;
-	PERFORMANCE_LOG_START;
-	crawlerSession.Insert(DB().Connection());
-	if(!DB().Connection()->LastInsertID(crawlerSessionID)){
-		log::Logging::LogError("could not request crawler_session_id, this is bad...");
-		crawlerSessionID = -1;
-		return false; }
-	PERFORMANCE_LOG_STOP("requesting session id");
-	oldCrawlerSessionID = crawlerSessionID;
-	return true;
-}
-
 bool UrlFetcherThread::GetUrlsFromDatabase(const std::vector<long long>& urlIDs, std::map<long long,htmlparser::DatabaseUrl>& urls)
 {
 	PERFORMANCE_LOG_START;
@@ -180,57 +164,17 @@ bool UrlFetcherThread::GetUrlsFromDatabase(const std::vector<long long>& urlIDs,
 	return true;
 }
 
-void UrlFetcherThread::RemoveCrawlerReservation()
-{
-	if(crawlerSessionID == -1) {
-		return;	}
-
-	database::TableBaseUpdateParam remParam;
-	remParam.limit = -1;
-
-	database::syncurlsTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
-	    database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),  database::WhereCondition::InitialComp()),
-	    crawlerSessionID,
-	    remParam.whereCols );
-
-	database::syncurlsTableBase syncUrl;
-	syncUrl.Set_CRAWLERSESSION_ID(0);
-	syncUrl.Set_schedule(tools::TimeTools::NowUTC());
-
-	PERFORMANCE_LOG_START;
-	syncUrl.Update(DB().Connection(),remParam);
-	PERFORMANCE_LOG_STOP("removing crawler reservations");
-}
-
-void UrlFetcherThread::RemoveCrawlerSessionID()
-{
-	if(crawlerSessionID == -1) {
-		return;	}
-
-	std::vector<database::WhereConditionTableColumn*> where;
-	database::crawlersessionsTableBase::GetWhereColumnsFor_ID(
-		database::WhereConditionTableColumnCreateParam(
-			database::WhereCondition::Equals(),
-			database::WhereCondition::InitialComp()	),
-		crawlerSessionID,
-		where
-	);
-
-	tools::Pointer<database::TableDefinition> crwlSessTblDef(database::crawlersessionsTableBase::CreateTableDefinition());
-	database::DeleteStatement deleteSession(crwlSessTblDef.GetConst());
-	deleteSession.Where().AddColumns(where);
-
-	PERFORMANCE_LOG_START;
-	DB().Connection()->Delete(deleteSession);
-	PERFORMANCE_LOG_STOP("removing crawler session");
-
-	crawlerSessionID = 0;
-}
-
 void UrlFetcherThread::OnIdle()
 {
 	for(int i(0); i < fetcherThreadParam->waitOnIdle && !ShallEnd(); i++){
 		sleep(1);}
+}
+
+void UrlFetcherThread::OnExit()
+{
+	if(SyncClient()) {
+		SyncClient()->ReleaseCrawler();
+	}
 }
 
 bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparser::DatabaseUrl& url, network::HtmlData& htmlCode, long& httpCode, long long& urlStageID)
@@ -264,7 +208,6 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	else {
 		htmlCode.Swap(result.html);
 	}
-
 
 	database::urlstagesTableBase urlStageTbl;
 	urlStageTbl.Set_URL_ID(urlID);
@@ -443,10 +386,6 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparse
 	PERFORMANCE_LOG_STOP("inserting html code into database");
 
 	return success;
-}
-
-long long UrlFetcherThread::GetOldCrawlerSessionID() const {
-	return oldCrawlerSessionID;
 }
 
 }

@@ -24,8 +24,8 @@ bool GenericWebCrawler::StartCrawler()
 	tools::thread_setup();
 	for(int i = 0; i < crawlerParam->threadCount; i++)
 	{
-		GenericWebUrlFetcherThreadParam* threadParam = new GenericWebUrlFetcherThreadParam(*crawlerParam);
-		GenericWebUrlFetcherThread* urlFetcherThread = new GenericWebUrlFetcherThread();
+		GenericWebUrlFetcherThreadParam* threadParam(new GenericWebUrlFetcherThreadParam(*crawlerParam));
+		GenericWebUrlFetcherThread* urlFetcherThread(new GenericWebUrlFetcherThread());
 		urlFetcherThread->StartThread(threadParam);
 
 		urlFetcherThreads[dynamic_cast<UrlFetcherThread*>(urlFetcherThread)] =
