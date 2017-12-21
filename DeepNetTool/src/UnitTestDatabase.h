@@ -39,7 +39,9 @@ class UnitTestDatabase: public toolbot::UnitTest {
 private:
 	typedef struct _UnitTestDatabaseEntry {
 
-		_UnitTestDatabaseEntry() {}
+		_UnitTestDatabaseEntry()
+		: dDouble(0.0)
+		, nInteger(-1){}
 
 		std::string varchar_test;
 		double dDouble;
