@@ -18,7 +18,8 @@ namespace indexing
 {
 
 IndexerBase::IndexerBase(database::DatabaseConnection* database,const IndexerType type)
-: type(type)
+: ctx(0)
+, type(type)
 {
 
 }
