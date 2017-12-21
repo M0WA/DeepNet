@@ -91,7 +91,7 @@ protected:
 	Thread(ThreadFunction pFunction, bool bAutoDelete = false);
 
 private:
-	Thread(const Thread& copy) { throw; }
+	Thread(const Thread& copy);
 	Thread& operator =(const Thread& rhs) { throw; }
 
 public:

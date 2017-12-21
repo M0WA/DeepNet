@@ -71,10 +71,16 @@ public:
 	}
 
 private:
+	/**
+	 * never ever copy auto mutex,
+	 * will be released when first instance is destroyed
+	 * and a second unlock would be triggered also...
+	 * will throw() on call
+	 * @param in AutoMutex to copy from
+	 */
 	AutoMutex(const AutoMutex& in)
-	: mutex(in.mutex) { throw; } 	//never ever copy auto mutex,
-									//will be released when first instance is destroyed
-	                                //and a second unlock would be triggered also...
+	: mutex(in.mutex), unlockAtDestroy(in.unlockAtDestroy) { throw; }
+
 public:
 	/**
 	 * set unlocking at destruction.
