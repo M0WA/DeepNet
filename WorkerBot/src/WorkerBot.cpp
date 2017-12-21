@@ -244,6 +244,14 @@ bool WorkerBot::InitCrawlerConfig()
 		log::Logging::LogError("invalid crawler_client specified. exiting...");
 		return false; }
 
+	if(!Config().GetValue("crawler_sync_url",crawlerParam.Get()->syncApiUrl)){
+		log::Logging::LogError("!!! missing crawler_sync_url !!!");
+		return false;}
+
+	if(!Config().GetValue("crawler_sync_pass",crawlerParam.Get()->syncApiPass)){
+		log::Logging::LogError("!!! missing crawler_sync_pass !!!");
+		return false;}
+
 	return true;
 }
 
