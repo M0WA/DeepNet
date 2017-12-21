@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lpthread -lssl -lfl -lParser -lHtmlParser -lLibXMLParser -lHtmlParser -lCrawler -lIndexer -lCaching -lThreading -lBot -lDatabase -lNetworking -lLogging -lTools -lCaching -lThreading -lpcre -lhunspell -lmysqlclient_r -lmagic -lxml2 -lcurl -licudata -licuuc -licui18n -lpq -lm -lcrypt -lssl -lcrypto
+LIBS := -lpthread -lssl -lfl -lParser -lHtmlParser -lLibXMLParser -lHtmlParser -lCrawler -lIndexer -lCaching -lThreading -lBot -lSyncing -lDatabase -lNetworking -lLogging -lTools -lCaching -lThreading -lpcre -lhunspell -lmysqlclient -lmagic -lxml2 -lcurl -licudata -licuuc -licui18n -lssl -lpq -lm -lcrypt -lcrypto -lpthread
 

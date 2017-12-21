@@ -124,8 +124,6 @@ bool WorkerBot::OnPreInit(void)
 	RegisterParserConfigParams();
 	RegisterIndexerConfigParams();
 	RegisterModeSpecificParams();
-
-	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown",false);
 	return true;
 }
 
@@ -384,22 +382,6 @@ bool WorkerBot::InitModeConfig()
 	else {
 		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine,fenced; current mode: " + workerBotMode);
 	}
-	return true;
-}
-
-bool WorkerBot::CheckCleanShutdown() {
-
-	bool autoFixUncleanShutdown(false);
-	if(!Config().GetValue("autoFixUncleanShutdown",autoFixUncleanShutdown) ||
-		autoFixUncleanShutdown == false ) {
-		return true;}
-
-	log::Logging::LogInfo("checking database consistency after shutdown");
-
-	if(!bot::DatabaseRepair::FixUncleanShutdown(DB().Connection(),true,crawler.Get()->GetOldCrawlerSessionIDs())) {
-		log::Logging::LogError("errors while checking/fixing database consistency after shutdown");
-		return false; }
-
 	return true;
 }
 
