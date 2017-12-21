@@ -18,7 +18,7 @@ Thread::Thread(Thread::ThreadFunction pFunction, bool bAutoDelete)
 }
 
 Thread::Thread(const Thread& copy)
-: autoDelete(copy.bAutoDelete)
+: autoDelete(copy.autoDelete)
 , thread(0)
 {
 	throw;
