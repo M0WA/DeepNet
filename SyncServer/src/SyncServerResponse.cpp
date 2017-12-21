@@ -64,11 +64,13 @@ bool SyncServerResponse::GetUrls() {
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
 		"  <response>\n";
+	    "    <urls>\n";
 	for(;i != urlIDs.end();++i) {
 		xmlResult <<
-		"    <urlid>" << *i << "</urlid>\n";
+		"      <urlid>" << *i << "</urlid>\n";
 	}
 	xmlResult <<
+		"    </urls>\n";
 		"  </response>\n"
 		"</xml>";
 

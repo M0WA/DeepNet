@@ -32,9 +32,12 @@ namespace syncserver {
  *
  *     <xml>
  *       <response>
- *   	    <urlid>1</urlid>
- *   	    <urlid>2</urlid>
- *   	    <urlid>5</urlid>
+ *          <secondleveldomain>5</secondleveldomain>
+ *          <urls>
+ *   	      <urlid>1</urlid>
+ *   	      <urlid>2</urlid>
+ *   	      <urlid>5</urlid>
+ *   	    </urls>
  *       </response>
  *     </xml>
  *
