@@ -9,7 +9,7 @@
 
 namespace parser {
 
-HtmlParserEntry::HtmlParserEntry(long long urlID, const htmlparser::DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID)
+HtmlParserEntry::HtmlParserEntry(long long urlID, const caching::DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID)
 : urlID(urlID)
 , url(url)
 , html(html)

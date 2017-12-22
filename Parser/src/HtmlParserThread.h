@@ -20,7 +20,7 @@
 #include "HtmlParserEntry.h"
 
 
-namespace htmlparser {
+namespace caching {
 	class DatabaseUrl;
 }
 

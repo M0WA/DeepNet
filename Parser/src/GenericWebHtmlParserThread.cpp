@@ -69,7 +69,7 @@ bool GenericWebHtmlParserThread::ParsePage(const HtmlParserEntry& entry,tools::P
 	PERFORMANCE_LOG_STOP("committing parsed page to indexer cache");
 
 	PERFORMANCE_LOG_RESTART;
-	std::vector<htmlparser::DatabaseUrl> dbLinks;
+	std::vector<caching::DatabaseUrl> dbLinks;
 	InsertLinks(DB().Connection(),entry, uniqueLinks, dbLinks);
 	PERFORMANCE_LOG_STOP("inserting found links from parsed page");
 
@@ -99,7 +99,7 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 		          idUrlSearchPart(-1);
 		try
 		{
-			idTLD = htmlparser::TLD::GetTLDIDByTLD(iterImages->GetTLD());
+			idTLD = caching::TLD::GetTLDIDByTLD(iterImages->GetTLD());
 			caching::CacheSubdomain::GetSubdomainIDByDomain(db,iterImages->GetSubdomain(),idSubdomain);
 			caching::CacheSecondLevelDomain::GetSecondLevelIDByDomain(db,iterImages->GetSecondLevelDomain(),idSecondLevelDomain);
 			caching::CacheUrlPathPart::GetIDByUrlPathPart(db,iterImages->GetPathPart(), idUrlPathPart);
@@ -155,13 +155,13 @@ void GenericWebHtmlParserThread::InsertImages(database::DatabaseConnection* db,c
 	}
 }
 
-void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& hyperlinks,std::vector<htmlparser::DatabaseUrl>& dbLinks)
+void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,const HtmlParserEntry& entry, const std::vector<network::HttpUrl>& hyperlinks,std::vector<caching::DatabaseUrl>& dbLinks)
 {
 	if(hyperlinks.size() == 0)
 		return;
 
 	//convert to URLs
-	std::map<htmlparser::DatabaseUrl,long long> mapUrls;
+	std::map<caching::DatabaseUrl,long long> mapUrls;
 	std::vector<network::HttpUrl>::const_iterator iterUrls(hyperlinks.begin());
 	for(;iterUrls != hyperlinks.end();++iterUrls) {
 
@@ -169,10 +169,10 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 		//insert into syncurls/syncdomains table done by trigger
 
 		try {
-			tools::Pointer<htmlparser::DatabaseUrl> urlLink;
+			tools::Pointer<caching::DatabaseUrl> urlLink;
 			if(caching::CacheDatabaseUrl::GetByUrl(db,*iterUrls,urlLink)) {
 				dbLinks.push_back(*urlLink.Get());
-				mapUrls.insert(std::pair<htmlparser::DatabaseUrl,long long>(*urlLink.Get(),urlLink.Get()->GetUrlID()));
+				mapUrls.insert(std::pair<caching::DatabaseUrl,long long>(*urlLink.Get(),urlLink.Get()->GetUrlID()));
 			}
 			else {
 				if(log::Logging::IsLogLevelTrace()) {
@@ -193,7 +193,7 @@ void GenericWebHtmlParserThread::InsertLinks(database::DatabaseConnection* db,co
 	if(mapUrls.size()>0)
 	{
 		std::vector<database::TableBase> vecLinks;
-		std::map<htmlparser::DatabaseUrl,long long>::const_iterator iterInsertLinks(mapUrls.begin());
+		std::map<caching::DatabaseUrl,long long>::const_iterator iterInsertLinks(mapUrls.begin());
 		for(int i=0; iterInsertLinks != mapUrls.end(); i++,++iterInsertLinks) {
 
 			if(iterInsertLinks->first.GetSecondLevelID() == secondLevelID) {

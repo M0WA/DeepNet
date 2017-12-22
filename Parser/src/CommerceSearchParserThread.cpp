@@ -49,7 +49,7 @@ void CommerceSearchParserThread::InitParserThread() {
 	}
 }
 
-void CommerceSearchParserThread::OnAfterParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<std::string> &content,const std::vector<htmlparser::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images)
+void CommerceSearchParserThread::OnAfterParsePage(const HtmlParserEntry& entry,tools::Pointer<htmlparser::IHtmlParserResult>& result,const std::vector<std::string> &content,const std::vector<caching::DatabaseUrl>& hyperlinks,const std::vector<network::HttpUrl>& images)
 {
 	const std::vector<CommerceSearchMatchCriteria*>& criteriaVector = criterias.GetVector();
 
@@ -93,7 +93,7 @@ bool CommerceSearchParserThread::ParsePage(const HtmlParserEntry& entry,const ht
 }
 */
 
-void CommerceSearchParserThread::MatchUrlCriteria(const HtmlParserEntry& entry,const std::vector<htmlparser::DatabaseUrl>& hyperLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
+void CommerceSearchParserThread::MatchUrlCriteria(const HtmlParserEntry& entry,const std::vector<caching::DatabaseUrl>& hyperLinks,const std::vector<CommerceSearchMatchCriteria*>& criteriaVector) {
 
 	std::vector<size_t>::const_iterator iterUrl = urlTypePos.begin();
 	for(;iterUrl != urlTypePos.end();++iterUrl) {
@@ -102,7 +102,7 @@ void CommerceSearchParserThread::MatchUrlCriteria(const HtmlParserEntry& entry,c
 		//current document url
 		urlCrit->Match(DB().Connection(),entry.url.GetFullUrl());
 
-		std::vector<htmlparser::DatabaseUrl>::const_iterator iterParsedUrls = hyperLinks.begin();
+		std::vector<caching::DatabaseUrl>::const_iterator iterParsedUrls = hyperLinks.begin();
 		for(;iterParsedUrls != hyperLinks.end();++iterParsedUrls) {
 			urlCrit->Match(DB().Connection(),iterParsedUrls->GetFullUrl());
 		}
