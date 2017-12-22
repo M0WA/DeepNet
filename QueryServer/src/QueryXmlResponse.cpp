@@ -61,7 +61,7 @@ void QueryXmlResponse::MergeDuplicateSecondLevel(std::vector<QueryXmlResponseRes
 
 	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
 	for(size_t pos(0);i!=responseEntries.end();++i) {
-		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
+		tools::Pointer<caching::DatabaseUrl> ptrUrl;
 		caching::CacheDatabaseUrl::GetByUrlID(db,i->GetUrlID(),ptrUrl);
 		long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
 
@@ -241,7 +241,7 @@ bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* c
 	long long urlID(-1);
 	curTbl->Get_URL_ID(urlID);
 
-	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
+	tools::Pointer<caching::DatabaseUrl> dbUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
 	std::string encodedURL(dbUrl.GetConst()->GetFullUrl());
 	network::HttpUrlParser::EncodeUrl(encodedURL);

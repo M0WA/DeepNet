@@ -186,7 +186,7 @@ bool QueryXmlRequest::ParseQueryLimitations(const std::string& xmlRequest) {
 					log::Logging::LogTraceUnlimited("%s",xmlRequest.c_str());
 					return false; }
 
-				tools::Pointer<htmlparser::DatabaseUrl> url;
+				tools::Pointer<caching::DatabaseUrl> url;
 				try {
 					caching::CacheDatabaseUrl::GetByUrlString(serverThread->DB().Connection(), limitDomainString, url);	}
 				CATCH_EXCEPTION(errors::Exception,e,0)
