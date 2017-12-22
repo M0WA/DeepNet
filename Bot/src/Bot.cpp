@@ -191,12 +191,12 @@ bool Bot::InitCacheConfigParams()
 		log::Logging::LogError("database not connected, could not initialize top level domain cache, exiting...");
 		return false;}
 
-	if(!htmlparser::TLD::InitTLDCache(db)) {
+	if(!caching::TLD::InitTLDCache(db)) {
 		log::Logging::LogError("cannot initialize top level domain cache, exiting...");
 		return false;}
 
 	std::vector<std::string> tldStrings;
-	htmlparser::TLD::GetTLDStrings(tldStrings);
+	caching::TLD::GetTLDStrings(tldStrings);
 	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
 
 	int sizeUrlCache(-1);
