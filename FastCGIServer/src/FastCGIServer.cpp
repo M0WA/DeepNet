@@ -351,12 +351,12 @@ void FastCGIServer::RegisterCacheConfigParams()
 
 bool FastCGIServer::InitCacheConfigParams()
 {
-	if(!htmlparser::TLD::InitTLDCache(dbHelper.Connection())) {
+	if(!caching::TLD::InitTLDCache(dbHelper.Connection())) {
 		log::Logging::LogError("cannot initialize top level domain cache, exiting...");
 		return false;}
 
 	std::vector<std::string> tldStrings;
-	htmlparser::TLD::GetTLDStrings(tldStrings);
+	caching::TLD::GetTLDStrings(tldStrings);
 	network::HttpUrlParser::SetTopLevelDomains(tldStrings);
 
 	int sizeUrlCache(-1);
