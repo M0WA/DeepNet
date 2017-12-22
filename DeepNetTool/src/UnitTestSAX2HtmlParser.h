@@ -13,7 +13,7 @@
 
 #include "UnitTest.h"
 
-namespace htmlparser {
+namespace caching {
 	class DatabaseUrl;
 }
 
@@ -36,7 +36,7 @@ public:
 	virtual std::string GetName() const { return "UnitTestSAX2HtmlParser"; }
 
 private:
-	bool Test(const htmlparser::DatabaseUrl& baseUrl);
+	bool Test(const caching::DatabaseUrl& baseUrl);
 
 private:
 	database::DatabaseConnection* db;

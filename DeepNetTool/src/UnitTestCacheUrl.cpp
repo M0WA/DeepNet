@@ -70,10 +70,10 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 
 	//fetch result and test url from cache by string
-	tools::Pointer<htmlparser::DatabaseUrl> byStringTestUrlPtr,byStringResultUrlPtr;
+	tools::Pointer<caching::DatabaseUrl> byStringTestUrlPtr,byStringResultUrlPtr;
 	caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.url.GetFullUrl(),byStringTestUrlPtr);
 	caching::CacheDatabaseUrl::GetByUrlString(db,testUrl.result.GetFullUrl(),byStringResultUrlPtr);
-	htmlparser::DatabaseUrl& byStringTestUrl(*byStringTestUrlPtr.Get()), &byStringResultUrl(*byStringResultUrlPtr.Get());
+	caching::DatabaseUrl& byStringTestUrl(*byStringTestUrlPtr.Get()), &byStringResultUrl(*byStringResultUrlPtr.Get());
 	if(!byStringTestUrl.DeepMatchUrl(byStringResultUrl)) {
 		log::Logging::LogError(
 			"failed matching DatabaseUrls by HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
@@ -89,10 +89,10 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 		byStringResultUrl.GetFullUrl().c_str());
 
 	//fetch result and test url from cache by HttpUrl
-	tools::Pointer<htmlparser::DatabaseUrl> dbTestUrlPtr,dbResultUrlPtr;
+	tools::Pointer<caching::DatabaseUrl> dbTestUrlPtr,dbResultUrlPtr;
 	caching::CacheDatabaseUrl::GetByUrl(db,testUrl.url,dbTestUrlPtr);
 	caching::CacheDatabaseUrl::GetByUrl(db,testUrl.result,dbResultUrlPtr);
-	htmlparser::DatabaseUrl& dbTestUrl(*dbTestUrlPtr.Get()), &dbResultUrl(*dbResultUrlPtr.Get());
+	caching::DatabaseUrl& dbTestUrl(*dbTestUrlPtr.Get()), &dbResultUrl(*dbResultUrlPtr.Get());
 	if( dbTestUrl.GetUrlID() == -1 || !dbTestUrl.DeepMatchUrl(dbResultUrl) ) {
 		log::Logging::LogError(
 			"failed matching DatabaseUrls by HttpUrls:\nTestUrl: %s\nResultUrl:\n%s",
@@ -103,10 +103,10 @@ bool UnitTestCacheUrl::TestSingleEntry(database::DatabaseConnection* db, UnitTes
 	}
 
 	//fetch result and test url from cache by ID
-	tools::Pointer<htmlparser::DatabaseUrl> byIdTestUrlPtr,byIdResultUrlPtr;
+	tools::Pointer<caching::DatabaseUrl> byIdTestUrlPtr,byIdResultUrlPtr;
 	caching::CacheDatabaseUrl::GetByUrlID(db, dbTestUrl.GetUrlID(),byIdTestUrlPtr);
 	caching::CacheDatabaseUrl::GetByUrlID(db, dbResultUrl.GetUrlID(),byIdResultUrlPtr);
-	htmlparser::DatabaseUrl& byIdTestUrl(*byIdTestUrlPtr.Get()), &byIdResultUrl(*byIdResultUrlPtr.Get());
+	caching::DatabaseUrl& byIdTestUrl(*byIdTestUrlPtr.Get()), &byIdResultUrl(*byIdResultUrlPtr.Get());
 	if( byIdTestUrl.GetUrlID() == -1 || !byIdTestUrl.DeepMatchUrl(byIdResultUrl) ) {
 		log::Logging::LogError(
 			"failed matching DatabaseUrls by IDs:\nTestUrl: %s\nResultUrl:\n%s",

@@ -36,7 +36,7 @@ bool UnitTestSAX2HtmlParser::Run() {
 	bool success = true;
 	try
 	{
-		tools::Pointer<htmlparser::DatabaseUrl> baseUrl;
+		tools::Pointer<caching::DatabaseUrl> baseUrl;
 		caching::CacheDatabaseUrl::GetByUrlString(db,"siridia.de",baseUrl);
 		success = Test(*baseUrl.Get());
 	}
@@ -47,7 +47,7 @@ bool UnitTestSAX2HtmlParser::Run() {
 	return success;
 }
 
-bool UnitTestSAX2HtmlParser::Test(const htmlparser::DatabaseUrl& baseUrl)
+bool UnitTestSAX2HtmlParser::Test(const caching::DatabaseUrl& baseUrl)
 {
 	//remove all broken files
 	std::vector<std::string> brokenFiles;
