@@ -8,7 +8,7 @@
 #
 #########################################################
 
-PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser Syncing FastCGIServer Tools DOMParser LibXMLParser WorkerBot InspectorServer SuggestServer SyncServer QueryServer DeepNetTool"
+PROJECT_NAMES="Database Caching Logging Bot Threading Networking HtmlParser Crawler Indexer Parser FastCGIServer Tools DOMParser LibXMLParser Syncing WorkerBot InspectorServer SuggestServer SyncServer QueryServer DeepNetTool"
 
 INTERN_CALL=$1
 
@@ -36,7 +36,7 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
           echo ""
           echo "generating flex bison files for indexer"
           .././generate.sh release
-	fi
+	  fi
 
     make -j all
     if [ $? -ne 0 ]; then
@@ -44,13 +44,13 @@ if [ "${INTERN_CALL}" == 'intern_call' ]; then
         exit 1
     fi
 
-	echo "stripping symbols from ${PROJECT}"
-	if [ -e "lib${PROJECT}.a" ]; then
-		  ../../Scripts/misc/./create_symbol_file.sh lib${PROJECT}.a lib${PROJECT}.symbols
-	else
-		  ../../Scripts/misc/./create_symbol_file.sh ${PROJECT} ${PROJECT}.symbols
-	fi
-	echo "${PROJECT} built successful."
+	  echo "stripping symbols from ${PROJECT}"
+	  if [ -e "lib${PROJECT}.a" ]; then
+		    ../../Scripts/misc/./create_symbol_file.sh lib${PROJECT}.a lib${PROJECT}.symbols
+	  else
+		    ../../Scripts/misc/./create_symbol_file.sh ${PROJECT} ${PROJECT}.symbols
+	  fi
+	  echo "${PROJECT} built successful."
   done;
 
   cd $BASE_DIR_TMP
