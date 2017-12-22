@@ -10,7 +10,7 @@
 
 namespace libxmlparser {
 
-LibXMLParserResult::LibXMLParserResult(const htmlparser::DatabaseUrl& url)
+LibXMLParserResult::LibXMLParserResult(const caching::DatabaseUrl& url)
 : htmlparser::IHtmlParserResult(url)
 {
 }

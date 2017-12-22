@@ -19,8 +19,11 @@ namespace network {
 }
 
 namespace htmlparser {
-	class DatabaseUrl;
 	class HtmlParserFactory;
+}
+
+namespace caching {
+	class DatabaseUrl;
 }
 
 namespace libxmlparser {
@@ -42,7 +45,7 @@ public:
 
 	HtmlSAX2Parser* parserInstance;
 	HtmlSAX2Document* htmlDocument;
-	const htmlparser::DatabaseUrl* url;
+	const caching::DatabaseUrl* url;
 
 	int nCurrentElement;
 };
@@ -58,7 +61,7 @@ public:
 	virtual ~HtmlSAX2Parser();
 
 public:
-	virtual bool Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
+	virtual bool Parse(const caching::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
 
 private:
 	static void startElement(void *ctx, const xmlChar *name, const xmlChar **atts);
