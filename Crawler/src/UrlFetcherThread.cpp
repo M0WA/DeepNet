@@ -79,7 +79,7 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 
 		PERFORMANCE_LOG_RESTART;
 
-		std::map<long long,htmlparser::DatabaseUrl> urls;
+		std::map<long long,caching::DatabaseUrl> urls;
 		if(	instance->FetchUrls(urls) && !urls.empty())
 		{
 			std::vector<UrlFetchParam> fetchParameters;
@@ -99,7 +99,7 @@ void* UrlFetcherThread::UrlFetcherThreadFunction(THREAD_PARAM* threadParam)
 	return 0;
 }
 
-bool UrlFetcherThread::FetchUrls(std::map<long long,htmlparser::DatabaseUrl>& urls)
+bool UrlFetcherThread::FetchUrls(std::map<long long,caching::DatabaseUrl>& urls)
 {
 	bool bSuccess(true);
 	std::vector<long long> urlIDs;
@@ -112,9 +112,9 @@ bool UrlFetcherThread::FetchUrls(std::map<long long,htmlparser::DatabaseUrl>& ur
 	return bSuccess;
 }
 
-bool UrlFetcherThread::FetchHtmlCode(const std::map<long long,htmlparser::DatabaseUrl>& urls, std::vector<UrlFetchParam>& fetchParameters)
+bool UrlFetcherThread::FetchHtmlCode(const std::map<long long,caching::DatabaseUrl>& urls, std::vector<UrlFetchParam>& fetchParameters)
 {
-	std::map<long long,htmlparser::DatabaseUrl>::const_iterator iterUrls(urls.begin());
+	std::map<long long,caching::DatabaseUrl>::const_iterator iterUrls(urls.begin());
 	for(; iterUrls != urls.end(); ++iterUrls){
 
 		UrlFetchParam fetchParameter(iterUrls->second);
@@ -156,7 +156,7 @@ bool UrlFetcherThread::CommitPages(const std::vector<UrlFetchParam>& fetchParame
 	return true;
 }
 
-bool UrlFetcherThread::GetUrlsFromDatabase(const std::vector<long long>& urlIDs, std::map<long long,htmlparser::DatabaseUrl>& urls)
+bool UrlFetcherThread::GetUrlsFromDatabase(const std::vector<long long>& urlIDs, std::map<long long,caching::DatabaseUrl>& urls)
 {
 	PERFORMANCE_LOG_START;
 	caching::CacheDatabaseUrl::GetByUrlID(DB().Connection(),urlIDs,urls);
@@ -177,7 +177,7 @@ void UrlFetcherThread::OnExit()
 	}
 }
 
-bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const htmlparser::DatabaseUrl& url, network::HtmlData& htmlCode, long& httpCode, long long& urlStageID)
+bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const caching::DatabaseUrl& url, network::HtmlData& htmlCode, long& httpCode, long long& urlStageID)
 {
 	PERFORMANCE_LOG_START;
 	if(log::Logging::IsLogLevelTrace())

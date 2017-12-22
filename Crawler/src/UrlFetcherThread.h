@@ -19,7 +19,7 @@
 #include "UrlFetchParam.h"
 #include "CrawlerParam.h"
 
-namespace htmlparser {
+namespace caching {
 	class DatabaseUrl;
 }
 
@@ -78,7 +78,7 @@ protected:
 	 * @param urls gets filled with url-ids and urls.
 	 * @return false on error, true on success.
 	 */
-	bool FetchUrls(std::map<long long,htmlparser::DatabaseUrl>& urls);
+	bool FetchUrls(std::map<long long,caching::DatabaseUrl>& urls);
 
 	/**
 	 * fetches html from given urls.
@@ -86,7 +86,7 @@ protected:
 	 * @param fetchParameters gets filled with info from crawled pages
 	 * @return false on error, true on success.
 	 */
-	bool FetchHtmlCode(const std::map<long long,htmlparser::DatabaseUrl>& urls, std::vector<UrlFetchParam>& fetchParameters);
+	bool FetchHtmlCode(const std::map<long long,caching::DatabaseUrl>& urls, std::vector<UrlFetchParam>& fetchParameters);
 
 	/**
 	 * saves crawled urls and results to database.
@@ -106,7 +106,7 @@ protected:
 	 * @param urls gets filled with url-ids and urls.
 	 * @return false on error, true on success.
 	 */
-	bool GetUrlsFromDatabase(const std::vector<long long>& urlIDs, std::map<long long,htmlparser::DatabaseUrl>& urls);
+	bool GetUrlsFromDatabase(const std::vector<long long>& urlIDs, std::map<long long,caching::DatabaseUrl>& urls);
 
 	/**
 	 * helper function for crawler:.UrlFetcherThread::FetchHtmlCode.
@@ -117,7 +117,7 @@ protected:
 	 * @param urlStageID urlstage-id.
 	 * @return false on error, true on success.
 	 */
-	bool GetHtmlCodeFromUrl(const long long urlID, const htmlparser::DatabaseUrl& url, network::HtmlData& htmlCode, long& httpCode, long long& urlStageID);
+	bool GetHtmlCodeFromUrl(const long long urlID, const caching::DatabaseUrl& url, network::HtmlData& htmlCode, long& httpCode, long long& urlStageID);
 
 protected:
 	/**

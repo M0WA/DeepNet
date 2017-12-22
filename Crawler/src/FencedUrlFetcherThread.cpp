@@ -31,7 +31,8 @@ long long FencedUrlFetcherThread::GetSecondLevelDomainID()
 		fencedParam = dynamic_cast<const FencedUrlFetcherThreadParam*>(fetcherThreadParam);
 		iDom = fencedParam->secondLevelDomains.begin();
 	}
-	else if(iDom == fencedParam->secondLevelDomains.end()) {
+
+	if(iDom == fencedParam->secondLevelDomains.end()) {
 		iDom = fencedParam->secondLevelDomains.begin();
 	}
 	else {

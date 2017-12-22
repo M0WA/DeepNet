@@ -18,7 +18,7 @@ namespace crawler {
  */
 struct UrlFetchParam
 {
-	UrlFetchParam(const htmlparser::DatabaseUrl& url)
+	UrlFetchParam(const caching::DatabaseUrl& url)
 	: url(url){
 	}
 
@@ -26,7 +26,7 @@ struct UrlFetchParam
 	long long urlStageID;
 	long responseCode;
 
-	htmlparser::DatabaseUrl url;
+	caching::DatabaseUrl url;
 	network::HtmlData html;
 
 };

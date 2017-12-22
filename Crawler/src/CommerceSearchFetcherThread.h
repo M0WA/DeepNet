@@ -37,14 +37,14 @@ public:
 private:
 	struct CustomerDomainProperties
 	{
-		CustomerDomainProperties(const htmlparser::DatabaseUrl& url)
+		CustomerDomainProperties(const caching::DatabaseUrl& url)
 		: url(url)
 		, customerDomainId(-1)
 		, customerId(-1)
 		, revisitInterval(-1)
 		{}
 
-		htmlparser::DatabaseUrl url;
+		caching::DatabaseUrl url;
 		long long customerDomainId;
 		long long customerId;
 		long long revisitInterval;
