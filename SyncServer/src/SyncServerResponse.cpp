@@ -63,14 +63,14 @@ bool SyncServerResponse::GetUrls() {
 	std::ostringstream xmlResult;
 	xmlResult <<
 		"<?xml version=\"1.0\"?>\n"
-		"  <response>\n";
+		"  <response>\n"
 	    "    <urls>\n";
 	for(;i != urlIDs.end();++i) {
 		xmlResult <<
 		"      <urlid>" << *i << "</urlid>\n";
 	}
 	xmlResult <<
-		"    </urls>\n";
+		"    </urls>\n"
 		"  </response>\n"
 		"</xml>";
 
