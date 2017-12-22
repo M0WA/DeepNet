@@ -30,7 +30,8 @@ CPP_SRCS += \
 ../src/StringTools.cpp \
 ../src/SynchronizedIDArray.cpp \
 ../src/TimeTools.cpp \
-../src/TokenBucket.cpp 
+../src/TokenBucket.cpp \
+../src/XML.cpp 
 
 OBJS += \
 ./src/CharsetEncoder.o \
@@ -59,7 +60,8 @@ OBJS += \
 ./src/StringTools.o \
 ./src/SynchronizedIDArray.o \
 ./src/TimeTools.o \
-./src/TokenBucket.o 
+./src/TokenBucket.o \
+./src/XML.o 
 
 CPP_DEPS += \
 ./src/CharsetEncoder.d \
@@ -88,14 +90,15 @@ CPP_DEPS += \
 ./src/StringTools.d \
 ./src/SynchronizedIDArray.d \
 ./src/TimeTools.d \
-./src/TokenBucket.d 
+./src/TokenBucket.d \
+./src/XML.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
-	@echo 'Invoking: Cross G++ Compiler'
-	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Logging/src -I../../Threading/src -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	@echo 'Invoking: GCC C++ Compiler'
+	g++ -I/usr/include/libxml2 -I../../Threading/src/ -I../../Logging/src/ -O3 -g -Wall -c -fmessage-length=0 -fPIC -pthread -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
