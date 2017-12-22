@@ -10,7 +10,7 @@
 
 namespace domparser {
 
-DOMParserResult::DOMParserResult(const htmlparser::DatabaseUrl& url)
+DOMParserResult::DOMParserResult(const caching::DatabaseUrl& url)
 : htmlparser::IHtmlParserResult(url)
 {
 }
