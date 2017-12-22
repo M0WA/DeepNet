@@ -203,7 +203,6 @@
 									<listOptionValue builtIn="false" value="Caching"/>
 									<listOptionValue builtIn="false" value="Threading"/>
 									<listOptionValue builtIn="false" value="Syncing"/>
-									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="pcre"/>
 									<listOptionValue builtIn="false" value="hunspell"/>
 									<listOptionValue builtIn="false" value="mysqlclient"/>
@@ -219,6 +218,7 @@
 									<listOptionValue builtIn="false" value="crypt"/>
 									<listOptionValue builtIn="false" value="crypto"/>
 									<listOptionValue builtIn="false" value="pthread"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 								</option>
 								<option id="gnu.cpp.link.option.paths.1259956065" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="../../Bot/Release"/>
