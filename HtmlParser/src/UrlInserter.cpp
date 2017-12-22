@@ -60,9 +60,9 @@ bool UrlInserter::ValidateURLFile(database::DatabaseConnection* db,const std::mu
 	return true;
 }
 
-DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std::string& sDomain, const std::string& sUrl, bool dumpUrl)
+caching::DatabaseUrl UrlInserter::ValidateURL(database::DatabaseConnection* db,const std::string& sDomain, const std::string& sUrl, bool dumpUrl)
 {
-	tools::Pointer<DatabaseUrl> url, urlDomain;
+	tools::Pointer<caching::DatabaseUrl> url, urlDomain;
 	try {
 		if(!sDomain.empty()){
 			caching::CacheDatabaseUrl::GetByUrlString( db, sDomain, urlDomain );
@@ -91,8 +91,8 @@ bool UrlInserter::InsertURL(database::DatabaseConnection* db,const std::string& 
 
 	bool success = true;
 	try {
-		DatabaseUrl url = ValidateURL(db,sDomain,sUrl,false);
-		tools::Pointer<DatabaseUrl> tmpPtr;
+		caching::DatabaseUrl url = ValidateURL(db,sDomain,sUrl,false);
+		tools::Pointer<caching::DatabaseUrl> tmpPtr;
 		success = caching::CacheDatabaseUrl::GetByUrlString(db,sUrl,sDomain,tmpPtr);
 		if(success)
 			url = *tmpPtr.Get();
