@@ -39,7 +39,7 @@ public:
 	 */
 	static bool IsUrlAllowed(
 			database::DatabaseConnection* db,
-			const htmlparser::DatabaseUrl& url,
+			const DatabaseUrl& url,
 			const std::string& useragent);
 
 	/**
@@ -68,7 +68,7 @@ public:
 
 private:
 	static bool LoadRobotsFromDatabase(database::DatabaseConnection* db,const CacheRobotsEntry& entry, RobotTxt& robot);
-	static bool DownloadRobotsTxt(database::DatabaseConnection* db,const htmlparser::DatabaseUrl& url, RobotTxt& robot);
+	static bool DownloadRobotsTxt(database::DatabaseConnection* db,const DatabaseUrl& url, RobotTxt& robot);
 
 private:
 	static CacheRobotsTxt cacheInstance;

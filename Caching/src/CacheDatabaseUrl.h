@@ -12,10 +12,6 @@ namespace network {
 	class HttpUrl;
 }
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
-
 namespace database {
 	class DatabaseConnection;
 }
@@ -25,6 +21,8 @@ namespace tools {
 }
 
 namespace caching {
+
+class DatabaseUrl;
 
 /**
  * @brief cache for DatabaseUrl.
@@ -52,7 +50,7 @@ public:
 	static bool GetByUrlID(
 			database::DatabaseConnection* db,
 			const long long& urlID,
-			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
+			tools::Pointer<DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by an url-id and inserts if non-existing.
@@ -63,7 +61,7 @@ public:
 	static void GetByUrlID(
 			database::DatabaseConnection* db,
 			const std::vector<long long>& IDs,
-			std::map<long long,htmlparser::DatabaseUrl>& urls);
+			std::map<long long,DatabaseUrl>& urls);
 
 	/**
 	 * gets a database url by a preparsed http url.
@@ -76,7 +74,7 @@ public:
 	static bool GetByUrl(
 			database::DatabaseConnection* db,
 			const network::HttpUrl& urlIn,
-			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
+			tools::Pointer<DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string.
@@ -89,7 +87,7 @@ public:
 	static bool GetByUrlString(
 			database::DatabaseConnection* db,
 			const std::string& url,
-			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
+			tools::Pointer<DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string and it's relative url (also a string).
@@ -104,7 +102,7 @@ public:
 			database::DatabaseConnection* db,
 			const std::string& url,
 			const std::string& baseUrl,
-			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
+			tools::Pointer<DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string and it's preparsed relative url.
@@ -119,7 +117,7 @@ public:
 			database::DatabaseConnection* db,
 			const std::string& url,
 			const network::HttpUrl& baseUrl,
-			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
+			tools::Pointer<DatabaseUrl>& urlOut);
 
 	/**
 	 * gets an url by a string and it's preparsed relative url.
@@ -133,8 +131,8 @@ public:
 	static bool GetByUrlString(
 			database::DatabaseConnection* db,
 			const std::string& url,
-			const htmlparser::DatabaseUrl& baseUrl,
-			tools::Pointer<htmlparser::DatabaseUrl>& urlOut);
+			const DatabaseUrl& baseUrl,
+			tools::Pointer<DatabaseUrl>& urlOut);
 
 	/**
 	 * finds urls with a certain secondlevel/subdomain-id in the cache and in the database.
@@ -149,7 +147,7 @@ public:
 			const long long secondlevelID,
 			const long long subdomainID,
 			const int limitIn,
-			std::vector<htmlparser::DatabaseUrl>& urls);
+			std::vector<DatabaseUrl>& urls);
 
 public:
 	/**
@@ -186,7 +184,7 @@ private:
 	static CacheDatabaseUrl cacheInstance;
 
 private:
-	Cache<long long, htmlparser::DatabaseUrl> cacheIDUrl;
+	Cache<long long, DatabaseUrl> cacheIDUrl;
 };
 
 }

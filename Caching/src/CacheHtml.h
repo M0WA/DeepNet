@@ -14,15 +14,14 @@
 
 #include "CacheHtmlEntry.h"
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
-
 namespace network {
 	class HtmlData;
 }
 
 namespace caching {
+
+class DatabaseUrl;
+
 /**
  * @brief cache for network::HtmlData and corresponding data.
  */
@@ -43,7 +42,7 @@ public:
 	 */
 	static void Add(
 			const long long& ID,
-			const htmlparser::DatabaseUrl& url,
+			const DatabaseUrl& url,
 			const network::HtmlData& html,
 			const long long urlStageID);
 

@@ -7,7 +7,7 @@
 
 #include "URLEmptyDomainException.h"
 
-#include <DatabaseUrl.h>
+#include "DatabaseUrl.h"
 
 namespace caching {
 
@@ -15,7 +15,7 @@ URLEmptyDomainException::URLEmptyDomainException(
 		const std::string& file,
 		const int line,
 		const std::string& function,
-		const htmlparser::DatabaseUrl& url)
+		const DatabaseUrl& url)
 : errors::Exception( file,line,function,"caching","URLEmptyDomainException","empty domain value in url: " + url.Dump() ) {
 
 }

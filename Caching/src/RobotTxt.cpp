@@ -6,7 +6,8 @@
 
 #include "RobotTxt.h"
 
-#include <DatabaseUrl.h>
+#include "DatabaseUrl.h"
+
 #include <StringTools.h>
 #include <FileTools.h>
 #include <sstream>
@@ -86,7 +87,7 @@ bool RobotTxt::Load(const std::string& robotsTxt) {
 	return true;
 }
 
-bool RobotTxt::AppliesTo(const htmlparser::DatabaseUrl& url) const {
+bool RobotTxt::AppliesTo(const DatabaseUrl& url) const {
 
 	bool success = true;
 	success &= (toplevelID    == url.GetTopLevelID());
@@ -95,7 +96,7 @@ bool RobotTxt::AppliesTo(const htmlparser::DatabaseUrl& url) const {
 	return success;
 }
 
-bool RobotTxt::IsAllowed(const htmlparser::DatabaseUrl& url, const std::string& userAgent) {
+bool RobotTxt::IsAllowed(const DatabaseUrl& url, const std::string& userAgent) {
 
 	std::vector<std::string>* pTmp = 0;
 	if(useragent.count(userAgent) > 0) {

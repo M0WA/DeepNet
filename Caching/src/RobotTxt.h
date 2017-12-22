@@ -16,11 +16,9 @@ namespace database {
 	class DatabaseConnection;
 }
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
-
 namespace caching {
+
+class DatabaseUrl;
 
 /**
  * @brief wrapper class for a robots.txt.
@@ -55,7 +53,7 @@ public:
 	 * @param url url to check.
 	 * @return false if not matching, true if matching.
 	 */
-	bool AppliesTo(const htmlparser::DatabaseUrl& url) const;
+	bool AppliesTo(const DatabaseUrl& url) const;
 
 	/**
 	 * check if url is allowed.
@@ -64,7 +62,7 @@ public:
 	 * @return
 	 */
 	bool IsAllowed(
-			const htmlparser::DatabaseUrl& url,
+			const DatabaseUrl& url,
 			const std::string& userAgent);
 
 	/**
