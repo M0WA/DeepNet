@@ -185,6 +185,7 @@
 									<listOptionValue builtIn="false" value="ssl"/>
 									<listOptionValue builtIn="false" value="fl"/>
 									<listOptionValue builtIn="false" value="xml2"/>
+									<listOptionValue builtIn="false" value="Tools"/>
 									<listOptionValue builtIn="false" value="Parser"/>
 									<listOptionValue builtIn="false" value="HtmlParser"/>
 									<listOptionValue builtIn="false" value="LibXMLParser"/>
