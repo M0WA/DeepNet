@@ -54,7 +54,7 @@ bool Sync::UnlockSecondLevelDomain(database::DatabaseConnection* db, const long 
 			remParam.whereCols);
 	}
 
-	PERFORMANCE_LOG_RESTART;
+	PERFORMANCE_LOG_START;
 	lockSecondLevel.Update(db,remParam);
 	PERFORMANCE_LOG_STOP("remove secondlevel reservation");
 

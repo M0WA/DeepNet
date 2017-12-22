@@ -65,7 +65,7 @@ bool GetUrlsThread::GetNextUrls(database::DatabaseConnection* db,GetUrlsThreadPa
 
 	database::SelectResultContainer<database::syncurlsTableBase> syncUrlTbls;
 
-	PERFORMANCE_LOG_RESTART;
+	PERFORMANCE_LOG_START;
 	try {
 		PERFORMANCE_LOG_START;
 		syncUrl.Update(db,fetchUrlParam);
