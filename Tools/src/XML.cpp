@@ -18,7 +18,7 @@ XML::XML(const std::string& xmlDoc) {
     doc = xmlParseMemory(xmlDoc.c_str(),xmlDoc.length());
     if (doc == NULL) {
     	log::Logging::LogWarn("unable to parse incoming query xml request");
-    	log::Logging::LogTraceUnlimited("%s",xmlDoc); }
+    	log::Logging::LogTraceUnlimited("%s",xmlDoc.c_str()); }
 }
 
 XML::~XML() {
