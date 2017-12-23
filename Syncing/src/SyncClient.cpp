@@ -47,8 +47,7 @@ bool SyncClient::ReleaseCrawler() {
 		"    <mode>release_crawler_id</mode>\n"
 		"    <crawlerid>"<< crawlerID <<"</crawlerid>\n"
 	    "    <token>"<< token <<"</token>\n"
-		"  </request>\n"
-		"</xml>";
+		"  </request>";
 
 	std::string xmlResponse;
 	bool success(DoRequest(ss.str(),xmlResponse));
@@ -65,8 +64,7 @@ bool SyncClient::RegisterCrawler(const std::string& pass) {
 		"  <request>\n"
 		"    <mode>auth</mode>\n"
 		"    <pass>"<< pass <<"</pass>\n"
-		"  </request>\n"
-		"</xml>";
+		"  </request>";
 
 	std::string xmlResponse;
 	if(!DoRequest(ss.str(),xmlResponse)) {
@@ -102,8 +100,7 @@ bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, 
 	    "    <token>"<< token <<"</token>\n"
 		"    <secondleveldomain>"<< secondLevelDomainID <<"</secondleveldomain>\n"
 		"    <count>"<< count <<"</count>\n"
-		"  </request>\n"
-		"</xml>";
+		"  </request>";
 
 	std::string xmlResponse;
 	if(!DoRequest(ss.str(),xmlResponse)) {
