@@ -91,7 +91,7 @@ sub _fix_apps_array($) {
 }
 
 sub _run() {
-	my @tmpargs = @ARGS;
+	my @tmpargs = @ARGV;
 	getopts('b:ucevzh',\%opts);
 	
 	if(exists($opts{h})) {
