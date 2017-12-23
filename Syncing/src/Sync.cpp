@@ -43,7 +43,7 @@ bool Sync::UnlockSecondLevelDomain(database::DatabaseConnection* db, const long 
 	remParam.limit = -1;
 
 	database::locksecondleveldomainTableBase::GetWhereColumnsFor_CRAWLERSESSION_ID(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::NotEquals(), database::WhereCondition::InitialComp()),
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(), database::WhereCondition::InitialComp()),
 		crawlerID,
 		remParam.whereCols);
 
