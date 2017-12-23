@@ -25,8 +25,8 @@ void* RegisterCrawlerThread::RegisterCrawlerThreadFunc(threading::Thread::THREAD
 
 	log::Logging::RegisterThreadID("RegisterCrawlerThread");
 
-	RegisterCrawlerThreadParam* p(reinterpret_cast<RegisterCrawlerThreadParam*>(param->pParam));
-	RegisterCrawlerThread* instance(reinterpret_cast<RegisterCrawlerThread*>(p->instance));
+	RegisterCrawlerThreadParam* p(dynamic_cast<RegisterCrawlerThreadParam*>(param->pParam));
+	RegisterCrawlerThread* instance(dynamic_cast<RegisterCrawlerThread*>(p->instance));
 
 	database::DatabaseHelper helper;
 	database::DatabaseConnection* db(helper.CreateConnection(p->dbConf));
