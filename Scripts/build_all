@@ -15,16 +15,19 @@ use Data::Dumper;
 use Getopt::Std;
 use Cwd 'abs_path';
 
-my @apps     = qw(WorkerBot SyncServer QueryServer SuggestServer DeepNetTool);
-my @ignore   = qw(InspectorServer);
-my $makeopts = "-j4";
+my @apps      = qw(WorkerBot SyncServer QueryServer SuggestServer DeepNetTool);
+my @ignore    = qw(InspectorServer);
+
+my $makeprocs = 8;
+my $buildflt  = 'release';
 my %opts;
 
 $SIG{'INT'} = sub {	exit 1; };
 
 sub usage() {
 	print "$0 [-b <type> -u -c -e -t -v]
--b <type>: 'release' or 'debug', default: 'release'
+-b <type>: 'release' or 'debug', default: '$buildflt'
+-j <num> : number of processes to use while compile (default: $makeprocs)
 -u       : do not update before build
 -c       : do not clean before build
 -e       : do not clean on error
@@ -93,7 +96,7 @@ sub build_project($) {
 		}
 	}
 
-	my $rc = system("make $makeopts all");
+	my $rc = system("make -j$makeprocs all");
 	if($rc != 0) {
 		print "error while building project $proj\n";
 	}
@@ -129,7 +132,7 @@ sub _run() {
 		exit exec $0, @tmpargs, '-z';
 	}
 		
-	$opts{b} = 'release' unless(exists($opts{b}));
+	$opts{b} = $buildflt unless(exists($opts{b}));
 	
 	if(lc($opts{b}) eq 'release') {
 		$opts{b} = 'Release';
