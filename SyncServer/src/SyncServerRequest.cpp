@@ -14,6 +14,7 @@
 
 #include <Logging.h>
 #include <HashTools.h>
+#include <XML.h>
 
 
 namespace syncserver {
@@ -38,26 +39,24 @@ void SyncServerRequest::OnHandle(FCGX_Request& request)
 		log::Logging::LogWarn("no post data received, ommitting...");
 		return;	}
 
-    std::list<std::string> mode;
-	if( !Xpath(mode, rawPostData, (xmlChar*)"/request/mode/text()")) {
+	tools::XML xml(rawPostData.GetConstElements());
+
+    std::string mode;
+	if( !xml.XPathFirst("/request/mode/text()", mode)) {
 		log::Logging::LogError("could not parse xml crawler request: missing mode");
 		return; }
 
-	if(!mode.size()) {
-		log::Logging::LogError("could not parse xml crawler request: wrong mode");
-		return; }
-
-	if(mode.front().compare("auth") == 0) {
+	if(mode.compare("auth") == 0) {
 		Authenticate();
 	}
-	else if(mode.front().compare("get_url_ids") == 0) {
+	else if(mode.compare("get_url_ids") == 0) {
 		GetUrls();
 	}
-	else if(mode.front().compare("release_crawler_id") == 0) {
+	else if(mode.compare("release_crawler_id") == 0) {
 		ReleaseCrawlerId();
 	}
 	else {
-		log::Logging::LogError("could not parse xml crawler request: invalid mode %s",mode.front().c_str());
+		log::Logging::LogError("could not parse xml crawler request: invalid mode %s",mode.c_str());
 		return; }
 }
 
@@ -84,17 +83,15 @@ bool SyncServerRequest::CheckToken() {
 
 	authenticated = false;
 
-    std::list<std::string> token;
-	if( !Xpath(token, rawPostData, (xmlChar*)"/request/token/text()")) {
+	tools::XML xml(rawPostData.GetConstElements());
+
+    std::string token;
+	if( !xml.XPathFirst("/request/token/text()", token) ) {
 		log::Logging::LogError("could not parse xml crawler request: missing token");
 		return false; }
 
-	if(!token.size()) {
-		log::Logging::LogError("could not parse xml crawler request: wrong token");
-		return false; }
-
 	auth_token = tools::HashTools::GetSHA512(password);
-	if(auth_token.compare(token.front()) != 0) {
+	if(auth_token.compare(token) != 0) {
 		auth_token = "";
 		return false; }
 
@@ -105,20 +102,17 @@ bool SyncServerRequest::Authenticate() {
 
 	authenticated = false;
 
-    std::list<std::string> pass;
-	if( !Xpath(pass, rawPostData, (xmlChar*)"/request/pass/text()")) {
+	tools::XML xml(rawPostData.GetConstElements());
+
+    std::string pass;
+	if( !xml.XPathFirst("/request/pass/text()", pass) ) {
 		log::Logging::LogError("could not parse xml crawler request: missing pass");
 		return false; }
 
-	if(!pass.size()) {
-		log::Logging::LogError("could not parse xml crawler request: wrong pass");
-		return false; }
-
-	if(pass.front().compare(password) != 0) {
+	if(pass.compare(password) != 0) {
 		return false; }
 
 	auth_token = tools::HashTools::GetSHA512(password);
-
 
 	syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam* p(new syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam());
 	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
@@ -134,23 +128,19 @@ bool SyncServerRequest::GetUrls() {
 	if(!CheckToken()) {
 		return false; }
 
+	tools::XML xml(rawPostData.GetConstElements());
+
 	syncing::GetUrlsThread::GetUrlsThreadParam* p(new syncing::GetUrlsThread::GetUrlsThreadParam());
 	p->crawlerID = crawlerID;
 
 	p->urlCount = 1;
-    std::list<std::string> cnt;
-	if( Xpath(cnt, rawPostData, (xmlChar*)"/request/count/text()") && cnt.size() ) {
-		if( !tools::StringTools::TransformString(cnt.front(),p->urlCount) ) {
-			p->urlCount = 1;
-		}
+	if( !xml.XPathFirst("/request/count/text()", p->urlCount) ) {
+		p->urlCount = 1;
 	}
 
 	p->secondlevelDomain = -1;
-    std::list<std::string> sld;
-	if( Xpath(sld, rawPostData, (xmlChar*)"/request/secondleveldomain/text()") && sld.size() ) {
-		if( !tools::StringTools::TransformString(sld.front(),p->secondlevelDomain) ) {
-			p->secondlevelDomain = -1;
-		}
+	if( !xml.XPathFirst("/request/secondleveldomain/text()", p->secondlevelDomain) ) {
+		p->secondlevelDomain = -1;
 	}
 
 	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
