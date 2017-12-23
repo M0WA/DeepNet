@@ -169,13 +169,14 @@ sub _run() {
 	my @failed = ();
 	foreach my $lib (@libs) {
 		clean_project($lib)  if(!exists($opts{c}));
-		update_project($proj) if(!exists($opts{u}));
+		update_project($lib) if(!exists($opts{u}));
 		push(@failed,$lib) if(build_project($lib) != 0);
 		last if(scalar(@failed) > 0 && !exists($opts{s}));
 	}
 
 	if(scalar(@failed) == 0) {
 		foreach my $app (@apps) {
+			update_project($app) if(!exists($opts{u}));
 			push(@failed,$app) if(build_project($app) != 0);
 			last if(scalar(@failed) > 0 && !exists($opts{s}));
 		}
