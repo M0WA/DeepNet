@@ -16,18 +16,17 @@ namespace syncserver {
  * @details
  * example "auth" request
  *
- *     <xml>
+ *     <?xml version="1.0"?>
  *       <request>
  *   	    <mode>auth</mode>
  *   	    <pass>password</pass>
  *       </request>
- *     </xml>
  *
  * example "get_url_ids" request
  *
  * secondleveldomain section is optional and contains secondlevel domain id
  *
- *     <xml>
+ *     <?xml version="1.0"?>
  *       <request>
  *   	    <mode>get_url_ids</mode>
  *   	    <crawlerid>1</crawlerid>
@@ -35,17 +34,15 @@ namespace syncserver {
  *   	    <secondleveldomain>3572</secondleveldomain>
  *   	    <count>2</count>
  *       </request>
- *     </xml>
  *
  * example "release_crawler_id" request
  *
- *     <xml>
+ *     <?xml version="1.0"?>
  *       <request>
  *   	    <mode>release_crawler_id</mode>
  *   	    <crawlerid>1</crawlerid>
  *   	    <token>mytoken</token>
  *       </request>
- *     </xml>
  */
 class SyncServerRequest: public fastcgiserver::FastCGIRequest {
 public:
