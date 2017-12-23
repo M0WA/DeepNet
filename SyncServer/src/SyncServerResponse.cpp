@@ -41,8 +41,7 @@ bool SyncServerResponse::Authenticate() {
 		"  <response>\n"
 		"    <crawlerid>" << t->GetCrawlerID() << "</crawlerid>\n"
 		"    <token>"     << req->GetToken()   << "</token>\n"
-		"  </response>\n"
-		"</xml>";
+		"  </response>";
 	content = xmlResult.str();
 	return true;
 }
@@ -71,8 +70,7 @@ bool SyncServerResponse::GetUrls() {
 	}
 	xmlResult <<
 		"    </urls>\n"
-		"  </response>\n"
-		"</xml>";
+		"  </response>";
 
 	tm.ReleaseAll();
 	content = xmlResult.str();
@@ -89,7 +87,7 @@ bool SyncServerResponse::ReleaseCrawler() {
 
 	std::ostringstream xmlResult;
 	xmlResult <<
-		"<?xml version=\"1.0\"?><response></response></xml>";
+		"<?xml version=\"1.0\"?><response></response>";
 	content = xmlResult.str();
 	return true;
 }
