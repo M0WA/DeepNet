@@ -113,6 +113,7 @@ bool SyncServerRequest::Authenticate() {
 		return false; }
 
 	auth_token = tools::HashTools::GetSHA512(password);
+	mode = SYNC_REQ_MODE_AUTH;
 
 	syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam* p(new syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam());
 	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
@@ -143,6 +144,8 @@ bool SyncServerRequest::GetUrls() {
 		p->secondlevelDomain = -1;
 	}
 
+	mode = SYNC_REQ_MODE_GET_URLS;
+
 	p->dbConf = reinterpret_cast<SyncServerThread*>(ServerThread())->databaseConfig;
 	threadID = manager.AddThread(new syncing::GetUrlsThread(),p);
 	return true;
@@ -155,6 +158,8 @@ bool SyncServerRequest::ReleaseCrawlerId() {
 
 	if(!CheckToken()) {
 		return false; }
+
+	mode = SYNC_REQ_MODE_RELEASE;
 
 	syncing::ReleaseCrawlerThread::ReleaseCrawlerThreadParam* p(new syncing::ReleaseCrawlerThread::ReleaseCrawlerThreadParam());
 	p->crawlerID = crawlerID;
