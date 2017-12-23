@@ -51,8 +51,6 @@ sub proj_Indexer() {
 sub clean_project($) {
 	my ($proj) = @_;
 	
-	return 0;
-	
 	print "cleaning project $proj\n" if(exists($opts{v}));
 	
 	chdir("$proj");
@@ -68,8 +66,6 @@ sub update_project($) {
 	my ($proj) = @_;
 	
 	print "updating project $proj\n" if(exists($opts{v}));
-	
-	return 0;
 	
 	my $p = abs_path("$proj/..");
 	my $rc = system("svn up $p");
