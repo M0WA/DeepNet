@@ -53,7 +53,6 @@ sub update_project($) {
 	print "updating project $proj\n" if(exists($opts{v}));
 	
 	my $p = abs_path("$proj/..");
-	#chdir($p);
 	my $rc = system("svn up $p");
 	if($rc != 0) {
 		print "error while updating project $proj\n";
@@ -92,6 +91,7 @@ sub _fix_apps_array($) {
 }
 
 sub _run() {
+	my @tmpargs = @ARGS;
 	getopts('b:ucevzh',\%opts);
 	
 	if(exists($opts{h})) {
@@ -100,7 +100,7 @@ sub _run() {
 		
 	if(!exists($opts{u}) && !exists($opts{z})) {
 		system("svn up $0");
-		exit exec $0, @ARGV, '-z';
+		exit exec $0, @tmpargs, '-z';
 	}
 		
 	$opts{b} = 'release' unless(exists($opts{b}));
