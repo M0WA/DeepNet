@@ -91,7 +91,7 @@ sub build_project($) {
 		my $name = $1;
 		my $func = "proj_$name";
 		if( defined( &$func ) ) {
-			print "executing project specific post task: $func\n";
+			print "executing project specific post task: $func\n" if(exists($opts{v}));
 			&{\&{$func}}();
 		}
 	}
@@ -128,6 +128,7 @@ sub _run() {
 		exit 0;	}
 		
 	if(!exists($opts{u}) && !exists($opts{z})) {
+		print "updating build script itself\n" if(exists($opts{v}));
 		system("svn up $0");
 		exit exec $0, @tmpargs, '-z';
 	}
