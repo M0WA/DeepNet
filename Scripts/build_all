@@ -29,7 +29,7 @@ sub usage() {
 -b <type>: 'release' or 'debug', default: '$buildflt'
 -j <num> : number of processes to use while compile (default: $makeprocs)
 -u       : do not update before build
--c       : do not clean before build
+-c       : do not clean libs before build
 -e       : do not clean on error
 -s       : do not stop on first error
 -v       : verbose output
@@ -164,11 +164,15 @@ sub _run() {
 
 	foreach my $proj (@projs) {
 		update_project($proj) if(!exists($opts{u}));
-		clean_project($proj)  if(!exists($opts{c}));
+	}
+
+	foreach my $app (@apps) {
+		clean_project($proj);
 	}
 
 	my @failed = ();
 	foreach my $lib (@libs) {
+		clean_project($proj)  if(!exists($opts{c}));
 		push(@failed,$lib) if(build_project($lib) != 0);
 		last if(scalar(@failed) > 0 && !exists($opts{s}));
 	}
