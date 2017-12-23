@@ -34,8 +34,21 @@ sub usage() {
 "; 
 }
 
+########################################
+# project specific builders
+########################################
+
+sub proj_Indexer() {
+	my $build = lc($opts{b});
+	system(".././generate.sh $build");
+}
+
+########################################
+
 sub clean_project($) {
 	my ($proj) = @_;
+	
+	return 0;
 	
 	print "cleaning project $proj\n" if(exists($opts{v}));
 	
@@ -53,6 +66,8 @@ sub update_project($) {
 	
 	print "updating project $proj\n" if(exists($opts{v}));
 	
+	return 0;
+	
 	my $p = abs_path("$proj/..");
 	my $rc = system("svn up $p");
 	if($rc != 0) {
@@ -68,6 +83,16 @@ sub build_project($) {
 	print "building project $proj\n" if(exists($opts{v}));
 	
 	chdir("$proj");
+
+	if( $proj =~ /\/([^\/]+)\/$opts{b}$/ ) {
+		my $name = $1;
+		my $func = "proj_$name";
+		if( defined( &$func ) ) {
+			print "executing project specific post task: $func\n";
+			&{\&{$func}}();
+		}
+	}
+
 	my $rc = system("make $makeopts all");
 	if($rc != 0) {
 		print "error while building project $proj\n";
