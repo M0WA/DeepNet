@@ -28,6 +28,7 @@ sub usage() {
 -u       : do not update before build
 -c       : do not clean before build
 -e       : do not clean on error
+-s       : do not stop on first error
 -v       : verbose output
 -h       : this help
 "; 
@@ -92,7 +93,7 @@ sub _fix_apps_array($) {
 
 sub _run() {
 	my @tmpargs = @ARGV;
-	getopts('b:ucevzh',\%opts);
+	getopts('b:ucesvzh',\%opts);
 	
 	if(exists($opts{h})) {
 		usage;
@@ -143,12 +144,14 @@ sub _run() {
 
 	my @failed = ();
 	foreach my $lib (@libs) {
-		push(@failed,$lib) if(build_project($lib) != 0);		
+		push(@failed,$lib) if(build_project($lib) != 0);
+		last if(scalar(@failed) > 0 && !exists($opts{s}));
 	}
 
 	if(scalar(@failed) == 0) {
 		foreach my $app (@apps) {
 			push(@failed,$app) if(build_project($app) != 0);
+			last if(scalar(@failed) > 0 && !exists($opts{s}));
 		}
 	}
 
