@@ -1,0 +1,142 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Data::Dumper;
+use Getopt::Std;
+use Cwd 'abs_path';
+
+my @apps     = qw(WorkerBot SyncServer QueryServer SuggestServer DeepNetTool);
+my $makeopts = "-j4";
+my %opts;
+
+sub usage() {
+	print "$0 [-b <type> -u -c -e -t -v]
+-b <type>: 'release' or 'debug', default: 'release'
+-u       : do not update before build
+-c       : do not clean before build
+-e       : do not clean on error
+-v       : verbose output
+-h       : this help
+"; 
+}
+
+sub clean_project($) {
+	my ($proj) = @_;
+	
+	print "cleaning project $proj\n" if(exists($opts{v}));
+	
+	chdir("$proj");
+	my $rc = system("make clean");
+	if($rc != 0) {
+		print "error while cleaning project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub update_project($) {
+	my ($proj) = @_;
+	
+	print "updating project $proj\n" if(exists($opts{v}));
+	
+	chdir("$proj/..");
+	my $rc = system("svn up");
+	if($rc != 0) {
+		print "error while updating project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub build_project($) {
+	my ($proj) = @_;
+	
+	print "building project $proj\n" if(exists($opts{v}));
+	
+	chdir("$proj");
+	my $rc = system("make $makeopts all");
+	if($rc != 0) {
+		print "error while building project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub _fix_apps_array($) {
+	my ($root) = @_;
+	my @tmp = ();
+	foreach my $app (@apps) {
+		push(@tmp,"$root/$app/$opts{b}");
+	}
+	@apps = @tmp;
+}
+
+sub _run() {
+	getopts('b:ucevh',\%opts);
+	
+	if(exists($opts{h})) {
+		usage;
+		exit 0;	}
+		
+	$opts{b} = 'release' unless(exists($opts{b}));
+	
+	if(lc($opts{b}) eq 'release') {
+		$opts{b} = 'Release';
+	}
+	elsif(lc($opts{b}) eq 'debug') {
+		$opts{b} = 'Debug';
+	}
+	else {
+		print "invalid mode: $opts{b}\n";
+		exit 1;
+	}
+
+	print "build mode: $opts{b}\n" if(exists($opts{v}));
+
+	my $root = abs_path("..");
+	_fix_apps_array($root);
+	
+	my @projs = <$root/*/$opts{b}>;
+	print "found projects: ".Dumper(\@projs) if(exists($opts{v}));
+	
+	my $appregex = join('|', @apps);
+	my @libs = grep !/^($appregex)$/, @projs;
+	print "found libraries: ".Dumper(\@libs) if(exists($opts{v}));
+	
+	my @tmpapps = grep /^($appregex)$/, @projs;
+	if( scalar(@tmpapps) != scalar(@apps) ) {
+		print "missing applications, found: ".Dumper(\@tmpapps);
+		exit 1;
+	}
+
+	foreach my $proj (@projs) {
+		update_project($proj) if(!exists($opts{u}));
+		clean_project($proj)  if(!exists($opts{c}));
+	}
+
+	my $err = 0;
+	foreach my $lib (@libs) {
+		$err += build_project($lib)
+	}
+
+	if($err == 0) {
+		foreach my $app (@apps) {
+			$err += build_project($app);
+		}
+	}
+
+	if($err != 0) {
+		foreach my $proj (@projs) {
+			clean_project($proj) if(!exists($opts{e}));
+		}
+		print "\n\n ======================\n BUILD ERROR OCCURRED !!! \n ======================\n"
+	}
+	else {
+		print "\n\n ======================\n BUILD SUCCESSFUL !!! \n ======================\n";
+		print "please call ./run_all_unit_tests.sh to verify this build\n";
+	}
+}
+
+_run;
