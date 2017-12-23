@@ -53,7 +53,7 @@ sub update_project($) {
 	print "updating project $proj\n" if(exists($opts{v}));
 	
 	my $p = abs_path("$proj/..");
-	chdir($p);
+	#chdir($p);
 	my $rc = system("svn up $p");
 	if($rc != 0) {
 		print "error while updating project $proj\n";
