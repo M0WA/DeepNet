@@ -8,10 +8,6 @@
 #
 #########################################################
 
-$SIG{TERM} = sub {
-	exit 1;
-}
-
 use strict;
 use warnings;
 
@@ -23,6 +19,8 @@ my @apps     = qw(WorkerBot SyncServer QueryServer SuggestServer DeepNetTool);
 my @ignore   = qw(InspectorServer);
 my $makeopts = "-j4";
 my %opts;
+
+$SIG{'INT'} = sub {	exit 1; };
 
 sub usage() {
 	print "$0 [-b <type> -u -c -e -t -v]
