@@ -66,6 +66,8 @@ public:
 		std::vector<T> entries;
 		if(!XPath<T>(xpath, entries)) {
 			return false;}
+		if(entries.size() == 0) {
+			return false; }
 		out = entries.at(0);
 		return true;
 	}
