@@ -8,6 +8,10 @@
 #
 #########################################################
 
+$SIG{TERM} = sub {
+	exit 1;
+}
+
 use strict;
 use warnings;
 
@@ -50,8 +54,9 @@ sub update_project($) {
 	
 	print "updating project $proj\n" if(exists($opts{v}));
 	
-	chdir("$proj/..");
-	my $rc = system("svn up");
+	my $p = abs_path("$proj/..");
+	chdir($p);
+	my $rc = system("svn up $p");
 	if($rc != 0) {
 		print "error while updating project $proj\n";
 	}
@@ -157,7 +162,7 @@ sub _run() {
 		print "errors in: ".Dumper(\@failed);
 	}
 	else {
-		print "\n\n ======================\n BUILD SUCCESSFUL !!! \n ======================\n";
+		print "\n\n =================\n BUILD SUCCESSFUL \n ================\n";
 		print "please call ./run_all_unit_tests.sh to verify this build\n";
 	}
 }
