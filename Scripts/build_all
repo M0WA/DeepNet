@@ -8,6 +8,7 @@ use Getopt::Std;
 use Cwd 'abs_path';
 
 my @apps     = qw(WorkerBot SyncServer QueryServer SuggestServer DeepNetTool);
+my @ignore   = qw(InspectorServer);
 my $makeopts = "-j4";
 my %opts;
 
@@ -71,6 +72,12 @@ sub _fix_apps_array($) {
 		push(@tmp,"$root/$app/$opts{b}");
 	}
 	@apps = @tmp;
+	
+	@tmp = ();
+	foreach my $app (@ignore) {
+		push(@tmp,"$root/$app/$opts{b}");
+	}
+	@ignore = @tmp;
 }
 
 sub _run() {
@@ -99,6 +106,8 @@ sub _run() {
 	_fix_apps_array($root);
 	
 	my @projs = <$root/*/$opts{b}>;
+	my $ignregex = join('|', @ignore);
+	@projs = grep !/^($ignregex)$/, @projs;
 	print "found projects: ".Dumper(\@projs) if(exists($opts{v}));
 	
 	my $appregex = join('|', @apps);
@@ -116,22 +125,23 @@ sub _run() {
 		clean_project($proj)  if(!exists($opts{c}));
 	}
 
-	my $err = 0;
+	my @failed = ();
 	foreach my $lib (@libs) {
-		$err += build_project($lib)
+		push(@failed,$lib) if(build_project($lib) != 0);		
 	}
 
-	if($err == 0) {
+	if(scalar(@failed) == 0) {
 		foreach my $app (@apps) {
-			$err += build_project($app);
+			push(@failed,$app) if(build_project($app) != 0);
 		}
 	}
 
-	if($err != 0) {
+	if(scalar(@failed) != 0) {
 		foreach my $proj (@projs) {
 			clean_project($proj) if(!exists($opts{e}));
 		}
-		print "\n\n ======================\n BUILD ERROR OCCURRED !!! \n ======================\n"
+		print "\n\n ======================\n BUILD ERROR OCCURRED !!! \n ======================\n";
+		print "errors in: ".Dumper(\@failed);
 	}
 	else {
 		print "\n\n ======================\n BUILD SUCCESSFUL !!! \n ======================\n";
