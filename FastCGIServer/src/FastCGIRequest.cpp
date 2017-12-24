@@ -162,9 +162,9 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		if(std::isprint(*rawPostData.GetConstElementAt(i))==0 || std::iscntrl(*rawPostData.GetConstElementAt(i))==1) {
 			log::Logging::LogTrace("POST data: found non printable char at position %zu",i);
 			isString = false;
-			std::ostringstream ss;
-			ss << " 0x" << std::hex << *rawPostData.GetConstElementAt(i) << " ";
-			tmpPostData += ss.str();
+			std::string tmpHex;
+			tools::StringTools::FormatString(tmpHex," 0x%x",*rawPostData.GetConstElementAt(i));
+			tmpPostData += tmpHex;
 		}
 		else {
 			tmpPostData += *rawPostData.GetConstElementAt(i);
