@@ -176,8 +176,12 @@ bool HttpClientCURL::Post(const HttpUrl& url, const std::string& content, const 
 	if(!contentType.empty()) {
 		std::string type = "Content-Type: " + contentType;
 		list = curl_slist_append(list, type.c_str());
-		curl_easy_setopt(curlPtr, CURLOPT_HTTPHEADER, list);
 	}
+
+	std::ostringstream contentLength;
+	contentLength << "Content-Length: " << content.length();
+	list = curl_slist_append(list, contentLength.str().c_str());
+	curl_easy_setopt(curlPtr, CURLOPT_HTTPHEADER, list);
 
 	bool success(DoRequest(url, response));
 
