@@ -136,8 +136,8 @@ bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, 
 		return false;
 	}
 	if(!doc.XPathFirst("/response/secondleveldomain/text()",secondLevelDomainID)) {
-		log::Logging::LogWarn("could not find /response/secondleveldomain:\n%s",xmlResponse.c_str());
-		return false;
+		log::Logging::LogTrace("no found /response/secondleveldomain:\n%s",xmlResponse.c_str());
+		secondLevelDomainID = -1;
 	}
 
 	return true;
