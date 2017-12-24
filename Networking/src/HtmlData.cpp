@@ -40,10 +40,13 @@ bool HtmlData::ConvertToHostCharset() {
 	if( !contentType.empty() &&
 		tools::MimeType::ParseMimeString(contentType,mimeType,mimeEncoding)) {
 		isHtml =  mimeType.compare("text/html") == 0;
-		bool validType = isHtml || mimeType.compare("text/plain") == 0;
+		bool validType(isHtml);
+		validType = validType || mimeType.compare("text/plain") == 0;
+		validType = validType || mimeType.compare("application/xml") == 0;
+		validType = validType || mimeType.compare("text/xml") == 0;
 		if(!validType) {
 			if (log::Logging::IsLogLevelTrace())
-				log::Logging::LogTrace("not a valid content type string from html/txt document");
+				log::Logging::LogTrace("not a valid content type string from html/txt document: %s",mimeType.c_str());
 			Release();
 			return false;
 		}
