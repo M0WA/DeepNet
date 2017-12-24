@@ -34,9 +34,6 @@ bool Sync::UnlockSecondLevelDomain(database::DatabaseConnection* db, const long 
 
 	database::locksecondleveldomainTableBase lockSecondLevel;
 	lockSecondLevel.Set_CRAWLERSESSION_ID(0);
-	if(sld != -1) {
-		lockSecondLevel.Set_SECONDLEVELDOMAIN_ID(sld); }
-
 	lockSecondLevel.Set_schedule( tools::TimeTools::NowUTCAdd( RESCHEDULE_INTERVAL > 0 ? RESCHEDULE_INTERVAL : 0 ) );
 
 	database::TableBaseUpdateParam remParam;
