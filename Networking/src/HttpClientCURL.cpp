@@ -208,8 +208,8 @@ bool HttpClientCURL::DoRequest(const HttpUrl& url, HttpResponse& response) {
 	curl_easy_setopt(curlPtr, CURLOPT_IPRESOLVE, (Settings().allowIPv6 ? CURL_IPRESOLVE_WHATEVER : CURL_IPRESOLVE_V4) );
 
 	//TODO: take care about ssl
-	curl_easy_setopt(curlPtr, CURLOPT_USE_SSL, CURLUSESSL_NONE);
-	//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_easy_setopt(curlPtr, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curlPtr, CURLOPT_SSL_VERIFYHOST, 0L);
 
 	if(Settings().uploadLimitKB){
 		curl_off_t bytesUploadLimit = Settings().uploadLimitKB * 1024;
