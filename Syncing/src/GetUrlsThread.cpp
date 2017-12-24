@@ -135,8 +135,8 @@ void* GetUrlsThread::GetUrlsThreadFunc(threading::Thread::THREAD_PARAM* param) {
 
 	log::Logging::RegisterThreadID("GetUrlsThread");
 
+	GetUrlsThread* instance(dynamic_cast<GetUrlsThread*>(param->instance));
 	GetUrlsThreadParam* p(reinterpret_cast<GetUrlsThreadParam*>(param->pParam));
-	GetUrlsThread* instance(reinterpret_cast<GetUrlsThread*>(p->instance));
 
 	database::DatabaseHelper helper;
 	database::DatabaseConnection* db(helper.CreateConnection(p->dbConf));

@@ -32,6 +32,7 @@ void* ReleaseCrawlerThread::ReleaseCrawlerThreadFunc(threading::Thread::THREAD_P
 
 	log::Logging::RegisterThreadID("ReleaseCrawlerThread");
 
+	ReleaseCrawlerThread* instance(dynamic_cast<ReleaseCrawlerThread*>(param->instance));
 	ReleaseCrawlerThreadParam* p(reinterpret_cast<ReleaseCrawlerThreadParam*>(param->pParam));
 
 	database::DatabaseHelper helper;
