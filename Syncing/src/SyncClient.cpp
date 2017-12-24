@@ -85,7 +85,7 @@ bool SyncClient::RegisterCrawler(const std::string& pass) {
 	}
 
 	tools::XML doc(xmlResponse);
-	if(!doc.XPathFirst("/response/crawlerID/text()",crawlerID)) {
+	if(!doc.XPathFirst("/response/crawlerid/text()",crawlerID)) {
 		log::Logging::LogWarn("could not find /response/crawlerID:\n%s",xmlResponse.c_str());
 		crawlerID = -1;
 		token.clear();
