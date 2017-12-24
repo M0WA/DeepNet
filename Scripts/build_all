@@ -28,6 +28,7 @@ sub usage() {
 	print "$0 [-b <type> -u -c -e -t -v]
 -b <type>: 'release' or 'debug', default: '$buildflt'
 -j <num> : number of processes to use while compile (default: $makeprocs)
+-r       : do not remove symbols
 -u       : do not update before build
 -c       : do not clean libs before build
 -e       : do not clean on error
@@ -100,6 +101,49 @@ sub build_project($) {
 	return $rc;
 }
 
+sub remove_symbols($$) {
+	my ($root,$proj) = @_;
+	
+	print "removing symbols from project $proj\n" if(exists($opts{v}));
+	
+	unless( $proj =~ /\/([^\/]+)\/$opts{b}$/ ) {
+		print "error while getting project name from $proj\n";
+	}	
+	my $name = $1;
+	my $file = "$proj/$name";
+	my $symfile = "$file.symbols";
+	if(! -f $file ) {
+		$file    = "$proj/lib$name.a";
+		$symfile = "$proj/lib$name.symbols";
+	}
+	
+	my $rc = system("$root/Scripts/misc/create_symbol_file.sh $file $symfile");
+	if($rc != 0) {
+		print "error while removing symbols from project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub _process_project($$$) {
+	my ($root,$proj,$failed) = @_;
+	
+	print "processing $proj\n" if(exists($opts{v}));
+	
+	clean_project($proj)  if(!exists($opts{c}));
+	update_project($proj) if(!exists($opts{u}));
+	
+	if(build_project($proj) != 0) {
+		push(@{$failed},$proj);
+		return 1;
+	}
+	else {
+		remove_symbols($root,$proj) if(!exists($opts{r}));
+	}
+
+	return 0;
+}
+
 sub _fix_apps_array($) {
 	my ($root) = @_;
 	my @tmp = ();
@@ -162,27 +206,28 @@ sub _run() {
 		exit 1;
 	}
 
-	foreach my $app (@apps) {
+	print "cleaning all applications\n" if(exists($opts{v}));
+	foreach my $app (@apps) {		
 		clean_project($app);
 	}
 
 	my @failed = ();
+	
+	print "building all libraries\n" if(exists($opts{v}));
 	foreach my $lib (@libs) {
-		clean_project($lib)  if(!exists($opts{c}));
-		update_project($lib) if(!exists($opts{u}));
-		push(@failed,$lib) if(build_project($lib) != 0);
+		_process_project($root,$lib,\@failed);
 		last if(scalar(@failed) > 0 && !exists($opts{s}));
 	}
 
-	if(scalar(@failed) == 0) {
+	if(scalar(@failed) == 0) {		
+		print "building all applications\n" if(exists($opts{v}));				
 		foreach my $app (@apps) {
-			update_project($app) if(!exists($opts{u}));
-			push(@failed,$app) if(build_project($app) != 0);
+			_process_project($root,$app,\@failed);
 			last if(scalar(@failed) > 0 && !exists($opts{s}));
 		}
 	}
 
-	if(scalar(@failed) != 0) {
+	if(scalar(@failed) != 0) {				
 		foreach my $proj (@projs) {
 			clean_project($proj) if(!exists($opts{e}));
 		}
