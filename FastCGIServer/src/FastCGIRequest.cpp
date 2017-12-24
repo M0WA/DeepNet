@@ -157,18 +157,23 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     }
 
     bool isString(true);
-    if(isString) {
-		for (size_t i(0); i < rawPostData.GetCount(); ++i) {
-			if(std::isprint(*rawPostData.GetConstElementAt(i))==0 || std::iscntrl(*rawPostData.GetConstElementAt(i))==1) {
-				log::Logging::LogTrace("POST data: found non printable char at position %zu",i);
-				isString = false;
-				break; }
+    std::string tmpPostData;
+	for (size_t i(0); i < rawPostData.GetCount(); ++i) {
+		if(std::isprint(*rawPostData.GetConstElementAt(i))==0 || std::iscntrl(*rawPostData.GetConstElementAt(i))==1) {
+			log::Logging::LogTrace("POST data: found non printable char at position %zu",i);
+			isString = false;
+			std::ostringstream ss;
+			ss << " 0x" << std::hex << *rawPostData.GetConstElementAt(i) << " ";
+			tmpPostData += ss.str();
 		}
-    }
+		else {
+			tmpPostData += *rawPostData.GetConstElementAt(i);
+		}
+	}
 
     if(!isString) {
     	rawPostData.Release();
-    	log::Logging::LogWarn("post data is not a string, ignoring it");
+    	log::Logging::LogWarn("post data is not a string, ignoring it:\n%s",tmpPostData.c_str());
     }
 
 	char zero(0);
