@@ -121,6 +121,8 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		// the connection deadlocks until a timeout expires!).
 		std::string clenstr = FastCGIRequest::SafeGetEnv("CONTENT_LENGTH", request);
 
+		log::Logging::LogTrace("POST content-length: %s",clenstr.c_str());
+
 		if (!clenstr.empty())
 		{
 			clen = strtoul(clenstr.c_str(), NULL, 10);
@@ -137,6 +139,8 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 			cin_fcgi.read(rawPostData.GetElements(), clen);
 			clen = cin_fcgi.gcount();
 			rawPostData.Resize(clen);
+
+			log::Logging::LogTrace("POST data: read %lu bytes",clen);
 		}
 		else {
 			log::Logging::LogWarn("post request did not specify content length, dropping");
@@ -156,6 +160,7 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     if(isString) {
 		for (size_t i(0); i < rawPostData.GetCount(); ++i) {
 			if(std::isprint(*rawPostData.GetConstElementAt(i))==0 || std::iscntrl(*rawPostData.GetConstElementAt(i))==1) {
+				log::Logging::LogTrace("POST data: found non printable char at position %zu",i);
 				isString = false;
 				break; }
 		}
