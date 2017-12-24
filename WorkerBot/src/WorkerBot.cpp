@@ -168,6 +168,12 @@ void WorkerBot::RegisterCrawlerConfigParams()
 
 	std::string httpClientType("curl");
 	Config().RegisterParam("crawler_client", "http client used for crawling ( curl | own )", true, &httpClientType);
+
+	std::string syncUrl("https://se.mo-sys.de/syncserver");
+	Config().RegisterParam("crawler_sync_url", "url to syncserver api", true, &syncUrl);
+
+	std::string syncPass("");
+	Config().RegisterParam("crawler_sync_pass", "password to syncserver api", true, &syncPass);
 }
 
 bool WorkerBot::InitCrawlerConfig()
