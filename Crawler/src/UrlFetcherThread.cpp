@@ -203,7 +203,7 @@ bool UrlFetcherThread::GetHtmlCodeFromUrl(const long long urlID, const caching::
 	if(!success) {
 		htmlCode.Release();
 		if (log::Logging::IsLogLevelTrace())
-			log::Logging::LogTrace("could not connect to/fetch %s ", url.GetFullUrl().c_str());
+			log::Logging::LogTrace("could not connect to/fetch %s", url.GetFullUrl().c_str());
 	}
 	else {
 		htmlCode.Swap(result.html);
