@@ -137,17 +137,17 @@ bool SyncClient::DoRequest(const std::string& xmlIn,std::string& xmlOut) {
 		goto END_SYNC_REQUEST;
 	}
 
-	log::Logging::LogTraceUnlimited("doing POST (%s): %s",url.GetFullUrl().c_str(),xmlIn.c_str());
+	log::Logging::LogTraceUnlimited("doing POST (%s):\n%s",url.GetFullUrl().c_str(),xmlIn.c_str());
 
 	success = hc->Post(url, xmlIn, "application/xml", response);
 	if(!success) {
-		log::Logging::LogWarn("error while POST (%s): %s",url.GetFullUrl().c_str(),xmlIn.c_str());
+		log::Logging::LogWarn("error while POST (%s):\n%s",url.GetFullUrl().c_str(),xmlIn.c_str());
 		goto END_SYNC_REQUEST;
 	}
 	else {
 		xmlOut.clear();
 		xmlOut.append(response.html.GetBuffer(),0,response.html.GetBufferSize());
-		log::Logging::LogTraceUnlimited("result POST (%s): \nin: %s\nout: %s",url.GetFullUrl().c_str(),xmlIn.c_str(),xmlOut.c_str());
+		log::Logging::LogTraceUnlimited("result POST (%s): \nin:\n%s\n\nout:\n%s",url.GetFullUrl().c_str(),xmlIn.c_str(),xmlOut.c_str());
 	}
 
 END_SYNC_REQUEST:
