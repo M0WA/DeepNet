@@ -115,7 +115,7 @@ bool GetUrlsThread::GetUrls(database::DatabaseConnection* db,GetUrlsThreadParam*
 		return false; }
 
 	bool success(GetNextUrls(db,p,sld));
-	if(sld == -1) {
+	if(p->secondlevelDomain == -1) {
 		//client did not request a specific second level domain
 		//release second leveldomain after reserving urls
 		Sync::UnlockSecondLevelDomain(db,p->crawlerID,sld);
