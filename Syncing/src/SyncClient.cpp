@@ -40,6 +40,17 @@ SyncClient::~SyncClient() {
 }
 
 bool SyncClient::ReleaseCrawler() {
+
+	if(crawlerID < 0) {
+		log::Logging::LogWarn("SyncClient::ReleaseCrawler: invalid crawlerID");
+		return false;
+	}
+
+	if(token.empty()) {
+		log::Logging::LogWarn("SyncClient::ReleaseCrawler: invalid token");
+		return false;
+	}
+
 	std::ostringstream ss;
 	ss <<
 		"<?xml version=\"1.0\"?>\n"
@@ -74,12 +85,14 @@ bool SyncClient::RegisterCrawler(const std::string& pass) {
 	}
 
 	tools::XML doc(xmlResponse);
-	if(!doc.XPathFirst("/response/crawlerID",crawlerID)) {
+	if(!doc.XPathFirst("/response/crawlerID/text()",crawlerID)) {
+		log::Logging::LogWarn("could not find /response/crawlerID:\n%s",xmlResponse.c_str());
 		crawlerID = -1;
 		token.clear();
 		return false;
 	}
-	if(!doc.XPathFirst("/response/token",token)) {
+	if(!doc.XPathFirst("/response/token/text()",token)) {
+		log::Logging::LogWarn("could not find /response/token:\n%s",xmlResponse.c_str());
 		crawlerID = -1;
 		token.clear();
 		return false;
@@ -90,6 +103,16 @@ bool SyncClient::RegisterCrawler(const std::string& pass) {
 
 bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, std::vector<long long>& urls) {
 	urls.clear();
+
+	if(crawlerID < 0) {
+		log::Logging::LogWarn("SyncClient::GetURLs: invalid crawlerID");
+		return false;
+	}
+
+	if(token.empty()) {
+		log::Logging::LogWarn("SyncClient::GetURLs: invalid token");
+		return false;
+	}
 
 	std::ostringstream ss;
 	ss <<
@@ -108,10 +131,12 @@ bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, 
 	}
 
 	tools::XML doc(xmlResponse);
-	if(!doc.XPath("/response/urls/urlid",urls)) {
+	if(!doc.XPath("/response/urls/urlid/text()",urls)) {
+		log::Logging::LogWarn("could not find /response/urls/urlid:\n%s",xmlResponse.c_str());
 		return false;
 	}
-	if(!doc.XPathFirst("/response/secondleveldomain",secondLevelDomainID)) {
+	if(!doc.XPathFirst("/response/secondleveldomain/text()",secondLevelDomainID)) {
+		log::Logging::LogWarn("could not find /response/secondleveldomain:\n%s",xmlResponse.c_str());
 		return false;
 	}
 
