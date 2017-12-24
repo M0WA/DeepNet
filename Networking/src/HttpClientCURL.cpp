@@ -17,6 +17,41 @@
 
 namespace network {
 
+static int TraceCurlRequest(CURL *handle, curl_infotype type, char *data, size_t size, void *userp) {
+	const char *text;
+	(void) handle; /* prevent compiler warning */
+	(void) userp;
+
+	switch (type) {
+	case CURLINFO_TEXT:
+		fprintf(stderr, "== Info: %s", data);
+	default: /* in case a new one is introduced to shock us */
+		return 0;
+
+	case CURLINFO_HEADER_OUT:
+		text = "=> Send header";
+		break;
+	case CURLINFO_DATA_OUT:
+		text = "=> Send data";
+		break;
+	case CURLINFO_SSL_DATA_OUT:
+		text = "=> Send SSL data";
+		break;
+	case CURLINFO_HEADER_IN:
+		text = "<= Recv header";
+		break;
+	case CURLINFO_DATA_IN:
+		text = "<= Recv data";
+		break;
+	case CURLINFO_SSL_DATA_IN:
+		text = "<= Recv SSL data";
+		break;
+	}
+
+	dump(text, stderr, (unsigned char *) data, size);
+	return 0;
+}
+
 HttpClientCURL::HttpClientCURL()
 : curlPtr(curl_easy_init())
 , errorBuffer(new char[CURL_ERROR_SIZE])
@@ -97,6 +132,11 @@ bool HttpClientCURL::Post(const HttpUrl& url, const std::string& content, const 
 bool HttpClientCURL::DoRequest(const HttpUrl& url, HttpResponse& response) {
 
 	CURLWriterParam param(url,response, Settings().maxSize);
+
+	if(log::Logging::IsLogLevelTrace()) {
+		//enable trace/debug logging for libcurl
+		curl_easy_setopt(curlPtr, CURLOPT_DEBUGFUNCTION, TraceCurlRequest);
+		curl_easy_setopt(curlPtr, CURLOPT_VERBOSE, 1L);	}
 
 	curl_easy_setopt(curlPtr, CURLOPT_WRITEDATA, &param);
 	curl_easy_setopt(curlPtr, CURLOPT_URL, url.GetFullUrl().c_str());
