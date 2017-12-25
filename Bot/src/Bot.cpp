@@ -28,6 +28,9 @@
 #include <TimeTools.h>
 #include <PerformanceCounter.h>
 
+#include <cstring>
+#include <cerrno>
+
 bot::Bot* bot::Bot::instance = 0;
 threading::Mutex bot::Bot::signalMutex;
 
@@ -308,14 +311,21 @@ bool Bot::Daemonize()
 
 bool Bot::SwitchUser(const uid_t setUid, const gid_t setGid)
 {
-	if(setUid != cur_uid) {
-		cur_uid = setUid;
-		setuid(setUid); }
-
 	if(setGid != cur_gid){
+		if( setgid(setGid) != 0 ) {
+			log::Logging::LogError("cannot switch group id: (%d) %s",errno,strerror(errno));
+			exit(errno);
+		}
 		cur_uid = setGid;
-		setgid(setGid);	}
+	}
 
+	if(setUid != cur_uid) {
+		if( setuid(setUid) != 0 ) {
+			log::Logging::LogError("cannot switch user id: (%d) %s",errno,strerror(errno));
+			exit(errno);
+		}
+		cur_uid = setUid;
+	}
 	return true;
 }
 
