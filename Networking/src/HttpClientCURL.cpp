@@ -80,6 +80,7 @@ static int TraceCurlRequest(CURL *handle, curl_infotype type, char *data, size_t
 	switch (type) {
 	case CURLINFO_TEXT:
 		fprintf(stderr, "== Info: %s", data);
+		return 0;
 	default: /* in case a new one is introduced to shock us */
 		return 0;
 
