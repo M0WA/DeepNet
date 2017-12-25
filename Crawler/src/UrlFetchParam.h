@@ -19,7 +19,10 @@ namespace crawler {
 struct UrlFetchParam
 {
 	UrlFetchParam(const caching::DatabaseUrl& url)
-	: url(url){
+	: urlID(-1)
+	, urlStageID(-1)
+	, responseCode(-1)
+	, url(url){
 	}
 
 	long long urlID;
