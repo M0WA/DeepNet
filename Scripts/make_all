@@ -55,6 +55,12 @@ sub clean_project($) {
 	print "cleaning project $proj\n" if(exists($opts{v}));
 	
 	chdir("$proj");
+		
+	if(! -f "makefile") {
+	  print "no makefile found, skipping clean\n" if(exists($opts{v}));
+	  return 0;
+	}
+	
 	my $rc = system("make clean");
 	if($rc != 0) {
 		print "error while cleaning project $proj\n";
@@ -91,6 +97,11 @@ sub build_project($) {
 			print "executing project specific post task: $func\n" if(exists($opts{v}));
 			&{\&{$func}}();
 		}
+	}
+	
+	if(! -f "makefile") {
+	  print "no makefile found, skipping build\n" if(exists($opts{v}));
+	  return 0;
 	}
 
 	my $rc = system("make -j$makeprocs all");
