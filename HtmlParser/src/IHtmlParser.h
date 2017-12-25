@@ -24,7 +24,7 @@ namespace htmlparser {
 class IHtmlParserResult {
 
 protected:
-	IHtmlParserResult(const caching::DatabaseUrl& url) : url(url) {}
+	IHtmlParserResult(const caching::DatabaseUrl& url) : url(url), wellformed() {}
 
 public:
 	virtual ~IHtmlParserResult() {}
