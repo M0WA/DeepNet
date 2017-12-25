@@ -25,6 +25,10 @@ Tokeniser::Tokeniser(DocumentFactory& factory)
 , next(0)
 , start(0)
 , end(0)
+, size(0)
+, db(0)
+, logVerbose(false)
+, preCharRefInAttribState(0)
 , charRefInAttribValAddChar(0){
 }
 
@@ -289,7 +293,9 @@ bool Tokeniser::OnBeforeAttributeNameState(){
 	case '<':
 	case '=':
 		ParseError();
+		goto DEFAULT;
 	default:
+DEFAULT:
 		tagToken.curAttrib.Reset();
 		tagToken.curAttrib.name += (char)tolower(*current);
 		SwitchState(Attribute_name_state);
@@ -426,7 +432,9 @@ bool Tokeniser::OnAttributeNameState() {
 	case '\'':
 	case '<':
 		ParseError();
+		goto DEFAULT2;
 	default:
+DEFAULT2:
 		break;
 	}
 
@@ -513,7 +521,9 @@ bool Tokeniser::OnAfterAttributeNameState() {
 	case '\'':
 	case '<':
 		ParseError();
+		goto DEFAULT3;
 	default:
+DEFAULT3:
 		break;
 	}
 
@@ -562,7 +572,9 @@ bool Tokeniser::OnBeforeAttributeValueState() {
 	case '=':
 	case '`':
 		ParseError();
+		goto DEFAULT4;
 	default:
+DEFAULT4:
 		tagToken.curAttrib.value += *current;
 		SwitchState(Attribute_value__unquoted__state);
 		return true;
@@ -714,7 +726,9 @@ bool Tokeniser::OnAttributeValueUnquotedState() {
 	case '=':
 	case '`':
 		ParseError();
+		goto DEFAULT5;
 	default:
+DEFAULT5:
 		tagToken.curAttrib.value += *current;
 		break;
 	}
