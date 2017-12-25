@@ -134,7 +134,7 @@ crawler_respectRobotsTxt=1
 crawler_client=curl
 
 # url for syncserver
-crawler_sync_url=https://se.mo-sys.de/syncserver
+crawler_sync_url=http://sync.mo-sys.de/syncapi
 
 # password for syncserver api
 crawler_sync_pass=password
