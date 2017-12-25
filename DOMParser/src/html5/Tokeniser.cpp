@@ -28,7 +28,7 @@ Tokeniser::Tokeniser(DocumentFactory& factory)
 , size(0)
 , db(0)
 , logVerbose(false)
-, preCharRefInAttribState(0)
+, preCharRefInAttribState(Data_state)
 , charRefInAttribValAddChar(0){
 }
 
