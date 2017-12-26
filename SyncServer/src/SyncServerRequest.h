@@ -13,36 +13,6 @@ namespace syncserver {
 
 /**
  * @brief handles a single request from a client for the SyncServer service
- * @details
- * example "auth" request
- *
- *     <?xml version="1.0"?>
- *       <request>
- *   	    <mode>auth</mode>
- *   	    <pass>password</pass>
- *       </request>
- *
- * example "get_url_ids" request
- *
- * secondleveldomain section is optional and contains secondlevel domain id
- *
- *     <?xml version="1.0"?>
- *       <request>
- *   	    <mode>get_url_ids</mode>
- *   	    <crawlerid>1</crawlerid>
- *   	    <token>mytoken</token>
- *   	    <secondleveldomain>3572</secondleveldomain>
- *   	    <count>2</count>
- *       </request>
- *
- * example "release_crawler_id" request
- *
- *     <?xml version="1.0"?>
- *       <request>
- *   	    <mode>release_crawler_id</mode>
- *   	    <crawlerid>1</crawlerid>
- *   	    <token>mytoken</token>
- *       </request>
  */
 class SyncServerRequest: public fastcgiserver::FastCGIRequest {
 public:

@@ -18,31 +18,6 @@ namespace syncserver {
 
 /**
  * @brief response to a single request from a client for the SyncServer service
- * @details
- * example "auth" response
- *
- *     <?xml version="1.0"?>
- *       <response>
- *   	    <crawlerid>1</crawlerid>
- *   	    <token>mytoken</token>
- *       </response>
- *
- * example "get_url_ids" response
- *
- *     <?xml version="1.0"?>
- *       <response>
- *          <secondleveldomain>5</secondleveldomain>
- *          <urls>
- *   	      <urlid>1</urlid>
- *   	      <urlid>2</urlid>
- *   	      <urlid>5</urlid>
- *   	    </urls>
- *       </response>
- *
- * example "release_crawler_id" response
- *
- *     <?xml version="1.0"?>
- *       <response></response>
  */
 class SyncServerResponse: public fastcgiserver::FastCGIResponse {
 public:
