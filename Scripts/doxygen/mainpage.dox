@@ -1,10 +1,19 @@
-/** 
- * @mainpage Doxygen documentation of the DeepNet project
- *
- * This is the HTML-based source code documentation targeted at the (potential) developers for the DeepNet project.<br>
- * * If you are an end user than you might be looking for the DeepNet <a href="https://se.mo-sys.de/" target="_blank">public search engine</a>.<br>
- * * If you are an administrator running a DeepNet installation, please visit <a href="https://deepnet.mo-sys.de/documentation.html" target="_blank">for an adminstrator manual</a>.<br>
- * * If you are a potential contributor, please visit the <a href="https://deepnet.mo-sys.de/development.html" target="_blank">development homepage</a> first. You will also find more in-deepth information about hacking Deepnet @link extending_deepnet here @endlink<br>
- * 
- *
- */
+/*! 
+@mainpage Doxygen documentation of the DeepNet project
+
+@tableofcontents
+
+@section end_user search engine 
+You might be looking for the DeepNet <a href="https://se.mo-sys.de/" target="_blank">public search engine</a>.
+
+@section admin_manual admin/user manual
+If you are running a DeepNet installation, please visit <a href="https://deepnet.mo-sys.de/documentation.html" target="_blank">for an adminstrator manual</a>.<br>
+
+@section developers developers/contributors
+
+ - <a href="https://deepnet.mo-sys.de/developer.html" target="_blank">development homepage</a>
+ - @link building_deepnet build DeepNet @endlink
+ - @link extending_deepnet extend DeepNet @endlink
+ - @link syncing_deepnet Syncing API @endlink
+
+*/
