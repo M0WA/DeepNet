@@ -9,7 +9,7 @@
 #########################################################
 
 
-DIRS="../Database ../DOMParser ../Tools ../DeepNetTool ../DatabaseTool ../Networking ../Indexer ../Caching ../QueryServer ../Crawler ../Bot ../FastCGIServer ../Parser ../HtmlParser ../LibXMLParser ../Logging ../WorkerBot ../InspectorServer ../Threading ../SuggestServer"
+DIRS="../Database ../DOMParser ../Tools ../DeepNetTool ../DatabaseTool ../Networking ../Indexer ../Caching ../QueryServer ../Crawler ../Bot ../FastCGIServer ../Parser ../HtmlParser ../LibXMLParser ../Logging ../WorkerBot ../InspectorServer ../Threading ../SuggestServer ../Syncing ../SyncServer"
 
 sloccount --multiproject --details ${DIRS}
 sloccount --multiproject ${DIRS}

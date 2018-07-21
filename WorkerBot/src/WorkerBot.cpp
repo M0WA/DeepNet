@@ -124,8 +124,6 @@ bool WorkerBot::OnPreInit(void)
 	RegisterParserConfigParams();
 	RegisterIndexerConfigParams();
 	RegisterModeSpecificParams();
-
-	Config().RegisterFlag("autoFixUncleanShutdown","fixing database inconsistencies on shutdown",false);
 	return true;
 }
 
@@ -170,6 +168,12 @@ void WorkerBot::RegisterCrawlerConfigParams()
 
 	std::string httpClientType("curl");
 	Config().RegisterParam("crawler_client", "http client used for crawling ( curl | own )", true, &httpClientType);
+
+	std::string syncUrl("https://se.mo-sys.de/syncserver");
+	Config().RegisterParam("crawler_sync_url", "url to syncserver api", true, &syncUrl);
+
+	std::string syncPass("");
+	Config().RegisterParam("crawler_sync_pass", "password to syncserver api", true, &syncPass);
 }
 
 bool WorkerBot::InitCrawlerConfig()
@@ -243,6 +247,14 @@ bool WorkerBot::InitCrawlerConfig()
 	else {
 		log::Logging::LogError("invalid crawler_client specified. exiting...");
 		return false; }
+
+	if(!Config().GetValue("crawler_sync_url",crawlerParam.Get()->syncApiUrl)){
+		log::Logging::LogError("!!! missing crawler_sync_url !!!");
+		return false;}
+
+	if(!Config().GetValue("crawler_sync_pass",crawlerParam.Get()->syncApiPass)){
+		log::Logging::LogError("!!! missing crawler_sync_pass !!!");
+		return false;}
 
 	return true;
 }
@@ -376,22 +388,6 @@ bool WorkerBot::InitModeConfig()
 	else {
 		THROW_EXCEPTION(errors::NotImplementedException,"Invalid WorkerBot mode, use one of: commercesearch,datamining,searchengine,fenced; current mode: " + workerBotMode);
 	}
-	return true;
-}
-
-bool WorkerBot::CheckCleanShutdown() {
-
-	bool autoFixUncleanShutdown(false);
-	if(!Config().GetValue("autoFixUncleanShutdown",autoFixUncleanShutdown) ||
-		autoFixUncleanShutdown == false ) {
-		return true;}
-
-	log::Logging::LogInfo("checking database consistency after shutdown");
-
-	if(!bot::DatabaseRepair::FixUncleanShutdown(DB().Connection(),true,crawler.Get()->GetOldCrawlerSessionIDs())) {
-		log::Logging::LogError("errors while checking/fixing database consistency after shutdown");
-		return false; }
-
 	return true;
 }
 

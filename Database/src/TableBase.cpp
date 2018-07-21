@@ -34,8 +34,8 @@ TableBase::TableBase()
 : definition(0){
 }
 
-TableBase::TableBase(const TableBase& base) {
-
+TableBase::TableBase(const TableBase& base)
+: definition(0) {
 	THROW_EXCEPTION(errors::NotImplementedException,"cannot copy TableBase");
 }
 

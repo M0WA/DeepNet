@@ -12,6 +12,7 @@
 #include "QueryThreadParam.h"
 #include "QueryThreadResultEntry.h"
 #include "DictionaryInfoThread.h"
+#include "KeywordDictionary.h"
 
 #include <iterator>
 
@@ -58,8 +59,10 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const KeywordDictionary& dict(dictInfo->GetDictionary());
 
-	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
+	std::vector<long long> allDictIDs;
+	dict.GetAllIDs(allDictIDs);
 	if(allDictIDs.size() == 0)
 		return true;
 
@@ -126,7 +129,7 @@ bool QueryContentThread::GetUrlsForKeywords(database::SelectResultContainer<data
 	select.Where().AddColumns(where);
 
 	select.OrderBy().AddColumn(database::urlstagesTableBase::GetDefinition_found_date(),database::DESCENDING);
-	select.SetLimit(queryProperties.maxResults);
+	select.SetLimit(queryProperties.maxTotalResults);
 
 	try {
 		dbConn->Select(select,results);
@@ -144,6 +147,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 	const QueryProperties& queryProperties(query.properties);
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const KeywordDictionary& dict(dictInfo->GetDictionary());
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefUrlIDPtr(database::latesturlstagesTableBase::GetDefinition_URL_ID()),
@@ -182,21 +186,27 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 		colOccurence->Get(occurence);
 		colFound->Get(found);
 
+		KeywordDictionary::DictIDInfo info;
+		if(!dict.GetDictIDInfo(dictID,info)) {
+			log::Logging::LogWarn("dictID not in dictionary");
+			continue;
+		}
+
 		//
 		//TODO: this should not be hardcoded, move to QueryProperties
 		//
 		double matchRelevanceFactor(0.0);
-		switch(dictInfo->GetMatchTypeForDictionaryID(dictID))
+		switch(info.type)
 		{
-		case DictionaryInfoThread::EXACT_MATCH:
+		case EXACT_MATCH:
 			matchRelevanceFactor=1.0;
 			break;
 
-		case DictionaryInfoThread::CASEINSENSITIVE_MATCH:
+		case CASEINSENSITIVE_MATCH:
 			matchRelevanceFactor=0.95;
 			break;
 
-		case DictionaryInfoThread::SIMILAR_MATCH:
+		case SIMILAR_MATCH:
 			matchRelevanceFactor=0.9;
 			break;
 
@@ -210,7 +220,7 @@ bool QueryContentThread::ProcessResults(database::SelectResultContainer<database
 				CONTENT_RESULT,
 				urlID,
 				urlStageID,
-				dictInfo->GetPositionForDictionaryID(dictID),
+				info.position,
 				occurence,
 				queryProperties.relevanceContent * matchRelevanceFactor,
 				found));

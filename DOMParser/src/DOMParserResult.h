@@ -10,7 +10,7 @@
 
 #include <IHtmlParser.h>
 
-namespace htmlparser {
+namespace caching {
 	class DatabaseUrl;
 }
 
@@ -18,7 +18,7 @@ namespace domparser {
 
 class DOMParserResult: public htmlparser::IHtmlParserResult {
 public:
-	DOMParserResult(const htmlparser::DatabaseUrl& url);
+	DOMParserResult(const caching::DatabaseUrl& url);
 	virtual ~DOMParserResult();
 };
 

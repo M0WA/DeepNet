@@ -1,0 +1,21 @@
+/*! 
+@page building_deepnet Building deepnet
+1. checkout the project from svn:<br>
+    `svn co https://vcs.mo-sys.de/svn/DeepNet/trunk`
+<br><br>
+2. edit DatabaseTool config according to your setup<br>
+    `cp Scripts/conf/db.generator.conf.example Scripts/conf/db.generator.conf`<br>
+    `Scripts/./reset_database.sh`
+<br><br>
+3. build/update<br>
+    `cd Scripts && ./make_all`
+<br><br>
+4. run tests (optional)<br>
+    `cd Scripts && ./run_all_unit_tests.sh`
+<br><br>
+5. build deb package (optional)<br>
+    `cd Scripts && ./make_deb`
+<br><br>
+6. build documentation (optional)<br>
+    `cd Scripts && ./generate_documentation.sh`
+*/

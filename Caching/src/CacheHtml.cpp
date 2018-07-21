@@ -6,7 +6,7 @@
 
 #include "CacheHtml.h"
 
-#include <DatabaseUrl.h>
+#include "DatabaseUrl.h"
 #include <HtmlData.h>
 
 namespace caching {
@@ -22,7 +22,7 @@ CacheHtml::~CacheHtml()
 {
 }
 
-void CacheHtml::Add(const long long& ID, const htmlparser::DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID)
+void CacheHtml::Add(const long long& ID, const DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID)
 {
 	cacheInstance.cacheHtmlCode.AddItem(ID,CacheHtmlEntry(ID,url,html,urlStageID));
 }

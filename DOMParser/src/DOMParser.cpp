@@ -23,7 +23,7 @@ DOMParser::DOMParser() {
 DOMParser::~DOMParser() {
 }
 
-bool DOMParser::Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result) {
+bool DOMParser::Parse(const caching::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result) {
 
 	Document* doc = 0;
 	try {

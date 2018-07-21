@@ -100,6 +100,10 @@ CPP_SRCS += \
 ../generated/schemesTableDefinitionCreateParam.cpp \
 ../generated/searchqueryTableBase.cpp \
 ../generated/searchqueryTableDefinitionCreateParam.cpp \
+../generated/searchqueryresultTableBase.cpp \
+../generated/searchqueryresultTableDefinitionCreateParam.cpp \
+../generated/searchqueryresultinfoTableBase.cpp \
+../generated/searchqueryresultinfoTableDefinitionCreateParam.cpp \
 ../generated/secondleveldomainsTableBase.cpp \
 ../generated/secondleveldomainsTableDefinitionCreateParam.cpp \
 ../generated/subdomainsTableBase.cpp \
@@ -222,6 +226,10 @@ OBJS += \
 ./generated/schemesTableDefinitionCreateParam.o \
 ./generated/searchqueryTableBase.o \
 ./generated/searchqueryTableDefinitionCreateParam.o \
+./generated/searchqueryresultTableBase.o \
+./generated/searchqueryresultTableDefinitionCreateParam.o \
+./generated/searchqueryresultinfoTableBase.o \
+./generated/searchqueryresultinfoTableDefinitionCreateParam.o \
 ./generated/secondleveldomainsTableBase.o \
 ./generated/secondleveldomainsTableDefinitionCreateParam.o \
 ./generated/subdomainsTableBase.o \
@@ -344,6 +352,10 @@ CPP_DEPS += \
 ./generated/schemesTableDefinitionCreateParam.d \
 ./generated/searchqueryTableBase.d \
 ./generated/searchqueryTableDefinitionCreateParam.d \
+./generated/searchqueryresultTableBase.d \
+./generated/searchqueryresultTableDefinitionCreateParam.d \
+./generated/searchqueryresultinfoTableBase.d \
+./generated/searchqueryresultinfoTableDefinitionCreateParam.d \
 ./generated/secondleveldomainsTableBase.d \
 ./generated/secondleveldomainsTableDefinitionCreateParam.d \
 ./generated/subdomainsTableBase.d \
@@ -374,7 +386,7 @@ CPP_DEPS += \
 generated/%.o: ../generated/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/ -I/usr/include/mysql -I/usr/include/postgresql/ -I/usr/include/postgresql/9.4/server/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	g++ -D_REENTRANT -I../../Database/src -I../../Bot/src -I../../Database/generated -I../../Logging/src -I../../Tools/src -I../../Threading/src -I/usr/include/ -I/usr/include/mysql -I/usr/include/postgresql/ -I/usr/include/postgresql/9.4/server/ -I/usr/include/postgresql/9.5/server/ -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

@@ -44,7 +44,11 @@ public:
 
 public:
 	virtual bool Get(const HttpUrl& url, HttpResponse& response);
+	virtual bool Post(const HttpUrl& url, const std::string& content, const std::string& contentType, HttpResponse& response);
 	virtual HttpClientSettings& Settings() { return settings; }
+
+private:
+	bool DoRequest(const HttpUrl& url, HttpResponse& response);
 
 private:
 	static int WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* param);

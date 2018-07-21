@@ -1,10 +1,8 @@
-//============================================================================
-// Name        : DeepNetTool.cpp
-// Author      : Moritz Wagner (moritz.wagner@siridia.de)
-// Version     :
-// Copyright   : Copyright 2012, Moritz Wagner
-// Description : DeepNet Tool Bot
-//============================================================================
+/**
+ * @file DeepNetTool/src/main.cpp
+ * @author Moritz Wagner
+ * @date 01.01.2012
+ */
 
 #include "DeepNetToolBot.h"
 

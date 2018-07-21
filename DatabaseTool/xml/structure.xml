@@ -279,7 +279,7 @@
 	<column name="URL_ID"               type="INTEGER"      notnull="1" />
 	<column name="response_code"        type="INTEGER"      default="-1" />
 	<column name="content_md5"          type="CHAR(32)"     default="NULL" />
-	<column name="last_change"          type="TIMESTAMP"    default="NULL" />
+	<column name="last_change"          type="TIMESTAMP"    default="'1970-01-01 00:00:01'" />
 	<column name="redirect_count"       type="INTEGER"      default="NULL" />
 	<column name="download_speed"       type="BIGINT"       default="NULL" />
 	<column name="upload_speed"         type="BIGINT"       default="NULL" />
@@ -291,7 +291,7 @@
 	<column name="ext_links"            type="INTEGER"      default="NULL" />
 	<column name="download_time"        type="INTEGER"      default="NULL" />
 	<column name="html_errors"          type="INTEGER"      default="NULL" />
-	<column name="found_date"           type="TIMESTAMP"    notnull="1" default="NULL" />
+	<column name="found_date"           type="TIMESTAMP"    default="NOW()" />
 
 	<primary_key column="ID" />
 	<foreign_key column="URL_ID" references_table="urls" references_column="ID" MySQL_Database="documents" />
@@ -1125,6 +1125,49 @@
 
 </table>
 
+<!-- ======================================================================================== 
+ *
+ *	TABLE: searchqueryresult
+ *
+ -->
+<table
+	name="searchqueryresult"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+	<column name="ID"     	      type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERY_ID" type="INTEGER" notnull="1" />
+	<column name="URL_ID"    type="INTEGER" notnull="1" />
+	<column name="position"       type="INTEGER" notnull="1" />
+
+	<primary_key column="ID" />
+	<foreign_key column="SEARCHQUERY_ID" references_table="searchquery" references_column="ID" MySQL_Database="queryserver" />
+	<foreign_key column="URL_ID"         references_table="urls"        references_column="ID" MySQL_Database="documents" />
+	<index column="position" sort="ASC" />
+
+</table>
+
+<!-- ======================================================================================== 
+ *
+ *	TABLE: searchqueryresultinfo
+ *
+ -->
+<table
+	name="searchqueryresultinfo"
+	MySQL_Engine="Engine=InnoDB, ROW_FORMAT=COMPACT"
+	MySQL_Database="queryserver"
+>
+	<column name="ID"     	            type="INTEGER" notnull="1" autoincrement="1" />
+	<column name="SEARCHQUERYRESULT_ID" type="INTEGER" notnull="1" />
+	<column name="infotype"             type="INTEGER" notnull="1" />
+	<column name="type"                 type="VARCHAR(255)" notnull="1" />
+
+	<primary_key column="ID" />
+	<index column="infotype" sort="ASC" />
+	<foreign_key column="SEARCHQUERYRESULT_ID" references_table="searchqueryresult" references_column="ID" MySQL_Database="queryserver" />
+
+</table> 
+
 
 <!-- ======================================================================================== 
  *
@@ -1176,8 +1219,8 @@
 	<column name="pid"             type="INTEGER"       notnull="1" />
 	<column name="tid"             type="INTEGER"       notnull="1" />
 	
-	<column name="appName"         type="VARCHAR(255)"  notnull="0" default="" />
-	<column name="threadName"      type="VARCHAR(255)"  notnull="0" default="" />
+	<column name="appName"         type="VARCHAR(255)"  notnull="0" default="''" />
+	<column name="threadName"      type="VARCHAR(255)"  notnull="0" default="''" />
 
 	<primary_key column="ID" />
 </table>

@@ -27,13 +27,18 @@
 namespace crawler {
 
 CommerceSearchFetcherThread::CommerceSearchFetcherThread()
-: UrlFetcherThread() {
+: GenericWebUrlFetcherThread() {
 }
 
 CommerceSearchFetcherThread::~CommerceSearchFetcherThread() {
 }
 
+long long CommerceSearchFetcherThread::GetSecondLevelDomainID()
+{
+	return -1;
+}
 
+/*
 bool CommerceSearchFetcherThread::GetNextSecondLevelDomain()
 {
 	//fetch all possible customers and populate mapCustDomIdProperties and customerDomainIds
@@ -195,5 +200,6 @@ bool CommerceSearchFetcherThread::ReserveNextUrls(std::vector<long long>& urlIDs
 
 	return true;
 }
+*/
 
 }

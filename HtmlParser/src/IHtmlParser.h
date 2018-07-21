@@ -24,7 +24,7 @@ namespace htmlparser {
 class IHtmlParserResult {
 
 protected:
-	IHtmlParserResult(const DatabaseUrl& url) : url(url) {}
+	IHtmlParserResult(const caching::DatabaseUrl& url) : url(url), wellformed() {}
 
 public:
 	virtual ~IHtmlParserResult() {}
@@ -111,7 +111,7 @@ public:
 	/**
 	 * url associated with document
 	 */
-	const DatabaseUrl& url;
+	const caching::DatabaseUrl& url;
 
 	/**
 	 * bigger than 0 if document is wellformed
@@ -148,7 +148,7 @@ public:
 	 * @param result result containing content and info for html documents
 	 * @return true if successful, false if unsuccessful
 	 */
-	virtual bool Parse(const DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<IHtmlParserResult>& result)=0;
+	virtual bool Parse(const caching::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<IHtmlParserResult>& result)=0;
 };
 
 }

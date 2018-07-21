@@ -75,6 +75,7 @@ public:
 	 * creates an instance of an IIndexer
 	 * @param db database connection
 	 * @param type indexer type
+	 * @param opts indexer options
 	 * @param indexer created indexer
 	 * @return true if successful, false if unsuccessful
 	 */

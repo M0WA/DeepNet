@@ -12,10 +12,104 @@
 
 #include <Logging.h>
 #include <TimeTools.h>
+#include <StringTools.h>
 
 #include <curl/curl.h>
 
 namespace network {
+
+static void DumpCurlRequest(const char *text, std::ostringstream& ss, unsigned char *ptr, size_t size, char nohex)
+{
+  size_t i;
+  size_t c;
+
+  unsigned int width = 0x10;
+
+  if(nohex)
+    /* without the hex output, we can fit more on screen */
+    width = 0x40;
+
+  std::string tmp;
+  tools::StringTools::FormatString(tmp,"%s, %10.10ld bytes (0x%8.8lx)\n",text, (long)size, (long)size);
+  ss << tmp; tmp = "";
+
+  for(i = 0; i<size; i += width) {
+
+	tools::StringTools::FormatString(tmp,"%4.4lx: ", (long)i);
+	ss << tmp; tmp = "";
+
+    if(!nohex) {
+      /* hex not disabled, show it */
+      for(c = 0; c < width; c++)
+        if(i + c < size) {
+        	tools::StringTools::FormatString(tmp,"%02x ", ptr[i + c]);
+        	ss << tmp; tmp = "";
+        }
+        else {
+          ss << "   ";
+        }
+    }
+
+    for(c = 0; (c < width) && (i + c < size); c++) {
+      /* check for 0D0A; if found, skip past and start a new line of output */
+      if(nohex && (i + c + 1 < size) && ptr[i + c] == 0x0D &&
+         ptr[i + c + 1] == 0x0A) {
+        i += (c + 2 - width);
+        break;
+      }
+      tools::StringTools::FormatString(tmp,"%c",(ptr[i + c] >= 0x20) && (ptr[i + c]<0x80)?ptr[i + c]:'.');
+      ss << tmp; tmp = "";
+
+      /* check again for 0D0A, to avoid an extra \n if it's at width */
+      if(nohex && (i + c + 2 < size) && ptr[i + c + 1] == 0x0D &&
+         ptr[i + c + 2] == 0x0A) {
+        i += (c + 3 - width);
+        break;
+      }
+    }
+    ss << "\n";
+  }
+}
+
+static int TraceCurlRequest(CURL *handle, curl_infotype type, char *data, size_t size, void *userp) {
+
+	const char *text;
+	(void) handle; /* prevent compiler warning */
+	(void) userp;
+
+	switch (type) {
+	case CURLINFO_TEXT:
+		fprintf(stderr, "== Info: %s", data);
+		return 0;
+	default: /* in case a new one is introduced to shock us */
+		return 0;
+
+	case CURLINFO_HEADER_OUT:
+		text = "=> Send header";
+		break;
+	case CURLINFO_DATA_OUT:
+		text = "=> Send data";
+		break;
+	case CURLINFO_SSL_DATA_OUT:
+		text = "=> Send SSL data";
+		break;
+	case CURLINFO_HEADER_IN:
+		text = "<= Recv header";
+		break;
+	case CURLINFO_DATA_IN:
+		text = "<= Recv data";
+		break;
+	case CURLINFO_SSL_DATA_IN:
+		text = "<= Recv SSL data";
+		break;
+	}
+
+	std::ostringstream ss;
+	DumpCurlRequest(text, ss, (unsigned char *) data, size, 1);
+
+	log::Logging::LogTraceUnlimited("curl debug:\n%s",ss.str().c_str());
+	return 0;
+}
 
 HttpClientCURL::HttpClientCURL()
 : curlPtr(curl_easy_init())
@@ -48,7 +142,64 @@ HttpClientCURL::~HttpClientCURL()
 
 bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 {
+	return DoRequest(url, response);
+}
+
+int HttpClientCURL::WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* instance)
+{
+	if(!size || !nmemb)
+		return 0;
+
+	size_t totalSize(size * nmemb);
+	if(instance->maxSize) {
+		if((instance->response.html.GetBufferSize() + totalSize) > instance->maxSize) {
+			instance->response.html.Release();
+			instance->omitRest = true;
+		}
+	}
+	if(totalSize && !data){
+		//
+		//TODO: throw exception
+		//
+		return totalSize;
+	}
+
+	if(!instance->omitRest){
+		instance->response.html.Append(data, totalSize); }
+	return totalSize;
+}
+
+bool HttpClientCURL::Post(const HttpUrl& url, const std::string& content, const std::string& contentType, HttpResponse& response)
+{
+	curl_easy_setopt(curlPtr, CURLOPT_POSTFIELDS, content.c_str());
+
+	struct curl_slist *list(NULL);
+	if(!contentType.empty()) {
+		std::string type = "Content-Type: " + contentType;
+		list = curl_slist_append(list, type.c_str());
+	}
+
+	std::ostringstream contentLength;
+	contentLength << "Content-Length: " << content.length();
+	list = curl_slist_append(list, contentLength.str().c_str());
+	curl_easy_setopt(curlPtr, CURLOPT_HTTPHEADER, list);
+
+	bool success(DoRequest(url, response));
+
+	if(list) {
+		curl_slist_free_all(list); }
+
+	return success;
+}
+
+bool HttpClientCURL::DoRequest(const HttpUrl& url, HttpResponse& response) {
+
 	CURLWriterParam param(url,response, Settings().maxSize);
+
+	if(log::Logging::IsLogLevelTrace()) {
+		//enable trace/debug logging for libcurl
+		curl_easy_setopt(curlPtr, CURLOPT_DEBUGFUNCTION, TraceCurlRequest);
+		curl_easy_setopt(curlPtr, CURLOPT_VERBOSE, 1L);	}
 
 	curl_easy_setopt(curlPtr, CURLOPT_WRITEDATA, &param);
 	curl_easy_setopt(curlPtr, CURLOPT_URL, url.GetFullUrl().c_str());
@@ -58,8 +209,8 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 	curl_easy_setopt(curlPtr, CURLOPT_IPRESOLVE, (Settings().allowIPv6 ? CURL_IPRESOLVE_WHATEVER : CURL_IPRESOLVE_V4) );
 
 	//TODO: take care about ssl
-	curl_easy_setopt(curlPtr, CURLOPT_USE_SSL, CURLUSESSL_NONE);
-	//curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+	curl_easy_setopt(curlPtr, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curlPtr, CURLOPT_SSL_VERIFYHOST, 0L);
 
 	if(Settings().uploadLimitKB){
 		curl_off_t bytesUploadLimit = Settings().uploadLimitKB * 1024;
@@ -114,30 +265,6 @@ bool HttpClientCURL::Get(const HttpUrl& url, HttpResponse& response)
 			log::Logging::LogTrace("could not detect content type for url: " + url.GetFullUrl()); }
 		return false;
 	}
-}
-
-int HttpClientCURL::WriterCallback(char *data, size_t size, size_t nmemb, CURLWriterParam* instance)
-{
-	if(!size || !nmemb)
-		return 0;
-
-	size_t totalSize(size * nmemb);
-	if(instance->maxSize) {
-		if((instance->response.html.GetBufferSize() + totalSize) > instance->maxSize) {
-			instance->response.html.Release();
-			instance->omitRest = true;
-		}
-	}
-	if(totalSize && !data){
-		//
-		//TODO: throw exception
-		//
-		return totalSize;
-	}
-
-	if(!instance->omitRest){
-		instance->response.html.Append(data, totalSize); }
-	return totalSize;
 }
 
 }

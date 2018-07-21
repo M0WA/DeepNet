@@ -21,6 +21,9 @@ namespace network {
 
 namespace htmlparser {
 	class Document;
+}
+
+namespace caching {
 	class DatabaseUrl;
 }
 
@@ -44,7 +47,7 @@ private:
 			database::DatabaseConnection* db,
 			const HtmlParserEntry& entry,
 			const std::vector<network::HttpUrl>& hyperlinks,
-			std::vector<htmlparser::DatabaseUrl>& dbLinks);
+			std::vector<caching::DatabaseUrl>& dbLinks);
 
 	static void InsertMeta(
 			database::DatabaseConnection* db,
@@ -67,7 +70,7 @@ private:
 			const HtmlParserEntry& entry,
 			tools::Pointer<htmlparser::IHtmlParserResult>& result,
 			const std::vector<std::string> &content,
-			const std::vector<htmlparser::DatabaseUrl>& hyperlinks,
+			const std::vector<caching::DatabaseUrl>& hyperlinks,
 			const std::vector<network::HttpUrl>& images)
 	{}
 };

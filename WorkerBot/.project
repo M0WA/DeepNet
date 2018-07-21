@@ -13,6 +13,7 @@
 		<project>Logging</project>
 		<project>Networking</project>
 		<project>Parser</project>
+		<project>Syncing</project>
 		<project>Threading</project>
 		<project>Tools</project>
 	</projects>

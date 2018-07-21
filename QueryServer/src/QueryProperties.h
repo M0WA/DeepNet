@@ -22,6 +22,19 @@ public:
 	QueryProperties();
 	virtual ~QueryProperties();
 
+public:
+	/**
+	 * dump queryproperties into human readable string
+	 * @param dump string to dump to
+	 */
+	void Dump(std::string& dump) const;
+
+	/**
+	 * return hard limit for results per query
+	 */
+	size_t GetMaxResultHardLimit(void) const;
+
+public:
 	/**
 	 * query id
 	 */
@@ -81,6 +94,11 @@ public:
 	 * maximum number of results (0 to set to maximum)
 	 */
 	size_t maxResults;
+
+	/**
+	 * maximum number of results in totoal (0 to set to maximum)
+	 */
+	size_t maxTotalResults;
 
 	/**
 	 * webpage language (empty to allow all)

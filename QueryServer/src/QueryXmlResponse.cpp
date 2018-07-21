@@ -21,16 +21,23 @@
 #include <FastCGIRequest.h>
 #include <FastCGIServerThread.h>
 
-#include <CacheDatabaseUrl.h>
-#include <DatabaseUrl.h>
-
 #include <DatabaseLayer.h>
+#include <TableDefinition.h>
+#include <TableColumnDefinition.h>
+#include <TableColumn.h>
 #include <DatabaseException.h>
 #include <WhereConditionTableColumn.h>
 #include <WhereConditionTableColumnCreateParam.h>
 
+#include <CacheDatabaseUrl.h>
+#include <DatabaseUrl.h>
+#include <HttpUrlParser.h>
+#include <Dictionary.h>
+
+#include <ContainerTools.h>
 #include <Logging.h>
 #include <TimeTools.h>
+#include <PerformanceCounter.h>
 
 namespace queryserver {
 
@@ -43,9 +50,9 @@ QueryXmlResponse::QueryXmlResponse(QueryThreadManager& queryManager,QueryXmlRequ
 QueryXmlResponse::~QueryXmlResponse() {
 }
 
-void QueryXmlResponse::MergeDuplicateSecondLevel(
-		database::DatabaseConnection* db,
-		std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+void QueryXmlResponse::MergeDuplicateSecondLevel(std::vector<QueryXmlResponseResultEntry>& responseEntries) {
+
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	std::map<long long,size_t> secondLvlIDPos;
 
@@ -54,7 +61,7 @@ void QueryXmlResponse::MergeDuplicateSecondLevel(
 
 	std::vector<QueryXmlResponseResultEntry>::iterator i(responseEntries.begin());
 	for(size_t pos(0);i!=responseEntries.end();++i) {
-		tools::Pointer<htmlparser::DatabaseUrl> ptrUrl;
+		tools::Pointer<caching::DatabaseUrl> ptrUrl;
 		caching::CacheDatabaseUrl::GetByUrlID(db,i->GetUrlID(),ptrUrl);
 		long long secondLevelID(ptrUrl.GetConst()->GetSecondLevelID());
 
@@ -108,8 +115,9 @@ bool QueryXmlResponse::CreateQuery(
 		const std::string& sessionID,
 		const std::string& rawQueryString) {
 
+	PERFORMANCE_LOG_START
+
 	const Query& query(xmlQueryRequest->GetQuery());
-	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	queryManager.BeginQuery(query);
 
@@ -125,7 +133,7 @@ bool QueryXmlResponse::CreateQuery(
 
 	//group results by secondlevel domain if requested
 	if(query.properties.groupBySecondLevelDomain) {
-		MergeDuplicateSecondLevel(db, responseEntries);}
+		MergeDuplicateSecondLevel(responseEntries);}
 
 	//sort results
 	SortResults(responseEntries);
@@ -137,6 +145,8 @@ bool QueryXmlResponse::CreateQuery(
 	//all pointers to it's results
 	results.clear();
 	queryManager.ReleaseQuery();
+
+	PERFORMANCE_LOG_STOP("QueryXmlResponse::CreateQuery()")
 
 	return true;
 }
@@ -171,36 +181,6 @@ bool QueryXmlResponse::Process(FCGX_Request& request) {
 	return FastCGIResponse::Process(request);
 }
 
-void QueryXmlResponse::AssembleXMLResult(
-		const database::SelectResultContainer<database::queryresultsTableBase>& queryResults,
-		const size_t& total,
-		const long long& queryId) {
-
-	const Query& query(xmlQueryRequest->GetQuery());
-
-	//assemble xml entries from results
-	std::ostringstream xmlResultEntries;
-	for(queryResults.ResetIter();!queryResults.IsIterEnd();queryResults.Next()) {
-		const database::queryresultsTableBase* curTbl(queryResults.GetConstIter());
-		std::string tmp;
-		curTbl->Get_resultXML(tmp);
-		xmlResultEntries << tmp; }
-
-	//assemble complete xml response including header etc.
-	std::ostringstream xmlResult;
-	xmlResult <<
-		"<?xml version=\"1.0\"?>\n"
-		"<response>"
-		"<queryId>" << queryId << "</queryId>"
-		"<pageNo>" << query.properties.pageNo << "</pageNo>"
-		"<totalResults>" << total << "</totalResults>" <<
-		xmlResultEntries.str() <<
-		"</response>\n";
-
-	//set xml string as response's content
-	content = xmlResult.str();
-}
-
 bool QueryXmlResponse::ValidateQueryData(
 		const std::string& sessionID,
 		const std::string& rawQueryString) {
@@ -228,7 +208,8 @@ bool QueryXmlResponse::ValidateQueryData(
 			query.properties.queryId,
 			where);
 
-		database::SelectStatement selectSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
+		tools::Pointer<database::TableDefinition> ptrSearchQuery(database::searchqueryTableBase::CreateTableDefinition());
+		database::SelectStatement selectSearchQuery(ptrSearchQuery);
 		selectSearchQuery.SelectAllColumns();
 		selectSearchQuery.Where().AddColumns(where);
 
@@ -251,6 +232,227 @@ bool QueryXmlResponse::ValidateQueryData(
 	}
 
 	return false;
+}
+
+bool QueryXmlResponse::ResultToXML(const database::searchqueryresultTableBase* curTbl,std::string& entryXML) {
+
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
+	std::ostringstream xml;
+	long long urlID(-1);
+	curTbl->Get_URL_ID(urlID);
+
+	tools::Pointer<caching::DatabaseUrl> dbUrl;
+	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
+	std::string encodedURL(dbUrl.GetConst()->GetFullUrl());
+	network::HttpUrlParser::EncodeUrl(encodedURL);
+
+	xml << "<url id=\"" << urlID << "\">" << encodedURL << "</url>";
+
+	std::vector<database::WhereConditionTableColumn*> whereUrlStage;
+
+	database::urlstagesTableBase::GetWhereColumnsFor_URL_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
+		urlID,
+		whereUrlStage );
+
+	tools::Pointer<database::TableDefinition> ptrUrlStageDef(database::urlstagesTableBase::CreateTableDefinition());
+	database::SelectStatement selectUrlStage(ptrUrlStageDef);
+
+	database::TableColumnDefinition
+		*colDefUrlStageID(database::latesturlstagesTableBase::GetDefinition_URLSTAGE_ID()),
+		*colDefFoundDate(database::urlstagesTableBase::GetDefinition_found_date()),
+		*colDefLastChange(database::urlstagesTableBase::GetDefinition_last_change());
+
+	selectUrlStage.SelectAllColumns();
+	selectUrlStage.SelectAddColumnAlias(colDefUrlStageID,colDefUrlStageID->GetColumnName());
+	selectUrlStage.SelectAddColumnAlias(colDefFoundDate,colDefFoundDate->GetColumnName());
+	selectUrlStage.SelectAddColumnAlias(colDefLastChange,colDefLastChange->GetColumnName());
+
+	selectUrlStage.Where().AddColumns(whereUrlStage);
+	selectUrlStage.SetLimit(1);
+
+	database::latesturlstagesTableBase::AddInnerJoinLeftSideOn_URLSTAGE_ID(selectUrlStage);
+
+	database::SelectResultContainer<database::TableBase> urlstageresults;
+	try {
+		db->Select(selectUrlStage,urlstageresults); }
+	CATCH_EXCEPTION(database::DatabaseException,e,1)
+		return false; }
+
+	if(urlstageresults.Size() != 1) {
+		return false;
+	}
+
+	long long urlstageID(-1);
+	for(urlstageresults.ResetIter();!urlstageresults.IsIterEnd();urlstageresults.Next()) {
+		const database::TableBase* urlstage(urlstageresults.GetConstIter());
+
+		const database::TableColumn
+			*colUrlStageID(urlstage->GetConstColumnByName(colDefUrlStageID->GetColumnName())),
+			*colFoundDate(urlstage->GetConstColumnByName(colDefFoundDate->GetColumnName())),
+			*colLastChange(urlstage->GetConstColumnByName(colDefLastChange->GetColumnName()));
+
+		colUrlStageID->Get(urlstageID);
+
+		struct tm found;
+		colFoundDate->Get(found);
+		xml << "<lastVisited>" << (tools::TimeTools::IsZero(found) ? "" : tools::TimeTools::DumpTm(found)) << "</lastVisited>";
+
+		struct tm changed;
+		colLastChange->Get(changed);
+		xml << "<lastChanged>" << (tools::TimeTools::IsZero(changed) ? "" : tools::TimeTools::DumpTm(changed)) << "</lastChanged>";
+	}
+
+	//lookup meta information for this url
+	std::vector<database::WhereConditionTableColumn*> whereMeta;
+	database::metainfoTableBase::GetWhereColumnsFor_URLSTAGE_ID(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
+		urlstageID,
+		whereMeta);
+
+	std::vector<long long> metaTypes;
+	metaTypes.push_back(indexing::Dictionary::META_TITLE);
+	metaTypes.push_back(indexing::Dictionary::META_DESCRIPTION);
+	database::metainfoTableBase::GetWhereColumnsFor_type(
+		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::And()),
+		metaTypes,
+		whereMeta);
+
+	tools::Pointer<database::TableDefinition> ptrMetaDef(database::metainfoTableBase::CreateTableDefinition());
+	database::SelectStatement selectMeta(ptrMetaDef.GetConst());
+	selectMeta.SelectAllColumns();
+	selectMeta.Where().AddColumns(whereMeta);
+
+	std::string	encodedTitle, encodedDescription;
+	database::SelectResultContainer<database::metainfoTableBase> metaresults;
+	db->Select(selectMeta,metaresults);
+	for(metaresults.ResetIter();!metaresults.IsIterEnd();metaresults.Next()) {
+		long long metaType(-1);
+		metaresults.GetConstIter()->Get_type(metaType);
+
+		switch(metaType) {
+		case indexing::Dictionary::META_TITLE:
+			metaresults.GetConstIter()->Get_value(encodedTitle);
+			network::HttpUrlParser::EncodeUrl(encodedTitle);
+			xml << "<title>" << encodedTitle << "</title>";
+			break;
+
+		case indexing::Dictionary::META_DESCRIPTION:
+			metaresults.GetConstIter()->Get_value(encodedDescription);
+			network::HttpUrlParser::EncodeUrl(encodedDescription);
+			xml << "<description>" << encodedDescription << "</description>";
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	entryXML = xml.str();
+	return true;
+
+}
+
+void QueryXmlResponse::AssembleXMLResult(
+		const database::SelectResultContainer<database::searchqueryresultTableBase>& queryResults,
+		const size_t& total,
+		const long long& queryId) {
+
+	const Query& query(xmlQueryRequest->GetQuery());
+	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
+
+	const std::vector<QueryKeyword>& queryKeywords(query.GetQueryKeywords());
+	std::vector<std::string> keywordsStrings;
+	std::vector<QueryKeyword>::const_iterator iqkw(queryKeywords.begin());
+	for(; iqkw != queryKeywords.end(); ++iqkw) {
+		keywordsStrings.insert(keywordsStrings.end(),iqkw->GetKeyword());
+	}
+	tools::ContainerTools::MakeUniqueVector(keywordsStrings,true);
+
+	std::ostringstream keywordsPart;
+	std::vector<std::string>::iterator iKey(keywordsStrings.begin());
+	for(;iKey!=keywordsStrings.end();++iKey) {
+		network::HttpUrlParser::EncodeUrl(*iKey);
+		keywordsPart << "<keyword>" << *iKey << "</keyword>"; }
+
+	//assemble xml entries from results
+	std::ostringstream xmlResultEntries;
+	for(queryResults.ResetIter();!queryResults.IsIterEnd();queryResults.Next()) {
+
+		const database::searchqueryresultTableBase* curTbl(queryResults.GetConstIter());
+
+		std::string entryXML;
+		if(!ResultToXML(curTbl,entryXML)){
+			continue;
+		}
+
+		long long searchqueryresultID(-1);
+		curTbl->Get_ID(searchqueryresultID);
+
+		std::ostringstream xml;
+		xml <<
+		"<result id=\"" << searchqueryresultID << "\">"
+		"<keywords>" << keywordsPart.str() << "</keywords>";
+		xml << entryXML;
+
+		// deal with search result entry infos
+		database::SelectResultContainer<database::searchqueryresultinfoTableBase> infoResults;
+		try {
+			database::searchqueryresultinfoTableBase::GetBy_SEARCHQUERYRESULT_ID(db,searchqueryresultID,infoResults); }
+		CATCH_EXCEPTION(database::DatabaseException,e,1)
+			continue; }
+
+		std::ostringstream xmlTypes;
+		for(infoResults.ResetIter();!infoResults.IsIterEnd();infoResults.Next()) {
+			const database::searchqueryresultinfoTableBase* curInfo(infoResults.GetConstIter());
+
+			long long infoType(-1);
+			curInfo->Get_infotype(infoType);
+
+			std::string info;
+			curInfo->Get_type(info);
+
+			switch(infoType)
+			{
+			case QueryXmlResponseResultEntry::RESULTINFO_TYPECOUNT:
+			{
+				std::string typeCount = "n/a";
+				size_t count = 0;
+				QueryXmlResponseResultEntry::ParseTypeCount(info, typeCount, count);
+				xmlTypes << "<type count=\""<< count << "\">" << typeCount << "</type>";
+			}
+				break;
+			case QueryXmlResponseResultEntry::RESULTINFO_RELEVANCY:
+				xml << "<relevancy>" << info << "</relevancy>";
+				break;
+			case QueryXmlResponseResultEntry::RESULTINFO_WRELEVANCY:
+				xml << "<relevancyWeighted>" << info << "</relevancyWeighted>";
+				break;
+			case QueryXmlResponseResultEntry::RESULTINFO_WEIGHT:
+				xml << "<weight>" << info << "</weight>";
+				break;
+			default:
+				break;
+			}
+		}
+		xml << "<types>" << xmlTypes.str() << "</types>";
+		xml << "</result>";
+		xmlResultEntries << xml.str();
+	}
+
+	//assemble complete xml response including header etc.
+	std::ostringstream xmlResult;
+	xmlResult <<
+		"<?xml version=\"1.0\"?>\n"
+		"<response>"
+		"<queryId>" << queryId << "</queryId>"
+		"<pageNo>" << query.properties.pageNo << "</pageNo>"
+		"<totalResults>" << total << "</totalResults>" <<
+		xmlResultEntries.str() <<
+		"</response>\n";
+
+	//set xml string as response's content
+	content = xmlResult.str();
 }
 
 bool QueryXmlResponse::LoadQuery(
@@ -285,29 +487,30 @@ bool QueryXmlResponse::LoadQuery(
 
 	std::vector<database::WhereConditionTableColumn*> where;
 
-	database::queryresultsTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
+	database::searchqueryresultTableBase::GetWhereColumnsFor_SEARCHQUERY_ID(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Equals(),database::WhereCondition::InitialComp()),
 		queryId,
 		where );
 
-	database::queryresultsTableBase::GetWhereColumnsFor_position(
+	database::searchqueryresultTableBase::GetWhereColumnsFor_position(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::GreaterOrEqual(),database::WhereCondition::And()),
 		startPosition,
 		where );
 
-	database::queryresultsTableBase::GetWhereColumnsFor_position(
+	database::searchqueryresultTableBase::GetWhereColumnsFor_position(
 		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Smaller(),database::WhereCondition::And()),
 		endPosition,
 		where );
 
-	database::SelectStatement selectQueryResults(database::queryresultsTableBase::CreateTableDefinition());
+	tools::Pointer<database::TableDefinition> ptrSearchQueryResultDef(database::searchqueryresultTableBase::CreateTableDefinition());
+	database::SelectStatement selectQueryResults(ptrSearchQueryResultDef);
 	selectQueryResults.SelectAllColumns();
 	selectQueryResults.Where().AddColumns(where);
 
-	selectQueryResults.OrderBy().AddColumn(database::queryresultsTableBase::GetDefinition_position(),database::ASCENDING);
+	selectQueryResults.OrderBy().AddColumn(database::searchqueryresultTableBase::GetDefinition_position(),database::ASCENDING);
 	selectQueryResults.SetLimit(query.properties.maxResults);
 
-	database::SelectResultContainer<database::queryresultsTableBase> queryResults;
+	database::SelectResultContainer<database::searchqueryresultTableBase> queryResults;
 	try {
 		db->Select(selectQueryResults,queryResults); }
 	CATCH_EXCEPTION(database::DatabaseException,e,1)
@@ -323,9 +526,8 @@ void QueryXmlResponse::InsertResults(
 	const std::string& rawQueryString,
 	const std::vector<QueryXmlResponseResultEntry>& responseEntries) {
 
-	log::Logging::LogTrace("inserting %d results",responseEntries.size());
+	PERFORMANCE_LOG_START
 
-	const Query& query(xmlQueryRequest->GetQuery());
 	database::DatabaseConnection* db(xmlQueryRequest->ServerThread()->DB().Connection());
 
 	//insert search query itself at first
@@ -349,23 +551,11 @@ void QueryXmlResponse::InsertResults(
 	//insert all results
 	std::vector<QueryXmlResponseResultEntry>::const_iterator i(responseEntries.begin());
 	for(size_t resultPosition(0);i!=responseEntries.end();++i,++resultPosition) {
-
-		std::ostringstream xmlResultEntry;
-		i->AppendToXML(db,query,resultPosition,xmlResultEntry);
-
-		database::queryresultsTableBase queryResultTbl;
-		queryResultTbl.Set_SEARCHQUERY_ID(queryId);
-		queryResultTbl.Set_resultXML(xmlResultEntry.str());
-		queryResultTbl.Set_position(resultPosition);
-
-		try {
-			queryResultTbl.Insert(db);
-		}
-		CATCH_EXCEPTION(database::DatabaseException,e,1)
-			return; }
+		i->Insert(db,queryId,resultPosition);
 	}
 
 	log::Logging::LogTrace("inserted %d results",responseEntries.size());
+	PERFORMANCE_LOG_STOP("QueryXmlResponse::InsertResults()")
 }
 
 }

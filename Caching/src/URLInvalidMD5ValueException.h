@@ -11,11 +11,9 @@
 
 #include <string>
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
-
 namespace caching {
+
+class DatabaseUrl;
 
 class URLInvalidMD5ValueException: public errors::Exception {
 public:
@@ -23,7 +21,7 @@ public:
 		const std::string& file,
 		const int line,
 		const std::string& function,
-		const htmlparser::DatabaseUrl& url);
+		const DatabaseUrl& url);
 	virtual ~URLInvalidMD5ValueException();
 };
 

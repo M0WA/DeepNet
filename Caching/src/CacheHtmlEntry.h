@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <DatabaseUrl.h>
+#include "DatabaseUrl.h"
 #include <HtmlData.h>
 
 namespace caching {
@@ -17,7 +17,7 @@ namespace caching {
  */
 struct CacheHtmlEntry
 {
-	CacheHtmlEntry(const long long& ID, const htmlparser::DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID)
+	CacheHtmlEntry(const long long& ID, const DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID)
 	: ID(ID)
 	, url(url)
 	, html(html)
@@ -32,7 +32,7 @@ struct CacheHtmlEntry
 	/**
 	 * url.
 	 */
-	htmlparser::DatabaseUrl url;
+	DatabaseUrl url;
 
 	/**
 	 * html code.

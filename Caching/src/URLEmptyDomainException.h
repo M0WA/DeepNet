@@ -9,11 +9,9 @@
 
 #include <Exception.h>
 
-namespace htmlparser {
-	class DatabaseUrl;
-}
-
 namespace caching {
+
+class DatabaseUrl;
 
 class URLEmptyDomainException: public errors::Exception {
 public:
@@ -21,7 +19,7 @@ public:
 			const std::string& file,
 			const int line,
 			const std::string& function,
-			const htmlparser::DatabaseUrl& url);
+			const DatabaseUrl& url);
 	virtual ~URLEmptyDomainException();
 };
 

@@ -3456,7 +3456,7 @@ TableColumnDefinition* urlstagesTableBase::GetDefinition_found_date() {
     createParam.isUniqueKey         = false;
     createParam.isCombinedUniqueKey = false;
     createParam.isIndex             = false;
-    createParam.isNullable          = false;
+    createParam.isNullable          = true;
     createParam.hasDefaultValue     = false;
     createParam.dataSize            = 0;
     return TableColumnDefinition::CreateInstance(createParam);

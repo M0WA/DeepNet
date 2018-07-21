@@ -17,6 +17,13 @@ Thread::Thread(Thread::ThreadFunction pFunction, bool bAutoDelete)
 	threadParam.pParam = NULL;
 }
 
+Thread::Thread(const Thread& copy)
+: autoDelete(copy.autoDelete)
+, thread(0)
+{
+	throw;
+}
+
 Thread::~Thread()
 {
 	SetShallEnd(true);

@@ -8,9 +8,9 @@
 
 #include "CacheSubdomain.h"
 #include "CacheSecondLevelDomain.h"
+#include "DatabaseUrl.h"
 
 #include <HttpUrlParser.h>
-#include <DatabaseUrl.h>
 
 #include <DatabaseLayer.h>
 #include <TableColumn.h>
@@ -32,36 +32,36 @@ CacheDatabaseUrl::CacheDatabaseUrl(size_t limit)
 CacheDatabaseUrl::~CacheDatabaseUrl() {
 }
 
-bool CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db, const long long& urlID, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
+bool CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db, const long long& urlID, tools::Pointer<DatabaseUrl>& urlOut) {
 
-	htmlparser::DatabaseUrl tmp;
+	DatabaseUrl tmp;
 	if( !cacheInstance.cacheIDUrl.GetItem(urlID,tmp) ) {
-		urlOut.Set(new htmlparser::DatabaseUrl(db, urlID),true);
+		urlOut.Set(new DatabaseUrl(db, urlID),true);
 		cacheInstance.cacheIDUrl.AddItem(urlOut.Get()->GetUrlID(),*urlOut.Get());
 	}
 	else {
-		urlOut.Set(new htmlparser::DatabaseUrl(tmp),true);
+		urlOut.Set(new DatabaseUrl(tmp),true);
 	}
 	return true;
 }
 
-void CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db,const std::vector<long long>& IDs,std::map<long long,htmlparser::DatabaseUrl>& urls) {
+void CacheDatabaseUrl::GetByUrlID(database::DatabaseConnection* db,const std::vector<long long>& IDs,std::map<long long,DatabaseUrl>& urls) {
 
 	std::vector<long long>::const_iterator iterIDs(IDs.begin());
 	for(;iterIDs != IDs.end();++iterIDs) {
-		tools::Pointer<htmlparser::DatabaseUrl> urlOut;
+		tools::Pointer<DatabaseUrl> urlOut;
 		CacheDatabaseUrl::GetByUrlID(db,*iterIDs,urlOut);
-		std::pair<long long,htmlparser::DatabaseUrl> insertPair(*iterIDs, *urlOut.Get());
+		std::pair<long long,DatabaseUrl> insertPair(*iterIDs, *urlOut.Get());
 		urls.insert(insertPair);
 	}
 }
 
-bool CacheDatabaseUrl::GetByUrl(database::DatabaseConnection* db, const network::HttpUrl& url, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
+bool CacheDatabaseUrl::GetByUrl(database::DatabaseConnection* db, const network::HttpUrl& url, tools::Pointer<DatabaseUrl>& urlOut) {
 
 	long long urlID(-1);
 	if(!cacheInstance.cacheIDUrl.GetByValue(url,urlID)){
 		try {
-			urlOut.Set(new htmlparser::DatabaseUrl(db,url),true);
+			urlOut.Set(new DatabaseUrl(db,url),true);
 			cacheInstance.cacheIDUrl.AddItem(urlOut.Get()->GetUrlID(),*urlOut.Get()); }
 		CATCH_EXCEPTION(errors::Exception,e,1)
 			urlOut.Release();
@@ -71,28 +71,28 @@ bool CacheDatabaseUrl::GetByUrl(database::DatabaseConnection* db, const network:
 		return GetByUrlID(db,urlID,urlOut);	}
 }
 
-bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
+bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, tools::Pointer<DatabaseUrl>& urlOut) {
 
 	network::HttpUrl httpUrl;
 	network::HttpUrlParser::ParseURL(url,httpUrl);
 	return GetByUrl(db, httpUrl, urlOut);
 }
 
-bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, const std::string& baseUrl, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
+bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, const std::string& baseUrl, tools::Pointer<DatabaseUrl>& urlOut) {
 
 	network::HttpUrl httpUrl;
 	network::HttpUrlParser::ParseURL(baseUrl,url,httpUrl);
 	return GetByUrl(db, httpUrl, urlOut);
 }
 
-bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, const network::HttpUrl& baseUrl, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
+bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, const network::HttpUrl& baseUrl, tools::Pointer<DatabaseUrl>& urlOut) {
 
 	network::HttpUrl httpUrl;
 	network::HttpUrlParser::ParseURL(baseUrl,url,httpUrl);
 	return GetByUrl(db, httpUrl, urlOut);
 }
 
-bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, const htmlparser::DatabaseUrl& baseUrl, tools::Pointer<htmlparser::DatabaseUrl>& urlOut) {
+bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const std::string& url, const DatabaseUrl& baseUrl, tools::Pointer<DatabaseUrl>& urlOut) {
 
 	network::HttpUrl httpUrl;
 	network::HttpUrlParser::ParseURL(dynamic_cast<const network::HttpUrl&>(baseUrl), url, httpUrl);
@@ -102,7 +102,7 @@ bool CacheDatabaseUrl::GetByUrlString(database::DatabaseConnection* db, const st
 void CacheDatabaseUrl::GetBySecondLevelIDSubdomainID(
 		database::DatabaseConnection* db,
 		const long long secondlevelID, const long long subdomainID,	const int limitIn,
-		std::vector<htmlparser::DatabaseUrl>& urls) {
+		std::vector<DatabaseUrl>& urls) {
 
 	database::SelectStatement stmt(database::urlsTableBase::CreateTableDefinition());
 	stmt.SelectAllColumns();
@@ -132,7 +132,7 @@ void CacheDatabaseUrl::GetBySecondLevelIDSubdomainID(
 	db->Select(stmt,tblUrls);
 	for(tblUrls.ResetIter();!tblUrls.IsIterEnd();tblUrls.Next())
 	{
-		urls.push_back(htmlparser::DatabaseUrl(db, tblUrls.GetIter()));
+		urls.push_back(DatabaseUrl(db, tblUrls.GetIter()));
 		cacheInstance.cacheIDUrl.AddItem(urls.back().GetUrlID(),urls.back());
 	}
 }

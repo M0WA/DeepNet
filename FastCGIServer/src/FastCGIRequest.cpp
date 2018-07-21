@@ -21,7 +21,8 @@ namespace fastcgiserver {
 static const unsigned long FCGI_MAX_POST_DATA_SIZE(4096);
 
 FastCGIRequest::FastCGIRequest(FastCGIServerThread* serverThread)
-: serverThread(serverThread)
+: rawQueryString(0)
+, serverThread(serverThread)
 , completed(false) {
 }
 
@@ -121,6 +122,8 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 		// the connection deadlocks until a timeout expires!).
 		std::string clenstr = FastCGIRequest::SafeGetEnv("CONTENT_LENGTH", request);
 
+		log::Logging::LogTrace("POST content-length: %s",clenstr.c_str());
+
 		if (!clenstr.empty())
 		{
 			clen = strtoul(clenstr.c_str(), NULL, 10);
@@ -137,6 +140,8 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
 			cin_fcgi.read(rawPostData.GetElements(), clen);
 			clen = cin_fcgi.gcount();
 			rawPostData.Resize(clen);
+
+			log::Logging::LogTrace("POST data: read %lu bytes",clen);
 		}
 		else {
 			log::Logging::LogWarn("post request did not specify content length, dropping");
@@ -153,17 +158,24 @@ bool FastCGIRequest::ReadPostData(FCGX_Request& request) {
     }
 
     bool isString(true);
-    if(isString) {
-		for (size_t i(0); i < rawPostData.GetCount(); ++i) {
-			if(std::isprint(*rawPostData.GetConstElementAt(i))==0 || std::iscntrl(*rawPostData.GetConstElementAt(i))==1) {
-				isString = false;
-				break; }
+    std::string tmpPostData;
+	for (size_t i(0); i < rawPostData.GetCount(); ++i) {
+		bool check(std::isprint(*rawPostData.GetConstElementAt(i)) != 0 || std::isspace(*rawPostData.GetConstElementAt(i)) != 0);
+		if( !check ) {
+			log::Logging::LogTrace("POST data: found non printable char at position %zu",i);
+			isString = false;
+			std::string tmpHex;
+			tools::StringTools::FormatString(tmpHex," 0x%x",*rawPostData.GetConstElementAt(i));
+			tmpPostData += tmpHex;
 		}
-    }
+		else {
+			tmpPostData += *rawPostData.GetConstElementAt(i);
+		}
+	}
 
     if(!isString) {
     	rawPostData.Release();
-    	log::Logging::LogWarn("post data is not a string, ignoring it");
+    	log::Logging::LogWarn("post data is not a string, ignoring it:\n%s",tmpPostData.c_str());
     }
 
 	char zero(0);

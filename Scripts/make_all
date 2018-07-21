@@ -1,0 +1,254 @@
+#!/usr/bin/perl
+
+#########################################################
+#
+# this is part of the SIRIDIA search engine software
+# Copyright 2017, Moritz Wagner
+# Author: Moritz Wagner (moritz.wagner@mo-sys.de)
+#
+#########################################################
+
+use strict;
+use warnings;
+
+use Data::Dumper;
+use Getopt::Std;
+use Cwd 'abs_path';
+
+my @apps      = qw(WorkerBot SyncServer QueryServer SuggestServer DeepNetTool);
+my @ignore    = qw(InspectorServer);
+
+my $makeprocs = 8;
+my $buildflt  = 'release';
+my %opts;
+
+$SIG{'INT'} = sub {	exit 1; };
+
+sub usage() {
+	print "$0 [-b <type> -u -c -e -t -v]
+-b <type>: 'release' or 'debug', default: '$buildflt'
+-j <num> : number of processes to use while compile (default: $makeprocs)
+-r       : do not remove symbols
+-u       : do not update before build
+-c       : do not clean libs before build
+-e       : do not clean on error
+-s       : do not stop on first error
+-v       : verbose output
+-h       : this help
+"; 
+}
+
+########################################
+# project specific builders
+########################################
+
+sub proj_Indexer() {
+	my $build = lc($opts{b});
+	system(".././generate.sh $build");
+}
+
+########################################
+
+sub clean_project($) {
+	my ($proj) = @_;
+	
+	print "cleaning project $proj\n" if(exists($opts{v}));
+	
+	chdir("$proj");
+		
+	if(! -f "makefile") {
+	  print "no makefile found, skipping clean\n" if(exists($opts{v}));
+	  return 0;
+	}
+	
+	my $rc = system("make clean");
+	if($rc != 0) {
+		print "error while cleaning project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub update_project($) {
+	my ($proj) = @_;
+	
+	print "updating project $proj\n" if(exists($opts{v}));
+	
+	my $p = abs_path("$proj/..");
+	my $rc = system("svn up $p");
+	if($rc != 0) {
+		print "error while updating project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub build_project($) {
+	my ($proj) = @_;
+	
+	print "building project $proj\n" if(exists($opts{v}));
+	
+	chdir("$proj");
+
+	if( $proj =~ /\/([^\/]+)\/$opts{b}$/ ) {
+		my $name = $1;
+		my $func = "proj_$name";
+		if( defined( &$func ) ) {
+			print "executing project specific post task: $func\n" if(exists($opts{v}));
+			&{\&{$func}}();
+		}
+	}
+	
+	if(! -f "makefile") {
+	  print "no makefile found, skipping build\n" if(exists($opts{v}));
+	  return 0;
+	}
+
+	my $rc = system("make -j$makeprocs all");
+	if($rc != 0) {
+		print "error while building project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub remove_symbols($$) {
+	my ($root,$proj) = @_;
+	
+	print "removing symbols from project $proj\n" if(exists($opts{v}));
+	
+	unless( $proj =~ /\/([^\/]+)\/$opts{b}$/ ) {
+		print "error while getting project name from $proj\n";
+	}	
+	my $name = $1;
+	my $file = "$proj/$name";
+	my $symfile = "$file.symbols";
+	if(! -f $file ) {
+		$file    = "$proj/lib$name.a";
+		$symfile = "$proj/lib$name.symbols";
+	}
+	
+	my $rc = system("$root/Scripts/misc/create_symbol_file.sh $file $symfile");
+	if($rc != 0) {
+		print "error while removing symbols from project $proj\n";
+	}
+
+	return $rc;
+}
+
+sub _process_project($$$) {
+	my ($root,$proj,$failed) = @_;
+	
+	print "processing $proj\n" if(exists($opts{v}));
+	
+	clean_project($proj)  if(!exists($opts{c}));
+	update_project($proj) if(!exists($opts{u}));
+	
+	if(build_project($proj) != 0) {
+		push(@{$failed},$proj);
+		return 1;
+	}
+	else {
+		remove_symbols($root,$proj) if(!exists($opts{r}));
+	}
+
+	return 0;
+}
+
+sub _fix_apps_array($) {
+	my ($root) = @_;
+	my @tmp = ();
+	foreach my $app (@apps) {
+		push(@tmp,"$root/$app/$opts{b}");
+	}
+	@apps = @tmp;
+	
+	@tmp = ();
+	foreach my $app (@ignore) {
+		push(@tmp,"$root/$app/$opts{b}");
+	}
+	@ignore = @tmp;
+}
+
+sub _run() {
+	my @tmpargs = @ARGV;
+	getopts('b:ucesvzh',\%opts);
+	
+	if(exists($opts{h})) {
+		usage;
+		exit 0;	}
+		
+	if(!exists($opts{u}) && !exists($opts{z})) {
+		print "updating build script itself\n" if(exists($opts{v}));
+		system("svn up $0");
+		exit exec $0, @tmpargs, '-z';
+	}
+		
+	$opts{b} = $buildflt unless(exists($opts{b}));
+	
+	if(lc($opts{b}) eq 'release') {
+		$opts{b} = 'Release';
+	}
+	elsif(lc($opts{b}) eq 'debug') {
+		$opts{b} = 'Debug';
+	}
+	else {
+		print "invalid mode: $opts{b}\n";
+		exit 1;
+	}
+
+	print "build mode: $opts{b}\n" if(exists($opts{v}));
+
+	my $root = abs_path("..");
+	_fix_apps_array($root);
+	
+	my @projs = <$root/*/$opts{b}>;
+	my $ignregex = join('|', @ignore);
+	@projs = grep !/^($ignregex)$/, @projs;
+	print "found projects: ".Dumper(\@projs) if(exists($opts{v}));
+	
+	my $appregex = join('|', @apps);
+	my @libs = grep !/^($appregex)$/, @projs;
+	print "found libraries: ".Dumper(\@libs) if(exists($opts{v}));
+	
+	my @tmpapps = grep /^($appregex)$/, @projs;
+	if( scalar(@tmpapps) != scalar(@apps) ) {
+		print "missing applications, found: ".Dumper(\@tmpapps);
+		exit 1;
+	}
+
+	print "cleaning all applications\n" if(exists($opts{v}));
+	foreach my $app (@apps) {		
+		clean_project($app);
+	}
+
+	my @failed = ();
+	
+	print "building all libraries\n" if(exists($opts{v}));
+	foreach my $lib (@libs) {
+		_process_project($root,$lib,\@failed);
+		last if(scalar(@failed) > 0 && !exists($opts{s}));
+	}
+
+	if(scalar(@failed) == 0) {		
+		print "building all applications\n" if(exists($opts{v}));				
+		foreach my $app (@apps) {
+			_process_project($root,$app,\@failed);
+			last if(scalar(@failed) > 0 && !exists($opts{s}));
+		}
+	}
+
+	if(scalar(@failed) != 0) {				
+		foreach my $proj (@projs) {
+			clean_project($proj) if(!exists($opts{e}));
+		}
+		print "\n\n ======================\n BUILD ERROR OCCURRED !!! \n ======================\n";
+		print "errors in: ".Dumper(\@failed);
+	}
+	else {
+		print "\n\n =================\n BUILD SUCCESSFUL \n ================\n";
+		print "please call ./run_all_unit_tests.sh to verify this build\n";
+	}
+}
+
+_run;

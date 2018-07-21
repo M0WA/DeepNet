@@ -36,7 +36,10 @@ Statement::Statement(const StatementType typeIn, const TableDefinition* tableDef
 {
 }
 
-Statement::Statement(const Statement& copyStmt) {
+Statement::Statement(const Statement& copyStmt)
+: limit(0)
+, typeStmt(copyStmt.typeStmt)
+, tableDefinition(0) {
 
 	THROW_EXCEPTION(errors::NotImplementedException,"cannot copy statement");
 }

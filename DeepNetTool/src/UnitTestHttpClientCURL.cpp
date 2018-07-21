@@ -47,11 +47,11 @@ bool UnitTestHttpClientCURL::Run() {
 			log::Logging::LogError("could not open/read get-file: " + get);
 			return false; }
 
-		std::vector<network::HttpUrl>::const_iterator i = getUrls.begin();
+		std::vector<network::HttpUrl>::const_iterator i(getUrls.begin());
 		for(;i != getUrls.end(); ++i) {
 
 			network::HttpResponse response;
-			bool successGet = clientPtr->Get(*i,response);
+			bool successGet(clientPtr->Get(*i,response));
 			//TODO: do something with response...
 
 			if(!successGet) {
@@ -64,6 +64,18 @@ bool UnitTestHttpClientCURL::Run() {
 		std::vector<network::HttpUrl> postUrls;
 		if(!ReadURLFile(post,postUrls)) {
 			log::Logging::LogError("could not open/read post-file: " + post); }
+
+		std::vector<network::HttpUrl>::const_iterator i(postUrls.begin());
+		for(;i != postUrls.end(); ++i) {
+
+			network::HttpResponse response;
+			bool successPost(clientPtr->Post(*i,"<xml><echo>Hello World!</echo></xml>","application/xml",response));
+			//TODO: do something with response...
+
+			if(!successPost) {
+				log::Logging::LogError("could not post url: " + i->GetFullUrl());
+				return false; }
+		}
 	}
 
 	return true;

@@ -38,10 +38,12 @@ void* QuerySecondLevelDomainThread::OnRun(){
 
 	const Query& query(queryThreadParam.GetConst()->query);
 	const QueryProperties& queryProperties(query.properties);
-	std::vector<std::string> lowerKeywords;
-	query.GetLoweredKeywords(lowerKeywords);
-	if(!lowerKeywords.size()) {
-		return 0; }
+
+	std::vector<std::string> keys;
+	query.GetQueryKeywords(keys);
+
+	if(!keys.size())
+		return 0;
 
 	tools::Pointer<database::TableDefinition> ptrTblDef(database::secondleveldomainsTableBase::CreateTableDefinition());
 	database::SelectStatement select(ptrTblDef.GetConst());
@@ -64,13 +66,16 @@ void* QuerySecondLevelDomainThread::OnRun(){
 	std::vector<database::WhereConditionTableColumn*> where;
 
 	database::secondleveldomainsTableBase::GetWhereColumnsFor_domain(
-		database::WhereConditionTableColumnCreateParam(database::WhereCondition::Like(),database::WhereCondition::InitialComp(),database::WILDCARD_BOTH),
-		lowerKeywords,
+		database::WhereConditionTableColumnCreateParam(
+			database::WhereCondition::Like(),
+			database::WhereCondition::InitialComp(),
+			database::WILDCARD_BOTH),
+			keys,
 		where );
 	select.Where().AddColumns(where);
 
 	select.OrderBy().AddColumn(database::urlstagesTableBase::GetDefinition_found_date(),database::DESCENDING);
-	select.SetLimit(queryProperties.maxResults);
+	select.SetLimit(queryProperties.maxTotalResults);
 
 	database::SelectResultContainer<database::TableBase> results;
 	try {

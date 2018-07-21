@@ -30,20 +30,31 @@ public:
 	 * @param position position of keyword to append
 	 * @param keyword keyword to append
 	 * @param caseSensitive true if keyword is case sensitive
+	 * @param occuranceMandatory true if occurance of keyword is mandatory
+	 * @param exactMatch true if keyword needs to be matched exactly
 	 */
-	void AppendKeyword(const long long& position,const std::string& keyword,const bool caseSensitive);
+	void AppendKeyword(const long long& position,const std::string& keyword,const bool& caseSensitive,const bool& occuranceMandatory,const bool& exactMatch);
 
 	/**
-	 * gets all keywords
-	 * @param keywords vector of keywords to fill
+	 * gets query string
 	 */
-	void GetKeywords(std::vector<std::string>& keywords) const;
+	const std::string& GetQueryString(void) const { return rawQueryString; }
 
 	/**
-	 * gets all keywords in lowered form
-	 * @param keywords vector of keywords to fill
+	 * gets query keywords
 	 */
-	void GetLoweredKeywords(std::vector<std::string>& keywords) const;
+	const std::vector<QueryKeyword>& GetQueryKeywords(void) const { return queryKeywords; }
+
+	/**
+	 * gets query keywords as strings
+	 */
+	void GetQueryKeywords(std::vector<std::string>& keywords) const;
+
+	/**
+	 * dump query into human readable string
+	 * @param dump string to dump to
+	 */
+	void DumpQuery(std::string& dump) const;
 
 public:
 	/**
@@ -56,6 +67,14 @@ private:
 	 * query's keywords
 	 */
 	std::vector<QueryKeyword> queryKeywords;
+
+	/**
+	 * normalized query string
+	 */
+	std::string rawQueryString;
+
+
+	long long nextGroupID;
 };
 
 }

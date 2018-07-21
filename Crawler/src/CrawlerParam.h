@@ -19,7 +19,7 @@ namespace database {
 namespace crawler {
 
 /**
- * @brief generic crawler parameters.
+ * @brief generic crawler parameters
  */
 class CrawlerParam {
 public:
@@ -27,7 +27,7 @@ public:
 	virtual ~CrawlerParam();
 
 	/**
-	 * maximum number of concurrent url fetcher threads.
+	 * maximum number of concurrent url fetcher threads
 	 */
 	int threadCount;
 
@@ -37,27 +37,27 @@ public:
 	int waitOnIdle;
 
 	/**
-	 * minimum age of an url before recrawling (in days).
+	 * minimum age of an url before recrawling (in days)
 	 */
 	int minAge;
 
 	/**
-	 * maximum number urls that should be fetched at once from database.
+	 * maximum number urls that should be fetched at once from database
 	 */
 	int maxPerSelect;
 
 	/**
-	 * useragent.
+	 * useragent
 	 */
 	std::string userAgent;
 
 	/**
-	 * TODO: document
+	 * timeout for connect()
 	 */
 	int connectTimeout;
 
 	/**
-	 * TODO: document
+	 * timeout for connection
 	 */
 	int connectionTimeout;
 
@@ -72,17 +72,17 @@ public:
 	bool useIPv6;
 
 	/**
-	 * speed limit in kb (upload and download).
+	 * speed limit in kb (upload and download)
 	 */
 	int speedLimitKB;
 
 	/**
-	 * crawl only if allowed by robots.txt.
+	 * crawl only if allowed by robots.txt
 	 */
 	bool respectRobotsTxt;
 
 	/**
-	 * database configuration.
+	 * database configuration
 	 */
 	database::DatabaseConfig* databaseConfig;
 
@@ -90,6 +90,16 @@ public:
 	 * type of the http client
 	 */
 	network::HttpClientFactory::HttpClientType clientType;
+
+	/**
+	 * url of sync web api
+	 */
+	std::string syncApiUrl;
+
+	/**
+	 * password of sync web api
+	 */
+	std::string syncApiPass;
 };
 
 }

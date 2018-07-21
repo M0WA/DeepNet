@@ -10,7 +10,7 @@
 
 #include <IHtmlParser.h>
 
-namespace htmlparser {
+namespace caching {
 	class DatabaseUrl;
 }
 
@@ -21,7 +21,7 @@ public:
 	DOMParser();
 	virtual ~DOMParser();
 
-	virtual bool Parse(const htmlparser::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
+	virtual bool Parse(const caching::DatabaseUrl& url,const network::HtmlData& html, tools::Pointer<htmlparser::IHtmlParserResult>& result);
 };
 
 }

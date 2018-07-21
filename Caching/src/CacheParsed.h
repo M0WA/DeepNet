@@ -12,7 +12,7 @@
 #include <vector>
 #include <string>
 
-#include <DatabaseUrl.h>
+#include "DatabaseUrl.h"
 
 namespace caching {
 
@@ -28,7 +28,7 @@ public:
 	struct CacheParsedEntry {
 		CacheParsedEntry(
 				const long long urlID,
-				const htmlparser::DatabaseUrl& url,
+				const DatabaseUrl& url,
 				const long long urlStageID,
 				const std::vector<std::string>& content,
 				const std::vector< std::pair<std::string,std::string> >& meta)
@@ -40,7 +40,7 @@ public:
 		{}
 
 		long long urlID;
-		htmlparser::DatabaseUrl url;
+		DatabaseUrl url;
 		long long urlStageID;
 		std::vector<std::string> content;
 		std::vector< std::pair<std::string,std::string> > meta;

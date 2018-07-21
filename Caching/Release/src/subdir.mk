@@ -16,7 +16,9 @@ CPP_SRCS += \
 ../src/CacheSubdomain.cpp \
 ../src/CacheUrlPathPart.cpp \
 ../src/CacheUrlSearchPart.cpp \
+../src/DatabaseUrl.cpp \
 ../src/RobotTxt.cpp \
+../src/TLD.cpp \
 ../src/URLEmptyDomainException.cpp \
 ../src/URLInvalidMD5ValueException.cpp \
 ../src/URLInvalidPathPartIDException.cpp \
@@ -43,7 +45,9 @@ OBJS += \
 ./src/CacheSubdomain.o \
 ./src/CacheUrlPathPart.o \
 ./src/CacheUrlSearchPart.o \
+./src/DatabaseUrl.o \
 ./src/RobotTxt.o \
+./src/TLD.o \
 ./src/URLEmptyDomainException.o \
 ./src/URLInvalidMD5ValueException.o \
 ./src/URLInvalidPathPartIDException.o \
@@ -70,7 +74,9 @@ CPP_DEPS += \
 ./src/CacheSubdomain.d \
 ./src/CacheUrlPathPart.d \
 ./src/CacheUrlSearchPart.d \
+./src/DatabaseUrl.d \
 ./src/RobotTxt.d \
+./src/TLD.d \
 ./src/URLEmptyDomainException.d \
 ./src/URLInvalidMD5ValueException.d \
 ./src/URLInvalidPathPartIDException.d \
@@ -89,7 +95,7 @@ CPP_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../Tools/src -I../../Logging/src -I../../Database/src -I../../Database/generated -I../../Bot/src -I../../Threading/src -I../../HtmlParser/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o"$@" "$<"
+	g++ -D_REENTRANT -I/usr/include/libxml2 -I../../Networking/src -I../../Tools/src -I../../Logging/src -I../../Database/src -I../../Database/generated -I../../Bot/src -I../../Threading/src -I../../HtmlParser/src -O3 -fPIC -fomit-frame-pointer -g -Wall -c -fmessage-length=0 -pthread -rdynamic -fPIC -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

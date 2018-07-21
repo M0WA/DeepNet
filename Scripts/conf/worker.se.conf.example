@@ -133,6 +133,12 @@ crawler_respectRobotsTxt=1
 # http client used for crawling ( curl | own )
 crawler_client=curl
 
+# url for syncserver
+crawler_sync_url=http://sync.mo-sys.de/syncapi
+
+# password for syncserver api
+crawler_sync_pass=password
+
 ##################################################
 #
 # parser settings

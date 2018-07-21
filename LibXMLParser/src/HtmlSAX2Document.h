@@ -20,12 +20,12 @@ namespace libxmlparser {
 
 class HtmlSAX2Document {
 public:
-	HtmlSAX2Document(const htmlparser::DatabaseUrl& url);
+	HtmlSAX2Document(const caching::DatabaseUrl& url);
 	virtual ~HtmlSAX2Document();
 
 public:
 	void Reset();
-	const htmlparser::DatabaseUrl& Url() const { return result.url; }
+	const caching::DatabaseUrl& Url() const { return result.url; }
 
 	std::vector<HtmlSAX2Element> elements;
 	LibXMLParserResult result;

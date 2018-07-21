@@ -1,0 +1,68 @@
+/*! 
+@page syncing_deepnet Syncing API
+@tableofcontents
+@section sync_api_intro Syncing API
+This is a brief description about the REST-ful HTTP/XML-based Syncing API.
+
+@subsection sync_api_auth authentication
+1. "auth" request (client -> server)
+\code
+<?xml version="1.0"?>
+  <request>
+    <mode>auth</mode>
+    <pass>password</pass>
+  </request>
+\endcode
+
+2. "auth" response (server -> client)
+\code
+<?xml version="1.0"?>
+  <response>
+    <crawlerid>1</crawlerid>
+    <token>mytoken</token>
+  </response>
+\endcode
+
+@subsection sync_api_get_url request url ids
+1. "get_url_ids" request (client -> server)
+\code
+<?xml version="1.0"?>
+  <request>
+    <mode>get_url_ids</mode>
+    <crawlerid>1</crawlerid>
+    <token>mytoken</token>
+    <secondleveldomain>3572</secondleveldomain>
+    <count>2</count>
+  </request>
+\endcode
+
+2. "get_url_ids" response (server -> client)
+\code
+<?xml version="1.0"?>
+  <response>
+    <secondleveldomain>5</secondleveldomain>
+    <urls>
+      <urlid>1</urlid>
+      <urlid>2</urlid>
+      <urlid>5</urlid>
+    </urls>
+  </response>
+\endcode
+
+@subsection sync_api_release release crawler
+1. "release_crawler_id" request (client -> server)
+\code
+<?xml version="1.0"?>
+  <request>
+    <mode>release_crawler_id</mode>
+    <crawlerid>1</crawlerid>
+    <token>mytoken</token>
+  </request>
+\endcode
+2. "release_crawler_id" response (server -> client)
+\code
+<?xml version="1.0"?>
+  <request></request>
+\endcode
+
+*/

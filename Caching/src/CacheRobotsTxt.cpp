@@ -24,7 +24,7 @@ CacheRobotsTxt::CacheRobotsTxt(size_t limit)
 CacheRobotsTxt::~CacheRobotsTxt() {
 }
 
-bool CacheRobotsTxt::IsUrlAllowed(database::DatabaseConnection* db,const htmlparser::DatabaseUrl& url, const std::string& useragent) {
+bool CacheRobotsTxt::IsUrlAllowed(database::DatabaseConnection* db,const DatabaseUrl& url, const std::string& useragent) {
 
 	CacheRobotsEntry entry(url);
 	RobotTxt robot(url.GetTopLevelID(), url.GetSecondLevelID(), url.GetSubdomainID());
@@ -43,7 +43,7 @@ bool CacheRobotsTxt::IsUrlAllowed(database::DatabaseConnection* db,const htmlpar
 	return robot.IsAllowed(url,useragent);
 }
 
-bool CacheRobotsTxt::DownloadRobotsTxt(database::DatabaseConnection* db,const htmlparser::DatabaseUrl& url, RobotTxt& robot) {
+bool CacheRobotsTxt::DownloadRobotsTxt(database::DatabaseConnection* db,const DatabaseUrl& url, RobotTxt& robot) {
 
 	const std::string& scheme(url.GetScheme());
 	const std::string& subdomain(url.GetSubdomain());

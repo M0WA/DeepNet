@@ -60,8 +60,10 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 	const QueryProperties& queryProperties(queryThreadParam.GetConst()->query.properties);
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const KeywordDictionary& dict(dictInfo->GetDictionary());
 
-	const std::vector<long long>& allDictIDs(dictInfo->allKeywordIDs);
+	std::vector<long long> allDictIDs;
+	dict.GetAllIDs(allDictIDs);
 	if(allDictIDs.size() == 0)
 		return true;
 
@@ -130,7 +132,7 @@ bool QueryMetaThread::GetUrlsForKeywords(database::SelectResultContainer<databas
 	select.Where().AddColumns(where);
 
 	select.OrderBy().AddColumn(database::urlstagesTableBase::GetDefinition_found_date(),database::DESCENDING);
-	select.SetLimit(queryProperties.maxResults);
+	select.SetLimit(queryProperties.maxTotalResults);
 
 	try {
 		dbConn->Select(select,results); }
@@ -146,6 +148,7 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 	const QueryProperties& queryProperties(query.properties);
 	const QueryDictionaryThreadParam* dictThreadParam(reinterpret_cast<const QueryDictionaryThreadParam*>(queryThreadParam.GetConst()));
 	const DictionaryInfoThread* dictInfo(dictThreadParam->dictInfo);
+	const KeywordDictionary& dict(dictInfo->GetDictionary());
 
 	tools::Pointer<database::TableColumnDefinition>
 		colDefMetaTypePtr(database::docmetaTableBase::GetDefinition_type()),
@@ -188,21 +191,27 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 		colOccurence->Get(occurence);
 		colFound->Get(found);
 
+		KeywordDictionary::DictIDInfo info;
+		if(!dict.GetDictIDInfo(dictID,info)) {
+			log::Logging::LogWarn("dictID not in dictionary");
+			continue;
+		}
+
 		//
 		//TODO: this should not be hardcoded, move to QueryProperties
 		//
 		double matchRelevanceFactor(0.0);
-		switch(dictInfo->GetMatchTypeForDictionaryID(dictID))
+		switch(info.type)
 		{
-		case DictionaryInfoThread::EXACT_MATCH:
+		case EXACT_MATCH:
 			matchRelevanceFactor=1.0;
 			break;
 
-		case DictionaryInfoThread::CASEINSENSITIVE_MATCH:
+		case CASEINSENSITIVE_MATCH:
 			matchRelevanceFactor=0.95;
 			break;
 
-		case DictionaryInfoThread::SIMILAR_MATCH:
+		case SIMILAR_MATCH:
 			matchRelevanceFactor=0.9;
 			break;
 
@@ -238,7 +247,7 @@ bool QueryMetaThread::ProcessResults(database::SelectResultContainer<database::T
 				META_RESULT,
 				urlID,
 				urlStageID,
-				dictInfo->GetPositionForDictionaryID(dictID),
+				info.position,
 				occurence,
 				queryProperties.relevanceMeta * matchRelevanceFactor * metaRelevanceFactor,
 				found));

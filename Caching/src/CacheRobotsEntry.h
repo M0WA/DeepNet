@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <DatabaseUrl.h>
+#include "DatabaseUrl.h"
 
 namespace caching {
 
@@ -21,7 +21,7 @@ public:
 	, secondlevelID(secondlevelID)
 	, subdomainID(subdomainID) { }
 
-	CacheRobotsEntry(const htmlparser::DatabaseUrl& url)
+	CacheRobotsEntry(const DatabaseUrl& url)
 	: toplevelID(url.GetTopLevelID())
 	, secondlevelID(url.GetSecondLevelID())
 	, subdomainID(url.GetSubdomainID()) { }

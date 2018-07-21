@@ -1,8 +1,7 @@
-/*
- * InspectorServer.cpp
- *
- *  Created on: 06.05.2012
- *      Author: Moritz Wagner
+/**
+ * @file InspectorServer.cpp
+ * @author Moritz Wagner
+ * @date 06.05.2012
  */
 
 #include "InspectorServer.h"

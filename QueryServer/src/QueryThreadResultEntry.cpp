@@ -62,7 +62,7 @@ QueryThreadResultEntry::~QueryThreadResultEntry() {
 
 void QueryThreadResultEntry::AppendToXML(database::DatabaseConnection* db,const Query& query,const size_t resultID,std::ostringstream& xml) const {
 
-	tools::Pointer<htmlparser::DatabaseUrl> dbUrl;
+	tools::Pointer<caching::DatabaseUrl> dbUrl;
 	caching::CacheDatabaseUrl::GetByUrlID(db,urlID,dbUrl);
 
 	std::vector<database::WhereConditionTableColumn*> where;

@@ -1,8 +1,7 @@
-/*
- * main.cpp
- *
- *  Created on: 12.06.2012
- *      Author: Moritz Wagner
+/**
+ * @file SuggestServer/src/main.cpp
+ * @author Moritz Wagner
+ * @date 12.03.2012
  */
 
 #include <iostream>

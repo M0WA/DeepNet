@@ -15,6 +15,9 @@
 
 namespace crawler {
 
+/**
+ * @brief fenced crawler that is bound to specific secondlevel domains
+ */
 class FencedUrlFetcherThread : public GenericWebUrlFetcherThread {
 
 public:
@@ -32,14 +35,12 @@ public:
 	FencedUrlFetcherThread();
 	virtual ~FencedUrlFetcherThread();
 
-private:
-	virtual bool LockNextSecondLevelDomain();
-	virtual bool CheckSecondLevelDomainTimeout(database::SelectResultContainer<database::locksecondleveldomainTableBase>& tblLockDomains);
-	virtual void CheckMaxSecondLevelDomain();
+protected:
+	virtual long long GetSecondLevelDomainID();
 
 private:
 	const FencedUrlFetcherThreadParam* fencedParam;
-	bool isDomainsReserved;
+	std::vector<long long>::const_iterator iDom;
 };
 
 }

@@ -16,11 +16,11 @@ namespace parser {
 
 class HtmlParserEntry {
 public:
-	HtmlParserEntry(long long urlID, const htmlparser::DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID);
+	HtmlParserEntry(long long urlID, const caching::DatabaseUrl& url, const network::HtmlData& html, const long long urlStageID);
 	virtual ~HtmlParserEntry();
 
 	long long urlID;
-	htmlparser::DatabaseUrl url;
+	caching::DatabaseUrl url;
 	network::HtmlData html;
 	long long urlStageID;
 };

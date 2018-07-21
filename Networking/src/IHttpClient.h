@@ -8,6 +8,8 @@
 
 #pragma once
 
+#include <string>
+
 namespace network
 {
 
@@ -35,6 +37,16 @@ public:
 	 * @return true if successful, false if unsuccessful
 	 */
 	virtual bool Get(const HttpUrl& url, HttpResponse& response) = 0;
+
+	/**
+	 * performs http post request
+	 * @param url url to "POST"
+	 * @param content content to "POST"
+	 * @param contentType content-type of "POST"
+	 * @param response response of http POST
+	 * @return true if successful, false if unsuccessful
+	 */
+	virtual bool Post(const HttpUrl& url, const std::string& content, const std::string& contentType, HttpResponse& response) = 0;
 
 	/**
 	 * returns settings of this http client

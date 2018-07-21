@@ -1,0 +1,141 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Data::Dumper;
+use Getopt::Std;
+use Cwd 'abs_path';
+
+my %apps = (
+	WorkerBot => {
+		bin  => ['WorkerBot'],
+		conf => ['worker.*.conf.example'] 
+	},
+	QueryServer => {
+		bin  => ['QueryServer'],
+		conf => ['queryserver.*.conf.example'] 
+	},
+	SuggestServer => {
+		bin  => ['SuggestServer'],
+		conf => ['suggestserver.*.conf.example'] 
+	},
+	SyncServer => {
+		bin  => ['SyncServer'],
+		conf => ['syncserver.conf.example'] 
+	},
+	DeepNetTool => {
+		bin  => ['DeepNetTool'],
+		conf => ['deepnet.tool.conf.example','common.pages.conf.example'] 
+	},
+	DatabaseTool => {
+		bin  => ['*'],
+		conf => ['db.generator.conf.example'] 
+	}
+);
+
+my $version    = '1.0-1';
+my $buildflt   = 'release';
+my $installdir = 'opt/deepnet';
+
+my %opts;
+$SIG{'INT'} = sub {	exit 1; };
+
+sub usage() {
+	print "$0 [-b <type> -v]
+-b <type>: 'release' or 'debug', default: '$buildflt'
+-v       : verbose output
+-h       : this help
+"; 
+}
+
+sub make_control($) {
+	my ($root) = @_;
+	
+	my $controlfile = 
+"Package: deepnet
+Version: $version
+Section: base
+Priority: optional
+Architecture: amd64
+Depends: 
+Maintainer: Moritz Wagner <moritz.wagner\@mo-sys.de>
+Description: Search Engine
+ A complete framework to operate your own search engine.
+";
+	
+	my $debian_dir = "$root/DEBIAN";
+	mkdir $debian_dir;
+
+	open(my $fh,'>',"$debian_dir/control");
+	print $fh $controlfile;
+	close($fh);
+}
+
+sub make_deb($) {
+	my ($root) = @_;
+	
+	system("dpkg-deb --build $root");
+	system("rm -rf $root");
+}
+
+sub handle_app($$) {
+	my ($root,$app) = @_;
+
+	mkdir "$root/$installdir/$app";
+	
+	my $base = abs_path("..");	
+	foreach my $dir (keys %{$apps{$app}}) {
+		mkdir "$root/$installdir/$app/$dir";
+		foreach my $f (@{$apps{$app}->{$dir}}) {
+			if($dir eq "conf") {
+				my $cmd = "cp -r $base/Scripts/conf/$f $root/$installdir/$app/conf/";
+				print "$cmd\n" if(exists($opts{v}));
+				die("error while: $cmd\n") if(system($cmd) != 0);
+			}
+			elsif($dir eq "bin") {
+				my $cmd = "cp -r $base/$app/$opts{b}/$f $root/$installdir/$app/bin/";
+				print "$cmd\n" if(exists($opts{v}));
+				die("error while: $cmd\n") if(system($cmd) != 0);
+			}
+		}
+	}
+}
+	
+sub _run() {
+	
+	getopts('b:vh',\%opts);
+	
+	if(exists($opts{h})) {
+		usage;
+		exit 0;	}
+		
+	$opts{b} = $buildflt unless(exists($opts{b}));
+	
+	if(lc($opts{b}) eq 'release') {
+		$opts{b} = 'Release';
+	}
+	elsif(lc($opts{b}) eq 'debug') {
+		$opts{b} = 'Debug';
+	}
+	else {
+		print "invalid mode: $opts{b}\n";
+		exit 1;
+	}
+
+	print "build mode: $opts{b}\n" if(exists($opts{v}));
+	
+	my $root = abs_path(".")."/debian_tmp";
+	
+	system("rm -rf $root");
+	system("mkdir -p $root/$installdir");
+	
+	foreach my $app (keys %apps) {
+		handle_app($root,$app);
+	}
+
+	make_control($root);
+	make_deb($root);
+}
+
+_run;

@@ -11,8 +11,8 @@
 
 #include <DatabaseUrl.h>
 
-#include "UrlFetcherThread.h"
-#include "UrlFetcherThreadParam.h"
+#include "GenericWebUrlFetcherThread.h"
+#include "GenericWebUrlFetcherThreadParam.h"
 
 namespace crawler {
 
@@ -24,27 +24,27 @@ namespace crawler {
  * @see crawler::UrlFetcherThread
  * this class implements the crawler::UrlFetcherThread for the commerce search.
  */
-class CommerceSearchFetcherThread : public UrlFetcherThread {
+class CommerceSearchFetcherThread : public GenericWebUrlFetcherThread {
 
 public:
-	class CommerceSearchFetcherThreadParam : public UrlFetcherThreadParam {
+	class CommerceSearchFetcherThreadParam : public GenericWebUrlFetcherThreadParam {
 	public:
 		CommerceSearchFetcherThreadParam(const CrawlerParam& crawlerParam)
-		: UrlFetcherThreadParam(crawlerParam) {
+		: GenericWebUrlFetcherThreadParam(crawlerParam) {
 		}
 	};
 
 private:
 	struct CustomerDomainProperties
 	{
-		CustomerDomainProperties(const htmlparser::DatabaseUrl& url)
+		CustomerDomainProperties(const caching::DatabaseUrl& url)
 		: url(url)
 		, customerDomainId(-1)
 		, customerId(-1)
 		, revisitInterval(-1)
 		{}
 
-		htmlparser::DatabaseUrl url;
+		caching::DatabaseUrl url;
 		long long customerDomainId;
 		long long customerId;
 		long long revisitInterval;
@@ -54,6 +54,10 @@ public:
 	CommerceSearchFetcherThread();
 	virtual ~CommerceSearchFetcherThread();
 
+protected:
+	virtual long long GetSecondLevelDomainID();
+
+	/*
 private:
 	virtual bool GetNextSecondLevelDomain();
 	virtual bool ReserveNextUrls(std::vector<long long>& urlIDs);
@@ -61,6 +65,7 @@ private:
 private:
 	std::map<long long, CustomerDomainProperties > mapCustDomIdProperties;
 	std::map<long long,time_t> activeCustomerDomainIds;
+	*/
 };
 
 }

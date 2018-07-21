@@ -373,7 +373,7 @@ sub GenerateColumnDDL
     $PostgreColumnDefinition .= ' NOT NULL';
   }
 
-  if( $column_attributes{'hasDefault'} && ($column_attributes{'hasDefault'} == 1) ) {
+  if( $column_attributes{'hasDefaultValue'} && ($column_attributes{'hasDefaultValue'} == 1) ) {
     $MySQLColumnDefinition   .= ' DEFAULT '.$column_attributes{'defaultValue'};
     $DB2ColumnDefinition     .= ' DEFAULT '.$column_attributes{'defaultValue'};
     $PostgreColumnDefinition .= ' DEFAULT '.$column_attributes{'defaultValue'};
