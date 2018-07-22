@@ -1,0 +1,4 @@
+FROM percona/percona-server
+
+ENV MYSQL_ROOT_PASSWORD Ohs4shieAqu5Doh2Nu8aeGe3
+EXPOSE 3306
