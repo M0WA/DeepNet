@@ -6,7 +6,7 @@
 #
 #########################################################
 
-source ../Scripts/conf/db.generator.conf
+source "{DB_CONFIG_DIR}/db.db2.generator.conf"
 
 function execute_db2()
 {

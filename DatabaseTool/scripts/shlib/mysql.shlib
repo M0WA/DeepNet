@@ -12,5 +12,5 @@ function execute_mysql()
   source ../Scripts/conf/db.generator.mysql.conf
   EXEC_FILENAME=$1
   echo "executing ${EXEC_FILENAME}"
-  echo "source ${EXEC_FILENAME};" | mysql -p${DBPASS} -u${DBUSER}
+  echo "source ${EXEC_FILENAME};" | mysql -h${DBHOST} -P${DBPORT} -p${DBPASS} -u${DBUSER}
 }

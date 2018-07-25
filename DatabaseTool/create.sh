@@ -8,6 +8,10 @@
 #
 #########################################################
 
+if [ -z "${DB_CONFIG_DIR}" ]; then
+	export DB_CONFIG_DIR="../Scripts/conf/"
+fi
+
 source scripts/shlib/mysql.shlib
 source scripts/shlib/db2.shlib
 source scripts/shlib/postgre.shlib

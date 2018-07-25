@@ -9,7 +9,7 @@
 
 function execute_postgre()
 {
-  source ../Scripts/conf/db.generator.postgre.conf
+  source "{DB_CONFIG_DIR}/db.generator.postgre.conf"
   EXEC_FILENAME=$1
   echo "executing ${EXEC_FILENAME}"
   export PGPASSWORD=${DBPASS}
