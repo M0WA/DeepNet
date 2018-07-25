@@ -48,7 +48,7 @@ config_db "${INSTALL_DIR}/SyncServer/etc/syncserver.conf"
 echo "installing DatabaseTool"
 mkdir -p "${INSTALL_DIR}/DatabaseTool/bin/" "${INSTALL_DIR}/DatabaseTool/etc/"
 cp -r "${CHECKOUT_DIR}/DatabaseTool" "${INSTALL_DIR}/DatabaseTool/bin"
-cp -r "${CHECKOUT_DIR}/Scripts/conf/db.generator.conf.example" "${INSTALL_DIR}/DatabaseTool/etc/db.mysql.generator.conf"
+cp -r "${CHECKOUT_DIR}/Scripts/conf/db.generator.conf.example" "${INSTALL_DIR}/DatabaseTool/etc/db.generator.mysql.conf"
 config_dbgenerator "${INSTALL_DIR}/DatabaseTool/etc/db.mysql.generator.conf"
 
 echo "configure DeepNetTool"
