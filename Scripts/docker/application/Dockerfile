@@ -16,4 +16,3 @@ RUN apt-get install -y \
 	hunspell-de-med hunspell-da hunspell-en-ca hunspell-fr \
 	hunspell-hu hunspell-ne hunspell-ro hunspell-sh hunspell-sr \
 	hunspell-vi hunspell-uz hunspell-eu-es
-  
