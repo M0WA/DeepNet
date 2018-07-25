@@ -40,6 +40,11 @@ for PROG in "${APPLICATIONS[@]}"; do
 	find "${CHECKOUT_DIR}/Scripts/conf" -iname "*${PROG}*" | xargs -L1 -I{} cp {} "${INSTALL_DIR}/${PROG}/etc/";
 done
 
+
+echo "configure SyncServer"
+cp -r "${CHECKOUT_DIR}/Scripts/conf/syncserver.conf.example" "${INSTALL_DIR}/SyncServer/etc/syncserver.conf"
+config_db "${INSTALL_DIR}/SyncServer/etc/syncserver.conf"
+
 echo "installing DatabaseTool"
 mkdir -p "${INSTALL_DIR}/DatabaseTool/bin/" "${INSTALL_DIR}/DatabaseTool/etc/"
 cp -r "${CHECKOUT_DIR}/DatabaseTool" "${INSTALL_DIR}/DatabaseTool/bin"
