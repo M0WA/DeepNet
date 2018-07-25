@@ -49,7 +49,7 @@ echo "installing DatabaseTool"
 mkdir -p "${INSTALL_DIR}/DatabaseTool/bin/" "${INSTALL_DIR}/DatabaseTool/etc/"
 cp -r "${CHECKOUT_DIR}/DatabaseTool" "${INSTALL_DIR}/DatabaseTool/bin"
 cp -r "${CHECKOUT_DIR}/Scripts/conf/db.generator.conf.example" "${INSTALL_DIR}/DatabaseTool/etc/db.generator.mysql.conf"
-config_dbgenerator "${INSTALL_DIR}/DatabaseTool/etc/db.mysql.generator.conf"
+config_dbgenerator "${INSTALL_DIR}/DatabaseTool/etc/db.generator.mysql.conf"
 
 echo "configure DeepNetTool"
 cp "${CHECKOUT_DIR}/Scripts/conf/deepnet.tool.conf.example" "${INSTALL_DIR}/DeepNetTool/etc/deepnettool.conf"
