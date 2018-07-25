@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: deepnet
+  name: db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - image: deepnet/db:latest
+        name: db
+        imagePullPolicy: "Never"
+      restartPolicy: Always
+status: {}

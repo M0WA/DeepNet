@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: deepnet
+  name: workerbot
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: workerbot
+    spec:
+      containers:
+      - image: deepnet/workerbot:latest
+        name: workerbot
+        imagePullPolicy: Never
+        command: ['/bin/sh']
+        args: ["-c",  "/opt/WorkerBot/bin/WorkerBot --configfile /opt/WorkerBot/etc/workerbot.conf --log=console --loglevel=trace" ]
+      restartPolicy: Always
+status: {}
