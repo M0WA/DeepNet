@@ -17,6 +17,6 @@ spec:
         name: workerbot
         imagePullPolicy: Never
         command: ['/bin/sh']
-        args: ["-c",  "/opt/WorkerBot/bin/WorkerBot --configfile /opt/WorkerBot/etc/workerbot.conf --log=console --loglevel=trace" ]
+        args: ["-c",  "/opt/WorkerBot/bin/WorkerBot --configfile /opt/WorkerBot/etc/workerbot.conf --log=console --loglevel=error" ]
       restartPolicy: Always
 status: {}

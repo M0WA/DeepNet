@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: syncserverfcgisvc
+  namespace: deepnet
+  labels:
+    service: syncserverfcgisvc
+spec:
+  ports:
+  - name: "http"
+    port: 80
+    protocol: TCP
+  - name: "https"
+    port: 443
+    protocol: TCP
+  selector:
+    app: syncserverfcgi

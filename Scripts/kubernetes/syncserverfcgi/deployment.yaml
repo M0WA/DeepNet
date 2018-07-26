@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: deepnet
+  name: syncserverfcgi
+spec:
+  replicas: 2
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: syncserverfcgi
+    spec:
+      containers:
+      - image: deepnet/syncserverfcgi:latest
+        name: syncserverfcgi
+        imagePullPolicy: Never
+      restartPolicy: Always
+status: {}

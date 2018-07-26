@@ -2,6 +2,10 @@
 
 source settings.env
 
+if [ ! -z "$1" ]; then
+	export APPLICATIONS=("$1")
+fi
+
 unset DOCKER_TLS_VERIFY
 unset DOCKER_HOST
 unset DOCKER_CERT_PATH
