@@ -4,7 +4,7 @@ metadata:
   namespace: deepnet
   name: syncserverfcgi
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: Recreate
   template:

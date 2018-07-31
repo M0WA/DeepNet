@@ -12,9 +12,18 @@ spec:
       labels:
         app: db
     spec:
+      restartPolicy: Always
+      volumes:
+      - name: db-persistent-storage
+        persistentVolumeClaim:
+          claimName: db-pv-claim
       containers:
       - image: deepnet/db:latest
         name: db
         imagePullPolicy: "Never"
-      restartPolicy: Always
+        volumeMounts:
+        - name: db-persistent-storage
+          mountPath: /var/lib/mysql
+        securityContext:
+          allowPrivilegeEscalation: false
 status: {}

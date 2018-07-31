@@ -70,7 +70,7 @@ config_dbgenerator "${INSTALL_DIR}/DatabaseTool/etc/db.generator.mysql.conf"
 
 echo "configure DeepNetTool"
 cp "${CHECKOUT_DIR}/Scripts/conf/deepnet.tool.conf.example" "${INSTALL_DIR}/DeepNetTool/etc/deepnettool.conf"
-cp -r "${CHECKOUT_DIR}/Scripts/conf/common.pages.conf.example" "${INSTALL_DIR}/DatabaseTool/etc/common.pages.conf"
+cp "${CHECKOUT_DIR}/Scripts/conf/common.pages.conf.example" "${INSTALL_DIR}/DeepNetTool/etc/common.pages.conf"
 config_db "${INSTALL_DIR}/DeepNetTool/etc/deepnettool.conf"
 
 echo "configure WorkerBot"

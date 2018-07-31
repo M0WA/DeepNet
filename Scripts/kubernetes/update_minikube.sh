@@ -6,35 +6,30 @@ if [ ! -z "$1" ]; then
 	export APPLICATIONS=("$1")
 fi
 
-./cleanup.sh $1
+echo "cleaning up"
+./cleanup.sh $1 >/dev/null 2>&1
 
+echo "creating namespace up"
 kubectl create namespace "${NAMESPACE}" >/dev/null 2>&1
 
-./export_to_minikube.sh $1
+#./export_to_minikube.sh $1
 
-echo "db: creating service"
-kubectl create -f "db/service.yaml"
+echo "create database"
+app_command "create" "db"
 
-echo "db: creating deployment"
-kubectl create -f "db/deployment.yaml"
-
-sleep 60
+echo "wait for db"
+sleep 30
 
 echo "initializing database"
 ./init_database.sh
+
+echo "initializing database urls"
+./init_pages.sh
 
 for APP in "${APPLICATIONS[@]}"; do
 	if [[ "${APP}" == "db" ]]; then
 		continue;
 	fi
 
-	if [ -f "${APP}/service.yaml" ]; then
-		echo "${APP}: creating service"
-		kubectl create -f "${APP}/service.yaml"
-	fi
-
-	if [ -f "${APP}/deployment.yaml" ]; then
-		echo "${APP}: creating deployment"
-		kubectl create -f "${APP}/deployment.yaml"
-	fi
+	app_command "create" "${APP}"
 done
