@@ -26,14 +26,14 @@ bool SyncServer::StartServer(int argc, char** argv)
 
 void SyncServer::RegisterConfig()
 {
-	Config().RegisterParam("crawler_sync_pass", "password for sync clients", true, &crawler_sync_pass);
+	config.RegisterParam("crawler_sync_pass", "password for sync clients", true, &crawler_sync_pass);
 }
 
 bool SyncServer::InitConfig()
 {
 	log::Logging::SetApplicationName("SyncServer");
 
-	if( !Config().GetValue( "crawler_sync_pass", crawler_sync_pass) ) {
+	if( !config.GetValue( "crawler_sync_pass", crawler_sync_pass) ) {
         log::Logging::LogError("missing parameter crawler_sync_pass");
 		return false;
     }
