@@ -10,21 +10,23 @@
 
 namespace syncserver {
 
-SyncServerThread::SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
+SyncServerThread::SyncServerThread(const std::string& crawler_sync_pass, database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog)
 : fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, ip, port, backlog)
-, databaseConfig(databaseConfig) {
+, databaseConfig(databaseConfig)
+, crawler_sync_pass(crawler_sync_pass) {
 }
 
-SyncServerThread::SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
+SyncServerThread::SyncServerThread(const std::string& crawler_sync_pass, database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog)
 : fastcgiserver::FastCGIServerThread(databaseConfig,acceptMutex, filename, backlog)
-, databaseConfig(databaseConfig) {
+, databaseConfig(databaseConfig)
+, crawler_sync_pass(crawler_sync_pass) {
 }
 
 SyncServerThread::~SyncServerThread() {
 }
 
 fastcgiserver::FastCGIRequest*  SyncServerThread::CreateRequest() {
-	return new SyncServerRequest(this);
+	return new SyncServerRequest(this,crawler_sync_pass);
 }
 
 fastcgiserver::FastCGIResponse* SyncServerThread::CreateResponse(database::DatabaseHelper& dbHelper, fastcgiserver::FastCGIRequest* request) {

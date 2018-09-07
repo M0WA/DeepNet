@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <string>
 #include <FastCGIServer.h>
 
 namespace fastcgiserver {
@@ -31,6 +32,9 @@ private:
 
 	virtual fastcgiserver::FastCGIServerThread* CreateThreadPort(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
 	virtual fastcgiserver::FastCGIServerThread* CreateThreadSocket(database::DatabaseConfig* databaseConfig,threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
+
+private:
+    std::string crawler_sync_pass;
 };
 
 }
