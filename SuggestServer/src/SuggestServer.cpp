@@ -8,6 +8,8 @@
 #include "SuggestServer.h"
 #include "SuggestServerThread.h"
 
+#include <Logging.h>
+
 namespace suggestserver {
 
 SuggestServer::SuggestServer()
