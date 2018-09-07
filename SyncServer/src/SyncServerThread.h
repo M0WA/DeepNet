@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <string>
 #include <FastCGIServerThread.h>
 
 namespace syncserver {
@@ -17,12 +18,13 @@ namespace syncserver {
  */
 class SyncServerThread: public fastcgiserver::FastCGIServerThread {
 public:
-	SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
-	SyncServerThread(database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
+	SyncServerThread(const std::string& crawler_sync_pass, database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& ip, const int port, const int backlog);
+	SyncServerThread(const std::string& crawler_sync_pass, database::DatabaseConfig* databaseConfig, threading::Mutex* acceptMutex, const std::string& filename, const int backlog);
 	virtual ~SyncServerThread();
 
 public:
 	database::DatabaseConfig* databaseConfig;
+    std::string crawler_sync_pass;
 
 private:
 	virtual fastcgiserver::FastCGIRequest*  CreateRequest();
