@@ -34,14 +34,14 @@ SyncServerRequest::~SyncServerRequest() {
 void SyncServerRequest::OnHandle(FCGX_Request& request)
 {
 	if(rawPostData==0) {
-		log::Logging::LogWarn("no post data received, ommitting...");
+		log::Logging::LogInfo("no post data received, ommitting request...");
 		return;	}
 
 	tools::XML xml(rawPostData.GetConstElements());
 
     std::string mode;
 	if( !xml.XPathFirst("/request/mode/text()", mode)) {
-		log::Logging::LogError("could not parse xml crawler request: missing mode");
+		log::Logging::LogInfo("could not parse xml crawler request: missing mode");
 		return; }
 
 	if(mode.compare("auth") == 0) {
@@ -54,7 +54,7 @@ void SyncServerRequest::OnHandle(FCGX_Request& request)
 		ReleaseCrawlerId();
 	}
 	else {
-		log::Logging::LogError("could not parse xml crawler request: invalid mode %s",mode.c_str());
+		log::Logging::LogInfo("could not parse xml crawler request: invalid mode %s",mode.c_str());
 		return; }
 }
 
@@ -62,16 +62,17 @@ bool SyncServerRequest::SetCrawlerID() {
 
     std::list<std::string> crawlerid;
 	if( !Xpath(crawlerid, rawPostData, (xmlChar*)"/request/crawlerid/text()")) {
-		log::Logging::LogError("could not parse xml crawler request: missing crawler id");
+		log::Logging::LogInfo("could not parse xml crawler request: missing crawler id");
 		return false; }
 
 	if(!crawlerid.size()) {
-		log::Logging::LogError("could not parse xml crawler request: wrong crawler id");
+		log::Logging::LogInfo("could not parse xml crawler request: invalid crawler id");
 		return false; }
 
 	if(!tools::StringTools::TransformString(crawlerid.front(),crawlerID)) {
 		crawlerID = -1;
 		authenticated = false;
+		log::Logging::LogInfo("could not parse xml crawler request: malformed token");
 		return false; }
 
 	return true;
@@ -85,12 +86,13 @@ bool SyncServerRequest::CheckToken() {
 
     std::string token;
 	if( !xml.XPathFirst("/request/token/text()", token) ) {
-		log::Logging::LogError("could not parse xml crawler request: missing token");
+		log::Logging::LogInfo("could not parse xml crawler request: missing token");
 		return false; }
 
-	auth_token = tools::HashTools::GetSHA512(password);
+	auth_token = tools::HashTools::GetSHA512(crawler_sync_pass);
 	if(auth_token.compare(token) != 0) {
 		auth_token = "";
+		log::Logging::LogInfo("could not parse xml crawler request: invalid token");
 		return false; }
 
 	return true;
@@ -104,13 +106,14 @@ bool SyncServerRequest::Authenticate() {
 
     std::string pass;
 	if( !xml.XPathFirst("/request/pass/text()", pass) ) {
-		log::Logging::LogError("could not parse xml crawler request: missing pass");
+		log::Logging::LogInfo("could not parse xml crawler request: missing pass");
 		return false; }
 
-	if(pass.compare(password) != 0) {
+	if(pass.compare(crawler_sync_pass) != 0) {
+		log::Logging::LogInfo("could not parse xml crawler request: invalid pass");
 		return false; }
 
-	auth_token = tools::HashTools::GetSHA512(password);
+	auth_token = tools::HashTools::GetSHA512(crawler_sync_pass);
 	mode = SYNC_REQ_MODE_AUTH;
 
 	syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam* p(new syncing::RegisterCrawlerThread::RegisterCrawlerThreadParam());
