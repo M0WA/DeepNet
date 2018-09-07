@@ -30,6 +30,7 @@ void SuggestServer::RegisterConfig()
 
 bool SuggestServer::InitConfig()
 {
+	log::Logging::SetApplicationName("SuggestServer");
 	return true;
 }
 

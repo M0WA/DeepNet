@@ -27,7 +27,7 @@ public:
 	} SyncReqMode;
 
 public:
-	SyncServerRequest(fastcgiserver::FastCGIServerThread* serverThread);
+	SyncServerRequest(fastcgiserver::FastCGIServerThread* serverThread, const std::string& crawler_sync_pass);
 	virtual ~SyncServerRequest();
 
 public:
@@ -82,11 +82,9 @@ private:
 	long long crawlerID;
 	bool authenticated;
 	std::string auth_token;
+    std::string crawler_sync_pass;
 	threading::ThreadManager<threading::Thread> manager;
 	threading::Thread::ThreadID threadID;
-
-private:
-	static const char* password;
 };
 
 }

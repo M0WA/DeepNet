@@ -148,6 +148,7 @@ bool SyncClient::DoRequest(const std::string& xmlIn,std::string& xmlOut) {
 
 	tools::Pointer<network::IHttpClient> client;
 	if(!network::HttpClientFactory::CreateInstance( network::HttpClientFactory::CURL, client )) {
+		log::Logging::LogWarn("could not create HttpClient for SyncClient");
 		return false; }
 
 	bool success(false);

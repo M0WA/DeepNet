@@ -19,14 +19,12 @@
 
 namespace syncserver {
 
-//TODO: do not hardcode password
-const char* SyncServerRequest::password = "syncclient";
-
-SyncServerRequest::SyncServerRequest(fastcgiserver::FastCGIServerThread* serverThread)
+SyncServerRequest::SyncServerRequest(fastcgiserver::FastCGIServerThread* serverThread, const std::string& crawler_sync_pass)
 : fastcgiserver::FastCGIRequest(serverThread)
 , mode(SYNC_REQ_MODE_MAX)
 , crawlerID(-1)
 , authenticated(false)
+, crawler_sync_pass(crawler_sync_pass)
 , threadID(0) {
 }
 
