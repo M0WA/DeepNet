@@ -42,6 +42,7 @@ private:
 private:
 	std::string apiUrl;
 	long long crawlerID;
+	std::string pass;
 	std::string token;
 };
 

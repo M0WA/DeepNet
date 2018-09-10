@@ -25,10 +25,8 @@ namespace syncing {
 SyncClient::SyncClient(const std::string& apiUrl,const long long& crawlerID, const std::string& pass)
 : apiUrl(apiUrl)
 , crawlerID(crawlerID)
+, pass(pass)
 , token() {
-	if(crawlerID == -1) {
-		RegisterCrawler(pass);
-	}
 }
 
 SyncClient::~SyncClient() {
@@ -42,7 +40,6 @@ SyncClient::~SyncClient() {
 bool SyncClient::ReleaseCrawler() {
 
 	if(crawlerID < 0) {
-		log::Logging::LogWarn("SyncClient::ReleaseCrawler: invalid crawlerID");
 		return false;
 	}
 
@@ -104,11 +101,6 @@ bool SyncClient::RegisterCrawler(const std::string& pass) {
 bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, std::vector<long long>& urls) {
 	urls.clear();
 
-	if(crawlerID < 0) {
-		log::Logging::LogWarn("SyncClient::GetURLs: invalid crawlerID");
-		return false;
-	}
-
 	if(token.empty()) {
 		log::Logging::LogWarn("SyncClient::GetURLs: invalid token");
 		return false;
@@ -144,6 +136,12 @@ bool SyncClient::GetURLs(const long long& count,long long& secondLevelDomainID, 
 }
 
 bool SyncClient::DoRequest(const std::string& xmlIn,std::string& xmlOut) {
+
+	if(crawlerID == -1 && !RegisterCrawler(pass)) {
+		log::Logging::LogWarn("could not register crawler");
+		return false;
+	}
+
 	xmlOut.clear();
 
 	tools::Pointer<network::IHttpClient> client;
